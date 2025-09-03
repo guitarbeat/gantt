@@ -144,7 +144,7 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 
 	// Track which months have tasks
 	monthsWithTasks := make(map[string]MonthYear)
-	
+
 	for _, task := range tasks {
 		// Add start month
 		startMonth := MonthYear{
@@ -152,14 +152,14 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 			Month: task.StartDate.Month(),
 		}
 		monthsWithTasks[startMonth.String()] = startMonth
-		
+
 		// Add end month
 		endMonth := MonthYear{
 			Year:  task.EndDate.Year(),
 			Month: task.EndDate.Month(),
 		}
 		monthsWithTasks[endMonth.String()] = endMonth
-		
+
 		// Add all months in between
 		current := task.StartDate
 		for current.Before(task.EndDate) || current.Equal(task.EndDate) {
@@ -214,7 +214,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 
 	task.Name = getField("Task Name")
 	task.Description = getField("Description")
-	
+
 	// Parse category from CSV (using Category field)
 	if category := getField("Category"); category != "" {
 		task.Priority = category // Using Priority field to store category
@@ -243,7 +243,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 	task.Duration = 0
 	task.Progress = 0
 	task.Status = "Planned" // Default status
-	task.Assignee = "" // No assignee field in CSV
+	task.Assignee = ""      // No assignee field in CSV
 
 	return task, nil
 }

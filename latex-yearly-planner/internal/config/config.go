@@ -27,7 +27,7 @@ type Config struct {
 	CSVFilePath string `env:"PLANNER_CSV_FILE"`
 	StartYear   int    `env:"PLANNER_START_YEAR"`
 	EndYear     int    `env:"PLANNER_END_YEAR"`
-	
+
 	// Months with tasks (populated from CSV)
 	MonthsWithTasks []data.MonthYear
 
@@ -56,8 +56,6 @@ type Module struct {
 	Body interface{}
 }
 
-
-
 type RenderBlock struct {
 	FuncName string
 	Tpls     []string
@@ -77,7 +75,7 @@ type Layout struct {
 }
 
 type Numbers struct {
-	ArrayStretch        float64
+	ArrayStretch float64
 }
 
 type Paper struct {
@@ -150,7 +148,7 @@ func (cfg *Config) setDateRangeFromCSV() error {
 		return fmt.Errorf("failed to get months with tasks: %w", err)
 	}
 	cfg.MonthsWithTasks = monthsWithTasks
-	
+
 	// If we have months with tasks, limit the year range to only those years
 	if len(monthsWithTasks) > 0 {
 		// Find the unique years from the months with tasks
@@ -158,13 +156,13 @@ func (cfg *Config) setDateRangeFromCSV() error {
 		for _, monthYear := range monthsWithTasks {
 			yearSet[monthYear.Year] = true
 		}
-		
+
 		// Set the year range to only include years with tasks
 		years := make([]int, 0, len(yearSet))
 		for year := range yearSet {
 			years = append(years, year)
 		}
-		
+
 		if len(years) > 0 {
 			cfg.StartYear = years[0]
 			cfg.EndYear = years[len(years)-1]

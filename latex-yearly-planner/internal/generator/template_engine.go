@@ -51,7 +51,7 @@ var tpl = func() *template.Template {
 
 	// Choose source of templates: embedded by default, filesystem when DEV_TEMPLATES is set
 	var (
-		err error
+		err   error
 		useFS fs.FS
 	)
 

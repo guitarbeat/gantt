@@ -66,9 +66,9 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 				// Find the day in the month and set the spanning task
 				for _, week := range month.Weeks {
 					for i := range week.Days {
-						if week.Days[i].Time.Day() == current.Day() && 
-						   week.Days[i].Time.Month() == current.Month() &&
-						   week.Days[i].Time.Year() == current.Year() {
+						if week.Days[i].Time.Day() == current.Day() &&
+							week.Days[i].Time.Month() == current.Month() &&
+							week.Days[i].Time.Year() == current.Year() {
 							// Add the spanning task to this day
 							week.Days[i].SpanningTasks = append(week.Days[i].SpanningTasks, &task)
 							break
@@ -91,16 +91,16 @@ func getColorForCategory(category string) string {
 		"IMAGING":      "green",
 		"PUBLICATION":  "purple",
 		"DISSERTATION": "orange",
-		
+
 		// General Categories
-		"Planning":     "blue",
-		"Research":     "green", 
-		"Development":  "orange",
-		"Testing":      "red",
+		"Planning":      "blue",
+		"Research":      "green",
+		"Development":   "orange",
+		"Testing":       "red",
 		"Documentation": "purple",
-		"Meeting":      "teal",
-		"Review":       "brown",
-		"Default":      "gray",
+		"Meeting":       "teal",
+		"Review":        "brown",
+		"Default":       "gray",
 	}
 
 	if color, exists := colorMap[category]; exists {

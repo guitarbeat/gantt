@@ -262,7 +262,11 @@ func (d Day) TasksForDay() string {
 	var taskStrings []string
 	for _, task := range d.Tasks {
 		// Format: [Category] Task Name
-		taskStr := "\\textbf{[" + task.Category + "]} " + task.Name
+		// Use \allowbreak opportunities and smaller font inside brackets to reduce overfull hboxes.
+		// Note: LaTeX will ignore spaces after \allowbreak; this simply hints breakpoints.
+		safeCat := strings.ReplaceAll(task.Category, "-", "\\allowbreak-\\allowbreak")
+		cat := "\\textbf{\\scriptsize[" + safeCat + "]}"
+		taskStr := cat + " " + task.Name
 		taskStrings = append(taskStrings, taskStr)
 	}
 

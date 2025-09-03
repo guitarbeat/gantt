@@ -20,7 +20,7 @@ const (
 func New() *cli.App {
 	// Initialize the composer map
 	config.ComposerMap["monthly"] = generator.Monthly
-	
+
 	return &cli.App{
 		Name: "plannergen",
 
@@ -123,5 +123,3 @@ func RootFilename(pathconfig string) string {
 
 	return pathconfig + ".tex"
 }
-
-
