@@ -38,38 +38,36 @@ func (d Day) Day(today, large interface{}) string {
 		if len(d.SpanningTasks) > 0 {
 			// Create overlays for all spanning tasks
 			var overlays []string
-			
+
 			for i, task := range d.SpanningTasks {
 				// Determine if this is the start, middle, or end of the task span
 				// Normalize dates to midnight for comparison
 				dayDate := time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
 				taskStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
 				taskEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
-				
+
 				isStart := dayDate.Equal(taskStartDate)
 				isEnd := dayDate.Equal(taskEndDate)
-				
 
-				
 				// Calculate vertical offset for multiple tasks
 				yOffset := float64(i) * 0.8 // 0.8em spacing between tasks
-				
+
 				// Create a TikZ overlay that doesn't affect cell height
 				var overlay string
-			
+
 				if isStart {
 					// Start of task - show full task name, description, and left-rounded rectangle
 					taskName := task.Name
 					if len(taskName) > 15 {
 						taskName = taskName[:12] + "..."
 					}
-					
+
 					// Prepare description text (truncate if too long)
 					description := task.Description
 					if len(description) > 25 {
 						description = description[:22] + "..."
 					}
-					
+
 					// Add progress bar if progress > 0
 					progressBar := ""
 					if task.Progress > 0 {
@@ -77,7 +75,7 @@ func (d Day) Day(today, large interface{}) string {
 						progressBar = `\draw[fill=` + task.Color + `!70, draw=` + task.Color + `!90, line width=0.2pt] 
 							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.15+yOffset) + `em) rectangle ([xshift=` + fmt.Sprintf("%.2f", progressWidth) + `mm, yshift=-` + fmt.Sprintf("%.1f", 0.25+yOffset) + `em]cell-left);`
 					}
-				
+
 					overlay = `\begin{tikzpicture}[overlay, remember picture]
 						\coordinate (cell-top) at (0,0);
 						\coordinate (cell-left) at (-2.5mm,0);
@@ -117,15 +115,15 @@ func (d Day) Day(today, large interface{}) string {
 							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em);
 					\end{tikzpicture}`
 				}
-				
+
 				overlays = append(overlays, overlay)
 			}
-			
+
 			// Combine all overlays
 			combinedOverlay := strings.Join(overlays, "")
 			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}}` + combinedOverlay
 		}
-		
+
 		// For large view, include regular tasks if any
 		tasks := d.TasksForDay()
 		if tasks != "" {
@@ -294,13 +292,13 @@ func (d Day) TasksForDay() string {
 	if len(d.Tasks) == 0 {
 		return ""
 	}
-	
+
 	var taskStrings []string
 	for _, task := range d.Tasks {
 		// Format: [Category] Task Name
 		taskStr := "\\textbf{[" + task.Category + "]} " + task.Name
 		taskStrings = append(taskStrings, taskStr)
 	}
-	
+
 	return strings.Join(taskStrings, "\\\\")
 }
