@@ -300,3 +300,13 @@ func (w *Week) Name() string {
 func (w *Week) Target() string {
 	return latex.Hypertarget(w.ref(), w.Name())
 }
+
+// HasDays returns true if the week contains at least one non-empty day.
+func (w *Week) HasDays() bool {
+	for _, d := range w.Days {
+		if !d.Time.IsZero() {
+			return true
+		}
+	}
+	return false
+}
