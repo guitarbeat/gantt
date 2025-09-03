@@ -35,14 +35,14 @@ for _ in "${_passes[@]}"; do
     -file-line-error \
     -interaction=nonstopmode \
     -synctex=1 \
-    -output-directory=./out \
-    "out/${nakedname}.tex"
+    -output-directory=./output \
+    "output/${nakedname}.tex"
 done
 
 if [ -n "${NAME}" ]; then
-  cp "out/${nakedname}.pdf" "${NAME}.pdf"
+  cp "output/${nakedname}.pdf" "${NAME}.pdf"
   echo "created ${NAME}.pdf"
 else
-  cp "out/${nakedname}.pdf" "${nakedname}.pdf"
+  cp "output/${nakedname}.pdf" "${nakedname}.pdf"
   echo "created ${nakedname}.pdf"
 fi

@@ -1,6 +1,6 @@
-package texx
+package texext
 
-import "github.com/kudrykv/latex-yearly-planner/tex"
+import "github.com/kudrykv/latex-yearly-planner/components/latex"
 
 func EmphCell(text string) string {
 	return tex.CellColor("black", tex.TextColor("white", text))

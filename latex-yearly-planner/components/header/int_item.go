@@ -3,7 +3,7 @@ package header
 import (
 	"strconv"
 
-	"github.com/kudrykv/latex-yearly-planner/hyper"
+	"github.com/kudrykv/latex-yearly-planner/components"
 )
 
 type IntItem struct {

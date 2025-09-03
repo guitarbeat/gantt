@@ -48,6 +48,13 @@ type Page struct {
 
 type RenderBlocks []RenderBlock
 
+type Modules []Module
+type Module struct {
+	Cfg  Config
+	Tpl  string
+	Body interface{}
+}
+
 
 
 type RenderBlock struct {

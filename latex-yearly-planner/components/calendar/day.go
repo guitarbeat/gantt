@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/header"
-	"github.com/kudrykv/latex-yearly-planner/hyper"
-	"github.com/kudrykv/latex-yearly-planner/tex"
-	"github.com/kudrykv/latex-yearly-planner/texx"
+	hyper "github.com/kudrykv/latex-yearly-planner/components"
+	"github.com/kudrykv/latex-yearly-planner/components/header"
+	tex "github.com/kudrykv/latex-yearly-planner/components/latex"
+	"github.com/kudrykv/latex-yearly-planner/components/texext"
 )
 
 type Days []*Day
@@ -30,7 +30,7 @@ func (d Day) Day(today, large interface{}) string {
 
 	if td, ok := today.(Day); ok {
 		if d.Time.Equal(td.Time) {
-			return texx.EmphCell(day)
+								return texext.EmphCell(day)
 		}
 	}
 

@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/header"
-	"github.com/kudrykv/latex-yearly-planner/hyper"
-	"github.com/kudrykv/latex-yearly-planner/tex"
+	"github.com/kudrykv/latex-yearly-planner/components/header"
+	"github.com/kudrykv/latex-yearly-planner/components"
+	"github.com/kudrykv/latex-yearly-planner/components/latex"
 )
 
 type Weeks []*Week

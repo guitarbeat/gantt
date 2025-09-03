@@ -55,7 +55,7 @@ func action(c *cli.Context) error {
 		return fmt.Errorf("tex document: %w", err)
 	}
 
-	if err = ioutil.WriteFile("out/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0600); err != nil {
+	if err = ioutil.WriteFile("output/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0600); err != nil {
 		return fmt.Errorf("ioutil write file: %w", err)
 	}
 
@@ -101,7 +101,7 @@ func action(c *cli.Context) error {
 			}
 		}
 
-		if err = ioutil.WriteFile("out/"+file.Name+".tex", wr.Bytes(), 0600); err != nil {
+		if err = ioutil.WriteFile("output/"+file.Name+".tex", wr.Bytes(), 0600); err != nil {
 			return fmt.Errorf("ioutil write file: %w", err)
 		}
 	}

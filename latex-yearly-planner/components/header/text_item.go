@@ -1,6 +1,6 @@
 package header
 
-import "github.com/kudrykv/latex-yearly-planner/hyper"
+import "github.com/kudrykv/latex-yearly-planner/components"
 
 type TextItem struct {
 	Name      string

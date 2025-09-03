@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/kudrykv/latex-yearly-planner/cal"
+	cal "github.com/kudrykv/latex-yearly-planner/components/calendar"
 )
 
 func Monthly(cfg Config, tpls []string) (Modules, error) {

@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/header"
-	"github.com/kudrykv/latex-yearly-planner/hyper"
+	"github.com/kudrykv/latex-yearly-planner/components/header"
+	"github.com/kudrykv/latex-yearly-planner/components"
 )
 
 type Quarters []*Quarter

@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  2 SEP 2025 19:22
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  2 SEP 2025 19:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**out/sn_a5x.breadcrumb.default.tex
-(./out/sn_a5x.breadcrumb.default.tex
+**output/planner_config.tex
+(./output/planner_config.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (/usr/local/texlive/2025/texmf-dist/tex/latex/extsizes/extarticle.cls
@@ -708,8 +708,8 @@ File: multido.tex 2010/05/14 v1.42 `multido' (tvz,hv)
 Package hyperref Warning: Unexpected value for option `hidelinks'
 (hyperref)                is ignored on input line 27.
 
-(./out/sn_a5x.breadcrumb.default.aux (./out/monthly.aux))
-\openout1 = `sn_a5x.breadcrumb.default.aux'.
+No file planner_config.aux.
+\openout1 = `planner_config.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
 LaTeX Font Info:    ... okay on input line 46.
@@ -731,7 +731,6 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
 LaTeX Font Info:    ... okay on input line 46.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 46.
 LaTeX Font Info:    ... okay on input line 46.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -767,9 +766,11 @@ LaTeX Font Info:    ... okay on input line 46.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring OFF on input line 46.
-(./out/sn_a5x.breadcrumb.default.out) (./out/sn_a5x.breadcrumb.default.out)
 \@outlinefile=\write4
-\openout4 = `sn_a5x.breadcrumb.default.out'.
+\openout4 = `planner_config.out'.
+
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
 
 \myLenTabColSep=\skip60
 \myLenLineThicknessDefault=\skip61
@@ -786,8 +787,7 @@ Package hyperref Info: Link coloring OFF on input line 46.
 \myLenHeaderSideMonthsWidth=\skip72
 \openout2 = `monthly.aux'.
 
-
-(./out/monthly.tex
+(./output/monthly.tex
 LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -950,22 +950,28 @@ Overfull \vbox (284.12729pt too high) detected at line 701
 
 )
 
-[25] (./out/sn_a5x.breadcrumb.default.aux (./out/monthly.aux))
+[25] (./output/planner_config.aux (./output/monthly.aux))
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `sn_a5x.breadcrumb.default.out' has not chang
-ed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+
+Package rerunfilecheck Warning: File `planner_config.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `planner_config.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21770 strings out of 473832
- 407437 string characters out of 5729482
- 821081 words of memory out of 5000000
- 44430 multiletter control sequences out of 15000+600000
+ 21758 strings out of 473832
+ 407007 string characters out of 5729482
+ 820306 words of memory out of 5000000
+ 44427 multiletter control sequences out of 15000+600000
  566051 words of font info for 66 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 102i,18n,107p,868b,322s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,18n,107p,860b,322s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on ./out/sn_a5x.breadcrumb.default.pdf (25 pages).
+Output written on ./output/planner_config.pdf (25 pages).

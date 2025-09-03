@@ -3,7 +3,7 @@ package header
 import (
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/hyper"
+	"github.com/kudrykv/latex-yearly-planner/components"
 )
 
 type MonthItem struct {

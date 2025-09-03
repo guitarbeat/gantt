@@ -4,6 +4,6 @@
 PLANNER_CSV_FILE="../aarons-attempt/input/data.cleaned.csv" \
 PLANNER_YEAR=2025 \
 PASSES=1 \
-CFG="cfg/base.yaml,cfg/template_breadcrumb.yaml,cfg/sn_a5x.breadcrumb.default.yaml" \
+CFG="config/base.yaml,config/page_template.yaml,config/planner_config.yaml" \
 NAME="adaptive-planner" \
 ./scripts/single.sh
