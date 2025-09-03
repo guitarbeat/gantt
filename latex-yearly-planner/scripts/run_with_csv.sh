@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+# Run the planner using a CSV file of tasks.
+# Usage: scripts/run_with_csv.sh [CSV_PATH] [YEAR] [NAME]
+
+CSV_PATH="${1:-}"
+YEAR="${2:-}"
+NAME="${3:-}"
+
+if [[ -z "$CSV_PATH" ]]; then
+  if [[ -f "../input/data.cleaned.csv" ]]; then
+    CSV_PATH="../input/data.cleaned.csv"
+  elif [[ -f "../input/data.csv" ]]; then
+    CSV_PATH="../input/data.csv"
+  else
+    echo "CSV_PATH not provided and no default found at ../input/data.cleaned.csv or ../input/data.csv" >&2
+    exit 2
+  fi
+fi
+
+exec "$(dirname "$0")/build.sh" --csv "$CSV_PATH" ${YEAR:+-y "$YEAR"} ${NAME:+-n "$NAME"}
+#!/usr/bin/env bash
 
 set -eo pipefail
 

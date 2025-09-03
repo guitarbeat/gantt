@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+# Convenience: run the single-task sample.
+exec "$(dirname "$0")/build.sh" --csv "../input/test_single.csv" -y 2025 -p 1 -n test-single-task
+#!/usr/bin/env bash
 
 set -eo pipefail
 

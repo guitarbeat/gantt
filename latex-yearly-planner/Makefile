@@ -4,7 +4,7 @@ GO ?= go
 BINARY ?= build/plannergen
 CFG ?= configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml
 
-.PHONY: build run clean preview fmt vet test test-single run-csv
+.PHONY: build run clean preview fmt vet test test-single run-csv run-single
 
 build:
 	$(GO) build -o $(BINARY) ./cmd/plannergen
@@ -13,7 +13,7 @@ run:
 	CFG="$(CFG)" PLANNERGEN_BINARY="$(BINARY)" scripts/build.sh
 
 preview:
-	CFG="$(CFG)" PLANNERGEN_BINARY="$(BINARY)" PREVIEW=1 scripts/build.sh
+	CFG="$(CFG)" PLANNERGEN_BINARY="$(BINARY)" scripts/build.sh --preview
 
 fmt:
 	$(GO) fmt ./...
@@ -23,6 +23,8 @@ vet:
 
 test-single:
 	CFG="$(CFG)" PLANNERGEN_BINARY="$(BINARY)" scripts/run_single.sh
+
+run-single: test-single
 
 run-csv:
 	CFG="$(CFG)" PLANNERGEN_BINARY="$(BINARY)" scripts/run_with_csv.sh

@@ -34,3 +34,11 @@ This will use templates from disk and run a preview build (unique pages only whe
 - Use `make preview` to iterate quickly; pair with `DEV_TEMPLATES=1` while editing `.tpl` files.
 - Generated LaTeX sources are written to `build/*.tex` (e.g., `build/planner_config.tex`).
 - XeLaTeX warnings like Overfull/Underfull boxes can often be ignored; focus on fatal errors.
+
+### Layout specifics
+
+- Monthly grid uses `tabularx` for full width and `X` columns.
+- Day cell content is composed of:
+  - A compact corner day number (mini-tabular) overlaid on the left.
+  - A right-side `minipage` with `\raggedright` content to avoid leaking table tokens.
+- Notes columns rely on vertical leaders of vboxed `\hrule`s with explicit `\vskip` glue, avoiding problematic dotted modes.

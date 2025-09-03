@@ -39,6 +39,19 @@ make build
 make run
 ```
 
+Other handy targets:
+
+```bash
+# Quick 1-task sample PDF
+make test-single
+
+# Run with a CSV (defaults to ../input/data.cleaned.csv or ../input/data.csv)
+make run-csv
+
+# Preview mode (pairs well with DEV_TEMPLATES=1)
+make preview
+```
+
 By default, templates are embedded into the binary. For development, you can override to load templates from disk by setting `DEV_TEMPLATES=1`:
 
 ```bash
@@ -59,6 +72,8 @@ The application uses YAML configuration files in the `configs/` directory:
 - During development, set `DEV_TEMPLATES=1` to load from the filesystem instead of the embedded FS.
 - The main entry is `document.tpl`, which includes other templates in that directory.
 
+See `templates/README.md` for an overview of the monthly layout and iteration tips.
+
 ## Development
 
 The project is organized to follow Go best practices:
@@ -69,3 +84,9 @@ The project is organized to follow Go best practices:
 - **configs/**: Configuration files separate from code
 - **templates/**: Template files organized by purpose
 - **build/**: Build artifacts (gitignored)
+
+Scripts:
+
+- `scripts/build.sh` — unified runner (wraps `scripts/single.sh`)
+- `scripts/run_single.sh` — convenience wrapper for the single-sample run
+- `scripts/run_with_csv.sh` — convenience wrapper for CSV-driven runs
