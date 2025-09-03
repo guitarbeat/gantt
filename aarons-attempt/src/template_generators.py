@@ -45,11 +45,12 @@ class GanttTimelineGenerator(BaseTemplateGenerator):
     def __init__(self, config_manager: ConfigManager = None):
         super().__init__(config_manager)
         # * Import enhanced generators for modern TikZ features
-        from .latex_generator import LaTeXDocumentGenerator, CalendarGenerator, GanttChartGenerator, TitlePageGenerator
+        from .latex_generator import LaTeXDocumentGenerator, CalendarGenerator, GanttChartGenerator, TitlePageGenerator, TaskListGenerator
         self.latex_generator = LaTeXDocumentGenerator()
         self.calendar_generator = CalendarGenerator()
         self.gantt_generator = GanttChartGenerator()
         self.title_generator = TitlePageGenerator()
+        self.task_list_generator = TaskListGenerator()
     
     def _generate_document_content(self, timeline: ProjectTimeline, 
                                  config: Dict[str, Any]) -> str:
@@ -59,6 +60,10 @@ class GanttTimelineGenerator(BaseTemplateGenerator):
         
         # Title page
         content += self.title_generator.generate_title_page(timeline)
+        content += "\\newpage\n"
+        
+        # Comprehensive task list with enhanced formatting
+        content += self.task_list_generator.generate_comprehensive_task_list(timeline)
         content += "\\newpage\n"
         
         # Enhanced timeline view
@@ -71,13 +76,11 @@ class GanttTimelineGenerator(BaseTemplateGenerator):
         content += self.gantt_generator.generate_gantt_chart(timeline)
         content += "\\newpage\n"
         
-        # Enhanced calendar views
+        # Enhanced calendar views with detailed task information
         content += "\\section*{Monthly Calendar Views}\n"
         for month_info in timeline.get_months_between():
             month_tasks = timeline.get_tasks_for_month(month_info)
-            content += f"\\subsection*{{{month_info.start_date.strftime('%B %Y')}}}\n"
-            content += self.calendar_generator.generate_calendar_grid(month_info, month_tasks)
-            content += "\\vspace{0.5cm}\n"
+            content += self.title_generator.generate_month_page(month_info, month_tasks)
         
         # Document footer
         content += self.latex_generator.generate_document_footer()

@@ -98,10 +98,7 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 			continue
 		}
 
-		// Only import task A (Draft timeline v1)
-		if task.ID != "A" {
-			continue
-		}
+		// Import all tasks (removed filter for task A only)
 
 		tasks = append(tasks, task)
 	}
@@ -218,7 +215,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 	task.Name = getField("Task Name")
 	task.Description = getField("Description")
 	
-	// Parse category from CSV
+	// Parse category from CSV (using Category field)
 	if category := getField("Category"); category != "" {
 		task.Priority = category // Using Priority field to store category
 	}

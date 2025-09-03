@@ -221,22 +221,62 @@ class TitlePageGenerator:
         if not tasks:
             return ""
 
+        # Create calendar generator for the grid
+        calendar_gen = CalendarGenerator(self.escaper)
+        
         page = f"""
 \\subsection*{{{month_info.start_date.strftime('%B %Y')}}}
 \\vspace{{0.5cm}}
 
-{self.generate_calendar_grid(month_info, tasks)}
+{calendar_gen.generate_calendar_grid(month_info, tasks)}
 \\vspace{{0.5cm}}
 \\subsection{{Task Details for {month_info.start_date.strftime('%B %Y')}}}
-\\begin{{itemize}}[leftmargin=1cm]
+\\begin{{itemize}}[leftmargin=1cm, itemsep=0.8em]
 """
         
         for task in tasks:
             task_name = self.escaper.escape_latex(task.name)
-            page += f"    \\item \\textcolor{{{task.category_color}}}{{\\textbf{{{task_name}}}}} - {task.start_date.strftime('%m/%d')} to {task.end_date.strftime('%m/%d')}\\n"
+            task_description = self.escaper.escape_latex(task.notes) if task.notes else ""
+            
+            # Enhanced task display with bold name and full description
+            page += f"    \\item \\textcolor{{{task.category_color}}}{{\\textbf{{{task_name}}}}}\\\\[0.2em]\n"
+            page += f"          \\textcolor{{black!70}}{{\\small {task.start_date.strftime('%m/%d')} to {task.due_date.strftime('%m/%d')}}}\n"
+            
+            if task_description:
+                # Format description with proper line breaks and indentation
+                formatted_description = self._format_task_description(task_description)
+                page += f"\\\\[0.3em]\n          \\begin{{minipage}}[t]{{0.85\\textwidth}}\n"
+                page += f"          \\textcolor{{black!80}}{{{formatted_description}}}\n"
+                page += f"          \\end{{minipage}}\n"
+            
+            page += "\n"
         
         page += "\\end{itemize}\\n"
         return page
+
+    def _format_task_description(self, description: str) -> str:
+        """Format task description for better readability with proper line breaks."""
+        if not description:
+            return ""
+        
+        # Split long descriptions into multiple lines for better readability
+        words = description.split()
+        lines = []
+        current_line = []
+        max_words_per_line = 12  # Adjust based on desired line length
+        
+        for word in words:
+            current_line.append(word)
+            if len(current_line) >= max_words_per_line:
+                lines.append(' '.join(current_line))
+                current_line = []
+        
+        # Add remaining words
+        if current_line:
+            lines.append(' '.join(current_line))
+        
+        # Join lines with LaTeX line breaks
+        return '\\\\[0.1em]\n          '.join(lines)
 
 
 class CalendarGenerator:
@@ -343,16 +383,17 @@ class GanttChartGenerator:
 \\gantttitlecalendar{year, month} \\\\
 """
         
-        # Add tasks to Gantt chart
+        # Add tasks to Gantt chart with bold names
         for i, task in enumerate(timeline.tasks):
             task_name = self.escaper.escape_latex(task.name)
+            bold_task_name = f"\\textbf{{{task_name}}}"
             start_date = task.start_date.strftime('%Y-%m-%d')
             due_date = task.due_date.strftime('%Y-%m-%d')
             
             if task.is_milestone:
-                gantt += f"\\ganttmilestone{{{task_name}}}{{{start_date}}} \\\\\n"
+                gantt += f"\\ganttmilestone{{{bold_task_name}}}{{{start_date}}} \\\\\n"
             else:
-                gantt += f"\\ganttbar{{{task_name}}}{{{start_date}}}{{{due_date}}} \\\\\n"
+                gantt += f"\\ganttbar{{{bold_task_name}}}{{{start_date}}}{{{due_date}}} \\\\\n"
         
         gantt += "\\end{ganttchart}\n"
         return gantt
@@ -377,13 +418,14 @@ class GanttChartGenerator:
         y_pos = 1
         for task in timeline.tasks:
             task_name = self.escaper.escape_latex(task.name)
+            bold_task_name = f"\\textbf{{{task_name}}}"
             start_x = self._calculate_timeline_position(task.start_date, timeline.start_date)
             end_x = self._calculate_timeline_position(task.due_date, timeline.start_date)
             
             if task.is_milestone:
-                timeline_code += f"    \\node[milestone node, fill={task.category_color}] at ({start_x},{y_pos}) {{{task_name}}};\\n"
+                timeline_code += f"    \\node[milestone node, fill={task.category_color}] at ({start_x},{y_pos}) {{{bold_task_name}}};\\n"
             else:
-                timeline_code += f"    \\draw[fill={task.category_color}, rounded corners=2pt] ({start_x},{y_pos-0.2}) rectangle ({end_x},{y_pos+0.2}) node[midway, white, font=\\small] {{{task_name}}};\\n"
+                timeline_code += f"    \\draw[fill={task.category_color}, rounded corners=2pt] ({start_x},{y_pos-0.2}) rectangle ({end_x},{y_pos+0.2}) node[midway, white, font=\\small\\bfseries] {{{task_name}}};\\n"
             
             y_pos += 0.8
         
@@ -428,6 +470,88 @@ class LegendGenerator:
 """
 
 
+class TaskListGenerator:
+    """Generates comprehensive task list views with enhanced formatting."""
+
+    def __init__(self, escaper: LaTeXEscaper = None):
+        self.escaper = escaper or LaTeXEscaper()
+
+    def generate_comprehensive_task_list(self, timeline: ProjectTimeline) -> str:
+        """Generate a comprehensive task list with enhanced UI/UX formatting."""
+        task_list = """
+\\section{Complete Task List}
+\\vspace{0.5cm}
+
+% Enhanced task list with better spacing and typography
+\\begin{enumerate}[leftmargin=1.5cm, itemsep=1em, parsep=0.5em]
+"""
+        
+        for i, task in enumerate(timeline.tasks, 1):
+            task_name = self.escaper.escape_latex(task.name)
+            task_description = self.escaper.escape_latex(task.notes) if task.notes else ""
+            
+            # Task header with bold name and category color
+            task_list += f"""
+    \\item \\textcolor{{{task.category_color}}}{{\\textbf{{\\large {task_name}}}}}
+          \\hfill \\textcolor{{black!60}}{{\\small [{task.category}]}}
+          
+          \\vspace{{0.2em}}
+          \\textcolor{{black!70}}{{\\textbf{{Duration:}} {task.start_date.strftime('%B %d, %Y')} -- {task.due_date.strftime('%B %d, %Y')} ({task.duration_days} days)}}
+"""
+            
+            if task.is_milestone:
+                task_list += f"          \\textcolor{{orange}}{{\\textbf{{ [MILESTONE]}}}}\\n"
+            
+            if task.dependencies:
+                deps = self.escaper.escape_latex(task.dependencies)
+                task_list += f"          \\\\[0.2em]\\textcolor{{black!70}}{{\\textbf{{Dependencies:}} {deps}}}\\n"
+            
+            if task_description:
+                # Format description with proper paragraph breaks
+                formatted_description = self._format_comprehensive_description(task_description)
+                task_list += f"""
+          \\vspace{{0.4em}}
+          \\begin{{minipage}}[t]{{0.9\\textwidth}}
+          \\textcolor{{black!85}}{{{formatted_description}}}
+          \\end{{minipage}}
+"""
+        
+        task_list += "\\end{enumerate}\\n"
+        return task_list
+
+    def _format_comprehensive_description(self, description: str) -> str:
+        """Format task description for comprehensive view with proper paragraphs."""
+        if not description:
+            return ""
+        
+        # Split into sentences for better readability
+        sentences = description.split('. ')
+        if len(sentences) > 1:
+            # Add proper sentence endings and create paragraph breaks for long descriptions
+            formatted_sentences = []
+            for i, sentence in enumerate(sentences):
+                if not sentence.endswith('.') and i < len(sentences) - 1:
+                    sentence += '.'
+                formatted_sentences.append(sentence.strip())
+            
+            # Group sentences into logical paragraphs (every 2-3 sentences)
+            paragraphs = []
+            current_paragraph = []
+            
+            for sentence in formatted_sentences:
+                current_paragraph.append(sentence)
+                if len(current_paragraph) >= 2:  # Create paragraph break every 2 sentences
+                    paragraphs.append(' '.join(current_paragraph))
+                    current_paragraph = []
+            
+            if current_paragraph:
+                paragraphs.append(' '.join(current_paragraph))
+            
+            return '\\\\[0.3em]\\n          '.join(paragraphs)
+        else:
+            return description
+
+
 class LaTeXGenerator:
     """Main LaTeX generator that coordinates all components."""
 
@@ -437,11 +561,13 @@ class LaTeXGenerator:
         self.title_generator = TitlePageGenerator(self.escaper)
         self.calendar_generator = CalendarGenerator(self.escaper)
         self.legend_generator = LegendGenerator(self.escaper)
+        self.task_list_generator = TaskListGenerator(self.escaper)
 
     def generate_complete_document(self, timeline: ProjectTimeline) -> str:
         """Generate the complete LaTeX document."""
         latex_content = self.document_generator.generate_document_header()
         latex_content += self.title_generator.generate_title_page(timeline)
+        latex_content += self.task_list_generator.generate_comprehensive_task_list(timeline)
         latex_content += self.calendar_generator.generate_calendar_view(timeline)
         latex_content += self.legend_generator.generate_legend()
         latex_content += self.document_generator.generate_document_footer()

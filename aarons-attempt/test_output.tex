@@ -1,0 +1,237 @@
+\documentclass[landscape,a4paper]{article}
+\usepackage{[utf8]{inputenc}}
+\usepackage{[T1]{fontenc}}
+\usepackage{lmodern}
+\usepackage{helvet}
+\usepackage{[landscape,margin=0.5in]{geometry}}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ragged2e}
+
+% Enhanced TikZ libraries for better graphics
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{shadows}
+\usetikzlibrary{fit}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{matrix}
+\usetikzlibrary{chains}
+\usetikzlibrary{scopes}
+\usetikzlibrary{pgfgantt}
+
+% Page setup inspired by calendar.sty
+\pagestyle{empty}
+\setlength{\parskip}{0.5em}
+
+% Table formatting
+\setlength{\tabcolsep}{1pt}
+\renewcommand{\arraystretch}{1.0}
+
+% Use Helvetica for sans-serif
+\renewcommand{\familydefault}{\sfdefault}
+
+% Enhanced TikZ styles
+
+% Enhanced TikZ styles for project timeline
+\tikzset{
+    % Task node styles
+    task node/.style={
+        rectangle, 
+        rounded corners=2pt,
+        draw=black!50,
+        fill=white,
+        minimum height=0.6cm,
+        minimum width=1.5cm,
+        font=\small\bfseries,
+        align=center
+    },
+    milestone node/.style={
+        diamond,
+        draw=black!50,
+        fill=white,
+        minimum size=0.8cm,
+        font=\small\bfseries,
+        align=center
+    },
+    % Timeline styles
+    timeline axis/.style={
+        thick,
+        line width=2pt,
+        color=black!70
+    },
+    timeline tick/.style={
+        thick,
+        line width=1pt,
+        color=black!50
+    },
+    % Arrow styles
+    dependency arrow/.style={
+        ->,
+        thick,
+        color=black!60,
+        line width=1.5pt
+    },
+    % Calendar styles
+    calendar day/.style={
+        rectangle,
+        draw=black!30,
+        fill=white,
+        minimum size=1cm,
+        font=\small
+    },
+    calendar header/.style={
+        rectangle,
+        draw=black!50,
+        fill=black!10,
+        minimum height=0.5cm,
+        font=\small\bfseries
+    }
+}
+
+% Color definitions
+\definecolor{accountability}{RGB}{139, 92, 246}
+\definecolor{administrative}{RGB}{107, 114, 128}
+\definecolor{blocked}{RGB}{239, 68, 68}
+\definecolor{completed}{RGB}{34, 197, 94}
+\definecolor{inprogress}{RGB}{251, 146, 60}
+\definecolor{milestone}{RGB}{147, 51, 234}
+\definecolor{other}{RGB}{156, 163, 175}
+\definecolor{planned}{RGB}{59, 130, 246}
+\definecolor{researchcore}{RGB}{59, 130, 246}
+\definecolor{researchexp}{RGB}{16, 185, 129}
+\definecolor{researchout}{RGB}{245, 158, 11}
+\definecolor{service}{RGB}{236, 72, 153}
+
+\begin{document}
+
+% Title page inspired by calendar.sty
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\LARGE\textbf{Enhanced Task Display Test}}
+
+\vspace{0.5cm}
+{\large PhD Research Calendar}
+
+\vspace{1cm}
+
+\begin{minipage}{0.9\textwidth}
+\centering
+\textbf{Timeline Period:} August 29, 2025 -- August 31, 2025\\
+\textbf{Total Duration:} 2 days\\
+\textbf{Total Tasks:} 1 tasks\\
+\textbf{Months Covered:} 1 months
+\end{minipage}
+
+\vfill
+
+\end{titlepage}
+\newpage
+\section*{Enhanced Project Timeline}
+
+% Modern timeline view with enhanced TikZ
+\begin{tikzpicture}[scale=0.8]
+    % Timeline axis
+    \draw[timeline axis] (0,0) -- (12,0);
+    
+    % Month markers
+    \foreach \x/\month in {0/Aug, 2/Sep, 4/Oct, 6/Nov, 8/Dec, 10/Jan} {
+        \draw[timeline tick] (\x,0) -- (\x,-0.3);
+        \node[below, font=\small] at (\x,-0.3) {\month};
+    }
+    
+    % Task bars with enhanced styling
+    \draw[fill=researchcore, rounded corners=2pt] (0.0,0.8) rectangle (0.13333333333333333,1.2) node[midway, white, font=\small\bfseries] {timeline v1};\n\end{tikzpicture}\n\newpage
+\section*{Gantt Chart}
+
+% Gantt chart using pgfgantt library
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=0.5cm,
+    y unit title=0.6cm,
+    y unit chart=0.6cm,
+    time slot format=isodate,
+    title/.append style={fill=black!10},
+    bar/.append style={fill=blue!50, rounded corners=2pt},
+    bar incomplete/.append style={fill=red!50},
+    milestone/.append style={fill=orange, rounded corners=2pt},
+    milestone incomplete/.append style={fill=red!50}
+]{\timeline_start}{\timeline_end}
+\gantttitlecalendar{year, month} \\
+\ganttbar{\textbf{timeline v1}}{2025-08-29}{2025-08-31} \\
+\end{ganttchart}
+\newpage
+\section*{Monthly Calendar Views}
+\subsection*{August 2025}
+
+% Enhanced calendar grid with modern TikZ features
+\begin{tikzpicture}[scale=1.0]
+    % Main calendar border with shadow effect
+    \draw[thick, drop shadow={shadow xshift=2pt, shadow yshift=-2pt, fill=black!20}] 
+          (0,0) rectangle (7,6);
+
+    % Day headers with enhanced styling
+    \foreach \day [count=\i] in {Sun, Mon, Tue, Wed, Thu, Fri, Sat} {
+        \node[calendar header] at (\i-0.5, 5.5) {\day};
+    }
+
+    % Grid lines with improved styling
+    \foreach \x in {1,2,3,4,5,6} {
+        \draw[line width=0.5pt, color=black!30] (\x,0) -- (\x,5);
+    }
+    \foreach \y in {1,2,3,4,5} {
+        \draw[line width=0.5pt, color=black!30] (0,\y) -- (7,\y);
+    }
+    \node[font=\bfseries\large, anchor=north west] at (5.05,4.9) {1};
+    \node[font=\bfseries\large, anchor=north west] at (6.05,4.9) {2};
+    \node[font=\bfseries\large, anchor=north west] at (0.05,3.9) {3};
+    \node[font=\bfseries\large, anchor=north west] at (1.05,3.9) {4};
+    \node[font=\bfseries\large, anchor=north west] at (2.05,3.9) {5};
+    \node[font=\bfseries\large, anchor=north west] at (3.05,3.9) {6};
+    \node[font=\bfseries\large, anchor=north west] at (4.05,3.9) {7};
+    \node[font=\bfseries\large, anchor=north west] at (5.05,3.9) {8};
+    \node[font=\bfseries\large, anchor=north west] at (6.05,3.9) {9};
+    \node[font=\bfseries\large, anchor=north west] at (0.05,2.9) {10};
+    \node[font=\bfseries\large, anchor=north west] at (1.05,2.9) {11};
+    \node[font=\bfseries\large, anchor=north west] at (2.05,2.9) {12};
+    \node[font=\bfseries\large, anchor=north west] at (3.05,2.9) {13};
+    \node[font=\bfseries\large, anchor=north west] at (4.05,2.9) {14};
+    \node[font=\bfseries\large, anchor=north west] at (5.05,2.9) {15};
+    \node[font=\bfseries\large, anchor=north west] at (6.05,2.9) {16};
+    \node[font=\bfseries\large, anchor=north west] at (0.05,1.9) {17};
+    \node[font=\bfseries\large, anchor=north west] at (1.05,1.9) {18};
+    \node[font=\bfseries\large, anchor=north west] at (2.05,1.9) {19};
+    \node[font=\bfseries\large, anchor=north west] at (3.05,1.9) {20};
+    \node[font=\bfseries\large, anchor=north west] at (4.05,1.9) {21};
+    \node[font=\bfseries\large, anchor=north west] at (5.05,1.9) {22};
+    \node[font=\bfseries\large, anchor=north west] at (6.05,1.9) {23};
+    \node[font=\bfseries\large, anchor=north west] at (0.05,0.9) {24};
+    \node[font=\bfseries\large, anchor=north west] at (1.05,0.9) {25};
+    \node[font=\bfseries\large, anchor=north west] at (2.05,0.9) {26};
+    \node[font=\bfseries\large, anchor=north west] at (3.05,0.9) {27};
+    \node[font=\bfseries\large, anchor=north west] at (4.05,0.9) {28};
+    \node[font=\bfseries\large, anchor=north west] at (5.05,0.9) {29};
+    \node[font=\tiny, anchor=north west, text width=0.9cm] at (5.05,0.4) {\textcolor{researchcore}{\textbf{$\bullet$ timeline v1}}};
+    \node[font=\bfseries\large, anchor=north west] at (6.05,0.9) {30};
+    \node[font=\tiny, anchor=north west, text width=0.9cm] at (6.05,0.4) {\textcolor{researchcore}{\textbf{$\bullet$ timeline v1}}};
+    \node[font=\bfseries\large, anchor=north west] at (0.05,-0.09999999999999998) {31};
+    \node[font=\tiny, anchor=north west, text width=0.9cm] at (0.05,-0.6) {\textcolor{researchcore}{\textbf{$\bullet$ timeline v1}}};
+\end{tikzpicture}
+\vspace{0.5cm}
+\end{document}
