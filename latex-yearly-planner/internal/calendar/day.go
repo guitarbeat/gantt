@@ -71,18 +71,23 @@ func (d Day) Day(today, large interface{}) string {
 					nameText := strings.TrimSpace(task.Name)
 					descText := strings.TrimSpace(task.Description)
 
-					// Compose overlay content with a single highlight bar and a legible colorboxed block
-					// - Bar uses task color
-					// - Background uses a light tint of the task color
-					// - Text is black; name bold on top, description below
-					boxBody := `\parbox{\linewidth}{` + `{\color{black}\textbf{\small ` + nameText + `}}`
+					// Compose overlay content as a rounded tcolorbox with left accent bar, padding, and no hyphenation
+					textBody := `{\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\emergencystretch=2em\setstretch{0.95}` +
+						`{\color{black}\textbf{\scriptsize ` + nameText + `}}`
 					if descText != "" {
-						boxBody += `\\[-0.15ex]{\color{black}\footnotesize ` + descText + `}`
+						textBody += `\\[-0.25ex]{\color{black}\scriptsize ` + descText + `}`
 					}
-					boxBody += `}`
+					textBody += `}`
 
-					overlayContent = `\textcolor{` + task.Color + `}{\rule{\linewidth}{0.6pt}}` + `\\[0.25ex]` +
-						`{\begingroup\setlength{\fboxsep}{2pt}\colorbox{` + task.Color + `!12}{` + boxBody + `}\endgroup}`
+					overlayContent = `\vspace*{0.3ex}{\begingroup\setlength{\fboxsep}{0pt}` +
+						`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=5pt,` +
+						` left=2mm, right=1.8mm, top=0.6mm, bottom=0.6mm,` +
+						` colback=` + task.Color + `!24,` +
+						` interior style={left color=` + task.Color + `!28, right color=white},` +
+						` borderline west={1.1pt}{0pt}{` + task.Color + `!60!black},` +
+						` borderline east={0.8pt}{0pt}{` + task.Color + `!35}]` +
+						textBody +
+						`\end{tcolorbox}\endgroup}`
 					overlayStart = true
 				} else {
 					// Mid/end days: do not add duplicate bars/text; the overlay from the start day will visually cover
