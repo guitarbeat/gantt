@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -60,8 +59,8 @@ func action(c *cli.Context) error {
 		return fmt.Errorf("tex document: %w", err)
 	}
 
-	if err = ioutil.WriteFile("build/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0600); err != nil {
-		return fmt.Errorf("ioutil write file: %w", err)
+	if err = os.WriteFile("build/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0600); err != nil {
+		return fmt.Errorf("write file: %w", err)
 	}
 
 	for _, file := range cfg.Pages {
@@ -106,8 +105,8 @@ func action(c *cli.Context) error {
 			}
 		}
 
-		if err = ioutil.WriteFile("build/"+file.Name+".tex", wr.Bytes(), 0600); err != nil {
-			return fmt.Errorf("ioutil write file: %w", err)
+		if err = os.WriteFile("build/"+file.Name+".tex", wr.Bytes(), 0600); err != nil {
+			return fmt.Errorf("write file: %w", err)
 		}
 	}
 
@@ -119,13 +118,8 @@ func RootFilename(pathconfig string) string {
 		pathconfig = pathconfig[idx+1:]
 	}
 
-	if strings.HasSuffix(pathconfig, ".yml") {
-		pathconfig = pathconfig[:len(pathconfig)-len(".yml")]
-	}
-
-	if strings.HasSuffix(pathconfig, ".yaml") {
-		pathconfig = pathconfig[:len(pathconfig)-len(".yaml")]
-	}
+	pathconfig = strings.TrimSuffix(pathconfig, ".yml")
+	pathconfig = strings.TrimSuffix(pathconfig, ".yaml")
 
 	return pathconfig + ".tex"
 }

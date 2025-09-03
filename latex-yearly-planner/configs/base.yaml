@@ -14,13 +14,13 @@ layout:
     reversemargins: true
 
     margin:
-      top: 1.2cm
-      bottom: 0.7cm
+      top: 1.0cm
+      bottom: 0.5cm
       left: 0.5cm
       right: 0.5cm
 
   numbers:
-    arraystretch: 1.5
+    arraystretch: 1.1
 
   lengths:
     tabcolsep: 3.5pt
@@ -30,7 +30,7 @@ layout:
     twocolsep: 5pt
     tricolsep: 5pt
     fivecolsep: 5pt
-    monthlycellheight: 55pt
+    monthlycellheight: 70pt
     headerresizebox: 6mm
     headersidemonthswidth: 14.5cm
 

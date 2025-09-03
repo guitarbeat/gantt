@@ -12,7 +12,16 @@ import (
 
 type Days []*Day
 type Day struct {
-	Time time.Time
+	Time  time.Time
+	Tasks []Task
+}
+
+// Task represents a task for a specific day
+type Task struct {
+	ID          string
+	Name        string
+	Description string
+	Category    string
 }
 
 func (d Day) Day(today, large interface{}) string {
@@ -23,12 +32,17 @@ func (d Day) Day(today, large interface{}) string {
 	day := strconv.Itoa(d.Time.Day())
 
 	if larg, _ := large.(bool); larg {
+		// For large view, include tasks if any
+		tasks := d.TasksForDay()
+		if tasks != "" {
+			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\footnotesize{}` + tasks + `\end{tabular}}`
+		}
 		return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}}`
 	}
 
 	if td, ok := today.(Day); ok {
 		if d.Time.Equal(td.Time) {
-								return latex.EmphCell(day)
+			return latex.EmphCell(day)
 		}
 	}
 
@@ -46,7 +60,7 @@ func (d Day) ref(prefix ...string) string {
 }
 
 func (d Day) Add(days int) Day {
-	return Day{Time: d.Time.AddDate(0, 0, days)}
+	return Day{Time: d.Time.AddDate(0, 0, days), Tasks: nil}
 }
 
 func (d Day) WeekLink() string {
@@ -123,7 +137,7 @@ func (d Day) Hours(bottom, top int) Days {
 	list := make(Days, 0, top-bottom+1)
 
 	for i := bottom; i <= top; i++ {
-		list = append(list, &Day{moment})
+		list = append(list, &Day{Time: moment, Tasks: nil})
 		moment = moment.Add(time.Hour)
 	}
 
@@ -178,4 +192,20 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 
 	contents := strings.Join(r1, ` & `) + `\\` + "\n" + strings.Join(r2, ` & `)
 	return latex.Hypertarget(prefix+d.ref(), "") + latex.Tabular("@{}"+ll+"l|l"+rl, contents)
+}
+
+// TasksForDay returns a formatted string of tasks for this day
+func (d Day) TasksForDay() string {
+	if len(d.Tasks) == 0 {
+		return ""
+	}
+	
+	var taskStrings []string
+	for _, task := range d.Tasks {
+		// Format: [Category] Task Name
+		taskStr := "\\textbf{[" + task.Category + "]} " + task.Name
+		taskStrings = append(taskStrings, taskStr)
+	}
+	
+	return strings.Join(taskStrings, "\\\\")
 }

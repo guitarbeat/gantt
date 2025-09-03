@@ -4,9 +4,15 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"sort"
 	"time"
+)
+
+const (
+	// DateFormat is the expected date format in CSV files
+	DateFormat = "2006-01-02"
 )
 
 // Task represents a single task from the CSV data
@@ -88,7 +94,7 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 		task, err := r.parseTask(record, fieldIndex)
 		if err != nil {
 			// Log error but continue processing other tasks
-			fmt.Printf("Warning: failed to parse task: %v\n", err)
+			log.Printf("Warning: failed to parse task: %v", err)
 			continue
 		}
 
@@ -209,11 +215,16 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 	task.Status = getField("Status")
 	task.Assignee = getField("Assignee")
 	task.Description = getField("Description")
+	
+	// Parse category from CSV
+	if category := getField("Category"); category != "" {
+		task.Priority = category // Using Priority field to store category for now
+	}
 
 	// Parse dates
 	startDateStr := getField("Start Date")
 	if startDateStr != "" {
-		startDate, err := time.Parse("2006-01-02", startDateStr)
+		startDate, err := time.Parse(DateFormat, startDateStr)
 		if err != nil {
 			return task, fmt.Errorf("invalid start date format: %s", startDateStr)
 		}
@@ -222,7 +233,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 
 	endDateStr := getField("Due Date")
 	if endDateStr != "" {
-		endDate, err := time.Parse("2006-01-02", endDateStr)
+		endDate, err := time.Parse(DateFormat, endDateStr)
 		if err != nil {
 			return task, fmt.Errorf("invalid end date format: %s", endDateStr)
 		}

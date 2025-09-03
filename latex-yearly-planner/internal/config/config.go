@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 
@@ -106,8 +106,8 @@ func NewConfig(pathConfigs ...string) (Config, error) {
 	)
 
 	for _, filepath := range pathConfigs {
-		if bts, err = ioutil.ReadFile(strings.ToLower(filepath)); err != nil {
-			return cfg, fmt.Errorf("ioutil read file: %w", err)
+		if bts, err = os.ReadFile(strings.ToLower(filepath)); err != nil {
+			return cfg, fmt.Errorf("read file: %w", err)
 		}
 
 		if err = yaml.Unmarshal(bts, &cfg); err != nil {

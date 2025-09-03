@@ -24,9 +24,9 @@
 \usepackage{adjustbox}
 \usepackage{multido}
 
-\hypersetup{
-    {{- if not .Cfg.Debug.ShowLinks}}hidelinks=true{{end -}}
-}
+{{- if not .Cfg.Debug.ShowLinks}}
+\hypersetup{hidelinks}
+{{- end}}
 
 
 \geometry{paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}

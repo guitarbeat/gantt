@@ -6,7 +6,7 @@ A Go application for generating LaTeX yearly planners from CSV data.
 
 This project follows the standard Go project layout:
 
-```
+```text
 latex-yearly-planner/
 ├── cmd/                    # Application entry points
 │   └── plannergen/         # Main CLI application

@@ -1,5 +1,5 @@
 {{- template "monthTabularV2.tpl" dict "Month" .Body.Month "Large" true -}}
-\medskip
+\smallskip
 
 {{ if $.Cfg.Dotted -}}
 \myUnderline{Notes}
