@@ -3,7 +3,7 @@
 set -eo pipefail
 
 if [ -z "$PLANNERGEN_BINARY" ]; then
-  export GO_CMD="go run *.go"
+  export GO_CMD="go run ./cmd/plannergen"
 else
   export GO_CMD="$PLANNERGEN_BINARY"
   echo "Building using plannergen binary at \"${PLANNERGEN_BINARY}\""
@@ -35,14 +35,14 @@ for _ in "${_passes[@]}"; do
     -file-line-error \
     -interaction=nonstopmode \
     -synctex=1 \
-    -output-directory=./output \
-    "output/${nakedname}.tex"
+    -output-directory=./build \
+    "build/${nakedname}.tex"
 done
 
 if [ -n "${NAME}" ]; then
-  cp "output/${nakedname}.pdf" "${NAME}.pdf"
+  cp "build/${nakedname}.pdf" "${NAME}.pdf"
   echo "created ${NAME}.pdf"
 else
-  cp "output/${nakedname}.pdf" "${nakedname}.pdf"
+  cp "build/${nakedname}.pdf" "${nakedname}.pdf"
   echo "created ${nakedname}.pdf"
 fi
