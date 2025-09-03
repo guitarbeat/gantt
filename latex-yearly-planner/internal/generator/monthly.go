@@ -28,7 +28,7 @@ func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
 
 		for _, monthYear := range cfg.MonthsWithTasks {
 			year := cal.NewYear(cfg.WeekStart, monthYear.Year)
-			
+
 			// Find the specific month in the year
 			var targetMonth *cal.Month
 			for _, quarter := range year.Quarters {
@@ -46,14 +46,14 @@ func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
 			// * Check if targetMonth was found, log warning if not
 			if targetMonth == nil {
 				// Log warning but continue processing other months
-				fmt.Printf("Warning: Month %s %d not found in calendar, skipping\n", 
+				fmt.Printf("Warning: Month %s %d not found in calendar, skipping\n",
 					monthYear.Month.String(), monthYear.Year)
 				continue
 			}
 
 			// Assign tasks to days in this month
 			assignTasksToMonth(targetMonth, tasks)
-			
+
 			modules = append(modules, config.Module{
 				Cfg: cfg,
 				Tpl: tpls[0],
@@ -67,7 +67,7 @@ func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
 					"SideMonths":   year.SideMonths(targetMonth.Month),
 					"Extra":        targetMonth.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
 					"Large":        true,
-					"TableType":    "monthly",
+					"TableType":    "tabularx",
 					"Today":        cal.Day{Time: time.Now()},
 				},
 			})
@@ -99,7 +99,7 @@ func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
 						"SideMonths":   year.SideMonths(month.Month),
 						"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
 						"Large":        true,
-						"TableType":    "monthly",
+						"TableType":    "tabularx",
 						"Today":        cal.Day{Time: time.Now()},
 					},
 				})
@@ -114,17 +114,17 @@ func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
 func assignTasksToMonth(month *cal.Month, tasks []data.Task) {
 	// Convert data.Task to SpanningTask and apply to month
 	var spanningTasks []cal.SpanningTask
-	
+
 	for _, task := range tasks {
 		// Check if task overlaps with this month
 		monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.Local)
 		monthEnd := monthStart.AddDate(0, 1, -1)
-		
+
 		if task.StartDate.Before(monthEnd.AddDate(0, 0, 1)) && task.EndDate.After(monthStart.AddDate(0, 0, -1)) {
 			// Create spanning task directly from data.Task
 			spanningTask := cal.CreateSpanningTask(task, task.StartDate, task.EndDate)
 			spanningTasks = append(spanningTasks, spanningTask)
-			
+
 			// Also add as regular tasks to individual days for better display
 			current := task.StartDate
 			for !current.After(task.EndDate) {
@@ -133,9 +133,9 @@ func assignTasksToMonth(month *cal.Month, tasks []data.Task) {
 					// Find the day in the month and add the task
 					for _, week := range month.Weeks {
 						for i := range week.Days {
-							if week.Days[i].Time.Day() == current.Day() && 
-							   week.Days[i].Time.Month() == current.Month() &&
-							   week.Days[i].Time.Year() == current.Year() {
+							if week.Days[i].Time.Day() == current.Day() &&
+								week.Days[i].Time.Month() == current.Month() &&
+								week.Days[i].Time.Year() == current.Year() {
 								// Add as regular task for detailed display
 								dayTask := cal.Task{
 									ID:          task.ID,
@@ -153,7 +153,7 @@ func assignTasksToMonth(month *cal.Month, tasks []data.Task) {
 			}
 		}
 	}
-	
+
 	// Apply spanning tasks to the month for background coloring
 	cal.ApplySpanningTasksToMonth(month, spanningTasks)
 }
