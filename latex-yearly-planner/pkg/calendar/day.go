@@ -1,6 +1,7 @@
 package calendar
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -35,50 +36,94 @@ func (d Day) Day(today, large interface{}) string {
 	if larg, _ := large.(bool); larg {
 		// Check for spanning task overlays
 		if len(d.SpanningTasks) > 0 {
-			// Create enhanced display for spanning tasks
-			var taskInfo []string
+			// Create overlays for all spanning tasks
+			var overlays []string
 			
-			for _, task := range d.SpanningTasks {
-				// Determine if this is the start of the task span
+			for i, task := range d.SpanningTasks {
+				// Determine if this is the start, middle, or end of the task span
+				// Normalize dates to midnight for comparison
 				dayDate := time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
 				taskStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
+				taskEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
 				
 				isStart := dayDate.Equal(taskStartDate)
+				isEnd := dayDate.Equal(taskEndDate)
 				
+
+				
+				// Calculate vertical offset for multiple tasks
+				yOffset := float64(i) * 0.8 // 0.8em spacing between tasks
+				
+				// Create a TikZ overlay that doesn't affect cell height
+				var overlay string
+			
 				if isStart {
-					// Show full task name and description on start day
-					taskName := `\textbf{` + task.Name + `}`
-					taskParts := []string{`\textcolor{` + task.Color + `}{\tiny ` + taskName + `}`}
-					
-					// Add description if present - use parbox for better wrapping
-					if task.Description != "" {
-						desc := `\textcolor{` + task.Color + `}{\scriptsize \parbox[t]{8mm}{` + task.Description + `}}`
-						taskParts = append(taskParts, desc)
+					// Start of task - show full task name, description, and left-rounded rectangle
+					taskName := task.Name
+					if len(taskName) > 15 {
+						taskName = taskName[:12] + "..."
 					}
 					
-					taskInfo = append(taskInfo, strings.Join(taskParts, `\\`))
+					// Prepare description text (truncate if too long)
+					description := task.Description
+					if len(description) > 25 {
+						description = description[:22] + "..."
+					}
+					
+					// Add progress bar if progress > 0
+					progressBar := ""
+					if task.Progress > 0 {
+						progressWidth := float64(task.Progress) / 100.0 * 5.0 // 5mm max width
+						progressBar = `\draw[fill=` + task.Color + `!70, draw=` + task.Color + `!90, line width=0.2pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.15+yOffset) + `em) rectangle ([xshift=` + fmt.Sprintf("%.2f", progressWidth) + `mm, yshift=-` + fmt.Sprintf("%.1f", 0.25+yOffset) + `em]cell-left);`
+					}
+				
+					overlay = `\begin{tikzpicture}[overlay, remember picture]
+						\coordinate (cell-top) at (0,0);
+						\coordinate (cell-left) at (-2.5mm,0);
+						\coordinate (cell-right) at (2.5mm,0);
+						
+						% Draw colored background bar
+						\draw[fill=` + task.Color + `!30, draw=` + task.Color + `!60, line width=0.3pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.8+yOffset) + `em);
+						
+						% Add progress bar if applicable
+						` + progressBar + `
+						
+						% Add task name and description on start day
+						\node[anchor=west, font=\tiny, color=` + task.Color + `!80] 
+							at ([xshift=-2.3mm, yshift=-` + fmt.Sprintf("%.1f", 0.4+yOffset) + `em]cell-top) {` + taskName + `};
+						\node[anchor=west, font=\scriptsize, color=` + task.Color + `!60] 
+							at ([xshift=-2.3mm, yshift=-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em]cell-top) {` + description + `};
+					\end{tikzpicture}`
+				} else if isEnd {
+					// End of task - show right-rounded rectangle, no text
+					overlay = `\begin{tikzpicture}[overlay, remember picture]
+						\coordinate (cell-left) at (-2.5mm,0);
+						\coordinate (cell-right) at (2.5mm,0);
+						
+						% Draw colored background bar
+						\draw[fill=` + task.Color + `!30, draw=` + task.Color + `!60, line width=0.3pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em);
+					\end{tikzpicture}`
 				} else {
-					// Show abbreviated indicator for continuation days
-					indicator := `\textcolor{` + task.Color + `}{\tiny \textbf{` + string(task.Name[0]) + `}}`
-					taskInfo = append(taskInfo, indicator)
+					// Middle of task - show plain rectangle, no text
+					overlay = `\begin{tikzpicture}[overlay, remember picture]
+						\coordinate (cell-left) at (-2.5mm,0);
+						\coordinate (cell-right) at (2.5mm,0);
+						
+						% Draw colored background bar with no rounded corners
+						\draw[fill=` + task.Color + `!30, draw=` + task.Color + `!60, line width=0.3pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em);
+					\end{tikzpicture}`
 				}
+				
+				overlays = append(overlays, overlay)
 			}
 			
-			// Create a cell with colored background and better layout
-			taskText := ""
-			if len(taskInfo) > 0 {
-				taskText = strings.Join(taskInfo, `\\`)
-			}
-			
-			// Use wider cell for better text display
-			cellContent := day
-			if taskText != "" {
-				cellContent = day + `\\` + taskText
-			}
-			
-			// Add a colored background with better width
-			color := d.SpanningTasks[0].Color // Use first task's color
-			return `\hyperlink{` + d.ref() + `}{\colorbox{` + color + `!20}{\begin{tabular}{@{}p{8mm}@{}}\centering ` + cellContent + `\end{tabular}}}`
+			// Combine all overlays
+			combinedOverlay := strings.Join(overlays, "")
+			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}}` + combinedOverlay
 		}
 		
 		// For large view, include regular tasks if any
@@ -252,32 +297,10 @@ func (d Day) TasksForDay() string {
 	
 	var taskStrings []string
 	for _, task := range d.Tasks {
-		// Create a well-formatted task entry with bold name and description
-		var taskParts []string
-		
-		// Bold task name with category
-		taskName := latex.Bold(task.Name)
-		if task.Category != "" {
-			taskName = latex.Bold("[" + task.Category + "] " + task.Name)
-		}
-		taskParts = append(taskParts, taskName)
-		
-		// Add description on new lines if present
-		if task.Description != "" {
-			// Use LaTeX text wrapping for long descriptions
-			// Split description into multiple lines for better readability
-			desc := task.Description
-			
-			// Use parbox for better text wrapping and smaller font
-			descFormatted := "\\parbox[t]{10mm}{\\footnotesize " + desc + "}"
-			taskParts = append(taskParts, descFormatted)
-		}
-		
-		// Join task name and description with line breaks
-		taskStr := strings.Join(taskParts, "\\\\")
+		// Format: [Category] Task Name
+		taskStr := "\\textbf{[" + task.Category + "]} " + task.Name
 		taskStrings = append(taskStrings, taskStr)
 	}
 	
-	// Join multiple tasks with double line breaks for better separation
-	return strings.Join(taskStrings, "\\\\[0.5ex]")
+	return strings.Join(taskStrings, "\\\\")
 }
