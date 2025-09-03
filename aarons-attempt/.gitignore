@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual envs
+.venv/
+venv/
+ENV/
+
+# Editors
+*.swp
+*.swo
+.vscode/
+.idea/

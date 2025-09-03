@@ -1,0 +1,8 @@
+pages:
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - breadcrumb_03_monthly.tpl
+
+
