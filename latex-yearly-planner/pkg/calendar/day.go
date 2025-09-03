@@ -84,10 +84,10 @@ func (d Day) Day(today, large interface{}) string {
 		// For large view, include regular tasks if any
 		tasks := d.TasksForDay()
 		if tasks != "" {
-			// Use wider column and better formatting for tasks
-			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{12mm}@{}|}\centering\textbf{` + day + `}\\ \hline ` + tasks + `\end{tabular}}`
+			// Use wider column and better formatting for tasks with proper text wrapping
+			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{15mm}@{}|}\centering\textbf{` + day + `}\\ \hline ` + tasks + `\end{tabular}}`
 		}
-		return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{12mm}@{}|}\centering\textbf{` + day + `}\\ \hline\end{tabular}}`
+		return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{15mm}@{}|}\centering\textbf{` + day + `}\\ \hline\end{tabular}}`
 	}
 
 	if td, ok := today.(Day); ok {

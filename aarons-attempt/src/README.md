@@ -1,4 +1,4 @@
-# 📦 LaTeX Gantt Chart Generator - Source Package
+# 📦 Source Package - LaTeX Gantt Chart Generator
 
 This directory contains the refactored source code for the LaTeX Gantt Chart Generator, organized as a proper Python package.
 
@@ -6,12 +6,19 @@ This directory contains the refactored source code for the LaTeX Gantt Chart Gen
 
 ```
 src/
-├── __init__.py          # Package initialization and exports
-├── app.py               # Main application entry point
-├── config.py            # Configuration management
-├── models.py            # Data models and validation
-├── data_processor.py    # CSV processing and data pipeline
-└── latex_generator.py   # LaTeX generation components
+├── __init__.py              # Package initialization and exports
+├── app.py                   # Main application entry point
+├── build.py                 # Enhanced build system
+├── config_manager.py        # Configuration management
+├── template_generators.py   # Template generation system
+├── config.py                # Core configuration classes
+├── models.py                # Data models and validation
+├── data_processor.py        # CSV processing and data pipeline
+├── latex_generator.py       # LaTeX generation components
+├── utils.py                 # Shared utilities
+└── config/                  # Configuration files
+    ├── templates.yaml       # Template definitions
+    └── device_profiles.yaml # Device profiles
 ```
 
 ## 🚀 Usage
@@ -54,7 +61,8 @@ python -m src.app --input data.csv --output timeline.tex --title "My Project"
 2. **Data Models**: Extend classes in `models.py`
 3. **Processing**: Add new processors to `data_processor.py`
 4. **LaTeX Generation**: Extend generators in `latex_generator.py`
-5. **Application**: Modify `app.py` for new CLI options
+5. **Templates**: Add new templates in `template_generators.py`
+6. **Application**: Modify `app.py` for new CLI options
 
 ### Testing
 ```bash
@@ -69,10 +77,12 @@ python -c "from src.models import Task; print('Models imported successfully')"
 
 ### Main Classes
 - **`Application`**: Main application class with logging and validation
+- **`BuildSystem`**: Enhanced build system for multiple templates and devices
 - **`Task`**: Represents a single task with validation and computed properties
 - **`ProjectTimeline`**: Complete project timeline with metadata
 - **`DataProcessor`**: Main coordinator for the data processing pipeline
 - **`LaTeXGenerator`**: Main coordinator for complete document generation
+- **`TemplateGeneratorFactory`**: Factory for creating template generators
 
 ### Configuration
 - **`config`**: Global configuration instance
@@ -80,10 +90,20 @@ python -c "from src.models import Task; print('Models imported successfully')"
 - **`CalendarConfig`**: Layout and styling configuration
 - **`TaskConfig`**: Task processing and categorization settings
 - **`LaTeXConfig`**: LaTeX document generation settings
+- **`ConfigManager`**: Enhanced configuration management with YAML support
 
-## 🔄 Migration from Legacy Code
+### Template Generators
+- **`GanttTimelineGenerator`**: Enhanced Gantt timeline with modern TikZ features
+- **`MonthlyCalendarGenerator`**: Monthly calendar view with task overlays
+- **`WeeklyPlannerGenerator`**: Weekly planner with detailed scheduling
 
-The package maintains full backward compatibility with the original monolithic script while providing a much more maintainable and extensible architecture.
+## 🔄 Architecture
+
+### Design Patterns
+- **Factory Pattern**: `TemplateGeneratorFactory` for creating generators
+- **Strategy Pattern**: Different template generators for different output types
+- **Configuration Pattern**: Centralized configuration management
+- **Pipeline Pattern**: Data processing pipeline from CSV to LaTeX
 
 ### Key Benefits
 - **Modular Design**: Clear separation of concerns
