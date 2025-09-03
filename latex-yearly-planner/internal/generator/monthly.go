@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	cal "github.com/kudrykv/latex-yearly-planner/internal/calendar"
 	"github.com/kudrykv/latex-yearly-planner/internal/config"
 	"github.com/kudrykv/latex-yearly-planner/internal/data"
-	cal "github.com/kudrykv/latex-yearly-planner/pkg/calendar"
 )
 
 func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {

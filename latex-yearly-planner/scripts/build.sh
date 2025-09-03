@@ -15,6 +15,7 @@ CFG_DEFAULT="configs/base.yaml,configs/page_template.yaml,configs/planner_config
 
 CFG="${CFG:-$CFG_DEFAULT}"
 PLANNERGEN_BINARY="${PLANNERGEN_BINARY:-build/plannergen}"
+OUTDIR="${OUTDIR:-build}"
 NAME="${NAME:-}"
 PLANNER_YEAR="${PLANNER_YEAR:-}"
 PASSES="${PASSES:-}"
@@ -35,6 +36,8 @@ while [[ $# -gt 0 ]]; do
       PLANNER_YEAR="$2"; shift 2 ;;
     -p|--passes)
       PASSES="$2"; shift 2 ;;
+    -o|--outdir)
+      OUTDIR="$2"; shift 2 ;;
     --csv)
       CSV_PATH="$2"; shift 2 ;;
     -h|--help)
@@ -54,5 +57,6 @@ if [[ -n "${NAME}" ]]; then export NAME; fi
 if [[ -n "${PLANNER_YEAR}" ]]; then export PLANNER_YEAR; fi
 if [[ -n "${PASSES}" ]]; then export PASSES; fi
 if [[ -n "${CSV_PATH}" ]]; then export PLANNER_CSV_FILE="$CSV_PATH"; fi
+if [[ -n "${OUTDIR}" ]]; then export OUTDIR; fi
 
 exec ./scripts/single.sh

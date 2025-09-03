@@ -4,11 +4,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/pkg/header"
-	"github.com/kudrykv/latex-yearly-planner/pkg/latex"
+	"github.com/kudrykv/latex-yearly-planner/internal/header"
+	"github.com/kudrykv/latex-yearly-planner/internal/latex"
 )
 
 type Years []*Year
+
 type Year struct {
 	Number   int
 	Quarters Quarters
@@ -18,11 +19,9 @@ type Year struct {
 func NewYear(wd time.Weekday, year int) *Year {
 	out := &Year{Number: year}
 	out.Weeks = NewWeeksForYear(wd, out)
-
 	for q := 1; q <= 4; q++ {
 		out.Quarters = append(out.Quarters, NewQuarter(wd, out, q))
 	}
-
 	return out
 }
 
@@ -40,44 +39,35 @@ func (y Year) Breadcrumb() string {
 
 func (y Year) SideQuarters(sel ...int) []header.CellItem {
 	out := make([]header.CellItem, 0, len(y.Quarters))
-
 	for i := len(y.Quarters) - 1; i >= 0; i-- {
 		mark := false
 		for _, oneof := range sel {
 			if oneof == y.Quarters[i].Number {
 				mark = true
-
 				break
 			}
 		}
-
 		out = append(out, header.NewCellItem(y.Quarters[i].Name()).Selected(mark))
 	}
-
 	return out
 }
 
 func (y Year) SideMonths(sel ...time.Month) []header.CellItem {
 	out := make([]header.CellItem, 0, 12)
-
 	for i := len(y.Quarters) - 1; i >= 0; i-- {
 		for j := len(y.Quarters[i].Months) - 1; j >= 0; j-- {
 			mon := y.Quarters[i].Months[j]
 			mark := false
-
 			for _, month := range sel {
 				if month == mon.Month {
 					mark = true
-
 					break
 				}
 			}
-
 			cell := header.NewCellItem(mon.ShortName()).Refer(mon.Month.String()).Selected(mark)
 			out = append(out, cell)
 		}
 	}
-
 	return out
 }
 

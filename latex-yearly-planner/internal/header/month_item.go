@@ -3,7 +3,7 @@ package header
 import (
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/pkg/latex"
+	"github.com/kudrykv/latex-yearly-planner/internal/latex"
 )
 
 type MonthItem struct {
@@ -29,16 +29,12 @@ func (m MonthItem) Display() string {
 
 func (m MonthItem) Ref() MonthItem {
 	m.ref = true
-
 	return m
 }
 
 func (m MonthItem) Shorten(f bool) MonthItem {
 	m.shorten = f
-
 	return m
 }
 
-func NewMonthItem(m time.Month) MonthItem {
-	return MonthItem{Val: m}
-}
+func NewMonthItem(mo time.Month) MonthItem { return MonthItem{Val: mo} }

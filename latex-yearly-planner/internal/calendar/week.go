@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/pkg/header"
-	"github.com/kudrykv/latex-yearly-planner/pkg/latex"
+	"github.com/kudrykv/latex-yearly-planner/internal/header"
+	"github.com/kudrykv/latex-yearly-planner/internal/latex"
 )
 
 type Weeks []*Week
@@ -154,47 +154,31 @@ func (w *Week) Breadcrumb() string {
 	}.Table(true)
 }
 
-func (w *Week) monthOverlap() bool {
-	return w.Days[0].Time.Month() != w.Days[6].Time.Month()
-}
-
-func (w *Week) quarterOverlap() bool {
-	return w.leftQuarter() != w.rightQuarter()
-}
-
-func (w *Week) leftQuarter() int {
-	return int(math.Ceil(float64(w.Days[0].Time.Month()) / 3.))
-}
-
-func (w *Week) rightQuarter() int {
-	return int(math.Ceil(float64(w.Days[6].Time.Month()) / 3.))
-}
+func (w *Week) monthOverlap() bool   { return w.Days[0].Time.Month() != w.Days[6].Time.Month() }
+func (w *Week) quarterOverlap() bool { return w.leftQuarter() != w.rightQuarter() }
+func (w *Week) leftQuarter() int     { return int(math.Ceil(float64(w.Days[0].Time.Month()) / 3.)) }
+func (w *Week) rightQuarter() int    { return int(math.Ceil(float64(w.Days[6].Time.Month()) / 3.)) }
 
 func (w *Week) rightMonth() time.Month {
 	for i := 6; i >= 0; i-- {
 		if w.Days[i].Time.IsZero() {
 			continue
 		}
-
 		return w.Days[i].Time.Month()
 	}
-
 	return -1
 }
 
 func (w *Week) PrevNext() header.Items {
 	items := header.Items{}
-
 	if w.PrevExists() {
 		wn := w.Prev().weekNumber()
 		items = append(items, header.NewTextItem("Week "+strconv.Itoa(wn)))
 	}
-
 	if w.NextExists() {
 		wn := w.Next().weekNumber()
 		items = append(items, header.NewTextItem("Week "+strconv.Itoa(wn)))
 	}
-
 	return items
 }
 
@@ -210,31 +194,22 @@ func (w *Week) PrevExists() bool {
 	return stilThisYear && isntTheFirstDayOfTheYear
 }
 
-func (w *Week) Next() *Week {
-	return fillWeekly(w.Weekday, w.Year, w.Days[0].Add(7))
-}
-
-func (w *Week) Prev() *Week {
-	return fillWeekly(w.Weekday, w.Year, w.Days[0].Add(-7))
-}
+func (w *Week) Next() *Week { return fillWeekly(w.Weekday, w.Year, w.Days[0].Add(7)) }
+func (w *Week) Prev() *Week { return fillWeekly(w.Weekday, w.Year, w.Days[0].Add(-7)) }
 
 func (w *Week) QuartersBreadcrumb() header.ItemsGroup {
 	group := header.ItemsGroup{}.Delim(" / ")
-
 	for _, quarter := range w.Quarters {
 		group.Items = append(group.Items, header.NewTextItem("Q"+strconv.Itoa(quarter.Number)))
 	}
-
 	return group
 }
 
 func (w *Week) MonthsBreadcrumb() header.ItemsGroup {
 	group := header.ItemsGroup{}.Delim(" / ")
-
 	for _, month := range w.Months {
 		group.Items = append(group.Items, header.NewMonthItem(month.Month))
 	}
-
 	return group
 }
 
@@ -243,11 +218,9 @@ func (w *Week) ref() string {
 	wn := w.weekNumber()
 	rm := w.rightMonth()
 	ry := w.rightYear()
-
 	if wn > 50 && rm == time.January && ry == w.Year.Number {
 		prefix = "fw"
 	}
-
 	return prefix + "Week " + strconv.Itoa(wn)
 }
 
@@ -256,10 +229,8 @@ func (w *Week) leftMonth() time.Month {
 		if day.Time.IsZero() {
 			continue
 		}
-
 		return day.Time.Month()
 	}
-
 	return -1
 }
 
@@ -268,38 +239,27 @@ func (w *Week) rightYear() int {
 		if w.Days[i].Time.IsZero() {
 			continue
 		}
-
 		return w.Days[i].Time.Year()
 	}
-
 	return -1
 }
 
 func (w *Week) HeadingMOS() string {
 	var contents []string
-
 	if w.PrevExists() {
 		leftNavBox := latex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\langle$`)
 		contents = append(contents, latex.Hyperlink(w.Prev().ref(), leftNavBox))
 	}
-
 	contents = append(contents, latex.ResizeBoxW(`\myLenHeaderResizeBox`, w.Target()))
-
 	if w.NextExists() {
 		rightNavBox := latex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\rangle$`)
 		contents = append(contents, latex.Hyperlink(w.Next().ref(), rightNavBox))
 	}
-
 	return latex.Tabular("@{}"+strings.Repeat("l", len(contents)), strings.Join(contents, ` & `))
 }
 
-func (w *Week) Name() string {
-	return "Week " + strconv.Itoa(w.weekNumber())
-}
-
-func (w *Week) Target() string {
-	return latex.Hypertarget(w.ref(), w.Name())
-}
+func (w *Week) Name() string   { return "Week " + strconv.Itoa(w.weekNumber()) }
+func (w *Week) Target() string { return latex.Hypertarget(w.ref(), w.Name()) }
 
 // HasDays returns true if the week contains at least one non-empty day.
 func (w *Week) HasDays() bool {

@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/pkg/header"
-	"github.com/kudrykv/latex-yearly-planner/pkg/latex"
+	"github.com/kudrykv/latex-yearly-planner/internal/header"
+	"github.com/kudrykv/latex-yearly-planner/internal/latex"
 )
 
 type Quarters []*Quarter
@@ -14,13 +14,10 @@ func (q Quarters) Numbers() []int {
 	if len(q) == 0 {
 		return nil
 	}
-
 	out := make([]int, 0, len(q))
-
 	for _, quarter := range q {
 		out = append(out, quarter.Number)
 	}
-
 	return out
 }
 
@@ -32,14 +29,11 @@ type Quarter struct {
 
 func NewQuarter(wd time.Weekday, year *Year, qrtr int) *Quarter {
 	out := &Quarter{Year: year, Number: qrtr}
-
 	start := time.Month(qrtr*3 - 2)
 	end := start + 2
-
 	for month := start; month <= end; month++ {
 		out.Months = append(out.Months, NewMonth(wd, year, out, month))
 	}
-
 	return out
 }
 
@@ -52,9 +46,7 @@ func (q *Quarter) Breadcrumb() string {
 	)}.Table(true)
 }
 
-func (q *Quarter) Name() string {
-	return "Q" + strconv.Itoa(q.Number)
-}
+func (q *Quarter) Name() string { return "Q" + strconv.Itoa(q.Number) }
 
 func (q *Quarter) HeadingMOS() string {
 	return ` \begin{tabular}{@{}l}

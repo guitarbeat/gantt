@@ -52,6 +52,32 @@ make run-csv
 make preview
 ```
 
+Cleaning outputs:
+
+```bash
+# Remove generated files from the configured OUTDIR (defaults to build/)
+make clean
+
+# Clean a custom output directory
+OUTDIR=dist make clean
+```
+
+You can customize the output directory. The CLI supports `--outdir`, and scripts accept `OUTDIR` env:
+
+```bash
+# Use custom output directory with Make
+OUTDIR=dist make preview
+
+# Or call the CLI directly
+go run ./cmd/plannergen --config configs/planner_config.yaml --outdir dist --preview
+```
+
+Flags:
+
+- `--config` (optional): path to config YAML (or multiple comma-separated). Defaults to `configs/planner_config.yaml`.
+- `--preview` (optional): render only one page per unique module
+- `--outdir` (optional): output directory for generated files. Overrides the config `OutputDir` and defaults to `build`.
+
 By default, templates are embedded into the binary. For development, you can override to load templates from disk by setting `DEV_TEMPLATES=1`:
 
 ```bash

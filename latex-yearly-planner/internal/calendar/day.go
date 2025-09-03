@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/pkg/header"
-	"github.com/kudrykv/latex-yearly-planner/pkg/latex"
+	"github.com/kudrykv/latex-yearly-planner/internal/header"
+	"github.com/kudrykv/latex-yearly-planner/internal/latex"
 )
 
 type Days []*Day
@@ -175,31 +175,19 @@ func (d Day) PrevNext(prefix string) header.Items {
 	return items
 }
 
-func (d Day) Next() Day {
-	return d.Add(1)
-}
+func (d Day) Next() Day { return d.Add(1) }
+func (d Day) Prev() Day { return d.Add(-1) }
 
-func (d Day) Prev() Day {
-	return d.Add(-1)
-}
-
-func (d Day) NextExists() bool {
-	return d.Time.Month() < time.December || d.Time.Day() < 31
-}
-
-func (d Day) PrevExists() bool {
-	return d.Time.Month() > time.January || d.Time.Day() > 1
-}
+func (d Day) NextExists() bool { return d.Time.Month() < time.December || d.Time.Day() < 31 }
+func (d Day) PrevExists() bool { return d.Time.Month() > time.January || d.Time.Day() > 1 }
 
 func (d Day) Hours(bottom, top int) Days {
 	moment := time.Date(1, 1, 1, bottom, 0, 0, 0, time.Local)
 	list := make(Days, 0, top-bottom+1)
-
 	for i := bottom; i <= top; i++ {
 		list = append(list, &Day{Time: moment, Tasks: nil, SpanningTasks: nil})
 		moment = moment.Add(time.Hour)
 	}
-
 	return list
 }
 
@@ -207,17 +195,11 @@ func (d Day) FormatHour(ampm interface{}) string {
 	if doAmpm, _ := ampm.(bool); doAmpm {
 		return d.Time.Format("3 PM")
 	}
-
 	return d.Time.Format("15")
 }
 
-func (d Day) Quarter() int {
-	return int(math.Ceil(float64(d.Time.Month()) / 3.))
-}
-
-func (d Day) Month() time.Month {
-	return d.Time.Month()
-}
+func (d Day) Quarter() int      { return int(math.Ceil(float64(d.Time.Month()) / 3.)) }
+func (d Day) Month() time.Month { return d.Time.Month() }
 
 func (d Day) HeadingMOS(prefix, leaf string) string {
 	day := strconv.Itoa(d.Time.Day())
@@ -226,29 +208,24 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 	}
 
 	anglesize := `\dimexpr\myLenHeaderResizeBox-0.86pt`
-
 	var ll, rl string
 	var r1, r2 []string
-
 	if d.PrevExists() {
 		ll = "l"
 		leftNavBox := latex.ResizeBoxW(anglesize, `$\langle$`)
 		r1 = append(r1, latex.Multirow(2, latex.Hyperlink(d.Prev().ref(prefix), leftNavBox)))
 		r2 = append(r2, "")
 	}
-
 	r1 = append(r1, latex.Multirow(2, latex.ResizeBoxW(`\myLenHeaderResizeBox`, day)))
 	r2 = append(r2, "")
 	r1 = append(r1, latex.Bold(d.Time.Weekday().String()))
 	r2 = append(r2, d.Time.Month().String())
-
 	if d.NextExists() {
 		rl = "l"
 		rightNavBox := latex.ResizeBoxW(anglesize, `$\rangle$`)
 		r1 = append(r1, latex.Multirow(2, latex.Hyperlink(d.Next().ref(prefix), rightNavBox)))
 		r2 = append(r2, "")
 	}
-
 	contents := strings.Join(r1, ` & `) + `\\` + "\n" + strings.Join(r2, ` & `)
 	return latex.Hypertarget(prefix+d.ref(), "") + latex.Tabular("@{}"+ll+"l|l"+rl, contents)
 }
@@ -258,17 +235,12 @@ func (d Day) TasksForDay() string {
 	if len(d.Tasks) == 0 {
 		return ""
 	}
-
 	var taskStrings []string
 	for _, task := range d.Tasks {
-		// Format: [Category] Task Name
-		// Use \allowbreak opportunities and smaller font inside brackets to reduce overfull hboxes.
-		// Note: LaTeX will ignore spaces after \allowbreak; this simply hints breakpoints.
 		safeCat := strings.ReplaceAll(task.Category, "-", "\\allowbreak-\\allowbreak")
 		cat := "\\textbf{\\scriptsize[" + safeCat + "]}"
 		taskStr := cat + " " + task.Name
 		taskStrings = append(taskStrings, taskStr)
 	}
-
 	return strings.Join(taskStrings, "\\\\")
 }

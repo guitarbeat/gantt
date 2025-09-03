@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/pkg/header"
-	"github.com/kudrykv/latex-yearly-planner/pkg/latex"
+	"github.com/kudrykv/latex-yearly-planner/internal/header"
+	"github.com/kudrykv/latex-yearly-planner/internal/latex"
 )
 
 type Months []*Month
@@ -130,9 +130,7 @@ func (m *Month) PrevNext() header.Items {
 	return items
 }
 
-func (m *Month) ShortName() string {
-	return m.Month.String()[:3]
-}
+func (m *Month) ShortName() string { return m.Month.String()[:3] }
 
 func (m *Month) HeadingMOS() string {
 	return `\begin{tabular}{@{}l}

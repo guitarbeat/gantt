@@ -34,6 +34,10 @@ type Config struct {
 	Pages Pages
 
 	Layout Layout
+
+	// OutputDir is the directory where generated .tex and .pdf files will be written
+	// Defaults to "build" when not provided via environment or config
+	OutputDir string `env:"PLANNER_OUTPUT_DIR"`
 }
 
 type Debug struct {
@@ -119,6 +123,11 @@ func NewConfig(pathConfigs ...string) (Config, error) {
 
 	if cfg.Year == 0 {
 		cfg.Year = time.Now().Year()
+	}
+
+	// Default output dir
+	if strings.TrimSpace(cfg.OutputDir) == "" {
+		cfg.OutputDir = "build"
 	}
 
 	// If CSV file is provided, determine date range dynamically

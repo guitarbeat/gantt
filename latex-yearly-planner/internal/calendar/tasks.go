@@ -48,10 +48,8 @@ func GetTaskOverlayForDay(day time.Time, task SpanningTask) string {
 	if day.Before(task.StartDate) || day.After(task.EndDate) {
 		return ""
 	}
-
 	// For now, return a simple overlay
-	return fmt.Sprintf("\\simpletaskoverlay{%s}{%s}{%s}",
-		task.Color, task.Name, task.Category)
+	return fmt.Sprintf("\\simpletaskoverlay{%s}{%s}{%s}", task.Color, task.Name, task.Category)
 }
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month
@@ -84,15 +82,12 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 // getColorForCategory returns a color for the given category
 func getColorForCategory(category string) string {
 	colorMap := map[string]string{
-		// Academic/Research Categories
-		"PROPOSAL":     "blue",
-		"ADMIN":        "gray",
-		"LASER":        "red",
-		"IMAGING":      "green",
-		"PUBLICATION":  "purple",
-		"DISSERTATION": "orange",
-
-		// General Categories
+		"PROPOSAL":      "blue",
+		"ADMIN":         "gray",
+		"LASER":         "red",
+		"IMAGING":       "green",
+		"PUBLICATION":   "purple",
+		"DISSERTATION":  "orange",
 		"Planning":      "blue",
 		"Research":      "green",
 		"Development":   "orange",
@@ -102,7 +97,6 @@ func getColorForCategory(category string) string {
 		"Review":        "brown",
 		"Default":       "gray",
 	}
-
 	if color, exists := colorMap[category]; exists {
 		return color
 	}
