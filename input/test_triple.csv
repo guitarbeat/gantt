@@ -1,0 +1,4 @@
+Task ID,Task Name,Parent Task ID,Category,Start Date,Due Date,Dependencies,Description
+A,Draft timeline v1,,PROPOSAL,2025-09-01,2025-09-05,,"Create initial project timeline for Tuesday review with Andy. Bring both printed and digital copies to meeting."
+B,Literature review,,RESEARCH,2025-09-03,2025-09-08,,"Comprehensive review of recent publications on laser imaging techniques. Focus on 2023-2025 papers."
+C,Lab equipment maintenance,,ADMIN,2025-09-04,2025-09-06,,"Monthly calibration and cleaning of laser systems. Update maintenance logs and order replacement parts."

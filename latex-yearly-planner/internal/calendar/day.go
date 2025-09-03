@@ -148,6 +148,26 @@ func (d Day) Day(today, large interface{}) string {
 	return latex.Link(d.ref(), day)
 }
 
+// renderRegularTasks handles rendering of regular (non-spanning) tasks
+func (d Day) renderRegularTasks(day string) string {
+	leftCell := `\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}`
+
+	if tasks := d.TasksForDay(); tasks != "" {
+		return `\hyperlink{` + d.ref() + `}{` +
+			`{\begingroup` +
+			`\makebox[0pt][l]{` + leftCell + `}` +
+			`\hspace*{5mm}` +
+			`\begin{minipage}[t]{\dimexpr\linewidth\relax}` +
+			`\footnotesize{` + tasks + `}` +
+			`\end{minipage}` +
+			`\endgroup}` +
+			`}`
+	}
+
+	// No tasks: just the day number
+	return `\hyperlink{` + d.ref() + `}{` + leftCell + `}`
+}
+
 func (d Day) ref(prefix ...string) string {
 	p := ""
 

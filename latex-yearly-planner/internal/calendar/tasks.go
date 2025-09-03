@@ -55,7 +55,7 @@ func GetTaskOverlayForDay(day time.Time, task SpanningTask) string {
 // ApplySpanningTasksToMonth applies spanning tasks to a month
 func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 	// Apply spanning tasks to the appropriate days in the month
-	for _, task := range tasks {
+	for taskIndex, task := range tasks {
 		// Find all days in the month that this task spans
 		current := task.StartDate
 		for !current.After(task.EndDate) {
@@ -67,8 +67,10 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 						if week.Days[i].Time.Day() == current.Day() &&
 							week.Days[i].Time.Month() == current.Month() &&
 							week.Days[i].Time.Year() == current.Year() {
+							// Create a copy of the task to avoid pointer issues
+							taskCopy := tasks[taskIndex]
 							// Add the spanning task to this day
-							week.Days[i].SpanningTasks = append(week.Days[i].SpanningTasks, &task)
+							week.Days[i].SpanningTasks = append(week.Days[i].SpanningTasks, &taskCopy)
 							break
 						}
 					}
@@ -88,6 +90,7 @@ func getColorForCategory(category string) string {
 		"IMAGING":       "green",
 		"PUBLICATION":   "purple",
 		"DISSERTATION":  "orange",
+		"RESEARCH":      "green",
 		"Planning":      "blue",
 		"Research":      "green",
 		"Development":   "orange",
