@@ -2,6 +2,7 @@ package generator
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/kudrykv/latex-yearly-planner/internal/config"
 	"github.com/kudrykv/latex-yearly-planner/internal/data"
@@ -99,25 +100,29 @@ func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
 
 // assignTasksToMonth assigns tasks to the appropriate days in a month
 func assignTasksToMonth(month *cal.Month, tasks []data.Task) {
+	// Convert data.Task to SpanningTask and apply to month
+	var spanningTasks []cal.SpanningTask
+	
 	for _, task := range tasks {
-		// Check if task falls within this month
-		if task.StartDate.Month() == month.Month && task.StartDate.Year() == month.Year.Number {
-			// Find the day in the month and add the task
-			for _, week := range month.Weeks {
-				for _, day := range week.Days {
-					if day.Time.Day() == task.StartDate.Day() {
-						// Convert data.Task to calendar.Task
-						calTask := cal.Task{
-							ID:          task.ID,
-							Name:        task.Name,
-							Description: task.Description,
-							Category:    task.Priority, // Use Priority field which now contains Category
-						}
-						day.Tasks = append(day.Tasks, calTask)
-						break
-					}
-				}
+		// Check if task overlaps with this month
+		monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.Local)
+		monthEnd := monthStart.AddDate(0, 1, -1)
+		
+		if task.StartDate.Before(monthEnd.AddDate(0, 0, 1)) && task.EndDate.After(monthStart.AddDate(0, 0, -1)) {
+			// Convert data.Task to calendar.Task first
+			calTask := cal.Task{
+				ID:          task.ID,
+				Name:        task.Name,
+				Description: task.Description,
+				Category:    task.Priority, // Use Priority field which now contains Category
 			}
+			
+			// Create spanning task
+			spanningTask := cal.CreateSpanningTask(calTask, task.StartDate, task.EndDate)
+			spanningTasks = append(spanningTasks, spanningTask)
 		}
 	}
+	
+	// Apply spanning tasks to the month
+	cal.ApplySpanningTasksToMonth(month, spanningTasks)
 }

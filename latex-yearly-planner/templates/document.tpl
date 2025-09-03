@@ -28,6 +28,8 @@
 \hypersetup{hidelinks}
 {{- end}}
 
+% Task overlay definitions are now handled in Go code
+
 
 \geometry{paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}
 \geometry{

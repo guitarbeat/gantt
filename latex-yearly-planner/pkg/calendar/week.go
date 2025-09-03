@@ -28,7 +28,7 @@ func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month) 
 	week := &Week{Weekday: wd, Year: year, Months: Months{month}, Quarters: Quarters{qrtr}}
 
 	for i := shift; i < 7; i++ {
-		week.Days[i] = Day{Time: ptr, Tasks: nil}
+		week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTask: nil}
 		ptr = ptr.AddDate(0, 0, 1)
 	}
 
@@ -43,7 +43,7 @@ func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month) 
 				break
 			}
 
-			week.Days[i] = Day{Time: ptr, Tasks: nil}
+			week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTask: nil}
 			ptr = ptr.AddDate(0, 0, 1)
 		}
 
@@ -115,7 +115,7 @@ func selectStartWeek(year int, weekStart time.Weekday) Day {
 		sow = sow.AddDate(0, 0, -7)
 	}
 
-	return Day{Time: sow, Tasks: nil}
+	return Day{Time: sow, Tasks: nil, SpanningTask: nil}
 }
 
 func (w *Week) WeekNumber(large interface{}) string {

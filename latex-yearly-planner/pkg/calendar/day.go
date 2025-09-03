@@ -12,8 +12,9 @@ import (
 
 type Days []*Day
 type Day struct {
-	Time  time.Time
-	Tasks []Task
+	Time         time.Time
+	Tasks        []Task
+	SpanningTask *SpanningTask
 }
 
 // Task represents a task for a specific day
@@ -32,7 +33,34 @@ func (d Day) Day(today, large interface{}) string {
 	day := strconv.Itoa(d.Time.Day())
 
 	if larg, _ := large.(bool); larg {
-		// For large view, include tasks if any
+		// Check for spanning task overlay
+		if d.SpanningTask != nil {
+			// Truncate long task names to fit in the cell
+			taskName := d.SpanningTask.Name
+			if len(taskName) > 12 {
+				taskName = taskName[:9] + "..."
+			}
+			
+			// Create a TikZ overlay that doesn't affect cell height
+			overlay := `\begin{tikzpicture}[overlay, remember picture]
+				\coordinate (cell-top) at (0,0);
+				\coordinate (cell-bottom) at (0,-0.8em);
+				\coordinate (cell-left) at (-2.5mm,0);
+				\coordinate (cell-right) at (2.5mm,0);
+				
+				% Draw colored background bar
+				\draw[fill=` + d.SpanningTask.Color + `!30, draw=` + d.SpanningTask.Color + `!60, line width=0.3pt] 
+					(cell-left) ++(0,-0.2em) rectangle (cell-right) ++(0,-0.6em);
+				
+				% Add task text
+				\node[anchor=west, font=\tiny, color=` + d.SpanningTask.Color + `!80] 
+					at ([xshift=-2.3mm, yshift=-0.4em]cell-top) {` + taskName + `};
+			\end{tikzpicture}`
+			
+			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}}` + overlay
+		}
+		
+		// For large view, include regular tasks if any
 		tasks := d.TasksForDay()
 		if tasks != "" {
 			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\footnotesize{}` + tasks + `\end{tabular}}`
@@ -60,7 +88,7 @@ func (d Day) ref(prefix ...string) string {
 }
 
 func (d Day) Add(days int) Day {
-	return Day{Time: d.Time.AddDate(0, 0, days), Tasks: nil}
+	return Day{Time: d.Time.AddDate(0, 0, days), Tasks: nil, SpanningTask: nil}
 }
 
 func (d Day) WeekLink() string {
@@ -137,7 +165,7 @@ func (d Day) Hours(bottom, top int) Days {
 	list := make(Days, 0, top-bottom+1)
 
 	for i := bottom; i <= top; i++ {
-		list = append(list, &Day{Time: moment, Tasks: nil})
+		list = append(list, &Day{Time: moment, Tasks: nil, SpanningTask: nil})
 		moment = moment.Add(time.Hour)
 	}
 
