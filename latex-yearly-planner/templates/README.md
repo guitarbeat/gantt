@@ -10,7 +10,7 @@ Templates are flattened under `templates/monthly/`:
 - `document.tpl` — Preamble and document wrapper; includes macros and pages.
 - `macro.tpl` — Macros and length definitions shared by monthly templates.
 - `monthTabularV2.tpl` — The monthly table (tabularx) structure.
-- `_common_03_monthly.tpl` — Monthly body (month grid + two Notes columns).
+- `_common_03_monthly.tpl` — Monthly body (month grid + single full-width Notes area).
 - `breadcrumb_00_header.tpl` — Header rendering for the monthly page.
 - `breadcrumb_03_monthly.tpl` — Assembles monthly page sections.
 
@@ -41,4 +41,4 @@ This will use templates from disk and run a preview build (unique pages only whe
 - Day cell content is composed of:
   - A compact corner day number (mini-tabular) overlaid on the left.
   - A right-side `minipage` with `\raggedright` content to avoid leaking table tokens.
-- Notes columns rely on vertical leaders of vboxed `\hrule`s with explicit `\vskip` glue, avoiding problematic dotted modes.
+- Notes area relies on vertical leaders of vboxed `\hrule`s with explicit `\vskip` glue, avoiding problematic dotted modes.

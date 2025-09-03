@@ -38,8 +38,12 @@ func (d Day) Day(today, large interface{}) string {
 
 		// Right side: bars for spanning tasks and/or regular tasks list
 		var rightLines []string
+		// Optional overlay for multi-day spanning task rendered once on the start day
+		overlayStart := false
+		overlayCols := 1
+		overlayContent := ""
 
-		// Spanning task bars
+		// Spanning task rendering
 		if len(d.SpanningTasks) > 0 {
 			dayDate := time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
 			for _, task := range d.SpanningTasks {
@@ -48,26 +52,40 @@ func (d Day) Day(today, large interface{}) string {
 				if dayDate.Before(start) || dayDate.After(end) {
 					continue
 				}
-				// Thin colored bar across the right column width
-				bar := `\textcolor{` + task.Color + `}{\rule{\linewidth}{0.6pt}}`
+
 				if dayDate.Equal(start) {
-					// Start day: show concise text after the bar
-					name := task.Name
-					if len(name) > 28 {
-						name = name[:25] + "..."
+					// Start day: render a single overlay block that visually spans multiple columns in the week row
+					// Determine how many columns we can span in this row (up to week boundary or task end)
+					idxMonFirst := (int(dayDate.Weekday()) + 6) % 7 // Monday=0
+					remainInRow := 7 - idxMonFirst
+					totalRemain := int(end.Sub(start).Hours()/24) + 1
+					if totalRemain < 1 {
+						totalRemain = 1
 					}
-					desc := task.Description
-					if len(desc) > 32 {
-						desc = desc[:29] + "..."
+					overlayCols = totalRemain
+					if overlayCols > remainInRow {
+						overlayCols = remainInRow
 					}
-					text := name
-					if desc != "" {
-						text = name + ` — ` + desc
+
+					// Build name/description separately
+					nameText := strings.TrimSpace(task.Name)
+					descText := strings.TrimSpace(task.Description)
+
+					// Compose overlay content with a single highlight bar and a legible colorboxed block
+					// - Bar uses task color
+					// - Background uses a light tint of the task color
+					// - Text is black; name bold on top, description below
+					boxBody := `\parbox{\linewidth}{` + `{\color{black}\textbf{\small ` + nameText + `}}`
+					if descText != "" {
+						boxBody += `\\[-0.15ex]{\color{black}\footnotesize ` + descText + `}`
 					}
-					rightLines = append(rightLines, bar)
-					rightLines = append(rightLines, `\textcolor{`+task.Color+`}{\scriptsize `+text+`}`)
+					boxBody += `}`
+
+					overlayContent = `\textcolor{` + task.Color + `}{\rule{\linewidth}{0.6pt}}` + `\\[0.25ex]` +
+						`{\begingroup\setlength{\fboxsep}{2pt}\colorbox{` + task.Color + `!12}{` + boxBody + `}\endgroup}`
+					overlayStart = true
 				} else {
-					rightLines = append(rightLines, bar)
+					// Mid/end days: do not add duplicate bars/text; the overlay from the start day will visually cover
 				}
 			}
 		}
@@ -79,6 +97,18 @@ func (d Day) Day(today, large interface{}) string {
 				rightLines = append(rightLines, `\vspace{0.1ex}\textcolor{black!30}{\rule{\linewidth}{0.3pt}}`)
 			}
 			rightLines = append(rightLines, `\footnotesize{`+tasks+`}`)
+		}
+
+		// If we built an overlay for a spanning task start, render it to span multiple columns
+		if overlayStart {
+			// Compute width across overlayCols columns using \dimexpr N\linewidth
+			width := `\dimexpr ` + strconv.Itoa(overlayCols) + `\linewidth-5mm\relax`
+			return `\hyperlink{` + d.ref() + `}{` +
+				`{\begingroup` +
+				`\makebox[0pt][l]{` + leftCell + `}` +
+				`\makebox[0pt][l]{` + `\hspace*{5mm}` + `\begin{minipage}[t]{` + width + `}\raggedright` + overlayContent + `\end{minipage}` + `}` +
+				`\endgroup}` +
+				`}`
 		}
 
 		if len(rightLines) > 0 {
@@ -244,3 +274,7 @@ func (d Day) TasksForDay() string {
 	}
 	return strings.Join(taskStrings, "\\\\")
 }
+
+// segmentByWords splits a sentence into N roughly equal word segments and returns the idx-th segment.
+// If idx is out of range or there are no words left for that segment, returns an empty string.
+// (segmentation helper removed; overlay approach renders a single block across columns)

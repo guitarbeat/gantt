@@ -122,35 +122,12 @@ func assignTasksToMonth(month *cal.Month, tasks []data.Task) {
 
 		if task.StartDate.Before(monthEnd.AddDate(0, 0, 1)) && task.EndDate.After(monthStart.AddDate(0, 0, -1)) {
 			// Create spanning task directly from data.Task
+			// Rendering rules:
+			// - Start day: show a thin colored bar + a single concise text label.
+			// - Middle/end days: show only the bar (no repeated labels).
+			// Therefore, we DO NOT add this task as a regular per-day entry to avoid duplication.
 			spanningTask := cal.CreateSpanningTask(task, task.StartDate, task.EndDate)
 			spanningTasks = append(spanningTasks, spanningTask)
-
-			// Also add as regular tasks to individual days for better display
-			current := task.StartDate
-			for !current.After(task.EndDate) {
-				// Check if this day is in the current month
-				if current.Month() == month.Month && current.Year() == month.Year.Number {
-					// Find the day in the month and add the task
-					for _, week := range month.Weeks {
-						for i := range week.Days {
-							if week.Days[i].Time.Day() == current.Day() &&
-								week.Days[i].Time.Month() == current.Month() &&
-								week.Days[i].Time.Year() == current.Year() {
-								// Add as regular task for detailed display
-								dayTask := cal.Task{
-									ID:          task.ID,
-									Name:        task.Name,
-									Description: task.Description,
-									Category:    task.Priority, // Category stored in Priority field
-								}
-								week.Days[i].Tasks = append(week.Days[i].Tasks, dayTask)
-								break
-							}
-						}
-					}
-				}
-				current = current.AddDate(0, 0, 1)
-			}
 		}
 	}
 

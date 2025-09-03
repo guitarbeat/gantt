@@ -1,14 +1,8 @@
 {{- template "monthTabularV2.tpl" dict "Cfg" .Cfg "Body" .Body -}}
 \smallskip
 
-\parbox{\myLenTwoCol}{
-  \myUnderline{Notes}
-  \vbox to \dimexpr\textheight-\pagetotal-\myLenLineHeightButLine\relax {%
-    \leaders\vbox to \myLenLineHeightButLine{\vfil\hrule width \linewidth height \myLenLineThicknessDefault}\vskip \dimexpr\textheight-\pagetotal-\myLenLineHeightButLine\relax
-  }%
-}%
-\hspace{\myLenTwoColSep}%
-\parbox{\myLenTwoCol}{
+% Single full-width Notes area (replaces previous two-column layout)
+\parbox{\textwidth}{
   \myUnderline{Notes}
   \vbox to \dimexpr\textheight-\pagetotal-\myLenLineHeightButLine\relax {%
     \leaders\vbox to \myLenLineHeightButLine{\vfil\hrule width \linewidth height \myLenLineThicknessDefault}\vskip \dimexpr\textheight-\pagetotal-\myLenLineHeightButLine\relax
