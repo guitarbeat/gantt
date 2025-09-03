@@ -1,3 +1,4 @@
+% moved from templates/macro.tpl
 \ExplSyntaxOn
 \cs_new_eq:NN \Repeat \prg_replicate:nn
 \ExplSyntaxOff
@@ -39,15 +40,11 @@
 \setlength{\myLenHeaderResizeBox}{ {{- $lengths.HeaderResizeBox -}} }
 \setlength{\myLenHeaderSideMonthsWidth}{ {{- $lengths.HeaderSideMonthsWidth -}} }
 
-
 \NewDocumentCommand{\myMonthlySpring}{}{ {{- $lengths.MonthlySpring -}} }
-
 \NewDocumentCommand{\myColorGray}{}{ {{- .Cfg.Layout.Colors.Gray -}} }
 \NewDocumentCommand{\myColorLightGray}{}{ {{- .Cfg.Layout.Colors.LightGray -}} }
-
 \NewDocumentCommand{\myLinePlain}{}{\hrule width \linewidth height \myLenLineThicknessDefault}
 \NewDocumentCommand{\myLineThick}{}{\hrule width \linewidth height \myLenLineThicknessThick}
-
 \NewDocumentCommand{\myLineHeightButLine}{}{\myMinLineHeight{\myLenLineHeightButLine}}
 \NewDocumentCommand{\myUnderline}{m}{#1\vskip1mm\myLineThick\par}
 \NewDocumentCommand{\myLineColor}{m}{\textcolor{#1}{\myLinePlain}}
@@ -55,28 +52,25 @@
 \NewDocumentCommand{\myLineLightGray}{}{\myLineColor{\myColorLightGray}}
 \NewDocumentCommand{\myLineGrayVskipBottom}{}{\myLineGray\vskip\myLenLineHeightButLine}
 \NewDocumentCommand{\myLineGrayVskipTop}{}{\vskip\myLenLineHeightButLine\myLineGray}
-
 \NewDocumentCommand{\myTodo}{}{\myLineHeightButLine$\square$\myLinePlain}
 \NewDocumentCommand{\myTodoLineGray}{}{\myLineHeightButLine$\square$\myLineGray}
-
-% Draw a dotted grid using LaTeX picture environment to ensure \put/\circle* are defined
+% Draw a dotted grid of size (#1 x #2) with 5mm spacing using LaTeX picture environment
+% We wrap in a picture environment so that \put and \circle* are defined
 \NewDocumentCommand{\myDotGrid}{mm}{%
   \leavevmode\begingroup
-  \setlength{\unitlength}{1mm}% coordinates in mm
-  \begin{picture}(0,0)
-    \multido{\dC=0+5}{#1}{\multido{\dR=0+5}{#2}{\put(\dR,\dC){\circle*{0.1}}}}
+  \setlength{\unitlength}{1mm}% use millimeters for coordinates
+  \begin{picture}(0,0)% zero-sized picture, we only place absolute dots
+    \multido{\dC=0+5}{#1}{%
+      \multido{\dR=0+5}{#2}{\put(\dR,\dC){\circle*{0.1}}}%
+    }%
   \end{picture}%
   \endgroup
 }
-
-\NewDocumentCommand{\myMash}{O{}mm}{
-  {{- if $.Cfg.Dotted -}} \vskip\myLenLineHeightButLine#1\myDotGrid{#2}{#3} {{- else -}} \Repeat{#2}{\myLineGrayVskipTop} {{- end -}}
-}
-
-\NewDocumentCommand{\remainingHeight}{}{%
+\NewDocumentCommand{\myMash}{O{}mm}{ {{- if $.Cfg.Dotted -}} \vskip\myLenLineHeightButLine#1\myDotGrid{#2}{#3} {{- else -}} \Repeat{#2}{\myLineGrayVskipTop} {{- end -}} }
+\NewDocumentCommand{\remainingHeight}{}{
   \ifdim\pagegoal=\maxdimen
   \dimexpr\textheight-9.4pt\relax
   \else
   \dimexpr\pagegoal-\pagetotal-\lineskip-9.4pt\relax
-  \fi%
+  \fi
 }

@@ -21,10 +21,8 @@ latex-yearly-planner/
 │   ├── header/            # Header components
 │   └── latex/             # LaTeX utilities
 ├── configs/               # Configuration files
-├── templates/             # LaTeX templates
-│   ├── common/           # Common templates
-│   ├── breadcrumbs/      # Breadcrumb templates
-│   └── layouts/          # Layout templates
+├── templates/             # LaTeX templates (embedded)
+│   └── monthly/          # Flattened monthly templates (*.tpl)
 ├── scripts/              # Build scripts
 └── build/                # Build output (gitignored)
 ```
@@ -32,13 +30,19 @@ latex-yearly-planner/
 ## Building
 
 ```bash
-go build -o build/plannergen ./cmd/plannergen
+make build
 ```
 
 ## Usage
 
 ```bash
-./build/plannergen --config configs/planner_config.yaml
+make run
+```
+
+By default, templates are embedded into the binary. For development, you can override to load templates from disk by setting `DEV_TEMPLATES=1`:
+
+```bash
+DEV_TEMPLATES=1 make run
 ```
 
 ## Configuration
@@ -51,13 +55,9 @@ The application uses YAML configuration files in the `configs/` directory:
 
 ## Templates
 
-LaTeX templates are organized in the `templates/` directory:
-
-- `common/` - Shared template components
-- `breadcrumbs/` - Navigation breadcrumb templates
-- `layouts/` - Page layout templates
-- `document.tpl` - Main document template
-- `macro.tpl` - LaTeX macro definitions
+- All LaTeX templates used at runtime live under `templates/monthly/*.tpl` and are embedded into the binary.
+- During development, set `DEV_TEMPLATES=1` to load from the filesystem instead of the embedded FS.
+- The main entry is `document.tpl`, which includes other templates in that directory.
 
 ## Development
 

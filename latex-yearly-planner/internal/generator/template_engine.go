@@ -4,10 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/fs"
+	"os"
 	"path/filepath"
 	"text/template"
 
 	"github.com/kudrykv/latex-yearly-planner/internal/config"
+	tmplfs "github.com/kudrykv/latex-yearly-planner/templates"
 )
 
 var tpl = func() *template.Template {
@@ -45,20 +48,33 @@ var tpl = func() *template.Template {
 			return i != nil
 		},
 	})
-	
-	// Parse templates from root directory
-	var err error
-	t, err = t.ParseGlob(filepath.Join("templates", "*.tpl"))
-	if err != nil {
-		panic(fmt.Sprintf("failed to parse root templates: %v", err))
+
+	// Choose source of templates: embedded by default, filesystem when DEV_TEMPLATES is set
+	var (
+		err error
+		useFS fs.FS
+	)
+
+	if os.Getenv("DEV_TEMPLATES") != "" {
+		// Use on-disk templates for development override
+		useFS = os.DirFS(filepath.Join("templates", "monthly"))
+	} else {
+		// Use embedded templates from templates.FS
+		// Narrow to monthly/ subdir
+		var sub fs.FS
+		sub, err = fs.Sub(tmplfs.FS, "monthly")
+		if err != nil {
+			panic(fmt.Sprintf("failed to sub FS for monthly templates: %v", err))
+		}
+		useFS = sub
 	}
-	
-	// Parse templates from subdirectories
-	t, err = t.ParseGlob(filepath.Join("templates", "*", "*.tpl"))
+
+	// Parse all *.tpl templates from the selected FS
+	t, err = t.ParseFS(useFS, "*.tpl")
 	if err != nil {
-		panic(fmt.Sprintf("failed to parse subdirectory templates: %v", err))
+		panic(fmt.Sprintf("failed to parse monthly templates: %v", err))
 	}
-	
+
 	return t
 }()
 

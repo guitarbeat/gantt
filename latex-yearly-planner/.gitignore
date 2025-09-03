@@ -5,7 +5,7 @@ build/
 plannergen
 
 # Generated PDFs
-test-single-task.pdf
+*.pdf
 
 # Go build artifacts
 *.exe
