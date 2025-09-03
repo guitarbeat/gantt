@@ -71,13 +71,13 @@ make list
 ### Advanced Usage
 ```bash
 # Generate with specific template and device
-python main.py build single input/data.cleaned.csv -t monthly_calendar -d supernote_a5x
+python main.py build single ../input/data.cleaned.csv -t monthly_calendar -d supernote_a5x
 
 # Generate all templates
-python main.py build all-templates input/data.cleaned.csv
+python main.py build all-templates ../input/data.cleaned.csv
 
 # Generate for all devices
-python main.py build all-devices input/data.cleaned.csv
+python main.py build all-devices ../input/data.cleaned.csv
 
 # List available configurations
 python main.py build list
@@ -102,7 +102,7 @@ python main.py --template monthly_calendar --device supernote_a5x
 │   └── config/                  # Configuration files
 │       ├── templates.yaml       # Template definitions
 │       └── device_profiles.yaml # Device profiles
-├── input/                       # Input data
+├── ../input/                    # Input data (moved to root)
 │   ├── data.csv                 # Source CSV
 │   └── data.cleaned.csv         # Cleaned CSV
 ├── output/                      # Generated files

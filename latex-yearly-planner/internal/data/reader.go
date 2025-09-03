@@ -98,6 +98,11 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 			continue
 		}
 
+		// Only import task A (Draft timeline v1)
+		if task.ID != "A" {
+			continue
+		}
+
 		tasks = append(tasks, task)
 	}
 
@@ -211,14 +216,11 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 	}
 
 	task.Name = getField("Task Name")
-	task.Priority = getField("Priority")
-	task.Status = getField("Status")
-	task.Assignee = getField("Assignee")
 	task.Description = getField("Description")
 	
 	// Parse category from CSV
 	if category := getField("Category"); category != "" {
-		task.Priority = category // Using Priority field to store category for now
+		task.Priority = category // Using Priority field to store category
 	}
 
 	// Parse dates
@@ -240,20 +242,11 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 		task.EndDate = endDate
 	}
 
-	// Parse numeric fields
-	if durationStr := getField("Duration (days)"); durationStr != "" {
-		if duration, err := fmt.Sscanf(durationStr, "%d", &task.Duration); err != nil || duration != 1 {
-			// If parsing fails, set to 0
-			task.Duration = 0
-		}
-	}
-
-	if progressStr := getField("Progress (%)"); progressStr != "" {
-		if progress, err := fmt.Sscanf(progressStr, "%d", &task.Progress); err != nil || progress != 1 {
-			// If parsing fails, set to 0
-			task.Progress = 0
-		}
-	}
+	// Set default values for fields not in CSV
+	task.Duration = 0
+	task.Progress = 0
+	task.Status = "Planned" // Default status
+	task.Assignee = "" // No assignee field in CSV
 
 	return task, nil
 }

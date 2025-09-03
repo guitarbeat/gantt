@@ -3,6 +3,8 @@ package calendar
 import (
 	"fmt"
 	"time"
+
+	"github.com/kudrykv/latex-yearly-planner/internal/data"
 )
 
 // SpanningTask represents a task that spans multiple days
@@ -15,22 +17,28 @@ type SpanningTask struct {
 	EndDate     time.Time
 	Color       string
 	Priority    int
+	Progress    int    // Progress percentage (0-100)
+	Status      string // Task status
+	Assignee    string // Task assignee
 }
 
 // CreateSpanningTask creates a new spanning task from basic task data
-func CreateSpanningTask(task Task, startDate, endDate time.Time) SpanningTask {
-	// Assign color based on category
-	color := getColorForCategory(task.Category)
+func CreateSpanningTask(task data.Task, startDate, endDate time.Time) SpanningTask {
+	// Assign color based on category (stored in Priority field)
+	color := getColorForCategory(task.Priority)
 
 	return SpanningTask{
 		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
-		Category:    task.Category,
+		Category:    task.Priority, // Category is stored in Priority field
 		StartDate:   startDate,
 		EndDate:     endDate,
 		Color:       color,
 		Priority:    1,
+		Progress:    task.Progress,
+		Status:      task.Status,
+		Assignee:    task.Assignee,
 	}
 }
 
@@ -61,8 +69,8 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 						if week.Days[i].Time.Day() == current.Day() && 
 						   week.Days[i].Time.Month() == current.Month() &&
 						   week.Days[i].Time.Year() == current.Year() {
-							// Set the spanning task for this day
-							week.Days[i].SpanningTask = &task
+							// Add the spanning task to this day
+							week.Days[i].SpanningTasks = append(week.Days[i].SpanningTasks, &task)
 							break
 						}
 					}
@@ -76,6 +84,15 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 // getColorForCategory returns a color for the given category
 func getColorForCategory(category string) string {
 	colorMap := map[string]string{
+		// Academic/Research Categories
+		"PROPOSAL":     "blue",
+		"ADMIN":        "gray",
+		"LASER":        "red",
+		"IMAGING":      "green",
+		"PUBLICATION":  "purple",
+		"DISSERTATION": "orange",
+		
+		// General Categories
 		"Planning":     "blue",
 		"Research":     "green", 
 		"Development":  "orange",

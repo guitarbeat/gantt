@@ -47,11 +47,19 @@ var tpl = func() *template.Template {
 	})
 	
 	// Parse templates from root directory
-	t, _ = t.ParseGlob(filepath.Join("templates", "*.tpl"))
-	// Parse templates from subdirectories
-	t, _ = t.ParseGlob(filepath.Join("templates", "*", "*.tpl"))
+	var err error
+	t, err = t.ParseGlob(filepath.Join("templates", "*.tpl"))
+	if err != nil {
+		panic(fmt.Sprintf("failed to parse root templates: %v", err))
+	}
 	
-	return template.Must(t, nil)
+	// Parse templates from subdirectories
+	t, err = t.ParseGlob(filepath.Join("templates", "*", "*.tpl"))
+	if err != nil {
+		panic(fmt.Sprintf("failed to parse subdirectory templates: %v", err))
+	}
+	
+	return t
 }()
 
 type Tpl struct {

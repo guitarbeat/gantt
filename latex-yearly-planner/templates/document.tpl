@@ -1,28 +1,49 @@
 \documentclass[9pt]{extarticle}
 
-\usepackage{geometry}
-\usepackage[table]{xcolor}
-{{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
-\usepackage{calc}
-\usepackage{dashrule}
-\usepackage{setspace}
-\usepackage{array}
-\usepackage{tikz}
-\usepackage{varwidth}
-\usepackage{blindtext}
-\usepackage{tabularx}
-\usepackage{wrapfig}
-\usepackage{makecell}
-\usepackage{graphicx}
-\usepackage{multirow}
-\usepackage{amssymb}
+% Core packages (load early)
 \usepackage{expl3}
-\usepackage{leading}
-\usepackage{pgffor}
-\usepackage{hyperref}
-\usepackage{marginnote}
+\usepackage{xparse} % Required for \NewDocumentCommand in TeXLive 2023
+\usepackage{calc}
+\usepackage{geometry}
+
+% Font and encoding - using traditional LaTeX fonts for compatibility
+% \usepackage{fontspec}
+% \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+% \setmainfont{Latin Modern Sans}
+
+% Color and graphics
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{adjustbox}
+
+% Table and array packages
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+
+% Layout and spacing
+\usepackage{setspace}
+\usepackage{leading}
+\usepackage{dashrule}
+\usepackage{varwidth}
+\usepackage{wrapfig}
+\usepackage{marginnote}
+\usepackage{fancyhdr}
+
+% Math and symbols
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+% Special features
 \usepackage{multido}
+\usepackage{pgffor}
+\usepackage[most]{tcolorbox}
+\usepackage{blindtext}
+\usepackage{hyperref}
+
+{{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 
 {{- if not .Cfg.Debug.ShowLinks}}
 \hypersetup{hidelinks}

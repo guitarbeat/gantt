@@ -2,11 +2,11 @@
 \cs_new_eq:NN \Repeat \prg_replicate:nn
 \ExplSyntaxOff
 
-\newcommand{\myMinLineHeight}[1]{\parbox{0pt}{\vskip#1}}
-\newcommand{\myDummyQ}{\textcolor{white}{Q}}
+\NewDocumentCommand{\myMinLineHeight}{m}{\parbox{0pt}{\vskip#1}}
+\NewDocumentCommand{\myDummyQ}{}{\textcolor{white}{Q}}
 
 {{- $numbers := .Cfg.Layout.Numbers -}}
-\newcommand{\myNumArrayStretch}{ {{- $numbers.ArrayStretch -}} }
+\NewDocumentCommand{\myNumArrayStretch}{}{ {{- $numbers.ArrayStretch -}} }
 
 \newlength{\myLenTabColSep}
 \newlength{\myLenLineThicknessDefault}
@@ -40,32 +40,32 @@
 \setlength{\myLenHeaderSideMonthsWidth}{ {{- $lengths.HeaderSideMonthsWidth -}} }
 
 
-\newcommand{\myMonthlySpring}{ {{- $lengths.MonthlySpring -}} }
+\NewDocumentCommand{\myMonthlySpring}{}{ {{- $lengths.MonthlySpring -}} }
 
-\newcommand{\myColorGray}{ {{- .Cfg.Layout.Colors.Gray -}} }
-\newcommand{\myColorLightGray}{ {{- .Cfg.Layout.Colors.LightGray -}} }
+\NewDocumentCommand{\myColorGray}{}{ {{- .Cfg.Layout.Colors.Gray -}} }
+\NewDocumentCommand{\myColorLightGray}{}{ {{- .Cfg.Layout.Colors.LightGray -}} }
 
-\newcommand{\myLinePlain}{\hrule width \linewidth height \myLenLineThicknessDefault}
-\newcommand{\myLineThick}{\hrule width \linewidth height \myLenLineThicknessThick}
+\NewDocumentCommand{\myLinePlain}{}{\hrule width \linewidth height \myLenLineThicknessDefault}
+\NewDocumentCommand{\myLineThick}{}{\hrule width \linewidth height \myLenLineThicknessThick}
 
-\newcommand{\myLineHeightButLine}{\myMinLineHeight{\myLenLineHeightButLine}}
-\newcommand{\myUnderline}[1]{#1\vskip1mm\myLineThick\par}
-\newcommand{\myLineColor}[1]{\textcolor{#1}{\myLinePlain}}
-\newcommand{\myLineGray}{\myLineColor{\myColorGray}}
-\newcommand{\myLineLightGray}{\myLineColor{\myColorLightGray}}
-\newcommand{\myLineGrayVskipBottom}{\myLineGray\vskip\myLenLineHeightButLine}
-\newcommand{\myLineGrayVskipTop}{\vskip\myLenLineHeightButLine\myLineGray}
+\NewDocumentCommand{\myLineHeightButLine}{}{\myMinLineHeight{\myLenLineHeightButLine}}
+\NewDocumentCommand{\myUnderline}{m}{#1\vskip1mm\myLineThick\par}
+\NewDocumentCommand{\myLineColor}{m}{\textcolor{#1}{\myLinePlain}}
+\NewDocumentCommand{\myLineGray}{}{\myLineColor{\myColorGray}}
+\NewDocumentCommand{\myLineLightGray}{}{\myLineColor{\myColorLightGray}}
+\NewDocumentCommand{\myLineGrayVskipBottom}{}{\myLineGray\vskip\myLenLineHeightButLine}
+\NewDocumentCommand{\myLineGrayVskipTop}{}{\vskip\myLenLineHeightButLine\myLineGray}
 
-\newcommand{\myTodo}{\myLineHeightButLine$\square$\myLinePlain}
-\newcommand{\myTodoLineGray}{\myLineHeightButLine$\square$\myLineGray}
+\NewDocumentCommand{\myTodo}{}{\myLineHeightButLine$\square$\myLinePlain}
+\NewDocumentCommand{\myTodoLineGray}{}{\myLineHeightButLine$\square$\myLineGray}
 
-\newcommand{\myDotGrid}[2]{\leavevmode\multido{\dC=0mm+5mm}{#1}{\multido{\dR=0mm+5mm}{#2}{\put(\dR,\dC){\circle*{0.1}}}}}
+\NewDocumentCommand{\myDotGrid}{mm}{\leavevmode\multido{\dC=0mm+5mm}{#1}{\multido{\dR=0mm+5mm}{#2}{\put(\dR,\dC){\circle*{0.1}}}}}
 
-\newcommand{\myMash}[3][]{
+\NewDocumentCommand{\myMash}{O{}mm}{
   {{- if $.Cfg.Dotted -}} \vskip\myLenLineHeightButLine#1\myDotGrid{#2}{#3} {{- else -}} \Repeat{#2}{\myLineGrayVskipTop} {{- end -}}
 }
 
-\newcommand{\remainingHeight}{%
+\NewDocumentCommand{\remainingHeight}{}{%
   \ifdim\pagegoal=\maxdimen
   \dimexpr\textheight-9.4pt\relax
   \else

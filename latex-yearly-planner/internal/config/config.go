@@ -150,6 +150,26 @@ func (cfg *Config) setDateRangeFromCSV() error {
 		return fmt.Errorf("failed to get months with tasks: %w", err)
 	}
 	cfg.MonthsWithTasks = monthsWithTasks
+	
+	// If we have months with tasks, limit the year range to only those years
+	if len(monthsWithTasks) > 0 {
+		// Find the unique years from the months with tasks
+		yearSet := make(map[int]bool)
+		for _, monthYear := range monthsWithTasks {
+			yearSet[monthYear.Year] = true
+		}
+		
+		// Set the year range to only include years with tasks
+		years := make([]int, 0, len(yearSet))
+		for year := range yearSet {
+			years = append(years, year)
+		}
+		
+		if len(years) > 0 {
+			cfg.StartYear = years[0]
+			cfg.EndYear = years[len(years)-1]
+		}
+	}
 
 	// Update the main Year field to the start year if not explicitly set
 	if cfg.Year == time.Now().Year() {

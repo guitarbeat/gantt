@@ -69,19 +69,19 @@ python main.py --color-scheme corporate
 
 ```bash
 # Build single document
-python build.py single input/data.csv
+python build.py single ../input/data.csv
 
 # Build with specific template and device
-python build.py single input/data.csv -t monthly_calendar -d supernote_a5x
+python build.py single ../input/data.csv -t monthly_calendar -d supernote_a5x
 
 # Build all templates
-python build.py all-templates input/data.csv
+python build.py all-templates ../input/data.csv
 
 # Build for all devices
-python build.py all-devices input/data.csv
+python build.py all-devices ../input/data.csv
 
 # Build multiple configurations
-python build.py multiple input/data.csv -t gantt_timeline monthly_calendar -d supernote_a5x remarkable_2
+python build.py multiple ../input/data.csv -t gantt_timeline monthly_calendar -d supernote_a5x remarkable_2
 
 # Clean build artifacts
 python build.py clean
@@ -229,37 +229,37 @@ Options:
 ### Academic Research
 ```bash
 # Generate academic timeline for PhD proposal
-python build.py single input/data.csv -t gantt_timeline -c academic --title "PhD Research Timeline"
+python build.py single ../input/data.csv -t gantt_timeline -c academic --title "PhD Research Timeline"
 
 # Generate monthly calendar for research planning
-python build.py single input/data.csv -t monthly_calendar -c academic --title "Research Calendar 2025"
+python build.py single ../input/data.csv -t monthly_calendar -c academic --title "Research Calendar 2025"
 ```
 
 ### E-ink Device Usage
 ```bash
 # Generate for Supernote A5X
-python build.py single input/data.csv -d supernote_a5x --title "Project Planner"
+python build.py single ../input/data.csv -d supernote_a5x --title "Project Planner"
 
 # Generate for ReMarkable 2
-python build.py single input/data.csv -d remarkable_2 --title "Weekly Planner"
+python build.py single ../input/data.csv -d remarkable_2 --title "Weekly Planner"
 ```
 
 ### Professional Presentations
 ```bash
 # Generate corporate-style timeline
-python build.py single input/data.csv -t gantt_timeline -c corporate --title "Project Timeline"
+python build.py single ../input/data.csv -t gantt_timeline -c corporate --title "Project Timeline"
 
 # Generate for large format printing
-python build.py single input/data.csv -d large_format_print --title "Project Overview"
+python build.py single ../input/data.csv -d large_format_print --title "Project Overview"
 ```
 
 ### Batch Generation
 ```bash
 # Generate all templates for review
-python build.py all-templates input/data.csv --title "Project Analysis"
+python build.py all-templates ../input/data.csv --title "Project Analysis"
 
 # Generate for all devices
-python build.py all-devices input/data.csv -t gantt_timeline --title "Multi-Device Planner"
+python build.py all-devices ../input/data.csv -t gantt_timeline --title "Multi-Device Planner"
 ```
 
 ## 🔄 Migration from Original
@@ -314,7 +314,7 @@ The enhanced system is fully backward compatible with the original codebase:
 python main.py --verbose
 
 # Enable debug logging in build system
-python build.py single input/data.csv --verbose
+python build.py single ../input/data.csv --verbose
 ```
 
 ## 📚 References

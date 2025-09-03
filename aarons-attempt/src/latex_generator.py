@@ -4,7 +4,7 @@ LaTeX generation components for the Gantt chart generator.
 Provides modular LaTeX generation for different document sections.
 """
 
-from typing import List, Dict
+from typing import List
 from datetime import date, timedelta
 
 from .models import Task, ProjectTimeline, MonthInfo
@@ -13,16 +13,16 @@ from .config import config
 
 class LaTeXEscaper:
     """Handles LaTeX character escaping and text formatting."""
-    
+
     @staticmethod
     def escape_latex(text: str) -> str:
         """Escape special LaTeX characters in text."""
         if not text:
             return ""
-        
+
         # Handle backslashes first to avoid double-escaping
         text = text.replace('\\', r'\textbackslash{}')
-        
+
         # Handle Unicode characters
         unicode_replacements = {
             '≥': r'$\geq$',
@@ -48,10 +48,10 @@ class LaTeXEscaper:
             'ψ': r'$\psi$',
             'ω': r'$\omega$',
         }
-        
+
         for char, replacement in unicode_replacements.items():
             text = text.replace(char, replacement)
-        
+
         # Handle other special characters
         replacements = {
             '&': r'\&',
@@ -64,36 +64,35 @@ class LaTeXEscaper:
             '}': r'\}',
             '~': r'\textasciitilde{}',
         }
-        
+
         for char, replacement in replacements.items():
             text = text.replace(char, replacement)
-        
+
         # Fix any double-escaped characters that might cause issues
         text = text.replace(r'\textbackslash{}\#', r'\#')
         text = text.replace(r'\textbackslash{}\&', r'\&')
-        
+
         return text
-    
-    @staticmethod
-    def truncate_text(text: str, max_length: int) -> str:
-        """Truncate text to maximum length with ellipsis."""
-        if len(text) <= max_length:
-            return text
-        return text[:max_length-3] + "..."
 
 
 class LaTeXDocumentGenerator:
     """Generates the main LaTeX document structure."""
-    
+
     def __init__(self, escaper: LaTeXEscaper = None):
         self.escaper = escaper or LaTeXEscaper()
-    
+
     def generate_document_header(self) -> str:
-        """Generate the LaTeX document header with packages and setup."""
+        """Generate the LaTeX document header with packages and enhanced TikZ libraries."""
         packages = '\n'.join(f"\\usepackage{{{pkg}}}" for pkg in config.latex.packages)
         
+        # * Add TikZ libraries for enhanced functionality
+        tikz_libraries = '\n'.join(f"\\usetikzlibrary{{{lib}}}" for lib in config.latex.get_tikz_libraries())
+
         return f"""\\documentclass[{config.calendar.page_orientation},{config.calendar.page_size}]{{{config.latex.document_class}}}
 {packages}
+
+% Enhanced TikZ libraries for better graphics
+{tikz_libraries}
 
 % Page setup inspired by calendar.sty
 \\pagestyle{{empty}}
@@ -106,12 +105,74 @@ class LaTeXDocumentGenerator:
 % Use Helvetica for sans-serif
 \\renewcommand{{\\familydefault}}{{\\sfdefault}}
 
+% Enhanced TikZ styles
+{self._generate_tikz_styles()}
+
 % Color definitions
 {config.colors.to_latex_colors()}
 
 \\begin{{document}}
 """
-    
+
+    def _generate_tikz_styles(self) -> str:
+        """Generate enhanced TikZ styles for better graphics."""
+        return """
+% Enhanced TikZ styles for project timeline
+\\tikzset{
+    % Task node styles
+    task node/.style={
+        rectangle, 
+        rounded corners=2pt,
+        draw=black!50,
+        fill=white,
+        minimum height=0.6cm,
+        minimum width=1.5cm,
+        font=\\small\\bfseries,
+        align=center
+    },
+    milestone node/.style={
+        diamond,
+        draw=black!50,
+        fill=white,
+        minimum size=0.8cm,
+        font=\\small\\bfseries,
+        align=center
+    },
+    % Timeline styles
+    timeline axis/.style={
+        thick,
+        line width=2pt,
+        color=black!70
+    },
+    timeline tick/.style={
+        thick,
+        line width=1pt,
+        color=black!50
+    },
+    % Arrow styles
+    dependency arrow/.style={
+        ->,
+        thick,
+        color=black!60,
+        line width=1.5pt
+    },
+    % Calendar styles
+    calendar day/.style={
+        rectangle,
+        draw=black!30,
+        fill=white,
+        minimum size=1cm,
+        font=\\small
+    },
+    calendar header/.style={
+        rectangle,
+        draw=black!50,
+        fill=black!10,
+        minimum height=0.5cm,
+        font=\\small\\bfseries
+    }
+}"""
+
     def generate_document_footer(self) -> str:
         """Generate the LaTeX document footer."""
         return "\\end{document}\n"
@@ -119,16 +180,16 @@ class LaTeXDocumentGenerator:
 
 class TitlePageGenerator:
     """Generates the title page for the LaTeX document."""
-    
+
     def __init__(self, escaper: LaTeXEscaper = None):
         self.escaper = escaper or LaTeXEscaper()
-    
+
     def generate_title_page(self, timeline: ProjectTimeline) -> str:
         """Generate the title page for the timeline."""
         title = self.escaper.escape_latex(timeline.title)
         start_date_str = timeline.start_date.strftime('%B %d, %Y')
         end_date_str = timeline.end_date.strftime('%B %d, %Y')
-        
+
         return f"""
 % Title page inspired by calendar.sty
 \\begin{{titlepage}}
@@ -155,41 +216,58 @@ class TitlePageGenerator:
 \\end{{titlepage}}
 """
 
+    def generate_month_page(self, month_info: MonthInfo, tasks: List[Task]) -> str:
+        """Generate a complete calendar page for a month."""
+        if not tasks:
+            return ""
+
+        page = f"""
+\\subsection*{{{month_info.start_date.strftime('%B %Y')}}}
+\\vspace{{0.5cm}}
+
+{self.generate_calendar_grid(month_info, tasks)}
+\\vspace{{0.5cm}}
+\\subsection{{Task Details for {month_info.start_date.strftime('%B %Y')}}}
+\\begin{{itemize}}[leftmargin=1cm]
+"""
+        
+        for task in tasks:
+            task_name = self.escaper.escape_latex(task.name)
+            page += f"    \\item \\textcolor{{{task.category_color}}}{{\\textbf{{{task_name}}}}} - {task.start_date.strftime('%m/%d')} to {task.end_date.strftime('%m/%d')}\\n"
+        
+        page += "\\end{itemize}\\n"
+        return page
+
 
 class CalendarGenerator:
     """Generates calendar views for the LaTeX document."""
-    
+
     def __init__(self, escaper: LaTeXEscaper = None):
         self.escaper = escaper or LaTeXEscaper()
-    
+
     def generate_calendar_grid(self, month_info: MonthInfo, tasks: List[Task]) -> str:
-        """Generate the TikZ calendar grid for a month."""
+        """Generate the enhanced TikZ calendar grid for a month using modern TikZ features."""
         grid = f"""
-% Calendar grid with better proportions
+% Enhanced calendar grid with modern TikZ features
 \\begin{{tikzpicture}}[scale={config.calendar.calendar_scale}]
-    % Main calendar border
-    \\draw[thick] (0,0) rectangle ({config.calendar.calendar_width},{config.calendar.calendar_height});
-    
-    % Day headers with better styling
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (0.5,5.5) {{Sun}};
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (1.5,5.5) {{Mon}};
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (2.5,5.5) {{Tue}};
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (3.5,5.5) {{Wed}};
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (4.5,5.5) {{Thu}};
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (5.5,5.5) {{Fri}};
-    \\node[font=\\bfseries{config.calendar.day_font_size}] at (6.5,5.5) {{Sat}};
-    
-    % Vertical lines
-    \\foreach \\x in {{1,2,3,4,5,6}} {{
-        \\draw[thick] (\\x,0) -- (\\x,5);
+    % Main calendar border with shadow effect
+    \\draw[thick, drop shadow={{shadow xshift=2pt, shadow yshift=-2pt, fill=black!20}}] 
+          (0,0) rectangle ({config.calendar.calendar_width},{config.calendar.calendar_height});
+
+    % Day headers with enhanced styling
+    \\foreach \\day [count=\\i] in {{Sun, Mon, Tue, Wed, Thu, Fri, Sat}} {{
+        \\node[calendar header] at (\\i-0.5, 5.5) {{\\day}};
     }}
-    
-    % Horizontal lines
+
+    % Grid lines with improved styling
+    \\foreach \\x in {{1,2,3,4,5,6}} {{
+        \\draw[line width=0.5pt, color=black!30] (\\x,0) -- (\\x,5);
+    }}
     \\foreach \\y in {{1,2,3,4,5}} {{
-        \\draw[thick] (0,\\y) -- ({config.calendar.calendar_width},\\y);
+        \\draw[line width=0.5pt, color=black!30] (0,\\y) -- ({config.calendar.calendar_width},\\y);
     }}
 """
-        
+
         # Add day numbers and tasks
         current_day = 1
         for week in range(6):  # Maximum 6 weeks
@@ -198,105 +276,132 @@ class CalendarGenerator:
                     continue  # Skip days before month starts
                 if current_day > month_info.num_days:
                     break
-                
-                x_pos = day + 0.5
+
                 y_pos = 4.5 - week
-                
+
                 # Add day number
                 grid += f"    \\node[font=\\bfseries{config.calendar.day_font_size}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {{{current_day}}};\n"
-                
+
                 # Find tasks for this day
                 day_date = month_info.start_date + timedelta(days=current_day - 1)
                 day_tasks = [t for t in tasks if t.overlaps_with_date(day_date)]
-                
+
                 # Add task content in the day cell
                 if day_tasks:
                     task_text = self._generate_day_task_text(day_tasks)
                     grid += f"    \\node[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {{{task_text}}};\n"
-                
+
                 current_day += 1
             if current_day > month_info.num_days:
                 break
-        
+
         grid += "\\end{tikzpicture}\n"
         return grid
-    
+
     def _generate_day_task_text(self, tasks: List[Task]) -> str:
         """Generate task text for a single day cell."""
         task_text = ""
         limited_tasks = tasks[:config.calendar.max_tasks_per_day]
-        
+
         for i, task in enumerate(limited_tasks):
             task_name = self.escaper.escape_latex(task.name)
-            task_name = self.escaper.truncate_text(task_name, config.calendar.max_task_name_length)
-            
+
             if task.is_milestone:
                 task_text += f"\\textcolor{{{task.category_color}}}{{\\textbf{{$\\diamond$ {task_name}}}}}"
             else:
                 task_text += f"\\textcolor{{{task.category_color}}}{{\\textbf{{$\\bullet$ {task_name}}}}}"
-            
+
             if i < len(limited_tasks) - 1:
                 task_text += "\\\\"
-        
+
         return task_text
-    
-    def generate_month_page(self, month_info: MonthInfo, tasks: List[Task]) -> str:
-        """Generate a complete calendar page for a month."""
-        if not tasks:
-            return ""
-        
-        page = f"""
-\\newpage
-\\pagestyle{{empty}}
 
-\\begin{{center}}
-{{{config.calendar.month_font_size}\\textbf{{{month_info.name}}}}}
-\\end{{center}}
 
-\\vspace{{{config.calendar.month_spacing}}}
+class GanttChartGenerator:
+    """Generates Gantt charts using the pgfgantt library from awesome-tikz."""
+
+    def __init__(self, escaper: LaTeXEscaper = None):
+        self.escaper = escaper or LaTeXEscaper()
+
+    def generate_gantt_chart(self, timeline: ProjectTimeline) -> str:
+        """Generate a Gantt chart for the project timeline."""
+        gantt = """
+% Gantt chart using pgfgantt library
+\\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=0.5cm,
+    y unit title=0.6cm,
+    y unit chart=0.6cm,
+    time slot format=isodate,
+    title/.append style={fill=black!10},
+    bar/.append style={fill=blue!50, rounded corners=2pt},
+    bar incomplete/.append style={fill=red!50},
+    milestone/.append style={fill=orange, rounded corners=2pt},
+    milestone incomplete/.append style={fill=red!50}
+]{\\timeline_start}{\\timeline_end}
+\\gantttitlecalendar{year, month} \\\\
 """
         
-        # Add calendar grid
-        page += self.generate_calendar_grid(month_info, tasks)
-        
-        # Add detailed task list for this month
-        page += f"\\vspace{{{config.calendar.task_spacing}}}\n"
-        page += f"\\subsection{{Task Details for {month_info.name}}}\n"
-        page += "\\begin{itemize}[leftmargin=1cm]\n"
-        
-        for task in tasks:
+        # Add tasks to Gantt chart
+        for i, task in enumerate(timeline.tasks):
             task_name = self.escaper.escape_latex(task.name)
-            description = self.escaper.escape_latex(task.notes)
-            start_date_str = task.start_date.strftime(config.tasks.display_date_format)
-            due_date_str = task.due_date.strftime(config.tasks.display_date_format)
+            start_date = task.start_date.strftime('%Y-%m-%d')
+            due_date = task.due_date.strftime('%Y-%m-%d')
             
-            page += f"    \\item[\\textcolor{{{task.category_color}}}{{{task.marker}}}] \\textbf{{{task_name}}} ({start_date_str} - {due_date_str})\\\\ {description}\n"
+            if task.is_milestone:
+                gantt += f"\\ganttmilestone{{{task_name}}}{{{start_date}}} \\\\\n"
+            else:
+                gantt += f"\\ganttbar{{{task_name}}}{{{start_date}}}{{{due_date}}} \\\\\n"
         
-        page += "\\end{itemize}\n"
-        return page
+        gantt += "\\end{ganttchart}\n"
+        return gantt
+
+    def generate_timeline_view(self, timeline: ProjectTimeline) -> str:
+        """Generate a modern timeline view using enhanced TikZ."""
+        timeline_code = """
+% Modern timeline view with enhanced TikZ
+\\begin{tikzpicture}[scale=0.8]
+    % Timeline axis
+    \\draw[timeline axis] (0,0) -- (12,0);
     
-    def generate_calendar_view(self, timeline: ProjectTimeline) -> str:
-        """Generate the complete calendar view for all months."""
-        if not timeline.tasks:
-            return ""
+    % Month markers
+    \\foreach \\x/\\month in {0/Aug, 2/Sep, 4/Oct, 6/Nov, 8/Dec, 10/Jan} {
+        \\draw[timeline tick] (\\x,0) -- (\\x,-0.3);
+        \\node[below, font=\\small] at (\\x,-0.3) {\\month};
+    }
+    
+    % Task bars with enhanced styling
+"""
         
-        months = timeline.get_months_between()
-        calendar_pages = ""
+        y_pos = 1
+        for task in timeline.tasks:
+            task_name = self.escaper.escape_latex(task.name)
+            start_x = self._calculate_timeline_position(task.start_date, timeline.start_date)
+            end_x = self._calculate_timeline_position(task.due_date, timeline.start_date)
+            
+            if task.is_milestone:
+                timeline_code += f"    \\node[milestone node, fill={task.category_color}] at ({start_x},{y_pos}) {{{task_name}}};\\n"
+            else:
+                timeline_code += f"    \\draw[fill={task.category_color}, rounded corners=2pt] ({start_x},{y_pos-0.2}) rectangle ({end_x},{y_pos+0.2}) node[midway, white, font=\\small] {{{task_name}}};\\n"
+            
+            y_pos += 0.8
         
-        for month_info in months:
-            month_tasks = timeline.get_tasks_for_month(month_info)
-            if month_tasks:
-                calendar_pages += self.generate_month_page(month_info, month_tasks)
-        
-        return calendar_pages
+        timeline_code += "\\end{tikzpicture}\\n"
+        return timeline_code
+
+    def _calculate_timeline_position(self, date: date, start_date: date) -> float:
+        """Calculate the x-position for a date on the timeline."""
+        days_diff = (date - start_date).days
+        return (days_diff / 30.0) * 2  # Scale to fit 12 units for 6 months
 
 
 class LegendGenerator:
     """Generates the legend section for the LaTeX document."""
-    
+
     def __init__(self, escaper: LaTeXEscaper = None):
         self.escaper = escaper or LaTeXEscaper()
-    
+
     def generate_legend(self) -> str:
         """Generate the complete legend section."""
         return """
@@ -325,14 +430,14 @@ class LegendGenerator:
 
 class LaTeXGenerator:
     """Main LaTeX generator that coordinates all components."""
-    
+
     def __init__(self):
         self.escaper = LaTeXEscaper()
         self.document_generator = LaTeXDocumentGenerator(self.escaper)
         self.title_generator = TitlePageGenerator(self.escaper)
         self.calendar_generator = CalendarGenerator(self.escaper)
         self.legend_generator = LegendGenerator(self.escaper)
-    
+
     def generate_complete_document(self, timeline: ProjectTimeline) -> str:
         """Generate the complete LaTeX document."""
         latex_content = self.document_generator.generate_document_header()
@@ -340,5 +445,5 @@ class LaTeXGenerator:
         latex_content += self.calendar_generator.generate_calendar_view(timeline)
         latex_content += self.legend_generator.generate_legend()
         latex_content += self.document_generator.generate_document_footer()
-        
+
         return latex_content

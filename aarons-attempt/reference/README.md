@@ -2,7 +2,7 @@ Project: Structured Tasks Repository
 
 Overview
 - Purpose: Normalize planning data into CSVs with unique task IDs, dependencies, and quarter groupings (Fall 2025–Summer 2027).
-- Inputs: `repo/input/data.csv` (source). If starting with `data.csv` at workspace root, move it to `repo/input/data.csv` or pass `--input`.
+- Inputs: `input/data.csv` (source). If starting with `data.csv` at workspace root, move it to `input/data.csv` or pass `--input`.
 - Outputs:
   - `repo/data/tasks.csv`: canonical tasks table
   - `repo/data/dependencies.csv`: task-to-task dependency edges
@@ -39,7 +39,7 @@ CLI Usage
   - `python repo/scripts/build.py quarters --datadir repo/data --reports repo/reports/quarters`
 
 Workflow
-1) Place your source CSV at `repo/input/data.csv` (or pass `--input`).
+1) Place your source CSV at `input/data.csv` (or pass `--input`).
 2) Run `import` to generate normalized CSVs.
 3) Run `validate` to catch any issues.
 4) Run `quarters` to create quarter-indexed reports.

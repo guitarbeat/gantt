@@ -5,7 +5,7 @@ PYTHON ?= python
 # Standard build using main application
 build:
 	@TIMESTAMP=$$(date +"%Y%m%d_%H%M%S"); \
-	$(PYTHON) main.py --input input/data.cleaned.csv --output output/tex/Calendar_$$TIMESTAMP.tex; \
+	$(PYTHON) main.py app --input ../input/data.cleaned.csv --output output/tex/Calendar_$$TIMESTAMP.tex; \
 	echo "Generated output/tex/Calendar_$$TIMESTAMP.tex"; \
 	pdflatex -interaction=nonstopmode -output-directory output/tex output/tex/Calendar_$$TIMESTAMP.tex | cat; \
 	mv output/tex/Calendar_$$TIMESTAMP.pdf output/pdf/; \
@@ -15,11 +15,11 @@ build:
 
 # Build all templates using enhanced build system
 build-all:
-	$(PYTHON) main.py build all-templates input/data.cleaned.csv --title "Project Timeline"
+	$(PYTHON) main.py build all-templates ../input/data.cleaned.csv --title "Project Timeline"
 
 # Build for specific device
 build-device:
-	$(PYTHON) main.py build single input/data.cleaned.csv -d supernote_a5x --title "E-ink Planner"
+	$(PYTHON) main.py build single ../input/data.cleaned.csv -d supernote_a5x --title "E-ink Planner"
 
 # List available configurations
 list:

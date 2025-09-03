@@ -1,6 +1,7 @@
 package calendar
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -12,9 +13,9 @@ import (
 
 type Days []*Day
 type Day struct {
-	Time         time.Time
-	Tasks        []Task
-	SpanningTask *SpanningTask
+	Time          time.Time
+	Tasks         []Task
+	SpanningTasks []*SpanningTask
 }
 
 // Task represents a task for a specific day
@@ -33,31 +34,96 @@ func (d Day) Day(today, large interface{}) string {
 	day := strconv.Itoa(d.Time.Day())
 
 	if larg, _ := large.(bool); larg {
-		// Check for spanning task overlay
-		if d.SpanningTask != nil {
-			// Truncate long task names to fit in the cell
-			taskName := d.SpanningTask.Name
-			if len(taskName) > 12 {
-				taskName = taskName[:9] + "..."
+		// Check for spanning task overlays
+		if len(d.SpanningTasks) > 0 {
+			// Create overlays for all spanning tasks
+			var overlays []string
+			
+			for i, task := range d.SpanningTasks {
+				// Determine if this is the start, middle, or end of the task span
+				// Normalize dates to midnight for comparison
+				dayDate := time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
+				taskStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
+				taskEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
+				
+				isStart := dayDate.Equal(taskStartDate)
+				isEnd := dayDate.Equal(taskEndDate)
+				
+
+				
+				// Calculate vertical offset for multiple tasks
+				yOffset := float64(i) * 0.8 // 0.8em spacing between tasks
+				
+				// Create a TikZ overlay that doesn't affect cell height
+				var overlay string
+			
+				if isStart {
+					// Start of task - show full task name, description, and left-rounded rectangle
+					taskName := task.Name
+					if len(taskName) > 15 {
+						taskName = taskName[:12] + "..."
+					}
+					
+					// Prepare description text (truncate if too long)
+					description := task.Description
+					if len(description) > 25 {
+						description = description[:22] + "..."
+					}
+					
+					// Add progress bar if progress > 0
+					progressBar := ""
+					if task.Progress > 0 {
+						progressWidth := float64(task.Progress) / 100.0 * 5.0 // 5mm max width
+						progressBar = `\draw[fill=` + task.Color + `!70, draw=` + task.Color + `!90, line width=0.2pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.15+yOffset) + `em) rectangle ([xshift=` + fmt.Sprintf("%.2f", progressWidth) + `mm, yshift=-` + fmt.Sprintf("%.1f", 0.25+yOffset) + `em]cell-left);`
+					}
+				
+					overlay = `\begin{tikzpicture}[overlay, remember picture]
+						\coordinate (cell-top) at (0,0);
+						\coordinate (cell-left) at (-2.5mm,0);
+						\coordinate (cell-right) at (2.5mm,0);
+						
+						% Draw colored background bar
+						\draw[fill=` + task.Color + `!30, draw=` + task.Color + `!60, line width=0.3pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.8+yOffset) + `em);
+						
+						% Add progress bar if applicable
+						` + progressBar + `
+						
+						% Add task name and description on start day
+						\node[anchor=west, font=\tiny, color=` + task.Color + `!80] 
+							at ([xshift=-2.3mm, yshift=-` + fmt.Sprintf("%.1f", 0.4+yOffset) + `em]cell-top) {` + taskName + `};
+						\node[anchor=west, font=\scriptsize, color=` + task.Color + `!60] 
+							at ([xshift=-2.3mm, yshift=-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em]cell-top) {` + description + `};
+					\end{tikzpicture}`
+				} else if isEnd {
+					// End of task - show right-rounded rectangle, no text
+					overlay = `\begin{tikzpicture}[overlay, remember picture]
+						\coordinate (cell-left) at (-2.5mm,0);
+						\coordinate (cell-right) at (2.5mm,0);
+						
+						% Draw colored background bar
+						\draw[fill=` + task.Color + `!30, draw=` + task.Color + `!60, line width=0.3pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em);
+					\end{tikzpicture}`
+				} else {
+					// Middle of task - show plain rectangle, no text
+					overlay = `\begin{tikzpicture}[overlay, remember picture]
+						\coordinate (cell-left) at (-2.5mm,0);
+						\coordinate (cell-right) at (2.5mm,0);
+						
+						% Draw colored background bar with no rounded corners
+						\draw[fill=` + task.Color + `!30, draw=` + task.Color + `!60, line width=0.3pt] 
+							(cell-left) ++(0,-` + fmt.Sprintf("%.1f", 0.2+yOffset) + `em) rectangle (cell-right) ++(0,-` + fmt.Sprintf("%.1f", 0.6+yOffset) + `em);
+					\end{tikzpicture}`
+				}
+				
+				overlays = append(overlays, overlay)
 			}
 			
-			// Create a TikZ overlay that doesn't affect cell height
-			overlay := `\begin{tikzpicture}[overlay, remember picture]
-				\coordinate (cell-top) at (0,0);
-				\coordinate (cell-bottom) at (0,-0.8em);
-				\coordinate (cell-left) at (-2.5mm,0);
-				\coordinate (cell-right) at (2.5mm,0);
-				
-				% Draw colored background bar
-				\draw[fill=` + d.SpanningTask.Color + `!30, draw=` + d.SpanningTask.Color + `!60, line width=0.3pt] 
-					(cell-left) ++(0,-0.2em) rectangle (cell-right) ++(0,-0.6em);
-				
-				% Add task text
-				\node[anchor=west, font=\tiny, color=` + d.SpanningTask.Color + `!80] 
-					at ([xshift=-2.3mm, yshift=-0.4em]cell-top) {` + taskName + `};
-			\end{tikzpicture}`
-			
-			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}}` + overlay
+			// Combine all overlays
+			combinedOverlay := strings.Join(overlays, "")
+			return `\hyperlink{` + d.ref() + `}{\begin{tabular}{@{}p{5mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}}` + combinedOverlay
 		}
 		
 		// For large view, include regular tasks if any
@@ -88,7 +154,7 @@ func (d Day) ref(prefix ...string) string {
 }
 
 func (d Day) Add(days int) Day {
-	return Day{Time: d.Time.AddDate(0, 0, days), Tasks: nil, SpanningTask: nil}
+	return Day{Time: d.Time.AddDate(0, 0, days), Tasks: nil, SpanningTasks: nil}
 }
 
 func (d Day) WeekLink() string {
@@ -165,7 +231,7 @@ func (d Day) Hours(bottom, top int) Days {
 	list := make(Days, 0, top-bottom+1)
 
 	for i := bottom; i <= top; i++ {
-		list = append(list, &Day{Time: moment, Tasks: nil, SpanningTask: nil})
+		list = append(list, &Day{Time: moment, Tasks: nil, SpanningTasks: nil})
 		moment = moment.Add(time.Hour)
 	}
 
