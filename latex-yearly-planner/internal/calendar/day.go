@@ -72,20 +72,22 @@ func (d Day) Day(today, large interface{}) string {
 					descText := strings.TrimSpace(task.Description)
 
 					// Compose overlay content as a rounded tcolorbox with left accent bar, padding, and no hyphenation
-					textBody := `{\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\emergencystretch=2em\setstretch{0.95}` +
-						`{\color{black}\textbf{\scriptsize ` + nameText + `}}`
+					// Use single backslashes for LaTeX commands in raw strings; keep \\ only where a line break is intended
+					textBody := `{\hyphenpenalty=10000\exhyphenpenalty=10000\emergencystretch=2em\setstretch{0.75}` +
+						`{\centering\color{black}\textbf{\scriptsize ` + nameText + `}}`
 					if descText != "" {
-						textBody += `\\[-0.25ex]{\color{black}\scriptsize ` + descText + `}`
+						// Explicit line break before description for stacked layout
+						textBody += `\\[-0.3ex]{\color{black}\tiny ` + descText + `}`
 					}
 					textBody += `}`
 
-					overlayContent = `\vspace*{0.3ex}{\begingroup\setlength{\fboxsep}{0pt}` +
-						`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=5pt,` +
-						` left=2mm, right=1.8mm, top=0.6mm, bottom=0.6mm,` +
-						` colback=` + task.Color + `!24,` +
-						` interior style={left color=` + task.Color + `!28, right color=white},` +
-						` borderline west={1.1pt}{0pt}{` + task.Color + `!60!black},` +
-						` borderline east={0.8pt}{0pt}{` + task.Color + `!35}]` +
+					overlayContent = `\vspace*{0.1ex}{\begingroup\setlength{\fboxsep}{0pt}` +
+						`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=0pt, drop shadow,` +
+						` left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,` +
+						` colback=` + task.Color + `!26,` +
+						` interior style={left color=` + task.Color + `!34, right color=` + task.Color + `!6},` +
+						` borderline west={1.4pt}{0pt}{` + task.Color + `!60!black},` +
+						` borderline east={1.0pt}{0pt}{` + task.Color + `!45}]` +
 						textBody +
 						`\end{tcolorbox}\endgroup}`
 					overlayStart = true
@@ -107,11 +109,14 @@ func (d Day) Day(today, large interface{}) string {
 		// If we built an overlay for a spanning task start, render it to span multiple columns
 		if overlayStart {
 			// Compute width across overlayCols columns using \dimexpr N\linewidth
-			width := `\dimexpr ` + strconv.Itoa(overlayCols) + `\linewidth-5mm\relax`
+			width := `\dimexpr ` + strconv.Itoa(overlayCols) + `\linewidth\relax`
 			return `\hyperlink{` + d.ref() + `}{` +
 				`{\begingroup` +
 				`\makebox[0pt][l]{` + leftCell + `}` +
-				`\makebox[0pt][l]{` + `\hspace*{5mm}` + `\begin{minipage}[t]{` + width + `}\raggedright` + overlayContent + `\end{minipage}` + `}` +
+				// Place overlay using TikZ so it draws above grid lines
+				`\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
+				`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + overlayContent + `\end{minipage}` + `};` +
+				`\end{tikzpicture}` + `}` +
 				`\endgroup}` +
 				`}`
 		}
@@ -123,7 +128,7 @@ func (d Day) Day(today, large interface{}) string {
 				`{\begingroup` +
 				`\makebox[0pt][l]{` + leftCell + `}` +
 				`\hspace*{5mm}` +
-				`\begin{minipage}[t]{\dimexpr\linewidth-5mm\relax}\raggedright` +
+				`\begin{minipage}[t]{\dimexpr\linewidth\relax}` +
 				right +
 				`\end{minipage}` +
 				`\endgroup}` +

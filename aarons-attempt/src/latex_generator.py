@@ -88,22 +88,22 @@ class LaTeXDocumentGenerator:
         # * Add TikZ libraries for enhanced functionality
         tikz_libraries = '\n'.join(f"\\usetikzlibrary{{{lib}}}" for lib in config.latex.get_tikz_libraries())
 
-        return f"""\\documentclass[{config.calendar.page_orientation},{config.calendar.page_size}]{{{config.latex.document_class}}}
+        return rf"""\documentclass[{config.calendar.page_orientation},{config.calendar.page_size}]{{{config.latex.document_class}}}
 {packages}
 
 % Enhanced TikZ libraries for better graphics
 {tikz_libraries}
 
 % Page setup inspired by calendar.sty
-\\pagestyle{{empty}}
-\\setlength{{\\parskip}}{{0.5em}}
+\pagestyle{empty}
+\setlength{\parskip}{0.5em}
 
 % Table formatting
-\\setlength{{\\tabcolsep}}{{1pt}}
-\\renewcommand{{\\arraystretch}}{{1.0}}
+\setlength{\tabcolsep}{1pt}
+\renewcommand{\arraystretch}{1.0}
 
 % Use Helvetica for sans-serif
-\\renewcommand{{\\familydefault}}{{\\sfdefault}}
+\renewcommand{\familydefault}{\sfdefault}
 
 % Enhanced TikZ styles
 {self._generate_tikz_styles()}
@@ -111,14 +111,14 @@ class LaTeXDocumentGenerator:
 % Color definitions
 {config.colors.to_latex_colors()}
 
-\\begin{{document}}
+\begin{document}
 """
 
     def _generate_tikz_styles(self) -> str:
         """Generate enhanced TikZ styles for better graphics."""
         return """
 % Enhanced TikZ styles for project timeline
-\\tikzset{
+\tikzset{
     % Task node styles
     task node/.style={
         rectangle, 
@@ -127,7 +127,7 @@ class LaTeXDocumentGenerator:
         fill=white,
         minimum height=0.6cm,
         minimum width=1.5cm,
-        font=\\small\\bfseries,
+        font=\small\bfseries,
         align=center
     },
     milestone node/.style={
@@ -135,7 +135,7 @@ class LaTeXDocumentGenerator:
         draw=black!50,
         fill=white,
         minimum size=0.8cm,
-        font=\\small\\bfseries,
+        font=\small\bfseries,
         align=center
     },
     % Timeline styles
@@ -162,16 +162,21 @@ class LaTeXDocumentGenerator:
         draw=black!30,
         fill=white,
         minimum size=1cm,
-        font=\\small
+        font=\small
     },
     calendar header/.style={
         rectangle,
         draw=black!50,
         fill=black!10,
         minimum height=0.5cm,
-        font=\\small\\bfseries
+        font=\small\bfseries
     }
-}"""
+}
+
+% Set background layer
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+"""
 
     def generate_document_footer(self) -> str:
         """Generate the LaTeX document footer."""
@@ -190,31 +195,31 @@ class TitlePageGenerator:
         start_date_str = timeline.start_date.strftime('%B %d, %Y')
         end_date_str = timeline.end_date.strftime('%B %d, %Y')
 
-        return f"""
+        return rf""
 % Title page inspired by calendar.sty
-\\begin{{titlepage}}
-\\centering
-\\vspace*{{{config.calendar.title_spacing}}}
+\begin{titlepage}
+\centering
+\vspace*{{\n{config.calendar.title_spacing}}}
 
-{{{config.calendar.title_font_size}\\textbf{{{title}}}}}
+{{\n{config.calendar.title_font_size}\textbf{{\n{title}}}}}}
 
-\\vspace{{{config.calendar.month_spacing}}}
-{{{config.calendar.month_font_size} {config.latex.subtitle}}}
+\vspace{{\n{config.calendar.month_spacing}}}
+{{\n{config.calendar.month_font_size} {config.latex.subtitle}}}
 
-\\vspace{{{config.calendar.title_spacing}}}
+\vspace{{\n{config.calendar.title_spacing}}}
 
-\\begin{{minipage}}{{0.9\\textwidth}}
-\\centering
-\\textbf{{Timeline Period:}} {start_date_str} -- {end_date_str}\\\\
-\\textbf{{Total Duration:}} {timeline.total_duration_days} days\\\\
-\\textbf{{Total Tasks:}} {timeline.total_tasks} tasks\\\\
-\\textbf{{Months Covered:}} {len(timeline.get_months_between())} months
-\\end{{minipage}}
+\begin{minipage}{{0.9\textwidth}}
+\centering
+\textbf{{Timeline Period:}} {start_date_str} -- {end_date_str}\\
+\textbf{{Total Duration:}} {timeline.total_duration_days} days\\
+\textbf{{Total Tasks:}} {timeline.total_tasks} tasks\\
+\textbf{{Months Covered:}} {len(timeline.get_months_between())} months
+\end{minipage}
 
-\\vfill
+\vfill
 
-\\end{{titlepage}}
-"""
+\end{titlepage}
+"
 
     def generate_month_page(self, month_info: MonthInfo, tasks: List[Task]) -> str:
         """Generate a complete calendar page for a month."""
@@ -224,14 +229,14 @@ class TitlePageGenerator:
         # Create calendar generator for the grid
         calendar_gen = CalendarGenerator(self.escaper)
         
-        page = f"""
-\\subsection*{{{month_info.start_date.strftime('%B %Y')}}}
-\\vspace{{0.5cm}}
+        page = rf"""
+\subsection*{{{month_info.start_date.strftime('%B %Y')}}}
+\vspace{{0.5cm}}
 
 {calendar_gen.generate_calendar_grid(month_info, tasks)}
-\\vspace{{0.5cm}}
-\\subsection{{Task Details for {month_info.start_date.strftime('%B %Y')}}}
-\\begin{{itemize}}[leftmargin=1cm, itemsep=0.8em]
+\vspace{{0.5cm}}
+\subsection{{Task Details for {month_info.start_date.strftime('%B %Y')}}}
+\begin{{itemize}}[leftmargin=1cm, itemsep=0.8em]
 """
         
         for task in tasks:
@@ -289,24 +294,26 @@ class CalendarGenerator:
         """Generate the enhanced TikZ calendar grid for a month using modern TikZ features."""
         grid = f"""
 % Enhanced calendar grid with modern TikZ features
-\\begin{{tikzpicture}}[scale={config.calendar.calendar_scale}]
+\begin{tikzpicture}[scale={config.calendar.calendar_scale}]
     % Main calendar border with shadow effect
-    \\draw[thick, drop shadow={{shadow xshift=2pt, shadow yshift=-2pt, fill=black!20}}] 
+    \draw[thick, draw=black!50, fill=white, drop shadow={{shadow xshift=2pt, shadow yshift=-2pt, fill=black!20}}]
           (0,0) rectangle ({config.calendar.calendar_width},{config.calendar.calendar_height});
 
     % Day headers with enhanced styling
-    \\foreach \\day [count=\\i] in {{Sun, Mon, Tue, Wed, Thu, Fri, Sat}} {{
-        \\node[calendar header] at (\\i-0.5, 5.5) {{\\day}};
-    }}
+    \foreach \day [count=\i] in {{{{Sun, Mon, Tue, Wed, Thu, Fri, Sat}}}} {{ 
+        \node[calendar header] at (\i-0.5, 5.5) {{{{\day}}}};
+    }} 
 
-    % Grid lines with improved styling
-    \\foreach \\x in {{1,2,3,4,5,6}} {{
-        \\draw[line width=0.5pt, color=black!30] (\\x,0) -- (\\x,5);
-    }}
-    \\foreach \\y in {{1,2,3,4,5}} {{
-        \\draw[line width=0.5pt, color=black!30] (0,\\y) -- ({config.calendar.calendar_width},\\y);
-    }}
-"""
+    % Grid lines drawn on a background layer to appear behind content
+    \begin{pgfonlayer}{background}
+        \foreach \x in {{{{1,2,3,4,5,6}}}} {{ 
+            \draw[line width=0.5pt, color=black!15] (\x,0) -- (\x,5);
+        }}
+        \foreach \y in {{{{1,2,3,4,5}}}} {{ 
+            \draw[line width=0.5pt, color=black!15] (0,\y) -- ({config.calendar.calendar_width},\y);
+        }}
+    \end{pgfonlayer}
+"
 
         # Add day numbers and tasks
         current_day = 1
@@ -320,7 +327,7 @@ class CalendarGenerator:
                 y_pos = 4.5 - week
 
                 # Add day number
-                grid += f"    \\node[font=\\bfseries{config.calendar.day_font_size}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {{{current_day}}};\n"
+                grid += f"    \node[font=\bfseries{{config.calendar.day_font_size}}, anchor=north west] at ({{day+0.05}},{{y_pos+0.4}}) {{{current_day}}};\n"
 
                 # Find tasks for this day
                 day_date = month_info.start_date + timedelta(days=current_day - 1)
@@ -329,13 +336,13 @@ class CalendarGenerator:
                 # Add task content in the day cell
                 if day_tasks:
                     task_text = self._generate_day_task_text(day_tasks)
-                    grid += f"    \\node[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {{{task_text}}};\n"
+                    grid += f"    \node[font={{config.calendar.task_font_size}}, anchor=north west, text width=0.9cm] at ({{day+0.05}},{{y_pos-0.1}}) {{{task_text}}};\n"
 
                 current_day += 1
             if current_day > month_info.num_days:
                 break
 
-        grid += "\\end{tikzpicture}\n"
+        grid += "\end{tikzpicture}\n"
         return grid
 
     def _generate_day_task_text(self, tasks: List[Task]) -> str:
@@ -347,12 +354,14 @@ class CalendarGenerator:
             task_name = self.escaper.escape_latex(task.name)
 
             if task.is_milestone:
-                task_text += f"\\textcolor{{{task.category_color}}}{{\\textbf{{$\\diamond$ {task_name}}}}}"
+                task_text += f"\\textcolor{{{task.category_color}}}{{\\textbf{{$\diamond$ {task_name}}}}}"
             else:
-                task_text += f"\\textcolor{{{task.category_color}}}{{\\textbf{{$\\bullet$ {task_name}}}}}"
+                task_text += f"\\textcolor{{{task.category_color}}}{{\\textbf{{$\bullet$ {task_name}}}}}"
 
             if i < len(limited_tasks) - 1:
-                task_text += "\\\\"
+                task_text += r"[-0.1em]"
+
+"
 
         return task_text
 
