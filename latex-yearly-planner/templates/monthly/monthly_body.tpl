@@ -1,4 +1,4 @@
-{{- template "monthTabularV2.tpl" dict "Cfg" .Cfg "Body" .Body -}}
+{{- template "calendar_table.tpl" dict "Cfg" .Cfg "Body" .Body -}}
 \smallskip
 
 % Single full-width Notes area (replaces previous two-column layout)

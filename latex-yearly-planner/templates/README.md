@@ -7,12 +7,12 @@ During development you can override this behavior to load from disk for fast ite
 
 Templates are flattened under `templates/monthly/`:
 
-- `document.tpl` — Preamble and document wrapper; includes macros and pages.
-- `macro.tpl` — Macros and length definitions shared by monthly templates.
-- `monthTabularV2.tpl` — The monthly table (tabularx) structure.
-- `_common_03_monthly.tpl` — Monthly body (month grid + single full-width Notes area).
-- `breadcrumb_00_header.tpl` — Header rendering for the monthly page.
-- `breadcrumb_03_monthly.tpl` — Assembles monthly page sections.
+- `main_document.tpl` — Preamble and document wrapper; includes macros and pages.
+- `macros.tpl` — Macros and length definitions shared by monthly templates.
+- `calendar_table.tpl` — The monthly table (tabularx) structure.
+- `monthly_body.tpl` — Monthly body (month grid + single full-width Notes area).
+- `page_header.tpl` — Header rendering for the monthly page.
+- `monthly_page.tpl` — Assembles monthly page sections.
 
 Embedded FS is declared in `templates/embed.go`.
 

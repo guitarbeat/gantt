@@ -27,6 +27,19 @@ latex-yearly-planner/
 └── build/                # Build output (gitignored)
 ```
 
+## Quick Start
+
+```bash
+# Generate PDF from test data
+make test
+
+# Generate PDF from demo data  
+make demo
+
+# Generate PDF from custom CSV
+make pdf CSV=../input/your_file.csv OUTPUT=my_planner
+```
+
 ## Building
 
 ```bash
@@ -35,46 +48,40 @@ make build
 
 ## Usage
 
+The simplest way to generate a PDF:
+
 ```bash
-make run
+# Quick test with single task
+make test
+
+# Demo with multiple tasks
+make demo
+
+# Custom CSV file
+make pdf CSV=../input/your_data.csv OUTPUT=my_planner
 ```
 
-Other handy targets:
+## Direct Script Usage
+
+For more control, use the simple script directly:
 
 ```bash
-# Quick 1-task sample PDF
-make test-single
+# Basic usage
+./scripts/simple.sh ../input/test_single.csv my_output
 
-# Run with a CSV (defaults to ../input/data.cleaned.csv or ../input/data.csv)
+# With custom CSV
+./scripts/simple.sh ../input/your_data.csv custom_name
+```
+
+## Legacy Support
+
+The old complex script system still works for backward compatibility:
+
+```bash
+# Old way (still works)
+make run-single
 make run-csv
-
-# Preview mode (pairs well with DEV_TEMPLATES=1)
-make preview
 ```
-
-Cleaning outputs:
-
-```bash
-# Remove generated files from the configured OUTDIR (defaults to build/)
-make clean
-
-# Clean a custom output directory
-OUTDIR=dist make clean
-```
-
-You can customize the output directory. The CLI supports `--outdir`, and scripts accept `OUTDIR` env:
-
-```bash
-# Use custom output directory with Make
-OUTDIR=dist make preview
-
-# Or call the CLI directly
-go run ./cmd/plannergen --config configs/planner_config.yaml --outdir dist --preview
-```
-
-Flags:
-
-- `--config` (optional): path to config YAML (or multiple comma-separated). Defaults to `configs/planner_config.yaml`.
 - `--preview` (optional): render only one page per unique module
 - `--outdir` (optional): output directory for generated files. Overrides the config `OutputDir` and defaults to `build`.
 
@@ -96,7 +103,7 @@ The application uses YAML configuration files in the `configs/` directory:
 
 - All LaTeX templates used at runtime live under `templates/monthly/*.tpl` and are embedded into the binary.
 - During development, set `DEV_TEMPLATES=1` to load from the filesystem instead of the embedded FS.
-- The main entry is `document.tpl`, which includes other templates in that directory.
+- The main entry is `main_document.tpl`, which includes other templates in that directory.
 
 See `templates/README.md` for an overview of the monthly layout and iteration tips.
 

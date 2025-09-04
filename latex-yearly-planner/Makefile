@@ -1,50 +1,38 @@
 # Simple Makefile for latex-yearly-planner
 
 GO ?= go
-OUTDIR ?= build
-BINARY ?= $(OUTDIR)/plannergen
-CFG ?= configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml
+BINARY ?= build/plannergen
 
-.PHONY: build run clean preview fmt vet test list generate all clean-all
+.PHONY: build pdf clean fmt vet test
 
+# Build the binary
 build:
 	$(GO) build -o $(BINARY) ./cmd/plannergen
 
-# Generate PDFs using the unified script
-generate:
-	./scripts/generate.sh
+# Generate PDF (simple approach)
+pdf:
+	./scripts/simple.sh $(CSV) $(OUTPUT)
 
-# List available CSV files
-list:
-	./scripts/generate.sh --list
+# Quick test with single task
+test:
+	./scripts/simple.sh ../input/test_single.csv test
 
-# Generate PDFs for all CSV files
-all:
-	./scripts/generate.sh --all
-
-# Generate PDF for specific CSV (usage: make csv CSV=1 or make csv CSV=../input/data.cleaned.csv)
-csv:
-	./scripts/generate.sh $(CSV)
+# Generate with triple CSV
+demo:
+	./scripts/simple.sh ../input/test_triple.csv demo
 
 # Legacy targets for backward compatibility
-run: generate
-preview:
-	OUTDIR="$(OUTDIR)" CFG="$(CFG)" PLANNERGEN_BINARY="$(BINARY)" scripts/build.sh --preview
+run: test
+run-single: test
+run-csv: demo
+test-single: test
+generate: test
 
 fmt:
 	$(GO) fmt ./...
 
 vet:
 	$(GO) vet ./...
-
-# Legacy test targets
-test-single:
-	./scripts/generate.sh ../input/test_single.csv
-
-run-single: test-single
-
-run-csv:
-	./scripts/generate.sh ../input/test_triple.csv
 
 clean:
 	# Clean build directory

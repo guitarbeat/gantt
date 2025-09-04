@@ -70,7 +70,7 @@
 
 \begin{document}
 
-{{template "macro.tpl" .}}
+{{template "macros.tpl" .}}
 
   {{range .Pages -}}
     \include{ {{- .Name -}} }

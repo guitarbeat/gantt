@@ -46,7 +46,7 @@ pages:
     renderblocks:
       - funcname: monthly
         tpls:
-          - monthTabularV2.tpl
+          - calendar_table.tpl
 
 debug:
   showframe: false

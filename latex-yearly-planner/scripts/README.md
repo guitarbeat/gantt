@@ -1,126 +1,72 @@
 # Build Scripts
 
-This directory contains build and utility scripts for the LaTeX Yearly Planner.
+This directory contains the simplified build script for the LaTeX Yearly Planner.
 
-## Main Scripts
+## Main Script
 
-### `single.sh`
-Core build script that:
-- Compiles the Go application
+### `simple.sh`
+The single, simple script that handles all PDF generation:
+- Builds the Go application if needed
 - Generates LaTeX files from templates
 - Compiles LaTeX to PDF using XeLaTeX
-- Supports preview mode and multiple passes
+- Creates clean, named output files
 
 **Usage:**
 ```bash
 # Basic usage
-CFG="configs/base.yaml,configs/page_template.yaml" ./scripts/single.sh
+./scripts/simple.sh ../input/test_single.csv my_planner
 
-# With environment variables
-PLANNER_CSV_FILE="examples/sample_project_data.csv" \
-PLANNER_YEAR=2025 \
-CFG="configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml" \
-./scripts/single.sh
-```
-
-### `build_with_data.sh`
-Convenience script for building with CSV data. Pre-configured to use the sample project data.
-
-**Usage:**
-```bash
-./scripts/build_with_data.sh
-```
-
-### `build_release.sh`
-Release builder for generating timestamped planner PDFs. Creates clean builds with timestamped filenames in the release/ directory.
-
-**Usage:**
-```bash
-./scripts/build_release.sh -c "configs/base.yaml,configs/page_template.yaml,configs/csv_config.yaml" -n "overlap_test"
-```
-
-## Test Scripts
-
-### `test_day.sh`
-Comprehensive test script for the `day.go` module:
-- Unit tests for all Day struct methods
-- Coverage reports and benchmarks
-- Race condition detection
-- Multiple test modes with colored output
-
-**Usage:**
-```bash
-./scripts/test_day.sh -t    # Run unit tests
-./scripts/test_day.sh -c    # Run with coverage
-./scripts/test_day.sh -b    # Run benchmarks
-./scripts/test_day.sh -r    # Run race detection
-./scripts/test_day.sh --help # Show all options
-```
-
-### `test_triple_csv.sh`
-Test script specifically for `test_triple.csv` file processing:
-- CSV structure validation
-- Date parsing verification
-- Go parsing functionality
-- Planner binary testing
-
-**Usage:**
-```bash
-./scripts/test_triple_csv.sh -v    # Validate CSV structure
-./scripts/test_triple_csv.sh -p    # Test CSV parsing
-./scripts/test_triple_csv.sh -d    # Test date parsing
-./scripts/test_triple_csv.sh --help # Show all options
+# With custom CSV and output name
+./scripts/simple.sh ../input/your_data.csv custom_name
 ```
 
 ## Makefile Integration
 
-For common development tasks, use the Makefile instead of scripts:
+For the simplest usage, use the Makefile:
 
 ```bash
-make build          # Build the Go binary
-make clean          # Clean build artifacts  
-make fmt            # Format Go code
-make vet            # Lint Go code
-make test-single    # Run single task test (replaces scripts/test_single.sh)
-make run-single     # Run single task (replaces scripts/run_single.sh)
-make run-csv        # Run with CSV data (replaces scripts/run_with_csv.sh)
-make run            # Run with default config
-make preview        # Run in preview mode
+# Quick test with single task
+make test
+
+# Demo with multiple tasks  
+make demo
+
+# Custom CSV file
+make pdf CSV=../input/your_file.csv OUTPUT=my_planner
+
+# Build the binary
+make build
 ```
 
-**Use scripts for:**
-- Complex builds with specific options
-- Release builds with timestamps
-- Comprehensive testing
-- CSV processing and validation
+## What Was Removed
 
-**Use Makefile for:**
-- Standard Go development workflow
-- Quick builds and tests
-- Code formatting and linting
+The following complex scripts were removed for simplicity:
+- `generate.sh` - Complex multi-layer script
+- `build.sh` - Environment variable wrapper
+- `single.sh` - Core build with hardcoded filenames
+- `build_release.sh` - Release builder
+- `build_with_data.sh` - Data-specific builder
+- `test_day.sh` - Day module tests
+- `test_triple_csv.sh` - CSV-specific tests
 
-## Environment Variables
+## Why Simplified?
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PLANNER_CSV_FILE` | Path to CSV data file | None |
-| `PLANNER_YEAR` | Base year for planner | Current year |
-| `PASSES` | Number of LaTeX compilation passes | 1 |
-| `CFG` | Comma-separated list of config files | Required |
-| `NAME` | Output PDF filename | Based on config name |
-| `PREVIEW` | Generate preview (unique pages only) | false |
+The old system had:
+- ❌ 4 script layers deep
+- ❌ 8+ environment variables
+- ❌ Hardcoded filename mismatches
+- ❌ Complex file management
+- ❌ Multiple failure points
 
-## Configuration Files
-
-Scripts typically use these configuration combinations:
-
-1. **Basic**: `configs/base.yaml,configs/page_template.yaml`
-2. **Full**: `configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml`
-3. **CSV-based**: Automatically includes CSV file path and date range detection
+The new system has:
+- ✅ 1 simple script (25 lines)
+- ✅ 0 environment variables needed
+- ✅ Consistent filename handling
+- ✅ Clear error messages
+- ✅ Easy to debug and modify
 
 ## Output
 
-Generated files are placed in the `build/` directory:
-- `*.tex` - Generated LaTeX files
-- `*.pdf` - Compiled PDF output
-- `*.aux`, `*.log`, etc. - LaTeX compilation artifacts
+Generated files are placed in the current directory:
+- `{output_name}.pdf` - Final PDF output
+- `build/` - Temporary build files (LaTeX artifacts)

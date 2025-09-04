@@ -95,7 +95,7 @@ func (t Tpl) Document(wr io.Writer, cfg config.Config) error {
 	}
 
 	data := pack{Cfg: cfg, Pages: cfg.Pages}
-	if err := t.tpl.ExecuteTemplate(wr, "document.tpl", data); err != nil {
+	if err := t.tpl.ExecuteTemplate(wr, "main_document.tpl", data); err != nil {
 		return fmt.Errorf("execute template: %w", err)
 	}
 
