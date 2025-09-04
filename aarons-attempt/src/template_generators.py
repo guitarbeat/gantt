@@ -132,7 +132,7 @@ class GanttTimelineGenerator(BaseTemplateGenerator):
 % Task table
 \\section*{Task Details}
 
-\\begin{longtable}{p{2cm}p{4cm}p{2cm}p{2cm}p{2cm}p{3cm}}
+\\begin{longtable}{>{\\RaggedRight}p{2cm}>{\\RaggedRight}p{4cm}>{\\RaggedRight}p{2cm}>{\\RaggedRight}p{2cm}>{\\RaggedRight}p{2cm}>{\\RaggedRight}p{3cm}}
 \\toprule
 \\textbf{ID} & \\textbf{Task Name} & \\textbf{Start} & \\textbf{Due} & \\textbf{Milestone} & \\textbf{Category} \\\\
 \\midrule

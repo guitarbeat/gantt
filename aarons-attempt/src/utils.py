@@ -99,29 +99,32 @@ class LaTeXUtilities:
         for package in packages:
             package_includes.append(f"\\usepackage{{{package}}}")
         
-        return f"""\\documentclass[{orientation},{page_size}]{{article}}
-\\usepackage{{[utf8]{{inputenc}}}}
-\\usepackage{{[T1]{{fontenc}}}}
-\\usepackage{{lmodern}}
-\\usepackage{{helvet}}
-\\usepackage{{[{orientation},margin={margin}]{{geometry}}}}
+        return fr"""\documentclass[{orientation},{page_size}]{{article}}
+\usepackage[utf8]{{inputenc}}
+\usepackage[T1]{{fontenc}}
+\usepackage{{lmodern}}
+\usepackage{{helvet}}
+\usepackage[{orientation},margin={margin}]{{geometry}}
 {chr(10).join(package_includes)}
 
+% PGFPlots compatibility
+\pgfplotsset{{compat=1.18}}
+
 % Page setup
-\\pagestyle{{empty}}
-\\setlength{{\\parskip}}{{0.5em}}
+\pagestyle{{empty}}
+\setlength{{\parskip}}{{0.5em}}
 
 % Table formatting
-\\setlength{{\\tabcolsep}}{{1pt}}
-\\renewcommand{{\\arraystretch}}{{1.0}}
+\setlength{{\tabcolsep}}{{1pt}}
+\renewcommand{{\arraystretch}}{{1.0}}
 
 % Use Helvetica for sans-serif
-\\renewcommand{{\\familydefault}}{{\\sfdefault}}
+\renewcommand{{\familydefault}}{{\sfdefault}}
 
 % Color definitions
 {LaTeXUtilities.generate_color_definitions()}
 
-\\begin{{document}}
+\begin{{document}}
 """
     
     @staticmethod
@@ -141,25 +144,25 @@ class LaTeXUtilities:
         for package in packages:
             package_includes.append(f"\\usepackage{{{package}}}")
         
-        return f"""\\documentclass[{orientation},{page_size}]{{article}}
-\\usepackage{{[utf8]{{inputenc}}}}
-\\usepackage{{[T1]{{fontenc}}}}
-\\usepackage{{lmodern}}
-\\usepackage{{helvet}}
-\\usepackage{{[{orientation},margin={margin}]{{geometry}}}}
+        return fr"""\documentclass[{orientation},{page_size}]{{article}}
+\usepackage[utf8]{{inputenc}}
+\usepackage[T1]{{fontenc}}
+\usepackage{{lmodern}}
+\usepackage{{helvet}}
+\usepackage[{orientation},margin={margin}]{{geometry}}
 {chr(10).join(package_includes)}
 
 % Page setup
-\\pagestyle{{empty}}
-\\setlength{{\\parskip}}{{0.5em}}
+\pagestyle{{empty}}
+\setlength{{\parskip}}{{0.5em}}
 
 % Use Helvetica for sans-serif
-\\renewcommand{{\\familydefault}}{{\\sfdefault}}
+\renewcommand{{\familydefault}}{{\sfdefault}}
 
 % Color definitions
 {LaTeXUtilities.generate_color_definitions("simplified")}
 
-\\begin{{document}}
+\begin{{document}}
 """
     
     @staticmethod
