@@ -1,0 +1,162 @@
+\documentclass[portrait,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{helvet}
+\usepackage[portrait,margin=0.5in]{geometry}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ragged2e}
+
+% Page setup
+\\pagestyle{empty}
+\\setlength{\\parskip}{0.5em}
+
+% Table formatting
+\\setlength{\\tabcolsep}{1pt}
+\\renewcommand{\\arraystretch}{1.0}
+
+% Use Helvetica for sans-serif
+\\renewcommand{\\familydefault}{\\sfdefault}
+
+% Color definitions
+\definecolor{accountability}{RGB}{139, 92, 246}
+\definecolor{administrative}{RGB}{107, 114, 128}
+\definecolor{blocked}{RGB}{239, 68, 68}
+\definecolor{completed}{RGB}{34, 197, 94}
+\definecolor{inprogress}{RGB}{251, 146, 60}
+\definecolor{milestone}{RGB}{147, 51, 234}
+\definecolor{other}{RGB}{156, 163, 175}
+\definecolor{planned}{RGB}{59, 130, 246}
+\definecolor{researchcore}{RGB}{59, 130, 246}
+\definecolor{researchexp}{RGB}{16, 185, 129}
+\definecolor{researchout}{RGB}{245, 158, 11}
+\definecolor{service}{RGB}{236, 72, 153}
+
+\\begin{document}
+
+% Title page
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\textbf{Project Timeline}}
+
+\vspace{1cm}
+
+{\Large Project Timeline}
+
+\vspace{2cm}
+
+\begin{tabular}{ll}
+\textbf{Start Date:} & August 29, 2025 \\
+\textbf{End Date:} & August 15, 2027 \\
+\textbf{Total Tasks:} & 63 \\
+\textbf{Duration:} & 716 days \\
+\end{tabular}
+
+\vspace{2cm}
+
+{\large Generated on \today}
+
+\end{titlepage}
+
+\newpage
+
+% Timeline content
+\section*{Project Timeline}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+% Timeline visualization would go here
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% Task table
+\section*{Task Details}
+
+\begin{longtable}{p{2cm}p{4cm}p{2cm}p{2cm}p{2cm}p{3cm}}
+\toprule
+\textbf{ID} & \textbf{Task Name} & \textbf{Start} & \textbf{Due} & \textbf{Milestone} & \textbf{Category} \\
+\midrule
+\endhead
+
+A & timeline v1 & 08/29 & 08/31 & No & PROPOSAL \\
+B & Initial proposal skeleton & 08/29 & 08/31 & No & PROPOSAL \\
+C & Submit proposal outline & 08/31 & 08/31 & Yes & PROPOSAL \\
+D & Define proposal committee & 09/02 & 09/05 & No & PROPOSAL \\
+F & Expand proposal draft & 09/01 & 09/12 & No & PROPOSAL \\
+G & Confirm exam date & 09/12 & 09/12 & Yes & PROPOSAL \\
+H & Align seed laser & 08/30 & 09/03 & No & LASER \\
+I & Align amplifier & 09/03 & 09/10 & No & LASER \\
+J & Check pulse compression & 09/10 & 09/12 & No & LASER \\
+K & Calibrate microscope & 09/12 & 09/12 & Yes & LASER \\
+L & Laser system ready & 09/12 & 09/12 & Yes & LASER \\
+M & Plan imaging cohort & 09/01 & 09/05 & No & IMAGING \\
+N & Annual progress review & 09/01 & 09/07 & No & ADMIN \\
+O & Proposal exam paperwork & 09/12 & 10/15 & No & ADMIN \\
+P & Design AAV vectors & 10/01 & 10/15 & No & IMAGING \\
+Q & AAV vectors ready & 01/15 & 01/15 & Yes & IMAGING \\
+R & proposal draft & 11/15 & 12/15 & No & PROPOSAL \\
+S & Send proposal to committee & 12/16 & 12/16 & Yes & PROPOSAL \\
+T & Prepare presentation & 01/04 & 01/18 & No & PROPOSAL \\
+U & PhD Proposal Exam & 01/20 & 01/20 & Yes & PROPOSAL \\
+V & Address committee feedback & 01/21 & 01/28 & No & PROPOSAL \\
+W & Cranial window surgery \#1 & 02/01 & 02/01 & Yes & IMAGING \\
+Z & Post-op recovery \#1 & 02/02 & 02/05 & No & IMAGING \\
+AA & Cranial window surgery \#2 & 02/08 & 02/08 & Yes & IMAGING \\
+AB & Post-op recovery \#2 & 02/09 & 02/12 & No & IMAGING \\
+AC & Cranial window surgery \#3 & 02/15 & 02/15 & Yes & IMAGING \\
+AD & Post-op recovery \#3 & 02/16 & 02/19 & No & IMAGING \\
+AE & Pilot imaging session \#1 & 02/22 & 02/23 & No & IMAGING \\
+AF & Pilot imaging session \#2 & 03/01 & 03/02 & No & IMAGING \\
+AG & Pilot imaging session \#3 & 03/08 & 03/09 & No & IMAGING \\
+AH & Pilot datasets complete & 03/10 & 03/10 & Yes & IMAGING \\
+AI & Process pilot data & 03/10 & 03/15 & No & IMAGING \\
+AJ & Develop U-Net pipeline & 03/15 & 04/01 & No & IMAGING \\
+AK & Optimize imaging systems & 03/15 & 04/30 & No & IMAGING \\
+AM & Order enhanced AAV & 03/01 & 05/01 & No & IMAGING \\
+AN & Enhanced AAV delivered & 07/01 & 07/01 & Yes & IMAGING \\
+AO & Compare labeling methods & 04/30 & 05/31 & No & IMAGING \\
+AP & methodology paper & 04/01 & 05/31 & No & PUBLICATION \\
+AQ & Submit methodology paper & 06/01 & 06/01 & Yes & PUBLICATION \\
+AR & Establish stroke protocol & 05/31 & 06/05 & No & IMAGING \\
+AS & Induce stroke & 06/06 & 06/10 & No & IMAGING \\
+AT & Acute-phase imaging & 06/15 & 06/16 & No & IMAGING \\
+AU & Transition-phase imaging & 07/01 & 07/02 & No & IMAGING \\
+AV & Stabilization-phase imaging & 07/30 & 07/31 & No & IMAGING \\
+AW & Extended chronic imaging & 08/25 & 08/26 & No & IMAGING \\
+AX & Refine ML pipeline & 06/15 & 08/31 & No & IMAGING \\
+AY & Stroke data complete & 08/31 & 08/31 & Yes & IMAGING \\
+AZ & Integrate flow data & 09/01 & 09/30 & No & IMAGING \\
+BA & Analyze neurovascular coupling & 10/01 & 11/15 & No & IMAGING \\
+BB & Prepare conference presentation & 11/15 & 12/01 & No & PUBLICATION \\
+BC & second manuscript & 11/15 & 11/30 & No & PUBLICATION \\
+BD & Submit second manuscript & 12/15 & 12/15 & Yes & PUBLICATION \\
+BE & Annual progress review & 09/01 & 09/07 & No & ADMIN \\
+BG & PhD Dissertation \& Defense & 12/01 & 08/15 & No & DISSERTATION \\
+BI & Introduction & 12/15 & 01/31 & No & DISSERTATION \\
+BJ & Aim 1 chapter & 01/01 & 02/28 & No & DISSERTATION \\
+BK & Aim 2 chapter & 01/15 & 03/31 & No & DISSERTATION \\
+BL & Aim 3 chapter & 02/01 & 04/15 & No & DISSERTATION \\
+BM & Conclusions & 03/01 & 04/30 & No & DISSERTATION \\
+BN & Dissertation draft complete & 05/01 & 05/01 & Yes & DISSERTATION \\
+BS & PhD Defense & 07/15 & 07/15 & Yes & DISSERTATION \\
+BT & Revise dissertation & 07/16 & 07/31 & No & DISSERTATION \\
+BU & Submit dissertation & 08/01 & 08/01 & Yes & DISSERTATION \\
+
+\bottomrule
+\end{longtable}
+\end{document}

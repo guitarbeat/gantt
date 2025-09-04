@@ -5,13 +5,9 @@ PYTHON ?= python
 # Standard build using main application
 build:
 	@TIMESTAMP=$$(date +"%Y%m%d_%H%M%S"); \
-	$(PYTHON) main.py app --input ../input/data.cleaned.csv --output output/tex/Calendar_$$TIMESTAMP.tex; \
-	echo "Generated output/tex/Calendar_$$TIMESTAMP.tex"; \
-	pdflatex -interaction=nonstopmode -output-directory output/tex output/tex/Calendar_$$TIMESTAMP.tex | cat; \
-	mv output/tex/Calendar_$$TIMESTAMP.pdf output/pdf/; \
-	echo "Built output/pdf/Calendar_$$TIMESTAMP.pdf"; \
-	rm -f output/tex/Calendar_$$TIMESTAMP.aux output/tex/Calendar_$$TIMESTAMP.log output/tex/Calendar_$$TIMESTAMP.toc; \
-	echo "Cleaned up build artifacts"
+	$(PYTHON) main.py build single input/data.cleaned.csv \
+		--title "Project Timeline" \
+		--output "Timeline_$$TIMESTAMP"
 
 # Build all templates using enhanced build system
 build-all:

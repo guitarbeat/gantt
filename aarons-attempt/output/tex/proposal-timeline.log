@@ -747,4 +747,350 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 504.
 
-(/usr/local/texlive/2025/texmf-dist/tex/latex/late
+(/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package hyperref Info: Link coloring OFF on input line 36.
+
+(./proposal-timeline.out) (./proposal-timeline.out)
+\@outlinefile=\write4
+\openout4 = `proposal-timeline.out'.
+
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
+3.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 5
+3.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+53.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+53.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 53.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 53.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 53.
+
+
+[1
+
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
+al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 89.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 89.
+
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.138 
+       [1{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{
+/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...l window surgery \textbackslash {}##
+                                                  1
+l.151 ...anial window surgery \textbackslash{}#1}}
+                                                  
+? 
+! Interruption.
+\textbf  ...xt@command {#1}\bfseries \check@icl #1
+                                                  \check@icr \expandafter \e...
+l.151 ...anial window surgery \textbackslash{}#1}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...Post-op recovery \textbackslash {}##
+                                                  1
+l.155 ...rge Post-op recovery \textbackslash{}#1}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...d medicate Mouse \textbackslash {}##
+                                                  1 after surgery. No imagin...
+l.157 ...during recovery period to allow healing.}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...l window surgery \textbackslash {}##
+                                                  2
+l.159 ...anial window surgery \textbackslash{}#2}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...d one week after \textbackslash {}##
+                                                  1).
+l.161 ...ered one week after \textbackslash{}#1).}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...Post-op recovery \textbackslash {}##
+                                                  2
+l.163 ...rge Post-op recovery \textbackslash{}#2}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...d medicate Mouse \textbackslash {}##
+                                                  2 after surgery. Maintain ...
+l.165 ...tain analgesia schedule during recovery.}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...l window surgery \textbackslash {}##
+                                                  3
+l.167 ...anial window surgery \textbackslash{}#3}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...Post-op recovery \textbackslash {}##
+                                                  3
+l.171 ...rge Post-op recovery \textbackslash{}#3}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...d medicate Mouse \textbackslash {}##
+                                                  3 after surgery. Complete ...
+l.173 ...Complete recovery period before imaging.}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ... imaging session \textbackslash {}##
+                                                  1
+l.175 ...ilot imaging session \textbackslash{}#1}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...images for Mouse \textbackslash {}##
+                                                  1 comparing AAV fluorescen...
+l.177 ...ce vs traditional dye injection methods.}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ... imaging session \textbackslash {}##
+                                                  2
+l.179 ...ilot imaging session \textbackslash{}#2}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...images for Mouse \textbackslash {}##
+                                                  2 under dual-label vs dye ...
+l.181 ...-label vs dye conditions for comparison.}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ... imaging session \textbackslash {}##
+                                                  3
+l.183 ...ilot imaging session \textbackslash{}#3}}
+                                                  
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...images for Mouse \textbackslash {}##
+                                                  3. Complete final pilot da...
+l.185 ...inal pilot dataset for Aim 1 validation.}
+                                                  
+? 
+
+
+[2]
+! Misplaced alignment tab character &.
+<argument> ... PhD Dissertation \textbackslash {}&
+                                                   Defense
+l.279 ... Dissertation \textbackslash{}& Defense}}
+                                                  
+? 
+! Missing number, treated as zero.
+<to be read again> 
+                   {
+l.281 ...ents by Summer 2027.} \\ \vspace{{0.2em}}
+                                                   \\ \textcolor{{black!50}}...
+
+? 
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   {
+l.281 ...ents by Summer 2027.} \\ \vspace{{0.2em}}
+                                                   \\ \textcolor{{black!50}}...
+
+? 
+
+! Package xcolor Error: Undefined color `{black'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.281 ...black!50}}{{\small \textbf{{Subtasks:}}}}
+                                                   \\ \begin{itemize}[leftma...
+
+? 
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.281 ...black!50}}{{\small \textbf{{Subtasks:}}}}
+                                                   \\ \begin{itemize}[leftma...
+
+? 
+! Missing number, treated as zero.
+<to be read again> 
+                   \edef 
+l.281 ...black!50}}{{\small \textbf{{Subtasks:}}}}
+                                                   \\ \begin{itemize}[leftma...
+
+? 
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   \edef 
+l.281 ...black!50}}{{\small \textbf{{Subtasks:}}}}
+                                                   \\ \begin{itemize}[leftma...
+
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 279--281
+
+ []
+
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.281 ...tcolor{milestone!60}{\tiny$\bullet$}] \\i
+                                                  tem \textcolor{milestone!7...
+
+? 
+
+
+[3]
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.282 \end{enumerate}
+                     
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+
+! LaTeX Error: \begin{itemize} on input line 281 ended by \end{enumerate}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.282 \end{enumerate}
+                     
+? 
+
+
+[4]
+
+! LaTeX Error: \begin{enumerate} on input line 65 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.284 \end{document}
+                    
+? 
+(./proposal-timeline.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+Package rerunfilecheck Info: File `proposal-timeline.out' has not changed.
+(rerunfilecheck)             Checksum: 18BE5BD878F5131911841ADEB0287BDD;139.
+ )
+(\end occurred inside a group at level 1)
+
+### semi simple group (level 1) entered at line 65 (\begingroup)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 21336 strings out of 473190
+ 394973 string characters out of 5715801
+ 785896 words of memory out of 5000000
+ 44162 multiletter control sequences out of 15000+600000
+ 605392 words of font info for 72 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 102i,6n,107p,2876b,690s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi1
+0.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2025/te
+xmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf-dis
+t/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on proposal-timeline.pdf (5 pages, 49288 bytes).
+PDF statistics:
+ 136 PDF objects out of 1000 (max. 8388607)
+ 115 compressed objects within 2 object streams
+ 60 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+
