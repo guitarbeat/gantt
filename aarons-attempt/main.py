@@ -14,8 +14,8 @@ def main():
         add_help=False
     )
     parser.add_argument('command', nargs='?', default='app', 
-                       choices=['app', 'build'],
-                       help='Command to run: app (default) or build')
+                       choices=['app', 'build', 'debug'],
+                       help='Command to run: app (default), build, or debug')
     
     # Parse just the first argument to determine which system to use
     args, remaining_args = parser.parse_known_args()
@@ -26,6 +26,12 @@ def main():
         # Reconstruct sys.argv for the build system
         sys.argv = ['main.py'] + remaining_args
         return build_main()
+    elif args.command == 'debug':
+        # Route to debug system
+        from src.debug_cli import main as debug_main
+        # Reconstruct sys.argv for the debug system
+        sys.argv = ['main.py'] + remaining_args
+        return debug_main()
     else:
         # Route to main application (default)
         from src.app import main as app_main

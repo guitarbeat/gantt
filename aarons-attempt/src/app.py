@@ -16,6 +16,7 @@ from .latex_generator import LaTeXGenerator
 from .config import config
 from .config_manager import ConfigManager, config_manager
 from .template_generators import TemplateGeneratorFactory
+from .session_manager import get_session_integration
 
 
 class Application:
@@ -27,6 +28,7 @@ class Application:
         self.data_processor = DataProcessor()
         self.latex_generator = LaTeXGenerator()
         self.config_manager = config_manager
+        self.session_integration = get_session_integration()
     
     def setup_logging(self, level: str = "INFO") -> None:
         """Setup logging configuration."""
@@ -106,6 +108,31 @@ class Application:
             
         except Exception as e:
             self.logger.error(f"❌ Error generating LaTeX file: {e}")
+            
+            # * Handle error through APM debugging system
+            try:
+                error_context = {
+                    "input_file": input_file,
+                    "output_file": output_file,
+                    "title": title,
+                    "template_type": template_type,
+                    "device_profile": device_profile,
+                    "color_scheme": color_scheme
+                }
+                
+                success, message, delegation_prompt = self.session_integration.handle_application_error(
+                    e, error_context
+                )
+                
+                if not success and delegation_prompt:
+                    self.logger.info("Error requires Ad-Hoc debugging session")
+                    self.logger.info("Delegation prompt generated for Ad-Hoc agent")
+                    # * In a real implementation, this would trigger the Ad-Hoc session
+                    # * For now, we just log the information
+                
+            except Exception as debug_error:
+                self.logger.warning(f"Failed to handle error through debug system: {debug_error}")
+            
             return False
     
     def run(self, args: argparse.Namespace) -> int:

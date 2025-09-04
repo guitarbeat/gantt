@@ -1,0 +1,15 @@
+{
+  "session_id": "32fc4d2a-ea0e-4a48-8cfa-82662250a556",
+  "issue_id": "demo_simple_001",
+  "title": "Simple Import Error",
+  "description": "Module 'pandas' not found during execution",
+  "complexity": "simple",
+  "status": "pending",
+  "created_at": "2025-09-04T11:11:51.391925",
+  "updated_at": "2025-09-04T11:11:51.391926",
+  "attempts": [],
+  "delegation_prompt": null,
+  "ad_hoc_session_id": null,
+  "final_solution": null,
+  "escalation_reason": null
+}

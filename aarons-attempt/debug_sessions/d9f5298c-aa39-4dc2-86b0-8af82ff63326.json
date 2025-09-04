@@ -1,0 +1,25 @@
+{
+  "session_id": "d9f5298c-aa39-4dc2-86b0-8af82ff63326",
+  "issue_id": "test_issue_002",
+  "title": "Test LaTeX Error 2",
+  "description": "LaTeX compilation failed with missing package error",
+  "complexity": "simple",
+  "status": "resolved",
+  "created_at": "2025-09-04T11:09:45.876191",
+  "updated_at": "2025-09-04T11:10:23.070558",
+  "attempts": [
+    {
+      "attempt_id": "6259af4f-a091-4aae-8d86-346d221ea56a",
+      "timestamp": "2025-09-04T11:10:23.070549",
+      "description": "Ad-Hoc agent solution integration",
+      "success": true,
+      "error_message": null,
+      "solution": "Root cause: Missing LaTeX package 'tikz'. Solution: Added \\usepackage{tikz} to document preamble. Testing: Verified compilation succeeds. Prevention: Added package validation to build process.",
+      "duration_seconds": null
+    }
+  ],
+  "delegation_prompt": "49118d7c-61bb-414a-8214-1db4a067b688",
+  "ad_hoc_session_id": null,
+  "final_solution": "Root cause: Missing LaTeX package 'tikz'. Solution: Added \\usepackage{tikz} to document preamble. Testing: Verified compilation succeeds. Prevention: Added package validation to build process.",
+  "escalation_reason": null
+}

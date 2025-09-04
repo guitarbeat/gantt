@@ -1,0 +1,6 @@
+{
+  "session_id": "1d265b6b-a61f-4784-9339-1d5cc54e9467",
+  "issue_id": "session_test",
+  "title": "Session Management Test",
+  "description": "Testing session persistence and retrieval",
+  "complexity": 
