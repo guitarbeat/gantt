@@ -9,14 +9,16 @@ src/
 ├── __init__.py              # Package initialization and exports
 ├── app.py                   # Main application entry point
 ├── build.py                 # Enhanced build system
-├── config_manager.py        # Configuration management
-├── template_generators.py   # Template generation system
 ├── config.py                # Core configuration classes
-├── models.py                # Data models and validation
+├── config_manager.py        # YAML-based configuration management
 ├── data_processor.py        # CSV processing and data pipeline
+├── export_system.py         # Multi-format export system
+├── interactive_generator.py # Interactive features and UI
 ├── latex_generator.py       # LaTeX generation components
+├── models.py                # Data models and validation
+├── template_generators.py   # Template generation system
 ├── utils.py                 # Shared utilities
-└── config/                  # Configuration files
+└── config/                  # YAML configuration files
     ├── templates.yaml       # Template definitions
     └── device_profiles.yaml # Device profiles
 ```

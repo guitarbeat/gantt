@@ -86,20 +86,21 @@ python main.py --template monthly_calendar --device supernote_a5x
 /Users/aaron/Downloads/gantt/
 ├── aarons-attempt/                    # Main Python application
 │   ├── src/                          # Source code package
+│   │   ├── __init__.py              # Package initialization
 │   │   ├── app.py                   # Main application
 │   │   ├── build.py                 # Enhanced build system
-│   │   ├── config_manager.py        # Configuration management
-│   │   ├── template_generators.py   # Template generation system
+│   │   ├── config.py                # Core configuration
+│   │   ├── config_manager.py        # YAML-based configuration
 │   │   ├── data_processor.py        # CSV processing
+│   │   ├── export_system.py         # Multi-format export
+│   │   ├── interactive_generator.py # Interactive features
 │   │   ├── latex_generator.py       # LaTeX generation
 │   │   ├── models.py                # Data models
+│   │   ├── template_generators.py   # Template generation
 │   │   ├── utils.py                 # Shared utilities
-│   │   └── config/                  # Configuration files
+│   │   └── config/                  # YAML configuration files
 │   │       ├── templates.yaml       # Template definitions
 │   │       └── device_profiles.yaml # Device profiles
-│   ├── ../input/                    # Input data (moved to root)
-│   │   ├── data.csv                 # Source CSV
-│   │   └── data.cleaned.csv         # Cleaned CSV
 │   ├── output/                      # Generated files
 │   │   ├── pdf/                     # PDF outputs
 │   │   └── tex/                     # LaTeX sources
