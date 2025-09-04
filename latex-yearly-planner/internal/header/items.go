@@ -4,12 +4,19 @@ import "strings"
 
 type Items []Item
 
+// plainItem creates a simple item that just displays the given text
+type plainItem string
+
+func (p plainItem) Display() string {
+	return string(p)
+}
+
 func (i Items) WithTopRightCorner(flag bool) Items {
 	if !flag {
 		return i
 	}
 
-	return append(i, NewPlainItem(`\kern 5mm`))
+	return append(i, plainItem(`\kern 5mm`))
 }
 
 func (i Items) Length() int {
