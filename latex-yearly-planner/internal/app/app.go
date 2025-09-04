@@ -7,8 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/config"
-	"github.com/kudrykv/latex-yearly-planner/internal/generator"
+	"latex-yearly-planner/internal/config"
+	"latex-yearly-planner/internal/generator"
+
 	"github.com/urfave/cli/v2"
 )
 
@@ -126,12 +127,6 @@ func action(c *cli.Context) error {
 }
 
 func RootFilename(pathconfig string) string {
-	if idx := strings.LastIndex(pathconfig, "/"); idx >= 0 {
-		pathconfig = pathconfig[idx+1:]
-	}
-
-	pathconfig = strings.TrimSuffix(pathconfig, ".yml")
-	pathconfig = strings.TrimSuffix(pathconfig, ".yaml")
-
-	return pathconfig + ".tex"
+	// Always use "proposal-timeline" as the base filename
+	return "proposal-timeline.tex"
 }

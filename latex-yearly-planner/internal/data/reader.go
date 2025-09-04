@@ -21,11 +21,7 @@ type Task struct {
 	Name        string
 	StartDate   time.Time
 	EndDate     time.Time
-	Duration    int
-	Progress    int
 	Priority    string
-	Status      string
-	Assignee    string
 	Description string
 }
 
@@ -142,39 +138,27 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 		return nil, err
 	}
 
-	// Track which months have tasks
-	monthsWithTasks := make(map[string]MonthYear)
+	// Track which months have tasks using a map for deduplication
+	monthsWithTasks := make(map[MonthYear]bool)
 
 	for _, task := range tasks {
-		// Add start month
-		startMonth := MonthYear{
-			Year:  task.StartDate.Year(),
-			Month: task.StartDate.Month(),
-		}
-		monthsWithTasks[startMonth.String()] = startMonth
-
-		// Add end month
-		endMonth := MonthYear{
-			Year:  task.EndDate.Year(),
-			Month: task.EndDate.Month(),
-		}
-		monthsWithTasks[endMonth.String()] = endMonth
-
-		// Add all months in between
+		// Add all months from start to end (inclusive)
 		current := task.StartDate
-		for current.Before(task.EndDate) || current.Equal(task.EndDate) {
-			monthKey := MonthYear{
+		end := task.EndDate
+		
+		for !current.After(end) {
+			month := MonthYear{
 				Year:  current.Year(),
 				Month: current.Month(),
 			}
-			monthsWithTasks[monthKey.String()] = monthKey
+			monthsWithTasks[month] = true
 			current = current.AddDate(0, 1, 0)
 		}
 	}
 
 	// Convert to slice and sort
-	var months []MonthYear
-	for _, month := range monthsWithTasks {
+	months := make([]MonthYear, 0, len(monthsWithTasks))
+	for month := range monthsWithTasks {
 		months = append(months, month)
 	}
 
@@ -187,11 +171,6 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 	})
 
 	return months, nil
-}
-
-// String returns a string representation of MonthYear
-func (my MonthYear) String() string {
-	return fmt.Sprintf("%d-%02d", my.Year, int(my.Month))
 }
 
 // parseTask parses a single CSV record into a Task struct
@@ -238,12 +217,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 		}
 		task.EndDate = endDate
 	}
-
-	// Set default values for fields not in CSV
-	task.Duration = 0
-	task.Progress = 0
-	task.Status = "Planned" // Default status
-	task.Assignee = ""      // No assignee field in CSV
 
 	return task, nil
 }

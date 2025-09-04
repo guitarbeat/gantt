@@ -8,6 +8,12 @@
 \usepackage{calc}
 \usepackage{geometry}
 
+% Font configuration - use modern sans-serif font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+
 % Color and graphics
 \usepackage[table]{xcolor}
 \usepackage{graphicx}

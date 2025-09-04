@@ -1,6 +1,6 @@
 package header
 
-import "github.com/kudrykv/latex-yearly-planner/internal/latex"
+import "latex-yearly-planner/internal/latex"
 
 type TextItem struct {
 	Name      string

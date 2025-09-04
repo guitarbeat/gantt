@@ -31,13 +31,73 @@ Convenience script for building with CSV data. Pre-configured to use the sample 
 ./scripts/build_with_data.sh
 ```
 
+### `build_release.sh`
+Release builder for generating timestamped planner PDFs. Creates clean builds with timestamped filenames in the release/ directory.
+
+**Usage:**
+```bash
+./scripts/build_release.sh -c "configs/base.yaml,configs/page_template.yaml,configs/csv_config.yaml" -n "overlap_test"
+```
+
 ## Test Scripts
 
-### `test_single.sh`
-Quick test with minimal data (single task).
+### `test_day.sh`
+Comprehensive test script for the `day.go` module:
+- Unit tests for all Day struct methods
+- Coverage reports and benchmarks
+- Race condition detection
+- Multiple test modes with colored output
 
-### `test_three.sh`
-Test with a small subset of tasks for faster iteration.
+**Usage:**
+```bash
+./scripts/test_day.sh -t    # Run unit tests
+./scripts/test_day.sh -c    # Run with coverage
+./scripts/test_day.sh -b    # Run benchmarks
+./scripts/test_day.sh -r    # Run race detection
+./scripts/test_day.sh --help # Show all options
+```
+
+### `test_triple_csv.sh`
+Test script specifically for `test_triple.csv` file processing:
+- CSV structure validation
+- Date parsing verification
+- Go parsing functionality
+- Planner binary testing
+
+**Usage:**
+```bash
+./scripts/test_triple_csv.sh -v    # Validate CSV structure
+./scripts/test_triple_csv.sh -p    # Test CSV parsing
+./scripts/test_triple_csv.sh -d    # Test date parsing
+./scripts/test_triple_csv.sh --help # Show all options
+```
+
+## Makefile Integration
+
+For common development tasks, use the Makefile instead of scripts:
+
+```bash
+make build          # Build the Go binary
+make clean          # Clean build artifacts  
+make fmt            # Format Go code
+make vet            # Lint Go code
+make test-single    # Run single task test (replaces scripts/test_single.sh)
+make run-single     # Run single task (replaces scripts/run_single.sh)
+make run-csv        # Run with CSV data (replaces scripts/run_with_csv.sh)
+make run            # Run with default config
+make preview        # Run in preview mode
+```
+
+**Use scripts for:**
+- Complex builds with specific options
+- Release builds with timestamps
+- Comprehensive testing
+- CSV processing and validation
+
+**Use Makefile for:**
+- Standard Go development workflow
+- Quick builds and tests
+- Code formatting and linting
 
 ## Environment Variables
 

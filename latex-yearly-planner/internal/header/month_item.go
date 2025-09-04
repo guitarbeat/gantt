@@ -3,7 +3,7 @@ package header
 import (
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/latex"
+	"latex-yearly-planner/internal/latex"
 )
 
 type MonthItem struct {

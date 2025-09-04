@@ -19,7 +19,8 @@ fi
 
 
 
-nakedname=$(echo "${CFG}" | rev | cut -d, -f1 | cut -d'/' -f 1 | cut -d'.' -f 2-99 | rev)
+# Use the fixed filename we generate in app.go
+nakedname="proposal-timeline"
 
 if [ -n "${TRANSLATION}" ]; then
   python3 translate.py ${TRANSLATION}

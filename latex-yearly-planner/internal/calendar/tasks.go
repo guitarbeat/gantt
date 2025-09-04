@@ -1,10 +1,9 @@
 package calendar
 
 import (
-	"fmt"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/data"
+	"latex-yearly-planner/internal/data"
 )
 
 // SpanningTask represents a task that spans multiple days
@@ -36,20 +35,10 @@ func CreateSpanningTask(task data.Task, startDate, endDate time.Time) SpanningTa
 		EndDate:     endDate,
 		Color:       color,
 		Priority:    1,
-		Progress:    task.Progress,
-		Status:      task.Status,
-		Assignee:    task.Assignee,
+		Progress:    0,    // Default progress
+		Status:      "Planned", // Default status
+		Assignee:    "",   // No assignee
 	}
-}
-
-// GetTaskOverlayForDay returns the overlay information for a task on a specific day
-func GetTaskOverlayForDay(day time.Time, task SpanningTask) string {
-	// Check if the day falls within the task span
-	if day.Before(task.StartDate) || day.After(task.EndDate) {
-		return ""
-	}
-	// For now, return a simple overlay
-	return fmt.Sprintf("\\simpletaskoverlay{%s}{%s}{%s}", task.Color, task.Name, task.Category)
 }
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month

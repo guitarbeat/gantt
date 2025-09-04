@@ -88,22 +88,22 @@ class LaTeXDocumentGenerator:
         # * Add TikZ libraries for enhanced functionality
         tikz_libraries = '\n'.join(f"\\usetikzlibrary{{{lib}}}" for lib in config.latex.get_tikz_libraries())
 
-        return rf"""\documentclass[{config.calendar.page_orientation},{config.calendar.page_size}]{{{config.latex.document_class}}}
+        return f"""\\documentclass[{config.calendar.page_orientation},{config.calendar.page_size}]{{{config.latex.document_class}}}
 {packages}
 
 % Enhanced TikZ libraries for better graphics
 {tikz_libraries}
 
 % Page setup inspired by calendar.sty
-\pagestyle{empty}
-\setlength{\parskip}{0.5em}
+\\pagestyle{{empty}}
+\\setlength{{\\parskip}}{{0.5em}}
 
 % Table formatting
-\setlength{\tabcolsep}{1pt}
-\renewcommand{\arraystretch}{1.0}
+\\setlength{{\\tabcolsep}}{{1pt}}
+\\renewcommand{{\\arraystretch}}{{1.0}}
 
 % Use Helvetica for sans-serif
-\renewcommand{\familydefault}{\sfdefault}
+\\renewcommand{{\\familydefault}}{{\\sfdefault}}
 
 % Enhanced TikZ styles
 {self._generate_tikz_styles()}
@@ -111,7 +111,7 @@ class LaTeXDocumentGenerator:
 % Color definitions
 {config.colors.to_latex_colors()}
 
-\begin{document}
+\\begin{{document}}
 """
 
     def _generate_tikz_styles(self) -> str:
@@ -195,31 +195,31 @@ class TitlePageGenerator:
         start_date_str = timeline.start_date.strftime('%B %d, %Y')
         end_date_str = timeline.end_date.strftime('%B %d, %Y')
 
-        return rf""
+        return f"""
 % Title page inspired by calendar.sty
-\begin{titlepage}
-\centering
-\vspace*{{\n{config.calendar.title_spacing}}}
+\\begin{{titlepage}}
+\\centering
+\\vspace*{{{config.calendar.title_spacing}}}
 
-{{\n{config.calendar.title_font_size}\textbf{{\n{title}}}}}}
+{{{config.calendar.title_font_size}\\textbf{{{title}}}}}
 
-\vspace{{\n{config.calendar.month_spacing}}}
-{{\n{config.calendar.month_font_size} {config.latex.subtitle}}}
+\\vspace{{{config.calendar.month_spacing}}}
+{{{config.calendar.month_font_size} {config.latex.subtitle}}}
 
-\vspace{{\n{config.calendar.title_spacing}}}
+\\vspace{{{config.calendar.title_spacing}}}
 
-\begin{minipage}{{0.9\textwidth}}
-\centering
-\textbf{{Timeline Period:}} {start_date_str} -- {end_date_str}\\
-\textbf{{Total Duration:}} {timeline.total_duration_days} days\\
-\textbf{{Total Tasks:}} {timeline.total_tasks} tasks\\
-\textbf{{Months Covered:}} {len(timeline.get_months_between())} months
-\end{minipage}
+\\begin{{minipage}}{{0.9\\textwidth}}
+\\centering
+\\textbf{{Timeline Period:}} {start_date_str} -- {end_date_str}\\\\
+\\textbf{{Total Duration:}} {timeline.total_duration_days} days\\\\
+\\textbf{{Total Tasks:}} {timeline.total_tasks} tasks\\\\
+\\textbf{{Months Covered:}} {len(timeline.get_months_between())} months
+\\end{{minipage}}
 
-\vfill
+\\vfill
 
-\end{titlepage}
-"
+\\end{{titlepage}}
+"""
 
     def generate_month_page(self, month_info: MonthInfo, tasks: List[Task]) -> str:
         """Generate a complete calendar page for a month."""
@@ -229,14 +229,14 @@ class TitlePageGenerator:
         # Create calendar generator for the grid
         calendar_gen = CalendarGenerator(self.escaper)
         
-        page = rf"""
-\subsection*{{{month_info.start_date.strftime('%B %Y')}}}
-\vspace{{0.5cm}}
+        page = f"""
+\\subsection*{{{month_info.start_date.strftime('%B %Y')}}}
+\\vspace{{0.5cm}}
 
 {calendar_gen.generate_calendar_grid(month_info, tasks)}
-\vspace{{0.5cm}}
-\subsection{{Task Details for {month_info.start_date.strftime('%B %Y')}}}
-\begin{{itemize}}[leftmargin=1cm, itemsep=0.8em]
+\\vspace{{0.5cm}}
+\\subsection{{Task Details for {month_info.start_date.strftime('%B %Y')}}}
+\\begin{{itemize}}[leftmargin=1cm, itemsep=0.8em]
 """
         
         for task in tasks:
@@ -256,7 +256,7 @@ class TitlePageGenerator:
             
             page += "\n"
         
-        page += "\\end{itemize}\\n"
+        page += "\\end{itemize}\n"
         return page
 
     def _format_task_description(self, description: str) -> str:
@@ -327,7 +327,7 @@ class CalendarGenerator:
                 y_pos = 4.5 - week
 
                 # Add day number
-                grid += f"    \node[font=\bfseries{{config.calendar.day_font_size}}, anchor=north west] at ({{day+0.05}},{{y_pos+0.4}}) {{{current_day}}};\n"
+                grid += f"    \\node[font=\\bfseries{{{config.calendar.day_font_size}}}, anchor=north west] at ({{day+0.05}},{{y_pos+0.4}}) {{{current_day}}};\\n"
 
                 # Find tasks for this day
                 day_date = month_info.start_date + timedelta(days=current_day - 1)
@@ -342,7 +342,7 @@ class CalendarGenerator:
             if current_day > month_info.num_days:
                 break
 
-        grid += "\end{tikzpicture}\n"
+        grid += "\\end{tikzpicture}\n"
         return grid
 
     def _generate_day_task_text(self, tasks: List[Task]) -> str:
@@ -438,7 +438,7 @@ class GanttChartGenerator:
             
             y_pos += 0.8
         
-        timeline_code += "\\end{tikzpicture}\\n"
+        timeline_code += "\\end{tikzpicture}\n"
         return timeline_code
 
     def _calculate_timeline_position(self, date: date, start_date: date) -> float:
@@ -525,7 +525,7 @@ class TaskListGenerator:
           \\end{{minipage}}
 """
         
-        task_list += "\\end{enumerate}\\n"
+        task_list += "\\end{enumerate}\n"
         return task_list
 
     def _format_comprehensive_description(self, description: str) -> str:
@@ -556,7 +556,7 @@ class TaskListGenerator:
             if current_paragraph:
                 paragraphs.append(' '.join(current_paragraph))
             
-            return '\\\\[0.3em]\\n          '.join(paragraphs)
+            return '\\\\[0.3em]\n          '.join(paragraphs)
         else:
             return description
 

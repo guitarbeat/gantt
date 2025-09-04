@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"text/template"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/config"
-	tmplfs "github.com/kudrykv/latex-yearly-planner/templates"
+	"latex-yearly-planner/internal/config"
+	tmplfs "latex-yearly-planner/templates"
 )
 
 var tpl = func() *template.Template {

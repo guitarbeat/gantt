@@ -6,9 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"latex-yearly-planner/internal/data"
+	"latex-yearly-planner/internal/layout"
+
 	"github.com/caarlos0/env/v6"
-	"github.com/kudrykv/latex-yearly-planner/internal/data"
-	"github.com/kudrykv/latex-yearly-planner/internal/layout"
 	"gopkg.in/yaml.v3"
 )
 

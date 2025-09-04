@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/header"
-	"github.com/kudrykv/latex-yearly-planner/internal/latex"
+	"latex-yearly-planner/internal/header"
+	"latex-yearly-planner/internal/latex"
 )
 
 type Months []*Month
