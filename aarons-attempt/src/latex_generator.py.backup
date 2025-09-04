@@ -116,7 +116,7 @@ class LaTeXDocumentGenerator:
 
     def _generate_tikz_styles(self) -> str:
         """Generate enhanced TikZ styles for better graphics."""
-        return r"""
+        return """
 % Enhanced TikZ styles for project timeline
 \tikzset{
     % Task node styles
@@ -346,7 +346,7 @@ class CalendarGenerator:
         return grid
 
     def _generate_day_task_text(self, tasks: List[Task]) -> str:
-        # Generate task text for a single calendar day cell
+        """Generate task text for a single day cell."""
         task_text = ""
         limited_tasks = tasks[:config.calendar.max_tasks_per_day]
 
@@ -363,15 +363,16 @@ class CalendarGenerator:
 
         return task_text
 
+
 class GanttChartGenerator:
-    # Generates Gantt charts using the pgfgantt library from awesome-tikz
+    """Generates Gantt charts using the pgfgantt library from awesome-tikz."""
 
     def __init__(self, escaper: LaTeXEscaper = None):
         self.escaper = escaper or LaTeXEscaper()
 
     def generate_gantt_chart(self, timeline: ProjectTimeline) -> str:
-        # Generate a Gantt chart for the project timeline
-        gantt = r"""
+        """Generate a Gantt chart for the project timeline."""
+        gantt = """
 % Gantt chart using pgfgantt library
 \\begin{ganttchart}[
     hgrid,
