@@ -12,4 +12,7 @@ func TestRootFilename(t *testing.T) {
 	if got := RootFilename("/path/to/other.yaml"); got != "other.tex" {
 		t.Fatalf("RootFilename wrong: %s", got)
 	}
+	if got := RootFilename("myconfig.yml"); got != "myconfig.tex" {
+		t.Fatalf("RootFilename wrong: %s", got)
+	}
 }
