@@ -12,7 +12,7 @@ def read_csv_data(file_path):
         return list(reader)
 
 def escape_latex(text):
-    """Escape special LaTeX characters."""
+    """Escape special LaTeX characters and handle Unicode."""
     if not text:
         return ""
     
@@ -26,7 +26,10 @@ def escape_latex(text):
         '{': r'\{',
         '}': r'\}',
         '~': r'\textasciitilde{}',
-        '\\': r'\textbackslash{}'
+        '\\': r'\textbackslash{}',
+        '≥': r'$\geq$',
+        '≤': r'$\leq$',
+        '★': r'$\star$'
     }
     
     for char, replacement in replacements.items():
@@ -37,50 +40,62 @@ def escape_latex(text):
 def generate_latex_document(csv_data, title="Project Timeline"):
     """Generate a simple LaTeX document."""
     
-    # Document header
-    latex = f"""\\documentclass[landscape,a4paper]{{article}}
+    # Document header - PORTRAIT orientation with NO MARGINS for maximum space
+    latex = f"""\\documentclass[portrait,a4paper]{{article}}
 \\usepackage{{[utf8]{{inputenc}}}}
 \\usepackage{{[T1]{{fontenc}}}}
 \\usepackage{{lmodern}}
 \\usepackage{{helvet}}
-\\usepackage{{[landscape,margin=0.5in]{{geometry}}}}
+\\usepackage{{[portrait,margin=0.2in,top=0.3in,bottom=0.3in]{{geometry}}}}
 \\usepackage{{tikz}}
 \\usepackage{{xcolor}}
 \\usepackage{{array}}
 \\usepackage{{fancyhdr}}
+\\usepackage{{hyperref}}
+\\usepackage{{enumitem}}
+\\usepackage{{parskip}}
+\\usepackage{{amsmath}}
 
-% Page setup
+% Page setup - MAXIMUM space usage
 \\pagestyle{{empty}}
-\\setlength{{\\parskip}}{{0.5em}}
+\\setlength{{\\parskip}}{{0.1em}}
+\\setlength{{\\parsep}}{{0.05em}}
+\\setlength{{\\itemsep}}{{0.05em}}
+\\setlength{{\\topsep}}{{0.1em}}
 
 % Use Helvetica for sans-serif
 \\renewcommand{{\\familydefault}}{{\\sfdefault}}
 
-% Color definitions
+% Color definitions inspired by @latex/ helpers
 \\definecolor{{researchcore}}{{RGB}}{{59, 130, 246}}
 \\definecolor{{researchexp}}{{RGB}}{{16, 185, 129}}
 \\definecolor{{researchout}}{{RGB}}{{245, 158, 11}}
 \\definecolor{{administrative}}{{RGB}}{{107, 114, 128}}
 \\definecolor{{milestone}}{{RGB}}{{147, 51, 234}}
 
+% LaTeX helper functions inspired by @latex/texfuncs.go
+\\newcommand{{\\cellcolor}}[2]{{\\colorbox{{#1}}{{#2}}}}
+\\newcommand{{\\textcolor}}[2]{{\\textcolor{{#1}}{{#2}}}}
+\\newcommand{{\\hyperlink}}[2]{{\\hyperlink{{#1}}{{#2}}}}
+\\newcommand{{\\hypertarget}}[2]{{\\hypertarget{{#1}}{{#2}}}}
+
 \\begin{{document}}
 
-% Title page
+% Compact title page
 \\begin{{titlepage}}
 \\centering
-\\vspace*{{2cm}}
+\\vspace*{{0.5cm}}
 
 {{\\LARGE\\textbf{{{escape_latex(title)}}}}}
 
-\\vspace{{1cm}}
+\\vspace{{0.3cm}}
 {{\\large PhD Research Calendar}}
 
-\\vspace{{2cm}}
+\\vspace{{0.5cm}}
 
-\\begin{{minipage}}{{0.9\\textwidth}}
+\\begin{{minipage}}{{0.95\\textwidth}}
 \\centering
-\\textbf{{Total Tasks:}} {len(csv_data)} tasks\\\\
-\\textbf{{Generated:}} {datetime.now().strftime('%B %d, %Y')}
+\\textbf{{Total Tasks:}} {len(csv_data)} tasks \\hfill \\textbf{{Generated:}} {datetime.now().strftime('%B %d, %Y')}
 \\end{{minipage}}
 
 \\vfill
@@ -89,14 +104,14 @@ def generate_latex_document(csv_data, title="Project Timeline"):
 
 \\newpage
 
-% Task list
+% Task list with MAXIMUM space usage - no margins
 \\section{{Complete Task List}}
-\\vspace{{0.5cm}}
+\\vspace{{0.1cm}}
 
-\\begin{{enumerate}}[leftmargin=1.5cm, itemsep=1em]
+\\begin{{enumerate}}[leftmargin=0.3cm, itemsep=0.1em, parsep=0.05em, topsep=0.1em]
 """
     
-    # Add tasks
+    # Add tasks with improved formatting for portrait mode
     for i, row in enumerate(csv_data, 1):
         task_name = escape_latex(row.get('Task Name', ''))
         category = row.get('Category', '')
@@ -117,24 +132,20 @@ def generate_latex_document(csv_data, title="Project Timeline"):
         # Check if it's a milestone
         is_milestone = description.startswith('MILESTONE:') if description else False
         
+        # Ultra-compact formatting with NO margins - inspired by @latex/texfuncs.go
         latex += f"""
     \\item \\textcolor{{{color}}}{{\\textbf{{\\large {task_name}}}}}
-          \\hfill \\textcolor{{black!60}}{{\\small [{category}]}}
-          
-          \\vspace{{0.2em}}
-          \\textcolor{{black!70}}{{\\textbf{{Duration:}} {start_date} -- {due_date}}}
-"""
+          \\hfill \\cellcolor{{{color}!20}}{{\\textbf{{\\small {category}}}}}
+          \\textcolor{{black!70}}{{\\textbf{{Duration:}} {start_date} -- {due_date}}}"""
         
         if is_milestone:
-            latex += f"          \\textcolor{{orange}}{{\\textbf{{ [MILESTONE]}}}}\\n"
+            latex += f" \\hfill \\textcolor{{milestone}}{{\\textbf{{$\\star$ MILESTONE}}}}"
         
         if description:
-            latex += f"""
-          \\vspace{{0.4em}}
-          \\begin{{minipage}}[t]{{0.9\\textwidth}}
-          \\textcolor{{black!85}}{{{description}}}
-          \\end{{minipage}}
-"""
+            # Remove MILESTONE: prefix if present for cleaner display
+            clean_description = description.replace('MILESTONE:', '').strip()
+            if clean_description:
+                latex += f" \\\\ \\textcolor{{black!85}}{{\\small {clean_description}}}"
         
         latex += "\n"
     
