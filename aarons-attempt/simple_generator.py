@@ -2,6 +2,7 @@
 """Simple LaTeX generator to test the basic functionality."""
 
 import csv
+import re
 from datetime import datetime, date
 from pathlib import Path
 
@@ -37,16 +38,35 @@ def escape_latex(text):
     
     return text
 
+def build_task_hierarchy(csv_data):
+    """Build a hierarchical structure of tasks based on parent relationships."""
+    tasks = {}
+    children = {}
+    
+    # First pass: create task lookup and identify children
+    for row in csv_data:
+        task_id = row.get('Task ID', '')
+        parent_id = row.get('Parent Task ID', '').strip()
+        
+        tasks[task_id] = row
+        
+        if parent_id:
+            if parent_id not in children:
+                children[parent_id] = []
+            children[parent_id].append(task_id)
+    
+    return tasks, children
+
 def generate_latex_document(csv_data, title="Project Timeline"):
-    """Generate a simple LaTeX document."""
+    """Generate a simple LaTeX document with hierarchical subtasks."""
     
     # Document header - PORTRAIT orientation with NO MARGINS for maximum space
-    latex = f"""\\documentclass[portrait,a4paper]{{article}}
-\\usepackage{{[utf8]{{inputenc}}}}
-\\usepackage{{[T1]{{fontenc}}}}
+    latex = f"""\\documentclass[a4paper]{{article}}
+\\usepackage[utf8]{{inputenc}}
+\\usepackage[T1]{{fontenc}}
 \\usepackage{{lmodern}}
 \\usepackage{{helvet}}
-\\usepackage{{[portrait,margin=0.2in,top=0.3in,bottom=0.3in]{{geometry}}}}
+\\usepackage[portrait,margin=0.2in,top=0.3in,bottom=0.3in]{{geometry}}
 \\usepackage{{tikz}}
 \\usepackage{{xcolor}}
 \\usepackage{{array}}
@@ -75,9 +95,6 @@ def generate_latex_document(csv_data, title="Project Timeline"):
 
 % LaTeX helper functions inspired by @latex/texfuncs.go
 \\newcommand{{\\cellcolor}}[2]{{\\colorbox{{#1}}{{#2}}}}
-\\newcommand{{\\textcolor}}[2]{{\\textcolor{{#1}}{{#2}}}}
-\\newcommand{{\\hyperlink}}[2]{{\\hyperlink{{#1}}{{#2}}}}
-\\newcommand{{\\hypertarget}}[2]{{\\hypertarget{{#1}}{{#2}}}}
 
 \\begin{{document}}
 
@@ -108,11 +125,22 @@ def generate_latex_document(csv_data, title="Project Timeline"):
 \\section{{Complete Task List}}
 \\vspace{{0.1cm}}
 
-\\begin{{enumerate}}[leftmargin=0.3cm, itemsep=0.1em, parsep=0.05em, topsep=0.1em]
+\\begin{{enumerate}}[leftmargin=0.3cm, itemsep=0.3em, parsep=0.1em, topsep=0.1em]
 """
     
-    # Add tasks with improved formatting for portrait mode
-    for i, row in enumerate(csv_data, 1):
+    # Build task hierarchy
+    tasks, children = build_task_hierarchy(csv_data)
+    
+    # Add tasks with hierarchical subtasks - only show parent tasks, subtasks will be indented
+    task_counter = 1
+    for row in csv_data:
+        task_id = row.get('Task ID', '')
+        parent_id = row.get('Parent Task ID', '').strip()
+        
+        # Skip subtasks here - they'll be handled under their parents
+        if parent_id:
+            continue
+            
         task_name = escape_latex(row.get('Task Name', ''))
         category = row.get('Category', '')
         start_date = row.get('Start Date', '')
@@ -125,29 +153,57 @@ def generate_latex_document(csv_data, title="Project Timeline"):
             'LASER': 'researchexp',
             'EXPERIMENTAL': 'researchexp',
             'PUBLICATION': 'researchout',
-            'ADMINISTRATIVE': 'administrative'
+            'ADMINISTRATIVE': 'administrative',
+            'DISSERTATION': 'milestone'
         }
         color = color_map.get(category, 'black')
         
         # Check if it's a milestone
         is_milestone = description.startswith('MILESTONE:') if description else False
         
-        # Ultra-compact formatting with NO margins - inspired by @latex/texfuncs.go
+        # Main task formatting with better visual hierarchy
         latex += f"""
-    \\item \\textcolor{{{color}}}{{\\textbf{{\\large {task_name}}}}}
-          \\hfill \\cellcolor{{{color}!20}}{{\\textbf{{\\small {category}}}}}
-          \\textcolor{{black!70}}{{\\textbf{{Duration:}} {start_date} -- {due_date}}}"""
+    \\item \\textcolor{{{color}}}{{\\textbf{{\\Large {task_name}}}}}
+          \\hfill \\cellcolor{{{color}!15}}{{\\textbf{{\\small {category}}}}}
+          \\\\ \\textcolor{{black!60}}{{\\textbf{{Duration:}} {start_date} -- {due_date}}}"""
         
         if is_milestone:
-            latex += f" \\hfill \\textcolor{{milestone}}{{\\textbf{{$\\star$ MILESTONE}}}}"
+            latex += f" \\\\hfill \\textcolor{{milestone}}{{\\textbf{{$\\star$ MILESTONE}}}}"
         
         if description:
             # Remove MILESTONE: prefix if present for cleaner display
             clean_description = description.replace('MILESTONE:', '').strip()
             if clean_description:
-                latex += f" \\\\ \\textcolor{{black!85}}{{\\small {clean_description}}}"
+                latex += f" \\\\ \\textcolor{{black!80}}{{\\small {clean_description}}}"
+        
+        # Add subtasks if they exist with better visual hierarchy
+        if task_id in children:
+            latex += " \\\\ \\vspace{{0.2em}} \\\\ \\textcolor{{black!50}}{{\\small \\textbf{{Subtasks:}}}}"
+            latex += f" \\\\ \\begin{{itemize}}[leftmargin=0.8cm, itemsep=0.1em, parsep=0.05em, label=\\textcolor{{{color}!60}}{{\\tiny$\\bullet$}}]"
+            for child_id in children[task_id]:
+                child_task = tasks[child_id]
+                child_name = escape_latex(child_task.get('Task Name', ''))
+                child_start = child_task.get('Start Date', '')
+                child_due = child_task.get('Due Date', '')
+                child_desc = escape_latex(child_task.get('Description', ''))
+                child_milestone = child_desc.startswith('MILESTONE:') if child_desc else False
+                
+                # Better subtask formatting with clear visual hierarchy
+                latex += f" \\\\item \\textcolor{{{color}!70}}{{\\textbf{{\\small {child_name}}}}}"
+                latex += f" \\\\hfill \\textcolor{{black!50}}{{\\tiny {child_start} -- {child_due}}}"
+                
+                if child_milestone:
+                    latex += f" \\\\hfill \\textcolor{{milestone}}{{\\textbf{{\\tiny$\\star$}}}}"
+                
+                if child_desc:
+                    clean_child_desc = child_desc.replace('MILESTONE:', '').strip()
+                    if clean_child_desc:
+                        latex += f" \\\\ \\\\textcolor{{black!70}}{{\\tiny {clean_child_desc}}}"
+            
+            latex += " \\\\end{{itemize}}"
         
         latex += "\n"
+        task_counter += 1
     
     # Document footer
     latex += """\\end{enumerate}
