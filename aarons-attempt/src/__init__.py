@@ -11,15 +11,15 @@ __author__ = "LaTeX Gantt Chart Generator"
 __description__ = "Generate publication-quality LaTeX timelines from CSV data"
 
 # Import main components for easy access
-from .config import config, AppConfig, ColorScheme, CalendarConfig, TaskConfig, LaTeXConfig
+from .config import config, config_manager, AppConfig, ColorScheme, CalendarConfig, TaskConfig, LaTeXConfig
 from .models import Task, ProjectTimeline, MonthInfo, TaskValidator
 from .data_processor import DataProcessor, CSVReader, TaskProcessor, TimelineBuilder
-from .latex_generator import LaTeXGenerator, LaTeXEscaper, LaTeXDocumentGenerator
+from .latex_generator import LaTeXGenerator, LaTeXEscaper, LaTeXDocumentGenerator, TemplateGeneratorFactory
 from .app import Application, main
 
 __all__ = [
     # Configuration
-    'config', 'AppConfig', 'ColorScheme', 'CalendarConfig', 'TaskConfig', 'LaTeXConfig',
+    'config', 'config_manager', 'AppConfig', 'ColorScheme', 'CalendarConfig', 'TaskConfig', 'LaTeXConfig',
     
     # Data Models
     'Task', 'ProjectTimeline', 'MonthInfo', 'TaskValidator',
@@ -28,7 +28,7 @@ __all__ = [
     'DataProcessor', 'CSVReader', 'TaskProcessor', 'TimelineBuilder',
     
     # LaTeX Generation
-    'LaTeXGenerator', 'LaTeXEscaper', 'LaTeXDocumentGenerator',
+    'LaTeXGenerator', 'LaTeXEscaper', 'LaTeXDocumentGenerator', 'TemplateGeneratorFactory',
     
     # Application
     'Application', 'main',

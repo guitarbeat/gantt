@@ -14,8 +14,8 @@ from typing import Optional
 from .data_processor import DataProcessor
 from .latex_generator import LaTeXGenerator
 from .config import config
-from .config_manager import ConfigManager, config_manager
-from .template_generators import TemplateGeneratorFactory
+from .config import config_manager
+from .latex_generator import TemplateGeneratorFactory
 
 
 class Application:
@@ -135,7 +135,10 @@ class Application:
             print(f"\n📄 LaTeX file generated successfully!")
             print(f"📁 Output file: {args.output}")
             print(f"🔨 To compile: pdflatex {args.output}")
-            print(f"📊 Timeline contains {len(self.data_processor.task_processor.process_tasks(self.data_processor.csv_reader.read_csv_data(args.input)))} tasks")
+            
+            # Get task count for display
+            timeline = self.data_processor.process_csv_to_timeline(args.input, args.title)
+            print(f"📊 Timeline contains {len(timeline.tasks)} tasks")
             
             return 0
             
