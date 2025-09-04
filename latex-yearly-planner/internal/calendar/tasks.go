@@ -23,21 +23,21 @@ type SpanningTask struct {
 
 // CreateSpanningTask creates a new spanning task from basic task data
 func CreateSpanningTask(task data.Task, startDate, endDate time.Time) SpanningTask {
-	// Assign color based on category (stored in Priority field)
-	color := getColorForCategory(task.Priority)
+	// * Fixed: Use Category field instead of Priority
+	color := getColorForCategory(task.Category)
 
 	return SpanningTask{
 		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
-		Category:    task.Priority, // Category is stored in Priority field
+		Category:    task.Category, // * Fixed: Use Category field
 		StartDate:   startDate,
 		EndDate:     endDate,
 		Color:       color,
-		Priority:    1,
-		Progress:    0,    // Default progress
-		Status:      "Planned", // Default status
-		Assignee:    "",   // No assignee
+		Priority:    task.Priority, // * Fixed: Use actual Priority field
+		Progress:    0,             // Default progress
+		Status:      task.Status,   // * Fixed: Use actual Status field
+		Assignee:    task.Assignee, // * Fixed: Use actual Assignee field
 	}
 }
 

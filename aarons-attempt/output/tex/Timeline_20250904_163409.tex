@@ -1,0 +1,322 @@
+\documentclass[portrait,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{helvet}
+\usepackage[portrait,margin=0.5in]{geometry}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{longtable}
+
+% Essential TikZ libraries
+\usetikzlibrary{arrows.meta,shapes.geometric,positioning,calc}
+
+% Page setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Project Timeline}
+\fancyhead[R]{\today}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Hyperlink setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+    bookmarksopen=true,
+    bookmarksnumbered=true
+}
+
+% Use Helvetica for sans-serif
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{accountability}{RGB}{139, 92, 246}
+\definecolor{administrative}{RGB}{107, 114, 128}
+\definecolor{milestone}{RGB}{147, 51, 234}
+\definecolor{other}{RGB}{156, 163, 175}
+\definecolor{researchcore}{RGB}{59, 130, 246}
+\definecolor{researchexp}{RGB}{16, 185, 129}
+\definecolor{researchout}{RGB}{245, 158, 11}
+\definecolor{service}{RGB}{236, 72, 153}
+
+% PRISMA color scheme
+\definecolor{prismablue}{RGB}{59, 130, 246}
+\definecolor{prismagray}{RGB}{107, 114, 128}
+\definecolor{prismagreen}{RGB}{34, 197, 94}
+\definecolor{prismared}{RGB}{239, 68, 68}
+
+\begin{document}
+
+\begin{center}
+\vspace*{2cm}
+{\Huge\bfseries Project Timeline}\\
+\vspace{1cm}
+{\Large PhD Research Timeline}\\
+\vspace{0.5cm}
+{\large August 29, 2025 -- August 15, 2027}\\
+\vspace{1cm}
+{\large Total Tasks: 63 | Duration: 716 days}
+\end{center}
+
+\vspace{2cm}
+
+\section*{Project Timeline}
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Timeline axis
+    \draw[thick, line width=3pt, color=blue!70] (0,0) -- (12,0);
+    
+    % Task bars
+    \draw[fill=researchcore, rounded corners=3pt] (0.0,1.2) rectangle (0.06575342465753425,1.8);
+    \node[font=\small\bfseries, text=white] at (0.03287671232876713,1.5) {Draft timeline v1};
+    \draw[fill=researchcore, rounded corners=3pt] (0.0,2.1) rectangle (0.06575342465753425,2.6999999999999997);
+    \node[font=\small\bfseries, text=white] at (0.03287671232876713,2.4) {Initial proposal skeleton};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (0.06575342465753425,3.3) {Submit proposal outline};
+    \draw[fill=researchcore, rounded corners=3pt] (0.1315068493150685,3.9000000000000004) rectangle (0.23013698630136986,4.5);
+    \node[font=\small\bfseries, text=white] at (0.18082191780821918,4.2) {Define proposal committee};
+    \draw[fill=researchcore, rounded corners=3pt] (0.09863013698630135,4.800000000000001) rectangle (0.4602739726027397,5.4);
+    \node[font=\small\bfseries, text=white] at (0.2794520547945205,5.1000000000000005) {Expand proposal draft};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (0.4602739726027397,6.000000000000001) {Confirm exam date};
+    \draw[fill=researchexp, rounded corners=3pt] (0.03287671232876713,6.600000000000001) rectangle (0.1643835616438356,7.200000000000001);
+    \node[font=\small\bfseries, text=white] at (0.09863013698630137,6.900000000000001) {Align seed laser};
+    \draw[fill=researchexp, rounded corners=3pt] (0.1643835616438356,7.500000000000002) rectangle (0.3945205479452054,8.100000000000001);
+    \node[font=\small\bfseries, text=white] at (0.2794520547945205,7.800000000000002) {Align amplifier};
+    \draw[fill=researchexp, rounded corners=3pt] (0.3945205479452054,8.4) rectangle (0.4602739726027397,9.000000000000002);
+    \node[font=\small\bfseries, text=white] at (0.42739726027397257,8.700000000000001) {Check pulse compression};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (0.4602739726027397,9.600000000000001) {Calibrate microscope};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (0.4602739726027397,10.500000000000002) {Laser system ready};
+    \draw[fill=other, rounded corners=3pt] (0.09863013698630135,11.100000000000001) rectangle (0.23013698630136986,11.700000000000003);
+    \node[font=\small\bfseries, text=white] at (0.1643835616438356,11.400000000000002) {Plan imaging cohort};
+    \draw[fill=other, rounded corners=3pt] (0.09863013698630135,12.000000000000002) rectangle (0.2958904109589041,12.600000000000003);
+    \node[font=\small\bfseries, text=white] at (0.19726027397260273,12.300000000000002) {Annual progress review};
+    \draw[fill=other, rounded corners=3pt] (0.4602739726027397,12.900000000000002) rectangle (1.5452054794520547,13.500000000000004);
+    \node[font=\small\bfseries, text=white] at (1.0027397260273971,13.200000000000003) {Proposal exam paperwork};
+    \draw[fill=other, rounded corners=3pt] (1.084931506849315,13.800000000000002) rectangle (1.5452054794520547,14.400000000000004);
+    \node[font=\small\bfseries, text=white] at (1.3150684931506849,14.100000000000003) {Design AAV vectors};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (4.56986301369863,15.000000000000004) {AAV vectors ready};
+    \draw[fill=researchcore, rounded corners=3pt] (2.5643835616438357,15.600000000000003) rectangle (3.5506849315068494,16.200000000000003);
+    \node[font=\small\bfseries, text=white] at (3.057534246575343,15.900000000000004) {Complete proposal draft};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (3.5835616438356164,16.800000000000004) {Send proposal to committee};
+    \draw[fill=researchcore, rounded corners=3pt] (4.208219178082192,17.400000000000002) rectangle (4.668493150684932,18.000000000000004);
+    \node[font=\small\bfseries, text=white] at (4.438356164383562,17.700000000000003) {Prepare presentation};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (4.734246575342466,18.6) {PhD Proposal Exam};
+    \draw[fill=researchcore, rounded corners=3pt] (4.767123287671232,19.2) rectangle (4.997260273972603,19.8);
+    \node[font=\small\bfseries, text=white] at (4.882191780821918,19.5) {Address committee feedback};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (5.1287671232876715,20.4) {Cranial window surgery \textbackslash{}#1};
+    \draw[fill=other, rounded corners=3pt] (5.161643835616438,20.999999999999996) rectangle (5.260273972602739,21.599999999999998);
+    \node[font=\small\bfseries, text=white] at (5.210958904109589,21.299999999999997) {Post-op recovery \textbackslash{}#1};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (5.358904109589041,22.199999999999996) {Cranial window surgery \textbackslash{}#2};
+    \draw[fill=other, rounded corners=3pt] (5.391780821917808,22.799999999999994) rectangle (5.49041095890411,23.399999999999995);
+    \node[font=\small\bfseries, text=white] at (5.441095890410959,23.099999999999994) {Post-op recovery \textbackslash{}#2};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (5.58904109589041,23.999999999999993) {Cranial window surgery \textbackslash{}#3};
+    \draw[fill=other, rounded corners=3pt] (5.6219178082191785,24.59999999999999) rectangle (5.720547945205479,25.199999999999992);
+    \node[font=\small\bfseries, text=white] at (5.671232876712329,24.89999999999999) {Post-op recovery \textbackslash{}#3};
+    \draw[fill=other, rounded corners=3pt] (5.819178082191781,25.49999999999999) rectangle (5.852054794520548,26.09999999999999);
+    \node[font=\small\bfseries, text=white] at (5.835616438356165,25.79999999999999) {Pilot imaging session \textbackslash{}#1};
+    \draw[fill=other, rounded corners=3pt] (6.049315068493151,26.399999999999988) rectangle (6.082191780821918,26.99999999999999);
+    \node[font=\small\bfseries, text=white] at (6.065753424657535,26.69999999999999) {Pilot imaging session \textbackslash{}#2};
+    \draw[fill=other, rounded corners=3pt] (6.27945205479452,27.299999999999986) rectangle (6.312328767123287,27.899999999999988);
+    \node[font=\small\bfseries, text=white] at (6.295890410958903,27.599999999999987) {Pilot imaging session \textbackslash{}#3};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (6.345205479452055,28.499999999999986) {Pilot datasets complete};
+    \draw[fill=other, rounded corners=3pt] (6.345205479452055,29.099999999999984) rectangle (6.50958904109589,29.699999999999985);
+    \node[font=\small\bfseries, text=white] at (6.427397260273972,29.399999999999984) {Process pilot data};
+    \draw[fill=other, rounded corners=3pt] (6.50958904109589,29.999999999999982) rectangle (7.068493150684931,30.599999999999984);
+    \node[font=\small\bfseries, text=white] at (6.789041095890411,30.299999999999983) {Develop U-Net pipeline};
+    \draw[fill=other, rounded corners=3pt] (6.50958904109589,30.89999999999998) rectangle (8.021917808219179,31.499999999999982);
+    \node[font=\small\bfseries, text=white] at (7.265753424657534,31.19999999999998) {Optimize imaging systems};
+    \draw[fill=other, rounded corners=3pt] (6.049315068493151,31.79999999999998) rectangle (8.054794520547945,32.39999999999998);
+    \node[font=\small\bfseries, text=white] at (7.052054794520548,32.09999999999998) {Order enhanced AAV};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (10.06027397260274,32.99999999999998) {Enhanced AAV delivered};
+    \draw[fill=other, rounded corners=3pt] (8.021917808219179,33.59999999999998) rectangle (9.04109589041096,34.199999999999974);
+    \node[font=\small\bfseries, text=white] at (8.531506849315068,33.89999999999998) {Compare labeling methods};
+    \draw[fill=researchout, rounded corners=3pt] (7.068493150684931,34.49999999999998) rectangle (9.04109589041096,35.09999999999997);
+    \node[font=\small\bfseries, text=white] at (8.054794520547945,34.799999999999976) {Draft methodology paper};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (9.073972602739726,35.699999999999974) {Submit methodology paper};
+    \draw[fill=other, rounded corners=3pt] (9.04109589041096,36.299999999999976) rectangle (9.205479452054794,36.89999999999997);
+    \node[font=\small\bfseries, text=white] at (9.123287671232877,36.59999999999997) {Establish stroke protocol};
+    \draw[fill=other, rounded corners=3pt] (9.23835616438356,37.199999999999974) rectangle (9.36986301369863,37.79999999999997);
+    \node[font=\small\bfseries, text=white] at (9.304109589041095,37.49999999999997) {Induce stroke};
+    \draw[fill=other, rounded corners=3pt] (9.534246575342465,38.09999999999997) rectangle (9.567123287671233,38.69999999999997);
+    \node[font=\small\bfseries, text=white] at (9.550684931506849,38.39999999999997) {Acute-phase imaging};
+    \draw[fill=other, rounded corners=3pt] (10.06027397260274,38.99999999999997) rectangle (10.093150684931507,39.599999999999966);
+    \node[font=\small\bfseries, text=white] at (10.076712328767123,39.29999999999997) {Transition-phase imaging};
+    \draw[fill=other, rounded corners=3pt] (11.013698630136986,39.89999999999997) rectangle (11.046575342465754,40.499999999999964);
+    \node[font=\small\bfseries, text=white] at (11.03013698630137,40.19999999999997) {Stabilization-phase imaging};
+    \draw[fill=other, rounded corners=3pt] (11.868493150684932,40.79999999999997) rectangle (11.901369863013699,41.39999999999996);
+    \node[font=\small\bfseries, text=white] at (11.884931506849316,41.099999999999966) {Extended chronic imaging};
+    \draw[fill=other, rounded corners=3pt] (9.534246575342465,41.69999999999997) rectangle (12.065753424657533,42.29999999999996);
+    \node[font=\small\bfseries, text=white] at (10.799999999999999,41.999999999999964) {Refine ML pipeline};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (12.065753424657533,42.89999999999996) {Stroke data complete};
+    \draw[fill=other, rounded corners=3pt] (12.098630136986301,43.499999999999964) rectangle (13.052054794520549,44.09999999999996);
+    \node[font=\small\bfseries, text=white] at (12.575342465753426,43.79999999999996) {Integrate flow data};
+    \draw[fill=other, rounded corners=3pt] (13.084931506849315,44.39999999999996) rectangle (14.564383561643837,44.99999999999996);
+    \node[font=\small\bfseries, text=white] at (13.824657534246576,44.69999999999996) {Analyze neurovascular coupling};
+    \draw[fill=researchout, rounded corners=3pt] (14.564383561643837,45.29999999999996) rectangle (15.09041095890411,45.899999999999956);
+    \node[font=\small\bfseries, text=white] at (14.827397260273973,45.59999999999996) {Prepare conference presentation};
+    \draw[fill=researchout, rounded corners=3pt] (14.564383561643837,46.19999999999996) rectangle (15.057534246575342,46.799999999999955);
+    \node[font=\small\bfseries, text=white] at (14.81095890410959,46.49999999999996) {Draft second manuscript};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (15.550684931506847,47.399999999999956) {Submit second manuscript};
+    \draw[fill=other, rounded corners=3pt] (12.098630136986301,47.99999999999996) rectangle (12.295890410958904,48.59999999999995);
+    \node[font=\small\bfseries, text=white] at (12.197260273972603,48.299999999999955) {Annual progress review};
+    \draw[fill=other, rounded corners=3pt] (15.09041095890411,48.899999999999956) rectangle (23.539726027397258,49.49999999999995);
+    \node[font=\small\bfseries, text=white] at (19.315068493150683,49.19999999999995) {PhD Dissertation \textbackslash{}& Defense};
+    \draw[fill=other, rounded corners=3pt] (15.550684931506847,49.799999999999955) rectangle (17.0958904109589,50.39999999999995);
+    \node[font=\small\bfseries, text=white] at (16.323287671232876,50.09999999999995) {Draft Introduction};
+    \draw[fill=other, rounded corners=3pt] (16.10958904109589,50.69999999999995) rectangle (18.016438356164386,51.29999999999995);
+    \node[font=\small\bfseries, text=white] at (17.063013698630137,50.99999999999995) {Draft Aim 1 chapter};
+    \draw[fill=other, rounded corners=3pt] (16.56986301369863,51.59999999999995) rectangle (19.035616438356165,52.199999999999946);
+    \node[font=\small\bfseries, text=white] at (17.802739726027397,51.89999999999995) {Draft Aim 2 chapter};
+    \draw[fill=other, rounded corners=3pt] (17.128767123287673,52.49999999999995) rectangle (19.528767123287672,53.099999999999945);
+    \node[font=\small\bfseries, text=white] at (18.328767123287673,52.79999999999995) {Draft Aim 3 chapter};
+    \draw[fill=other, rounded corners=3pt] (18.04931506849315,53.39999999999995) rectangle (20.02191780821918,53.99999999999994);
+    \node[font=\small\bfseries, text=white] at (19.035616438356165,53.699999999999946) {Draft Conclusions};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (20.054794520547944,54.599999999999945) {Dissertation draft complete};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (22.52054794520548,55.49999999999994) {PhD Defense};
+    \draw[fill=other, rounded corners=3pt] (22.553424657534247,56.099999999999945) rectangle (23.046575342465754,56.69999999999994);
+    \node[font=\small\bfseries, text=white] at (22.8,56.39999999999994) {Revise dissertation};
+    \node[diamond, draw=purple!60, fill=purple!20, minimum size=1cm, font=\small\bfseries] at (23.079452054794523,57.29999999999994) {Submit dissertation};
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+\section*{Task List}
+\begin{longtable}{|p{0.1\textwidth}|p{0.4\textwidth}|p{0.15\textwidth}|p{0.15\textwidth}|p{0.2\textwidth}|}
+\hline
+\textbf{ID} & \textbf{Task Name} & \textbf{Start Date} & \textbf{Due Date} & \textbf{Category} \\
+\hline
+\endhead
+001 & Draft timeline v1 & 08/29/2025 & 08/31/2025 & PROPOSAL \\
+\hline
+002 & Initial proposal skeleton & 08/29/2025 & 08/31/2025 & PROPOSAL \\
+\hline
+003 & Submit proposal outline & 08/31/2025 & 08/31/2025 & PROPOSAL \\
+\hline
+004 & Define proposal committee & 09/02/2025 & 09/05/2025 & PROPOSAL \\
+\hline
+005 & Expand proposal draft & 09/01/2025 & 09/12/2025 & PROPOSAL \\
+\hline
+006 & Confirm exam date & 09/12/2025 & 09/12/2025 & PROPOSAL \\
+\hline
+007 & Align seed laser & 08/30/2025 & 09/03/2025 & LASER \\
+\hline
+008 & Align amplifier & 09/03/2025 & 09/10/2025 & LASER \\
+\hline
+009 & Check pulse compression & 09/10/2025 & 09/12/2025 & LASER \\
+\hline
+010 & Calibrate microscope & 09/12/2025 & 09/12/2025 & LASER \\
+\hline
+011 & Laser system ready & 09/12/2025 & 09/12/2025 & LASER \\
+\hline
+012 & Plan imaging cohort & 09/01/2025 & 09/05/2025 & IMAGING \\
+\hline
+013 & Annual progress review & 09/01/2025 & 09/07/2025 & ADMIN \\
+\hline
+014 & Proposal exam paperwork & 09/12/2025 & 10/15/2025 & ADMIN \\
+\hline
+015 & Design AAV vectors & 10/01/2025 & 10/15/2025 & IMAGING \\
+\hline
+016 & AAV vectors ready & 01/15/2026 & 01/15/2026 & IMAGING \\
+\hline
+017 & Complete proposal draft & 11/15/2025 & 12/15/2025 & PROPOSAL \\
+\hline
+018 & Send proposal to committee & 12/16/2025 & 12/16/2025 & PROPOSAL \\
+\hline
+019 & Prepare presentation & 01/04/2026 & 01/18/2026 & PROPOSAL \\
+\hline
+020 & PhD Proposal Exam & 01/20/2026 & 01/20/2026 & PROPOSAL \\
+\hline
+021 & Address committee feedback & 01/21/2026 & 01/28/2026 & PROPOSAL \\
+\hline
+022 & Cranial window surgery \textbackslash{}#1 & 02/01/2026 & 02/01/2026 & IMAGING \\
+\hline
+023 & Post-op recovery \textbackslash{}#1 & 02/02/2026 & 02/05/2026 & IMAGING \\
+\hline
+024 & Cranial window surgery \textbackslash{}#2 & 02/08/2026 & 02/08/2026 & IMAGING \\
+\hline
+025 & Post-op recovery \textbackslash{}#2 & 02/09/2026 & 02/12/2026 & IMAGING \\
+\hline
+026 & Cranial window surgery \textbackslash{}#3 & 02/15/2026 & 02/15/2026 & IMAGING \\
+\hline
+027 & Post-op recovery \textbackslash{}#3 & 02/16/2026 & 02/19/2026 & IMAGING \\
+\hline
+028 & Pilot imaging session \textbackslash{}#1 & 02/22/2026 & 02/23/2026 & IMAGING \\
+\hline
+029 & Pilot imaging session \textbackslash{}#2 & 03/01/2026 & 03/02/2026 & IMAGING \\
+\hline
+030 & Pilot imaging session \textbackslash{}#3 & 03/08/2026 & 03/09/2026 & IMAGING \\
+\hline
+031 & Pilot datasets complete & 03/10/2026 & 03/10/2026 & IMAGING \\
+\hline
+032 & Process pilot data & 03/10/2026 & 03/15/2026 & IMAGING \\
+\hline
+033 & Develop U-Net pipeline & 03/15/2026 & 04/01/2026 & IMAGING \\
+\hline
+034 & Optimize imaging systems & 03/15/2026 & 04/30/2026 & IMAGING \\
+\hline
+035 & Order enhanced AAV & 03/01/2026 & 05/01/2026 & IMAGING \\
+\hline
+036 & Enhanced AAV delivered & 07/01/2026 & 07/01/2026 & IMAGING \\
+\hline
+037 & Compare labeling methods & 04/30/2026 & 05/31/2026 & IMAGING \\
+\hline
+038 & Draft methodology paper & 04/01/2026 & 05/31/2026 & PUBLICATION \\
+\hline
+039 & Submit methodology paper & 06/01/2026 & 06/01/2026 & PUBLICATION \\
+\hline
+040 & Establish stroke protocol & 05/31/2026 & 06/05/2026 & IMAGING \\
+\hline
+041 & Induce stroke & 06/06/2026 & 06/10/2026 & IMAGING \\
+\hline
+042 & Acute-phase imaging & 06/15/2026 & 06/16/2026 & IMAGING \\
+\hline
+043 & Transition-phase imaging & 07/01/2026 & 07/02/2026 & IMAGING \\
+\hline
+044 & Stabilization-phase imaging & 07/30/2026 & 07/31/2026 & IMAGING \\
+\hline
+045 & Extended chronic imaging & 08/25/2026 & 08/26/2026 & IMAGING \\
+\hline
+046 & Refine ML pipeline & 06/15/2026 & 08/31/2026 & IMAGING \\
+\hline
+047 & Stroke data complete & 08/31/2026 & 08/31/2026 & IMAGING \\
+\hline
+048 & Integrate flow data & 09/01/2026 & 09/30/2026 & IMAGING \\
+\hline
+049 & Analyze neurovascular coupling & 10/01/2026 & 11/15/2026 & IMAGING \\
+\hline
+050 & Prepare conference presentation & 11/15/2026 & 12/01/2026 & PUBLICATION \\
+\hline
+051 & Draft second manuscript & 11/15/2026 & 11/30/2026 & PUBLICATION \\
+\hline
+052 & Submit second manuscript & 12/15/2026 & 12/15/2026 & PUBLICATION \\
+\hline
+053 & Annual progress review & 09/01/2026 & 09/07/2026 & ADMIN \\
+\hline
+054 & PhD Dissertation \textbackslash{}& Defense & 12/01/2026 & 08/15/2027 & DISSERTATION \\
+\hline
+055 & Draft Introduction & 12/15/2026 & 01/31/2027 & DISSERTATION \\
+\hline
+056 & Draft Aim 1 chapter & 01/01/2027 & 02/28/2027 & DISSERTATION \\
+\hline
+057 & Draft Aim 2 chapter & 01/15/2027 & 03/31/2027 & DISSERTATION \\
+\hline
+058 & Draft Aim 3 chapter & 02/01/2027 & 04/15/2027 & DISSERTATION \\
+\hline
+059 & Draft Conclusions & 03/01/2027 & 04/30/2027 & DISSERTATION \\
+\hline
+060 & Dissertation draft complete & 05/01/2027 & 05/01/2027 & DISSERTATION \\
+\hline
+061 & PhD Defense & 07/15/2027 & 07/15/2027 & DISSERTATION \\
+\hline
+062 & Revise dissertation & 07/16/2027 & 07/31/2027 & DISSERTATION \\
+\hline
+063 & Submit dissertation & 08/01/2027 & 08/01/2027 & DISSERTATION \\
+\hline
+\end{longtable}
+\end{document}

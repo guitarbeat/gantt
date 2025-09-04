@@ -1,0 +1,6 @@
+Task ID,Task Name,Description,Category,Start Date,Due Date,Priority,Status,Assignee
+1,Project Planning,Plan the project timeline,PROPOSAL,2024-01-15,2024-01-20,1,Planned,John
+2,Market Research,Conduct market analysis,RESEARCH,2024-02-10,2024-02-15,2,In Progress,Jane
+3,Admin Setup,Set up project administration,ADMIN,2025-03-05,2025-03-10,3,Completed,Bob
+4,Design Phase,Create system design,DESIGN,2024-04-01,2024-04-30,1,Planned,Alice
+5,Testing Phase,Test the system,TESTING,2024-05-01,2024-05-15,2,Planned,Charlie

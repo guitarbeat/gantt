@@ -2,7 +2,7 @@
 """
 LaTeX Gantt Chart Generator Package
 
-A modular, well-structured tool for generating publication-quality LaTeX timelines
+A clean, consolidated tool for generating publication-quality LaTeX timelines
 from CSV data. Perfect for PhD research, formal reports, and advisor meetings.
 """
 
@@ -10,26 +10,17 @@ __version__ = "2.0.0"
 __author__ = "LaTeX Gantt Chart Generator"
 __description__ = "Generate publication-quality LaTeX timelines from CSV data"
 
-# Import main components for easy access
-from .config import config, config_manager, AppConfig, ColorScheme, CalendarConfig, TaskConfig, LaTeXConfig
-from .models import Task, ProjectTimeline, MonthInfo, TaskValidator
-from .data_processor import DataProcessor, CSVReader, TaskProcessor, TimelineBuilder
-from .latex_generator import LaTeXGenerator, LaTeXEscaper, LaTeXDocumentGenerator, TemplateGeneratorFactory
-from .app import Application, main
+# Core imports - only import what's actually needed
+from .core import Task, ProjectTimeline, DataProcessor, LaTeXGenerator, Application, main
+from .config import config
 
 __all__ = [
+    # Core classes
+    'Task', 'ProjectTimeline', 'DataProcessor', 'LaTeXGenerator', 'Application',
+    
     # Configuration
-    'config', 'config_manager', 'AppConfig', 'ColorScheme', 'CalendarConfig', 'TaskConfig', 'LaTeXConfig',
+    'config',
     
-    # Data Models
-    'Task', 'ProjectTimeline', 'MonthInfo', 'TaskValidator',
-    
-    # Data Processing
-    'DataProcessor', 'CSVReader', 'TaskProcessor', 'TimelineBuilder',
-    
-    # LaTeX Generation
-    'LaTeXGenerator', 'LaTeXEscaper', 'LaTeXDocumentGenerator', 'TemplateGeneratorFactory',
-    
-    # Application
-    'Application', 'main',
+    # Main entry point
+    'main',
 ]
