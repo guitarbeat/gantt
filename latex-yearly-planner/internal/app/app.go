@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"latex-yearly-planner/internal/config"
@@ -127,6 +128,6 @@ func action(c *cli.Context) error {
 }
 
 func RootFilename(pathconfig string) string {
-	// Always use "proposal-timeline" as the base filename
-	return "proposal-timeline.tex"
+	filename := filepath.Base(pathconfig)
+	return strings.TrimSuffix(filename, filepath.Ext(filename)) + ".tex"
 }
