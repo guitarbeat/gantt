@@ -133,6 +133,29 @@ class LaTeXConfig:
                 "amssymb",
                 "ragged2e"
             ]
+    
+    # * Enhanced TikZ libraries for better functionality
+    tikz_libraries: List[str] = None
+    
+    def get_tikz_libraries(self) -> List[str]:
+        """Get list of TikZ libraries to load."""
+        if self.tikz_libraries is None:
+            return [
+                "arrows.meta",           # Better arrows
+                "shapes.geometric",      # More shapes (diamonds, stars, etc.)
+                "positioning",           # Relative positioning
+                "calc",                  # Coordinate calculations
+                "decorations.pathmorphing", # Decorative paths
+                "patterns",              # Fill patterns
+                "shadows",               # Drop shadows
+                "fit",                   # Fit nodes to content
+                "backgrounds",           # Background layers
+                "matrix",                # Matrix layouts
+                "chains",                # Node chains
+                "scopes",                # Scoped operations
+                "pgfgantt"               # Gantt charts (from awesome-tikz)
+            ]
+        return self.tikz_libraries
 
 
 @dataclass
@@ -145,7 +168,7 @@ class AppConfig:
     latex: LaTeXConfig = None
     
     # File paths
-    default_input: str = "input/data.cleaned.csv"
+    default_input: str = "../input/data.cleaned.csv"
     default_output: str = "output/tex/Calendar_template.tex"
     
     def __post_init__(self):

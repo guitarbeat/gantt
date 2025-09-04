@@ -1,6 +1,12 @@
 # Build output
 build/
 
+# Built binaries
+plannergen
+
+# Generated PDFs
+*.pdf
+
 # Go build artifacts
 *.exe
 *.exe~

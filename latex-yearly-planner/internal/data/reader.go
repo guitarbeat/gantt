@@ -21,11 +21,7 @@ type Task struct {
 	Name        string
 	StartDate   time.Time
 	EndDate     time.Time
-	Duration    int
-	Progress    int
 	Priority    string
-	Status      string
-	Assignee    string
 	Description string
 }
 
@@ -98,6 +94,8 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 			continue
 		}
 
+		// Import all tasks (removed filter for task A only)
+
 		tasks = append(tasks, task)
 	}
 
@@ -140,39 +138,27 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 		return nil, err
 	}
 
-	// Track which months have tasks
-	monthsWithTasks := make(map[string]MonthYear)
-	
+	// Track which months have tasks using a map for deduplication
+	monthsWithTasks := make(map[MonthYear]bool)
+
 	for _, task := range tasks {
-		// Add start month
-		startMonth := MonthYear{
-			Year:  task.StartDate.Year(),
-			Month: task.StartDate.Month(),
-		}
-		monthsWithTasks[startMonth.String()] = startMonth
-		
-		// Add end month
-		endMonth := MonthYear{
-			Year:  task.EndDate.Year(),
-			Month: task.EndDate.Month(),
-		}
-		monthsWithTasks[endMonth.String()] = endMonth
-		
-		// Add all months in between
+		// Add all months from start to end (inclusive)
 		current := task.StartDate
-		for current.Before(task.EndDate) || current.Equal(task.EndDate) {
-			monthKey := MonthYear{
+		end := task.EndDate
+		
+		for !current.After(end) {
+			month := MonthYear{
 				Year:  current.Year(),
 				Month: current.Month(),
 			}
-			monthsWithTasks[monthKey.String()] = monthKey
+			monthsWithTasks[month] = true
 			current = current.AddDate(0, 1, 0)
 		}
 	}
 
 	// Convert to slice and sort
-	var months []MonthYear
-	for _, month := range monthsWithTasks {
+	months := make([]MonthYear, 0, len(monthsWithTasks))
+	for month := range monthsWithTasks {
 		months = append(months, month)
 	}
 
@@ -185,11 +171,6 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 	})
 
 	return months, nil
-}
-
-// String returns a string representation of MonthYear
-func (my MonthYear) String() string {
-	return fmt.Sprintf("%d-%02d", my.Year, int(my.Month))
 }
 
 // parseTask parses a single CSV record into a Task struct
@@ -211,14 +192,11 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 	}
 
 	task.Name = getField("Task Name")
-	task.Priority = getField("Priority")
-	task.Status = getField("Status")
-	task.Assignee = getField("Assignee")
 	task.Description = getField("Description")
-	
-	// Parse category from CSV
+
+	// Parse category from CSV (using Category field)
 	if category := getField("Category"); category != "" {
-		task.Priority = category // Using Priority field to store category for now
+		task.Priority = category // Using Priority field to store category
 	}
 
 	// Parse dates
@@ -238,21 +216,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int) (Task, er
 			return task, fmt.Errorf("invalid end date format: %s", endDateStr)
 		}
 		task.EndDate = endDate
-	}
-
-	// Parse numeric fields
-	if durationStr := getField("Duration (days)"); durationStr != "" {
-		if duration, err := fmt.Sscanf(durationStr, "%d", &task.Duration); err != nil || duration != 1 {
-			// If parsing fails, set to 0
-			task.Duration = 0
-		}
-	}
-
-	if progressStr := getField("Progress (%)"); progressStr != "" {
-		if progress, err := fmt.Sscanf(progressStr, "%d", &task.Progress); err != nil || progress != 1 {
-			// If parsing fails, set to 0
-			task.Progress = 0
-		}
 	}
 
 	return task, nil

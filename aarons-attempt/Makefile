@@ -11,11 +11,11 @@ build:
 
 # Build all templates using enhanced build system
 build-all:
-	$(PYTHON) main.py build all-templates input/data.cleaned.csv --title "Project Timeline"
+	$(PYTHON) main.py build all-templates ../input/data.cleaned.csv --title "Project Timeline"
 
 # Build for specific device
 build-device:
-	$(PYTHON) main.py build single input/data.cleaned.csv -d supernote_a5x --title "E-ink Planner"
+	$(PYTHON) main.py build single ../input/data.cleaned.csv -d supernote_a5x --title "E-ink Planner"
 
 # List available configurations
 list:

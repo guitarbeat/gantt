@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/app"
+	"latex-yearly-planner/internal/app"
 )
 
 func main() {

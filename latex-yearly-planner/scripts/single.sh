@@ -9,15 +9,18 @@ else
   echo "Building using plannergen binary at \"${PLANNERGEN_BINARY}\""
 fi
 
+OUTDIR=${OUTDIR:-build}
+
 if [ -z "$PREVIEW" ]; then
-  eval $GO_CMD --config "${CFG}"
+  eval $GO_CMD --config "${CFG}" --outdir "$OUTDIR"
 else
-  eval $GO_CMD --preview --config "${CFG}"
+  eval $GO_CMD --preview --config "${CFG}" --outdir "$OUTDIR"
 fi
 
 
 
-nakedname=$(echo "${CFG}" | rev | cut -d, -f1 | cut -d'/' -f 1 | cut -d'.' -f 2-99 | rev)
+# Use the fixed filename we generate in app.go
+nakedname="proposal-timeline"
 
 if [ -n "${TRANSLATION}" ]; then
   python3 translate.py ${TRANSLATION}
@@ -35,14 +38,14 @@ for _ in "${_passes[@]}"; do
     -file-line-error \
     -interaction=nonstopmode \
     -synctex=1 \
-    -output-directory=./build \
-    "build/${nakedname}.tex"
+    -output-directory="./${OUTDIR}" \
+    "${OUTDIR}/${nakedname}.tex"
 done
 
 if [ -n "${NAME}" ]; then
-  cp "build/${nakedname}.pdf" "${NAME}.pdf"
+  cp "${OUTDIR}/${nakedname}.pdf" "${NAME}.pdf"
   echo "created ${NAME}.pdf"
 else
-  cp "build/${nakedname}.pdf" "${nakedname}.pdf"
+  cp "${OUTDIR}/${nakedname}.pdf" "${nakedname}.pdf"
   echo "created ${nakedname}.pdf"
 fi

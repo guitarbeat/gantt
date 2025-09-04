@@ -1,4 +1,4 @@
-module github.com/kudrykv/latex-yearly-planner
+module latex-yearly-planner
 
 go 1.16
 

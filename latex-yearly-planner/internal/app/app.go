@@ -7,20 +7,22 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kudrykv/latex-yearly-planner/internal/config"
-	"github.com/kudrykv/latex-yearly-planner/internal/generator"
+	"latex-yearly-planner/internal/config"
+	"latex-yearly-planner/internal/generator"
+
 	"github.com/urfave/cli/v2"
 )
 
 const (
 	fConfig = "config"
 	pConfig = "preview"
+	fOutDir = "outdir"
 )
 
 func New() *cli.App {
 	// Initialize the composer map
 	config.ComposerMap["monthly"] = generator.Monthly
-	
+
 	return &cli.App{
 		Name: "plannergen",
 
@@ -28,8 +30,9 @@ func New() *cli.App {
 		ErrWriter: os.Stderr,
 
 		Flags: []cli.Flag{
-			&cli.PathFlag{Name: fConfig, Required: true},
-			&cli.BoolFlag{Name: pConfig, Required: false},
+			&cli.PathFlag{Name: fConfig, Required: false, Value: "configs/planner_config.yaml", Usage: "config file(s), comma-separated"},
+			&cli.BoolFlag{Name: pConfig, Required: false, Usage: "render only one page per unique module"},
+			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
 		},
 
 		Action: action,
@@ -51,6 +54,16 @@ func action(c *cli.Context) error {
 		return fmt.Errorf("config new: %w", err)
 	}
 
+	// If CLI flag for outdir provided, override config
+	if od := strings.TrimSpace(c.Path(fOutDir)); od != "" {
+		cfg.OutputDir = od
+	}
+
+	// Ensure output directory exists
+	if err := os.MkdirAll(cfg.OutputDir, 0o755); err != nil {
+		return fmt.Errorf("create output dir: %w", err)
+	}
+
 	wr := &bytes.Buffer{}
 
 	t := generator.NewTpl()
@@ -59,7 +72,7 @@ func action(c *cli.Context) error {
 		return fmt.Errorf("tex document: %w", err)
 	}
 
-	if err = os.WriteFile("build/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0600); err != nil {
+	if err = os.WriteFile(cfg.OutputDir+"/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0o600); err != nil {
 		return fmt.Errorf("write file: %w", err)
 	}
 
@@ -105,7 +118,7 @@ func action(c *cli.Context) error {
 			}
 		}
 
-		if err = os.WriteFile("build/"+file.Name+".tex", wr.Bytes(), 0600); err != nil {
+		if err = os.WriteFile(cfg.OutputDir+"/"+file.Name+".tex", wr.Bytes(), 0o600); err != nil {
 			return fmt.Errorf("write file: %w", err)
 		}
 	}
@@ -114,14 +127,6 @@ func action(c *cli.Context) error {
 }
 
 func RootFilename(pathconfig string) string {
-	if idx := strings.LastIndex(pathconfig, "/"); idx >= 0 {
-		pathconfig = pathconfig[idx+1:]
-	}
-
-	pathconfig = strings.TrimSuffix(pathconfig, ".yml")
-	pathconfig = strings.TrimSuffix(pathconfig, ".yaml")
-
-	return pathconfig + ".tex"
+	// Always use "proposal-timeline" as the base filename
+	return "proposal-timeline.tex"
 }
-
-
