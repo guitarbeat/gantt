@@ -29,9 +29,9 @@ class BuildSystem:
         self.config_manager = config_manager
         
         # Build configuration
-        self.build_dir = Path("../build")
-        self.output_dir = Path("../output")
-        self.temp_dir = Path("../temp")
+        self.build_dir = Path("build")
+        self.output_dir = Path("output")
+        self.temp_dir = Path("temp")
         
         # Create directories
         self._create_directories()
@@ -174,7 +174,6 @@ class BuildSystem:
             cmd = [
                 "pdflatex",
                 "-interaction=nonstopmode",
-                "-output-directory", str(pdf_file.parent),
                 str(tex_file.name)
             ]
             
@@ -185,9 +184,15 @@ class BuildSystem:
             
             if result.returncode == 0:
                 self.logger.info("LaTeX compilation successful")
+                # Move the generated PDF to the correct location
+                generated_pdf = tex_file.with_suffix('.pdf')
+                if generated_pdf.exists():
+                    generated_pdf.rename(pdf_file)
+                else:
+                    self.logger.warning(f"Could not find generated PDF at {generated_pdf}")
                 return True
             else:
-                self.logger.error(f"LaTeX compilation failed: {result.stderr}")
+                self.logger.error(f"LaTeX compilation failed. Stderr:\n{result.stderr}\nStdout:\n{result.stdout}")
                 return False
                 
         except FileNotFoundError:
