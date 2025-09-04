@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enhanced Timeline</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #3B82F6;
+        }
+        .header h1 {
+            color: #1F2937;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            color: #6B7280;
+            margin: 10px 0 0 0;
+        }
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+        .timeline-axis {
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #10B981);
+            border-radius: 2px;
+            position: relative;
+        }
+        .task-bar {
+            position: absolute;
+            height: 30px;
+            background: #3B82F6;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .task-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .milestone {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #9333EA;
+            transform: rotate(45deg);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .task-details {
+            margin-top: 40px;
+        }
+        .task-card {
+            background: #F9FAFB;
+            border-left: 4px solid #3B82F6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            background: #F3F4F6;
+            transform: translateX(5px);
+        }
+        .task-name {
+            font-weight: bold;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+        .task-dates {
+            color: #6B7280;
+            font-size: 0.9em;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #3B82F6);
+            width: 30%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Test Enhanced Timeline</h1>
+            <p>Timeline: August 29, 2025 - August 15, 2027</p>
+            <p>Total Tasks: 63 | Duration: 716 days</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-axis"></div>
+            <!-- Task bars will be positioned here -->
+        </div>
+        
+        <div class="task-details">
+            <h2>Task Details</h2>
+
+            <div class="task-card">
+                <div class="task-name">timeline v1</div>
+                <div class="task-dates">August 29, 2025 - August 31, 2025 (3 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Create initial project timeline for Tuesday review with Andy. Bring both printed and digital copies to meeting.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Initial proposal skeleton</div>
+                <div class="task-dates">August 29, 2025 - August 31, 2025 (3 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Develop 1-page Specific Aims and detailed outline following BME format requirements for PhD proposal.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Submit proposal outline</div>
+                <div class="task-dates">August 31, 2025 - August 31, 2025 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Send initial proposal draft to advisor for review before Monday deadline.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Define proposal committee</div>
+                <div class="task-dates">September 02, 2025 - September 05, 2025 (4 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Identify committee members; confirm availability; and schedule oral exam date. Reserve room for exam.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Expand proposal draft</div>
+                <div class="task-dates">September 01, 2025 - September 12, 2025 (12 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Develop 12-page Research Strategy section from outline following BME proposal guidelines.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Confirm exam date</div>
+                <div class="task-dates">September 12, 2025 - September 12, 2025 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Oral exam date scheduled. Must send final proposal to committee ≥2 weeks prior to exam.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Align seed laser</div>
+                <div class="task-dates">August 30, 2025 - September 03, 2025 (5 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Achieve ≥30 mW output in fiber core (pre-pump configuration) for stable laser operation.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Align amplifier</div>
+                <div class="task-dates">September 03, 2025 - September 10, 2025 (8 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Restore amplified output to ≥130 mW (previous benchmark performance level).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Check pulse compression</div>
+                <div class="task-dates">September 10, 2025 - September 12, 2025 (3 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Verify ≤200 fs pulse duration and record specifications in equipment log.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Calibrate microscope</div>
+                <div class="task-dates">September 12, 2025 - September 12, 2025 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Align imaging system using USAF target for optimal resolution before in vivo experiments.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Laser system ready</div>
+                <div class="task-dates">September 12, 2025 - September 12, 2025 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Laser output and imaging optics meet all requirements for live animal imaging.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Plan imaging cohort</div>
+                <div class="task-dates">September 01, 2025 - September 05, 2025 (5 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Plan ~3 pilot mice cohort with IACUC protocol confirmation and surgery slot booking.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Annual progress review</div>
+                <div class="task-dates">September 01, 2025 - September 07, 2025 (7 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Complete yearly graduate student progress report (department form) due early September.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Proposal exam paperwork</div>
+                <div class="task-dates">September 12, 2025 - October 15, 2025 (34 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">File committee forms; Program of Work; and confirm exam room logistics for proposal defense.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Design AAV vectors</div>
+                <div class="task-dates">October 01, 2025 - October 15, 2025 (15 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Design and order AAV-mScarlet (vascular) and jRGECO1b (neuronal) vectors. Finalize constructs and submit production orders to core facility.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">AAV vectors ready</div>
+                <div class="task-dates">January 15, 2026 - January 15, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: AAV vectors received from core facility. Ready for in vivo animal injections to begin expression studies.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">proposal draft</div>
+                <div class="task-dates">November 15, 2025 - December 15, 2025 (31 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write full proposal document (~13 pages) including all aims and research strategy for committee review.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Send proposal to committee</div>
+                <div class="task-dates">December 16, 2025 - December 16, 2025 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Email proposal to committee ≥2 weeks before exam date (satisfies pre-exam requirement).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Prepare presentation</div>
+                <div class="task-dates">January 04, 2026 - January 18, 2026 (15 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Create slide deck and practice oral exam presentation. Aim for two practice runs with lab members.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">PhD Proposal Exam</div>
+                <div class="task-dates">January 20, 2026 - January 20, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Qualifying Exam: Defend dissertation proposal in oral exam with committee members.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Address committee feedback</div>
+                <div class="task-dates">January 21, 2026 - January 28, 2026 (8 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Incorporate committee revisions into proposal and submit signed approval form for final approval.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Cranial window surgery #1</div>
+                <div class="task-dates">February 01, 2026 - February 01, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Install cranial window and inject AAV in first pilot mouse. Begin expression timeline for vascular labeling.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Post-op recovery #1</div>
+                <div class="task-dates">February 02, 2026 - February 05, 2026 (4 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Monitor and medicate Mouse #1 after surgery. No imaging during recovery period to allow healing.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Cranial window surgery #2</div>
+                <div class="task-dates">February 08, 2026 - February 08, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Install cranial window and inject AAV in second pilot mouse (staggered one week after #1).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Post-op recovery #2</div>
+                <div class="task-dates">February 09, 2026 - February 12, 2026 (4 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Monitor and medicate Mouse #2 after surgery. Maintain analgesia schedule during recovery.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Cranial window surgery #3</div>
+                <div class="task-dates">February 15, 2026 - February 15, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Install cranial window and inject AAV in third pilot mouse (further staggered timing).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Post-op recovery #3</div>
+                <div class="task-dates">February 16, 2026 - February 19, 2026 (4 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Monitor and medicate Mouse #3 after surgery. Complete recovery period before imaging.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Pilot imaging session #1</div>
+                <div class="task-dates">February 22, 2026 - February 23, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Acquire in vivo images for Mouse #1 comparing AAV fluorescence vs traditional dye injection methods.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Pilot imaging session #2</div>
+                <div class="task-dates">March 01, 2026 - March 02, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Acquire in vivo images for Mouse #2 under dual-label vs dye conditions for comparison.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Pilot imaging session #3</div>
+                <div class="task-dates">March 08, 2026 - March 09, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Acquire in vivo images for Mouse #3. Complete final pilot dataset for Aim 1 validation.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Pilot datasets complete</div>
+                <div class="task-dates">March 10, 2026 - March 10, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Three pilot two-photon imaging datasets acquired for Aim 1 validation and proposal figures.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Process pilot data</div>
+                <div class="task-dates">March 10, 2026 - March 15, 2026 (6 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Perform image registration and SNR analysis. Calculate contrast metrics and refine imaging protocols.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Develop U-Net pipeline</div>
+                <div class="task-dates">March 15, 2026 - April 01, 2026 (18 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Begin developing automated image segmentation pipeline using U-Net architecture for vascular features.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Optimize imaging systems</div>
+                <div class="task-dates">March 15, 2026 - April 30, 2026 (47 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Tune microscope optics for dual-channel two-photon imaging and configure LSCI for blood flow measurements.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Order enhanced AAV</div>
+                <div class="task-dates">March 01, 2026 - May 01, 2026 (62 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Design and order enhanced-expression AAV with tissue-specific enhancer for improved dual-label imaging (Aim 2).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Enhanced AAV delivered</div>
+                <div class="task-dates">July 01, 2026 - July 01, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Enhanced AAV vector received and ready for in vivo testing to continue Aim 2 studies.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Compare labeling methods</div>
+                <div class="task-dates">April 30, 2026 - May 31, 2026 (32 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Systematically compare imaging depth; SNR; and contrast across different labeling methods (AAV vs dye) in vivo.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">methodology paper</div>
+                <div class="task-dates">April 01, 2026 - May 31, 2026 (61 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write manuscript on AAV-based vascular imaging methodology and pilot results from Aim 1 studies.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Submit methodology paper</div>
+                <div class="task-dates">June 01, 2026 - June 01, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Submit Aim 1 imaging methodology paper to journal for peer review and publication consideration.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Establish stroke protocol</div>
+                <div class="task-dates">May 31, 2026 - June 05, 2026 (6 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Complete training and IACUC approval for stroke induction method (photothrombosis). Ensure all regulatory approvals are in place.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Induce stroke</div>
+                <div class="task-dates">June 06, 2026 - June 10, 2026 (5 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Perform stroke induction surgeries on experimental animal cohort to initiate Aim 3 longitudinal imaging study.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Acute-phase imaging</div>
+                <div class="task-dates">June 15, 2026 - June 16, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Conduct two-photon + LSCI imaging sessions in acute phase (0-1 week post-stroke) to capture immediate vascular changes.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Transition-phase imaging</div>
+                <div class="task-dates">July 01, 2026 - July 02, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Conduct imaging sessions during subacute transition phase (2-4 weeks post-stroke) to capture evolving vascular dynamics.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Stabilization-phase imaging</div>
+                <div class="task-dates">July 30, 2026 - July 31, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Conduct imaging sessions in early chronic phase (5-8 weeks post-stroke) to observe vascular remodeling processes.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Extended chronic imaging</div>
+                <div class="task-dates">August 25, 2026 - August 26, 2026 (2 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Conduct imaging at ~12 weeks post-stroke (if needed) to capture long-term vascular remodeling and recovery patterns.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Refine ML pipeline</div>
+                <div class="task-dates">June 15, 2026 - August 31, 2026 (78 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Adapt and improve machine learning segmentation pipeline for stroke dataset analysis and vascular feature detection.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Stroke data complete</div>
+                <div class="task-dates">August 31, 2026 - August 31, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Completion of all planned longitudinal imaging sessions for stroke study (Aim 3).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Integrate flow data</div>
+                <div class="task-dates">September 01, 2026 - September 30, 2026 (30 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Combine LSCI blood flow metrics with two-photon structural/functional data for comprehensive vascular analysis.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Analyze neurovascular coupling</div>
+                <div class="task-dates">October 01, 2026 - November 15, 2026 (46 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Quantify microvascular network changes and neurovascular coupling dynamics from post-stroke imaging data.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Prepare conference presentation</div>
+                <div class="task-dates">November 15, 2026 - December 01, 2026 (17 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Create talk/poster for conference presentation (SPIE or neuroscience meeting) showcasing Year 5-6 research results.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">second manuscript</div>
+                <div class="task-dates">November 15, 2026 - November 30, 2026 (16 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write second research paper covering dual-color imaging platform and initial stroke study findings (Aim 2/3).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Submit second manuscript</div>
+                <div class="task-dates">December 15, 2026 - December 15, 2026 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Submit second major manuscript (Aim 2/3 results) to journal for peer review and publication consideration.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Annual progress review</div>
+                <div class="task-dates">September 01, 2026 - September 07, 2026 (7 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Complete yearly graduate student progress review (department form) with advisor due early September.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">PhD Dissertation & Defense</div>
+                <div class="task-dates">December 01, 2026 - August 15, 2027 (258 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Complete dissertation write-up; final defense; and all graduation requirements by Summer 2027.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Introduction</div>
+                <div class="task-dates">December 15, 2026 - January 31, 2027 (48 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write dissertation Introduction chapter including literature review and study rationale for PhD thesis.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Aim 1 chapter</div>
+                <div class="task-dates">January 01, 2027 - February 28, 2027 (59 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write chapter detailing Aim 1 (AAV imaging) methods; experiments; and results for dissertation.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Aim 2 chapter</div>
+                <div class="task-dates">January 15, 2027 - March 31, 2027 (76 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write chapter detailing Aim 2 (dual-color imaging platform) methods and results for dissertation.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Aim 3 chapter</div>
+                <div class="task-dates">February 01, 2027 - April 15, 2027 (74 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write chapter detailing Aim 3 (stroke model imaging study) methods; data; and findings for dissertation.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Conclusions</div>
+                <div class="task-dates">March 01, 2027 - April 30, 2027 (61 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Write final dissertation chapter summarizing findings; implications; and future research directions.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Dissertation draft complete</div>
+                <div class="task-dates">May 01, 2027 - May 01, 2027 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">MILESTONE: Complete PhD dissertation draft compiled and ready for committee review.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">PhD Defense</div>
+                <div class="task-dates">July 15, 2027 - July 15, 2027 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Defend PhD dissertation in oral exam with committee (must occur ≥2 weeks before final submission deadline).</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Revise dissertation</div>
+                <div class="task-dates">July 16, 2027 - July 31, 2027 (16 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Incorporate committee feedback and revisions after defense. Obtain final approval signatures.</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-name">Submit dissertation</div>
+                <div class="task-dates">August 01, 2027 - August 01, 2027 (1 days)</div>
+                <div style="color: #6B7280; font-size: 0.9em; margin-top: 5px;">Upload approved dissertation PDF and submit all required forms to Graduate School by deadline.</div>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        // Add interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for task cards
+            const taskCards = document.querySelectorAll('.task-card');
+            taskCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.background = '#DBEAFE';
+                    setTimeout(() => {
+                        this.style.background = '#F9FAFB';
+                    }, 200);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

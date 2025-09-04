@@ -12,21 +12,38 @@ import sys
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional
+try:
+    from tqdm import tqdm
+except ImportError:
+    # Fallback if tqdm is not available
+    class tqdm:
+        def __init__(self, iterable=None, **kwargs):
+            self.iterable = iterable
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            pass
+        def update(self, n=1):
+            pass
+        def __iter__(self):
+            return iter(self.iterable) if self.iterable else iter([])
 
 from .config_manager import config_manager
 from .template_generators import TemplateGeneratorFactory
 from .data_processor import DataProcessor
+from .export_system import ExportSystem
 
 
 class BuildSystem:
     """Enhanced build system for LaTeX Gantt chart generation."""
     
     def __init__(self):
-        """Initialize build system."""
+        """Initialize enhanced build system."""
         self.setup_logging()
         self.logger = logging.getLogger(__name__)
         self.data_processor = DataProcessor()
         self.config_manager = config_manager
+        self.export_system = ExportSystem()
         
         # Build configuration
         self.build_dir = Path("build")
@@ -161,6 +178,60 @@ class BuildSystem:
         devices = self.config_manager.list_device_profiles()
         return self.build_multiple(input_file, [template_type], devices, title=title)
     
+    def build_multiple_formats(self, input_file: str, template_type: str = "gantt_timeline",
+                              device_profile: str = None, color_scheme: str = None,
+                              title: str = None, formats: List[str] = None) -> Dict[str, bool]:
+        """Build document in multiple export formats."""
+        if formats is None:
+            formats = ['pdf', 'svg', 'html', 'png']
+        
+        self.logger.info(f"Building multiple formats: {', '.join(formats)}")
+        
+        try:
+            # Process CSV data
+            with tqdm(total=100, desc="Processing data") as pbar:
+                timeline = self.data_processor.process_csv_to_timeline(
+                    input_file, title or "Project Timeline"
+                )
+                pbar.update(30)
+            
+            # Generate timestamp for unique filenames
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            base_name = f"Timeline_{timestamp}"
+            
+            results = {}
+            
+            # Export to each format
+            for format_type in tqdm(formats, desc="Exporting formats"):
+                output_path = self.output_dir / format_type / f"{base_name}.{format_type}"
+                output_path.parent.mkdir(exist_ok=True)
+                
+                if format_type == 'pdf':
+                    results[format_type] = self.export_system.export_to_pdf(
+                        timeline, str(output_path), template_type, device_profile, color_scheme
+                    )
+                elif format_type == 'svg':
+                    results[format_type] = self.export_system.export_to_svg(
+                        timeline, str(output_path)
+                    )
+                elif format_type == 'html':
+                    results[format_type] = self.export_system.export_to_html(
+                        timeline, str(output_path)
+                    )
+                elif format_type == 'png':
+                    results[format_type] = self.export_system.export_to_png(
+                        timeline, str(output_path)
+                    )
+                else:
+                    self.logger.warning(f"Unsupported format: {format_type}")
+                    results[format_type] = False
+            
+            return results
+            
+        except Exception as e:
+            self.logger.error(f"❌ Error building multiple formats: {e}")
+            return {format_type: False for format_type in formats}
+    
     def _compile_latex(self, tex_file: Path, pdf_file: Path) -> bool:
         """Compile LaTeX file to PDF."""
         try:
@@ -287,6 +358,19 @@ Examples:
                                    help='Template type to use')
     all_devices_parser.add_argument('--title', help='Document title')
     
+    # Multiple formats command
+    multiple_formats_parser = subparsers.add_parser('multiple-formats', help='Build in multiple export formats')
+    multiple_formats_parser.add_argument('input', help='Input CSV file')
+    multiple_formats_parser.add_argument('-t', '--template', default='gantt_timeline',
+                                        help='Template type to use')
+    multiple_formats_parser.add_argument('-d', '--device', help='Device profile to use')
+    multiple_formats_parser.add_argument('-c', '--color-scheme', help='Color scheme to use')
+    multiple_formats_parser.add_argument('--title', help='Document title')
+    multiple_formats_parser.add_argument('--formats', nargs='+', 
+                                        choices=['pdf', 'svg', 'html', 'png'],
+                                        default=['pdf', 'svg', 'html', 'png'],
+                                        help='Export formats to generate')
+    
     # Clean command
     subparsers.add_parser('clean', help='Clean build artifacts')
     
@@ -348,6 +432,19 @@ def main() -> int:
             success_count = sum(1 for success in results.values() if success)
             total_count = len(results)
             print(f"Built {success_count}/{total_count} device profiles successfully")
+            return 0 if success_count == total_count else 1
+            
+        elif args.command == 'multiple-formats':
+            results = build_system.build_multiple_formats(
+                args.input, args.template, args.device, 
+                args.color_scheme, args.title, args.formats
+            )
+            success_count = sum(1 for success in results.values() if success)
+            total_count = len(results)
+            print(f"Built {success_count}/{total_count} formats successfully")
+            for format_type, success in results.items():
+                status = "✅" if success else "❌"
+                print(f"  {status} {format_type.upper()}")
             return 0 if success_count == total_count else 1
             
         elif args.command == 'clean':

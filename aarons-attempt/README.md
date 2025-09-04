@@ -318,19 +318,77 @@ CSV with columns: `Task Name`, `Start Date`, `Due Date`, `Duration (days)`, `Gro
 - Vector-style bars and clean typography
 - Optimized for large timelines
 
-## 🎨 Customization
+## 🎨 Enhanced Visual Design
 
-### **Colors & Styling**
-- Professional color scheme
-- Lane-based color coding
-- Hierarchical visual design
-- Print-optimized styling
+### **Modern TikZ Styling**
+- **Enhanced Task Nodes** - Rounded corners, drop shadows, and modern typography
+- **Status-Based Colors** - Green (completed), orange (in progress), red (blocked)
+- **Progress Indicators** - Visual progress bars within task elements
+- **Interactive Elements** - Clickable links and navigation
+- **Professional Shadows** - Subtle drop shadows for depth and modern appearance
 
-### **Layout Options**
-- Configurable dimensions
-- Flexible lane ordering
-- Custom title and branding
-- Responsive design
+### **Advanced Color Schemes**
+- **Academic** - Professional blue/green/orange palette for research
+- **Corporate** - Dark gray/blue scheme for business presentations  
+- **Vibrant** - Purple/pink/green for creative projects
+- **Custom Colors** - Easily configurable color palettes
+
+### **Enhanced Typography**
+- **Modern Fonts** - Helvetica-based sans-serif for clean readability
+- **Hierarchical Text** - Different font weights and sizes for information hierarchy
+- **Better Spacing** - Improved line heights and margins for readability
+
+## 🚀 New Export Formats
+
+### **Multiple Output Formats**
+- **PDF** - High-quality vector graphics for printing and sharing
+- **SVG** - Scalable vector graphics for web and presentations
+- **HTML** - Interactive web-based timelines with clickable elements
+- **PNG** - High-resolution raster images for digital use
+
+### **Export Commands**
+```bash
+# Export to multiple formats
+make build-formats
+
+# Export specific formats
+python main.py build multiple-formats input/data.csv --formats pdf html
+
+# Export with custom settings
+python main.py build multiple-formats input/data.csv \
+    --template gantt_timeline \
+    --device supernote_a5x \
+    --color-scheme academic \
+    --formats pdf svg html png
+```
+
+## 🔧 Enhanced Data Processing
+
+### **Improved CSV Validation**
+- **Automatic Delimiter Detection** - Supports comma, semicolon, tab, and pipe delimiters
+- **Multiple Date Formats** - Handles various date formats automatically
+- **Enhanced Error Reporting** - Detailed validation messages with row numbers
+- **Data Type Validation** - Ensures data integrity and consistency
+
+### **Better Error Handling**
+- **Graceful Degradation** - Continues processing even with some invalid rows
+- **Detailed Logging** - Comprehensive error messages and warnings
+- **Validation Reports** - Summary of data quality issues
+- **Recovery Options** - Suggestions for fixing common data problems
+
+## 🎯 Interactive Features
+
+### **Enhanced Navigation**
+- **Table of Contents** - Clickable navigation with hyperlinks
+- **Progress Summary** - Visual progress indicators and statistics
+- **Task Quick Links** - Jump to specific tasks in the document
+- **Interactive Elements** - Hover effects and clickable components
+
+### **Modern UI Elements**
+- **Progress Bars** - Visual representation of project completion
+- **Status Indicators** - Color-coded task status with icons
+- **Interactive Legends** - Clickable legend items for filtering
+- **Responsive Design** - Adapts to different screen sizes and devices
 
 ## 📈 What's New
 

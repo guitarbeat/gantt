@@ -1,0 +1,2 @@
+Task ID,Task Name,Parent Task ID,Category,Start Date,Due Date,Dependencies,Description
+TEST001,Test Enhanced Timeline,,PROPOSAL,2025-09-03,2025-09-10,,Demonstrate the enhanced Gantt chart generator with modern styling and interactive features

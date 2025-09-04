@@ -1,0 +1,383 @@
+\documentclass[landscape,a4paper]{article}
+\usepackage{[utf8]{inputenc}}
+\usepackage{[T1]{fontenc}}
+\usepackage{lmodern}
+\usepackage{helvet}
+\usepackage{[landscape,margin=0.5in]{geometry}}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ragged2e}
+
+% Enhanced TikZ libraries for better graphics
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{shadows}
+\usetikzlibrary{fit}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{matrix}
+\usetikzlibrary{chains}
+\usetikzlibrary{scopes}
+\usetikzlibrary{pgfgantt}
+
+% Page setup inspired by calendar.sty
+\pagestyle{empty}
+\setlength{\parskip}{0.5em}
+
+% Table formatting
+\setlength{\tabcolsep}{1pt}
+\renewcommand{\arraystretch}{1.0}
+
+% Use Helvetica for sans-serif
+\renewcommand{\familydefault}{\sfdefault}
+
+% Enhanced TikZ styles
+
+% Enhanced TikZ styles for project timeline with modern design
+\tikzset{
+    % Modern task node styles with shadows and gradients
+    task node/.style={
+        rectangle, 
+        rounded corners=4pt,
+        draw=black!30,
+        fill=white,
+        drop shadow={shadow xshift=1pt, shadow yshift=-1pt, fill=black!20},
+        minimum height=0.7cm,
+        minimum width=2cm,
+        font=\\small\\bfseries,
+        align=center,
+        text width=1.8cm
+    },
+    task node completed/.style={
+        task node,
+        fill=green!20,
+        draw=green!60,
+        text=green!80!black
+    },
+    task node inprogress/.style={
+        task node,
+        fill=orange!20,
+        draw=orange!60,
+        text=orange!80!black
+    },
+    task node blocked/.style={
+        task node,
+        fill=red!20,
+        draw=red!60,
+        text=red!80!black
+    },
+    milestone node/.style={
+        diamond,
+        draw=purple!60,
+        fill=purple!20,
+        drop shadow={shadow xshift=1pt, shadow yshift=-1pt, fill=purple!30},
+        minimum size=1cm,
+        font=\\small\\bfseries,
+        align=center,
+        text=purple!80!black
+    },
+    % Enhanced timeline styles
+    timeline axis/.style={
+        thick,
+        line width=3pt,
+        color=blue!70,
+        rounded corners=1pt
+    },
+    timeline tick/.style={
+        thick,
+        line width=1.5pt,
+        color=blue!50
+    },
+    timeline tick major/.style={
+        thick,
+        line width=2pt,
+        color=blue!70
+    },
+    % Modern arrow styles
+    dependency arrow/.style={
+        ->,
+        thick,
+        color=gray!60,
+        line width=2pt,
+        rounded corners=1pt
+    },
+    dependency arrow critical/.style={
+        ->,
+        thick,
+        color=red!70,
+        line width=2.5pt,
+        rounded corners=1pt
+    },
+    % Enhanced calendar styles
+    calendar day/.style={
+        rectangle,
+        draw=gray!40,
+        fill=white,
+        minimum size=1.2cm,
+        font=\\small,
+        rounded corners=2pt
+    },
+    calendar day today/.style={
+        calendar day,
+        fill=blue!10,
+        draw=blue!60,
+        line width=2pt
+    },
+    calendar day weekend/.style={
+        calendar day,
+        fill=gray!10
+    },
+    calendar header/.style={
+        rectangle,
+        draw=gray!60,
+        fill=gray!20,
+        minimum height=0.6cm,
+        font=\\small\\bfseries,
+        rounded corners=2pt
+    },
+    % Modern progress bar styles
+    progress bar/.style={
+        rectangle,
+        rounded corners=2pt,
+        minimum height=0.4cm
+    },
+    progress bar background/.style={
+        progress bar,
+        fill=gray!20,
+        draw=gray!40
+    },
+    progress bar fill/.style={
+        progress bar,
+        fill=blue!60,
+        draw=blue!80
+    },
+    % Enhanced legend styles
+    legend item/.style={
+        rectangle,
+        rounded corners=2pt,
+        minimum size=0.3cm,
+        font=\\small
+    },
+    legend text/.style={
+        font=\\small,
+        anchor=west
+    }
+}
+
+% Set background and foreground layers
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% Modern color palette
+\definecolor{primaryblue}{RGB}{59, 130, 246}
+\definecolor{secondarygreen}{RGB}{16, 185, 129}
+\definecolor{accentorange}{RGB}{245, 158, 11}
+\definecolor{warningred}{RGB}{239, 68, 68}
+\definecolor{infopurple}{RGB}{147, 51, 234}
+\definecolor{neutralgray}{RGB}{107, 114, 128}
+\definecolor{lightgray}{RGB}{243, 244, 246}
+\definecolor{darkgray}{RGB}{31, 41, 55}
+
+
+% Color definitions
+\definecolor{accountability}{RGB}{139, 92, 246}
+\definecolor{administrative}{RGB}{107, 114, 128}
+\definecolor{blocked}{RGB}{239, 68, 68}
+\definecolor{completed}{RGB}{34, 197, 94}
+\definecolor{inprogress}{RGB}{251, 146, 60}
+\definecolor{milestone}{RGB}{147, 51, 234}
+\definecolor{other}{RGB}{156, 163, 175}
+\definecolor{planned}{RGB}{59, 130, 246}
+\definecolor{researchcore}{RGB}{59, 130, 246}
+\definecolor{researchexp}{RGB}{16, 185, 129}
+\definecolor{researchout}{RGB}{245, 158, 11}
+\definecolor{service}{RGB}{236, 72, 153}
+
+\begin{document}
+
+% Title page inspired by calendar.sty
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\LARGE\textbf{Single Row Gantt Test}}
+
+\vspace{0.5cm}
+{\large PhD Research Calendar}
+
+\vspace{1cm}
+
+\begin{minipage}{0.9\textwidth}
+\centering
+\textbf{Timeline Period:} September 03, 2025 -- September 10, 2025\\
+\textbf{Total Duration:} 7 days\\
+\textbf{Total Tasks:} 1 tasks\\
+\textbf{Months Covered:} 1 months
+\end{minipage}
+
+\vfill
+
+\end{titlepage}
+\newpage
+
+\section{Complete Task List}
+\vspace{0.5cm}
+
+% Enhanced task list with better spacing and typography
+\begin{enumerate}[leftmargin=1.5cm, itemsep=1em, parsep=0.5em]
+
+    \item \textcolor{researchcore}{\textbf{\large Test Enhanced Timeline}}
+          \hfill \textcolor{black!60}{\small [PROPOSAL]}
+          
+          \vspace{0.2em}
+          \textcolor{black!70}{\textbf{Duration:} September 03, 2025 -- September 10, 2025 (8 days)}
+
+          \vspace{0.4em}
+          \begin{minipage}[t]{0.9\textwidth}
+          \textcolor{black!85}{Demonstrate the enhanced Gantt chart generator with modern styling and interactive features}
+          \end{minipage}
+\end{enumerate}
+\newpage
+\section*{Enhanced Project Timeline}
+
+% Modern timeline view with enhanced TikZ and interactive elements
+\begin{tikzpicture}[scale=0.9]
+    % Background grid for better readability
+    \begin{pgfonlayer}{background}
+        \draw[step=1, color=gray!20, line width=0.5pt] (0,-1) grid (12,8);
+    \end{pgfonlayer}
+    
+    % Main timeline axis with gradient effect
+    \draw[timeline axis] (0,0) -- (12,0);
+    
+    % Enhanced month markers with better typography
+    \foreach \x/\month/\year in {0/Aug/2025, 2/Sep/2025, 4/Oct/2025, 6/Nov/2025, 8/Dec/2025, 10/Jan/2026} {
+        \draw[timeline tick major] (\x,0) -- (\x,-0.4);
+        \node[below, font=\small\bfseries, text=primaryblue] at (\x,-0.4) {\month};
+        \node[below, font=\tiny, text=neutralgray] at (\x,-0.6) {\year};
+    }
+    
+    % Today marker (if applicable)
+    \draw[color=warningred, line width=3pt] (6,0) -- (6,7) node[above, font=\small\bfseries, text=warningred] {TODAY};
+    
+    % Task bars with enhanced styling and status indicators
+
+    % Task bar background
+    \draw[fill=primaryblue!20, draw=primaryblue!60, rounded corners=3pt, line width=1pt] 
+          (0.0,1.2) rectangle (0.4666666666666667,1.8);
+    % Progress indicator
+    \draw[fill=primaryblue!60, rounded corners=2pt] 
+          (0.0,1.25) rectangle (0.13999999999999999,1.75);
+    % Task name
+    \node[font=\small\bfseries, text=white, align=center] at (0.23333333333333334,1.5) {Test Enhanced Timeline};
+    % Duration label
+    \node[below, font=\tiny, text=neutralgray] at (0.23333333333333334,1.0) {8 days};
+    % Enhanced legend
+    \node[above, font=\large\bfseries, text=darkgray] at (6,7.5) {Project Timeline};
+    
+    \begin{pgfonlayer}{foreground}
+        \node[legend item, fill=primaryblue!30, draw=primaryblue!60] at (0.5,6.5) {};
+        \node[legend text] at (0.8,6.5) {Research Core};
+        \node[legend item, fill=secondarygreen!30, draw=secondarygreen!60] at (0.5,6.2) {};
+        \node[legend text] at (0.8,6.2) {Experimental};
+        \node[legend item, fill=accentorange!30, draw=accentorange!60] at (0.5,5.9) {};
+        \node[legend text] at (0.8,5.9) {Publications};
+        \node[legend item, fill=infopurple!30, draw=infopurple!60] at (0.5,5.6) {};
+        \node[legend text] at (0.8,5.6) {Milestones};
+    \end{pgfonlayer}\end{tikzpicture}
+\newpage
+\section*{Gantt Chart}
+
+% Gantt chart using pgfgantt library
+\\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=0.5cm,
+    y unit title=0.6cm,
+    y unit chart=0.6cm,
+    time slot format=isodate,
+    title/.append style={fill=black!10},
+    bar/.append style={fill=blue!50, rounded corners=2pt},
+    bar incomplete/.append style={fill=red!50},
+    milestone/.append style={fill=orange, rounded corners=2pt},
+    milestone incomplete/.append style={fill=red!50}
+]{\\timeline_start}{\\timeline_end}
+\\gantttitlecalendar{year, month} \\\\
+\ganttbar{\textbf{Test Enhanced Timeline}}{2025-09-03}{2025-09-10} \\
+\end{ganttchart}
+\newpage
+\section*{Monthly Calendar Views}
+
+\subsection*{September 2025}
+\vspace{0.5cm}
+
+
+% Enhanced calendar grid with modern TikZ features and interactive elements
+\begin{tikzpicture}[scale=1.0]
+    % Main calendar border with modern shadow effect
+    \draw[thick, draw=primaryblue!40, fill=white, drop shadow={shadow xshift=3pt, shadow yshift=-3pt, fill=black!15}]
+          (0,0) rectangle (7,6);
+
+    % Enhanced day headers with modern styling
+    \foreach \day [count=\i] in {Sun, Mon, Tue, Wed, Thu, Fri, Sat} { 
+        \node[calendar header, fill=primaryblue!10, draw=primaryblue!30] at (\i-0.5, 5.5) {\textbf{\day}};
+    } 
+
+    % Modern grid lines with better contrast
+    \begin{pgfonlayer}{background}
+        % Vertical lines
+        \foreach \x in {1,2,3,4,5,6} { 
+            \draw[line width=0.8pt, color=gray!25] (\x,0) -- (\x,5);
+        }
+        % Horizontal lines
+        \foreach \y in {1,2,3,4,5} { 
+            \draw[line width=0.8pt, color=gray!25] (0,\y) -- (7,\y);
+        }
+        % Weekend highlighting
+        \draw[fill=lightgray!50, draw=gray!30] (0,0) rectangle (1,5);
+        \draw[fill=lightgray!50, draw=gray!30] (6,0) rectangle (7,5);
+    \end{pgfonlayer}
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {1};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {2};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {3};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {4};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {5};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {6};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {7};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {8};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {9};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {10};\n    
+ode[font={config.calendar.task_font_size}, anchor=north west, text width=0.9cm] at ({day+0.05},{y_pos-0.1}) {\textcolor{researchcore}{\textbf{$\bullet$ Test Enhanced Timeline}}};
+    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {11};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {12};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {13};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {14};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {15};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {16};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {17};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {18};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {19};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {20};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {21};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {22};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {23};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {24};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {25};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {26};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {27};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {28};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {29};\n    \node[font=\bfseries{\large}, anchor=north west] at ({day+0.05},{y_pos+0.4}) {30};\n\end{tikzpicture}
+
+\vspace{0.5cm}
+\subsection{Task Details for September 2025}
+\begin{itemize}[leftmargin=1cm, itemsep=0.8em]
+    \item \textcolor{researchcore}{\textbf{Test Enhanced Timeline}}\\[0.2em]
+          \textcolor{black!70}{\small 09/03 to 09/10}
+\\[0.3em]
+          \begin{minipage}[t]{0.85\textwidth}
+          \textcolor{black!80}{Demonstrate the enhanced Gantt chart generator with modern styling and interactive features}
+          \end{minipage}
+
+\end{itemize}
+\end{document}

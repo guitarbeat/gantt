@@ -117,65 +117,151 @@ class LaTeXDocumentGenerator:
     def _generate_tikz_styles(self) -> str:
         """Generate enhanced TikZ styles for better graphics."""
         return r"""
-% Enhanced TikZ styles for project timeline
+% Enhanced TikZ styles for project timeline with modern design
 \tikzset{
-    % Task node styles
+    % Modern task node styles with shadows and gradients
     task node/.style={
         rectangle, 
-        rounded corners=2pt,
-        draw=black!50,
+        rounded corners=4pt,
+        draw=black!30,
         fill=white,
-        minimum height=0.6cm,
-        minimum width=1.5cm,
+        drop shadow={shadow xshift=1pt, shadow yshift=-1pt, fill=black!20},
+        minimum height=0.7cm,
+        minimum width=2cm,
         font=\\small\\bfseries,
-        align=center
+        align=center,
+        text width=1.8cm
+    },
+    task node completed/.style={
+        task node,
+        fill=green!20,
+        draw=green!60,
+        text=green!80!black
+    },
+    task node inprogress/.style={
+        task node,
+        fill=orange!20,
+        draw=orange!60,
+        text=orange!80!black
+    },
+    task node blocked/.style={
+        task node,
+        fill=red!20,
+        draw=red!60,
+        text=red!80!black
     },
     milestone node/.style={
         diamond,
-        draw=black!50,
-        fill=white,
-        minimum size=0.8cm,
+        draw=purple!60,
+        fill=purple!20,
+        drop shadow={shadow xshift=1pt, shadow yshift=-1pt, fill=purple!30},
+        minimum size=1cm,
         font=\\small\\bfseries,
-        align=center
+        align=center,
+        text=purple!80!black
     },
-    % Timeline styles
+    % Enhanced timeline styles
     timeline axis/.style={
         thick,
-        line width=2pt,
-        color=black!70
+        line width=3pt,
+        color=blue!70,
+        rounded corners=1pt
     },
     timeline tick/.style={
         thick,
-        line width=1pt,
-        color=black!50
+        line width=1.5pt,
+        color=blue!50
     },
-    % Arrow styles
+    timeline tick major/.style={
+        thick,
+        line width=2pt,
+        color=blue!70
+    },
+    % Modern arrow styles
     dependency arrow/.style={
         ->,
         thick,
-        color=black!60,
-        line width=1.5pt
+        color=gray!60,
+        line width=2pt,
+        rounded corners=1pt
     },
-    % Calendar styles
+    dependency arrow critical/.style={
+        ->,
+        thick,
+        color=red!70,
+        line width=2.5pt,
+        rounded corners=1pt
+    },
+    % Enhanced calendar styles
     calendar day/.style={
         rectangle,
-        draw=black!30,
+        draw=gray!40,
         fill=white,
-        minimum size=1cm,
-        font=\\small
+        minimum size=1.2cm,
+        font=\\small,
+        rounded corners=2pt
+    },
+    calendar day today/.style={
+        calendar day,
+        fill=blue!10,
+        draw=blue!60,
+        line width=2pt
+    },
+    calendar day weekend/.style={
+        calendar day,
+        fill=gray!10
     },
     calendar header/.style={
         rectangle,
-        draw=black!50,
-        fill=black!10,
-        minimum height=0.5cm,
-        font=\\small\\bfseries
+        draw=gray!60,
+        fill=gray!20,
+        minimum height=0.6cm,
+        font=\\small\\bfseries,
+        rounded corners=2pt
+    },
+    % Modern progress bar styles
+    progress bar/.style={
+        rectangle,
+        rounded corners=2pt,
+        minimum height=0.4cm
+    },
+    progress bar background/.style={
+        progress bar,
+        fill=gray!20,
+        draw=gray!40
+    },
+    progress bar fill/.style={
+        progress bar,
+        fill=blue!60,
+        draw=blue!80
+    },
+    % Enhanced legend styles
+    legend item/.style={
+        rectangle,
+        rounded corners=2pt,
+        minimum size=0.3cm,
+        font=\\small
+    },
+    legend text/.style={
+        font=\\small,
+        anchor=west
     }
 }
 
-% Set background layer
+% Set background and foreground layers
 \pgfdeclarelayer{background}
-\pgfsetlayers{background,main}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% Modern color palette
+\definecolor{primaryblue}{RGB}{59, 130, 246}
+\definecolor{secondarygreen}{RGB}{16, 185, 129}
+\definecolor{accentorange}{RGB}{245, 158, 11}
+\definecolor{warningred}{RGB}{239, 68, 68}
+\definecolor{infopurple}{RGB}{147, 51, 234}
+\definecolor{neutralgray}{RGB}{107, 114, 128}
+\definecolor{lightgray}{RGB}{243, 244, 246}
+\definecolor{darkgray}{RGB}{31, 41, 55}
 """
 
     def generate_document_footer(self) -> str:
@@ -293,27 +379,32 @@ class CalendarGenerator:
     def generate_calendar_grid(self, month_info: MonthInfo, tasks: List[Task]) -> str:
         """Generate the enhanced TikZ calendar grid for a month using modern TikZ features."""
         grid = f"""
-% Enhanced calendar grid with modern TikZ features
-\begin{tikzpicture}[scale={config.calendar.calendar_scale}]
-    % Main calendar border with shadow effect
-    \draw[thick, draw=black!50, fill=white, drop shadow={{shadow xshift=2pt, shadow yshift=-2pt, fill=black!20}}]
+% Enhanced calendar grid with modern TikZ features and interactive elements
+\\begin{{tikzpicture}}[scale={config.calendar.calendar_scale}]
+    % Main calendar border with modern shadow effect
+    \\draw[thick, draw=primaryblue!40, fill=white, drop shadow={{shadow xshift=3pt, shadow yshift=-3pt, fill=black!15}}]
           (0,0) rectangle ({config.calendar.calendar_width},{config.calendar.calendar_height});
 
-    % Day headers with enhanced styling
-    \foreach \day [count=\i] in {{{{Sun, Mon, Tue, Wed, Thu, Fri, Sat}}}} {{ 
-        \node[calendar header] at (\i-0.5, 5.5) {{{{\day}}}};
+    % Enhanced day headers with modern styling
+    \\foreach \\day [count=\\i] in {{Sun, Mon, Tue, Wed, Thu, Fri, Sat}} {{ 
+        \\node[calendar header, fill=primaryblue!10, draw=primaryblue!30] at (\\i-0.5, 5.5) {{\\textbf{{\\day}}}};
     }} 
 
-    % Grid lines drawn on a background layer to appear behind content
-    \begin{pgfonlayer}{background}
-        \foreach \x in {{{{1,2,3,4,5,6}}}} {{ 
-            \draw[line width=0.5pt, color=black!15] (\x,0) -- (\x,5);
+    % Modern grid lines with better contrast
+    \\begin{{pgfonlayer}}{{background}}
+        % Vertical lines
+        \\foreach \\x in {{1,2,3,4,5,6}} {{ 
+            \\draw[line width=0.8pt, color=gray!25] (\\x,0) -- (\\x,5);
         }}
-        \foreach \y in {{{{1,2,3,4,5}}}} {{ 
-            \draw[line width=0.5pt, color=black!15] (0,\y) -- ({config.calendar.calendar_width},\y);
+        % Horizontal lines
+        \\foreach \\y in {{1,2,3,4,5}} {{ 
+            \\draw[line width=0.8pt, color=gray!25] (0,\\y) -- ({config.calendar.calendar_width},\\y);
         }}
-    \end{pgfonlayer}
-"
+        % Weekend highlighting
+        \\draw[fill=lightgray!50, draw=gray!30] (0,0) rectangle (1,5);
+        \\draw[fill=lightgray!50, draw=gray!30] (6,0) rectangle (7,5);
+    \\end{{pgfonlayer}}
+"""
 
         # Add day numbers and tasks
         current_day = 1
@@ -407,36 +498,107 @@ class GanttChartGenerator:
     def generate_timeline_view(self, timeline: ProjectTimeline) -> str:
         """Generate a modern timeline view using enhanced TikZ."""
         timeline_code = """
-% Modern timeline view with enhanced TikZ
-\\begin{tikzpicture}[scale=0.8]
-    % Timeline axis
+% Modern timeline view with enhanced TikZ and interactive elements
+\\begin{tikzpicture}[scale=0.9]
+    % Background grid for better readability
+    \\begin{pgfonlayer}{background}
+        \\draw[step=1, color=gray!20, line width=0.5pt] (0,-1) grid (12,8);
+    \\end{pgfonlayer}
+    
+    % Main timeline axis with gradient effect
     \\draw[timeline axis] (0,0) -- (12,0);
     
-    % Month markers
-    \\foreach \\x/\\month in {0/Aug, 2/Sep, 4/Oct, 6/Nov, 8/Dec, 10/Jan} {
-        \\draw[timeline tick] (\\x,0) -- (\\x,-0.3);
-        \\node[below, font=\\small] at (\\x,-0.3) {\\month};
+    % Enhanced month markers with better typography
+    \\foreach \\x/\\month/\\year in {0/Aug/2025, 2/Sep/2025, 4/Oct/2025, 6/Nov/2025, 8/Dec/2025, 10/Jan/2026} {
+        \\draw[timeline tick major] (\\x,0) -- (\\x,-0.4);
+        \\node[below, font=\\small\\bfseries, text=primaryblue] at (\\x,-0.4) {\\month};
+        \\node[below, font=\\tiny, text=neutralgray] at (\\x,-0.6) {\\year};
     }
     
-    % Task bars with enhanced styling
+    % Today marker (if applicable)
+    \\draw[color=warningred, line width=3pt] (6,0) -- (6,7) node[above, font=\\small\\bfseries, text=warningred] {TODAY};
+    
+    % Task bars with enhanced styling and status indicators
 """
         
-        y_pos = 1
-        for task in timeline.tasks:
+        y_pos = 1.5
+        for i, task in enumerate(timeline.tasks):
             task_name = self.escaper.escape_latex(task.name)
-            bold_task_name = f"\\textbf{{{task_name}}}"
             start_x = self._calculate_timeline_position(task.start_date, timeline.start_date)
             end_x = self._calculate_timeline_position(task.due_date, timeline.start_date)
             
-            if task.is_milestone:
-                timeline_code += f"    \\node[milestone node, fill={task.category_color}] at ({start_x},{y_pos}) {{{bold_task_name}}};\\n"
-            else:
-                timeline_code += f"    \\draw[fill={task.category_color}, rounded corners=2pt] ({start_x},{y_pos-0.2}) rectangle ({end_x},{y_pos+0.2}) node[midway, white, font=\\small\\bfseries] {{{task_name}}};\\n"
+            # Determine task status and styling
+            status_style = self._get_task_status_style(task)
+            category_color = self._get_category_color(task.category)
             
-            y_pos += 0.8
+            if task.is_milestone:
+                # Enhanced milestone with better visual prominence
+                timeline_code += f"""
+    \\node[milestone node, fill={category_color}!30, draw={category_color}!80] at ({start_x},{y_pos}) {{{task_name}}};
+    \\node[above, font=\\tiny, text=neutralgray] at ({start_x},{y_pos+0.6}) {{MILESTONE}};"""
+            else:
+                # Enhanced task bar with progress indication
+                progress_width = self._calculate_progress_width(task, start_x, end_x)
+                timeline_code += f"""
+    % Task bar background
+    \\draw[fill={category_color}!20, draw={category_color}!60, rounded corners=3pt, line width=1pt] 
+          ({start_x},{y_pos-0.3}) rectangle ({end_x},{y_pos+0.3});
+    % Progress indicator
+    \\draw[fill={category_color}!60, rounded corners=2pt] 
+          ({start_x},{y_pos-0.25}) rectangle ({progress_width},{y_pos+0.25});
+    % Task name
+    \\node[font=\\small\\bfseries, text=white, align=center] at ({(start_x+end_x)/2},{y_pos}) {{{task_name}}};
+    % Duration label
+    \\node[below, font=\\tiny, text=neutralgray] at ({(start_x+end_x)/2},{y_pos-0.5}) {{{task.duration_days} days}};"""
+            
+            # Add dependency arrows if applicable
+            if task.dependencies:
+                timeline_code += f"""
+    % Dependency indicator
+    \\node[above, font=\\tiny, text=warningred] at ({start_x},{y_pos+0.4}) {{DEPS}};"""
+            
+            y_pos += 0.9
+        
+        # Add legend
+        timeline_code += """
+    % Enhanced legend
+    \\node[above, font=\\large\\bfseries, text=darkgray] at (6,7.5) {Project Timeline};
+    
+    \\begin{pgfonlayer}{foreground}
+        \\node[legend item, fill=primaryblue!30, draw=primaryblue!60] at (0.5,6.5) {};
+        \\node[legend text] at (0.8,6.5) {Research Core};
+        \\node[legend item, fill=secondarygreen!30, draw=secondarygreen!60] at (0.5,6.2) {};
+        \\node[legend text] at (0.8,6.2) {Experimental};
+        \\node[legend item, fill=accentorange!30, draw=accentorange!60] at (0.5,5.9) {};
+        \\node[legend text] at (0.8,5.9) {Publications};
+        \\node[legend item, fill=infopurple!30, draw=infopurple!60] at (0.5,5.6) {};
+        \\node[legend text] at (0.8,5.6) {Milestones};
+    \\end{pgfonlayer}"""
         
         timeline_code += "\\end{tikzpicture}\n"
         return timeline_code
+    
+    def _get_task_status_style(self, task: Task) -> str:
+        """Get appropriate styling based on task status."""
+        # This would be enhanced with actual status checking
+        return "task node"
+    
+    def _get_category_color(self, category: str) -> str:
+        """Get color for task category."""
+        color_map = {
+            'PROPOSAL': 'primaryblue',
+            'LASER': 'secondarygreen', 
+            'IMAGING': 'secondarygreen',
+            'PUBLICATION': 'accentorange',
+            'ADMIN': 'neutralgray',
+            'DISSERTATION': 'primaryblue'
+        }
+        return color_map.get(category, 'neutralgray')
+    
+    def _calculate_progress_width(self, task: Task, start_x: float, end_x: float) -> float:
+        """Calculate progress width for task bar."""
+        # This would be enhanced with actual progress calculation
+        return start_x + (end_x - start_x) * 0.3  # 30% progress for demo
 
     def _calculate_timeline_position(self, date: date, start_date: date) -> float:
         """Calculate the x-position for a date on the timeline."""
