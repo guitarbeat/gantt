@@ -22,6 +22,45 @@ const (
 	DateFormatSpace   = "2006-01-02 15:04:05" // With time: 2024-01-15 10:30:00
 )
 
+// Error types for detailed error reporting
+type ParseError struct {
+	Row     int
+	Column  string
+	Value   string
+	Message string
+	Err     error
+}
+
+func (e *ParseError) Error() string {
+	if e.Row > 0 {
+		return fmt.Sprintf("row %d, column '%s', value '%s': %s", e.Row, e.Column, e.Value, e.Message)
+	}
+	return fmt.Sprintf("column '%s', value '%s': %s", e.Column, e.Value, e.Message)
+}
+
+func (e *ParseError) Unwrap() error {
+	return e.Err
+}
+
+type ValidationError struct {
+	TaskID  string
+	Field   string
+	Value   string
+	Message string
+}
+
+func (e *ValidationError) Error() string {
+	return fmt.Sprintf("task %s, field '%s', value '%s': %s", e.TaskID, e.Field, e.Value, e.Message)
+}
+
+type CircularDependencyError struct {
+	Cycle []string
+}
+
+func (e *CircularDependencyError) Error() string {
+	return fmt.Sprintf("circular dependency detected: %s", strings.Join(e.Cycle, " -> "))
+}
+
 // Supported date formats for parsing
 var supportedDateFormats = []string{
 	DateFormatISO,
@@ -43,6 +82,9 @@ type Task struct {
 	Priority    int       // * Added: Separate priority field for task ordering
 	Status      string    // * Added: Task status (Planned, In Progress, Completed, etc.)
 	Assignee    string    // * Added: Task assignee
+	ParentID    string    // * Added: Parent task ID for hierarchical relationships
+	Dependencies []string // * Added: List of task IDs this task depends on
+	IsMilestone bool      // * Added: Whether this is a milestone task
 }
 
 // DateRange represents the earliest and latest dates from the task data
@@ -65,23 +107,32 @@ type Reader struct {
 	strictMode    bool // If true, fail on any parsing error
 	skipInvalid   bool // If true, skip invalid rows instead of failing
 	maxMemoryMB   int  // Maximum memory usage in MB for large files
+	// * Added: Enhanced parsing options
+	validateDependencies bool // If true, validate that all dependencies exist
+	detectCircularDeps   bool // If true, detect circular dependencies
+	// * Added: Error collection
+	errors []error // Collected errors during parsing
 }
 
 // ReaderOptions configures the CSV reader behavior
 type ReaderOptions struct {
-	StrictMode  bool
-	SkipInvalid bool
-	MaxMemoryMB int
-	Logger      *log.Logger
+	StrictMode            bool
+	SkipInvalid           bool
+	MaxMemoryMB           int
+	Logger                *log.Logger
+	ValidateDependencies  bool // * Added: Validate that all dependencies exist
+	DetectCircularDeps    bool // * Added: Detect circular dependencies
 }
 
 // DefaultReaderOptions returns sensible defaults for the reader
 func DefaultReaderOptions() *ReaderOptions {
 	return &ReaderOptions{
-		StrictMode:  false,
-		SkipInvalid: true,
-		MaxMemoryMB: 100, // 100MB default limit
-		Logger:      log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
+		StrictMode:            false,
+		SkipInvalid:           true,
+		MaxMemoryMB:           100, // 100MB default limit
+		Logger:                log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
+		ValidateDependencies:  true,  // * Added: Default to validating dependencies
+		DetectCircularDeps:    true,  // * Added: Default to detecting circular dependencies
 	}
 }
 
@@ -89,11 +140,13 @@ func DefaultReaderOptions() *ReaderOptions {
 func NewReader(filePath string) *Reader {
 	opts := DefaultReaderOptions()
 	return &Reader{
-		filePath:    filePath,
-		logger:      opts.Logger,
-		strictMode:  opts.StrictMode,
-		skipInvalid: opts.SkipInvalid,
-		maxMemoryMB: opts.MaxMemoryMB,
+		filePath:             filePath,
+		logger:               opts.Logger,
+		strictMode:           opts.StrictMode,
+		skipInvalid:          opts.SkipInvalid,
+		maxMemoryMB:          opts.MaxMemoryMB,
+		validateDependencies: opts.ValidateDependencies,
+		detectCircularDeps:   opts.DetectCircularDeps,
 	}
 }
 
@@ -103,18 +156,24 @@ func NewReaderWithOptions(filePath string, opts *ReaderOptions) *Reader {
 		opts = DefaultReaderOptions()
 	}
 	return &Reader{
-		filePath:    filePath,
-		logger:      opts.Logger,
-		strictMode:  opts.StrictMode,
-		skipInvalid: opts.SkipInvalid,
-		maxMemoryMB: opts.MaxMemoryMB,
+		filePath:             filePath,
+		logger:               opts.Logger,
+		strictMode:           opts.StrictMode,
+		skipInvalid:          opts.SkipInvalid,
+		maxMemoryMB:          opts.MaxMemoryMB,
+		validateDependencies: opts.ValidateDependencies,
+		detectCircularDeps:   opts.DetectCircularDeps,
 	}
 }
 
 // parseDate attempts to parse a date string using multiple supported formats
 func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 	if dateStr == "" {
-		return time.Time{}, fmt.Errorf("empty date string")
+		return time.Time{}, &ParseError{
+			Column:  "Date",
+			Value:   dateStr,
+			Message: "empty date string",
+		}
 	}
 
 	// Clean the date string
@@ -127,11 +186,186 @@ func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 		}
 	}
 	
-	return time.Time{}, fmt.Errorf("unable to parse date '%s' with any supported format", dateStr)
+	return time.Time{}, &ParseError{
+		Column:  "Date",
+		Value:   dateStr,
+		Message: fmt.Sprintf("unable to parse with any supported format (tried: %v)", supportedDateFormats),
+	}
+}
+
+// parseDependencies parses comma-separated dependency task IDs
+func (r *Reader) parseDependencies(depsStr string) []string {
+	if depsStr == "" {
+		return []string{}
+	}
+	
+	// Split by comma and clean up each dependency
+	deps := strings.Split(depsStr, ",")
+	var cleanDeps []string
+	for _, dep := range deps {
+		cleanDep := strings.TrimSpace(dep)
+		if cleanDep != "" {
+			cleanDeps = append(cleanDeps, cleanDep)
+		}
+	}
+	
+	return cleanDeps
+}
+
+// validateTaskDependencies checks that all referenced task IDs exist
+func (r *Reader) validateTaskDependencies(tasks []Task) error {
+	if !r.validateDependencies {
+		return nil
+	}
+	
+	// Create a map of existing task IDs
+	taskIDs := make(map[string]bool)
+	for _, task := range tasks {
+		taskIDs[task.ID] = true
+	}
+	
+	// Check each task's dependencies
+	var validationErrors []error
+	for _, task := range tasks {
+		for _, depID := range task.Dependencies {
+			if !taskIDs[depID] {
+				validationErrors = append(validationErrors, &ValidationError{
+					TaskID:  task.ID,
+					Field:   "Dependencies",
+					Value:   depID,
+					Message: "references non-existent task",
+				})
+			}
+		}
+	}
+	
+	if len(validationErrors) > 0 {
+		// Return the first error for now, but log all errors
+		for _, err := range validationErrors {
+			r.logger.Printf("Validation error: %v", err)
+		}
+		return validationErrors[0]
+	}
+	
+	return nil
+}
+
+// detectCircularDependencies checks for circular dependencies in the task graph
+func (r *Reader) detectCircularDependencies(tasks []Task) error {
+	if !r.detectCircularDeps {
+		return nil
+	}
+	
+	// Create adjacency list for dependency graph
+	graph := make(map[string][]string)
+	for _, task := range tasks {
+		graph[task.ID] = task.Dependencies
+	}
+	
+	// Use DFS to detect cycles and track the cycle path
+	visited := make(map[string]bool)
+	recStack := make(map[string]bool)
+	path := make([]string, 0)
+	
+	var dfs func(string) (bool, []string)
+	dfs = func(node string) (bool, []string) {
+		visited[node] = true
+		recStack[node] = true
+		path = append(path, node)
+		
+		for _, neighbor := range graph[node] {
+			if !visited[neighbor] {
+				if hasCycle, cycle := dfs(neighbor); hasCycle {
+					return true, cycle
+				}
+			} else if recStack[neighbor] {
+				// Found a cycle, construct the cycle path
+				cycleStart := -1
+				for i, id := range path {
+					if id == neighbor {
+						cycleStart = i
+						break
+					}
+				}
+				if cycleStart >= 0 {
+					cycle := append(path[cycleStart:], neighbor)
+					return true, cycle
+				}
+			}
+		}
+		
+		recStack[node] = false
+		path = path[:len(path)-1]
+		return false, nil
+	}
+	
+	// Check each unvisited node
+	for taskID := range graph {
+		if !visited[taskID] {
+			if hasCycle, cycle := dfs(taskID); hasCycle {
+				return &CircularDependencyError{Cycle: cycle}
+			}
+		}
+	}
+	
+	return nil
+}
+
+// isMilestoneTask determines if a task is a milestone based on its name or description
+func (r *Reader) isMilestoneTask(name, description string) bool {
+	text := strings.ToLower(name + " " + description)
+	milestoneKeywords := []string{"milestone", "deadline", "due", "complete", "finish", "submit", "deliver"}
+	
+	for _, keyword := range milestoneKeywords {
+		if strings.Contains(text, keyword) {
+			return true
+		}
+	}
+	
+	return false
+}
+
+// addError adds an error to the reader's error collection
+func (r *Reader) addError(err error) {
+	r.errors = append(r.errors, err)
+}
+
+// getErrors returns all collected errors
+func (r *Reader) getErrors() []error {
+	return r.errors
+}
+
+// clearErrors clears all collected errors
+func (r *Reader) clearErrors() {
+	r.errors = nil
+}
+
+// hasErrors returns true if there are any collected errors
+func (r *Reader) hasErrors() bool {
+	return len(r.errors) > 0
+}
+
+// getErrorSummary returns a summary of all errors
+func (r *Reader) getErrorSummary() string {
+	if len(r.errors) == 0 {
+		return "No errors"
+	}
+	
+	var summary strings.Builder
+	summary.WriteString(fmt.Sprintf("Found %d errors:\n", len(r.errors)))
+	
+	for i, err := range r.errors {
+		summary.WriteString(fmt.Sprintf("%d. %v\n", i+1, err))
+	}
+	
+	return summary.String()
 }
 
 // ReadTasks reads all tasks from the CSV file with improved error handling and memory management
 func (r *Reader) ReadTasks() ([]Task, error) {
+	// Clear any previous errors
+	r.clearErrors()
+	
 	file, err := os.Open(r.filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open CSV file: %w", err)
@@ -189,6 +423,7 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 		task, err := r.parseTask(record, fieldIndex, rowNum)
 		if err != nil {
 			parseErrors = append(parseErrors, fmt.Errorf("row %d: %w", rowNum, err))
+			r.addError(fmt.Errorf("row %d: %w", rowNum, err))
 			
 			if r.strictMode {
 				return nil, fmt.Errorf("strict mode: failed to parse task at row %d: %w", rowNum, err)
@@ -211,6 +446,26 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 		r.logger.Printf("Parsed %d tasks successfully, %d errors encountered", len(tasks), len(parseErrors))
 	} else {
 		r.logger.Printf("Successfully parsed %d tasks", len(tasks))
+	}
+
+	// * Added: Validate dependencies if enabled
+	if r.validateDependencies {
+		if err := r.validateTaskDependencies(tasks); err != nil {
+			return nil, fmt.Errorf("dependency validation failed: %w", err)
+		}
+	}
+
+	// * Added: Detect circular dependencies if enabled
+	if r.detectCircularDeps {
+		if err := r.detectCircularDependencies(tasks); err != nil {
+			r.addError(err)
+			return nil, fmt.Errorf("circular dependency detection failed: %w", err)
+		}
+	}
+
+	// * Added: Log comprehensive error summary if there were any errors
+	if r.hasErrors() {
+		r.logger.Printf("Parsing completed with errors:\n%s", r.getErrorSummary())
 	}
 
 	return tasks, nil
@@ -303,7 +558,12 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	// Parse required fields
 	task.ID = getField("Task ID")
 	if task.ID == "" {
-		return task, fmt.Errorf("missing Task ID")
+		return task, &ParseError{
+			Row:     rowNum,
+			Column:  "Task ID",
+			Value:   "",
+			Message: "missing required field",
+		}
 	}
 
 	task.Name = getField("Task Name")
@@ -334,12 +594,29 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	// * Added: Parse Assignee field
 	task.Assignee = getField("Assignee")
 
+	// * Added: Parse Parent Task ID field
+	task.ParentID = getField("Parent Task ID")
+
+	// * Added: Parse Dependencies field
+	depsStr := getField("Dependencies")
+	task.Dependencies = r.parseDependencies(depsStr)
+
+	// * Added: Determine if this is a milestone task
+	task.IsMilestone = r.isMilestoneTask(task.Name, task.Description)
+
 	// * Improved: Parse dates with flexible format support
 	startDateStr := getField("Start Date")
 	if startDateStr != "" {
 		startDate, err := r.parseDate(startDateStr)
 		if err != nil {
-			return task, fmt.Errorf("invalid start date '%s': %w", startDateStr, err)
+			parseErr := &ParseError{
+				Row:     rowNum,
+				Column:  "Start Date",
+				Value:   startDateStr,
+				Message: "invalid date format",
+				Err:     err,
+			}
+			return task, parseErr
 		}
 		task.StartDate = startDate
 	}
@@ -348,14 +625,26 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	if endDateStr != "" {
 		endDate, err := r.parseDate(endDateStr)
 		if err != nil {
-			return task, fmt.Errorf("invalid end date '%s': %w", endDateStr, err)
+			parseErr := &ParseError{
+				Row:     rowNum,
+				Column:  "Due Date",
+				Value:   endDateStr,
+				Message: "invalid date format",
+				Err:     err,
+			}
+			return task, parseErr
 		}
 		task.EndDate = endDate
 	}
 
 	// * Added: Validate that end date is not before start date
 	if !task.StartDate.IsZero() && !task.EndDate.IsZero() && task.EndDate.Before(task.StartDate) {
-		return task, fmt.Errorf("end date %s is before start date %s", task.EndDate.Format("2006-01-02"), task.StartDate.Format("2006-01-02"))
+		return task, &ValidationError{
+			TaskID:  task.ID,
+			Field:   "Due Date",
+			Value:   endDateStr,
+			Message: fmt.Sprintf("end date %s is before start date %s", task.EndDate.Format("2006-01-02"), task.StartDate.Format("2006-01-02")),
+		}
 	}
 
 	return task, nil
@@ -458,6 +747,7 @@ func (r *Reader) ValidateCSVFormat() error {
 
 	// Check for required fields
 	requiredFields := []string{"task id", "task name", "start date", "due date"}
+	optionalFields := []string{"parent task id", "dependencies", "category", "description", "priority", "status", "assignee"}
 	fieldMap := make(map[string]bool)
 	
 	for _, field := range header {
@@ -474,6 +764,17 @@ func (r *Reader) ValidateCSVFormat() error {
 
 	if len(missingFields) > 0 {
 		return fmt.Errorf("missing required fields: %v", missingFields)
+	}
+
+	// * Added: Log available optional fields
+	var availableOptional []string
+	for _, field := range optionalFields {
+		if fieldMap[field] {
+			availableOptional = append(availableOptional, field)
+		}
+	}
+	if len(availableOptional) > 0 {
+		r.logger.Printf("Detected optional fields: %v", availableOptional)
 	}
 
 	return nil

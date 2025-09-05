@@ -5,7 +5,7 @@ calafterschedule: false
 addlasthalfhour: true
 
 # CSV data source
-csvfilepath: "../input/test_overlap.csv"
+csvfilepath: "/Users/aaron/Downloads/gantt/input/test_triple.csv"
 
 layout:
   paper:
