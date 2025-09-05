@@ -45,22 +45,8 @@ func (d Day) buildTaskOverlayContent(task *SpanningTask) string {
 		nameText = "★ " + nameText
 	}
 
-	textBody := `{\hyphenpenalty=10000\exhyphenpenalty=10000\emergencystretch=2em\setstretch{0.75}` +
-		`{\centering\color{black}\textbf{\scriptsize ` + nameText + `}}`
-	if descText != "" {
-		textBody += `\\[-0.3ex]{\color{black}\tiny ` + descText + `}`
-	}
-	textBody += `}`
-
-	return `\vspace*{0.1ex}{\begingroup\setlength{\fboxsep}{0pt}` +
-		`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=0pt, drop shadow,` +
-		` left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,` +
-		` colback=` + task.Color + `!26,` +
-		` interior style={left color=` + task.Color + `!34, right color=` + task.Color + `!6},` +
-		` borderline west={1.4pt}{0pt}{` + task.Color + `!60!black},` +
-		` borderline east={1.0pt}{0pt}{` + task.Color + `!45}]` +
-		textBody +
-		`\end{tcolorbox}\endgroup}`
+	// Use calendar macros for overlay
+	return `\vspace*{0.1ex}` + `\TaskOverlayBox{` + task.Color + `}{` + nameText + `}{` + descText + `}`
 }
 
 // buildMultiTaskOverlayContent creates compact stacked content for multiple tasks
@@ -161,13 +147,6 @@ func (d Day) buildTaskTextBody(nameText string) string {
 
 // buildCompactTaskBox creates the tcolorbox for a compact task
 func (d Day) buildCompactTaskBox(spacing, boxHeight, color, textBody string) string {
-	return `\vspace*{` + spacing + `}{\begingroup\setlength{\fboxsep}{0pt}` +
-		`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=0pt,` +
-		` left=1.0mm, right=1.0mm, top=0.2mm, bottom=0.2mm,` +
-		` height=` + boxHeight + `,` +
-		` colback=` + color + `!20,` +
-		` interior style={left color=` + color + `!28, right color=` + color + `!8},` +
-		` borderline west={1.0pt}{0pt}{` + color + `!50!black}]` +
-		textBody +
-		`\end{tcolorbox}\endgroup}`
+	// Use macro wrapper for compact bar
+	return `\TaskCompactBox{` + spacing + `}{` + boxHeight + `}{` + color + `}{` + textBody + `}`
 }

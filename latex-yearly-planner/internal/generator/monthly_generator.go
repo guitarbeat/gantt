@@ -10,6 +10,15 @@ import (
 )
 
 func Monthly(cfg config.Config, tpls []string) (config.Modules, error) {
+	// Create layout integration instance
+	layoutIntegration := NewLayoutIntegration()
+	
+	// Use enhanced monthly generation with layout processing
+	return layoutIntegration.EnhancedMonthly(cfg, tpls)
+}
+
+// MonthlyLegacy provides the original monthly generation without layout integration
+func MonthlyLegacy(cfg config.Config, tpls []string) (config.Modules, error) {
 	// Load tasks from CSV if available
 	var tasks []data.Task
 	if cfg.CSVFilePath != "" {

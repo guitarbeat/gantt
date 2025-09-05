@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"text/template"
 
+	cal "latex-yearly-planner/internal/calendar"
 	"latex-yearly-planner/internal/config"
 	tmplfs "latex-yearly-planner/templates"
 )
@@ -46,6 +47,66 @@ var tpl = func() *template.Template {
 			}
 
 			return i != nil
+		},
+
+		// Layout integration functions
+		"hasLayoutData": func(data interface{}) bool {
+			if data == nil {
+				return false
+			}
+			// Check if data has layout-related fields
+			if m, ok := data.(map[string]interface{}); ok {
+				_, hasLayout := m["LayoutResult"]
+				_, hasTaskBars := m["TaskBars"]
+				return hasLayout || hasTaskBars
+			}
+			return false
+		},
+
+		"getTaskBars": func(data interface{}) []*cal.IntegratedTaskBar {
+			if m, ok := data.(map[string]interface{}); ok {
+				if bars, ok := m["TaskBars"].([]*cal.IntegratedTaskBar); ok {
+					return bars
+				}
+			}
+			return nil
+		},
+
+		"getLayoutStats": func(data interface{}) *cal.IntegratedLayoutStatistics {
+			if m, ok := data.(map[string]interface{}); ok {
+				if stats, ok := m["LayoutStats"].(*cal.IntegratedLayoutStatistics); ok {
+					return stats
+				}
+			}
+			return nil
+		},
+
+		"formatTaskBar": func(bar *cal.IntegratedTaskBar) string {
+			if bar == nil {
+				return ""
+			}
+			// Convert priority to prominence level
+			var prominence string
+			switch {
+			case bar.Priority >= 4:
+				prominence = "CRITICAL"
+			case bar.Priority >= 3:
+				prominence = "HIGH"
+			case bar.Priority >= 2:
+				prominence = "MEDIUM"
+			case bar.Priority >= 1:
+				prominence = "LOW"
+			default:
+				prominence = "MINIMAL"
+			}
+			
+			// Generate LaTeX for individual task bar using the visual design system
+			return fmt.Sprintf("\\TaskOverlayBoxP{%s}{%s}{%s}{%s}",
+				prominence,     // prominence level
+				bar.Color,      // category color
+				bar.TaskName,   // task name
+				bar.Description, // description
+			)
 		},
 	})
 
