@@ -63,7 +63,7 @@ func TestComplexOverlapScenarios(t *testing.T) {
 		}
 		
 		// Categorize conflicts
-		conflictAnalysis := conflictCategorizer.CategorizeConflicts(overlapAnalysis)
+		_ = conflictCategorizer.CategorizeConflicts(overlapAnalysis)
 		
 		// Verify conflicts are categorized
 		if len(conflictAnalysis.CategorizedConflicts) == 0 {
@@ -144,7 +144,7 @@ func TestComplexOverlapScenarios(t *testing.T) {
 		}
 		
 		// Categorize conflicts
-		conflictAnalysis := conflictCategorizer.CategorizeConflicts(overlapAnalysis)
+		_ = conflictCategorizer.CategorizeConflicts(overlapAnalysis)
 		
 		// Verify conflicts are categorized
 		if len(conflictAnalysis.CategorizedConflicts) == 0 {
@@ -204,7 +204,7 @@ func TestComplexOverlapScenarios(t *testing.T) {
 		}
 		
 		// Categorize conflicts
-		conflictAnalysis := conflictCategorizer.CategorizeConflicts(overlapAnalysis)
+		_ = conflictCategorizer.CategorizeConflicts(overlapAnalysis)
 		
 		// Verify conflicts are categorized
 		if len(conflictAnalysis.CategorizedConflicts) == 0 {
@@ -264,7 +264,7 @@ func TestComplexOverlapScenarios(t *testing.T) {
 		}
 		
 		// Categorize conflicts
-		conflictAnalysis := conflictCategorizer.CategorizeConflicts(overlapAnalysis)
+		_ = conflictCategorizer.CategorizeConflicts(overlapAnalysis)
 		
 		// Verify conflicts are categorized
 		if len(conflictAnalysis.CategorizedConflicts) == 0 {
@@ -323,7 +323,7 @@ func TestComplexOverlapScenarios(t *testing.T) {
 		overlapAnalysis := overlapDetector.DetectOverlaps(tasks)
 		
 		// Categorize conflicts
-		conflictAnalysis := conflictCategorizer.CategorizeConflicts(overlapAnalysis)
+		_ = conflictCategorizer.CategorizeConflicts(overlapAnalysis)
 		
 		// Rank tasks
 		priorityRanking := priorityRanker.RankTasks(tasks, context)
@@ -380,7 +380,7 @@ func TestComplexOverlapScenarios(t *testing.T) {
 		overlapAnalysis := overlapDetector.DetectOverlaps(tasks)
 		
 		// Categorize conflicts
-		conflictAnalysis := conflictCategorizer.CategorizeConflicts(overlapAnalysis)
+		_ = conflictCategorizer.CategorizeConflicts(overlapAnalysis)
 		
 		// Rank tasks
 		priorityRanking := priorityRanker.RankTasks(tasks, context)
