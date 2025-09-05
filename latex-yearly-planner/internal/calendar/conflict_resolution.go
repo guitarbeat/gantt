@@ -27,7 +27,7 @@ type OverflowManager struct {
 // VisualConflictResolver resolves visual conflicts between tasks
 type VisualConflictResolver struct {
 	collisionDetector    *CollisionDetector
-	conflictResolvers    map[ConflictType]ConflictResolver
+	conflictResolvers    map[string]ConflictResolver
 	visualOptimizer      *VisualOptimizer
 	adaptiveResolution   bool
 }
@@ -125,7 +125,7 @@ type ConflictResolutionResult struct {
 // ResolvedConflict represents a resolved visual conflict
 type ResolvedConflict struct {
 	ConflictID        string
-	ConflictType      ConflictType
+	ConflictType      string
 	ResolutionMethod  string
 	AffectedTasks     []*data.Task
 	VisualChanges     *VisualChanges
@@ -307,7 +307,7 @@ func NewOverflowManager() *OverflowManager {
 func NewVisualConflictResolver() *VisualConflictResolver {
 	return &VisualConflictResolver{
 		collisionDetector: NewCollisionDetector(),
-		conflictResolvers: make(map[ConflictType]ConflictResolver),
+		conflictResolvers: make(map[string]ConflictResolver),
 		visualOptimizer:   NewVisualOptimizer(),
 		adaptiveResolution: true,
 	}
@@ -383,8 +383,13 @@ func (cre *ConflictResolutionEngine) detectConflicts(tasks []*data.Task, context
 	overlapDetector := cre.smartStackingEngine.overlapDetector
 	overlapAnalysis := overlapDetector.DetectOverlaps(tasks)
 	
-	// Return the overlaps directly
-	return overlapAnalysis.Overlaps
+	// Extract overlaps from overlap groups
+	var overlaps []*TaskOverlap
+	for _, group := range overlapAnalysis.OverlapGroups {
+		overlaps = append(overlaps, group.Overlaps...)
+	}
+	
+	return overlaps
 }
 
 // resolveVisualConflicts resolves visual conflicts between tasks
@@ -413,7 +418,7 @@ func (cre *ConflictResolutionEngine) resolveVisualConflicts(conflicts []*TaskOve
 		
 		// Resolve conflict
 		if resolver.Condition(conflictContext) {
-			resolution := resolver.Action(conflictContext)
+			_ = resolver.Action(conflictContext)
 			
 			// Create a simple resolved conflict
 			resolvedConflict := &ResolvedConflict{
@@ -496,7 +501,7 @@ func (cre *ConflictResolutionEngine) applyVisualOptimizations(tasks []*data.Task
 			// Apply optimization rules
 		for _, rule := range cre.visualConflictResolver.visualOptimizer.optimizationRules {
 			if rule.Condition(visualContext) {
-				optimization := rule.Action(visualContext)
+				_ = rule.Action(visualContext)
 				
 				// Create a simple visual optimization
 				visualOptimization := &VisualOptimization{

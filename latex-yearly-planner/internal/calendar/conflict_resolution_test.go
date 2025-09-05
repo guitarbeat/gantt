@@ -181,20 +181,16 @@ func TestDetectConflicts(t *testing.T) {
 	
 	// Verify conflict structure
 	for _, conflict := range conflicts {
-		if conflict.ConflictID == "" {
-			t.Error("Expected conflict ID to be set")
-		}
-		
-		if conflict.Task1 == nil || conflict.Task2 == nil {
-			t.Error("Expected both tasks to be set in conflict")
+		if conflict.Task1ID == "" || conflict.Task2ID == "" {
+			t.Error("Expected both task IDs to be set in conflict")
 		}
 		
 		if conflict.OverlapType == "" {
 			t.Error("Expected overlap type to be set")
 		}
 		
-		if conflict.Severity < 0 || conflict.Severity > 1 {
-			t.Error("Expected severity to be between 0 and 1")
+		if conflict.Severity == "" {
+			t.Error("Expected severity to be set")
 		}
 	}
 }
@@ -432,11 +428,11 @@ func TestConflictResolutionResultMethods(t *testing.T) {
 	resolvedConflicts := []*ResolvedConflict{
 		{
 			ConflictID:   "conflict1",
-			ConflictType: ConflictPartial,
+			ConflictType: "PARTIAL",
 		},
 		{
 			ConflictID:   "conflict2",
-			ConflictType: ConflictComplete,
+			ConflictType: "COMPLETE",
 		},
 	}
 	
