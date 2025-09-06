@@ -1,5 +1,6 @@
 # Build output
 build/
+dist/
 
 # Built binaries
 plannergen
@@ -17,6 +18,11 @@ plannergen
 *.out
 go.work
 
+# Test output directories
+test_output/
+test_single_output/
+test_triple_output/
+
 # IDE files
 .vscode/
 .idea/
@@ -31,3 +37,4 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+*.bak
