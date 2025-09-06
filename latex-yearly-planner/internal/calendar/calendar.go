@@ -3,12 +3,13 @@ package calendar
 import (
 	"fmt"
 	"math"
-	"sort"
 	"strconv"
 	"strings"
 	"time"
 
 	"latex-yearly-planner/internal/data"
+	"latex-yearly-planner/internal/header"
+	"latex-yearly-planner/internal/latex"
 )
 
 // Calendar represents the main calendar system
