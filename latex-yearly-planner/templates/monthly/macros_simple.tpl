@@ -26,11 +26,11 @@
 \setlength{\myLenLineThicknessThick}{ {{- $lengths.LineThicknessThick -}} }
 \setlength{\myLenLineHeightButLine}{ {{- $lengths.LineHeightButLine -}} }
 \setlength{\myLenTwoColSep}{ {{- $lengths.TwoColSep -}} }
-\setlength{\myLenTwoCol}{ {{- $lengths.TwoColSep -}} }
+\setlength{\myLenTwoCol}{ {{- $lengths.TwoCol -}} }
 \setlength{\myLenTriColSep}{ {{- $lengths.TriColSep -}} }
-\setlength{\myLenTriCol}{ {{- $lengths.TriColSep -}} }
+\setlength{\myLenTriCol}{ {{- $lengths.TriCol -}} }
 \setlength{\myLenFiveColSep}{ {{- $lengths.FiveColSep -}} }
-\setlength{\myLenFiveCol}{ {{- $lengths.FiveColSep -}} }
+\setlength{\myLenFiveCol}{ {{- $lengths.FiveCol -}} }
 \setlength{\myLenMonthlyCellHeight}{ {{- $lengths.MonthlyCellHeight -}} }
 
 \setlength{\myLenHeaderResizeBox}{ {{- $lengths.HeaderResizeBox -}} }
