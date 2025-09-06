@@ -3,9 +3,467 @@ package data
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 )
+
+// DataValidationError represents a validation error with detailed context
+type DataValidationError struct {
+	Type        string    // Error type (e.g., "DATE_RANGE", "CONFLICT", "DEPENDENCY")
+	TaskID      string    // Task ID that has the error
+	Field       string    // Field that has the error
+	Value       string    // Value that caused the error
+	Message     string    // Human-readable error message
+	Severity    string    // Error severity (ERROR, WARNING, INFO)
+	Timestamp   time.Time // When the error was detected
+	Suggestions []string  // Suggested fixes
+}
+
+// Error returns the error message
+func (ve *DataValidationError) Error() string {
+	return fmt.Sprintf("[%s] %s: %s", ve.Severity, ve.TaskID, ve.Message)
+}
+
+// ValidationResult contains the results of validation
+type ValidationResult struct {
+	IsValid     bool                  // Overall validation status
+	Errors      []DataValidationError // List of validation errors
+	Warnings    []DataValidationError // List of validation warnings
+	Info        []DataValidationError // List of validation info messages
+	Summary     string                // Summary of validation results
+	Timestamp   time.Time             // When validation was performed
+	TaskCount   int                   // Number of tasks validated
+	ErrorCount  int                   // Number of errors found
+	WarningCount int                  // Number of warnings found
+}
+
+// DateValidator handles date range validation and conflict detection
+type DateValidator struct {
+	workDays    map[time.Weekday]bool
+	holidays    []time.Time
+	timezone    *time.Location
+	strictMode  bool
+}
+
+// NewDateValidator creates a new date validator
+func NewDateValidator() *DateValidator {
+	dv := &DateValidator{
+		workDays:   make(map[time.Weekday]bool),
+		holidays:   make([]time.Time, 0),
+		timezone:   time.UTC,
+		strictMode: true,
+	}
+	
+	// Set default work days (Monday to Friday)
+	for i := 1; i <= 5; i++ {
+		dv.workDays[time.Weekday(i)] = true
+	}
+	
+	// Add common holidays
+	dv.addCommonHolidays()
+	
+	return dv
+}
+
+// addCommonHolidays adds common US holidays
+func (dv *DateValidator) addCommonHolidays() {
+	year := time.Now().Year()
+	
+	// New Year's Day
+	dv.holidays = append(dv.holidays, time.Date(year, 1, 1, 0, 0, 0, 0, dv.timezone))
+	
+	// Independence Day
+	dv.holidays = append(dv.holidays, time.Date(year, 7, 4, 0, 0, 0, 0, dv.timezone))
+	
+	// Christmas Day
+	dv.holidays = append(dv.holidays, time.Date(year, 12, 25, 0, 0, 0, 0, dv.timezone))
+}
+
+// AddHoliday adds a holiday to the validator
+func (dv *DateValidator) AddHoliday(date time.Time) {
+	dv.holidays = append(dv.holidays, date)
+}
+
+// SetTimezone sets the timezone for validation
+func (dv *DateValidator) SetTimezone(tz *time.Location) {
+	dv.timezone = tz
+}
+
+// SetStrictMode sets whether to use strict validation
+func (dv *DateValidator) SetStrictMode(strict bool) {
+	dv.strictMode = strict
+}
+
+// IsWorkDay checks if a date is a work day
+func (dv *DateValidator) IsWorkDay(date time.Time) bool {
+	// Check if it's a weekend
+	if !dv.workDays[date.Weekday()] {
+		return false
+	}
+	
+	// Check if it's a holiday
+	for _, holiday := range dv.holidays {
+		if date.Year() == holiday.Year() && date.Month() == holiday.Month() && date.Day() == holiday.Day() {
+			return false
+		}
+	}
+	
+	return true
+}
+
+// ValidateTaskDates validates a single task's dates
+func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
+	var errors []DataValidationError
+	
+	if task == nil {
+		return errors
+	}
+	
+	now := time.Now()
+	
+	// Check if start date is valid
+	if task.StartDate.IsZero() {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "StartDate",
+			Value:     "zero",
+			Message:   "Start date is required and cannot be zero",
+			Severity:  "ERROR",
+			Timestamp: now,
+			Suggestions: []string{"Set a valid start date for the task"},
+		})
+		return errors
+	}
+	
+	// Check if end date is valid
+	if task.EndDate.IsZero() {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "EndDate",
+			Value:     "zero",
+			Message:   "End date is required and cannot be zero",
+			Severity:  "ERROR",
+			Timestamp: now,
+			Suggestions: []string{"Set a valid end date for the task"},
+		})
+		return errors
+	}
+	
+	// Check if start date is before end date
+	if task.StartDate.After(task.EndDate) {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "StartDate",
+			Value:     task.StartDate.Format("2006-01-02"),
+			Message:   fmt.Sprintf("Start date (%s) cannot be after end date (%s)", task.StartDate.Format("2006-01-02"), task.EndDate.Format("2006-01-02")),
+			Severity:  "ERROR",
+			Timestamp: now,
+			Suggestions: []string{"Ensure start date is before end date"},
+		})
+	}
+	
+	// Check if task is in the past (warning only)
+	if task.EndDate.Before(now) {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "EndDate",
+			Value:     task.EndDate.Format("2006-01-02"),
+			Message:   fmt.Sprintf("Task ends in the past (%s)", task.EndDate.Format("2006-01-02")),
+			Severity:  "WARNING",
+			Timestamp: now,
+			Suggestions: []string{"Consider updating the end date if this is a future task"},
+		})
+	}
+	
+	// Check if task starts too far in the future (warning)
+	futureLimit := now.AddDate(2, 0, 0) // 2 years from now
+	if task.StartDate.After(futureLimit) {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "StartDate",
+			Value:     task.StartDate.Format("2006-01-02"),
+			Message:   fmt.Sprintf("Task starts very far in the future (%s)", task.StartDate.Format("2006-01-02")),
+			Severity:  "WARNING",
+			Timestamp: now,
+			Suggestions: []string{"Verify the start date is correct"},
+		})
+	}
+	
+	// Check if task duration is reasonable (warning for very long tasks)
+	taskDuration := task.EndDate.Sub(task.StartDate)
+	maxDuration := 365 * 24 * time.Hour // 1 year
+	if taskDuration > maxDuration {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "Duration",
+			Value:     fmt.Sprintf("%.0f days", taskDuration.Hours()/24),
+			Message:   fmt.Sprintf("Task duration is very long (%.0f days)", taskDuration.Hours()/24),
+			Severity:  "WARNING",
+			Timestamp: now,
+			Suggestions: []string{"Consider breaking this into smaller tasks"},
+		})
+	}
+	
+	// Check if task duration is too short (warning for very short tasks)
+	minDuration := 24 * time.Hour // 1 day
+	if taskDuration < minDuration {
+		errors = append(errors, DataValidationError{
+			Type:      "DATE_RANGE",
+			TaskID:    task.ID,
+			Field:     "Duration",
+			Value:     fmt.Sprintf("%.0f hours", taskDuration.Hours()),
+			Message:   fmt.Sprintf("Task duration is very short (%.0f hours)", taskDuration.Hours()),
+			Severity:  "WARNING",
+			Timestamp: now,
+			Suggestions: []string{"Consider if this should be a milestone or combined with another task"},
+		})
+	}
+	
+	// Check work day constraints if in strict mode
+	if dv.strictMode {
+		// Check if start date is a work day
+		if !dv.IsWorkDay(task.StartDate) {
+			errors = append(errors, DataValidationError{
+				Type:      "WORK_DAY",
+				TaskID:    task.ID,
+				Field:     "StartDate",
+				Value:     task.StartDate.Format("2006-01-02"),
+				Message:   fmt.Sprintf("Task starts on a non-work day (%s)", task.StartDate.Weekday().String()),
+				Severity:  "WARNING",
+				Timestamp: now,
+				Suggestions: []string{"Consider moving the start date to a work day"},
+			})
+		}
+		
+		// Check if end date is a work day
+		if !dv.IsWorkDay(task.EndDate) {
+			errors = append(errors, DataValidationError{
+				Type:      "WORK_DAY",
+				TaskID:    task.ID,
+				Field:     "EndDate",
+				Value:     task.EndDate.Format("2006-01-02"),
+				Message:   fmt.Sprintf("Task ends on a non-work day (%s)", task.EndDate.Weekday().String()),
+				Severity:  "WARNING",
+				Timestamp: now,
+				Suggestions: []string{"Consider moving the end date to a work day"},
+			})
+		}
+	}
+	
+	return errors
+}
+
+// DetectDateConflicts detects conflicts between tasks
+func (dv *DateValidator) DetectDateConflicts(tasks []*Task) []DataValidationError {
+	var errors []DataValidationError
+	now := time.Now()
+	
+	// Sort tasks by start date for efficient conflict detection
+	sortedTasks := make([]*Task, len(tasks))
+	copy(sortedTasks, tasks)
+	sort.Slice(sortedTasks, func(i, j int) bool {
+		return sortedTasks[i].StartDate.Before(sortedTasks[j].StartDate)
+	})
+	
+	// Check for overlapping tasks
+	for i := 0; i < len(sortedTasks); i++ {
+		for j := i + 1; j < len(sortedTasks); j++ {
+			task1 := sortedTasks[i]
+			task2 := sortedTasks[j]
+			
+			// Skip if tasks don't overlap
+			if !task1.OverlapsWithDateRange(task2.StartDate, task2.EndDate) {
+				continue
+			}
+			
+			// Check if tasks are from the same category (potential conflict)
+			if task1.Category == task2.Category && task1.Category != "" {
+				errors = append(errors, DataValidationError{
+					Type:      "CONFLICT",
+					TaskID:    task1.ID,
+					Field:     "Schedule",
+					Value:     fmt.Sprintf("overlaps with %s", task2.ID),
+					Message:   fmt.Sprintf("Task %s overlaps with task %s (both %s category)", task1.ID, task2.ID, task1.Category),
+					Severity:  "WARNING",
+					Timestamp: now,
+					Suggestions: []string{
+						"Consider rescheduling one of the tasks",
+						"Check if tasks can be done in parallel",
+						"Verify if this is intentional overlap",
+					},
+				})
+			}
+			
+			// Check if tasks have the same assignee (potential conflict)
+			if task1.Assignee == task2.Assignee && task1.Assignee != "" {
+				errors = append(errors, DataValidationError{
+					Type:      "CONFLICT",
+					TaskID:    task1.ID,
+					Field:     "Assignee",
+					Value:     task1.Assignee,
+					Message:   fmt.Sprintf("Task %s overlaps with task %s (same assignee: %s)", task1.ID, task2.ID, task1.Assignee),
+					Severity:  "WARNING",
+					Timestamp: now,
+					Suggestions: []string{
+						"Check if assignee can handle both tasks simultaneously",
+						"Consider reassigning one of the tasks",
+						"Verify if this is intentional parallel work",
+					},
+				})
+			}
+		}
+	}
+	
+	return errors
+}
+
+// ValidateDateRanges validates date ranges for all tasks
+func (dv *DateValidator) ValidateDateRanges(tasks []*Task) []DataValidationError {
+	var errors []DataValidationError
+	
+	// Validate individual task dates
+	for _, task := range tasks {
+		taskErrors := dv.ValidateTaskDates(task)
+		errors = append(errors, taskErrors...)
+	}
+	
+	// Detect conflicts between tasks
+	conflictErrors := dv.DetectDateConflicts(tasks)
+	errors = append(errors, conflictErrors...)
+	
+	return errors
+}
+
+// ValidateWorkDayConstraints validates work day constraints for all tasks
+func (dv *DateValidator) ValidateWorkDayConstraints(tasks []*Task) []DataValidationError {
+	var errors []DataValidationError
+	now := time.Now()
+	
+	for _, task := range tasks {
+		// Check if start date is a work day
+		if !dv.IsWorkDay(task.StartDate) {
+			errors = append(errors, DataValidationError{
+				Type:      "WORK_DAY",
+				TaskID:    task.ID,
+				Field:     "StartDate",
+				Value:     task.StartDate.Format("2006-01-02"),
+				Message:   fmt.Sprintf("Task starts on a non-work day (%s)", task.StartDate.Weekday().String()),
+				Severity:  "WARNING",
+				Timestamp: now,
+				Suggestions: []string{"Consider moving the start date to a work day"},
+			})
+		}
+		
+		// Check if end date is a work day
+		if !dv.IsWorkDay(task.EndDate) {
+			errors = append(errors, DataValidationError{
+				Type:      "WORK_DAY",
+				TaskID:    task.ID,
+				Field:     "EndDate",
+				Value:     task.EndDate.Format("2006-01-02"),
+				Message:   fmt.Sprintf("Task ends on a non-work day (%s)", task.EndDate.Weekday().String()),
+				Severity:  "WARNING",
+				Timestamp: now,
+				Suggestions: []string{"Consider moving the end date to a work day"},
+			})
+		}
+		
+		// Check if task spans only non-work days
+		workDaysInRange := 0
+		for d := task.StartDate; d.Before(task.EndDate) || d.Equal(task.EndDate); d = d.AddDate(0, 0, 1) {
+			if dv.IsWorkDay(d) {
+				workDaysInRange++
+			}
+		}
+		
+		if workDaysInRange == 0 {
+			errors = append(errors, DataValidationError{
+				Type:      "WORK_DAY",
+				TaskID:    task.ID,
+				Field:     "Duration",
+				Value:     fmt.Sprintf("%d work days", workDaysInRange),
+				Message:   "Task spans only non-work days",
+				Severity:  "WARNING",
+				Timestamp: now,
+				Suggestions: []string{"Consider adjusting the date range to include work days"},
+			})
+		}
+	}
+	
+	return errors
+}
+
+// GetValidationSummary returns a summary of validation results
+func (result *ValidationResult) GetValidationSummary() string {
+	if result.IsValid {
+		return fmt.Sprintf("Validation passed: %d tasks validated, %d warnings", result.TaskCount, result.WarningCount)
+	}
+	return fmt.Sprintf("Validation failed: %d tasks validated, %d errors, %d warnings", result.TaskCount, result.ErrorCount, result.WarningCount)
+}
+
+// GetErrorsBySeverity returns errors filtered by severity
+func (result *ValidationResult) GetErrorsBySeverity(severity string) []DataValidationError {
+	var filtered []DataValidationError
+	for _, err := range result.Errors {
+		if err.Severity == severity {
+			filtered = append(filtered, err)
+		}
+	}
+	for _, err := range result.Warnings {
+		if err.Severity == severity {
+			filtered = append(filtered, err)
+		}
+	}
+	for _, err := range result.Info {
+		if err.Severity == severity {
+			filtered = append(filtered, err)
+		}
+	}
+	return filtered
+}
+
+// GetErrorsByType returns errors filtered by type
+func (result *ValidationResult) GetErrorsByType(errorType string) []DataValidationError {
+	var filtered []DataValidationError
+	for _, err := range result.Errors {
+		if err.Type == errorType {
+			filtered = append(filtered, err)
+		}
+	}
+	for _, err := range result.Warnings {
+		if err.Type == errorType {
+			filtered = append(filtered, err)
+		}
+	}
+	for _, err := range result.Info {
+		if err.Type == errorType {
+			filtered = append(filtered, err)
+		}
+	}
+	return filtered
+}
+
+// HasErrors returns true if there are any errors
+func (result *ValidationResult) HasErrors() bool {
+	return len(result.Errors) > 0
+}
+
+// HasWarnings returns true if there are any warnings
+func (result *ValidationResult) HasWarnings() bool {
+	return len(result.Warnings) > 0
+}
+
+// GetErrorCount returns the total number of errors
+func (result *ValidationResult) GetErrorCount() int {
+	return len(result.Errors)
+}
 
 // DataIntegrityValidator handles data integrity validation
 type DataIntegrityValidator struct {

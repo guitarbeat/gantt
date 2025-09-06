@@ -21,6 +21,7 @@ type CalendarGridIntegration struct {
 	monthBoundaryEngine    *MonthBoundaryEngine
 	gridConfig            *GridConfig
 	visualSettings        *IntegratedVisualSettings
+	dateValidator         *data.DateValidator
 }
 
 // GridConfig defines the configuration for the calendar grid
@@ -153,6 +154,9 @@ func NewCalendarGridIntegration(config *GridConfig) *CalendarGridIntegration {
 	// Create month boundary engine
 	monthBoundaryEngine := NewMonthBoundaryEngine(config)
 	
+	// Create date validator
+	dateValidator := data.NewDateValidator()
+	
 	// Set visual constraints
 	if config.VisualConstraints == nil {
 		config.VisualConstraints = &VisualConstraints{
@@ -191,6 +195,7 @@ func NewCalendarGridIntegration(config *GridConfig) *CalendarGridIntegration {
 			TaskBarOpacity:        0.9,
 			BorderWidth:           0.5,
 		},
+		dateValidator:            dateValidator,
 	}
 }
 
@@ -694,4 +699,148 @@ func (ils *IntegratedLayoutStatistics) String() string {
 		ils.MonthBoundaryCount, ils.SpaceEfficiency, ils.VisualQuality,
 		ils.AverageStackHeight, ils.MaxStackHeight, ils.AverageTaskHeight, ils.AverageTaskWidth,
 		ils.AlignmentScore, ils.SpacingScore, ils.VisualBalance, ils.GridUtilization)
+}
+
+// ProcessTasksWithValidation processes tasks with validation and creates multi-day layout
+func (cgi *CalendarGridIntegration) ProcessTasksWithValidation(tasks []*data.Task) (*MultiDayLayoutResult, error) {
+	// Validate tasks first
+	validationResult := cgi.dateValidator.ValidateDateRanges(tasks)
+	
+	// Check for critical errors
+	if len(validationResult) > 0 {
+		// Log validation errors but continue with layout
+		fmt.Printf("Warning: %d validation issues found\n", len(validationResult))
+		for _, err := range validationResult {
+			if err.Severity == "ERROR" {
+				fmt.Printf("Error: %s\n", err.Message)
+			}
+		}
+	}
+	
+	// Filter out tasks with critical errors for layout
+	validTasks := cgi.filterValidTasks(tasks, validationResult)
+	
+	// Create multi-day layout
+	taskBars := cgi.multiDayLayoutEngine.LayoutMultiDayTasks(validTasks)
+	
+	// Handle month boundaries
+	processedBars := cgi.multiDayLayoutEngine.HandleMonthBoundary(taskBars)
+	
+	// Validate layout
+	layoutIssues := cgi.multiDayLayoutEngine.ValidateLayout(processedBars)
+	
+	return &MultiDayLayoutResult{
+		TaskBars:        processedBars,
+		ValidationResult: validationResult,
+		LayoutIssues:    layoutIssues,
+		TaskCount:       len(validTasks),
+		ProcessedCount:  len(processedBars),
+	}, nil
+}
+
+// MultiDayLayoutResult contains the results of multi-day layout processing
+type MultiDayLayoutResult struct {
+	TaskBars        []*TaskBar
+	ValidationResult []data.DataValidationError
+	LayoutIssues    []string
+	TaskCount       int
+	ProcessedCount  int
+}
+
+// filterValidTasks filters out tasks with critical validation errors
+func (cgi *CalendarGridIntegration) filterValidTasks(tasks []*data.Task, validationErrors []data.DataValidationError) []*data.Task {
+	// Create map of tasks with critical errors
+	errorTasks := make(map[string]bool)
+	for _, err := range validationErrors {
+		if err.Severity == "ERROR" {
+			errorTasks[err.TaskID] = true
+		}
+	}
+	
+	// Filter out tasks with critical errors
+	var validTasks []*data.Task
+	for _, task := range tasks {
+		if !errorTasks[task.ID] {
+			validTasks = append(validTasks, task)
+		}
+	}
+	
+	return validTasks
+}
+
+// GenerateCalendarLaTeX generates LaTeX code for the calendar with multi-day task bars
+func (cgi *CalendarGridIntegration) GenerateCalendarLaTeX(result *MultiDayLayoutResult) string {
+	var latex strings.Builder
+	
+	// Generate header
+	latex.WriteString("\\begin{calendar}\n")
+	
+	// Generate task bars LaTeX
+	taskBarsLaTeX := cgi.multiDayLayoutEngine.GenerateLaTeX(result.TaskBars)
+	latex.WriteString(taskBarsLaTeX)
+	
+	// Generate footer
+	latex.WriteString("\\end{calendar}\n")
+	
+	return latex.String()
+}
+
+// GetLayoutStatistics returns statistics about the layout
+func (cgi *CalendarGridIntegration) GetLayoutStatistics(result *MultiDayLayoutResult) *LayoutStatistics {
+	stats := &LayoutStatistics{
+		TotalTasks:      result.TaskCount,
+		ProcessedBars:   result.ProcessedCount,
+		ValidationErrors: len(result.ValidationResult),
+		LayoutIssues:    len(result.LayoutIssues),
+		OverlapCount:    0,
+		MonthBoundaryCount: 0,
+	}
+	
+	// Count overlaps and month boundaries
+	for _, bar := range result.TaskBars {
+		if bar.MonthBoundary {
+			stats.MonthBoundaryCount++
+		}
+	}
+	
+	// Count overlaps by checking for overlapping bars
+	rowBars := make(map[int][]*TaskBar)
+	for _, bar := range result.TaskBars {
+		rowBars[bar.Row] = append(rowBars[bar.Row], bar)
+	}
+	
+	for _, bars := range rowBars {
+		for i := 0; i < len(bars); i++ {
+			for j := i + 1; j < len(bars); j++ {
+				if cgi.multiDayLayoutEngine.barsOverlap(bars[i], bars[j]) {
+					stats.OverlapCount++
+				}
+			}
+		}
+	}
+	
+	return stats
+}
+
+// LayoutStatistics contains statistics about the layout
+type LayoutStatistics struct {
+	TotalTasks         int
+	ProcessedBars      int
+	ValidationErrors   int
+	LayoutIssues       int
+	OverlapCount       int
+	MonthBoundaryCount int
+}
+
+// String returns a string representation of the statistics
+func (ls *LayoutStatistics) String() string {
+	return fmt.Sprintf("Layout Statistics:\n"+
+		"  Total Tasks: %d\n"+
+		"  Processed Bars: %d\n"+
+		"  Validation Errors: %d\n"+
+		"  Layout Issues: %d\n"+
+		"  Overlaps: %d\n"+
+		"  Month Boundaries: %d\n",
+		ls.TotalTasks, ls.ProcessedBars, ls.ValidationErrors,
+		ls.LayoutIssues, ls.OverlapCount, ls.MonthBoundaryCount)
 }

@@ -13,6 +13,13 @@ import (
 func main() {
 	fmt.Println("=== Performance Optimization Test Suite ===")
 	
+	// Test 1: Simple Performance Tests (from test_performance_simple.go)
+	fmt.Println("\n=== Test 1: Simple Performance Tests ===")
+	testSimplePerformance()
+	
+	// Test 2: Advanced Performance Integration Tests
+	fmt.Println("\n=== Test 2: Advanced Performance Integration Tests ===")
+	
 	// Create performance integration system
 	perfIntegration := generator.NewPerformanceIntegration()
 	
@@ -392,3 +399,135 @@ func (l *TestLogger) Info(msg string, args ...interface{})  { fmt.Printf("[TEST-
 func (l *TestLogger) Error(msg string, args ...interface{}) { fmt.Printf("[TEST-ERROR] "+msg+"\n", args...) }
 func (l *TestLogger) Debug(msg string, args ...interface{}) { fmt.Printf("[TEST-DEBUG] "+msg+"\n", args...) }
 func (l *TestLogger) Warn(msg string, args ...interface{})  { fmt.Printf("[TEST-WARN] "+msg+"\n", args...) }
+
+// testSimplePerformance tests simple performance optimization (from test_performance_simple.go)
+func testSimplePerformance() {
+	fmt.Println("=== Simple Performance Optimization Test ===")
+	
+	// Create performance optimizer
+	optimizer := generator.NewSimplePerformanceOptimizer()
+	
+	// Set up logging
+	optimizer.SetLogger(&TestLogger{})
+	
+	// Test 1: Basic Performance Test
+	fmt.Println("\n1. Running Basic Performance Test...")
+	if err := testBasicPerformanceSimple(optimizer); err != nil {
+		log.Printf("Basic performance test failed: %v", err)
+	} else {
+		fmt.Println("✓ Basic performance test passed")
+	}
+	
+	// Test 2: Caching Test
+	fmt.Println("\n2. Running Caching Test...")
+	if err := testCaching(optimizer); err != nil {
+		log.Printf("Caching test failed: %v", err)
+	} else {
+		fmt.Println("✓ Caching test passed")
+	}
+	
+	// Test 3: Memory Test
+	fmt.Println("\n3. Running Memory Test...")
+	if err := testMemory(optimizer); err != nil {
+		log.Printf("Memory test failed: %v", err)
+	} else {
+		fmt.Println("✓ Memory test passed")
+	}
+	
+	// Test 4: Performance Metrics Test
+	fmt.Println("\n4. Running Performance Metrics Test...")
+	if err := testPerformanceMetrics(optimizer); err != nil {
+		log.Printf("Performance metrics test failed: %v", err)
+	} else {
+		fmt.Println("✓ Performance metrics test passed")
+	}
+	
+	fmt.Println("\n✅ Simple performance optimization tests completed!")
+}
+
+// testBasicPerformanceSimple tests basic performance (from test_performance_simple.go)
+func testBasicPerformanceSimple(optimizer *generator.SimplePerformanceOptimizer) error {
+	start := time.Now()
+	
+	// Simulate some work
+	time.Sleep(100 * time.Millisecond)
+	
+	duration := time.Since(start)
+	
+	// Check if performance is within acceptable limits
+	if duration > 200*time.Millisecond {
+		return fmt.Errorf("performance too slow: %v", duration)
+	}
+	
+	fmt.Printf("   Basic performance: %v\n", duration)
+	return nil
+}
+
+// testCaching tests caching functionality (from test_performance_simple.go)
+func testCaching(optimizer *generator.SimplePerformanceOptimizer) error {
+	// Test cache hit
+	start := time.Now()
+	optimizer.GetCachedResult("test-key")
+	cacheHitTime := time.Since(start)
+	
+	// Test cache miss
+	start = time.Now()
+	optimizer.ProcessData("test-data")
+	cacheMissTime := time.Since(start)
+	
+	fmt.Printf("   Cache hit time: %v\n", cacheHitTime)
+	fmt.Printf("   Cache miss time: %v\n", cacheMissTime)
+	
+	// Cache hit should be faster than cache miss
+	if cacheHitTime >= cacheMissTime {
+		return fmt.Errorf("caching not working properly")
+	}
+	
+	return nil
+}
+
+// testMemory tests memory usage (from test_performance_simple.go)
+func testMemory(optimizer *generator.SimplePerformanceOptimizer) error {
+	// Test memory allocation
+	start := time.Now()
+	
+	// Simulate memory-intensive operation
+	data := make([]byte, 1024*1024) // 1MB
+	_ = data
+	
+	duration := time.Since(start)
+	
+	fmt.Printf("   Memory allocation time: %v\n", duration)
+	
+	// Check if memory allocation is reasonable
+	if duration > 10*time.Millisecond {
+		return fmt.Errorf("memory allocation too slow: %v", duration)
+	}
+	
+	return nil
+}
+
+// testPerformanceMetrics tests performance metrics (from test_performance_simple.go)
+func testPerformanceMetrics(optimizer *generator.SimplePerformanceOptimizer) error {
+	// Get performance metrics
+	metrics := optimizer.GetPerformanceMetrics()
+	
+	fmt.Printf("   Total operations: %d\n", metrics.TotalOperations)
+	fmt.Printf("   Average time: %v\n", metrics.AverageTime)
+	fmt.Printf("   Cache hit rate: %.2f%%\n", metrics.CacheHitRate*100)
+	
+	// Validate metrics
+	if metrics.TotalOperations < 0 {
+		return fmt.Errorf("invalid total operations: %d", metrics.TotalOperations)
+	}
+	
+	if metrics.AverageTime < 0 {
+		return fmt.Errorf("invalid average time: %v", metrics.AverageTime)
+	}
+	
+	if metrics.CacheHitRate < 0 || metrics.CacheHitRate > 1 {
+		return fmt.Errorf("invalid cache hit rate: %.2f", metrics.CacheHitRate)
+	}
+	
+	return nil
+}
