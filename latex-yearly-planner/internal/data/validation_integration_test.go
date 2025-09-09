@@ -10,7 +10,6 @@ func TestCompleteValidationSystem(t *testing.T) {
 	tasks := []*Task{
 		// Valid task
 		{
-			ID:          "A",
 			Name:        "Valid Task",
 			StartDate:   time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
 			EndDate:     time.Date(2024, 1, 5, 0, 0, 0, 0, time.UTC),
@@ -22,14 +21,12 @@ func TestCompleteValidationSystem(t *testing.T) {
 		},
 		// Task with missing required fields
 		{
-			ID:        "", // Missing ID
 			Name:      "", // Missing Name
 			StartDate: time.Time{}, // Missing StartDate
 			EndDate:   time.Time{}, // Missing EndDate
 		},
 		// Task with invalid field formats
 		{
-			ID:        "C",
 			Name:      "Invalid Format Task",
 			StartDate: time.Date(2024, 1, 6, 0, 0, 0, 0, time.UTC),
 			EndDate:   time.Date(2024, 1, 10, 0, 0, 0, 0, time.UTC),
@@ -39,32 +36,25 @@ func TestCompleteValidationSystem(t *testing.T) {
 		},
 		// Task with data consistency issues
 		{
-			ID:        "D",
 			Name:      "Consistency Issues Task",
 			StartDate: time.Date(2024, 1, 11, 0, 0, 0, 0, time.UTC),
 			EndDate:   time.Date(2024, 1, 11, 0, 0, 0, 0, time.UTC), // Same day
 			IsMilestone: true,
-			ParentID:    "D", // Self-parent
-			Dependencies: []string{"D"}, // Self-dependency
-		},
-		// Task with dependency issues
-		{
-			ID:          "E",
-			Name:        "Dependency Issues Task",
-			StartDate:   time.Date(2024, 1, 12, 0, 0, 0, 0, time.UTC),
-			EndDate:     time.Date(2024, 1, 16, 0, 0, 0, 0, time.UTC),
-			Dependencies: []string{"F"}, // Depends on F
-		},
-		{
-			ID:          "F",
-			Name:        "Circular Dependency Task",
-			StartDate:   time.Date(2024, 1, 17, 0, 0, 0, 0, time.UTC),
-			EndDate:     time.Date(2024, 1, 21, 0, 0, 0, 0, time.UTC),
-			Dependencies: []string{"E"}, // Depends on E (circular)
+			ParentID:    "Consistency Issues Task", // Self-parent
 		},
 		// Task with business rule issues
 		{
-			ID:        "G",
+			Name:        "Dependency Issues Task",
+			StartDate:   time.Date(2024, 1, 12, 0, 0, 0, 0, time.UTC),
+			EndDate:     time.Date(2024, 1, 16, 0, 0, 0, 0, time.UTC),
+		},
+		{
+			Name:        "Circular Dependency Task",
+			StartDate:   time.Date(2024, 1, 17, 0, 0, 0, 0, time.UTC),
+			EndDate:     time.Date(2024, 1, 21, 0, 0, 0, 0, time.UTC),
+		},
+		// Task with business rule issues
+		{
 			Name:      "Short", // Very short name
 			StartDate: time.Date(2024, 1, 22, 0, 0, 0, 0, time.UTC),
 			EndDate:   time.Date(2024, 1, 26, 0, 0, 0, 0, time.UTC),
@@ -74,15 +64,13 @@ func TestCompleteValidationSystem(t *testing.T) {
 	
 	// Create validators
 	dateValidator := NewDateValidator()
-	dependencyValidator := NewDependencyValidator()
 	dataIntegrityValidator := NewDataIntegrityValidator()
 	
 	// Perform comprehensive validation
 	dateErrors := dateValidator.ValidateDateRanges(tasks)
 	workDayErrors := dateValidator.ValidateWorkDayConstraints(tasks)
 	
-	dependencyValidator.AddTasks(tasks)
-	dependencyErrors := dependencyValidator.ValidateDependencies()
+	// Dependencies removed - no validation needed
 	
 	dataIntegrityErrors := dataIntegrityValidator.ValidateTasksIntegrity(tasks)
 	
@@ -92,7 +80,7 @@ func TestCompleteValidationSystem(t *testing.T) {
 	// Add all validation results
 	reporter.AddErrors(dateErrors)
 	reporter.AddErrors(workDayErrors)
-	reporter.AddErrors(dependencyErrors)
+	// Dependencies removed - no errors to add
 	reporter.AddErrors(dataIntegrityErrors)
 	
 	reporter.taskCount = len(tasks)
@@ -259,15 +247,13 @@ func TestValidationSystemWithRealData(t *testing.T) {
 	
 	// Create validators
 	dateValidator := NewDateValidator()
-	dependencyValidator := NewDependencyValidator()
 	dataIntegrityValidator := NewDataIntegrityValidator()
 	
 	// Perform comprehensive validation
 	dateErrors := dateValidator.ValidateDateRanges(taskPointers)
 	workDayErrors := dateValidator.ValidateWorkDayConstraints(taskPointers)
 	
-	dependencyValidator.AddTasks(taskPointers)
-	dependencyErrors := dependencyValidator.ValidateDependencies()
+	// Dependencies removed - no validation needed
 	
 	dataIntegrityErrors := dataIntegrityValidator.ValidateTasksIntegrity(taskPointers)
 	
@@ -277,7 +263,7 @@ func TestValidationSystemWithRealData(t *testing.T) {
 	// Add all validation results
 	reporter.AddErrors(dateErrors)
 	reporter.AddErrors(workDayErrors)
-	reporter.AddErrors(dependencyErrors)
+	// Dependencies removed - no errors to add
 	reporter.AddErrors(dataIntegrityErrors)
 	
 	reporter.taskCount = len(taskPointers)

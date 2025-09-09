@@ -213,7 +213,7 @@ func (tcm *TaskCategoryManager) getDefaultCategory(task *Task) string {
 	}
 	
 	// Check if task has dependencies (likely research work)
-	if len(task.Dependencies) > 0 {
+	if len([]string{}) > 0 {
 		return "RESEARCH"
 	}
 	
@@ -406,7 +406,7 @@ func (tta *TaskTimelineAnalyzer) AnalyzeTaskTimeline(task *Task) *TaskTimelineAn
 	}
 	
 	analysis := &TaskTimelineAnalysis{
-		TaskID:           task.ID,
+		TaskID:           task.Name,
 		TaskName:         task.Name,
 		StartDate:        task.StartDate,
 		EndDate:          task.EndDate,
@@ -511,7 +511,7 @@ func (tta *TaskTimelineAnalyzer) generateRecommendations(task *Task) []string {
 		recommendations = append(recommendations, "High risk of delay - consider additional resources or scope reduction")
 	}
 	
-	if len(task.Dependencies) > 0 {
+	if len([]string{}) > 0 {
 		recommendations = append(recommendations, "Task has dependencies - ensure they are completed on time")
 	}
 	

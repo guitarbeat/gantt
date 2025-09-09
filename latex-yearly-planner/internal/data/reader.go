@@ -53,13 +53,6 @@ func (e *ValidationError) Error() string {
 	return fmt.Sprintf("task %s, field '%s', value '%s': %s", e.TaskID, e.Field, e.Value, e.Message)
 }
 
-type CircularDependencyError struct {
-	Cycle []string
-}
-
-func (e *CircularDependencyError) Error() string {
-	return fmt.Sprintf("circular dependency detected: %s", strings.Join(e.Cycle, " -> "))
-}
 
 // Supported date formats for parsing
 var supportedDateFormats = []string{
@@ -73,7 +66,6 @@ var supportedDateFormats = []string{
 
 // Task represents a single task from the CSV data
 type Task struct {
-	ID          string
 	Name        string
 	StartDate   time.Time
 	EndDate     time.Time
@@ -83,7 +75,6 @@ type Task struct {
 	Status      string    // * Added: Task status (Planned, In Progress, Completed, etc.)
 	Assignee    string    // * Added: Task assignee
 	ParentID    string    // * Added: Parent task ID for hierarchical relationships
-	Dependencies []string // * Added: List of task IDs this task depends on
 	IsMilestone bool      // * Added: Whether this is a milestone task
 }
 
@@ -107,9 +98,6 @@ type Reader struct {
 	strictMode    bool // If true, fail on any parsing error
 	skipInvalid   bool // If true, skip invalid rows instead of failing
 	maxMemoryMB   int  // Maximum memory usage in MB for large files
-	// * Added: Enhanced parsing options
-	validateDependencies bool // If true, validate that all dependencies exist
-	detectCircularDeps   bool // If true, detect circular dependencies
 	// * Added: Error collection
 	errors []error // Collected errors during parsing
 }
@@ -120,8 +108,6 @@ type ReaderOptions struct {
 	SkipInvalid           bool
 	MaxMemoryMB           int
 	Logger                *log.Logger
-	ValidateDependencies  bool // * Added: Validate that all dependencies exist
-	DetectCircularDeps    bool // * Added: Detect circular dependencies
 }
 
 // DefaultReaderOptions returns sensible defaults for the reader
@@ -131,8 +117,6 @@ func DefaultReaderOptions() *ReaderOptions {
 		SkipInvalid:           true,
 		MaxMemoryMB:           100, // 100MB default limit
 		Logger:                log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
-		ValidateDependencies:  true,  // * Added: Default to validating dependencies
-		DetectCircularDeps:    true,  // * Added: Default to detecting circular dependencies
 	}
 }
 
@@ -140,13 +124,11 @@ func DefaultReaderOptions() *ReaderOptions {
 func NewReader(filePath string) *Reader {
 	opts := DefaultReaderOptions()
 	return &Reader{
-		filePath:             filePath,
-		logger:               opts.Logger,
-		strictMode:           opts.StrictMode,
-		skipInvalid:          opts.SkipInvalid,
-		maxMemoryMB:          opts.MaxMemoryMB,
-		validateDependencies: opts.ValidateDependencies,
-		detectCircularDeps:   opts.DetectCircularDeps,
+		filePath:    filePath,
+		logger:      opts.Logger,
+		strictMode:  opts.StrictMode,
+		skipInvalid: opts.SkipInvalid,
+		maxMemoryMB: opts.MaxMemoryMB,
 	}
 }
 
@@ -156,13 +138,11 @@ func NewReaderWithOptions(filePath string, opts *ReaderOptions) *Reader {
 		opts = DefaultReaderOptions()
 	}
 	return &Reader{
-		filePath:             filePath,
-		logger:               opts.Logger,
-		strictMode:           opts.StrictMode,
-		skipInvalid:          opts.SkipInvalid,
-		maxMemoryMB:          opts.MaxMemoryMB,
-		validateDependencies: opts.ValidateDependencies,
-		detectCircularDeps:   opts.DetectCircularDeps,
+		filePath:    filePath,
+		logger:      opts.Logger,
+		strictMode:  opts.StrictMode,
+		skipInvalid: opts.SkipInvalid,
+		maxMemoryMB: opts.MaxMemoryMB,
 	}
 }
 
@@ -193,123 +173,8 @@ func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 	}
 }
 
-// parseDependencies parses comma-separated dependency task IDs
-func (r *Reader) parseDependencies(depsStr string) []string {
-	if depsStr == "" {
-		return []string{}
-	}
-	
-	// Split by comma and clean up each dependency
-	deps := strings.Split(depsStr, ",")
-	var cleanDeps []string
-	for _, dep := range deps {
-		cleanDep := strings.TrimSpace(dep)
-		if cleanDep != "" {
-			cleanDeps = append(cleanDeps, cleanDep)
-		}
-	}
-	
-	return cleanDeps
-}
 
-// validateTaskDependencies checks that all referenced task IDs exist
-func (r *Reader) validateTaskDependencies(tasks []Task) error {
-	if !r.validateDependencies {
-		return nil
-	}
-	
-	// Create a map of existing task IDs
-	taskIDs := make(map[string]bool)
-	for _, task := range tasks {
-		taskIDs[task.ID] = true
-	}
-	
-	// Check each task's dependencies
-	var validationErrors []error
-	for _, task := range tasks {
-		for _, depID := range task.Dependencies {
-			if !taskIDs[depID] {
-				validationErrors = append(validationErrors, &ValidationError{
-					TaskID:  task.ID,
-					Field:   "Dependencies",
-					Value:   depID,
-					Message: "references non-existent task",
-				})
-			}
-		}
-	}
-	
-	if len(validationErrors) > 0 {
-		// Return the first error for now, but log all errors
-		for _, err := range validationErrors {
-			r.logger.Printf("Validation error: %v", err)
-		}
-		return validationErrors[0]
-	}
-	
-	return nil
-}
 
-// detectCircularDependencies checks for circular dependencies in the task graph
-func (r *Reader) detectCircularDependencies(tasks []Task) error {
-	if !r.detectCircularDeps {
-		return nil
-	}
-	
-	// Create adjacency list for dependency graph
-	graph := make(map[string][]string)
-	for _, task := range tasks {
-		graph[task.ID] = task.Dependencies
-	}
-	
-	// Use DFS to detect cycles and track the cycle path
-	visited := make(map[string]bool)
-	recStack := make(map[string]bool)
-	path := make([]string, 0)
-	
-	var dfs func(string) (bool, []string)
-	dfs = func(node string) (bool, []string) {
-		visited[node] = true
-		recStack[node] = true
-		path = append(path, node)
-		
-		for _, neighbor := range graph[node] {
-			if !visited[neighbor] {
-				if hasCycle, cycle := dfs(neighbor); hasCycle {
-					return true, cycle
-				}
-			} else if recStack[neighbor] {
-				// Found a cycle, construct the cycle path
-				cycleStart := -1
-				for i, id := range path {
-					if id == neighbor {
-						cycleStart = i
-						break
-					}
-				}
-				if cycleStart >= 0 {
-					cycle := append(path[cycleStart:], neighbor)
-					return true, cycle
-				}
-			}
-		}
-		
-		recStack[node] = false
-		path = path[:len(path)-1]
-		return false, nil
-	}
-	
-	// Check each unvisited node
-	for taskID := range graph {
-		if !visited[taskID] {
-			if hasCycle, cycle := dfs(taskID); hasCycle {
-				return &CircularDependencyError{Cycle: cycle}
-			}
-		}
-	}
-	
-	return nil
-}
 
 // isMilestoneTask determines if a task is a milestone based on its name or description
 func (r *Reader) isMilestoneTask(name, description string) bool {
@@ -448,20 +313,6 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 		r.logger.Printf("Successfully parsed %d tasks", len(tasks))
 	}
 
-	// * Added: Validate dependencies if enabled
-	if r.validateDependencies {
-		if err := r.validateTaskDependencies(tasks); err != nil {
-			return nil, fmt.Errorf("dependency validation failed: %w", err)
-		}
-	}
-
-	// * Added: Detect circular dependencies if enabled
-	if r.detectCircularDeps {
-		if err := r.detectCircularDependencies(tasks); err != nil {
-			r.addError(err)
-			return nil, fmt.Errorf("circular dependency detection failed: %w", err)
-		}
-	}
 
 	// * Added: Log comprehensive error summary if there were any errors
 	if r.hasErrors() {
@@ -555,16 +406,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 		return ""
 	}
 
-	// Parse required fields
-	task.ID = getField("Task ID")
-	if task.ID == "" {
-		return task, &ParseError{
-			Row:     rowNum,
-			Column:  "Task ID",
-			Value:   "",
-			Message: "missing required field",
-		}
-	}
 
 	task.Name = getField("Task Name")
 	task.Description = getField("Description")
@@ -579,7 +420,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 			task.Priority = priority
 		} else {
 			task.Priority = 1 // Default priority
-			r.logger.Printf("Warning: Invalid priority '%s' for task %s, using default priority 1", priorityStr, task.ID)
+			r.logger.Printf("Warning: Invalid priority '%s', using default priority 1", priorityStr)
 		}
 	} else {
 		task.Priority = 1 // Default priority
@@ -597,9 +438,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	// * Added: Parse Parent Task ID field
 	task.ParentID = getField("Parent Task ID")
 
-	// * Added: Parse Dependencies field
-	depsStr := getField("Dependencies")
-	task.Dependencies = r.parseDependencies(depsStr)
 
 	// * Added: Determine if this is a milestone task
 	task.IsMilestone = r.isMilestoneTask(task.Name, task.Description)
@@ -640,7 +478,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	// * Added: Validate that end date is not before start date
 	if !task.StartDate.IsZero() && !task.EndDate.IsZero() && task.EndDate.Before(task.StartDate) {
 		return task, &ValidationError{
-			TaskID:  task.ID,
+			TaskID:  "unknown",
 			Field:   "Due Date",
 			Value:   endDateStr,
 			Message: fmt.Sprintf("end date %s is before start date %s", task.EndDate.Format("2006-01-02"), task.StartDate.Format("2006-01-02")),
@@ -746,8 +584,8 @@ func (r *Reader) ValidateCSVFormat() error {
 	}
 
 	// Check for required fields
-	requiredFields := []string{"task id", "task name", "start date", "due date"}
-	optionalFields := []string{"parent task id", "dependencies", "category", "description", "priority", "status", "assignee"}
+	requiredFields := []string{"task name", "start date", "due date"}
+	optionalFields := []string{"parent task id", "category", "description", "priority", "status", "assignee"}
 	fieldMap := make(map[string]bool)
 	
 	for _, field := range header {

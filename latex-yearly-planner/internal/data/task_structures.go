@@ -118,18 +118,18 @@ func GetAllCategories() []TaskCategory {
 
 // TaskCollection represents a collection of tasks with efficient access patterns
 type TaskCollection struct {
-	tasks     map[string]*Task
-	byDate    []*Task
+	tasks      []*Task
+	byDate     []*Task
 	byCategory map[string][]*Task
-	byStatus  map[string][]*Task
+	byStatus   map[string][]*Task
 	byAssignee map[string][]*Task
-	sorted    bool
+	sorted     bool
 }
 
 // NewTaskCollection creates a new empty task collection
 func NewTaskCollection() *TaskCollection {
 	return &TaskCollection{
-		tasks:      make(map[string]*Task),
+		tasks:      make([]*Task, 0),
 		byDate:     make([]*Task, 0),
 		byCategory: make(map[string][]*Task),
 		byStatus:   make(map[string][]*Task),
@@ -144,7 +144,7 @@ func (tc *TaskCollection) AddTask(task *Task) {
 		return
 	}
 	
-	tc.tasks[task.ID] = task
+	tc.tasks = append(tc.tasks, task)
 	tc.byDate = append(tc.byDate, task)
 	
 	// Update category index
@@ -165,19 +165,19 @@ func (tc *TaskCollection) AddTask(task *Task) {
 	tc.sorted = false
 }
 
-// GetTask retrieves a task by ID
-func (tc *TaskCollection) GetTask(id string) (*Task, bool) {
-	task, exists := tc.tasks[id]
-	return task, exists
+// GetTask retrieves a task by name (since we removed ID)
+func (tc *TaskCollection) GetTask(name string) (*Task, bool) {
+	for _, task := range tc.tasks {
+		if task.Name == name {
+			return task, true
+		}
+	}
+	return nil, false
 }
 
 // GetAllTasks returns all tasks in the collection
 func (tc *TaskCollection) GetAllTasks() []*Task {
-	tasks := make([]*Task, 0, len(tc.tasks))
-	for _, task := range tc.tasks {
-		tasks = append(tasks, task)
-	}
-	return tasks
+	return tc.tasks
 }
 
 // GetTasksByCategory returns all tasks in a specific category
@@ -233,99 +233,13 @@ func (tc *TaskCollection) sortByDate() {
 	tc.sorted = true
 }
 
-// TaskDependencyGraph represents the dependency graph for tasks
-type TaskDependencyGraph struct {
-	graph     map[string][]string // task ID -> list of dependent task IDs
-	reverse   map[string][]string // task ID -> list of tasks that depend on it
-	tasks     map[string]*Task    // task ID -> task object
-}
-
-// NewTaskDependencyGraph creates a new dependency graph
-func NewTaskDependencyGraph() *TaskDependencyGraph {
-	return &TaskDependencyGraph{
-		graph:   make(map[string][]string),
-		reverse: make(map[string][]string),
-		tasks:   make(map[string]*Task),
-	}
-}
-
-// AddTask adds a task to the dependency graph
-func (tdg *TaskDependencyGraph) AddTask(task *Task) {
-	if task == nil {
-		return
-	}
-	
-	tdg.tasks[task.ID] = task
-	tdg.graph[task.ID] = task.Dependencies
-	
-	// Update reverse graph
-	for _, depID := range task.Dependencies {
-		tdg.reverse[depID] = append(tdg.reverse[depID], task.ID)
-	}
-}
-
-// GetDependencies returns all tasks that the given task depends on
-func (tdg *TaskDependencyGraph) GetDependencies(taskID string) []*Task {
-	var deps []*Task
-	for _, depID := range tdg.graph[taskID] {
-		if task, exists := tdg.tasks[depID]; exists {
-			deps = append(deps, task)
-		}
-	}
-	return deps
-}
-
-// GetDependents returns all tasks that depend on the given task
-func (tdg *TaskDependencyGraph) GetDependents(taskID string) []*Task {
-	var deps []*Task
-	for _, depID := range tdg.reverse[taskID] {
-		if task, exists := tdg.tasks[depID]; exists {
-			deps = append(deps, task)
-		}
-	}
-	return deps
-}
-
-// GetTaskLevel returns the dependency level of a task (0 = no dependencies, 1 = depends on level 0, etc.)
-func (tdg *TaskDependencyGraph) GetTaskLevel(taskID string) int {
-	visited := make(map[string]bool)
-	return tdg.getTaskLevelRecursive(taskID, visited)
-}
-
-func (tdg *TaskDependencyGraph) getTaskLevelRecursive(taskID string, visited map[string]bool) int {
-	if visited[taskID] {
-		return 0 // Circular dependency detected
-	}
-	visited[taskID] = true
-	
-	maxDepLevel := 0
-	for _, depID := range tdg.graph[taskID] {
-		level := tdg.getTaskLevelRecursive(depID, visited)
-		if level >= maxDepLevel {
-			maxDepLevel = level + 1
-		}
-	}
-	
-	return maxDepLevel
-}
-
-// GetTasksByLevel returns all tasks at a specific dependency level
-func (tdg *TaskDependencyGraph) GetTasksByLevel(level int) []*Task {
-	var result []*Task
-	for taskID := range tdg.tasks {
-		if tdg.GetTaskLevel(taskID) == level {
-			result = append(result, tdg.tasks[taskID])
-		}
-	}
-	return result
-}
 
 // TaskHierarchy represents the parent-child hierarchy of tasks
 type TaskHierarchy struct {
-	roots   []*Task
-	parents map[string]*Task
+	roots    []*Task
+	parents  map[string]*Task
 	children map[string][]*Task
-	tasks   map[string]*Task
+	tasks    []*Task
 }
 
 // NewTaskHierarchy creates a new task hierarchy
@@ -334,7 +248,7 @@ func NewTaskHierarchy() *TaskHierarchy {
 		roots:    make([]*Task, 0),
 		parents:  make(map[string]*Task),
 		children: make(map[string][]*Task),
-		tasks:    make(map[string]*Task),
+		tasks:    make([]*Task, 0),
 	}
 }
 
@@ -344,16 +258,19 @@ func (th *TaskHierarchy) AddTask(task *Task) {
 		return
 	}
 	
-	th.tasks[task.ID] = task
+	th.tasks = append(th.tasks, task)
 	
 	if task.ParentID == "" {
 		// This is a root task
 		th.roots = append(th.roots, task)
 	} else {
-		// This is a child task
-		if parent, exists := th.tasks[task.ParentID]; exists {
-			th.parents[task.ID] = parent
-			th.children[task.ParentID] = append(th.children[task.ParentID], task)
+		// This is a child task - find parent by name
+		for _, parent := range th.tasks {
+			if parent.Name == task.ParentID {
+				th.parents[task.Name] = parent
+				th.children[task.ParentID] = append(th.children[task.ParentID], task)
+				break
+			}
 		}
 	}
 }
@@ -364,36 +281,36 @@ func (th *TaskHierarchy) GetRootTasks() []*Task {
 }
 
 // GetChildren returns all child tasks of a given task
-func (th *TaskHierarchy) GetChildren(taskID string) []*Task {
-	return th.children[taskID]
+func (th *TaskHierarchy) GetChildren(taskName string) []*Task {
+	return th.children[taskName]
 }
 
 // GetParent returns the parent task of a given task
-func (th *TaskHierarchy) GetParent(taskID string) *Task {
-	return th.parents[taskID]
+func (th *TaskHierarchy) GetParent(taskName string) *Task {
+	return th.parents[taskName]
 }
 
 // GetAncestors returns all ancestor tasks of a given task
-func (th *TaskHierarchy) GetAncestors(taskID string) []*Task {
+func (th *TaskHierarchy) GetAncestors(taskName string) []*Task {
 	var ancestors []*Task
-	current := th.GetParent(taskID)
+	current := th.GetParent(taskName)
 	
 	for current != nil {
 		ancestors = append(ancestors, current)
-		current = th.GetParent(current.ID)
+		current = th.GetParent(current.Name)
 	}
 	
 	return ancestors
 }
 
 // GetDescendants returns all descendant tasks of a given task
-func (th *TaskHierarchy) GetDescendants(taskID string) []*Task {
+func (th *TaskHierarchy) GetDescendants(taskName string) []*Task {
 	var descendants []*Task
-	children := th.GetChildren(taskID)
+	children := th.GetChildren(taskName)
 	
 	for _, child := range children {
 		descendants = append(descendants, child)
-		descendants = append(descendants, th.GetDescendants(child.ID)...)
+		descendants = append(descendants, th.GetDescendants(child.Name)...)
 	}
 	
 	return descendants
@@ -513,7 +430,7 @@ func NewTaskRenderer(task *Task) *TaskRenderer {
 	category := GetCategory(task.Category)
 	
 	return &TaskRenderer{
-		TaskID:      task.ID,
+		TaskID:      task.Name,
 		Color:       category.Color,
 		BorderColor: "#000000",
 		Opacity:     1.0,
@@ -607,8 +524,8 @@ func (t *Task) GetProgressPercentage() float64 {
 
 // String returns a string representation of the task
 func (t *Task) String() string {
-	return fmt.Sprintf("Task[%s: %s (%s) %s - %s]", 
-		t.ID, t.Name, t.Category, 
+	return fmt.Sprintf("Task[%s (%s) %s - %s]", 
+		t.Name, t.Category, 
 		t.StartDate.Format("2006-01-02"), 
 		t.EndDate.Format("2006-01-02"))
 }

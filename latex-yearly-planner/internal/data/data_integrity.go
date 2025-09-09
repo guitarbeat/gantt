@@ -126,7 +126,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if task.StartDate.IsZero() {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "StartDate",
 			Value:     "zero",
 			Message:   "Start date is required and cannot be zero",
@@ -141,7 +141,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if task.EndDate.IsZero() {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "EndDate",
 			Value:     "zero",
 			Message:   "End date is required and cannot be zero",
@@ -156,7 +156,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if task.StartDate.After(task.EndDate) {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "StartDate",
 			Value:     task.StartDate.Format("2006-01-02"),
 			Message:   fmt.Sprintf("Start date (%s) cannot be after end date (%s)", task.StartDate.Format("2006-01-02"), task.EndDate.Format("2006-01-02")),
@@ -170,7 +170,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if task.EndDate.Before(now) {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "EndDate",
 			Value:     task.EndDate.Format("2006-01-02"),
 			Message:   fmt.Sprintf("Task ends in the past (%s)", task.EndDate.Format("2006-01-02")),
@@ -185,7 +185,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if task.StartDate.After(futureLimit) {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "StartDate",
 			Value:     task.StartDate.Format("2006-01-02"),
 			Message:   fmt.Sprintf("Task starts very far in the future (%s)", task.StartDate.Format("2006-01-02")),
@@ -201,7 +201,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if taskDuration > maxDuration {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Duration",
 			Value:     fmt.Sprintf("%.0f days", taskDuration.Hours()/24),
 			Message:   fmt.Sprintf("Task duration is very long (%.0f days)", taskDuration.Hours()/24),
@@ -216,7 +216,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 	if taskDuration < minDuration {
 		errors = append(errors, DataValidationError{
 			Type:      "DATE_RANGE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Duration",
 			Value:     fmt.Sprintf("%.0f hours", taskDuration.Hours()),
 			Message:   fmt.Sprintf("Task duration is very short (%.0f hours)", taskDuration.Hours()),
@@ -232,7 +232,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 		if !dv.IsWorkDay(task.StartDate) {
 			errors = append(errors, DataValidationError{
 				Type:      "WORK_DAY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "StartDate",
 				Value:     task.StartDate.Format("2006-01-02"),
 				Message:   fmt.Sprintf("Task starts on a non-work day (%s)", task.StartDate.Weekday().String()),
@@ -246,7 +246,7 @@ func (dv *DateValidator) ValidateTaskDates(task *Task) []DataValidationError {
 		if !dv.IsWorkDay(task.EndDate) {
 			errors = append(errors, DataValidationError{
 				Type:      "WORK_DAY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "EndDate",
 				Value:     task.EndDate.Format("2006-01-02"),
 				Message:   fmt.Sprintf("Task ends on a non-work day (%s)", task.EndDate.Weekday().String()),
@@ -287,10 +287,10 @@ func (dv *DateValidator) DetectDateConflicts(tasks []*Task) []DataValidationErro
 			if task1.Category == task2.Category && task1.Category != "" {
 				errors = append(errors, DataValidationError{
 					Type:      "CONFLICT",
-					TaskID:    task1.ID,
+					TaskID:    task1.Name,
 					Field:     "Schedule",
-					Value:     fmt.Sprintf("overlaps with %s", task2.ID),
-					Message:   fmt.Sprintf("Task %s overlaps with task %s (both %s category)", task1.ID, task2.ID, task1.Category),
+					Value:     fmt.Sprintf("overlaps with %s", task2.Name),
+					Message:   fmt.Sprintf("Task %s overlaps with task %s (both %s category)", task1.Name, task2.Name, task1.Category),
 					Severity:  "WARNING",
 					Timestamp: now,
 					Suggestions: []string{
@@ -305,10 +305,10 @@ func (dv *DateValidator) DetectDateConflicts(tasks []*Task) []DataValidationErro
 			if task1.Assignee == task2.Assignee && task1.Assignee != "" {
 				errors = append(errors, DataValidationError{
 					Type:      "CONFLICT",
-					TaskID:    task1.ID,
+					TaskID:    task1.Name,
 					Field:     "Assignee",
 					Value:     task1.Assignee,
-					Message:   fmt.Sprintf("Task %s overlaps with task %s (same assignee: %s)", task1.ID, task2.ID, task1.Assignee),
+					Message:   fmt.Sprintf("Task %s overlaps with task %s (same assignee: %s)", task1.Name, task2.Name, task1.Assignee),
 					Severity:  "WARNING",
 					Timestamp: now,
 					Suggestions: []string{
@@ -351,7 +351,7 @@ func (dv *DateValidator) ValidateWorkDayConstraints(tasks []*Task) []DataValidat
 		if !dv.IsWorkDay(task.StartDate) {
 			errors = append(errors, DataValidationError{
 				Type:      "WORK_DAY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "StartDate",
 				Value:     task.StartDate.Format("2006-01-02"),
 				Message:   fmt.Sprintf("Task starts on a non-work day (%s)", task.StartDate.Weekday().String()),
@@ -365,7 +365,7 @@ func (dv *DateValidator) ValidateWorkDayConstraints(tasks []*Task) []DataValidat
 		if !dv.IsWorkDay(task.EndDate) {
 			errors = append(errors, DataValidationError{
 				Type:      "WORK_DAY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "EndDate",
 				Value:     task.EndDate.Format("2006-01-02"),
 				Message:   fmt.Sprintf("Task ends on a non-work day (%s)", task.EndDate.Weekday().String()),
@@ -386,7 +386,7 @@ func (dv *DateValidator) ValidateWorkDayConstraints(tasks []*Task) []DataValidat
 		if workDaysInRange == 0 {
 			errors = append(errors, DataValidationError{
 				Type:      "WORK_DAY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Duration",
 				Value:     fmt.Sprintf("%d work days", workDaysInRange),
 				Message:   "Task spans only non-work days",
@@ -471,17 +471,15 @@ type DataIntegrityValidator struct {
 	fieldValidators   map[string]func(string) bool
 	categoryManager   *TaskCategoryManager
 	dateValidator     *DateValidator
-	dependencyValidator *DependencyValidator
 }
 
 // NewDataIntegrityValidator creates a new data integrity validator
 func NewDataIntegrityValidator() *DataIntegrityValidator {
 	div := &DataIntegrityValidator{
-		requiredFields: []string{"ID", "Name", "StartDate", "EndDate"},
+		requiredFields: []string{"Name", "StartDate", "EndDate"},
 		fieldValidators: make(map[string]func(string) bool),
 		categoryManager: NewTaskCategoryManager(),
 		dateValidator: NewDateValidator(),
-		dependencyValidator: NewDependencyValidator(),
 	}
 	
 	// Initialize field validators
@@ -595,7 +593,7 @@ func (div *DataIntegrityValidator) validateRequiredFields(task *Task) []DataVali
 	now := time.Now()
 	
 	// Check ID
-	if task.ID == "" {
+	if task.Name == "" {
 		errors = append(errors, DataValidationError{
 			Type:      "REQUIRED_FIELD",
 			TaskID:    "unknown",
@@ -612,7 +610,7 @@ func (div *DataIntegrityValidator) validateRequiredFields(task *Task) []DataVali
 	if strings.TrimSpace(task.Name) == "" {
 		errors = append(errors, DataValidationError{
 			Type:      "REQUIRED_FIELD",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Name",
 			Value:     "",
 			Message:   "Task name is required",
@@ -626,7 +624,7 @@ func (div *DataIntegrityValidator) validateRequiredFields(task *Task) []DataVali
 	if task.StartDate.IsZero() {
 		errors = append(errors, DataValidationError{
 			Type:      "REQUIRED_FIELD",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "StartDate",
 			Value:     "",
 			Message:   "Task start date is required",
@@ -640,7 +638,7 @@ func (div *DataIntegrityValidator) validateRequiredFields(task *Task) []DataVali
 	if task.EndDate.IsZero() {
 		errors = append(errors, DataValidationError{
 			Type:      "REQUIRED_FIELD",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "EndDate",
 			Value:     "",
 			Message:   "Task end date is required",
@@ -658,31 +656,13 @@ func (div *DataIntegrityValidator) validateFieldFormats(task *Task) []DataValida
 	var errors []DataValidationError
 	now := time.Now()
 	
-	// Validate ID format
-	if task.ID != "" {
-		if !div.fieldValidators["ID"](task.ID) {
-			errors = append(errors, DataValidationError{
-				Type:      "FIELD_FORMAT",
-				TaskID:    task.ID,
-				Field:     "ID",
-				Value:     task.ID,
-				Message:   "Task ID must be alphanumeric with underscores or hyphens, 1-50 characters",
-				Severity:  "ERROR",
-				Timestamp: now,
-				Suggestions: []string{
-					"Use only letters, numbers, underscores, and hyphens",
-					"Keep ID length between 1 and 50 characters",
-				},
-			})
-		}
-	}
 	
 	// Validate Name format
 	if task.Name != "" {
 		if !div.fieldValidators["Name"](task.Name) {
 			errors = append(errors, DataValidationError{
 				Type:      "FIELD_FORMAT",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Name",
 				Value:     task.Name,
 				Message:   "Task name must be 1-200 characters and not empty",
@@ -701,7 +681,7 @@ func (div *DataIntegrityValidator) validateFieldFormats(task *Task) []DataValida
 		if !div.fieldValidators["Category"](task.Category) {
 			errors = append(errors, DataValidationError{
 				Type:      "FIELD_FORMAT",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Category",
 				Value:     task.Category,
 				Message:   "Invalid task category",
@@ -720,7 +700,7 @@ func (div *DataIntegrityValidator) validateFieldFormats(task *Task) []DataValida
 		if !div.fieldValidators["Status"](task.Status) {
 			errors = append(errors, DataValidationError{
 				Type:      "FIELD_FORMAT",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Status",
 				Value:     task.Status,
 				Message:   "Invalid task status",
@@ -738,7 +718,7 @@ func (div *DataIntegrityValidator) validateFieldFormats(task *Task) []DataValida
 	if task.Priority < 0 || task.Priority > 5 {
 		errors = append(errors, DataValidationError{
 			Type:      "FIELD_FORMAT",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Priority",
 			Value:     fmt.Sprintf("%d", task.Priority),
 			Message:   "Invalid task priority (must be 0-5)",
@@ -756,7 +736,7 @@ func (div *DataIntegrityValidator) validateFieldFormats(task *Task) []DataValida
 		if !div.fieldValidators["Assignee"](task.Assignee) {
 			errors = append(errors, DataValidationError{
 				Type:      "FIELD_FORMAT",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Assignee",
 				Value:     task.Assignee,
 				Message:   "Invalid assignee format",
@@ -775,7 +755,7 @@ func (div *DataIntegrityValidator) validateFieldFormats(task *Task) []DataValida
 		if !div.fieldValidators["Description"](task.Description) {
 			errors = append(errors, DataValidationError{
 				Type:      "FIELD_FORMAT",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Description",
 				Value:     task.Description,
 				Message:   "Description too long (max 1000 characters)",
@@ -805,7 +785,7 @@ func (div *DataIntegrityValidator) validateDataConsistency(task *Task) []DataVal
 		if duration == 1 && task.StartDate.Equal(task.EndDate) {
 			errors = append(errors, DataValidationError{
 				Type:      "DATA_CONSISTENCY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Duration",
 				Value:     "1 day",
 				Message:   "Task has single day duration (start and end dates are the same)",
@@ -822,7 +802,7 @@ func (div *DataIntegrityValidator) validateDataConsistency(task *Task) []DataVal
 		if duration < 0 {
 			errors = append(errors, DataValidationError{
 				Type:      "DATA_CONSISTENCY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "Duration",
 				Value:     fmt.Sprintf("%d days", duration),
 				Message:   "Task has negative duration (end date before start date)",
@@ -841,7 +821,7 @@ func (div *DataIntegrityValidator) validateDataConsistency(task *Task) []DataVal
 		if !task.StartDate.IsZero() && !task.EndDate.IsZero() && !task.StartDate.Equal(task.EndDate) {
 			errors = append(errors, DataValidationError{
 				Type:      "DATA_CONSISTENCY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "IsMilestone",
 				Value:     "true",
 				Message:   "Milestone task should have same start and end date",
@@ -857,10 +837,10 @@ func (div *DataIntegrityValidator) validateDataConsistency(task *Task) []DataVal
 	
 	// Check parent-child consistency
 	if task.ParentID != "" {
-		if task.ParentID == task.ID {
+		if task.ParentID == task.Name {
 			errors = append(errors, DataValidationError{
 				Type:      "DATA_CONSISTENCY",
-				TaskID:    task.ID,
+				TaskID:    task.Name,
 				Field:     "ParentID",
 				Value:     task.ParentID,
 				Message:   "Task cannot be its own parent",
@@ -874,24 +854,6 @@ func (div *DataIntegrityValidator) validateDataConsistency(task *Task) []DataVal
 		}
 	}
 	
-	// Check dependency consistency
-	for _, depID := range task.Dependencies {
-		if depID == task.ID {
-			errors = append(errors, DataValidationError{
-				Type:      "DATA_CONSISTENCY",
-				TaskID:    task.ID,
-				Field:     "Dependencies",
-				Value:     depID,
-				Message:   "Task cannot depend on itself",
-				Severity:  "ERROR",
-				Timestamp: now,
-				Suggestions: []string{
-					"Remove self-dependency from Dependencies",
-					"Set correct dependency task ID",
-				},
-			})
-		}
-	}
 	
 	return errors
 }
@@ -906,7 +868,7 @@ func (div *DataIntegrityValidator) validateBusinessRules(task *Task) []DataValid
 		suggestedCategory := div.categoryManager.CategorizeTask(task)
 		errors = append(errors, DataValidationError{
 			Type:      "BUSINESS_RULE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Category",
 			Value:     "",
 			Message:   fmt.Sprintf("Task has no category, suggested: %s", suggestedCategory),
@@ -923,7 +885,7 @@ func (div *DataIntegrityValidator) validateBusinessRules(task *Task) []DataValid
 	if task.Status == "" {
 		errors = append(errors, DataValidationError{
 			Type:      "BUSINESS_RULE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Status",
 			Value:     "",
 			Message:   "Task has no status, suggested: Planned",
@@ -940,7 +902,7 @@ func (div *DataIntegrityValidator) validateBusinessRules(task *Task) []DataValid
 	if task.Priority == 0 {
 		errors = append(errors, DataValidationError{
 			Type:      "BUSINESS_RULE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Priority",
 			Value:     "0",
 			Message:   "Task has default priority, suggested: 1 (Medium)",
@@ -957,7 +919,7 @@ func (div *DataIntegrityValidator) validateBusinessRules(task *Task) []DataValid
 	if len(strings.TrimSpace(task.Name)) < 3 {
 		errors = append(errors, DataValidationError{
 			Type:      "BUSINESS_RULE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Name",
 			Value:     task.Name,
 			Message:   "Task name is very short, consider a more descriptive name",
@@ -974,7 +936,7 @@ func (div *DataIntegrityValidator) validateBusinessRules(task *Task) []DataValid
 	if len(task.Name) > 100 {
 		errors = append(errors, DataValidationError{
 			Type:      "BUSINESS_RULE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Name",
 			Value:     task.Name,
 			Message:   "Task name is very long, consider shortening",
@@ -991,7 +953,7 @@ func (div *DataIntegrityValidator) validateBusinessRules(task *Task) []DataValid
 	if task.Description == "" {
 		errors = append(errors, DataValidationError{
 			Type:      "BUSINESS_RULE",
-			TaskID:    task.ID,
+			TaskID:    task.Name,
 			Field:     "Description",
 			Value:     "",
 			Message:   "Task has no description, consider adding one for clarity",
@@ -1032,8 +994,8 @@ func (div *DataIntegrityValidator) validateCrossTaskIntegrity(tasks []*Task) []D
 	// Check for duplicate task IDs
 	taskIDs := make(map[string]int)
 	for _, task := range tasks {
-		if task != nil && task.ID != "" {
-			taskIDs[task.ID]++
+		if task != nil && task.Name != "" {
+			taskIDs[task.Name]++
 		}
 	}
 	
@@ -1093,10 +1055,6 @@ func (div *DataIntegrityValidator) ValidateDataIntegrity(tasks []*Task) *Validat
 	dateErrors := div.dateValidator.ValidateDateRanges(tasks)
 	errors = append(errors, dateErrors...)
 	
-	// Add dependency validation
-	div.dependencyValidator.AddTasks(tasks)
-	dependencyErrors := div.dependencyValidator.ValidateDependencies()
-	errors = append(errors, dependencyErrors...)
 	
 	// Categorize errors by severity
 	var errorList, warningList, infoList []DataValidationError
