@@ -72,8 +72,8 @@
 % Task overlay box macros - pill shaped with rounded corners
 \newcommand{\TaskOverlayBox}[3]{%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=3pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
-    left=1.5mm, right=1.5mm, top=1mm, bottom=1mm,
+  \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=6pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
+    left=2.2mm, right=2.2mm, top=1.4mm, bottom=1.4mm,
     colback=#1!20, colframe=#1!80,
     width=\linewidth, halign=center]
     \TaskFontSize\textbf{#2}\\#3%
@@ -82,8 +82,8 @@
 
 \newcommand{\TaskOverlayBoxP}[3]{%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=3pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
-    left=2mm, right=2mm, top=1mm, bottom=1mm,
+  \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=6pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
+    left=2.4mm, right=2.4mm, top=1.4mm, bottom=1.4mm,
     colback=#2!20, colframe=#2!80,
     width=\linewidth, halign=center]
     \TaskFontSize\textbf{#1}\\#3%
@@ -94,8 +94,8 @@
 \newcommand{\TaskCompactBox}[4]{%
   \vspace*{#1}%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.6pt, arc=2.5pt, drop shadow={0.1pt}{-0.1pt}{0pt}{black!15},
-    left=1mm, right=1mm, top=0.8mm, bottom=0.8mm,
+  \begin{tcolorbox}[enhanced, boxrule=0.6pt, arc=5pt, drop shadow={0.1pt}{-0.1pt}{0pt}{black!15},
+    left=1.6mm, right=1.6mm, top=1mm, bottom=1mm,
     colback=#3!20, colframe=#3!70,
     width=\linewidth, halign=center, height=#2]
     \vfil

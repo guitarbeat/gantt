@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  19 SEP 2025 01:51
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  19 SEP 2025 02:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1338,6 +1338,7 @@ l.523 }
        
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
 -0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
@@ -1520,6 +1521,7 @@ l.523 }
        
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
 -0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
@@ -1715,6 +1717,7 @@ l.523 }
        
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
 ./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
 -0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
@@ -2541,6 +2544,7 @@ l.2414 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -2601,6 +2605,7 @@ l.2414 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -2662,6 +2667,7 @@ l.2414 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
 ./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -2727,6 +2733,7 @@ l.2681 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -2751,6 +2758,7 @@ l.2681 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -2775,6 +2783,7 @@ l.2681 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -2799,32 +2808,7 @@ l.2681 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2681 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2681 }
-        
-(That was another \errmessage.)
-
-
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -2850,6 +2834,34 @@ l.2681 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
+
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
 ./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -2999,6 +3011,7 @@ l.3213 }
         
 (That was another \errmessage.)
 
+Missing character: There is no – ("2013) in font ec-lmss8!
 ./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -3071,6 +3084,7 @@ l.3213 }
         
 (That was another \errmessage.)
 
+Missing character: There is no – ("2013) in font ec-lmss8!
 ./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -3148,6 +3162,7 @@ l.3213 }
         
 (That was another \errmessage.)
 
+Missing character: There is no – ("2013) in font ec-lmss8!
 
 ./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -3285,6 +3300,7 @@ l.3779 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -3345,6 +3361,7 @@ l.3779 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 ./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -3409,6 +3426,7 @@ l.3779 }
         
 (That was another \errmessage.)
 
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
 ./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -3959,7 +3977,6 @@ l.6470 }
         
 (That was another \errmessage.)
 
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
 ./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -3996,7 +4013,6 @@ l.6470 }
         
 (That was another \errmessage.)
 
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
 ./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -4034,7 +4050,6 @@ l.6470 }
         
 (That was another \errmessage.)
 
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
 ./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -4138,7 +4153,7 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 Here is how much of TeX's memory you used:
  30123 strings out of 474773
  605366 string characters out of 5757725
- 1973839 words of memory out of 5000000
+ 1974839 words of memory out of 5000000
  51709 multiletter control sequences out of 15000+600000
  595557 words of font info for 70 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
