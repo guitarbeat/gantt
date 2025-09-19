@@ -110,7 +110,6 @@
 
 % Color legend macro for task categories - uses circles instead of boxes
 \newcommand{\ColorLegend}{%
-  \vspace*{0.05ex}%
   \begin{center}%
     \ColorCircle{blue}~\small Proposal%
     \hspace{1.5em}%
@@ -126,9 +125,7 @@
     \hspace{1.5em}%
     \ColorCircle{gray}~\small Publication%
   \end{center}%
-  \vspace*{0.05ex}%
   \begin{center}%
     \textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
   \end{center}%
-  \vspace*{0.05ex}%
 }
