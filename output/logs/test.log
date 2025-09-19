@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 22:51
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 22:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1088,13 +1088,83 @@ Package hyperref Info: Link coloring OFF on input line 68.
 \TaskBorderWidth=\skip86
 \TaskPaddingH=\skip87
 \TaskPaddingV=\skip88
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   4
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   F
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   7
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   B
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   D
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   5
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+./planner_config.tex:190: Illegal parameter number in definition of \ColorLegen
+d.
+<to be read again> 
+                   B
+l.190 }
+       
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
 \openout2 = `monthly.aux'.
 
- (./monthly.tex
+(./monthly.tex
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
 .
-
-(/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
@@ -1131,29 +1201,176 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:8: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.8 \ColorLegend
+                
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:8: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8 \ColorLegend
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (172.24022pt too wide) in paragraph at lines 261--261
+Overfull \hbox (172.24022pt too wide) in paragraph at lines 262--262
 [][][][][][][] 
  []
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 261--261
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 262--262
 [][][][] 
  []
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 261--261
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 262--262
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 261--262
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
 
  []
 
@@ -1161,6 +1378,153 @@ Underfull \hbox (badness 10000) in paragraph at lines 261--262
 
 
 ]
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:273: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.273 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:273: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.273 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≤ ("2264) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1170,60 +1534,503 @@ Missing character: There is no ≤ ("2264) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (798.7211pt too wide) in paragraph at lines 523--523
+Overfull \hbox (798.7211pt too wide) in paragraph at lines 525--525
 [][][][][][][][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 523--523
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 525--525
 [][][][] 
  []
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 523--523
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 525--525
 [][][][] 
  []
 
 Missing character: There is no ≤ ("2264) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 523--523
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 525--525
 [][][][] 
  []
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (343.68045pt too wide) in paragraph at lines 523--523
+Overfull \hbox (343.68045pt too wide) in paragraph at lines 525--525
 [][][][][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 523--524
+Underfull \hbox (badness 10000) in paragraph at lines 525--526
 
  []
 
 [2]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 787--787
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:536: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.536 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:536: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.536 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 790--790
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--788
+Underfull \hbox (badness 10000) in paragraph at lines 790--791
 
  []
 
 [3]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1049--1049
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:801: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.801 \ColorLegend
+                  
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:801: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \ColorLegend
+                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1053--1053
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1049--1050
+Underfull \hbox (badness 10000) in paragraph at lines 1053--1054
 
  []
 
 [4]
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1064: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1064 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1064: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1231,326 +2038,3280 @@ Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1313--1313
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1318--1318
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1313--1314
+Underfull \hbox (badness 10000) in paragraph at lines 1318--1319
 
  []
 
 [5]
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1329: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1329 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1329: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1329 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1583--1583
 [][][][] 
  []
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1583--1583
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1583--1583
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1583--1583
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1577--1578
+Underfull \hbox (badness 10000) in paragraph at lines 1583--1584
 
  []
 
 [6]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1594: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1594 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1594: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1594 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1835--1836
+Underfull \hbox (badness 10000) in paragraph at lines 1842--1843
 
  []
 
 [7]
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:1853: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.1853 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:1853: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1853 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (58.48006pt too wide) in paragraph at lines 2134--2134
+Overfull \hbox (58.48006pt too wide) in paragraph at lines 2142--2142
 [][][][][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2134--2134
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2142--2142
 [][][][] 
  []
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (342.88046pt too wide) in paragraph at lines 2134--2134
+Overfull \hbox (342.88046pt too wide) in paragraph at lines 2142--2142
 [][][][][][][] 
  []
 
 
-Overfull \hbox (58.48006pt too wide) in paragraph at lines 2134--2134
+Overfull \hbox (58.48006pt too wide) in paragraph at lines 2142--2142
 [][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2134--2135
+Underfull \hbox (badness 10000) in paragraph at lines 2142--2143
 
  []
 
 [8]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2396--2396
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2153: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2153 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2153: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2153 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2405--2405
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2396--2396
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2405--2405
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2396--2397
+Underfull \hbox (badness 10000) in paragraph at lines 2405--2406
 
  []
 
 [9]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2660--2660
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2416: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2416 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2416: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2416 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2670--2670
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2660--2661
+Underfull \hbox (badness 10000) in paragraph at lines 2670--2671
 
  []
 
 [10]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2922--2922
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2681: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2681 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2681: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2933--2933
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2922--2922
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2933--2933
 [][][][] 
  []
 
 
-Overfull \hbox (399.76054pt too wide) in paragraph at lines 2922--2922
+Overfull \hbox (399.76054pt too wide) in paragraph at lines 2933--2933
 [][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2922--2923
+Underfull \hbox (badness 10000) in paragraph at lines 2933--2934
 
  []
 
 [11]
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:2944: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.2944 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:2944: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2944 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (115.36014pt too wide) in paragraph at lines 3186--3186
+Overfull \hbox (115.36014pt too wide) in paragraph at lines 3198--3198
 [][][][][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 3186--3186
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 3198--3198
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3186--3187
+Underfull \hbox (badness 10000) in paragraph at lines 3198--3199
 
  []
 
 [12]
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3209: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.3209 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3209: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3209 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 3485--3485
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 3498--3498
 [][][][] 
  []
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 3485--3485
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 3498--3498
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3485--3486
+Underfull \hbox (badness 10000) in paragraph at lines 3498--3499
 
  []
 
 [13]
-Overfull \hbox (342.88046pt too wide) in paragraph at lines 3747--3747
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3509: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.3509 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3509: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3509 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (342.88046pt too wide) in paragraph at lines 3761--3761
 [][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3747--3748
+Underfull \hbox (badness 10000) in paragraph at lines 3761--3762
 
  []
 
 [14]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4011--4011
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3772: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.3772 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:3772: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3772 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4026--4026
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4011--4012
+Underfull \hbox (badness 10000) in paragraph at lines 4026--4027
 
  []
 
 [15]
-Overfull \hbox (58.48006pt too wide) in paragraph at lines 4308--4308
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4037: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4037 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4037: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4037 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (58.48006pt too wide) in paragraph at lines 4324--4324
 [][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4308--4309
+Underfull \hbox (badness 10000) in paragraph at lines 4324--4325
 
  []
 
 [16]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4572--4572
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4335: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4335 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4335: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4335 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4589--4589
 [][][][] 
  []
 
 
-Overfull \hbox (342.88046pt too wide) in paragraph at lines 4572--4572
+Overfull \hbox (342.88046pt too wide) in paragraph at lines 4589--4589
 [][][][][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4572--4573
+Underfull \hbox (badness 10000) in paragraph at lines 4589--4590
 
  []
 
 [17]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4836--4836
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4600: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4600 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4600: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4600 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4854--4854
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4836--4836
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4854--4854
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4836--4837
+Underfull \hbox (badness 10000) in paragraph at lines 4854--4855
 
  []
 
 [18]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 5059--5059
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4865: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.4865 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:4865: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4865 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 5078--5078
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5059--5060
+Underfull \hbox (badness 10000) in paragraph at lines 5078--5079
 
  []
 
 [19]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 5323--5323
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5089: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5089 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5089: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5089 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 5343--5343
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5323--5324
+Underfull \hbox (badness 10000) in paragraph at lines 5343--5344
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 5585--5586
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5354: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5354 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5354: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5354 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5606--5607
 
  []
 
 [21]
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5617: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5617 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5617: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5617 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 5884--5884
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 5906--5906
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5884--5885
+Underfull \hbox (badness 10000) in paragraph at lines 5906--5907
 
  []
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 6146--6147
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:5917: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.5917 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:5917: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5917 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6169--6170
 
  []
 
 [23]
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6180: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.6180 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6180: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6180 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6410--6410
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 6434--6434
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6410--6410
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 6434--6434
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 6410--6411
+Underfull \hbox (badness 10000) in paragraph at lines 6434--6435
 
  []
 
 [24]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6709--6709
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   4
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##4A90E2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   F
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##F5A623'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   7
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##7ED321'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##BD10E0'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   D
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##D0021B'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   5
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##50E3C2'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:6445: Illegal parameter number in definition of \XC@@tmp.
+<to be read again> 
+                   B
+l.6445 \ColorLegend
+                   
+You meant to type ## instead of #, right?
+Or maybe a } was forgotten somewhere earlier, and things
+are all screwed up? I'm going to assume that you meant ##.
+
+
+./monthly.tex:6445: Package xcolor Error: Undefined color `##B8E986'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6445 \ColorLegend
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 6734--6734
 [][][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 6709--6710
+Underfull \hbox (badness 10000) in paragraph at lines 6734--6735
 
  []
 
@@ -1563,12 +5324,12 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30020 strings out of 474773
- 603509 string characters out of 5757725
- 1954839 words of memory out of 5000000
- 51606 multiletter control sequences out of 15000+600000
- 598325 words of font info for 71 fonts, out of 8000000 for 9000
+ 30031 strings out of 474773
+ 603694 string characters out of 5757725
+ 1959839 words of memory out of 5000000
+ 51617 multiletter control sequences out of 15000+600000
+ 601096 words of font info for 72 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,21n,96p,1158b,1598s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,21n,96p,1156b,1598s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on planner_config.pdf (25 pages).

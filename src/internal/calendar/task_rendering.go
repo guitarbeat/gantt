@@ -6,6 +6,8 @@ import (
 )
 
 // * Task rendering and overlay functions
+// This file contains all the logic for rendering task overlays in the calendar.
+// It handles both single tasks and multiple overlapping tasks with smart stacking.
 
 // overlayInfo holds information about a spanning task overlay
 type overlayInfo struct {
@@ -13,7 +15,44 @@ type overlayInfo struct {
 	cols    int
 }
 
+// TaskRenderingConfig holds configuration for task rendering
+type TaskRenderingConfig struct {
+	// Spacing configuration
+	DefaultSpacing    string
+	FirstTaskSpacing  string
+	
+	// Height configuration  
+	DefaultHeight     string
+	FirstTaskHeight   string
+	
+	// Text configuration
+	MaxChars          int
+	MaxCharsCompact   int
+	MaxCharsVeryCompact int
+	MaxTasksDisplay   int
+}
+
+// getDefaultTaskRenderingConfig returns the default configuration for task rendering
+func getDefaultTaskRenderingConfig() TaskRenderingConfig {
+	return TaskRenderingConfig{
+		// Spacing configuration - increased for better readability
+		DefaultSpacing:   "0.5ex",
+		FirstTaskSpacing: "0.3ex",
+		
+		// Height configuration - much larger for readability
+		DefaultHeight:    "2.5ex",
+		FirstTaskHeight:  "3.0ex",
+		
+		// Text configuration - from constants in day.go
+		MaxChars:          maxTaskChars,
+		MaxCharsCompact:   maxTaskCharsCompact,
+		MaxCharsVeryCompact: maxTaskCharsVeryCompact,
+		MaxTasksDisplay:   maxTasksDisplay,
+	}
+}
+
 // renderSpanningTaskOverlay renders spanning task overlays for multiple tasks starting on this day
+// Returns nil if no spanning tasks exist or none start on this day
 func (d Day) renderSpanningTaskOverlay() *overlayInfo {
 	if len(d.SpanningTasks) == 0 {
 		return nil
@@ -26,7 +65,7 @@ func (d Day) renderSpanningTaskOverlay() *overlayInfo {
 		return nil
 	}
 
-	// Build content for all starting tasks
+	// Build content for all starting tasks using smart stacking
 	content := d.buildMultiTaskOverlayContent(startingTasks)
 
 	return &overlayInfo{
@@ -35,45 +74,50 @@ func (d Day) renderSpanningTaskOverlay() *overlayInfo {
 	}
 }
 
-// buildTaskOverlayContent creates the LaTeX content for a task overlay
+// buildTaskOverlayContent creates the LaTeX content for a single task overlay
+// Used when only one task starts on a given day
 func (d Day) buildTaskOverlayContent(task *SpanningTask) string {
 	nameText := d.escapeLatexSpecialChars(strings.TrimSpace(task.Name))
 	descText := d.escapeLatexSpecialChars(strings.TrimSpace(task.Description))
 
-	// Add star for milestone tasks
+	// Add star indicator for milestone tasks
 	if d.isMilestoneSpanningTask(task) {
 		nameText = "★ " + nameText
 	}
 
-	// Use calendar macros for overlay
+	// Use calendar macros for overlay with proper spacing
 	return `\vspace*{0.1ex}` + `\TaskOverlayBox{` + task.Color + `}{` + nameText + `}{` + descText + `}`
 }
 
 // buildMultiTaskOverlayContent creates compact stacked content for multiple tasks
+// Uses smart stacking to prevent overlap and improve readability
 func (d Day) buildMultiTaskOverlayContent(tasks []*SpanningTask) string {
 	if len(tasks) == 0 {
 		return ""
 	}
 
+	// Single task - use full overlay format
 	if len(tasks) == 1 {
 		return d.buildTaskOverlayContent(tasks[0])
 	}
 
+	config := getDefaultTaskRenderingConfig()
+	
 	// Sort tasks by category priority for better visual organization
 	sortedTasks := d.sortTasksByPriority(tasks)
 
 	var contentParts []string
 
 	// Show up to maxTasksDisplay tasks in compact format
-	for i := 0; i < maxTasksDisplay && i < len(sortedTasks); i++ {
+	for i := 0; i < config.MaxTasksDisplay && i < len(sortedTasks); i++ {
 		task := sortedTasks[i]
 		compactContent := d.buildCompactTaskOverlay(task, i, len(sortedTasks))
 		contentParts = append(contentParts, compactContent)
 	}
 
-	// Add indicator if there are more tasks
-	if len(sortedTasks) > maxTasksDisplay {
-		moreCount := len(sortedTasks) - maxTasksDisplay
+	// Add indicator if there are more tasks than we can display
+	if len(sortedTasks) > config.MaxTasksDisplay {
+		moreCount := len(sortedTasks) - config.MaxTasksDisplay
 		indicator := d.buildMoreTasksIndicator(moreCount)
 		contentParts = append(contentParts, indicator)
 	}
@@ -82,6 +126,7 @@ func (d Day) buildMultiTaskOverlayContent(tasks []*SpanningTask) string {
 }
 
 // buildMoreTasksIndicator creates the "+X more" indicator for additional tasks
+// Shows when there are more tasks than can be displayed in the available space
 func (d Day) buildMoreTasksIndicator(moreCount int) string {
 	return `\vspace*{0.02ex}{\begingroup\setlength{\fboxsep}{0pt}` +
 		`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=0pt,` +
@@ -93,6 +138,7 @@ func (d Day) buildMoreTasksIndicator(moreCount int) string {
 }
 
 // buildCompactTaskOverlay creates a compact task overlay for multiple tasks
+// Used when multiple tasks start on the same day to create stacked display
 func (d Day) buildCompactTaskOverlay(task *SpanningTask, index, total int) string {
 	nameText := d.prepareTaskName(task)
 	nameText = d.truncateTaskName(nameText, total)
@@ -104,6 +150,7 @@ func (d Day) buildCompactTaskOverlay(task *SpanningTask, index, total int) strin
 }
 
 // prepareTaskName prepares the task name with milestone indicator
+// Escapes LaTeX special characters and adds milestone star if applicable
 func (d Day) prepareTaskName(task *SpanningTask) string {
 	nameText := d.escapeLatexSpecialChars(strings.TrimSpace(task.Name))
 	if d.isMilestoneSpanningTask(task) {
@@ -113,15 +160,20 @@ func (d Day) prepareTaskName(task *SpanningTask) string {
 }
 
 // truncateTaskName truncates task name based on total number of tasks
+// Uses progressive truncation: more tasks = shorter text per task
 func (d Day) truncateTaskName(nameText string, total int) string {
-	maxChars := maxTaskChars
+	config := getDefaultTaskRenderingConfig()
+	
+	// Progressive truncation based on number of tasks
+	maxChars := config.MaxChars
 	if total > 2 {
-		maxChars = maxTaskCharsCompact
+		maxChars = config.MaxCharsCompact
 	}
 	if total > 3 {
-		maxChars = maxTaskCharsVeryCompact
+		maxChars = config.MaxCharsVeryCompact
 	}
 
+	// Apply truncation if needed
 	if len(nameText) > maxChars {
 		nameText = d.smartTruncateText(nameText, maxChars)
 	}
@@ -129,14 +181,17 @@ func (d Day) truncateTaskName(nameText string, total int) string {
 }
 
 // getTaskSpacingAndHeight returns spacing and height based on task index
+// Uses configuration to ensure consistent spacing and readability
 func (d Day) getTaskSpacingAndHeight(index int) (string, string) {
-	spacing := "0.05ex"
-	boxHeight := "0.9ex"
+	config := getDefaultTaskRenderingConfig()
+	
+	// First task gets special treatment for better visual hierarchy
 	if index == 0 {
-		spacing = "0.1ex"
-		boxHeight = "1.0ex"
+		return config.FirstTaskSpacing, config.FirstTaskHeight
 	}
-	return spacing, boxHeight
+	
+	// Subsequent tasks use default spacing and height
+	return config.DefaultSpacing, config.DefaultHeight
 }
 
 // buildTaskTextBody creates the text body for a task

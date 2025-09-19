@@ -141,17 +141,52 @@
   }}%
 }
 
-% Task compact box macro
+% Task compact box macro with better spacing and height
 \newcommand{\TaskCompactBox}[4]{%
   \vspace*{#1}%
-  \fcolorbox{#3}{#3!20}{\parbox{\linewidth}{%
-    \centering\small\textbf{#4}%
+  \fcolorbox{#3}{#3!20}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+    \vbox to #2{%
+      \vfil
+      \centering\small\textbf{#4}%
+      \vfil
+    }%
   }}%
+  \vspace*{0.1ex}%
 }
 
 % Underline macro
 \newcommand{\myUnderline}[1]{%
   \underline{\textbf{#1}}%
+}
+
+% Color legend macro for task categories
+\newcommand{\ColorLegend}{%
+  \vspace*{0.5ex}%
+  \begin{center}%
+    \small\textbf{Task Categories:}%
+    \hspace{1em}%
+    \fcolorbox{black}{#4A90E2}{\makebox[0.8em][c]{\textcolor{white}{\tiny P}}}%
+    \hspace{0.3em}\tiny Proposal%
+    \hspace{0.8em}%
+    \fcolorbox{black}{#F5A623}{\makebox[0.8em][c]{\textcolor{white}{\tiny L}}}%
+    \hspace{0.3em}\tiny Laser%
+    \hspace{0.8em}%
+    \fcolorbox{black}{#7ED321}{\makebox[0.8em][c]{\textcolor{white}{\tiny I}}}%
+    \hspace{0.3em}\tiny Imaging%
+    \hspace{0.8em}%
+    \fcolorbox{black}{#BD10E0}{\makebox[0.8em][c]{\textcolor{white}{\tiny A}}}%
+    \hspace{0.3em}\tiny Admin%
+    \hspace{0.8em}%
+    \fcolorbox{black}{#D0021B}{\makebox[0.8em][c]{\textcolor{white}{\tiny D}}}%
+    \hspace{0.3em}\tiny Dissertation%
+    \hspace{0.8em}%
+    \fcolorbox{black}{#50E3C2}{\makebox[0.8em][c]{\textcolor{white}{\tiny R}}}%
+    \hspace{0.3em}\tiny Research%
+    \hspace{0.8em}%
+    \fcolorbox{black}{#B8E986}{\makebox[0.8em][c]{\textcolor{white}{\tiny P}}}%
+    \hspace{0.3em}\tiny Publication%
+  \end{center}%
+  \vspace*{0.3ex}%
 }
 
 

@@ -94,12 +94,24 @@ func (d Day) sortTasksByPriority(tasks []*SpanningTask) []*SpanningTask {
 
 	priorityOrder := d.getCategoryPriorityOrder()
 
-	// Simple bubble sort by priority
+	// Enhanced sorting: priority first, then by duration (shorter tasks first), then by start time
 	for i := 0; i < len(sorted)-1; i++ {
 		for j := 0; j < len(sorted)-i-1; j++ {
 			priority1 := d.getTaskPriority(sorted[j].Category, priorityOrder)
 			priority2 := d.getTaskPriority(sorted[j+1].Category, priorityOrder)
-			if priority1 > priority2 {
+			
+			// First sort by priority
+			if priority1 != priority2 {
+				if priority1 > priority2 {
+					sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
+				}
+				continue
+			}
+			
+			// If same priority, sort by duration (shorter tasks first for better stacking)
+			duration1 := sorted[j].EndDate.Sub(sorted[j].StartDate)
+			duration2 := sorted[j+1].EndDate.Sub(sorted[j+1].StartDate)
+			if duration1 > duration2 {
 				sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
 			}
 		}
