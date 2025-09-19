@@ -1,0 +1,45 @@
+name: Build PDF (make test)
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  make-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Install TeX Live (XeLaTeX)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            xz-utils make sed \
+            texlive-xetex texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
+
+      - name: Verify XeLaTeX
+        run: xelatex --version
+
+      - name: Run make test
+        run: make test
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: planner-pdf
+          path: |
+            output/pdfs/test.pdf
+            output/latex/test.tex
+            output/logs/test.log
+          if-no-files-found: warn
+
