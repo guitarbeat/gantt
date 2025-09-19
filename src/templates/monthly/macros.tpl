@@ -96,23 +96,23 @@
 
 % Color legend macro for task categories - matches actual task colors
 \newcommand{\ColorLegend}{%
-  \vspace*{-1ex}%
+  \vspace*{-2ex}%
   \begin{center}%
     \small\textbf{Task Categories:}%
     \hspace{1em}%
-    \fcolorbox{blue}{blue!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Proposal}}}%
+    \fcolorbox{blue}{blue!20}{\parbox{1.2em}{\centering\tiny Proposal}}%
     \hspace{0.8em}%
-    \fcolorbox{orange}{orange!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Laser}}}%
+    \fcolorbox{orange}{orange!20}{\parbox{1.2em}{\centering\tiny Laser}}%
     \hspace{0.8em}%
-    \fcolorbox{green}{green!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Imaging}}}%
+    \fcolorbox{green}{green!20}{\parbox{1.2em}{\centering\tiny Imaging}}%
     \hspace{0.8em}%
-    \fcolorbox{purple}{purple!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Admin}}}%
+    \fcolorbox{purple}{purple!20}{\parbox{1.2em}{\centering\tiny Admin}}%
     \hspace{0.8em}%
-    \fcolorbox{red}{red!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Dissertation}}}%
+    \fcolorbox{red}{red!20}{\parbox{1.2em}{\centering\tiny Dissertation}}%
     \hspace{0.8em}%
-    \fcolorbox{teal}{teal!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Research}}}%
+    \fcolorbox{teal}{teal!20}{\parbox{1.2em}{\centering\tiny Research}}%
     \hspace{0.8em}%
-    \fcolorbox{gray}{gray!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Publication}}}%
+    \fcolorbox{gray}{gray!20}{\parbox{1.2em}{\centering\tiny Publication}}%
   \end{center}%
-  \vspace*{0.2ex}%
+  \vspace*{0.1ex}%
 }
