@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:31
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1132,24 +1132,6 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-./monthly.tex:2: Undefined control sequence.
-l.2 ...in{center}\ColorCircle{blue}~\smallPROPOSAL
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3: Undefined control sequence.
-l.3 \hspace{1.5em}\ColorCircle{red}~\smallLASER
-                                               %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:10: Misplaced alignment tab character &.
 l.10 \hyperlink{2025}{2025} &
                               \hyperlink{Q3}{Q3} & \hypertarget{August}{August}
@@ -3939,42 +3921,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 268--269
 
 
 ]
-./monthly.tex:273: Undefined control sequence.
-l.273 ...{center}\ColorCircle{blue}~\smallPROPOSAL
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:274: Undefined control sequence.
-l.274 \hspace{1.5em}\ColorCircle{gray}~\smallADMIN
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:275: Undefined control sequence.
-l.275 ...e{1.5em}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:276: Undefined control sequence.
-l.276 \hspace{1.5em}\ColorCircle{red}~\smallLASER
-                                                 %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:283: Misplaced alignment tab character &.
 l.283 \hyperlink{2025}{2025} &
                                \hyperlink{Q3}{Q3} & \hypertarget{September}{...
@@ -6874,24 +6820,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 539--540
  []
 
 [2]
-./monthly.tex:544: Undefined control sequence.
-l.544 \begin{center}\ColorCircle{gray}~\smallADMIN
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:545: Undefined control sequence.
-l.545 ...e{1.5em}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:552: Misplaced alignment tab character &.
 l.552 \hyperlink{2025}{2025} &
                                \hyperlink{Q4}{Q4} & \hypertarget{October}{Oc...
@@ -9549,15 +9477,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 810--811
  []
 
 [3]
-./monthly.tex:815: Undefined control sequence.
-l.815 ...{center}\ColorCircle{blue}~\smallPROPOSAL
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:822: Misplaced alignment tab character &.
 l.822 \hyperlink{2025}{2025} &
                                \hyperlink{Q4}{Q4} & \hypertarget{November}{N...
@@ -12149,15 +12068,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1078--1079
  []
 
 [4]
-./monthly.tex:1083: Undefined control sequence.
-l.1083 ...center}\ColorCircle{blue}~\smallPROPOSAL
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:1090: Misplaced alignment tab character &.
 l.1090 \hyperlink{2025}{2025} &
                                 \hyperlink{Q4}{Q4} & \hypertarget{December}{...
@@ -14815,24 +14725,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
  []
 
 [5]
-./monthly.tex:1353: Undefined control sequence.
-l.1353 ...center}\ColorCircle{blue}~\smallPROPOSAL
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:1354: Undefined control sequence.
-l.1354 ...{1.5em}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:1361: Misplaced alignment tab character &.
 l.1361 \hyperlink{2026}{2026} &
                                 \hyperlink{Q1}{Q1} & \hypertarget{January}{J...
@@ -17598,15 +17490,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1619--1620
  []
 
 [6]
-./monthly.tex:1624: Undefined control sequence.
-l.1624 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:1631: Misplaced alignment tab character &.
 l.1631 \hyperlink{2026}{2026} &
                                 \hyperlink{Q1}{Q1} & \hypertarget{February}{...
@@ -20288,15 +20171,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1883--1884
  []
 
 [7]
-./monthly.tex:1888: Undefined control sequence.
-l.1888 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:1895: Misplaced alignment tab character &.
 l.1895 \hyperlink{2026}{2026} &
                                 \hyperlink{Q1}{Q1} & \hypertarget{March}{March}
@@ -23212,24 +23086,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2188--2189
  []
 
 [8]
-./monthly.tex:2193: Undefined control sequence.
-l.2193 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2194: Undefined control sequence.
-l.2194 ...m}\ColorCircle{purple}~\smallPUBLICATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:2201: Misplaced alignment tab character &.
 l.2201 \hyperlink{2026}{2026} &
                                 \hyperlink{Q2}{Q2} & \hypertarget{April}{April}
@@ -25858,24 +25714,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2457--2458
  []
 
 [9]
-./monthly.tex:2462: Undefined control sequence.
-l.2462 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2463: Undefined control sequence.
-l.2463 ...m}\ColorCircle{purple}~\smallPUBLICATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:2470: Misplaced alignment tab character &.
 l.2470 \hyperlink{2026}{2026} &
                                 \hyperlink{Q2}{Q2} & \hypertarget{May}{May}
@@ -28533,24 +28371,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2728--2729
  []
 
 [10]
-./monthly.tex:2733: Undefined control sequence.
-l.2733 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2734: Undefined control sequence.
-l.2734 ...m}\ColorCircle{purple}~\smallPUBLICATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:2741: Misplaced alignment tab character &.
 l.2741 \hyperlink{2026}{2026} &
                                 \hyperlink{Q2}{Q2} & \hypertarget{June}{June}
@@ -31253,15 +31073,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2997--2998
  []
 
 [11]
-./monthly.tex:3002: Undefined control sequence.
-l.3002 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:3009: Misplaced alignment tab character &.
 l.3009 \hyperlink{2026}{2026} &
                                 \hyperlink{Q3}{Q3} & \hypertarget{July}{July}
@@ -33996,15 +33807,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 3267--3268
  []
 
 [12]
-./monthly.tex:3272: Undefined control sequence.
-l.3272 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:3279: Misplaced alignment tab character &.
 l.3279 \hyperlink{2026}{2026} &
                                 \hyperlink{Q3}{Q3} & \hypertarget{August}{Au...
@@ -36740,24 +36542,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 3572--3573
  []
 
 [13]
-./monthly.tex:3577: Undefined control sequence.
-l.3577 ...in{center}\ColorCircle{gray}~\smallADMIN
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3578: Undefined control sequence.
-l.3578 ...{1.5em}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:3585: Misplaced alignment tab character &.
 l.3585 \hyperlink{2026}{2026} &
                                 \hyperlink{Q3}{Q3} & \hypertarget{September}...
@@ -39386,15 +39170,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 3841--3842
  []
 
 [14]
-./monthly.tex:3846: Undefined control sequence.
-l.3846 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:3853: Misplaced alignment tab character &.
 l.3853 \hyperlink{2026}{2026} &
                                 \hyperlink{Q4}{Q4} & \hypertarget{October}{O...
@@ -42052,24 +41827,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4111--4112
  []
 
 [15]
-./monthly.tex:4116: Undefined control sequence.
-l.4116 ...center}\ColorCircle{green}~\smallIMAGING
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4117: Undefined control sequence.
-l.4117 ...m}\ColorCircle{purple}~\smallPUBLICATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:4124: Misplaced alignment tab character &.
 l.4124 \hyperlink{2026}{2026} &
                                 \hyperlink{Q4}{Q4} & \hypertarget{November}{...
@@ -44731,24 +44488,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4415--4416
  []
 
 [16]
-./monthly.tex:4420: Undefined control sequence.
-l.4420 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4421: Undefined control sequence.
-l.4421 ...m}\ColorCircle{purple}~\smallPUBLICATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:4428: Misplaced alignment tab character &.
 l.4428 \hyperlink{2026}{2026} &
                                 \hyperlink{Q4}{Q4} & \hypertarget{December}{...
@@ -47469,15 +47208,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4686--4687
  []
 
 [17]
-./monthly.tex:4691: Undefined control sequence.
-l.4691 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:4698: Misplaced alignment tab character &.
 l.4698 \hyperlink{2027}{2027} &
                                 \hyperlink{Q1}{Q1} & \hypertarget{January}{J...
@@ -50161,15 +49891,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4956--4957
  []
 
 [18]
-./monthly.tex:4961: Undefined control sequence.
-l.4961 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:4968: Misplaced alignment tab character &.
 l.4968 \hyperlink{2027}{2027} &
                                 \hyperlink{Q1}{Q1} & \hypertarget{February}{...
@@ -52596,15 +52317,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 5185--5186
  []
 
 [19]
-./monthly.tex:5190: Undefined control sequence.
-l.5190 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:5197: Misplaced alignment tab character &.
 l.5197 \hyperlink{2027}{2027} &
                                 \hyperlink{Q1}{Q1} & \hypertarget{March}{March}
@@ -55262,15 +54974,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 5455--5456
  []
 
 [20]
-./monthly.tex:5460: Undefined control sequence.
-l.5460 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:5467: Misplaced alignment tab character &.
 l.5467 \hyperlink{2027}{2027} &
                                 \hyperlink{Q2}{Q2} & \hypertarget{April}{April}
@@ -57825,15 +57528,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 5723--5724
  []
 
 [21]
-./monthly.tex:5728: Undefined control sequence.
-l.5728 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:5735: Misplaced alignment tab character &.
 l.5735 \hyperlink{2027}{2027} &
                                 \hyperlink{Q2}{Q2} & \hypertarget{May}{May}
@@ -60532,15 +60226,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 6028--6029
  []
 
 [22]
-./monthly.tex:6033: Undefined control sequence.
-l.6033 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:6040: Misplaced alignment tab character &.
 l.6040 \hyperlink{2027}{2027} &
                                 \hyperlink{Q2}{Q2} & \hypertarget{June}{June}
@@ -63095,15 +62780,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 6296--6297
  []
 
 [23]
-./monthly.tex:6301: Undefined control sequence.
-l.6301 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:6308: Misplaced alignment tab character &.
 l.6308 \hyperlink{2027}{2027} &
                                 \hyperlink{Q3}{Q3} & \hypertarget{July}{July}
@@ -65801,15 +65477,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 6566--6567
  []
 
 [24]
-./monthly.tex:6571: Undefined control sequence.
-l.6571 ...}\ColorCircle{orange}~\smallDISSERTATION
-                                                  %
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./monthly.tex:6578: Misplaced alignment tab character &.
 l.6578 \hyperlink{2027}{2027} &
                                 \hyperlink{Q3}{Q3} & \hypertarget{August}{Au...

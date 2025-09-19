@@ -3,7 +3,7 @@
 \vspace*{-2ex}%
 \begin{center}%
 {{- range $color, $category := $taskColors -}}
-\ColorCircle{ {{- $color -}} }~\small {{- $category -}}%
+\ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }%
 \hspace{1.5em}%
 {{- end -}}
 \end{center}%
