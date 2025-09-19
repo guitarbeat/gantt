@@ -35,13 +35,13 @@ type TaskRenderingConfig struct {
 // getDefaultTaskRenderingConfig returns the default configuration for task rendering
 func getDefaultTaskRenderingConfig() TaskRenderingConfig {
 	return TaskRenderingConfig{
-		// Spacing configuration - minimal for compact layout
-		DefaultSpacing:   "0.1ex",
-		FirstTaskSpacing: "0.05ex",
+		// Spacing configuration - increased for better readability
+		DefaultSpacing:   "0.5ex",
+		FirstTaskSpacing: "0.3ex",
 		
-		// Height configuration - compact for density
-		DefaultHeight:    "1.5ex",
-		FirstTaskHeight:  "2.0ex",
+		// Height configuration - much larger for readability
+		DefaultHeight:    "2.5ex",
+		FirstTaskHeight:  "3.0ex",
 		
 		// Text configuration - from constants in day.go
 		MaxChars:          maxTaskChars,
