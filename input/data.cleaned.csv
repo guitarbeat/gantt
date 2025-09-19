@@ -1,32 +1,32 @@
 Task ID,Task Name,Parent Task ID,Category,Start Date,Due Date,Dependencies,Description
 A,Draft timeline v1,,PROPOSAL,2025-08-29,2025-08-31,,Create initial project timeline for Tuesday review with Andy. Bring both printed and digital copies to meeting.
 B,Initial proposal skeleton,,PROPOSAL,2025-08-29,2025-08-31,,Develop 1-page Specific Aims and detailed outline following BME format requirements for PhD proposal.
-C,Submit proposal outline,,PROPOSAL,2025-09-01,2025-09-01,B,MILESTONE: Send initial proposal draft to advisor for review before Monday deadline.
+C,Submit proposal outline,,PROPOSAL,2025-09-01,2025-09-03,B,MILESTONE: Send initial proposal draft to advisor for review before Monday deadline.
 D,Define proposal committee,,PROPOSAL,2025-09-02,2025-09-05,A,Identify committee members; confirm availability; and schedule oral exam date. Reserve room for exam.
 F,Expand proposal draft,,PROPOSAL,2025-09-01,2025-09-12,B,Develop 12-page Research Strategy section from outline following BME proposal guidelines.
-G,Confirm exam date,,PROPOSAL,2025-09-06,2025-09-06,D,MILESTONE: Oral exam date scheduled. Must send final proposal to committee ≥2 weeks prior to exam.
+G,Confirm exam date,,PROPOSAL,2025-09-06,2025-09-08,D,MILESTONE: Oral exam date scheduled. Must send final proposal to committee ≥2 weeks prior to exam.
 H,Align seed laser,,LASER,2025-08-30,2025-09-03,,Achieve ≥30 mW output in fiber core (pre-pump configuration) for stable laser operation.
 I,Align amplifier,,LASER,2025-09-04,2025-09-11,H,Restore amplified output to ≥130 mW (previous benchmark performance level).
 J,Check pulse compression,,LASER,2025-09-12,2025-09-14,I,Verify ≤200 fs pulse duration and record specifications in equipment log.
 K,Calibrate microscope,,LASER,2025-09-15,2025-09-17,J,Align imaging system using USAF target for optimal resolution before in vivo experiments.
-L,Laser system ready,,LASER,2025-09-18,2025-09-18,K,MILESTONE: Laser output and imaging optics meet all requirements for live animal imaging.
+L,Laser system ready,,LASER,2025-09-18,2025-09-20,K,MILESTONE: Laser output and imaging optics meet all requirements for live animal imaging.
 M,Plan imaging cohort,,IMAGING,2025-09-15,2025-09-19,B,Plan ~3 pilot mice cohort with IACUC protocol confirmation and surgery slot booking.
 N,Annual progress review,,ADMIN,2025-09-01,2025-09-07,,Complete yearly graduate student progress report (department form) due early September.
-O1,File committee forms,,ADMIN,2025-09-07,2025-09-11,G,Complete and submit all required committee forms for proposal defense.
-O2,Prepare Program of Work,,ADMIN,2025-09-12,2025-09-18,O1,Develop detailed Program of Work document outlining research timeline and requirements.
-O3,Reserve exam room,,ADMIN,2025-09-19,2025-09-23,O2,Book and confirm exam room logistics for proposal defense date.
-O4,Submit final paperwork,,ADMIN,2025-09-24,2025-10-18,O3,Submit all completed paperwork to graduate office and confirm exam scheduling.
+O1,File committee forms,,ADMIN,2025-09-09,2025-09-13,G,Complete and submit all required committee forms for proposal defense.
+O2,Prepare Program of Work,,ADMIN,2025-09-14,2025-09-20,O1,Develop detailed Program of Work document outlining research timeline and requirements.
+O3,Reserve exam room,,ADMIN,2025-09-21,2025-09-25,O2,Book and confirm exam room logistics for proposal defense date.
+O4,Submit final paperwork,,ADMIN,2025-09-26,2025-10-18,O3,Submit all completed paperwork to graduate office and confirm exam scheduling.
 P,Design AAV vectors,,IMAGING,2025-09-20,2025-10-04,M,Design and order AAV-mScarlet (vascular) and jRGECO1b (neuronal) vectors. Finalize constructs and submit production orders to core facility.
-Q,AAV vectors ready,,IMAGING,2026-01-15,2026-01-15,P,MILESTONE: AAV vectors received from core facility. Ready for in vivo animal injections to begin expression studies.
+Q,AAV vectors ready,,IMAGING,2026-01-15,2026-01-17,P,MILESTONE: AAV vectors received from core facility. Ready for in vivo animal injections to begin expression studies.
 R,Complete proposal draft,,PROPOSAL,2025-11-15,2025-12-15,F,Write full proposal document (~13 pages) including all aims and research strategy for committee review.
-S,Send proposal to committee,,PROPOSAL,2025-12-16,2025-12-16,"R,G",MILESTONE: Email proposal to committee ≥2 weeks before exam date (satisfies pre-exam requirement).
-T,Prepare presentation,,PROPOSAL,2026-01-04,2026-01-18,S,Create slide deck and practice oral exam presentation. Aim for two practice runs with lab members.
-U,PhD Proposal Exam,,PROPOSAL,2026-01-20,2026-01-22,T,Qualifying Exam: Defend dissertation proposal in oral exam with committee members.
-V,Address committee feedback,,PROPOSAL,2026-01-23,2026-01-30,U,Incorporate committee revisions into proposal and submit signed approval form for final approval.
-W,Cranial window surgery #1,,IMAGING,2026-02-01,2026-02-01,"L,Q",Install cranial window and inject AAV in first pilot mouse. Begin expression timeline for vascular labeling.
-Z,Post-op recovery #1,,IMAGING,2026-02-04,2026-02-07,W,Monitor and medicate Mouse #1 after surgery. No imaging during recovery period to allow healing.
-AA,Cranial window surgery #2,,IMAGING,2026-02-15,2026-02-15,W,Install cranial window and inject AAV in second pilot mouse (staggered one week after #1).
-AB,Post-op recovery #2,,IMAGING,2026-02-18,2026-02-21,AA,Monitor and medicate Mouse #2 after surgery. Maintain analgesia schedule during recovery.
+S,Send proposal to committee,,PROPOSAL,2025-12-16,2025-12-18,"R,G",MILESTONE: Email proposal to committee ≥2 weeks before exam date (satisfies pre-exam requirement).
+T,Prepare presentation,,PROPOSAL,2026-01-19,2026-02-02,S,Create slide deck and practice oral exam presentation. Aim for two practice runs with lab members.
+U,PhD Proposal Exam,,PROPOSAL,2026-02-03,2026-02-05,T,Qualifying Exam: Defend dissertation proposal in oral exam with committee members.
+V,Address committee feedback,,PROPOSAL,2026-02-06,2026-02-13,U,Incorporate committee revisions into proposal and submit signed approval form for final approval.
+W,Cranial window surgery #1,,IMAGING,2026-02-01,2026-02-03,"L,Q",Install cranial window and inject AAV in first pilot mouse. Begin expression timeline for vascular labeling.
+Z,Post-op recovery #1,,IMAGING,2026-02-04,2026-02-08,W,Monitor and medicate Mouse #1 after surgery. No imaging during recovery period to allow healing.
+AA,Cranial window surgery #2,,IMAGING,2026-02-15,2026-02-17,W,Install cranial window and inject AAV in second pilot mouse (staggered one week after #1).
+AB,Post-op recovery #2,,IMAGING,2026-02-18,2026-02-22,AA,Monitor and medicate Mouse #2 after surgery. Maintain analgesia schedule during recovery.
 AC,Cranial window surgery #3,,IMAGING,2026-02-22,2026-02-22,AA,Install cranial window and inject AAV in third pilot mouse (further staggered timing).
 AD,Post-op recovery #3,,IMAGING,2026-02-25,2026-02-28,AC,Monitor and medicate Mouse #3 after surgery. Complete recovery period before imaging.
 AE,Pilot imaging session #1,,IMAGING,2026-03-01,2026-03-03,Z,Acquire in vivo images for Mouse #1 comparing AAV fluorescence vs traditional dye injection methods.

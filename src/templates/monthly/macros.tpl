@@ -93,7 +93,6 @@
     \small\textbf{#4}%
     \vfil
   \end{tcolorbox}%
-  \vspace*{0.1ex}%
 }
 
 % Underline macro
