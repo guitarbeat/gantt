@@ -96,7 +96,7 @@
 
 % Color legend macro for task categories
 \newcommand{\ColorLegend}{%
-  \vspace*{0.3ex}%
+  \vspace*{-0.5ex}%
   \begin{center}%
     \small\textbf{Task Categories:}%
     \hspace{1em}%
@@ -121,5 +121,5 @@
     \fcolorbox{#B8E986}{#B8E986}{\makebox[0.8em][c]{\textcolor{white}{\tiny P}}}%
     \hspace{0.3em}\tiny Publication%
   \end{center}%
-  \vspace*{0.5ex}%
+  \vspace*{0.3ex}%
 }

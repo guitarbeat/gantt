@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 22:59
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1040,20 +1040,20 @@ LaTeX Font Info:    ... okay on input line 68.
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(14.22636pt, 415.41043pt, 14.22636pt)
-* v-part:(T,H,B)=(34.14322pt, 540.60236pt, 19.91684pt)
+* v-part:(T,H,B)=(28.45274pt, 551.9833pt, 14.22636pt)
 * \paperwidth=443.86316pt
 * \paperheight=594.66241pt
 * \textwidth=415.41043pt
-* \textheight=540.60236pt
+* \textheight=551.9833pt
 * \oddsidemargin=-58.04362pt
 * \evensidemargin=-58.04362pt
-* \topmargin=-75.12677pt
+* \topmargin=-80.81725pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=9.0pt
 * \footskip=30.0pt
-* \marginparwidth=22.76228pt
-* \marginparsep=8.53581pt
+* \marginparwidth=28.45274pt
+* \marginparsep=0.0pt
 * \columnsep=10.0pt
 * \skip\footins=8.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
