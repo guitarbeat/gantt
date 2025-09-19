@@ -100,26 +100,19 @@
   \begin{center}%
     \small\textbf{Task Categories:}%
     \hspace{1em}%
-    \fcolorbox{blue}{blue!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny P}}}%
-    \hspace{0.3em}\tiny Proposal%
+    \fcolorbox{blue}{blue!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Proposal}}}%
     \hspace{0.8em}%
-    \fcolorbox{orange}{orange!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny L}}}%
-    \hspace{0.3em}\tiny Laser%
+    \fcolorbox{orange}{orange!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Laser}}}%
     \hspace{0.8em}%
-    \fcolorbox{green}{green!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny I}}}%
-    \hspace{0.3em}\tiny Imaging%
+    \fcolorbox{green}{green!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Imaging}}}%
     \hspace{0.8em}%
-    \fcolorbox{purple}{purple!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny A}}}%
-    \hspace{0.3em}\tiny Admin%
+    \fcolorbox{purple}{purple!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Admin}}}%
     \hspace{0.8em}%
-    \fcolorbox{red}{red!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny D}}}%
-    \hspace{0.3em}\tiny Dissertation%
+    \fcolorbox{red}{red!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Dissertation}}}%
     \hspace{0.8em}%
-    \fcolorbox{teal}{teal!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny R}}}%
-    \hspace{0.3em}\tiny Research%
+    \fcolorbox{teal}{teal!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Research}}}%
     \hspace{0.8em}%
-    \fcolorbox{gray}{gray!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny P}}}%
-    \hspace{0.3em}\tiny Publication%
+    \fcolorbox{gray}{gray!20}{\makebox[1.2em][c]{\textcolor{black}{\tiny Publication}}}%
   \end{center}%
   \vspace*{0.2ex}%
 }
