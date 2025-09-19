@@ -1,21 +1,20 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:system",
-    "python-envs.pythonProjects": [],
-    "chat.emptyState.history.enabled": true,
-    "chat.edits2.enabled": true,
-    "chat.mcp.assisted.nuget.enabled": true,
-    "chat.mcp.discovery.enabled": {
-        "cursor-workspace": true,
-        "cursor-global": true
-    },
-    "chat.mcp.serverSampling": {
-
-    },
-    "chat.todoListTool.enabled": true,
-    "chat.todoListTool.writeOnly": true,
-    "chat.useChatSessionsForCloudButton": true,
-    "inlineChat.enableV2": true,
-    "inlineChat.hideOnRequest": true,
-    "inlineChat.lineEmptyHint": true,
-    "inlineChat.notebookAgent": true
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": [],
+  "chat.emptyState.history.enabled": true,
+  "chat.edits2.enabled": true,
+  "chat.mcp.assisted.nuget.enabled": true,
+  "chat.mcp.discovery.enabled": {
+    "cursor-workspace": true,
+    "cursor-global": true
+  },
+  "chat.mcp.serverSampling": {},
+  "chat.todoListTool.enabled": true,
+  "chat.todoListTool.writeOnly": true,
+  "chat.useChatSessionsForCloudButton": true,
+  "inlineChat.enableV2": true,
+  "inlineChat.hideOnRequest": true,
+  "inlineChat.lineEmptyHint": true,
+  "inlineChat.notebookAgent": true,
+  "editor.defaultFormatter": null
 }

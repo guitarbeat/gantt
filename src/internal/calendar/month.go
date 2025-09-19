@@ -108,6 +108,35 @@ func (m *Month) EndTable(typ interface{}) string {
 	return `\end{tabular}`
 }
 
+// GetTaskColors returns a map of unique task colors and their categories for this month
+func (m *Month) GetTaskColors() map[string]string {
+	colorMap := make(map[string]string)
+	
+	// Iterate through all weeks and days to find unique task colors
+	for _, week := range m.Weeks {
+		for _, day := range week.Days {
+			// Check spanning tasks
+			for _, task := range day.SpanningTasks {
+				if task.Color != "" {
+					colorMap[task.Color] = task.Category
+				}
+			}
+			// Check regular tasks
+			for _, task := range day.Tasks {
+				if task.Category != "" {
+					// Get color for this category
+					color := getColorForCategory(task.Category)
+					if color != "" {
+						colorMap[color] = task.Category
+					}
+				}
+			}
+		}
+	}
+	
+	return colorMap
+}
+
 func (m *Month) Breadcrumb() string {
 	return header.Items{
 		header.NewIntItem(m.Year.Number),
