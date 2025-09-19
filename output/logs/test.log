@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:40
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -4275,152 +4275,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+Missing character: There is no ≥ ("2265) in font ec-lmss8!
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -4431,8 +4289,164 @@ l.535 }
        
 (That was another \errmessage.)
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.535 }
+       
+(That was another \errmessage.)
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no ≤ ("2264) in font ec-lmss8!
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -4520,20 +4534,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
-
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.535 }
-       
-(That was another \errmessage.)
-
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -5213,152 +5215,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+Missing character: There is no ≥ ("2265) in font ec-lmss8!
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -5369,8 +5229,164 @@ l.535 }
        
 (That was another \errmessage.)
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.535 }
+       
+(That was another \errmessage.)
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no ≤ ("2264) in font ec-lmss8!
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -5458,20 +5474,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
-
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.535 }
-       
-(That was another \errmessage.)
-
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -6156,153 +6160,16 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-<argument> {\CT@arc@ 
-                     \vline }
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:535: Undefined control sequence.
-\hline ... \hrule \let \@width \@height {\CT@arc@ 
-                                                  \vline }\futurelet \reserv...
-l.535 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+Overfull \hbox (11.55635pt too wide) in paragraph at lines 535--535
+ []\T1/lmss/m/n/8 MILESTONE: 
+ []
+
+
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -6313,9 +6180,166 @@ l.535 }
        
 (That was another \errmessage.)
 
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.535 }
+       
+(That was another \errmessage.)
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+<argument> {\CT@arc@ 
+                     \vline }
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./monthly.tex:535: Undefined control sequence.
+\hline ... \hrule \let \@width \@height {\CT@arc@ 
+                                                  \vline }\futurelet \reserv...
+l.535 }
+       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no ≤ ("2264) in font ec-lmss8!
+
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -6404,21 +6428,8 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
-
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.535 }
-       
-(That was another \errmessage.)
-
-
-./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:535: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
+-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -20395,20 +20406,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2172 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -20720,6 +20719,18 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2172 }
+        
+(That was another \errmessage.)
+
 ./monthly.tex:2172: Undefined control sequence.
 <argument> {\CT@arc@ 
                      \vline }
@@ -21327,20 +21338,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2172 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -21652,6 +21651,18 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2172 }
+        
+(That was another \errmessage.)
+
 ./monthly.tex:2172: Undefined control sequence.
 <argument> {\CT@arc@ 
                      \vline }
@@ -22260,21 +22271,8 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2172 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -22588,6 +22586,19 @@ of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
+
+
+./monthly.tex:2172: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
+{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2172 }
+        
+(That was another \errmessage.)
 
 ./monthly.tex:2172: Undefined control sequence.
 <argument> {\CT@arc@ 
@@ -68179,7 +68190,7 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 Here is how much of TeX's memory you used:
  30105 strings out of 474773
  605095 string characters out of 5757725
- 1962839 words of memory out of 5000000
+ 1965839 words of memory out of 5000000
  51691 multiletter control sequences out of 15000+600000
  598325 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
