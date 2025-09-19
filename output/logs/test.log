@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:33
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -14339,11 +14339,6 @@ and I'll forget about whatever was undefined.
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (11.55635pt too wide) in paragraph at lines 1348--1348
- []\T1/lmss/m/n/8 MILESTONE: 
- []
-
-
 ./monthly.tex:1348: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -17055,11 +17050,6 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-
-Overfull \hbox (11.55635pt too wide) in paragraph at lines 1619--1619
- []\T1/lmss/m/n/8 MILESTONE: 
- []
-
 
 ./monthly.tex:1619: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -36507,11 +36497,6 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-
-Overfull \hbox (11.55635pt too wide) in paragraph at lines 3572--3572
- []\T1/lmss/m/n/8 MILESTONE: 
- []
-
 
 ./monthly.tex:3572: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
@@ -59477,11 +59462,6 @@ and I'll forget about whatever was undefined.
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (11.55635pt too wide) in paragraph at lines 6028--6028
- []\T1/lmss/m/n/8 MILESTONE: 
- []
-
-
 ./monthly.tex:6028: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
 {-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
@@ -68175,10 +68155,10 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30106 strings out of 474773
- 605114 string characters out of 5757725
+ 30105 strings out of 474773
+ 605095 string characters out of 5757725
  1960839 words of memory out of 5000000
- 51692 multiletter control sequences out of 15000+600000
+ 51691 multiletter control sequences out of 15000+600000
  598325 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  84i,20n,96p,1156b,1606s stack positions out of 10000i,1000n,20000p,200000b,200000s
