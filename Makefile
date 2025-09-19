@@ -11,21 +11,21 @@ build:
 
 # Generate PDF directly (no helper script)
 pdf: build
-    cd src && \
-    echo "🎯 Generating PDF from: $(CSV)" && \
-    echo "📄 Output: $(OUTPUT).pdf" && \
-    PLANNER_CSV_FILE="$(CSV)" ./build/plannergen --config "configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml" --outdir build && \
-    echo "🔧 Fixing LaTeX comment issues..." && \
-    sed -i '' 's/%\\\\ColorCircle{/\\\\ColorCircle{/g' build/monthly.tex || true && \
-    sed -i '' 's/%\\\\hspace{/\\\\hspace{/g' build/monthly.tex || true && \
-    sed -i '' 's/%\\\\end{center}/\\\\end{center}/g' build/monthly.tex || true && \
-    echo "📚 Compiling PDF..." && \
-    cd build && xelatex -file-line-error -interaction=nonstopmode planner_config.tex > /dev/null 2>&1 || true && cd .. && \
-    mkdir -p ../output/pdfs ../output/latex ../output/logs && \
-    cp "src/build/planner_config.pdf" "output/pdfs/$(OUTPUT).pdf" 2>/dev/null || cp "build/planner_config.pdf" "output/pdfs/$(OUTPUT).pdf" && \
-    cp "src/build/planner_config.tex" "output/latex/$(OUTPUT).tex" 2>/dev/null || cp "build/planner_config.tex" "output/latex/$(OUTPUT).tex" 2>/dev/null || true && \
-    cp "src/build/planner_config.log" "output/logs/$(OUTPUT).log" 2>/dev/null || cp "build/planner_config.log" "output/logs/$(OUTPUT).log" 2>/dev/null || true && \
-    echo "📁 Also saved to: output/pdfs/$(OUTPUT).pdf"
+	cd src && \
+	echo "🎯 Generating PDF from: $(CSV)" && \
+	echo "📄 Output: $(OUTPUT).pdf" && \
+	PLANNER_CSV_FILE="$(CSV)" ./build/plannergen --config "configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml" --outdir build && \
+	echo "🔧 Fixing LaTeX comment issues..." && \
+	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex || true && \
+	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex || true && \
+	sed -i '' 's/%\\end{center}/\\end{center}/g' build/monthly.tex || true && \
+	echo "📚 Compiling PDF..." && \
+	cd build && xelatex -file-line-error -interaction=nonstopmode planner_config.tex > /dev/null 2>&1 || true && cd .. && \
+	mkdir -p ../output/pdfs ../output/latex ../output/logs && \
+	cp "build/planner_config.pdf" "../output/pdfs/$(OUTPUT).pdf" && \
+	cp "build/planner_config.tex" "../output/latex/$(OUTPUT).tex" 2>/dev/null || true && \
+	cp "build/planner_config.log" "../output/logs/$(OUTPUT).log" 2>/dev/null || true && \
+	echo "📁 Also saved to: ../output/pdfs/$(OUTPUT).pdf"
 
 # Generate PDF with full dataset
 test: CSV=../input/data.cleaned.csv
