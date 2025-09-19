@@ -10,10 +10,11 @@ reference/
 ├── docs/                              # Comprehensive documentation
 │   ├── user-guide/                    # User documentation and tutorials
 │   ├── developer-guide/               # Developer documentation
-│   ├── lessons/                       # Lessons learned and best practices
-│   └── reports/                       # Project reports and analysis
+│   └── api-reference/                 # API and technical reference
 ├── examples/                          # Example configurations and usage
 ├── templates/                         # Template examples and samples
+├── lessons/                          # Lessons learned and best practices
+├── reports/                          # Project reports and analysis
 └── misc/                            # Miscellaneous reference materials
 ```
 
@@ -26,8 +27,8 @@ reference/
 
 ### For Developers
 1. **Start here**: [Developer Guide](docs/developer-guide/README.md) - Development setup and guidelines
-2. **Architecture**: [Architecture Overview](docs/developer-guide/DIRECTORY_ORGANIZATION_PLAN.md) - System design
-3. **Lessons Learned**: [Lessons](docs/lessons/README.md) - Development insights
+2. **API Reference**: [API Reference](docs/api-reference/README.md) - Technical documentation
+3. **Architecture**: [Architecture Overview](docs/developer-guide/architecture.md) - System design
 
 ## 📖 Documentation Categories
 
@@ -41,14 +42,14 @@ reference/
 ### 🔧 Developer Documentation
 - **Development Setup**: How to set up the development environment
 - **Architecture**: System design and component overview
+- **API Reference**: Technical documentation for all APIs
 - **Contributing**: Guidelines for contributing to the project
 - **Testing**: How to run and write tests
-- **Lessons Learned**: Insights from development process
 
 ### 📊 Project Documentation
-- **Project Reports**: Analysis and performance reports
+- **Lessons Learned**: Insights and best practices from development
+- **Reports**: Project analysis and performance reports
 - **Organization Plan**: Directory structure and organization rationale
-- **Reference Materials**: External documents and examples
 
 ## 🎯 Key Features
 
@@ -78,8 +79,8 @@ To contribute to this documentation:
 For questions or issues:
 1. Check the [User Guide](docs/user-guide/README.md) first
 2. Look at [Examples](examples/README.md) for similar use cases
-3. Review [Developer Guide](docs/developer-guide/README.md) for technical details
-4. Check [Lessons Learned](docs/lessons/README.md) for common issues
+3. Review [Troubleshooting](docs/user-guide/troubleshooting.md) for common issues
+4. Check the [Developer Guide](docs/developer-guide/README.md) for technical details
 
 ---
 

@@ -1,0 +1,150 @@
+% moved from templates/document.tpl
+
+\documentclass[9pt]{extarticle}
+
+% Core packages (load early)
+\usepackage{expl3}
+\usepackage{xparse}
+\usepackage{calc}
+\usepackage{geometry}
+
+% Font configuration - use modern sans-serif font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Color and graphics
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{adjustbox}
+
+% Table and array packages
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+
+% Layout and spacing
+\usepackage{setspace}
+\usepackage{leading}
+\usepackage{dashrule}
+\usepackage{varwidth}
+\usepackage{wrapfig}
+\usepackage{marginnote}
+\usepackage{fancyhdr}
+
+% Math and symbols
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+% Special features
+\usepackage{multido}
+\usepackage{pgffor}
+\usepackage[most]{tcolorbox}
+\usepackage{blindtext}
+\usepackage{hyperref}
+
+
+\hypersetup{hidelinks}
+
+\geometry{paperwidth=15.6cm, paperheight=20.9cm}
+\geometry{
+  top=1.2cm,
+  bottom=0.7cm,
+  left=0.5cm,
+  right=0.5cm,
+  marginparwidth=.8cm,
+  marginparsep=3mm
+}
+
+\pagestyle{empty}
+\reversemarginpar
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\parindent=0pt
+\fboxsep0pt
+
+\begin{document}
+
+% Simple macros template without problematic LaTeX commands
+\ExplSyntaxOn
+\cs_new_eq:NN \Repeat \prg_replicate:nn
+\ExplSyntaxOff\newlength{\myLenTabColSep}
+\newlength{\myLenLineThicknessDefault}
+\newlength{\myLenLineThicknessThick}
+\newlength{\myLenLineHeightButLine}
+\newlength{\myLenTwoColSep}
+\newlength{\myLenTwoCol}
+\newlength{\myLenTriColSep}
+\newlength{\myLenTriCol}
+\newlength{\myLenFiveColSep}
+\newlength{\myLenFiveCol}
+\newlength{\myLenMonthlyCellHeight}
+
+\newlength{\myLenHeaderResizeBox}
+\newlength{\myLenHeaderSideMonthsWidth}\setlength{\myLenTabColSep}{3.5pt}
+\setlength{\myLenLineThicknessDefault}{.4pt}
+\setlength{\myLenLineThicknessThick}{.8pt}
+\setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
+\setlength{\myLenTwoColSep}{5pt}
+\setlength{\myLenTwoCol}{5pt}
+\setlength{\myLenTriColSep}{5pt}
+\setlength{\myLenTriCol}{5pt}
+\setlength{\myLenFiveColSep}{5pt}
+\setlength{\myLenFiveCol}{5pt}
+\setlength{\myLenMonthlyCellHeight}{70pt}
+
+\setlength{\myLenHeaderResizeBox}{6mm}
+\setlength{\myLenHeaderSideMonthsWidth}{14.5cm}
+
+% Simple task bar definitions
+\newlength{\TaskBarHeight}
+\setlength{\TaskBarHeight}{4mm}
+\newlength{\TaskBorderWidth}
+\setlength{\TaskBorderWidth}{0.6pt}
+\newlength{\TaskPaddingH}
+\setlength{\TaskPaddingH}{1.5mm}
+\newlength{\TaskPaddingV}
+\setlength{\TaskPaddingV}{0.5mm}
+
+% Array stretch macro
+\newcommand{\myNumArrayStretch}{1.2}
+
+% Line thickness macro
+\newcommand{\myLineThick}{\rule{\linewidth}{\myLenLineThicknessThick}}
+
+% Category palette setup macro
+\newcommand{\SetupDefaultCategoryPalette}[1]{#1}
+
+% Simple task rendering
+\newcommand{\SimpleTaskBar}[4]{%
+  \fbox{\parbox{\dimexpr#3-2\TaskPaddingH\relax}{%
+    \vspace{\TaskPaddingV}%
+    \centering\small\textbf{#1}%
+    \vspace{\TaskPaddingV}%
+  }}%
+}
+
+% Task overlay box macros
+\newcommand{\TaskOverlayBox}[3]{%
+  \fcolorbox{#1}{#1!20}{\parbox{\linewidth}{%
+    \centering\small\textbf{#2}\\#3%
+  }}%
+}
+
+\newcommand{\TaskOverlayBoxP}[3]{%
+  \fcolorbox{#2}{#2!20}{\parbox{\linewidth}{%
+    \centering\small\textbf{#1}\\#3%
+  }}%
+}
+
+% Underline macro
+\newcommand{\myUnderline}[1]{%
+  \underline{\textbf{#1}}%
+}
+
+
+  \include{monthly}
+  
+\end{document}
