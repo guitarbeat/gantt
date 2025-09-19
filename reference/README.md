@@ -8,13 +8,13 @@ Welcome to the comprehensive reference documentation for the PhD Dissertation Pl
 reference/
 ├── README.md                           # This file - main documentation index
 ├── docs/                              # Comprehensive documentation
+│   ├── README.md                      # Documentation overview
 │   ├── user-guide/                    # User documentation and tutorials
 │   ├── developer-guide/               # Developer documentation
 │   ├── lessons/                       # Lessons learned and best practices
 │   └── reports/                       # Project reports and analysis
 ├── examples/                          # Example configurations and usage
-├── templates/                         # Template examples and samples
-└── misc/                            # Miscellaneous reference materials
+└── documents/                         # Reference documents and PDFs
 ```
 
 ## 🚀 Quick Start
@@ -27,7 +27,7 @@ reference/
 ### For Developers
 1. **Start here**: [Developer Guide](docs/developer-guide/README.md) - Development setup and guidelines
 2. **Architecture**: [Architecture Overview](docs/developer-guide/DIRECTORY_ORGANIZATION_PLAN.md) - System design
-3. **Lessons Learned**: [Lessons](docs/lessons/README.md) - Development insights
+3. **Lessons Learned**: [Lessons](docs/lessons/LESSONS_LEARNED_FROM_AARONS_ATTEMPT.md) - Development insights
 
 ## 📖 Documentation Categories
 
@@ -79,7 +79,7 @@ For questions or issues:
 1. Check the [User Guide](docs/user-guide/README.md) first
 2. Look at [Examples](examples/README.md) for similar use cases
 3. Review [Developer Guide](docs/developer-guide/README.md) for technical details
-4. Check [Lessons Learned](docs/lessons/README.md) for common issues
+4. Check [Lessons Learned](docs/lessons/LESSONS_LEARNED_FROM_AARONS_ATTEMPT.md) for common issues
 
 ---
 

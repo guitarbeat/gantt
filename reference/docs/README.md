@@ -6,16 +6,15 @@ Welcome to the comprehensive reference documentation for the PhD Dissertation Pl
 
 ```
 reference/
-├── README.md                           # This file - main documentation index
+├── README.md                           # Main documentation index
 ├── docs/                              # Comprehensive documentation
+│   ├── README.md                      # This file - documentation overview
 │   ├── user-guide/                    # User documentation and tutorials
 │   ├── developer-guide/               # Developer documentation
-│   └── api-reference/                 # API and technical reference
+│   ├── lessons/                       # Lessons learned and best practices
+│   └── reports/                       # Project reports and analysis
 ├── examples/                          # Example configurations and usage
-├── templates/                         # Template examples and samples
-├── lessons/                          # Lessons learned and best practices
-├── reports/                          # Project reports and analysis
-└── misc/                            # Miscellaneous reference materials
+└── documents/                         # Reference documents and PDFs
 ```
 
 ## 🚀 Quick Start
@@ -77,10 +76,10 @@ To contribute to this documentation:
 ## 📞 Support
 
 For questions or issues:
-1. Check the [User Guide](docs/user-guide/README.md) first
-2. Look at [Examples](examples/README.md) for similar use cases
-3. Review [Troubleshooting](docs/user-guide/troubleshooting.md) for common issues
-4. Check the [Developer Guide](docs/developer-guide/README.md) for technical details
+1. Check the [User Guide](user-guide/README.md) first
+2. Look at [Examples](../examples/README.md) for similar use cases
+3. Review the [Developer Guide](developer-guide/README.md) for technical details
+4. Check [Lessons Learned](lessons/LESSONS_LEARNED_FROM_AARONS_ATTEMPT.md) for common issues
 
 ---
 
