@@ -1,14 +1,14 @@
 {{- $taskColors := .Body.Month.GetTaskColors -}}
 {{- if $taskColors -}}
-{\centering
+\begin{center}%
 {{- range $color, $category := $taskColors -}}
 \ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }%
 \hspace{1.5em}%
 {{- end -}}
-\par}
-{\centering
+\end{center}%
+\begin{center}%
 \textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
-\par}
+\end{center}%
 {{- else -}}
 \ColorLegend
 {{- end -}}
