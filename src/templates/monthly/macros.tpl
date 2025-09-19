@@ -81,13 +81,13 @@
 }
 
 % Multi-day task bar drawing macro to centralize styling
-% Args: 1=x, 2=y, 3=width(mm), 4=height(mm), 5=color, 6=label
+% Args: 1=x(pt), 2=y(pt), 3=width(pt), 4=height(pt), 5=color, 6=label
 \newcommand{\DrawTaskBar}[6]{%
   \begin{tikzpicture}[overlay]
     \node[anchor=north west, inner sep=0pt] at (#1,#2) {
       \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt, drop shadow,
         left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
-        width=#3mm, height=#4mm,
+        width=#3pt, height=#4pt,
         colback=#5,
         borderline west={1.4pt}{0pt}{#5!60!black},
         borderline east={1.0pt}{0pt}{#5!45}]
