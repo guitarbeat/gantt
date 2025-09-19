@@ -117,5 +117,7 @@
     \hspace{1.5em}%
     \ColorCircle{gray}~\small Publication%
   \end{center}%
-  \vspace*{0.1ex}%
+  \vspace*{0.3ex}%
+  \hrule height 0.5pt width 0.8\textwidth%
+  \vspace*{0.2ex}%
 }
