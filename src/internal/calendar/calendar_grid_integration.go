@@ -192,7 +192,7 @@ func NewCalendarGridIntegration(config *GridConfig) *CalendarGridIntegration {
 			HighlightConflicts:    true,
 			ColorScheme:           "default",
 			FontSize:              "small",
-			TaskBarOpacity:        0.9,
+			TaskBarOpacity:        1.0,
 			BorderWidth:           0.5,
 		},
 		dateValidator:            dateValidator,
@@ -640,13 +640,23 @@ func (cgi *CalendarGridIntegration) GenerateIntegratedLaTeX(result *IntegratedLa
 // generateTaskBarLaTeX generates LaTeX code for a single task bar
 func (cgi *CalendarGridIntegration) generateTaskBarLaTeX(bar *IntegratedTaskBar) string {
 	// Create TikZ node for the task bar
-	nodeOptions := fmt.Sprintf(
-		"anchor=west, inner sep=2pt, minimum height=%.2fpt, minimum width=%.2fpt, fill=%s, opacity=%.2f",
-		bar.Height,
-		bar.Width,
-		bar.Color,
-		bar.Opacity,
-	)
+    var nodeOptions string
+    if bar.Opacity >= 0.999 {
+        nodeOptions = fmt.Sprintf(
+            "anchor=west, inner sep=2pt, minimum height=%.2fpt, minimum width=%.2fpt, fill=%s",
+            bar.Height,
+            bar.Width,
+            bar.Color,
+        )
+    } else {
+        nodeOptions = fmt.Sprintf(
+            "anchor=west, inner sep=2pt, minimum height=%.2fpt, minimum width=%.2fpt, fill=%s, opacity=%.2f",
+            bar.Height,
+            bar.Width,
+            bar.Color,
+            bar.Opacity,
+        )
+    }
 	
 	// Add border if specified
 	if cgi.visualSettings.BorderWidth > 0 {

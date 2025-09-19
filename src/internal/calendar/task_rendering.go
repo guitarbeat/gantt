@@ -33,21 +33,23 @@ type TaskRenderingConfig struct {
 }
 
 // getDefaultTaskRenderingConfig returns the default configuration for task rendering
+// * NO-OVERLAP CONFIGURATION: This configuration is optimized to prevent task overlap
+//   by using increased spacing, larger heights, and limiting the number of displayed tasks
 func getDefaultTaskRenderingConfig() TaskRenderingConfig {
 	return TaskRenderingConfig{
-		// Spacing configuration - increased for better readability
-		DefaultSpacing:   "0.5ex",
-		FirstTaskSpacing: "0.3ex",
+		// Spacing configuration - increased to prevent overlap
+		DefaultSpacing:   "0.8ex",
+		FirstTaskSpacing: "0.5ex",
 		
-		// Height configuration - much larger for readability
-		DefaultHeight:    "2.5ex",
-		FirstTaskHeight:  "3.0ex",
+		// Height configuration - increased to prevent overlap
+		DefaultHeight:    "3.0ex",
+		FirstTaskHeight:  "3.5ex",
 		
 		// Text configuration - from constants in day.go
 		MaxChars:          maxTaskChars,
 		MaxCharsCompact:   maxTaskCharsCompact,
 		MaxCharsVeryCompact: maxTaskCharsVeryCompact,
-		MaxTasksDisplay:   maxTasksDisplay,
+		MaxTasksDisplay:   2, // Reduced from 3 to prevent overlap
 	}
 }
 
@@ -144,7 +146,7 @@ func (d Day) buildCompactTaskOverlay(task *SpanningTask, index, total int) strin
 	nameText = d.truncateTaskName(nameText, total)
 
 	spacing, boxHeight := d.getTaskSpacingAndHeight(index)
-	textBody := d.buildTaskTextBody(nameText)
+    textBody := d.buildTaskTextBody(nameText)
 
 	return d.buildCompactTaskBox(spacing, boxHeight, task.Color, textBody)
 }
@@ -196,8 +198,9 @@ func (d Day) getTaskSpacingAndHeight(index int) (string, string) {
 
 // buildTaskTextBody creates the text body for a task
 func (d Day) buildTaskTextBody(nameText string) string {
-	return `{\hyphenpenalty=10000\exhyphenpenalty=10000\emergencystretch=2em\setstretch{0.7}` +
-		`{\centering\color{black}\textbf{\tiny ` + nameText + `}}}`
+    // * Use fixed task font size via LaTeX macro \TaskFontSize (defined in macros.tpl)
+    return `{\hyphenpenalty=10000\exhyphenpenalty=10000\emergencystretch=2em\setstretch{0.7}` +
+        `{\centering\color{black}\TaskFontSize\textbf{` + nameText + `}}}`
 }
 
 // buildCompactTaskBox creates the tcolorbox for a compact task

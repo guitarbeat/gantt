@@ -16,7 +16,7 @@ const (
 	maxTaskChars           = 18
 	maxTaskCharsCompact    = 15
 	maxTaskCharsVeryCompact = 12
-	maxTasksDisplay        = 3
+	maxTasksDisplay        = 2  // Reduced to prevent overlap
 )
 
 type Days []*Day

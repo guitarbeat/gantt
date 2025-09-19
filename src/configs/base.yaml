@@ -23,14 +23,14 @@ layout:
     arraystretch: 1.1
 
   lengths:
-    tabcolsep: 3.5pt
+    tabcolsep: 3pt
     linethicknessdefault: .4pt
     linethicknessthick: .8pt
     lineheightbutline: \dimexpr5mm-.4pt
     twocolsep: 5pt
     tricolsep: 5pt
     fivecolsep: 5pt
-    monthlycellheight: 70pt
+    monthlycellheight: 78pt
     headerresizebox: 6mm
     headersidemonthswidth: 14.5cm
 

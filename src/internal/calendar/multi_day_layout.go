@@ -429,21 +429,20 @@ func (mle *MultiDayLayoutEngine) generateTaskBarLaTeX(bar *TaskBar) string {
 	color := mle.convertColorToLaTeX(bar.Color)
 	
 	// Generate task bar LaTeX
-	return fmt.Sprintf(`
-		\\begin{tikzpicture}[overlay]
-			\\node[anchor=north west, inner sep=0pt] at (%.2f,%.2f) {
-				\\begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt, drop shadow,
-					left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
-					width=%.2fmm, height=%.2fmm,
-					colback=%s!26,
-					interior style={left color=%s!34, right color=%s!6},
-					borderline west={1.4pt}{0pt}{%s!60!black},
-					borderline east={1.0pt}{0pt}{%s!45}]
-					{\\footnotesize %s}
-				\\end{tcolorbox}
-			};
-		\\end{tikzpicture}
-	`, bar.StartX, bar.Y, bar.Width, bar.Height, color, color, color, color, color, bar.TaskID)
+    return fmt.Sprintf(`
+        \\begin{tikzpicture}[overlay]
+            \\node[anchor=north west, inner sep=0pt] at (%.2f,%.2f) {
+                \\begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt, drop shadow,
+                    left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
+                    width=%.2fmm, height=%.2fmm,
+                    colback=%s,
+                    borderline west={1.4pt}{0pt}{%s!60!black},
+                    borderline east={1.0pt}{0pt}{%s!45}]
+                    {\\footnotesize %s}
+                \\end{tcolorbox}
+            };
+        \\end{tikzpicture}
+    `, bar.StartX, bar.Y, bar.Width, bar.Height, color, color, color, bar.TaskID)
 }
 
 // convertColorToLaTeX converts hex color to LaTeX color name

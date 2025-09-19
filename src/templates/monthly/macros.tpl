@@ -30,12 +30,14 @@
 \setlength{\myLenTriCol}{5pt}
 \setlength{\myLenFiveColSep}{5pt}
 \setlength{\myLenFiveCol}{5pt}
-\setlength{\myLenMonthlyCellHeight}{70pt}
+\setlength{\myLenMonthlyCellHeight}{78pt}
 
 \setlength{\myLenHeaderResizeBox}{6mm}
 \setlength{\myLenHeaderSideMonthsWidth}{14.5cm}
 
 % Simple task bar definitions
+% * Define a fixed task font size macro
+\newcommand{\TaskFontSize}{\footnotesize}
 \newlength{\TaskBarHeight}
 \setlength{\TaskBarHeight}{4mm}
 \newlength{\TaskBorderWidth}
@@ -44,6 +46,9 @@
 \setlength{\TaskPaddingH}{1.5mm}
 \newlength{\TaskPaddingV}
 \setlength{\TaskPaddingV}{0.5mm}
+% * Global vertical nudge for task elements (push tasks slightly lower)
+\newlength{\TaskVerticalOffset}
+\setlength{\TaskVerticalOffset}{0.7mm}
 
 % Array stretch macro
 \newcommand{\myNumArrayStretch}{1.2}
@@ -56,6 +61,7 @@
 
 % Simple task rendering
 \newcommand{\SimpleTaskBar}[4]{%
+  \vspace*{\TaskVerticalOffset}%
   \fbox{\parbox{\dimexpr#3-2\TaskPaddingH\relax}{%
     \vspace{\TaskPaddingV}%
     \centering\small\textbf{#1}%
@@ -65,32 +71,35 @@
 
 % Task overlay box macros - pill shaped with rounded corners
 \newcommand{\TaskOverlayBox}[3]{%
+  \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=3pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
-    left=2mm, right=2mm, top=1mm, bottom=1mm,
+    left=1.5mm, right=1.5mm, top=1mm, bottom=1mm,
     colback=#1!20, colframe=#1!80,
     width=\linewidth, halign=center]
-    \small\textbf{#2}\\#3%
+    \TaskFontSize\textbf{#2}\\#3%
   \end{tcolorbox}%
 }
 
 \newcommand{\TaskOverlayBoxP}[3]{%
+  \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=3pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
     left=2mm, right=2mm, top=1mm, bottom=1mm,
     colback=#2!20, colframe=#2!80,
     width=\linewidth, halign=center]
-    \small\textbf{#1}\\#3%
+    \TaskFontSize\textbf{#1}\\#3%
   \end{tcolorbox}%
 }
 
 % Task compact box macro with pill shape and better spacing
 \newcommand{\TaskCompactBox}[4]{%
   \vspace*{#1}%
+  \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.6pt, arc=2.5pt, drop shadow={0.1pt}{-0.1pt}{0pt}{black!15},
-    left=1.5mm, right=1.5mm, top=0.8mm, bottom=0.8mm,
+    left=1mm, right=1mm, top=0.8mm, bottom=0.8mm,
     colback=#3!20, colframe=#3!70,
     width=\linewidth, halign=center, height=#2]
     \vfil
-    \small\textbf{#4}%
+    \TaskFontSize\textbf{#4}%
     \vfil
   \end{tcolorbox}%
 }
