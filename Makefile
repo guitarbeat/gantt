@@ -7,15 +7,15 @@ BINARY ?= build/plannergen
 
 # Build the binary
 build:
-	$(GO) build -o $(BINARY) ./cmd/plannergen
+	cd src && $(GO) build -o build/plannergen ./cmd/plannergen
 
 # Generate PDF (simple approach)
 pdf:
-	./scripts/simple.sh $(CSV) $(OUTPUT)
+	cd src && ./scripts/simple.sh $(CSV) $(OUTPUT)
 
 # Generate PDF with full dataset
 test:
-	./scripts/simple.sh ../input/data.cleaned.csv test
+	cd src && ./scripts/simple.sh ../input/data.cleaned.csv test
 
 # Legacy targets for backward compatibility
 run: test

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 22:13
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 22:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1131,79 +1131,13 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-./monthly.tex:261: Undefined control sequence.
-<argument> ...3\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.261 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:261: Undefined control sequence.
-<argument> ...raft timeline v1}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{blue}{{\hy...
-l.261 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:261: Undefined control sequence.
-<argument> ...3\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.261 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:261: Undefined control sequence.
-<argument> ...raft timeline v1}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{blue}{{\hy...
-l.261 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:261: Undefined control sequence.
-<argument> ...3\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.261 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
-./monthly.tex:261: Undefined control sequence.
-<argument> ...raft timeline v1}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{blue}{{\hy...
-l.261 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 261--261
-[]\T1/lmss/m/n/9 0.1ex1.0exblue[]\T1/lmss/bx/n/5 Draft time-line
+Overfull \hbox (172.24022pt too wide) in paragraph at lines 261--261
+[][][][][][][] 
  []
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
@@ -1219,271 +1153,77 @@ Overfull \hbox (0.79999pt too wide) in paragraph at lines 261--261
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 268--268
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 261--262
+
  []
 
 [1
 
 
-] [2]
-./monthly.tex:530: Undefined control sequence.
-<argument> ...7\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ...{\tiny Expand...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ... Plan imaging...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{gray}{{\hy...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
+]
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≤ ("2264) in font ec-lmss8!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...3\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...xtbf {\tiny ★...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{red}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ...iny Calibrate...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{red}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...7\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ...{\tiny Expand...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ... Plan imaging...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{gray}{{\hy...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≤ ("2264) in font ec-lmss8!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...3\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...xtbf {\tiny ★...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{red}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ...iny Calibrate...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{red}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...7\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
-./monthly.tex:530: Undefined control sequence.
-<argument> ...{\tiny Expand...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ... Plan imaging...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{gray}{{\hy...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+Overfull \hbox (798.7211pt too wide) in paragraph at lines 523--523
+[][][][][][][][][][] 
+ []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 530--530
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 523--523
 [][][][] 
  []
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 530--530
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 523--523
 [][][][] 
  []
 
 Missing character: There is no ≤ ("2264) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 530--530
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 523--523
 [][][][] 
  []
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ...3\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{blue}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:530: Undefined control sequence.
-<argument> ...xtbf {\tiny ★...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{red}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:530: Undefined control sequence.
-<argument> ...iny Calibrate...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{red}{{\hyp...
-l.530 }
-       
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (29.32388pt too wide) in paragraph at lines 530--530
-[]\T1/lmss/m/n/9 0.1ex1.0exblue[]\T1/lmss/bx/n/5 ...[]\T1/lmss/m/n/9 0.05ex0.9e
-xred[]\T1/lmss/bx/n/5 Calibrate...[]\T1/lmss/m/n/9 0.05ex0.9exred[]
+Overfull \hbox (343.68045pt too wide) in paragraph at lines 523--523
+[][][][][][][][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 537--537
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 523--524
+
  []
 
-[3] [4]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 801--801
+[2]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 787--787
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 808--808
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 787--788
+
  []
 
-[5] [6]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1070--1070
+[3]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1049--1049
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 1077--1077
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 1049--1050
+
  []
 
-[7] [8]
+[4]
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1491,870 +1231,330 @@ Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1341--1341
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1313--1313
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 1348--1348
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 1313--1314
+
  []
 
-[9] [10]
+[5]
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1612--1612
-[][][][] 
- []
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1612--1612
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1612--1612
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1612--1612
-[][][][] 
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 1619--1619
-[]$[]$ [] 
- []
-
-[11] [12]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 1877--1877
-[][][][] 
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 1884--1884
-[]$[]$ [] 
- []
-
-[13] [14]
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...Pilot imaging...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...\tiny ★ Pilot...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...Develop U-Net...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...Pilot imaging...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...\tiny ★ Pilot...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...Develop U-Net...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...Pilot imaging...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (15.13347pt too wide) in paragraph at lines 2183--2183
-[]\T1/lmss/m/n/9 0.1ex1.0exgreen[]\T1/lmss/bx/n/5 Pilot
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2183--2183
-\T1/lmss/bx/n/5 imag-
- []
-
-
-Overfull \hbox (33.39005pt too wide) in paragraph at lines 2183--2183
-\T1/lmss/bx/n/5 ing...[]\T1/lmss/m/n/9 0.05ex0.9exgreen[]\T1/lmss/bx/n/5 Order
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2183--2183
-[][][][] 
- []
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...\tiny ★ Pilot...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2183: Undefined control sequence.
-<argument> ...Develop U-Net...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2183 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (22.7096pt too wide) in paragraph at lines 2183--2183
-[]\T1/lmss/m/n/9 0.1ex1.0exgreen[]\T1/lmss/bx/n/5 Develop
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2183--2183
-\T1/lmss/bx/n/5 U-
- []
-
-
-Overfull \hbox (47.25816pt too wide) in paragraph at lines 2183--2183
-\T1/lmss/bx/n/5 Net...[]\T1/lmss/m/n/9 0.05ex0.9exgreen[]\T1/lmss/bx/n/5 Optimi
-ze...[] 
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 2190--2190
-[]$[]$ [] 
- []
-
-[15] [16]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2452--2452
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2452--2452
-[][][][] 
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 2459--2459
-[]$[]$ [] 
- []
-
-[17] [18]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2723--2723
-[][][][] 
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 2730--2730
-[]$[]$ [] 
- []
-
-[19] [20]
-./monthly.tex:2992: Undefined control sequence.
-<argument> ...7\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2992 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2992: Undefined control sequence.
-<argument> ...y Acute-phase...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2992 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2992: Undefined control sequence.
-<argument> ...7\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2992 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2992: Undefined control sequence.
-<argument> ...y Acute-phase...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2992 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2992--2992
-[][][][] 
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 2992--2992
-[][][][] 
- []
-
-./monthly.tex:2992: Undefined control sequence.
-<argument> ...7\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.2992 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:2992: Undefined control sequence.
-<argument> ...y Acute-phase...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.2992 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 2999--2999
-[]$[]$ [] 
- []
-
-[21] [22]
-./monthly.tex:3263: Undefined control sequence.
-<argument> ...2\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.3263 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:3263: Undefined control sequence.
-<argument> ...ny ★ Enhanced...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.3263 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3263: Undefined control sequence.
-<argument> ...2\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.3263 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:3263: Undefined control sequence.
-<argument> ...ny ★ Enhanced...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.3263 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3263: Undefined control sequence.
-<argument> ...2\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.3263 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-./monthly.tex:3263: Undefined control sequence.
-<argument> ...ny ★ Enhanced...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{green}{{\h...
-l.3263 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3263--3263
-[]\T1/lmss/m/n/9 0.1ex1.0exgreen[] \T1/lmss/bx/n/5 En-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3263--3263
-\T1/lmss/bx/n/5 hanced...[]\T1/lmss/m/n/9 0.05ex0.9exgreen[]\T1/lmss/bx/n/5 Tra
-nsition-
- []
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 3263--3263
-[][][][] 
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 3270--3270
-[]$[]$ [] 
- []
-
-[23] [24]
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-Missing character: There is no ★ ("2605) in font ec-lmssbx10!
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 3569--3569
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
 [][][][] 
  []
 
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 3569--3569
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 3576--3576
-[]$[]$ [] 
- []
-
-[25] [26]
-./monthly.tex:3838: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.3838 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3838: Undefined control sequence.
-<argument> ...ntegrate flow...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{gray}{{\hy...
-l.3838 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3838: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.3838 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3838: Undefined control sequence.
-<argument> ...ntegrate flow...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{gray}{{\hy...
-l.3838 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3838: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{green}{{\hy...
-l.3838 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:3838: Undefined control sequence.
-<argument> ...ntegrate flow...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{gray}{{\hy...
-l.3838 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 3845--3845
-[]$[]$ [] 
- []
-
-[27] [28]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4109--4109
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 4116--4116
-[]$[]$ [] 
- []
-
-[29] [30]
-./monthly.tex:4413: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{purple}{{\h...
-l.4413 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4413: Undefined control sequence.
-<argument> ...\tiny Prepare...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{purple}{{\...
-l.4413 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4413: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{purple}{{\h...
-l.4413 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4413: Undefined control sequence.
-<argument> ...\tiny Prepare...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{purple}{{\...
-l.4413 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4413: Undefined control sequence.
-<argument> ...1\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{purple}{{\h...
-l.4413 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4413: Undefined control sequence.
-<argument> ...\tiny Prepare...}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{purple}{{\...
-l.4413 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (110.51447pt too wide) in paragraph at lines 4413--4413
-[]\T1/lmss/m/n/9 0.1ex1.0expurple[]\T1/lmss/bx/n/5 Prepare...[]\T1/lmss/m/n/9 0
-.05ex0.9expurple[]\T1/lmss/bx/n/5 Draft
- []
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 4420--4420
-[]$[]$ [] 
- []
-
-[31] [32]
-./monthly.tex:4684: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{orange}{{\h...
-l.4684 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4684: Undefined control sequence.
-<argument> ...aft Introduction}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{purple}{{\...
-l.4684 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4684: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{orange}{{\h...
-l.4684 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4684: Undefined control sequence.
-<argument> ...aft Introduction}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{purple}{{\...
-l.4684 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4684--4684
-[][][][] 
- []
-
-./monthly.tex:4684: Undefined control sequence.
-<argument> ...6\linewidth \relax }\TaskCompactBox 
-                                                  {0.1ex}{1.0ex}{orange}{{\h...
-l.4684 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./monthly.tex:4684: Undefined control sequence.
-<argument> ...aft Introduction}}}}\TaskCompactBox 
-                                                  {0.05ex}{0.9ex}{purple}{{\...
-l.4684 }
-        
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 4691--4691
-[]$[]$ [] 
- []
-
-[33] [34]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4955--4955
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1577--1577
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 4955--4955
+Underfull \hbox (badness 10000) in paragraph at lines 1577--1578
+
+ []
+
+[6]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 4962--4962
-[]$[]$ [] 
- []
-
-[35] [36]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 5185--5185
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 5192--5192
-[]$[]$ [] 
- []
-
-[37] [38]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 5456--5456
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 5463--5463
-[]$[]$ [] 
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+[][][][] 
  []
 
-[39] [40]
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 5732--5732
-[]$[]$ [] 
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+[][][][] 
  []
 
-[41] [42]
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+[][][][] 
+ []
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 1835--1835
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1835--1836
+
+ []
+
+[7]
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+
+Overfull \hbox (58.48006pt too wide) in paragraph at lines 2134--2134
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2134--2134
+[][][][] 
+ []
+
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+
+Overfull \hbox (342.88046pt too wide) in paragraph at lines 2134--2134
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (58.48006pt too wide) in paragraph at lines 2134--2134
+[][][][][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2134--2135
+
+ []
+
+[8]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2396--2396
+[][][][] 
+ []
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2396--2396
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2396--2397
+
+ []
+
+[9]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2660--2660
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2660--2661
+
+ []
+
+[10]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2922--2922
+[][][][] 
+ []
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 2922--2922
+[][][][] 
+ []
+
+
+Overfull \hbox (399.76054pt too wide) in paragraph at lines 2922--2922
+[][][][][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2922--2923
+
+ []
+
+[11]
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6031--6031
+Overfull \hbox (115.36014pt too wide) in paragraph at lines 3186--3186
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 3186--3186
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 6038--6038
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 3186--3187
+
  []
 
-[43] [44]
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 6307--6307
-[]$[]$ [] 
+[12]
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 3485--3485
+[][][][] 
  []
 
-[45] [46]
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 3485--3485
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3485--3486
+
+ []
+
+[13]
+Overfull \hbox (342.88046pt too wide) in paragraph at lines 3747--3747
+[][][][][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3747--3748
+
+ []
+
+[14]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4011--4011
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4011--4012
+
+ []
+
+[15]
+Overfull \hbox (58.48006pt too wide) in paragraph at lines 4308--4308
+[][][][][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4308--4309
+
+ []
+
+[16]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4572--4572
+[][][][] 
+ []
+
+
+Overfull \hbox (342.88046pt too wide) in paragraph at lines 4572--4572
+[][][][][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4572--4573
+
+ []
+
+[17]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4836--4836
+[][][][] 
+ []
+
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 4836--4836
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4836--4837
+
+ []
+
+[18]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 5059--5059
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5059--5060
+
+ []
+
+[19]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 5323--5323
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5323--5324
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 5585--5586
+
+ []
+
+[21]
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+Missing character: There is no ★ ("2605) in font ec-lmssbx10!
+
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 5884--5884
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5884--5885
+
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 6146--6147
+
+ []
+
+[23]
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6571--6571
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 6410--6410
 [][][][] 
  []
 
 
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6571--6571
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 6410--6410
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 6578--6578
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 6410--6411
+
  []
 
-[47] [48]
-Overfull \hbox (0.79999pt too wide) in paragraph at lines 6877--6877
+[24]
+Overfull \hbox (0.79999pt too wide) in paragraph at lines 6709--6709
 [][][][] 
  []
 
 
-Overfull \hbox (26.20695pt too wide) in paragraph at lines 6884--6884
-[]$[]$ [] 
+Underfull \hbox (badness 10000) in paragraph at lines 6709--6710
+
  []
 
-) [49] [50] (./planner_config.aux (./monthly.aux))
+) [25] (./planner_config.aux (./monthly.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -2363,12 +1563,12 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30018 strings out of 474773
- 603483 string characters out of 5757725
- 1953839 words of memory out of 5000000
- 51604 multiletter control sequences out of 15000+600000
+ 30020 strings out of 474773
+ 603509 string characters out of 5757725
+ 1954839 words of memory out of 5000000
+ 51606 multiletter control sequences out of 15000+600000
  598325 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,21n,96p,1158b,1592s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,21n,96p,1158b,1598s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on planner_config.pdf (50 pages).
+Output written on planner_config.pdf (25 pages).
