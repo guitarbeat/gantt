@@ -63,29 +63,36 @@
   }}%
 }
 
-% Task overlay box macros
+% Task overlay box macros - pill shaped with rounded corners
 \newcommand{\TaskOverlayBox}[3]{%
-  \fcolorbox{#1}{#1!20}{\parbox{\linewidth}{%
-    \centering\small\textbf{#2}\\#3%
-  }}%
+  \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=3pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
+    left=2mm, right=2mm, top=1mm, bottom=1mm,
+    colback=#1!20, colframe=#1!80,
+    width=\linewidth, halign=center]
+    \small\textbf{#2}\\#3%
+  \end{tcolorbox}%
 }
 
 \newcommand{\TaskOverlayBoxP}[3]{%
-  \fcolorbox{#2}{#2!20}{\parbox{\linewidth}{%
-    \centering\small\textbf{#1}\\#3%
-  }}%
+  \begin{tcolorbox}[enhanced, boxrule=0.8pt, arc=3pt, drop shadow={0.2pt}{-0.2pt}{0pt}{black!20},
+    left=2mm, right=2mm, top=1mm, bottom=1mm,
+    colback=#2!20, colframe=#2!80,
+    width=\linewidth, halign=center]
+    \small\textbf{#1}\\#3%
+  \end{tcolorbox}%
 }
 
-% Task compact box macro with better spacing and height
+% Task compact box macro with pill shape and better spacing
 \newcommand{\TaskCompactBox}[4]{%
   \vspace*{#1}%
-  \fcolorbox{#3}{#3!20}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
-    \vbox to #2{%
-      \vfil
-      \centering\small\textbf{#4}%
-      \vfil
-    }%
-  }}%
+  \begin{tcolorbox}[enhanced, boxrule=0.6pt, arc=2.5pt, drop shadow={0.1pt}{-0.1pt}{0pt}{black!15},
+    left=1.5mm, right=1.5mm, top=0.8mm, bottom=0.8mm,
+    colback=#3!20, colframe=#3!70,
+    width=\linewidth, halign=center, height=#2]
+    \vfil
+    \small\textbf{#4}%
+    \vfil
+  \end{tcolorbox}%
   \vspace*{0.1ex}%
 }
 
