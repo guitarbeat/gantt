@@ -4,7 +4,6 @@
 \ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }%
 \hspace{1em}%
 {{- end -}}
-\vspace*{-0.5ex}%
 \textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
 {{- else -}}
 \ColorLegend
