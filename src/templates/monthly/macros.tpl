@@ -94,32 +94,32 @@
   \underline{\textbf{#1}}%
 }
 
-% Color legend macro for task categories
+% Color legend macro for task categories - matches task color scheme
 \newcommand{\ColorLegend}{%
-  \vspace*{-0.5ex}%
+  \vspace*{-1ex}%
   \begin{center}%
     \small\textbf{Task Categories:}%
     \hspace{1em}%
-    \fcolorbox{#4A90E2}{#4A90E2}{\makebox[0.8em][c]{\textcolor{white}{\tiny P}}}%
+    \fcolorbox{#4A90E2}{#4A90E2!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny P}}}%
     \hspace{0.3em}\tiny Proposal%
     \hspace{0.8em}%
-    \fcolorbox{#F5A623}{#F5A623}{\makebox[0.8em][c]{\textcolor{white}{\tiny L}}}%
+    \fcolorbox{#F5A623}{#F5A623!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny L}}}%
     \hspace{0.3em}\tiny Laser%
     \hspace{0.8em}%
-    \fcolorbox{#7ED321}{#7ED321}{\makebox[0.8em][c]{\textcolor{white}{\tiny I}}}%
+    \fcolorbox{#7ED321}{#7ED321!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny I}}}%
     \hspace{0.3em}\tiny Imaging%
     \hspace{0.8em}%
-    \fcolorbox{#BD10E0}{#BD10E0}{\makebox[0.8em][c]{\textcolor{white}{\tiny A}}}%
+    \fcolorbox{#BD10E0}{#BD10E0!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny A}}}%
     \hspace{0.3em}\tiny Admin%
     \hspace{0.8em}%
-    \fcolorbox{#D0021B}{#D0021B}{\makebox[0.8em][c]{\textcolor{white}{\tiny D}}}%
+    \fcolorbox{#D0021B}{#D0021B!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny D}}}%
     \hspace{0.3em}\tiny Dissertation%
     \hspace{0.8em}%
-    \fcolorbox{#50E3C2}{#50E3C2}{\makebox[0.8em][c]{\textcolor{white}{\tiny R}}}%
+    \fcolorbox{#50E3C2}{#50E3C2!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny R}}}%
     \hspace{0.3em}\tiny Research%
     \hspace{0.8em}%
-    \fcolorbox{#B8E986}{#B8E986}{\makebox[0.8em][c]{\textcolor{white}{\tiny P}}}%
+    \fcolorbox{#B8E986}{#B8E986!20}{\makebox[0.8em][c]{\textcolor{black}{\tiny P}}}%
     \hspace{0.3em}\tiny Publication%
   \end{center}%
-  \vspace*{0.3ex}%
+  \vspace*{0.2ex}%
 }
