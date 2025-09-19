@@ -21,6 +21,12 @@ echo "📝 Generating LaTeX..."
 PLANNER_CSV_FILE="$CSV_FILE" \
 ./build/plannergen --config "configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml" --outdir build
 
+# Fix LaTeX comment issues in the generated file
+echo "🔧 Fixing LaTeX comment issues..."
+sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex
+sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex
+sed -i '' 's/%\\end{center}/\\end{center}/g' build/monthly.tex
+
 # Compile PDF
 echo "📚 Compiling PDF..."
 cd build

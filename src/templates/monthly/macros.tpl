@@ -107,6 +107,7 @@
 }
 
 
+
 % Color legend macro for task categories - uses circles instead of boxes
 \newcommand{\ColorLegend}{%
   \vspace*{-2ex}%
