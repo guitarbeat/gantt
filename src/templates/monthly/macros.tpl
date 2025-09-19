@@ -109,7 +109,7 @@
 
 % Color legend macro for task categories - uses circles instead of boxes
 \newcommand{\ColorLegend}{%
-  \begin{center}%
+  {\centering
     \ColorCircle{blue}~\small Proposal%
     \hspace{1.5em}%
     \ColorCircle{orange}~\small Laser%
@@ -123,8 +123,8 @@
     \ColorCircle{teal}~\small Research%
     \hspace{1.5em}%
     \ColorCircle{gray}~\small Publication%
-  \end{center}%
-  \begin{center}%
+  \par}
+  {\centering
     \textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
-  \end{center}%
+  \par}
 }
