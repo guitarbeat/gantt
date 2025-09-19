@@ -1,12 +1,12 @@
-package main
+package validation
 
 import (
 	"fmt"
 	"time"
 )
 
-// Test the final approval system
-func main() {
+// TestFinalApprovalSystem tests the final approval system
+func TestFinalApprovalSystem() {
 	fmt.Println("Testing Final Approval System...")
 
 	// Test 1: Final Approval Configuration

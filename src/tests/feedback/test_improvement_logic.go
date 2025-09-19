@@ -1,12 +1,12 @@
-package main
+package feedback
 
 import (
 	"fmt"
 	"time"
 )
 
-// Test the improvement logic system
-func main() {
+// TestImprovementLogicSystem tests the improvement logic system
+func TestImprovementLogicSystem() {
 	fmt.Println("Testing Improvement Logic System...")
 
 	// Test 1: Improvement Configuration
@@ -28,51 +28,7 @@ func main() {
 	fmt.Println("\n✅ Improvement logic system tests completed!")
 }
 
-// ImprovementConfig represents improvement configuration
-type ImprovementConfig struct {
-	EnableAutoImprovements    bool
-	ImprovementThreshold      float64
-	MaxConcurrentImprovements int
-	ImprovementTimeout        time.Duration
-	EnableVisualImprovements  bool
-	VisualImprovementWeight   float64
-	EnableLayoutImprovements  bool
-	LayoutImprovementWeight   float64
-	EnablePerformanceImprovements bool
-	PerformanceImprovementWeight  float64
-}
-
-// ImprovementAction represents an improvement action
-type ImprovementAction struct {
-	ID          string
-	Type        int
-	Description string
-	Priority    int
-	Effort      string
-	Impact      float64
-	Status      int
-	CreatedAt   time.Time
-	CompletedAt *time.Time
-	Details     map[string]interface{}
-}
-
-// ImprovementResult represents the result of an improvement
-type ImprovementResult struct {
-	ActionID      string
-	Success       bool
-	Message       string
-	Changes       map[string]interface{}
-	Performance   *PerformanceMetrics
-	Timestamp     time.Time
-}
-
-// PerformanceMetrics represents performance metrics
-type PerformanceMetrics struct {
-	BeforeScore float64
-	AfterScore  float64
-	Improvement float64
-	Duration    time.Duration
-}
+// All types are now defined in types.go
 
 func testImprovementConfiguration() {
 	// Test improvement configuration

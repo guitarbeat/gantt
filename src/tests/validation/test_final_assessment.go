@@ -1,12 +1,12 @@
-package main
+package validation
 
 import (
 	"fmt"
 	"time"
 )
 
-// Test the final assessment system
-func main() {
+// TestFinalAssessmentSystem tests the final assessment system
+func TestFinalAssessmentSystem() {
 	fmt.Println("Testing Final Assessment System...")
 
 	// Test 1: Assessment Configuration

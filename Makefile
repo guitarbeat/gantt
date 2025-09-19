@@ -27,8 +27,11 @@ pdf: build
 	cp "build/planner_config.log" "../output/logs/$(OUTPUT).log" 2>/dev/null || true && \
 	echo "📁 Also saved to: ../output/pdfs/$(OUTPUT).pdf"
 
-# Generate PDF with full dataset (temporary: use helper script until Go build fixed)
+# Generate PDF with full dataset and run Go tests
 test:
+	@echo "🧪 Running Go tests..."
+	cd src && go test ./internal/...
+	@echo "📄 Generating PDF test..."
 	cd src && ./scripts/simple.sh ../input/data.cleaned.csv test
 
 # Legacy targets for backward compatibility

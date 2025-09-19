@@ -1,12 +1,12 @@
-package main
+package validation
 
 import (
 	"fmt"
 	"time"
 )
 
-// Test the user validation system
-func main() {
+// TestUserValidationSystem tests the user validation system
+func TestUserValidationSystem() {
 	fmt.Println("Testing User Validation System...")
 
 	// Test 1: User Validation Configuration

@@ -1,12 +1,12 @@
-package main
+package validation
 
 import (
 	"fmt"
 	"time"
 )
 
-// Test the user coordination system
-func main() {
+// TestUserCoordinationSystem tests the user coordination system
+func TestUserCoordinationSystem() {
 	fmt.Println("Testing User Coordination System...")
 
 	// Test 1: User Coordination Configuration
