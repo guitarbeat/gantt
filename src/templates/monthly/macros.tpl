@@ -94,25 +94,30 @@
   \underline{\textbf{#1}}%
 }
 
-% Color legend macro for task categories - matches actual task colors
+% Colored circle macro for legend
+\newcommand{\ColorCircle}[1]{%
+  \textcolor{#1}{$\bullet$}%
+}
+
+% Color legend macro for task categories - uses circles instead of boxes
 \newcommand{\ColorLegend}{%
   \vspace*{-2ex}%
   \begin{center}%
     \small\textbf{Task Categories:}%
     \hspace{1em}%
-    \fcolorbox{blue}{blue!20}{\parbox{2.2em}{\centering\tiny Proposal}}%
-    \hspace{0.4em}%
-    \fcolorbox{orange}{orange!20}{\parbox{2.2em}{\centering\tiny Laser}}%
-    \hspace{0.4em}%
-    \fcolorbox{green}{green!20}{\parbox{2.2em}{\centering\tiny Imaging}}%
-    \hspace{0.4em}%
-    \fcolorbox{purple}{purple!20}{\parbox{2.2em}{\centering\tiny Admin}}%
-    \hspace{0.4em}%
-    \fcolorbox{red}{red!20}{\parbox{2.2em}{\centering\tiny Dissertation}}%
-    \hspace{0.4em}%
-    \fcolorbox{teal}{teal!20}{\parbox{2.2em}{\centering\tiny Research}}%
-    \hspace{0.4em}%
-    \fcolorbox{gray}{gray!20}{\parbox{2.2em}{\centering\tiny Publication}}%
+    \ColorCircle{blue}~\tiny Proposal%
+    \hspace{1em}%
+    \ColorCircle{orange}~\tiny Laser%
+    \hspace{1em}%
+    \ColorCircle{green}~\tiny Imaging%
+    \hspace{1em}%
+    \ColorCircle{purple}~\tiny Admin%
+    \hspace{1em}%
+    \ColorCircle{red}~\tiny Dissertation%
+    \hspace{1em}%
+    \ColorCircle{teal}~\tiny Research%
+    \hspace{1em}%
+    \ColorCircle{gray}~\tiny Publication%
   \end{center}%
   \vspace*{0.1ex}%
 }

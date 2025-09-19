@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:13
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1040,14 +1040,14 @@ LaTeX Font Info:    ... okay on input line 68.
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(14.22636pt, 415.41043pt, 14.22636pt)
-* v-part:(T,H,B)=(28.45274pt, 551.9833pt, 14.22636pt)
+* v-part:(T,H,B)=(5.69046pt, 574.74559pt, 14.22636pt)
 * \paperwidth=443.86316pt
 * \paperheight=594.66241pt
 * \textwidth=415.41043pt
-* \textheight=551.9833pt
+* \textheight=574.74559pt
 * \oddsidemargin=-58.04362pt
 * \evensidemargin=-58.04362pt
-* \topmargin=-80.81725pt
+* \topmargin=-103.57953pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=9.0pt
@@ -1091,12 +1091,9 @@ Package hyperref Info: Link coloring OFF on input line 68.
 \openout2 = `monthly.aux'.
 
  (./monthly.tex
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 1--1
- []\T1/lmss/m/n/5 Proposal 
- []
-
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
 .
+
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1134,22 +1131,9 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 1--1
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 1--1
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 1--1
- []\T1/lmss/m/n/5 Publication 
- []
-
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 2.
+
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
@@ -1180,25 +1164,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 262--263
 
 
 ]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 266--266
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 266--266
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 266--266
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 266--266
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≤ ("2264) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1242,26 +1207,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 525--526
  []
 
 [2]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 529--529
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 529--529
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 529--529
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 529--529
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 790--790
 [][][][] 
  []
@@ -1272,26 +1217,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 790--791
  []
 
 [3]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 794--794
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 794--794
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 794--794
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 794--794
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 1053--1053
 [][][][] 
  []
@@ -1302,25 +1227,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1053--1054
  []
 
 [4]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 1057--1057
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 1057--1057
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 1057--1057
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 1057--1057
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1338,25 +1244,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1318--1319
  []
 
 [5]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 1322--1322
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 1322--1322
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 1322--1322
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 1322--1322
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
@@ -1386,26 +1273,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1583--1584
  []
 
 [6]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 1587--1587
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 1587--1587
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 1587--1587
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 1587--1587
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 1842--1842
 [][][][] 
  []
@@ -1446,25 +1313,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 1842--1843
  []
 
 [7]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 1846--1846
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 1846--1846
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 1846--1846
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 1846--1846
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
@@ -1494,26 +1342,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2142--2143
  []
 
 [8]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 2146--2146
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 2146--2146
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 2146--2146
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 2146--2146
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 2405--2405
 [][][][] 
  []
@@ -1529,26 +1357,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2405--2406
  []
 
 [9]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 2409--2409
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 2409--2409
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 2409--2409
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 2409--2409
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 2670--2670
 [][][][] 
  []
@@ -1559,26 +1367,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2670--2671
  []
 
 [10]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 2674--2674
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 2674--2674
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 2674--2674
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 2674--2674
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 2933--2933
 [][][][] 
  []
@@ -1599,25 +1387,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 2933--2934
  []
 
 [11]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 2937--2937
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 2937--2937
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 2937--2937
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 2937--2937
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1637,25 +1406,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 3198--3199
  []
 
 [12]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 3202--3202
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 3202--3202
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 3202--3202
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 3202--3202
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 
@@ -1675,26 +1425,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 3498--3499
  []
 
 [13]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 3502--3502
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 3502--3502
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 3502--3502
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 3502--3502
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (342.88046pt too wide) in paragraph at lines 3761--3761
 [][][][][][][] 
  []
@@ -1705,26 +1435,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 3761--3762
  []
 
 [14]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 3765--3765
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 3765--3765
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 3765--3765
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 3765--3765
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 4026--4026
 [][][][] 
  []
@@ -1735,26 +1445,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4026--4027
  []
 
 [15]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 4030--4030
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 4030--4030
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 4030--4030
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 4030--4030
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (58.48006pt too wide) in paragraph at lines 4324--4324
 [][][][][][][] 
  []
@@ -1765,26 +1455,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4324--4325
  []
 
 [16]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 4328--4328
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 4328--4328
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 4328--4328
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 4328--4328
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 4589--4589
 [][][][] 
  []
@@ -1800,26 +1470,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4589--4590
  []
 
 [17]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 4593--4593
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 4593--4593
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 4593--4593
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 4593--4593
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 4854--4854
 [][][][] 
  []
@@ -1835,26 +1485,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4854--4855
  []
 
 [18]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 4858--4858
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 4858--4858
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 4858--4858
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 4858--4858
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 5078--5078
 [][][][] 
  []
@@ -1865,26 +1495,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 5078--5079
  []
 
 [19]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 5082--5082
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 5082--5082
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 5082--5082
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 5082--5082
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 5343--5343
 [][][][] 
  []
@@ -1895,50 +1505,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 5343--5344
  []
 
 [20]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 5347--5347
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 5347--5347
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 5347--5347
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 5347--5347
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 5606--5607
 
  []
 
 [21]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 5610--5610
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 5610--5610
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 5610--5610
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 5610--5610
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
@@ -1953,50 +1524,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 5906--5907
  []
 
 [22]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 5910--5910
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 5910--5910
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 5910--5910
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 5910--5910
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 6169--6170
 
  []
 
 [23]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 6173--6173
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 6173--6173
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 6173--6173
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 6173--6173
- []\T1/lmss/m/n/5 Publication 
- []
-
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
@@ -2016,26 +1548,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 6434--6435
  []
 
 [24]
-Overfull \hbox (0.56757pt too wide) in paragraph at lines 6438--6438
- []\T1/lmss/m/n/5 Proposal 
- []
-
-
-Overfull \hbox (7.7084pt too wide) in paragraph at lines 6438--6438
- []\T1/lmss/m/n/5 Dissertation 
- []
-
-
-Overfull \hbox (0.8196pt too wide) in paragraph at lines 6438--6438
- []\T1/lmss/m/n/5 Research 
- []
-
-
-Overfull \hbox (6.21364pt too wide) in paragraph at lines 6438--6438
- []\T1/lmss/m/n/5 Publication 
- []
-
-
 Overfull \hbox (0.79999pt too wide) in paragraph at lines 6734--6734
 [][][][] 
  []
@@ -2055,8 +1567,8 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  30025 strings out of 474773
- 603603 string characters out of 5757725
- 1960839 words of memory out of 5000000
+ 603600 string characters out of 5757725
+ 1955839 words of memory out of 5000000
  51611 multiletter control sequences out of 15000+600000
  601096 words of font info for 72 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
