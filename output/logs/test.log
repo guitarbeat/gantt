@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:15
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  18 SEP 2025 23:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1117,11 +1117,11 @@ LaTeX Font Info:    Trying to load font information for OMX+lmex on input line
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 1.
+LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 1.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 1.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 1.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1132,9 +1132,6 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 2.
-
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 Missing character: There is no ★ ("2605) in font ec-lmssbx10!
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
@@ -1567,11 +1564,11 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30025 strings out of 474773
- 603600 string characters out of 5757725
+ 30024 strings out of 474773
+ 603587 string characters out of 5757725
  1955839 words of memory out of 5000000
- 51611 multiletter control sequences out of 15000+600000
- 601096 words of font info for 72 fonts, out of 8000000 for 9000
+ 51610 multiletter control sequences out of 15000+600000
+ 598325 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  84i,21n,96p,1156b,1598s stack positions out of 10000i,1000n,20000p,200000b,200000s
 

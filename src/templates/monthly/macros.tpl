@@ -94,30 +94,28 @@
   \underline{\textbf{#1}}%
 }
 
-% Colored circle macro for legend
+% Colored circle macro for legend - bigger circles
 \newcommand{\ColorCircle}[1]{%
-  \textcolor{#1}{$\bullet$}%
+  \textcolor{#1}{\Large$\bullet$}%
 }
 
 % Color legend macro for task categories - uses circles instead of boxes
 \newcommand{\ColorLegend}{%
   \vspace*{-2ex}%
   \begin{center}%
-    \small\textbf{Task Categories:}%
-    \hspace{1em}%
-    \ColorCircle{blue}~\tiny Proposal%
-    \hspace{1em}%
-    \ColorCircle{orange}~\tiny Laser%
-    \hspace{1em}%
-    \ColorCircle{green}~\tiny Imaging%
-    \hspace{1em}%
-    \ColorCircle{purple}~\tiny Admin%
-    \hspace{1em}%
-    \ColorCircle{red}~\tiny Dissertation%
-    \hspace{1em}%
-    \ColorCircle{teal}~\tiny Research%
-    \hspace{1em}%
-    \ColorCircle{gray}~\tiny Publication%
+    \ColorCircle{blue}~\small Proposal%
+    \hspace{1.5em}%
+    \ColorCircle{orange}~\small Laser%
+    \hspace{1.5em}%
+    \ColorCircle{green}~\small Imaging%
+    \hspace{1.5em}%
+    \ColorCircle{purple}~\small Admin%
+    \hspace{1.5em}%
+    \ColorCircle{red}~\small Dissertation%
+    \hspace{1.5em}%
+    \ColorCircle{teal}~\small Research%
+    \hspace{1.5em}%
+    \ColorCircle{gray}~\small Publication%
   \end{center}%
   \vspace*{0.1ex}%
 }

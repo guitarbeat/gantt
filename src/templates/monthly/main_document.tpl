@@ -49,7 +49,7 @@
 {{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 
 {{- if not .Cfg.Debug.ShowLinks}}
-\hypersetup{hidelinks,colorlinks=false,urlcolor=black,linkcolor=black,citecolor=black}
+\hypersetup{hidelinks,colorlinks=false,urlcolor=black,linkcolor=black,citecolor=black,pdfborder={0 0 0},pdfborderstyle={}}
 {{- end}}
 
 \geometry{paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}
