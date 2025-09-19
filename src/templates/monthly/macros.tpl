@@ -124,8 +124,4 @@
     \hspace{1.5em}%
     \ColorCircle{gray}~\small Publication%
   \par}
-  \vspace*{0.1ex}%
-  {\centering
-    \textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
-  \par}
 }

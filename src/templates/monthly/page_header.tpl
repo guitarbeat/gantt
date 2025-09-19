@@ -6,10 +6,6 @@
 \hspace{1.5em}%
 {{- end -}}
 \par}
-\vspace*{0.1ex}%
-{\centering
-\textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
-\par}
 {{- else -}}
 \ColorLegend
 {{- end -}}
