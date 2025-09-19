@@ -13,17 +13,13 @@ build:
 pdf:
 	./scripts/simple.sh $(CSV) $(OUTPUT)
 
-# Quick test with triple task
+# Generate PDF with full dataset
 test:
-	./scripts/simple.sh ../input/test_triple.csv test
-
-# Generate with full dataset
-demo:
-	./scripts/simple.sh ../input/data.cleaned.csv demo
+	./scripts/simple.sh ../input/data.cleaned.csv test
 
 # Legacy targets for backward compatibility
 run: test
-run-csv: demo
+run-csv: test
 generate: test
 
 fmt:
