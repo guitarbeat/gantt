@@ -5,9 +5,7 @@
 \ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }%
 \hspace{1.5em}%
 {{- end -}}
-\end{center}%
-\vspace*{-0.5ex}%
-\begin{center}%
+\vspace*{-0.8ex}%
 \textcolor{gray!60}{\rule{0.6\textwidth}{0.8pt}}%
 \end{center}%
 {{- else -}}
