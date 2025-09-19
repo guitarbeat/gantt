@@ -126,4 +126,4 @@ def analyze_schedule_balance(csv_file):
 
 if __name__ == "__main__":
     analysis = analyze_schedule_balance(
-        '/Users/aaron/Downloads/gantt/input/data.truly_balanced.csv')
+        '/Users/aaron/Downloads/gantt/input/data.ultra_balanced.csv')
