@@ -11,7 +11,7 @@ import (
 // LayoutIntegration bridges the integrated layout system with the template system
 type LayoutIntegration struct {
 	gridConfig *cal.GridConfig
-	integration *cal.CalendarGridIntegration
+	integration *cal.LayoutEngine
 }
 
 // NewLayoutIntegration creates a new layout integration instance
@@ -29,7 +29,7 @@ func NewLayoutIntegration() *LayoutIntegration {
 		TaskSpacing:      1.0,
 	}
 
-	integration := cal.NewCalendarGridIntegration(gridConfig)
+	integration := cal.NewLayoutEngine(gridConfig)
 
 	return &LayoutIntegration{
 		gridConfig:  gridConfig,
@@ -223,5 +223,5 @@ func (li *LayoutIntegration) getLayoutStatsForMonth(result *cal.IntegratedLayout
 // UpdateGridConfig updates the grid configuration for the layout integration
 func (li *LayoutIntegration) UpdateGridConfig(config *cal.GridConfig) {
 	li.gridConfig = config
-	li.integration = cal.NewCalendarGridIntegration(config)
+	li.integration = cal.NewLayoutEngine(config)
 }
