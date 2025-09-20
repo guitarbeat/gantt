@@ -3,7 +3,7 @@ package calendar
 import (
 	"time"
 
-	"phd-dissertation-planner/internal/data"
+	"phd-dissertation-planner/internal/shared"
 )
 
 // SpanningTask represents a task that spans multiple days
@@ -22,7 +22,7 @@ type SpanningTask struct {
 }
 
 // CreateSpanningTask creates a new spanning task from basic task data
-func CreateSpanningTask(task data.Task, startDate, endDate time.Time) SpanningTask {
+func CreateSpanningTask(task shared.Task, startDate, endDate time.Time) SpanningTask {
 	// * Fixed: Use Category field instead of Priority
 	color := getColorForCategory(task.Category)
 

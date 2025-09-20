@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"phd-dissertation-planner/internal/data"
+	"phd-dissertation-planner/internal/shared"
 )
 
 // PositioningEngine handles precise positioning and alignment of tasks within the calendar grid
@@ -159,7 +159,7 @@ func NewPositioningEngine(gridConfig *GridConfig) *PositioningEngine {
 }
 
 // PositionTasks positions all tasks within the calendar grid
-func (pe *PositioningEngine) PositionTasks(tasks []*data.Task, existingBars []*IntegratedTaskBar) (*PositioningResult, error) {
+func (pe *PositioningEngine) PositionTasks(tasks []*shared.Task, existingBars []*IntegratedTaskBar) (*PositioningResult, error) {
 	// Create positioning context
 	context := &PositioningContext{
 		CalendarStart:   pe.gridConfig.CalendarStart,
@@ -209,7 +209,7 @@ func (pe *PositioningEngine) PositionTasks(tasks []*data.Task, existingBars []*I
 }
 
 // createIntegratedTaskBars creates integrated task bars from tasks
-func (pe *PositioningEngine) createIntegratedTaskBars(tasks []*data.Task, context *PositioningContext) []*IntegratedTaskBar {
+func (pe *PositioningEngine) createIntegratedTaskBars(tasks []*shared.Task, context *PositioningContext) []*IntegratedTaskBar {
 	var bars []*IntegratedTaskBar
 	
 	for _, task := range tasks {
@@ -225,7 +225,7 @@ func (pe *PositioningEngine) createIntegratedTaskBars(tasks []*data.Task, contex
 		height := pe.calculateTaskHeight(task, context)
 		
 		// Get task category and color
-		category := data.GetCategory(task.Category)
+		category := shared.GetCategory(task.Category)
 		
 		// Create integrated task bar
 		bar := &IntegratedTaskBar{
@@ -273,7 +273,7 @@ func (pe *PositioningEngine) calculateXPosition(date time.Time, context *Positio
 }
 
 // calculateInitialYPosition calculates the initial Y position for a task
-func (pe *PositioningEngine) calculateInitialYPosition(task *data.Task, context *PositioningContext) float64 {
+func (pe *PositioningEngine) calculateInitialYPosition(task *shared.Task, context *PositioningContext) float64 {
 	// Start with a basic Y position based on task priority
 	baseY := context.DayHeight * 0.1 // 10% from top
 	
@@ -284,7 +284,7 @@ func (pe *PositioningEngine) calculateInitialYPosition(task *data.Task, context 
 }
 
 // calculateTaskHeight calculates the height of a task
-func (pe *PositioningEngine) calculateTaskHeight(task *data.Task, context *PositioningContext) float64 {
+func (pe *PositioningEngine) calculateTaskHeight(task *shared.Task, context *PositioningContext) float64 {
 	// Base height
 	height := context.DayHeight * 0.6 // 60% of day height
 	
@@ -482,7 +482,7 @@ func (pe *PositioningEngine) calculateDistance(bar1, bar2 *IntegratedTaskBar) fl
 }
 
 // calculateTaskDensity calculates the task density in the calendar
-func (pe *PositioningEngine) calculateTaskDensity(tasks []*data.Task) float64 {
+func (pe *PositioningEngine) calculateTaskDensity(tasks []*shared.Task) float64 {
 	if len(tasks) == 0 {
 		return 0.0
 	}
@@ -748,19 +748,19 @@ func (pe *PositioningEngine) generatePositioningRecommendations(metrics *Positio
 }
 
 // Helper methods for task positioning
-func (pe *PositioningEngine) isTaskContinuation(task *data.Task, context *PositioningContext) bool {
+func (pe *PositioningEngine) isTaskContinuation(task *shared.Task, context *PositioningContext) bool {
 	return task.StartDate.Before(context.CalendarStart)
 }
 
-func (pe *PositioningEngine) isTaskStart(task *data.Task, context *PositioningContext) bool {
+func (pe *PositioningEngine) isTaskStart(task *shared.Task, context *PositioningContext) bool {
 	return task.StartDate.Equal(context.CalendarStart) || task.StartDate.After(context.CalendarStart)
 }
 
-func (pe *PositioningEngine) isTaskEnd(task *data.Task, context *PositioningContext) bool {
+func (pe *PositioningEngine) isTaskEnd(task *shared.Task, context *PositioningContext) bool {
 	return task.EndDate.Equal(context.CalendarEnd) || task.EndDate.Before(context.CalendarEnd)
 }
 
-func (pe *PositioningEngine) hasMonthBoundary(task *data.Task, context *PositioningContext) bool {
+func (pe *PositioningEngine) hasMonthBoundary(task *shared.Task, context *PositioningContext) bool {
 	startMonth := task.StartDate.Month()
 	endMonth := task.EndDate.Month()
 	return startMonth != endMonth

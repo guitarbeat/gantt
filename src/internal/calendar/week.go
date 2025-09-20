@@ -6,8 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"phd-dissertation-planner/internal/header"
-	"phd-dissertation-planner/internal/latex"
+	"phd-dissertation-planner/internal/rendering"
 )
 
 type Weeks []*Week
@@ -125,12 +124,12 @@ func (w *Week) WeekNumber(large interface{}) string {
 	itoa := strconv.Itoa(wn)
 	ref := w.ref()
 	if !larg {
-		return latex.Link(ref, itoa)
+		return rendering.Link(ref, itoa)
 	}
 
 	text := `\rotatebox[origin=tr]{90}{\makebox[\myLenMonthlyCellHeight][c]{Week ` + itoa + `}}`
 
-	return latex.Link(ref, text)
+	return rendering.Link(ref, text)
 }
 
 func (w *Week) weekNumber() int {
@@ -146,11 +145,11 @@ func (w *Week) weekNumber() int {
 }
 
 func (w *Week) Breadcrumb() string {
-	return header.Items{
-		header.NewIntItem(w.Year.Number),
+	return rendering.Items{
+		rendering.NewIntItem(w.Year.Number),
 		w.QuartersBreadcrumb(),
 		w.MonthsBreadcrumb(),
-		header.NewTextItem("Week " + strconv.Itoa(w.weekNumber())).RefText(w.ref()).Ref(true),
+		rendering.NewTextItem("Week " + strconv.Itoa(w.weekNumber())).RefText(w.ref()).Ref(true),
 	}.Table(true)
 }
 
@@ -169,15 +168,15 @@ func (w *Week) rightMonth() time.Month {
 	return -1
 }
 
-func (w *Week) PrevNext() header.Items {
-	items := header.Items{}
+func (w *Week) PrevNext() rendering.Items {
+	items := rendering.Items{}
 	if w.PrevExists() {
 		wn := w.Prev().weekNumber()
-		items = append(items, header.NewTextItem("Week "+strconv.Itoa(wn)))
+		items = append(items, rendering.NewTextItem("Week "+strconv.Itoa(wn)))
 	}
 	if w.NextExists() {
 		wn := w.Next().weekNumber()
-		items = append(items, header.NewTextItem("Week "+strconv.Itoa(wn)))
+		items = append(items, rendering.NewTextItem("Week "+strconv.Itoa(wn)))
 	}
 	return items
 }
@@ -197,18 +196,18 @@ func (w *Week) PrevExists() bool {
 func (w *Week) Next() *Week { return fillWeekly(w.Weekday, w.Year, w.Days[0].Add(7)) }
 func (w *Week) Prev() *Week { return fillWeekly(w.Weekday, w.Year, w.Days[0].Add(-7)) }
 
-func (w *Week) QuartersBreadcrumb() header.ItemsGroup {
-	group := header.ItemsGroup{}.Delim(" / ")
+func (w *Week) QuartersBreadcrumb() rendering.ItemsGroup {
+	group := rendering.ItemsGroup{}.Delim(" / ")
 	for _, quarter := range w.Quarters {
-		group.Items = append(group.Items, header.NewTextItem("Q"+strconv.Itoa(quarter.Number)))
+		group.Items = append(group.Items, rendering.NewTextItem("Q"+strconv.Itoa(quarter.Number)))
 	}
 	return group
 }
 
-func (w *Week) MonthsBreadcrumb() header.ItemsGroup {
-	group := header.ItemsGroup{}.Delim(" / ")
+func (w *Week) MonthsBreadcrumb() rendering.ItemsGroup {
+	group := rendering.ItemsGroup{}.Delim(" / ")
 	for _, month := range w.Months {
-		group.Items = append(group.Items, header.NewMonthItem(month.Month))
+		group.Items = append(group.Items, rendering.NewMonthItem(month.Month))
 	}
 	return group
 }
@@ -247,19 +246,19 @@ func (w *Week) rightYear() int {
 func (w *Week) HeadingMOS() string {
 	var contents []string
 	if w.PrevExists() {
-		leftNavBox := latex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\langle$`)
-		contents = append(contents, latex.Hyperlink(w.Prev().ref(), leftNavBox))
+		leftNavBox := rendering.ResizeBoxW(`\myLenHeaderResizeBox`, `$\langle$`)
+		contents = append(contents, rendering.Hyperlink(w.Prev().ref(), leftNavBox))
 	}
-	contents = append(contents, latex.ResizeBoxW(`\myLenHeaderResizeBox`, w.Target()))
+	contents = append(contents, rendering.ResizeBoxW(`\myLenHeaderResizeBox`, w.Target()))
 	if w.NextExists() {
-		rightNavBox := latex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\rangle$`)
-		contents = append(contents, latex.Hyperlink(w.Next().ref(), rightNavBox))
+		rightNavBox := rendering.ResizeBoxW(`\myLenHeaderResizeBox`, `$\rangle$`)
+		contents = append(contents, rendering.Hyperlink(w.Next().ref(), rightNavBox))
 	}
-	return latex.Tabular("@{}"+strings.Repeat("l", len(contents)), strings.Join(contents, ` & `))
+	return rendering.Tabular("@{}"+strings.Repeat("l", len(contents)), strings.Join(contents, ` & `))
 }
 
 func (w *Week) Name() string   { return "Week " + strconv.Itoa(w.weekNumber()) }
-func (w *Week) Target() string { return latex.Hypertarget(w.ref(), w.Name()) }
+func (w *Week) Target() string { return rendering.Hypertarget(w.ref(), w.Name()) }
 
 // HasDays returns true if the week contains at least one non-empty day.
 func (w *Week) HasDays() bool {

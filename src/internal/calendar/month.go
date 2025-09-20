@@ -5,8 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"phd-dissertation-planner/internal/header"
-	"phd-dissertation-planner/internal/latex"
+	"phd-dissertation-planner/internal/rendering"
 )
 
 type Months []*Month
@@ -53,7 +52,7 @@ func (m *Month) MaybeName(large interface{}) string {
 		return ""
 	}
 
-	return `\multicolumn{8}{c}{` + latex.Link(m.Month.String(), m.Month.String()) + `} \\ \hline`
+	return `\multicolumn{8}{c}{` + rendering.Link(m.Month.String(), m.Month.String()) + `} \\ \hline`
 }
 
 func (m *Month) WeekHeader(large interface{}) string {
@@ -138,22 +137,22 @@ func (m *Month) GetTaskColors() map[string]string {
 }
 
 func (m *Month) Breadcrumb() string {
-	return header.Items{
-		header.NewIntItem(m.Year.Number),
-		header.NewTextItem("Q" + strconv.Itoa(m.Quarter.Number)),
-		header.NewMonthItem(m.Month).Ref(),
+	return rendering.Items{
+		rendering.NewIntItem(m.Year.Number),
+		rendering.NewTextItem("Q" + strconv.Itoa(m.Quarter.Number)),
+		rendering.NewMonthItem(m.Month).Ref(),
 	}.Table(true)
 }
 
-func (m *Month) PrevNext() header.Items {
-	items := header.Items{}
+func (m *Month) PrevNext() rendering.Items {
+	items := rendering.Items{}
 
 	if m.Month > time.January {
-		items = append(items, header.NewMonthItem(m.Month-1))
+		items = append(items, rendering.NewMonthItem(m.Month-1))
 	}
 
 	if m.Month < time.December {
-		items = append(items, header.NewMonthItem(m.Month+1))
+		items = append(items, rendering.NewMonthItem(m.Month+1))
 	}
 
 	return items
@@ -163,6 +162,6 @@ func (m *Month) ShortName() string { return m.Month.String()[:3] }
 
 func (m *Month) HeadingMOS() string {
 	return `\begin{tabular}{@{}l}
-  \resizebox{!}{\myLenHeaderResizeBox}{` + latex.Target(m.Month.String(), m.Month.String()) + `\myDummyQ}
+  \resizebox{!}{\myLenHeaderResizeBox}{` + rendering.Target(m.Month.String(), m.Month.String()) + `\myDummyQ}
 \end{tabular}`
 }

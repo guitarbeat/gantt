@@ -1,0 +1,141 @@
+package core
+
+import (
+	"fmt"
+	"time"
+
+	cal "phd-dissertation-planner/internal/calendar"
+	"phd-dissertation-planner/internal/shared"
+)
+
+func Monthly(cfg shared.Config, tpls []string) (shared.Modules, error) {
+	// Use legacy monthly generation without layout integration
+	return MonthlyLegacy(cfg, tpls)
+}
+
+// MonthlyLegacy provides the original monthly generation without layout integration
+func MonthlyLegacy(cfg shared.Config, tpls []string) (shared.Modules, error) {
+	// Load tasks from CSV if available
+	var tasks []shared.Task
+	if cfg.CSVFilePath != "" {
+		reader := shared.NewReader(cfg.CSVFilePath)
+		var err error
+		tasks, err = reader.ReadTasks()
+		if err != nil {
+			// Log error but continue without tasks
+			return nil, fmt.Errorf("error reading tasks: %w", err)
+		}
+	}
+
+	// If we have months with tasks from CSV, use only those
+	if len(cfg.MonthsWithTasks) > 0 {
+		modules := make(shared.Modules, 0, len(cfg.MonthsWithTasks))
+
+		for _, monthYear := range cfg.MonthsWithTasks {
+			year := cal.NewYear(cfg.WeekStart, monthYear.Year)
+
+			// Find the specific month in the year
+			var targetMonth *cal.Month
+			for _, quarter := range year.Quarters {
+				for _, month := range quarter.Months {
+					if month.Month == monthYear.Month {
+						targetMonth = month
+						break
+					}
+				}
+				if targetMonth != nil {
+					break
+				}
+			}
+
+			// * Check if targetMonth was found, log warning if not
+			if targetMonth == nil {
+				// Log warning but continue processing other months
+				fmt.Printf("Warning: Month %s %d not found in calendar, skipping\n",
+					monthYear.Month.String(), monthYear.Year)
+				continue
+			}
+
+			// Assign tasks to days in this month
+			assignTasksToMonth(targetMonth, tasks)
+
+			modules = append(modules, shared.Module{
+				Cfg: cfg,
+				Tpl: tpls[0],
+				Body: map[string]interface{}{
+					"Year":         year,
+					"Quarter":      targetMonth.Quarter,
+					"Month":        targetMonth,
+					"Breadcrumb":   targetMonth.Breadcrumb(),
+					"HeadingMOS":   targetMonth.HeadingMOS(),
+					"SideQuarters": year.SideQuarters(targetMonth.Quarter.Number),
+					"SideMonths":   year.SideMonths(targetMonth.Month),
+					"Extra":        targetMonth.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
+					"Large":        true,
+					"TableType":    "tabularx",
+					"Today":        cal.Day{Time: time.Now()},
+				},
+			})
+		}
+
+		return modules, nil
+	}
+
+	// Fallback to original behavior if no CSV data
+	years := cfg.GetYears()
+	totalMonths := len(years) * 12
+	modules := make(shared.Modules, 0, totalMonths)
+
+	for _, yearNum := range years {
+		year := cal.NewYear(cfg.WeekStart, yearNum)
+
+		for _, quarter := range year.Quarters {
+			for _, month := range quarter.Months {
+				modules = append(modules, shared.Module{
+					Cfg: cfg,
+					Tpl: tpls[0],
+					Body: map[string]interface{}{
+						"Year":         year,
+						"Quarter":      quarter,
+						"Month":        month,
+						"Breadcrumb":   month.Breadcrumb(),
+						"HeadingMOS":   month.HeadingMOS(),
+						"SideQuarters": year.SideQuarters(quarter.Number),
+						"SideMonths":   year.SideMonths(month.Month),
+						"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
+						"Large":        true,
+						"TableType":    "tabularx",
+						"Today":        cal.Day{Time: time.Now()},
+					},
+				})
+			}
+		}
+	}
+
+	return modules, nil
+}
+
+// assignTasksToMonth assigns tasks to the appropriate days in a month
+func assignTasksToMonth(month *cal.Month, tasks []shared.Task) {
+	// Convert data.Task to SpanningTask and apply to month
+	var spanningTasks []cal.SpanningTask
+
+	for _, task := range tasks {
+		// Check if task overlaps with this month
+		monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.Local)
+		monthEnd := monthStart.AddDate(0, 1, -1)
+
+		if task.StartDate.Before(monthEnd.AddDate(0, 0, 1)) && task.EndDate.After(monthStart.AddDate(0, 0, -1)) {
+			// Create spanning task directly from shared.Task
+			// Rendering rules:
+			// - Start day: show a thin colored bar + a single concise text label.
+			// - Middle/end days: show only the bar (no repeated labels).
+			// Therefore, we DO NOT add this task as a regular per-day entry to avoid duplication.
+			spanningTask := cal.CreateSpanningTask(task, task.StartDate, task.EndDate)
+			spanningTasks = append(spanningTasks, spanningTask)
+		}
+	}
+
+	// Apply spanning tasks to the month for background coloring
+	cal.ApplySpanningTasksToMonth(month, spanningTasks)
+}

@@ -1,8 +1,0 @@
-pages:
-  - name: monthly
-    renderblocks:
-      - funcname: monthly
-        tpls:
-          - monthly_page.tpl
-
-

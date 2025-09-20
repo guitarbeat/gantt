@@ -6,8 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"phd-dissertation-planner/internal/header"
-	"phd-dissertation-planner/internal/latex"
+	"phd-dissertation-planner/internal/rendering"
 )
 
 // * LaTeX rendering constants
@@ -48,11 +47,11 @@ func (d Day) Day(today, large interface{}) string {
 
 	if td, ok := today.(Day); ok {
 		if d.Time.Equal(td.Time) {
-			return latex.EmphCell(day)
+			return rendering.EmphCell(day)
 		}
 	}
 
-	return latex.Link(d.ref(), day)
+	return rendering.Link(d.ref(), day)
 }
 
 // renderLargeDay renders the day cell for large (monthly) view with tasks and spanning tasks
@@ -92,7 +91,7 @@ func (d Day) Add(days int) Day {
 
 // WeekLink creates a link for the week view
 func (d Day) WeekLink() string {
-	return latex.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
+	return rendering.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
 }
 
 // Breadcrumb creates a breadcrumb navigation for the day
@@ -108,16 +107,16 @@ func (d Day) Breadcrumb(prefix string, leaf string, shorten bool) string {
 		dayLayout = "Mon, 2"
 	}
 
-	dayItem := header.NewTextItem(d.Time.Format(dayLayout)).RefText(d.Time.Format(time.RFC3339))
-	items := header.Items{
-		header.NewIntItem(d.Time.Year()),
-		header.NewTextItem("Q" + strconv.Itoa(int(math.Ceil(float64(d.Time.Month())/3.)))),
-		header.NewMonthItem(d.Time.Month()).Shorten(shorten),
-		header.NewTextItem("Week " + strconv.Itoa(wn)).RefPrefix(wpref),
+	dayItem := rendering.NewTextItem(d.Time.Format(dayLayout)).RefText(d.Time.Format(time.RFC3339))
+	items := rendering.Items{
+		rendering.NewIntItem(d.Time.Year()),
+		rendering.NewTextItem("Q" + strconv.Itoa(int(math.Ceil(float64(d.Time.Month())/3.)))),
+		rendering.NewMonthItem(d.Time.Month()).Shorten(shorten),
+		rendering.NewTextItem("Week " + strconv.Itoa(wn)).RefPrefix(wpref),
 	}
 
 	if len(leaf) > 0 {
-		items = append(items, dayItem, header.NewTextItem(leaf).RefText(prefix+d.ref()).Ref(true))
+		items = append(items, dayItem, rendering.NewTextItem(leaf).RefText(prefix+d.ref()).Ref(true))
 	} else {
 		items = append(items, dayItem.Ref(true))
 	}
@@ -127,21 +126,21 @@ func (d Day) Breadcrumb(prefix string, leaf string, shorten bool) string {
 
 // LinkLeaf creates a link with a leaf text
 func (d Day) LinkLeaf(prefix, leaf string) string {
-	return latex.Link(prefix+d.ref(), leaf)
+	return rendering.Link(prefix+d.ref(), leaf)
 }
 
 // PrevNext creates navigation items for previous and next days
-func (d Day) PrevNext(prefix string) header.Items {
-	items := header.Items{}
+func (d Day) PrevNext(prefix string) rendering.Items {
+	items := rendering.Items{}
 
 	if d.PrevExists() {
 		prev := d.Prev()
-		items = append(items, header.NewTextItem(prev.Time.Format("Mon, 2")).RefText(prefix+prev.ref()))
+		items = append(items, rendering.NewTextItem(prev.Time.Format("Mon, 2")).RefText(prefix+prev.ref()))
 	}
 
 	if d.NextExists() {
 		next := d.Next()
-		items = append(items, header.NewTextItem(next.Time.Format("Mon, 2")).RefText(prefix+next.ref()))
+		items = append(items, rendering.NewTextItem(next.Time.Format("Mon, 2")).RefText(prefix+next.ref()))
 	}
 
 	return items
@@ -169,7 +168,7 @@ func (d Day) Month() time.Month { return d.Time.Month() }
 func (d Day) HeadingMOS(prefix, leaf string) string {
 	day := strconv.Itoa(d.Time.Day())
 	if len(leaf) > 0 {
-		day = latex.Link(d.ref(), day)
+		day = rendering.Link(d.ref(), day)
 	}
 
 	anglesize := `\dimexpr\myLenHeaderResizeBox-0.86pt`
@@ -177,22 +176,22 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 	var r1, r2 []string
 	if d.PrevExists() {
 		ll = "l"
-		leftNavBox := latex.ResizeBoxW(anglesize, `$\langle$`)
-		r1 = append(r1, latex.Multirow(2, latex.Hyperlink(d.Prev().ref(prefix), leftNavBox)))
+		leftNavBox := rendering.ResizeBoxW(anglesize, `$\langle$`)
+		r1 = append(r1, rendering.Multirow(2, rendering.Hyperlink(d.Prev().ref(prefix), leftNavBox)))
 		r2 = append(r2, "")
 	}
-	r1 = append(r1, latex.Multirow(2, latex.ResizeBoxW(`\myLenHeaderResizeBox`, day)))
+	r1 = append(r1, rendering.Multirow(2, rendering.ResizeBoxW(`\myLenHeaderResizeBox`, day)))
 	r2 = append(r2, "")
-	r1 = append(r1, latex.Bold(d.Time.Weekday().String()))
+	r1 = append(r1, rendering.Bold(d.Time.Weekday().String()))
 	r2 = append(r2, d.Time.Month().String())
 	if d.NextExists() {
 		rl = "l"
-		rightNavBox := latex.ResizeBoxW(anglesize, `$\rangle$`)
-		r1 = append(r1, latex.Multirow(2, latex.Hyperlink(d.Next().ref(prefix), rightNavBox)))
+		rightNavBox := rendering.ResizeBoxW(anglesize, `$\rangle$`)
+		r1 = append(r1, rendering.Multirow(2, rendering.Hyperlink(d.Next().ref(prefix), rightNavBox)))
 		r2 = append(r2, "")
 	}
 	contents := strings.Join(r1, ` & `) + `\\` + "\n" + strings.Join(r2, ` & `)
-	return latex.Hypertarget(prefix+d.ref(), "") + latex.Tabular("@{}"+ll+"l|l"+rl, contents)
+	return rendering.Hypertarget(prefix+d.ref(), "") + rendering.Tabular("@{}"+ll+"l|l"+rl, contents)
 }
 
 // * LaTeX cell construction functions

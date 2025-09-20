@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"phd-dissertation-planner/internal/data"
+	"phd-dissertation-planner/internal/shared"
 )
 
 func TestPositioningEngine(t *testing.T) {
@@ -88,7 +88,7 @@ func TestPositionTasks(t *testing.T) {
 	engine := NewPositioningEngine(config)
 	
 	// Create test tasks
-	tasks := []*data.Task{
+	tasks := []*shared.Task{
 		{
 			ID:        "task1",
 			Name:      "High Priority Task",
@@ -199,7 +199,7 @@ func TestPositioningEngineCalculateTaskHeight(t *testing.T) {
 	}
 	
 	// Test normal duration task
-	task := &data.Task{
+	task := &shared.Task{
 		StartDate: time.Date(2024, 1, 5, 0, 0, 0, 0, time.UTC),
 		EndDate:   time.Date(2024, 1, 12, 0, 0, 0, 0, time.UTC),
 	}
@@ -218,7 +218,7 @@ func TestPositioningEngineCalculateTaskHeight(t *testing.T) {
 	}
 	
 	// Test short duration task
-	shortTask := &data.Task{
+	shortTask := &shared.Task{
 		StartDate: time.Date(2024, 1, 5, 0, 0, 0, 0, time.UTC),
 		EndDate:   time.Date(2024, 1, 5, 0, 0, 0, 0, time.UTC),
 	}
@@ -229,7 +229,7 @@ func TestPositioningEngineCalculateTaskHeight(t *testing.T) {
 	}
 	
 	// Test long duration task
-	longTask := &data.Task{
+	longTask := &shared.Task{
 		StartDate: time.Date(2024, 1, 5, 0, 0, 0, 0, time.UTC),
 		EndDate:   time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
 	}
