@@ -1,7 +1,7 @@
 % Setup category palette for this month
-\SetupDefaultCategoryPalette
+\SetupDefaultCategoryPalette{}
 
-{{- template "calendar_table.tpl" dict "Cfg" .Cfg "Body" .Body -}}
+{{- template "calendar.tpl" dict "Cfg" .Cfg "Body" .Body -}}
 
 % Legend at bottom of page
 \vfill
