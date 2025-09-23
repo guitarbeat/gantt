@@ -355,8 +355,17 @@ func DefaultReaderOptions() *ReaderOptions {
 		StrictMode:  false,
 		SkipInvalid: true,
 		MaxMemoryMB: 100, // 100MB default limit
-		Logger:      log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
+		Logger:      newDefaultLogger(),
 	}
+}
+
+// newDefaultLogger returns a logger that can be silenced via env flag.
+// Set PLANNER_SILENT=1 to suppress data-layer logs.
+func newDefaultLogger() *log.Logger {
+    if os.Getenv("PLANNER_SILENT") == "1" || strings.EqualFold(os.Getenv("PLANNER_LOG_LEVEL"), "silent") {
+        return log.New(io.Discard, "", 0)
+    }
+    return log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile)
 }
 
 // NewReader creates a new CSV data reader with default options

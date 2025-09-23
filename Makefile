@@ -14,7 +14,7 @@ pdf: build
 	cd src && \
 	echo "🎯 Generating PDF from: $(CSV)" && \
 	echo "📄 Output: $(OUTPUT).pdf" && \
-	PLANNER_CSV_FILE="$(CSV)" ./build/plannergen --config "internal/config/base.yaml" --outdir build && \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="$(CSV)" ./build/plannergen --config "internal/config/base.yaml" --outdir build && \
 	echo "🔧 Fixing LaTeX comment issues..." && \
 	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex || true && \
 	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex || true && \
@@ -52,7 +52,7 @@ test:
 		go build -o build/plannergen .; \
 	fi && \
 	echo "📝 Generating LaTeX..." && \
-	PLANNER_CSV_FILE="../input/data.cleaned.csv" \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/data.cleaned.csv" \
 	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
 	echo "🔧 Fixing LaTeX comment issues..." && \
 	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/page_template.tex && \
