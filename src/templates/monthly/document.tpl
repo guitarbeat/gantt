@@ -44,7 +44,11 @@
 \usepackage{pgffor}
 \usepackage[most]{tcolorbox}
 \usepackage{blindtext}
-\usepackage{hyperref}
+% Do not load hyperref; define safe no-op link commands
+\providecommand{\href}[2]{#2}
+\providecommand{\hyperlink}[2]{#2}
+\providecommand{\hypertarget}[2]{#2}
+\providecommand{\hypersetup}[1]{}
 
 {{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 

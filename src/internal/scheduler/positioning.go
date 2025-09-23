@@ -983,7 +983,7 @@ func (se *SpatialEngine) getDefaultVisualSettings() *IntegratedVisualSettings {
 		ShowConflictIndicators: true,
 		CollapseThreshold:      5,
 		AnimationEnabled:       false,
-		HighlightConflicts:     true,
+        HighlightConflicts:     false,
 		ColorScheme:            "default",
 		FontSize:               "small",
 		TaskBarOpacity:         0.9,

@@ -599,7 +599,7 @@ func NewLayoutEngine(config *GridConfig) *LayoutEngine {
 			ShowConflictIndicators: true,
 			CollapseThreshold:      5,
 			AnimationEnabled:       false,
-			HighlightConflicts:     true,
+			HighlightConflicts:     false,
 			ColorScheme:            "default",
 			FontSize:               "small",
 			TaskBarOpacity:         1.0,

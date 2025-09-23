@@ -72,7 +72,7 @@
 % Task overlay box macros - pill shaped with rounded corners
 \newcommand{\TaskOverlayBox}[3]{%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt, drop shadow={0.6pt}{-0.6pt}{0pt}{black!20},
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
     left=2.8mm, right=2.8mm, top=1.8mm, bottom=1.8mm,
     colback=#1!20, colframe=#1!80,
     width=\linewidth, halign=center]
@@ -85,12 +85,10 @@
 \newcommand{\DrawTaskBar}[6]{%
   \begin{tikzpicture}[overlay]
     \node[anchor=north west, inner sep=0pt] at (#1,#2) {
-      \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt, drop shadow,
+      \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt,
         left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
         width=#3pt, height=#4pt,
-        colback=#5,
-        borderline west={1.4pt}{0pt}{#5!60!black},
-        borderline east={1.0pt}{0pt}{#5!45}]
+        colback=#5]
         {\footnotesize #6}
       \end{tcolorbox}
     };
@@ -99,7 +97,7 @@
 
 \newcommand{\TaskOverlayBoxP}[3]{%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt, drop shadow={0.6pt}{-0.6pt}{0pt}{black!20},
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
     left=3mm, right=3mm, top=1.8mm, bottom=1.8mm,
     colback=#2!20, colframe=#2!80,
     width=\linewidth, halign=center]
@@ -111,7 +109,7 @@
 \newcommand{\TaskCompactBox}[4]{%
   \vspace*{#1}%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.7pt, arc=8pt, drop shadow={0.4pt}{-0.4pt}{0pt}{black!15},
+  \begin{tcolorbox}[enhanced, boxrule=0.7pt, arc=8pt,
     left=2mm, right=2mm, top=1.4mm, bottom=1.4mm,
     colback=#3!20, colframe=#3!70,
     width=\linewidth, halign=center, height=#2]
