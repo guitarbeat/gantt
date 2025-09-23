@@ -5,6 +5,15 @@
 
 {{- $numbers := .Cfg.Layout.Numbers -}}
 
+% Define category colors for consistent rendering
+\definecolor{taskProposal}{RGB}{74,144,226}
+\definecolor{taskLaser}{RGB}{245,166,35}
+\definecolor{taskImaging}{RGB}{126,211,33}
+\definecolor{taskAdmin}{RGB}{189,16,224}
+\definecolor{taskDissertation}{RGB}{208,2,27}
+\definecolor{taskResearch}{RGB}{80,227,194}
+\definecolor{taskPublication}{RGB}{184,233,134}
+
 \newlength{\myLenTabColSep}
 \newlength{\myLenLineThicknessDefault}
 \newlength{\myLenLineThicknessThick}
@@ -36,7 +45,8 @@
 \setlength{\myLenHeaderSideMonthsWidth}{14.5cm}
 
 % Simple task bar definitions
-% * Define a fixed task font size macro
+% * Define fixed font size macros for task title and body
+\newcommand{\TaskTitleSize}{\small}
 \newcommand{\TaskFontSize}{\footnotesize}
 \newlength{\TaskBarHeight}
 \setlength{\TaskBarHeight}{4mm}
@@ -64,58 +74,71 @@
   \vspace*{\TaskVerticalOffset}%
   \fbox{\parbox{\dimexpr#3-2\TaskPaddingH\relax}{%
     \vspace{\TaskPaddingV}%
-    \centering\small\textbf{#1}%
+    {\TaskTitleSize\raggedright\textbf{#1}\par}%
     \vspace{\TaskPaddingV}%
   }}%
 }
 
 % Task overlay box macros - pill shaped with rounded corners
 \newcommand{\TaskOverlayBox}[3]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
   \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
     left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
-    colback=#1!20, colframe=#1!80,
+    colback=taskbgcolor!20, colframe=taskfgcolor!80,
     width=\linewidth, halign=left]
-    \TaskFontSize\textbf{#2}\\#3%
+    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{#2}\par
+     \vspace{0.2ex}%
+     {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
 }
 
 % Multi-day task bar drawing macro to centralize styling
 % Args: 1=x(pt), 2=y(pt), 3=width(pt), 4=height(pt), 5=color, 6=label
 \newcommand{\DrawTaskBar}[6]{%
+  \definecolor{taskbarcolor}{RGB}{#5}%
   \begin{tikzpicture}[overlay]
     \node[anchor=north west, inner sep=0pt] at (#1,#2) {
       \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt,
         left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
         width=#3pt, height=#4pt,
-        colback=#5]
-        {\footnotesize #6}
+        colback=taskbarcolor]
+        {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=1em%
+         \footnotesize \raggedright #6}
       \end{tcolorbox}
     };
   \end{tikzpicture}%
 }
 
 \newcommand{\TaskOverlayBoxP}[3]{%
+  \definecolor{taskoverlaypbgcolor}{RGB}{#2}%
+  \definecolor{taskoverlaypfgcolor}{RGB}{#2}%
   \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
     left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
-    colback=#2!20, colframe=#2!80,
+    colback=taskoverlaypbgcolor!20, colframe=taskoverlaypfgcolor!80,
     width=\linewidth, halign=left]
-    \TaskFontSize\textbf{#1}\\#3%
+    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{#1}\par
+     \vspace{0.2ex}%
+     {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
 }
 
 % Task compact box macro with pill shape and better spacing
 \newcommand{\TaskCompactBox}[4]{%
+  \definecolor{taskcompactbgcolor}{RGB}{#3}%
+  \definecolor{taskcompactfgcolor}{RGB}{#3}%
   \vspace*{#1}%
   \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.7pt, arc=8pt,
     left=1.2mm, right=1.2mm, top=0.8mm, bottom=0.8mm,
-    colback=#3!20, colframe=#3!70,
+    colback=taskcompactbgcolor!20, colframe=taskcompactfgcolor!70,
     width=\linewidth, halign=left, height=#2]
-    \vfil
-    \TaskFontSize\textbf{#4}%
-    \vfil
+    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\raggedright\textbf{#4}\par}
   \end{tcolorbox}%
 }
 
@@ -124,28 +147,29 @@
   \underline{\textbf{#1}}%
 }
 
-% Colored circle macro for legend - bigger circles
+% Colored circle macro for legend - handles hex colors
 \newcommand{\ColorCircle}[1]{%
-  \textcolor{#1}{\Large$\bullet$}%
+  \definecolor{circlecolor}{RGB}{#1}%
+  \textcolor{circlecolor}{\Large$\bullet$}%
 }
 
 
 
-% Color legend macro for task categories - uses circles instead of boxes
+% Color legend macro for task categories - uses circles with correct RGB colors
 \newcommand{\ColorLegend}{%
   {\centering
-    \ColorCircle{blue}~\small Proposal%
+    \textcolor[RGB]{74,144,226}{\Large$\bullet$}~\small Proposal%
     \hspace{1.5em}%
-    \ColorCircle{orange}~\small Laser%
+    \textcolor[RGB]{245,166,35}{\Large$\bullet$}~\small Laser%
     \hspace{1.5em}%
-    \ColorCircle{green}~\small Imaging%
+    \textcolor[RGB]{126,211,33}{\Large$\bullet$}~\small Imaging%
     \hspace{1.5em}%
-    \ColorCircle{purple}~\small Admin%
+    \textcolor[RGB]{189,16,224}{\Large$\bullet$}~\small Admin%
     \hspace{1.5em}%
-    \ColorCircle{red}~\small Dissertation%
+    \textcolor[RGB]{208,2,27}{\Large$\bullet$}~\small Dissertation%
     \hspace{1.5em}%
-    \ColorCircle{teal}~\small Research%
+    \textcolor[RGB]{80,227,194}{\Large$\bullet$}~\small Research%
     \hspace{1.5em}%
-    \ColorCircle{gray}~\small Publication%
+    \textcolor[RGB]{184,233,134}{\Large$\bullet$}~\small Publication%
   \par}
 }

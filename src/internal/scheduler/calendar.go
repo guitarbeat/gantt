@@ -1,6 +1,7 @@
 package scheduler
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -13,10 +14,10 @@ import (
 // * LaTeX rendering constants
 const (
 	dayCellWidth            = "5mm"
-	maxTaskChars            = 18
-	maxTaskCharsCompact     = 15
-	maxTaskCharsVeryCompact = 12
-	maxTasksDisplay         = 2 // Reduced to prevent overlap
+	maxTaskChars            = 16  // Reduced to prevent mid-word cutting
+	maxTaskCharsCompact     = 13  // Reduced to prevent mid-word cutting
+	maxTaskCharsVeryCompact = 10  // Reduced to prevent mid-word cutting
+	maxTasksDisplay         = 2   // Reduced to prevent overlap
 )
 
 // * Day types and methods (from day.go)
@@ -75,6 +76,7 @@ func (d Day) renderLargeDay(day string) string {
 	// No tasks: just the day number
 	return d.buildSimpleDayCell(leftCell)
 }
+
 
 // ref generates a reference string for the day
 func (d Day) ref(prefix ...string) string {
@@ -216,10 +218,10 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 			`\end{tikzpicture}` + `}`
 		contentWrapper = content
 	} else {
-		// Regular task: use hspace and footnotesize
+		// Regular task: use hspace and improved formatting
 		width = `\dimexpr\linewidth\relax`
 		spacing = `\hspace*{` + dayCellWidth + `}`
-		contentWrapper = `\footnotesize{` + content + `}`
+		contentWrapper = `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em\footnotesize\raggedright ` + content + `}`
 	}
 
     inner := `{\begingroup` +
@@ -408,17 +410,27 @@ func (d Day) smartTruncateText(text string, maxChars int) string {
 		return text
 	}
 
-	// Try to break at word boundaries
+	// Strategy 1: Try to break at word boundaries (most readable)
 	if maxChars > 8 {
 		words := strings.Fields(text)
 		result := ""
 		for _, word := range words {
-			if len(result)+len(word)+1 <= maxChars-3 {
+			// Check if adding this word would exceed the limit
+			newLength := len(result) + len(word) + 1
+			if result != "" {
+				newLength++ // Account for space
+			}
+
+			if newLength <= maxChars-3 {
 				if result != "" {
 					result += " "
 				}
 				result += word
 			} else {
+				// If the word itself is too long, try to truncate it
+				if result == "" && len(word) <= maxChars-3 {
+					return word[:maxChars-3] + "..."
+				}
 				break
 			}
 		}
@@ -427,8 +439,34 @@ func (d Day) smartTruncateText(text string, maxChars int) string {
 		}
 	}
 
-	// Fallback to simple truncation
-	return text[:maxChars-3] + "..."
+	// Strategy 2: Look for any punctuation or word boundaries within the limit
+	searchRange := maxChars - 3
+	if searchRange > 8 {
+		searchRange = maxChars - 3
+	}
+
+	// Look backwards from searchRange for a good break point
+	for i := searchRange; i >= maxChars/2; i-- {
+		if i < len(text) {
+			if text[i] == ' ' || text[i] == '-' || text[i] == '_' || text[i] == '/' {
+				return text[:i] + "..."
+			}
+		}
+	}
+
+	// Strategy 3: Look forwards from the beginning for any break points
+	for i := 0; i < maxChars-3 && i < len(text); i++ {
+		if text[i] == ' ' || text[i] == '-' || text[i] == '_' || text[i] == '/' {
+			return text[:i] + "..."
+		}
+	}
+
+	// Strategy 4: As a last resort, truncate at a safe position
+	safePos := maxChars - 3
+	if safePos < 3 {
+		safePos = maxChars
+	}
+	return text[:safePos] + "..."
 }
 
 // * Week types and methods (from week.go)
@@ -755,16 +793,70 @@ func (m *Month) WeekHeader(large interface{}) string {
 	return strings.Join(names, " & ")
 }
 
+// stripHashPrefix removes the # prefix from hex colors for LaTeX compatibility (HTML colors work with both cases)
+func stripHashPrefix(color string) string {
+	if len(color) > 0 && color[0] == '#' {
+		return color[1:]
+	}
+	return color
+}
+
+// hexToRGB converts hex color to RGB format for LaTeX
+func hexToRGB(hex string) string {
+	// Remove # prefix if present
+	hex = stripHashPrefix(hex)
+	
+	// Convert hex to RGB
+	if len(hex) == 6 {
+		// Parse hex values
+		r, _ := strconv.ParseInt(hex[0:2], 16, 64)
+		g, _ := strconv.ParseInt(hex[2:4], 16, 64)
+		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
+		return fmt.Sprintf("%d,%d,%d", r, g, b)
+	}
+	
+	// Fallback for invalid hex
+	return "128,128,128"
+}
+
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
 
-	// Iterate through all weeks and days to find unique task colors
+	// First, add all predefined category colors to ensure legend completeness
+	predefinedCategories := []string{
+		"PhD Proposal",
+		"Final Submission & Graduation", 
+		"Data Management & Analysis",
+		"Aim 3 - Stroke Study & Analysis",
+		"Dissertation Writing",
+		"Aim 1 - AAV-based Vascular Imaging",
+		"Aim 2 - Dual-channel Imaging Platform",
+		"Committee Review & Defense",
+		"Microscope Setup",
+		"SLAVV-T Development",
+		"Research Paper",
+		"Laser System",
+		"Committee Management",
+		"Methodology Paper",
+		"Manuscript Submissions",
+		"AR Platform Development",
+	}
+	
+	for _, category := range predefinedCategories {
+		color := getColorForCategory(category)
+		if color != "" {
+			colorMap[hexToRGB(color)] = category
+		}
+	}
+
+	// Then, iterate through all weeks and days to find additional unique task colors
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
 			// Check spanning tasks
 			for _, task := range day.SpanningTasks {
 				if task.Color != "" {
-					colorMap[task.Color] = task.Category
+					// Convert to RGB for LaTeX compatibility
+					colorMap[hexToRGB(task.Color)] = task.Category
 				}
 			}
 			// Check regular tasks
@@ -773,7 +865,8 @@ func (m *Month) GetTaskColors() map[string]string {
 					// Get color for this category
 					color := getColorForCategory(task.Category)
 					if color != "" {
-						colorMap[color] = task.Category
+						// Convert to RGB for LaTeX compatibility
+						colorMap[hexToRGB(color)] = task.Category
 					}
 				}
 			}
@@ -938,22 +1031,22 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 func getColorForCategory(category string) string {
 	// First check for exact matches in the predefined color map
 	predefinedColors := map[string]string{
-		"PhD Proposal":                    "blue",
-		"Final Submission & Graduation":   "green",
-		"Data Management & Analysis":       "purple",
-		"Aim 3 - Stroke Study & Analysis": "red",
-		"Dissertation Writing":            "orange",
-		"Aim 1 - AAV-based Vascular Imaging": "teal",
-		"Aim 2 - Dual-channel Imaging Platform": "brown",
-		"Committee Review & Defense":      "gray",
-		"Microscope Setup":                "cyan",
-		"SLAVV-T Development":             "magenta",
-		"Research Paper":                  "lime",
-		"Laser System":                    "pink",
-		"Committee Management":            "olive",
-		"Methodology Paper":               "violet",
-		"Manuscript Submissions":          "navy",
-		"AR Platform Development":         "maroon",
+		"PhD Proposal":                    "#4A90E2", // Blue
+		"Final Submission & Graduation":   "#7ED321", // Green
+		"Data Management & Analysis":       "#BD10E0", // Purple
+		"Aim 3 - Stroke Study & Analysis": "#D0021B", // Red
+		"Dissertation Writing":            "#F5A623", // Orange
+		"Aim 1 - AAV-based Vascular Imaging": "#50E3C2", // Teal
+		"Aim 2 - Dual-channel Imaging Platform": "#8B4513", // Brown
+		"Committee Review & Defense":      "#CCCCCC", // Gray
+		"Microscope Setup":                "#00FFFF", // Cyan
+		"SLAVV-T Development":             "#FF00FF", // Magenta
+		"Research Paper":                  "#00FF00", // Lime
+		"Laser System":                    "#FFC0CB", // Pink
+		"Committee Management":            "#808000", // Olive
+		"Methodology Paper":               "#8A2BE2", // Violet
+		"Manuscript Submissions":          "#000080", // Navy
+		"AR Platform Development":         "#800000", // Maroon
 	}
 	
 	if color, exists := predefinedColors[category]; exists {
@@ -978,10 +1071,10 @@ func generateDynamicColor(category string) string {
 		colorIndex = -colorIndex
 	}
 	
-	// Define a palette of distinct colors
+	// Define a palette of distinct hex colors
 	colors := []string{
-		"blue", "red", "green", "orange", "purple", "teal",
-		"brown", "pink", "cyan", "lime", "magenta", "navy",
+		"#4A90E2", "#D0021B", "#7ED321", "#F5A623", "#BD10E0", "#50E3C2",
+		"#8B4513", "#FFC0CB", "#00FFFF", "#00FF00", "#FF00FF", "#000080",
 	}
 	
 	return colors[colorIndex%len(colors)]
