@@ -169,48 +169,78 @@ func NewConfig(pathConfigs ...string) (Config, error) {
 
 // setDateRangeFromCSV reads the CSV file and sets the start and end years
 func (cfg *Config) setDateRangeFromCSV() error {
-	reader := NewReader(cfg.CSVFilePath)
-	dateRange, err := reader.GetDateRange()
-	if err != nil {
-		return fmt.Errorf("failed to get date range: %w", err)
-	}
+    reader := NewReader(cfg.CSVFilePath)
 
-	cfg.StartYear = dateRange.Earliest.Year()
-	cfg.EndYear = dateRange.Latest.Year()
+    // Read tasks once and derive both date range and months from the same slice
+    tasks, err := reader.ReadTasks()
+    if err != nil {
+        return fmt.Errorf("failed to read tasks: %w", err)
+    }
 
-	// Get months with tasks
-	monthsWithTasks, err := reader.GetMonthsWithTasks()
-	if err != nil {
-		return fmt.Errorf("failed to get months with tasks: %w", err)
-	}
-	cfg.MonthsWithTasks = monthsWithTasks
+    if len(tasks) == 0 {
+        return fmt.Errorf("no tasks found in CSV file")
+    }
 
-	// If we have months with tasks, limit the year range to only those years
-	if len(monthsWithTasks) > 0 {
-		// Find the unique years from the months with tasks
-		yearSet := make(map[int]bool)
-		for _, monthYear := range monthsWithTasks {
-			yearSet[monthYear.Year] = true
-		}
+    // Compute earliest/latest dates and collect months with tasks
+    earliest := tasks[0].StartDate
+    latest := tasks[0].EndDate
+    monthsSet := make(map[MonthYear]bool)
 
-		// Set the year range to only include years with tasks
-		years := make([]int, 0, len(yearSet))
-		for year := range yearSet {
-			years = append(years, year)
-		}
+    for _, task := range tasks {
+        if task.StartDate.Before(earliest) {
+            earliest = task.StartDate
+        }
+        if task.EndDate.After(latest) {
+            latest = task.EndDate
+        }
 
-		if len(years) > 0 {
-			cfg.StartYear = years[0]
-			cfg.EndYear = years[len(years)-1]
-		}
-	}
+        // Walk months from task start to end and add to set
+        current := time.Date(task.StartDate.Year(), task.StartDate.Month(), 1, 0, 0, 0, 0, time.UTC)
+        end := time.Date(task.EndDate.Year(), task.EndDate.Month(), 1, 0, 0, 0, 0, time.UTC)
+        for !current.After(end) {
+            monthsSet[MonthYear{Year: current.Year(), Month: current.Month()}] = true
+            current = current.AddDate(0, 1, 0)
+        }
+    }
 
-	// Update the main Year field to the start year if not explicitly set
-	if cfg.Year == time.Now().Year() {
-		cfg.Year = cfg.StartYear
-	}
+    // Assign year range
+    cfg.StartYear = earliest.Year()
+    cfg.EndYear = latest.Year()
 
-	return nil
+    // Convert months set to a sorted slice for deterministic ordering
+    months := make([]MonthYear, 0, len(monthsSet))
+    for m := range monthsSet {
+        months = append(months, m)
+    }
+    sort.Slice(months, func(i, j int) bool {
+        if months[i].Year != months[j].Year {
+            return months[i].Year < months[j].Year
+        }
+        return months[i].Month < months[j].Month
+    })
+    cfg.MonthsWithTasks = months
+
+    // Limit year range to only years present in months (keeps behavior consistent)
+    if len(months) > 0 {
+        yearSet := make(map[int]bool)
+        for _, my := range months {
+            yearSet[my.Year] = true
+        }
+        years := make([]int, 0, len(yearSet))
+        for y := range yearSet {
+            years = append(years, y)
+        }
+        sort.Ints(years)
+        cfg.StartYear = years[0]
+        cfg.EndYear = years[len(years)-1]
+    }
+
+    // Update the main Year field to the start year if not explicitly set
+    if cfg.Year == time.Now().Year() {
+        cfg.Year = cfg.StartYear
+    }
+
+    return nil
 }
 
 // GetYears returns a slice of years to generate planners for
@@ -355,8 +385,17 @@ func DefaultReaderOptions() *ReaderOptions {
 		StrictMode:  false,
 		SkipInvalid: true,
 		MaxMemoryMB: 100, // 100MB default limit
-		Logger:      log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
+		Logger:      newDefaultLogger(),
 	}
+}
+
+// newDefaultLogger returns a logger that can be silenced via env flag.
+// Set PLANNER_SILENT=1 to suppress data-layer logs.
+func newDefaultLogger() *log.Logger {
+    if os.Getenv("PLANNER_SILENT") == "1" || strings.EqualFold(os.Getenv("PLANNER_LOG_LEVEL"), "silent") {
+        return log.New(io.Discard, "", 0)
+    }
+    return log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile)
 }
 
 // NewReader creates a new CSV data reader with default options
