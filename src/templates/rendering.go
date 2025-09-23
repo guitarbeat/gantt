@@ -22,15 +22,13 @@ func TextColor(color, text string) string {
 }
 
 // Hyperlink creates a hyperlink
-// * Disabled: returns plain text without hyperlinking
 func Hyperlink(ref, text string) string {
-	return text
+    return fmt.Sprintf(`\hyperlink{%s}{%s}`, ref, text)
 }
 
 // Hypertarget creates a hypertarget
-// * Disabled: returns plain text without creating a target
 func Hypertarget(ref, text string) string {
-	return text
+    return fmt.Sprintf(`\hypertarget{%s}{%s}`, ref, text)
 }
 
 // Tabular creates a tabular environment
@@ -59,9 +57,8 @@ func Target(ref, text string) string {
 }
 
 // Link creates a hyperlink
-// * Disabled: returns plain text without hyperlinking
 func Link(ref, text string) string {
-	return text
+    return "\\hyperlink{" + ref + "}{" + text + "}"
 }
 
 // EmphCell creates an emphasized cell with black background and white text

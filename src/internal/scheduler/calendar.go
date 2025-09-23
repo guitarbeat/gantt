@@ -222,13 +222,16 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 		contentWrapper = `\footnotesize{` + content + `}`
 	}
 
-	return `{\begingroup` +
+    inner := `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
 		spacing +
 		`\begin{minipage}[t]{` + width + `}` +
 		contentWrapper +
 		`\end{minipage}` +
-		`\endgroup}`
+        `\endgroup}`
+
+    // Wrap entire cell in hyperlink to the day's reference (restores link without visual borders via hypersetup)
+    return `\hyperlink{` + d.ref() + `}{` + inner + `}`
 }
 
 // buildSimpleDayCell creates a simple day cell without tasks
