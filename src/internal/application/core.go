@@ -1,4 +1,4 @@
-package core
+package application
 
 import (
 	"bytes"
@@ -12,8 +12,8 @@ import (
 	"text/template"
 	"time"
 
-	cal "phd-dissertation-planner/internal/calendar"
-	"phd-dissertation-planner/internal/shared"
+	"phd-dissertation-planner/internal/common"
+	cal "phd-dissertation-planner/internal/scheduler"
 	tmplfs "phd-dissertation-planner/templates"
 
 	"github.com/urfave/cli/v2"
@@ -27,7 +27,7 @@ const (
 
 func New() *cli.App {
 	// Initialize the composer map
-	shared.ComposerMap["monthly"] = Monthly
+	common.ComposerMap["monthly"] = Monthly
 
 	return &cli.App{
 		Name: "plannergen",
@@ -36,7 +36,7 @@ func New() *cli.App {
 		ErrWriter: os.Stderr,
 
 		Flags: []cli.Flag{
-			&cli.PathFlag{Name: fConfig, Required: false, Value: "internal/shared/base.yaml", Usage: "config file(s), comma-separated"},
+			&cli.PathFlag{Name: fConfig, Required: false, Value: "internal/common/base.yaml", Usage: "config file(s), comma-separated"},
 			&cli.BoolFlag{Name: pConfig, Required: false, Usage: "render only one page per unique module"},
 			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
 		},
@@ -47,16 +47,16 @@ func New() *cli.App {
 
 func action(c *cli.Context) error {
 	var (
-		fn  shared.Composer
+		fn  common.Composer
 		ok  bool
-		cfg shared.Config
+		cfg common.Config
 		err error
 	)
 
 	preview := c.Bool(pConfig)
 
 	pathConfigs := strings.Split(c.Path(fConfig), ",")
-	if cfg, err = shared.NewConfig(pathConfigs...); err != nil {
+	if cfg, err = common.NewConfig(pathConfigs...); err != nil {
 		return fmt.Errorf("config new: %w", err)
 	}
 	
@@ -86,9 +86,9 @@ func action(c *cli.Context) error {
 	for _, file := range cfg.Pages {
 		wr.Reset()
 
-		var mom []shared.Modules
+		var mom []common.Modules
 		for _, block := range file.RenderBlocks {
-			if fn, ok = shared.ComposerMap[block.FuncName]; !ok {
+			if fn, ok = common.ComposerMap[block.FuncName]; !ok {
 				return fmt.Errorf("unknown func " + block.FuncName)
 			}
 
@@ -96,7 +96,7 @@ func action(c *cli.Context) error {
 
 			// Only one page per unique module if preview flag is enabled
 			if preview {
-				modules = shared.FilterUniqueModules(modules)
+				modules = common.FilterUniqueModules(modules)
 			}
 
 			if err != nil {
@@ -272,14 +272,14 @@ func NewTpl() Tpl {
 	}
 }
 
-func (t Tpl) Document(wr io.Writer, cfg shared.Config) error {
+func (t Tpl) Document(wr io.Writer, cfg common.Config) error {
 	type pack struct {
-		Cfg   shared.Config
-		Pages []shared.Page
+		Cfg   common.Config
+		Pages []common.Page
 	}
 
 	data := pack{Cfg: cfg, Pages: cfg.Pages}
-	if err := t.tpl.ExecuteTemplate(wr, "main_document.tpl", data); err != nil {
+		if err := t.tpl.ExecuteTemplate(wr, "document.tpl", data); err != nil {
 		return fmt.Errorf("execute template: %w", err)
 	}
 
@@ -293,17 +293,17 @@ func (t Tpl) Execute(wr io.Writer, name string, data interface{}) error {
 
 	return nil
 }
-func Monthly(cfg shared.Config, tpls []string) (shared.Modules, error) {
+func Monthly(cfg common.Config, tpls []string) (common.Modules, error) {
 	// Use legacy monthly generation without layout integration
 	return MonthlyLegacy(cfg, tpls)
 }
 
 // MonthlyLegacy provides the original monthly generation without layout integration
-func MonthlyLegacy(cfg shared.Config, tpls []string) (shared.Modules, error) {
+func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 	// Load tasks from CSV if available
-	var tasks []shared.Task
+	var tasks []common.Task
 	if cfg.CSVFilePath != "" {
-		reader := shared.NewReader(cfg.CSVFilePath)
+		reader := common.NewReader(cfg.CSVFilePath)
 		var err error
 		tasks, err = reader.ReadTasks()
 		if err != nil {
@@ -314,7 +314,7 @@ func MonthlyLegacy(cfg shared.Config, tpls []string) (shared.Modules, error) {
 
 	// If we have months with tasks from CSV, use only those
 	if len(cfg.MonthsWithTasks) > 0 {
-		modules := make(shared.Modules, 0, len(cfg.MonthsWithTasks))
+		modules := make(common.Modules, 0, len(cfg.MonthsWithTasks))
 
 		for _, monthYear := range cfg.MonthsWithTasks {
 			year := cal.NewYear(cfg.WeekStart, monthYear.Year)
@@ -344,7 +344,7 @@ func MonthlyLegacy(cfg shared.Config, tpls []string) (shared.Modules, error) {
 			// Assign tasks to days in this month
 			assignTasksToMonth(targetMonth, tasks)
 
-			modules = append(modules, shared.Module{
+			modules = append(modules, common.Module{
 				Cfg: cfg,
 				Tpl: tpls[0],
 				Body: map[string]interface{}{
@@ -369,14 +369,14 @@ func MonthlyLegacy(cfg shared.Config, tpls []string) (shared.Modules, error) {
 	// Fallback to original behavior if no CSV data
 	years := cfg.GetYears()
 	totalMonths := len(years) * 12
-	modules := make(shared.Modules, 0, totalMonths)
+		modules := make(common.Modules, 0, totalMonths)
 
 	for _, yearNum := range years {
 		year := cal.NewYear(cfg.WeekStart, yearNum)
 
 		for _, quarter := range year.Quarters {
 			for _, month := range quarter.Months {
-				modules = append(modules, shared.Module{
+				modules = append(modules, common.Module{
 					Cfg: cfg,
 					Tpl: tpls[0],
 					Body: map[string]interface{}{
@@ -401,7 +401,7 @@ func MonthlyLegacy(cfg shared.Config, tpls []string) (shared.Modules, error) {
 }
 
 // assignTasksToMonth assigns tasks to the appropriate days in a month
-func assignTasksToMonth(month *cal.Month, tasks []shared.Task) {
+func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 	// Convert data.Task to SpanningTask and apply to month
 	var spanningTasks []cal.SpanningTask
 
@@ -411,7 +411,7 @@ func assignTasksToMonth(month *cal.Month, tasks []shared.Task) {
 		monthEnd := monthStart.AddDate(0, 1, -1)
 
 		if task.StartDate.Before(monthEnd.AddDate(0, 0, 1)) && task.EndDate.After(monthStart.AddDate(0, 0, -1)) {
-			// Create spanning task directly from shared.Task
+			// Create spanning task directly from common.Task
 			// Rendering rules:
 			// - Start day: show a thin colored bar + a single concise text label.
 			// - Middle/end days: show only the bar (no repeated labels).
@@ -454,9 +454,9 @@ func NewLayoutIntegration() *LayoutIntegration {
 }
 
 // ProcessTasksWithLayout processes tasks using the integrated layout system
-func (li *LayoutIntegration) ProcessTasksWithLayout(tasks []*shared.Task) (*cal.IntegratedLayoutResult, error) {
-	// Convert shared.Task to the format expected by the layout system
-	layoutTasks := make([]*shared.Task, len(tasks))
+func (li *LayoutIntegration) ProcessTasksWithLayout(tasks []*common.Task) (*cal.IntegratedLayoutResult, error) {
+	// Convert common.Task to the format expected by the layout system
+	layoutTasks := make([]*common.Task, len(tasks))
 	copy(layoutTasks, tasks)
 
 	// Process tasks with smart stacking and positioning
@@ -480,11 +480,11 @@ func (li *LayoutIntegration) GetLayoutStatistics(result *cal.IntegratedLayoutRes
 }
 
 // EnhancedMonthly generates monthly modules with integrated layout processing
-func (li *LayoutIntegration) EnhancedMonthly(cfg shared.Config, tpls []string) (shared.Modules, error) {
+func (li *LayoutIntegration) EnhancedMonthly(cfg common.Config, tpls []string) (common.Modules, error) {
 	// Load tasks from CSV if available
-	var tasks []shared.Task
+	var tasks []common.Task
 	if cfg.CSVFilePath != "" {
-		reader := shared.NewReader(cfg.CSVFilePath)
+		reader := common.NewReader(cfg.CSVFilePath)
 		var err error
 		tasks, err = reader.ReadTasks()
 		if err != nil {
@@ -496,7 +496,7 @@ func (li *LayoutIntegration) EnhancedMonthly(cfg shared.Config, tpls []string) (
 	var layoutResult *cal.IntegratedLayoutResult
 	if len(tasks) > 0 {
 		// Convert to pointer slice for layout processing
-		var taskPointers []*shared.Task
+		var taskPointers []*common.Task
 		for i := range tasks {
 			taskPointers = append(taskPointers, &tasks[i])
 		}
@@ -509,7 +509,7 @@ func (li *LayoutIntegration) EnhancedMonthly(cfg shared.Config, tpls []string) (
 	}
 
 	// Generate modules with enhanced layout data
-	modules := make(shared.Modules, 0)
+	modules := make(common.Modules, 0)
 
 	// If we have months with tasks from CSV, use only those
 	if len(cfg.MonthsWithTasks) > 0 {
@@ -540,7 +540,7 @@ func (li *LayoutIntegration) EnhancedMonthly(cfg shared.Config, tpls []string) (
 			assignTasksToMonth(targetMonth, tasks)
 
 			// Create enhanced module with layout data
-			module := shared.Module{
+			module := common.Module{
 				Cfg: cfg,
 				Tpl: tpls[0],
 				Body: map[string]interface{}{
@@ -575,7 +575,7 @@ func (li *LayoutIntegration) EnhancedMonthly(cfg shared.Config, tpls []string) (
 
 		for _, quarter := range year.Quarters {
 			for _, month := range quarter.Months {
-				module := shared.Module{
+				module := common.Module{
 					Cfg: cfg,
 					Tpl: tpls[0],
 					Body: map[string]interface{}{

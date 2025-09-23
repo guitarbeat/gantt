@@ -1,4 +1,4 @@
-package calendar
+package scheduler
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"phd-dissertation-planner/internal/shared"
+	"phd-dissertation-planner/internal/common"
 )
 
 // StackingEngine handles both smart and vertical stacking of overlapping tasks
@@ -26,8 +26,8 @@ type StackingRule struct {
 	Name        string
 	Description string
 	Priority    int
-	Condition   func(*shared.Task, *StackingContext) bool
-	Action      func(*shared.Task, *StackingContext) *StackingAction
+	Condition   func(*common.Task, *StackingContext) bool
+	Action      func(*common.Task, *StackingContext) *StackingAction
 }
 
 // StackingAction defines how a task should be stacked
@@ -103,7 +103,7 @@ type TaskStack struct {
 
 // StackedTask represents a task within a stack
 type StackedTask struct {
-	Task            *shared.Task
+	Task            *common.Task
 	StackingAction  *StackingAction
 	Position        *Position
 	IsVisible       bool
@@ -223,7 +223,7 @@ type VerticalStack struct {
 
 // VerticallyStackedTask represents a task within a vertical stack
 type VerticallyStackedTask struct {
-	Task            *shared.Task
+	Task            *common.Task
 	Position        *VerticalPosition
 	CalculatedHeight float64
 	IsCompressed    bool
@@ -328,13 +328,13 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Critical Task Priority",
 			Description: "Critical tasks get top priority in stacking",
 			Priority:    1,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				if priority, exists := context.TaskPriorities[task.ID]; exists {
 					return priority.Urgency == "CRITICAL"
 				}
 				return false
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeLayered,
 					VerticalOffset:     0.0,
@@ -351,13 +351,13 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "High Priority Task",
 			Description: "High priority tasks get prominent stacking",
 			Priority:    2,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				if priority, exists := context.TaskPriorities[task.ID]; exists {
 					return priority.Urgency == "HIGH"
 				}
 				return false
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeVertical,
 					VerticalOffset:     0.0,
@@ -374,10 +374,10 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Milestone Task",
 			Description: "Milestone tasks get special stacking treatment",
 			Priority:    3,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				return task.IsMilestone
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeFloating,
 					VerticalOffset:     0.0,
@@ -394,11 +394,11 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Long Duration Task",
 			Description: "Long duration tasks get horizontal stacking",
 			Priority:    4,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				duration := task.EndDate.Sub(task.StartDate)
 				return duration > time.Hour*24*7 // More than a week
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeHorizontal,
 					VerticalOffset:     0.0,
@@ -415,11 +415,11 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Short Duration Task",
 			Description: "Short duration tasks get vertical stacking",
 			Priority:    5,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				duration := task.EndDate.Sub(task.StartDate)
 				return duration <= time.Hour*24 // One day or less
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeVertical,
 					VerticalOffset:     0.0,
@@ -436,7 +436,7 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Conflict Resolution",
 			Description: "Tasks with conflicts get special stacking treatment",
 			Priority:    6,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				// Check if task has conflicts
 				if context.ConflictAnalysis == nil {
 					return false
@@ -448,7 +448,7 @@ func (se *StackingEngine) initializeDefaultRules() {
 				}
 				return false
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeCascading,
 					VerticalOffset:     5.0,
@@ -465,11 +465,11 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Overflow Handling",
 			Description: "Tasks that cause overflow get minimized stacking",
 			Priority:    7,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				// Check if adding this task would cause overflow
 				return se.wouldCauseOverflow(task, context)
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeMinimized,
 					VerticalOffset:     0.0,
@@ -486,10 +486,10 @@ func (se *StackingEngine) initializeDefaultRules() {
 			Name:        "Default Stacking",
 			Description: "Default stacking for all other tasks",
 			Priority:    8,
-			Condition: func(task *shared.Task, context *StackingContext) bool {
+			Condition: func(task *common.Task, context *StackingContext) bool {
 				return true // Always matches
 			},
-			Action: func(task *shared.Task, context *StackingContext) *StackingAction {
+			Action: func(task *common.Task, context *StackingContext) *StackingAction {
 				return &StackingAction{
 					StackingType:       StackingTypeVertical,
 					VerticalOffset:     0.0,
@@ -506,7 +506,7 @@ func (se *StackingEngine) initializeDefaultRules() {
 }
 
 // wouldCauseOverflow checks if adding a task would cause visual overflow
-func (se *StackingEngine) wouldCauseOverflow(task *shared.Task, context *StackingContext) bool {
+func (se *StackingEngine) wouldCauseOverflow(task *common.Task, context *StackingContext) bool {
 	// Calculate current stack height
 	currentHeight := 0.0
 	for _, stack := range context.ExistingStacks {
@@ -521,7 +521,7 @@ func (se *StackingEngine) wouldCauseOverflow(task *shared.Task, context *Stackin
 }
 
 // StackTasks performs intelligent stacking of overlapping tasks
-func (se *StackingEngine) StackTasks(tasks []*shared.Task, context *StackingContext) *StackingResult {
+func (se *StackingEngine) StackTasks(tasks []*common.Task, context *StackingContext) *StackingResult {
 	// Detect overlaps and categorize conflicts
 	overlapAnalysis := se.spatialEngine.DetectOverlaps(tasks)
 	// Rank tasks by priority
@@ -574,7 +574,7 @@ func (se *StackingEngine) StackTasks(tasks []*shared.Task, context *StackingCont
 }
 
 // StackTasksVertically performs vertical stacking of overlapping tasks
-func (se *StackingEngine) StackTasksVertically(tasks []*shared.Task, context *StackingContext) *VerticalStackingResult {
+func (se *StackingEngine) StackTasksVertically(tasks []*common.Task, context *StackingContext) *VerticalStackingResult {
 	// First, use the smart stacking engine to get initial stacks
 	smartResult := se.StackTasks(tasks, context)
 	
@@ -608,8 +608,8 @@ func (se *StackingEngine) StackTasksVertically(tasks []*shared.Task, context *St
 
 
 // groupTasksByOverlap groups tasks by their overlapping time periods
-func (se *StackingEngine) groupTasksByOverlap(tasks []*shared.Task, overlapAnalysis *OverlapAnalysis) [][]*shared.Task {
-	var groups [][]*shared.Task
+func (se *StackingEngine) groupTasksByOverlap(tasks []*common.Task, overlapAnalysis *OverlapAnalysis) [][]*common.Task {
+	var groups [][]*common.Task
 	
 	// Use overlap groups from analysis
 	for _, overlapGroup := range overlapAnalysis.OverlapGroups {
@@ -626,7 +626,7 @@ func (se *StackingEngine) groupTasksByOverlap(tasks []*shared.Task, overlapAnaly
 	
 	for _, task := range tasks {
 		if !overlappedTasks[task.ID] {
-			groups = append(groups, []*shared.Task{task})
+			groups = append(groups, []*common.Task{task})
 		}
 	}
 	
@@ -634,7 +634,7 @@ func (se *StackingEngine) groupTasksByOverlap(tasks []*shared.Task, overlapAnaly
 }
 
 // createStackForGroup creates a stack for a group of overlapping tasks
-func (se *StackingEngine) createStackForGroup(tasks []*shared.Task, context *StackingContext) *TaskStack {
+func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *StackingContext) *TaskStack {
 	if len(tasks) == 0 {
 		return nil
 	}
@@ -725,7 +725,7 @@ func (se *StackingEngine) createStackForGroup(tasks []*shared.Task, context *Sta
 }
 
 // determineStackingAction determines the stacking action for a task
-func (se *StackingEngine) determineStackingAction(task *shared.Task, context *StackingContext) *StackingAction {
+func (se *StackingEngine) determineStackingAction(task *common.Task, context *StackingContext) *StackingAction {
 	// Find the best matching rule
 	for _, rule := range se.stackingRules {
 		if rule.Condition(task, context) {
@@ -1015,7 +1015,7 @@ func (se *StackingEngine) convertToVerticalStack(smartStack *TaskStack, context 
 }
 
 // calculateTaskHeight calculates the optimal height for a task
-func (se *StackingEngine) calculateTaskHeight(task *shared.Task, context *StackingContext) float64 {
+func (se *StackingEngine) calculateTaskHeight(task *common.Task, context *StackingContext) float64 {
 	hc := se.heightCalculator
 	
 	// Start with base height
@@ -1054,7 +1054,7 @@ func (se *StackingEngine) calculateTaskHeight(task *shared.Task, context *Stacki
 }
 
 // assessContentComplexity assesses the complexity of task content
-func (se *StackingEngine) assessContentComplexity(task *shared.Task) string {
+func (se *StackingEngine) assessContentComplexity(task *common.Task) string {
 	complexity := "normal"
 	
 	// Check for complex indicators
@@ -1075,7 +1075,7 @@ func (se *StackingEngine) assessContentComplexity(task *shared.Task) string {
 }
 
 // calculateVisualWeight calculates the visual weight of a task
-func (se *StackingEngine) calculateVisualWeight(task *shared.Task, context *StackingContext) float64 {
+func (se *StackingEngine) calculateVisualWeight(task *common.Task, context *StackingContext) float64 {
 	weight := 1.0
 	
 	// Priority weight

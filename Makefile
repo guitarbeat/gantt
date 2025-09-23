@@ -41,7 +41,7 @@ test:
 	fi && \
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_CSV_FILE="../input/data.cleaned.csv" \
-	./build/plannergen --config "configs/base.yaml,configs/page_template.yaml" --outdir build && \
+	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
 	echo "🔧 Fixing LaTeX comment issues..." && \
 	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex && \
 	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex && \

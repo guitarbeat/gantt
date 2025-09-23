@@ -1,4 +1,4 @@
-package calendar
+package scheduler
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"phd-dissertation-planner/internal/shared"
+	"phd-dissertation-planner/internal/common"
 )
 
 // SpatialEngine handles both overlap detection and positioning of tasks within the calendar grid
@@ -64,7 +64,7 @@ type TaskOverlap struct {
 
 // OverlapGroup represents a group of overlapping tasks
 type OverlapGroup struct {
-	Tasks        []*shared.Task
+	Tasks        []*common.Task
 	Overlaps     []*TaskOverlap
 	GroupID      string
 	StartDate    time.Time
@@ -317,7 +317,7 @@ func (se *SpatialEngine) SetPrecision(precision time.Duration) {
 }
 
 // DetectOverlaps detects all overlaps in a collection of tasks
-func (se *SpatialEngine) DetectOverlaps(tasks []*shared.Task) *OverlapAnalysis {
+func (se *SpatialEngine) DetectOverlaps(tasks []*common.Task) *OverlapAnalysis {
 	analysis := &OverlapAnalysis{
 		TotalTasks:      len(tasks),
 		OverlappingTasks: 0,
@@ -363,9 +363,9 @@ func (se *SpatialEngine) DetectOverlaps(tasks []*shared.Task) *OverlapAnalysis {
 }
 
 // groupOverlappingTasks groups tasks that have any temporal overlap
-func (se *SpatialEngine) groupOverlappingTasks(tasks []*shared.Task) []*TaskGroup {
+func (se *SpatialEngine) groupOverlappingTasks(tasks []*common.Task) []*TaskGroup {
 	// Sort tasks by start date
-	sortedTasks := make([]*shared.Task, len(tasks))
+	sortedTasks := make([]*common.Task, len(tasks))
 	copy(sortedTasks, tasks)
 	sort.Slice(sortedTasks, func(i, j int) bool {
 		return sortedTasks[i].StartDate.Before(sortedTasks[j].StartDate)
@@ -381,7 +381,7 @@ func (se *SpatialEngine) groupOverlappingTasks(tasks []*shared.Task) []*TaskGrou
 
 		// Create a new group starting with this task
 		group := &TaskGroup{
-			Tasks:     []*shared.Task{task},
+			Tasks:     []*common.Task{task},
 			StartDate: task.StartDate,
 			EndDate:   task.EndDate,
 		}
@@ -414,7 +414,7 @@ func (se *SpatialEngine) groupOverlappingTasks(tasks []*shared.Task) []*TaskGrou
 }
 
 // tasksOverlap checks if a task overlaps with a group
-func (se *SpatialEngine) tasksOverlap(group *TaskGroup, task *shared.Task) bool {
+func (se *SpatialEngine) tasksOverlap(group *TaskGroup, task *common.Task) bool {
 	for _, groupTask := range group.Tasks {
 		if se.tasksOverlapDirect(groupTask, task) {
 			return true
@@ -424,13 +424,13 @@ func (se *SpatialEngine) tasksOverlap(group *TaskGroup, task *shared.Task) bool 
 }
 
 // tasksOverlapDirect checks if two tasks overlap directly
-func (se *SpatialEngine) tasksOverlapDirect(task1, task2 *shared.Task) bool {
+func (se *SpatialEngine) tasksOverlapDirect(task1, task2 *common.Task) bool {
 	// Tasks overlap if one starts before the other ends
 	return !task1.StartDate.After(task2.EndDate) && !task2.StartDate.After(task1.EndDate)
 }
 
 // detectGroupOverlaps detects all overlaps within a group of tasks
-func (se *SpatialEngine) detectGroupOverlaps(tasks []*shared.Task) []*TaskOverlap {
+func (se *SpatialEngine) detectGroupOverlaps(tasks []*common.Task) []*TaskOverlap {
 	var overlaps []*TaskOverlap
 
 	// Check all pairs of tasks in the group
@@ -455,7 +455,7 @@ func (se *SpatialEngine) detectGroupOverlaps(tasks []*shared.Task) []*TaskOverla
 }
 
 // analyzeTaskOverlap analyzes the overlap between two specific tasks
-func (se *SpatialEngine) analyzeTaskOverlap(task1, task2 *shared.Task) *TaskOverlap {
+func (se *SpatialEngine) analyzeTaskOverlap(task1, task2 *common.Task) *TaskOverlap {
 	// Check if tasks actually overlap
 	if !se.tasksOverlapDirect(task1, task2) {
 		return nil
@@ -502,7 +502,7 @@ func (se *SpatialEngine) analyzeTaskOverlap(task1, task2 *shared.Task) *TaskOver
 }
 
 // determineOverlapType determines the type of overlap between two tasks
-func (se *SpatialEngine) determineOverlapType(task1, task2 *shared.Task, overlapStart, overlapEnd time.Time) OverlapType {
+func (se *SpatialEngine) determineOverlapType(task1, task2 *common.Task, overlapStart, overlapEnd time.Time) OverlapType {
 	// Check for identical tasks
 	if task1.StartDate.Equal(task2.StartDate) && task1.EndDate.Equal(task2.EndDate) {
 		return OverlapIdentical
@@ -534,7 +534,7 @@ func (se *SpatialEngine) determineOverlapType(task1, task2 *shared.Task, overlap
 }
 
 // calculateOverlapSeverity calculates the severity of an overlap
-func (se *SpatialEngine) calculateOverlapSeverity(task1, task2 *shared.Task, overlapType OverlapType, duration time.Duration) OverlapSeverity {
+func (se *SpatialEngine) calculateOverlapSeverity(task1, task2 *common.Task, overlapType OverlapType, duration time.Duration) OverlapSeverity {
 	// Base severity on overlap type
 	switch overlapType {
 	case OverlapIdentical:
@@ -561,7 +561,7 @@ func (se *SpatialEngine) calculateOverlapSeverity(task1, task2 *shared.Task, ove
 }
 
 // calculateOverlapPercentage calculates the percentage of overlap
-func (se *SpatialEngine) calculateOverlapPercentage(task1, task2 *shared.Task, overlapDuration time.Duration) float64 {
+func (se *SpatialEngine) calculateOverlapPercentage(task1, task2 *common.Task, overlapDuration time.Duration) float64 {
 	task1Duration := task1.EndDate.Sub(task1.StartDate)
 	task2Duration := task2.EndDate.Sub(task2.StartDate)
 	
@@ -579,7 +579,7 @@ func (se *SpatialEngine) calculateOverlapPercentage(task1, task2 *shared.Task, o
 }
 
 // calculateOverlapPriority calculates priority for overlap resolution
-func (se *SpatialEngine) calculateOverlapPriority(task1, task2 *shared.Task) int {
+func (se *SpatialEngine) calculateOverlapPriority(task1, task2 *common.Task) int {
 	// Higher priority task wins
 	if task1.Priority > task2.Priority {
 		return task1.Priority
@@ -588,7 +588,7 @@ func (se *SpatialEngine) calculateOverlapPriority(task1, task2 *shared.Task) int
 }
 
 // generateConflictInfo generates conflict reason and resolution hint
-func (se *SpatialEngine) generateConflictInfo(task1, task2 *shared.Task, overlapType OverlapType, severity OverlapSeverity) (string, string) {
+func (se *SpatialEngine) generateConflictInfo(task1, task2 *common.Task, overlapType OverlapType, severity OverlapSeverity) (string, string) {
 	var reason, hint string
 
 	switch overlapType {
@@ -792,7 +792,7 @@ func (analysis *OverlapAnalysis) GetOverlappingTaskCount() int {
 }
 
 // PositionTasks positions all tasks within the calendar grid
-func (se *SpatialEngine) PositionTasks(tasks []*shared.Task, existingBars []*IntegratedTaskBar) (*PositioningResult, error) {
+func (se *SpatialEngine) PositionTasks(tasks []*common.Task, existingBars []*IntegratedTaskBar) (*PositioningResult, error) {
 	// Create positioning context
 	context := &PositioningContext{
 		CalendarStart:   se.gridConfig.CalendarStart,
@@ -842,7 +842,7 @@ func (se *SpatialEngine) PositionTasks(tasks []*shared.Task, existingBars []*Int
 }
 
 // createIntegratedTaskBars creates integrated task bars from tasks
-func (se *SpatialEngine) createIntegratedTaskBars(tasks []*shared.Task, context *PositioningContext) []*IntegratedTaskBar {
+func (se *SpatialEngine) createIntegratedTaskBars(tasks []*common.Task, context *PositioningContext) []*IntegratedTaskBar {
 	var bars []*IntegratedTaskBar
 	
 	for _, task := range tasks {
@@ -858,7 +858,7 @@ func (se *SpatialEngine) createIntegratedTaskBars(tasks []*shared.Task, context 
 		height := se.calculateTaskHeight(task, context)
 		
 		// Get task category and color
-		category := shared.GetCategory(task.Category)
+		category := common.GetCategory(task.Category)
 		
 		// Create integrated task bar
 		bar := &IntegratedTaskBar{
@@ -906,7 +906,7 @@ func (se *SpatialEngine) calculateXPosition(date time.Time, context *Positioning
 }
 
 // calculateInitialYPosition calculates the initial Y position for a task
-func (se *SpatialEngine) calculateInitialYPosition(task *shared.Task, context *PositioningContext) float64 {
+func (se *SpatialEngine) calculateInitialYPosition(task *common.Task, context *PositioningContext) float64 {
 	// Start with a basic Y position based on task priority
 	baseY := context.DayHeight * 0.1 // 10% from top
 	
@@ -917,7 +917,7 @@ func (se *SpatialEngine) calculateInitialYPosition(task *shared.Task, context *P
 }
 
 // calculateTaskHeight calculates the height of a task
-func (se *SpatialEngine) calculateTaskHeight(task *shared.Task, context *PositioningContext) float64 {
+func (se *SpatialEngine) calculateTaskHeight(task *common.Task, context *PositioningContext) float64 {
 	// Base height
 	height := context.DayHeight * 0.6 // 60% of day height
 	
@@ -940,19 +940,19 @@ func (se *SpatialEngine) calculateTaskHeight(task *shared.Task, context *Positio
 }
 
 // Helper methods for task positioning
-func (se *SpatialEngine) isTaskContinuation(task *shared.Task, context *PositioningContext) bool {
+func (se *SpatialEngine) isTaskContinuation(task *common.Task, context *PositioningContext) bool {
 	return task.StartDate.Before(context.CalendarStart)
 }
 
-func (se *SpatialEngine) isTaskStart(task *shared.Task, context *PositioningContext) bool {
+func (se *SpatialEngine) isTaskStart(task *common.Task, context *PositioningContext) bool {
 	return task.StartDate.Equal(context.CalendarStart) || task.StartDate.After(context.CalendarStart)
 }
 
-func (se *SpatialEngine) isTaskEnd(task *shared.Task, context *PositioningContext) bool {
+func (se *SpatialEngine) isTaskEnd(task *common.Task, context *PositioningContext) bool {
 	return task.EndDate.Equal(context.CalendarEnd) || task.EndDate.Before(context.CalendarEnd)
 }
 
-func (se *SpatialEngine) hasMonthBoundary(task *shared.Task, context *PositioningContext) bool {
+func (se *SpatialEngine) hasMonthBoundary(task *common.Task, context *PositioningContext) bool {
 	startMonth := task.StartDate.Month()
 	endMonth := task.EndDate.Month()
 	return startMonth != endMonth
@@ -1166,7 +1166,7 @@ func (se *SpatialEngine) calculateDistance(bar1, bar2 *IntegratedTaskBar) float6
 }
 
 // calculateTaskDensity calculates the task density in the calendar
-func (se *SpatialEngine) calculateTaskDensity(tasks []*shared.Task) float64 {
+func (se *SpatialEngine) calculateTaskDensity(tasks []*common.Task) float64 {
 	if len(tasks) == 0 {
 		return 0.0
 	}

@@ -1,4 +1,4 @@
-package rendering
+package templates
 
 import (
 	"fmt"

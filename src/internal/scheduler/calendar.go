@@ -1,4 +1,4 @@
-package calendar
+package scheduler
 
 import (
 	"math"
@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"phd-dissertation-planner/internal/rendering"
-	"phd-dissertation-planner/internal/shared"
+	"phd-dissertation-planner/internal/common"
+	"phd-dissertation-planner/templates"
 )
 
 // * LaTeX rendering constants
@@ -50,11 +50,11 @@ func (d Day) Day(today, large interface{}) string {
 
 	if td, ok := today.(Day); ok {
 		if d.Time.Equal(td.Time) {
-			return rendering.EmphCell(day)
+			return templates.EmphCell(day)
 		}
 	}
 
-	return rendering.Link(d.ref(), day)
+	return day
 }
 
 // renderLargeDay renders the day cell for large (monthly) view with tasks and spanning tasks
@@ -64,12 +64,12 @@ func (d Day) renderLargeDay(day string) string {
 	// Check for spanning tasks that start on this day
 	overlay := d.renderSpanningTaskOverlay()
 	if overlay != nil {
-		return d.buildSpanningTaskCell(leftCell, overlay)
+		return d.buildTaskCell(leftCell, overlay.content, true, overlay.cols)
 	}
 
 	// Check for regular tasks
 	if tasks := d.TasksForDay(); tasks != "" {
-		return d.buildRegularTaskCell(leftCell, tasks)
+		return d.buildTaskCell(leftCell, tasks, false, 0)
 	}
 
 	// No tasks: just the day number
@@ -94,7 +94,7 @@ func (d Day) Add(days int) Day {
 
 // WeekLink creates a link for the week view
 func (d Day) WeekLink() string {
-	return rendering.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
+	return templates.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
 }
 
 // Breadcrumb creates a breadcrumb navigation for the day
@@ -110,16 +110,16 @@ func (d Day) Breadcrumb(prefix string, leaf string, shorten bool) string {
 		dayLayout = "Mon, 2"
 	}
 
-	dayItem := rendering.NewTextItem(d.Time.Format(dayLayout)).RefText(d.Time.Format(time.RFC3339))
-	items := rendering.Items{
-		rendering.NewIntItem(d.Time.Year()),
-		rendering.NewTextItem("Q" + strconv.Itoa(int(math.Ceil(float64(d.Time.Month())/3.)))),
-		rendering.NewMonthItem(d.Time.Month()).Shorten(shorten),
-		rendering.NewTextItem("Week " + strconv.Itoa(wn)).RefPrefix(wpref),
+	dayItem := templates.NewTextItem(d.Time.Format(dayLayout)).RefText(d.Time.Format(time.RFC3339))
+	items := templates.Items{
+		templates.NewIntItem(d.Time.Year()),
+		templates.NewTextItem("Q" + strconv.Itoa(int(math.Ceil(float64(d.Time.Month())/3.)))),
+		templates.NewMonthItem(d.Time.Month()).Shorten(shorten),
+		templates.NewTextItem("Week " + strconv.Itoa(wn)).RefPrefix(wpref),
 	}
 
 	if len(leaf) > 0 {
-		items = append(items, dayItem, rendering.NewTextItem(leaf).RefText(prefix+d.ref()).Ref(true))
+		items = append(items, dayItem, templates.NewTextItem(leaf).RefText(prefix+d.ref()).Ref(true))
 	} else {
 		items = append(items, dayItem.Ref(true))
 	}
@@ -129,21 +129,21 @@ func (d Day) Breadcrumb(prefix string, leaf string, shorten bool) string {
 
 // LinkLeaf creates a link with a leaf text
 func (d Day) LinkLeaf(prefix, leaf string) string {
-	return rendering.Link(prefix+d.ref(), leaf)
+	return templates.Link(prefix+d.ref(), leaf)
 }
 
 // PrevNext creates navigation items for previous and next days
-func (d Day) PrevNext(prefix string) rendering.Items {
-	items := rendering.Items{}
+func (d Day) PrevNext(prefix string) templates.Items {
+	items := templates.Items{}
 
 	if d.PrevExists() {
 		prev := d.Prev()
-		items = append(items, rendering.NewTextItem(prev.Time.Format("Mon, 2")).RefText(prefix+prev.ref()))
+		items = append(items, templates.NewTextItem(prev.Time.Format("Mon, 2")).RefText(prefix+prev.ref()))
 	}
 
 	if d.NextExists() {
 		next := d.Next()
-		items = append(items, rendering.NewTextItem(next.Time.Format("Mon, 2")).RefText(prefix+next.ref()))
+		items = append(items, templates.NewTextItem(next.Time.Format("Mon, 2")).RefText(prefix+next.ref()))
 	}
 
 	return items
@@ -171,7 +171,7 @@ func (d Day) Month() time.Month { return d.Time.Month() }
 func (d Day) HeadingMOS(prefix, leaf string) string {
 	day := strconv.Itoa(d.Time.Day())
 	if len(leaf) > 0 {
-		day = rendering.Link(d.ref(), day)
+		day = templates.Link(d.ref(), day)
 	}
 
 	anglesize := `\dimexpr\myLenHeaderResizeBox-0.86pt`
@@ -179,22 +179,22 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 	var r1, r2 []string
 	if d.PrevExists() {
 		ll = "l"
-		leftNavBox := rendering.ResizeBoxW(anglesize, `$\langle$`)
-		r1 = append(r1, rendering.Multirow(2, rendering.Hyperlink(d.Prev().ref(prefix), leftNavBox)))
+		leftNavBox := templates.ResizeBoxW(anglesize, `$\langle$`)
+		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(d.Prev().ref(prefix), leftNavBox)))
 		r2 = append(r2, "")
 	}
-	r1 = append(r1, rendering.Multirow(2, rendering.ResizeBoxW(`\myLenHeaderResizeBox`, day)))
+	r1 = append(r1, templates.Multirow(2, templates.ResizeBoxW(`\myLenHeaderResizeBox`, day)))
 	r2 = append(r2, "")
-	r1 = append(r1, rendering.Bold(d.Time.Weekday().String()))
+	r1 = append(r1, templates.Bold(d.Time.Weekday().String()))
 	r2 = append(r2, d.Time.Month().String())
 	if d.NextExists() {
 		rl = "l"
-		rightNavBox := rendering.ResizeBoxW(anglesize, `$\rangle$`)
-		r1 = append(r1, rendering.Multirow(2, rendering.Hyperlink(d.Next().ref(prefix), rightNavBox)))
+		rightNavBox := templates.ResizeBoxW(anglesize, `$\rangle$`)
+		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(d.Next().ref(prefix), rightNavBox)))
 		r2 = append(r2, "")
 	}
 	contents := strings.Join(r1, ` & `) + `\\` + "\n" + strings.Join(r2, ` & `)
-	return rendering.Hypertarget(prefix+d.ref(), "") + rendering.Tabular("@{}"+ll+"l|l"+rl, contents)
+	return templates.Hypertarget(prefix+d.ref(), "") + templates.Tabular("@{}"+ll+"l|l"+rl, contents)
 }
 
 // * LaTeX cell construction functions
@@ -204,35 +204,36 @@ func (d Day) buildDayNumberCell(day string) string {
 	return `\begin{tabular}{@{}p{` + dayCellWidth + `}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}`
 }
 
-// buildSpanningTaskCell creates a cell with spanning task overlay
-func (d Day) buildSpanningTaskCell(leftCell string, overlay *overlayInfo) string {
-	width := `\dimexpr ` + strconv.Itoa(overlay.cols) + `\linewidth\relax`
-	return `\hyperlink{` + d.ref() + `}{` +
-		`{\begingroup` +
+// buildTaskCell creates a cell with either spanning tasks or regular tasks
+func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) string {
+	var width, spacing, contentWrapper string
+	
+	if isSpanning {
+		// Spanning task: use tikzpicture overlay with calculated width
+		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
+		spacing = `\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
+			`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + content + `\end{minipage}` + `};` +
+			`\end{tikzpicture}` + `}`
+		contentWrapper = content
+	} else {
+		// Regular task: use hspace and footnotesize
+		width = `\dimexpr\linewidth\relax`
+		spacing = `\hspace*{` + dayCellWidth + `}`
+		contentWrapper = `\footnotesize{` + content + `}`
+	}
+	
+	return `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
-		`\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
-		`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + overlay.content + `\end{minipage}` + `};` +
-		`\end{tikzpicture}` + `}` +
-		`\endgroup}` +
-		`}`
-}
-
-// buildRegularTaskCell creates a cell with regular tasks
-func (d Day) buildRegularTaskCell(leftCell, tasks string) string {
-	return `\hyperlink{` + d.ref() + `}{` +
-		`{\begingroup` +
-		`\makebox[0pt][l]{` + leftCell + `}` +
-		`\hspace*{` + dayCellWidth + `}` +
-		`\begin{minipage}[t]{\dimexpr\linewidth\relax}` +
-		`\footnotesize{` + tasks + `}` +
+		spacing +
+		`\begin{minipage}[t]{` + width + `}` +
+		contentWrapper +
 		`\end{minipage}` +
-		`\endgroup}` +
-		`}`
+		`\endgroup}`
 }
 
 // buildSimpleDayCell creates a simple day cell without tasks
 func (d Day) buildSimpleDayCell(leftCell string) string {
-	return `\hyperlink{` + d.ref() + `}{` + leftCell + `}`
+	return leftCell
 }
 
 // * Task processing and utility functions
@@ -487,12 +488,12 @@ func (w *Week) WeekNumber(large interface{}) string {
 	itoa := strconv.Itoa(wn)
 	ref := w.ref()
 	if !larg {
-		return rendering.Link(ref, itoa)
+		return templates.Link(ref, itoa)
 	}
 
 	text := `\rotatebox[origin=tr]{90}{\makebox[\myLenMonthlyCellHeight][c]{Week ` + itoa + `}}`
 
-	return rendering.Link(ref, text)
+	return templates.Link(ref, text)
 }
 
 func (w *Week) weekNumber() int {
@@ -526,15 +527,15 @@ func NewWeeksForYear(wd time.Weekday, year *Year) Weeks {
 }
 
 func (w Week) Breadcrumb() string {
-	return rendering.Items{
-		rendering.NewIntItem(w.Year.Number),
-		rendering.NewTextItem("Week " + strconv.Itoa(w.weekNumber())),
+	return templates.Items{
+		templates.NewIntItem(w.Year.Number),
+		templates.NewTextItem("Week " + strconv.Itoa(w.weekNumber())),
 	}.Table(true)
 }
 
 
 func (w Week) WeekLink() string {
-	return rendering.Link(w.ref(), "Week "+strconv.Itoa(w.weekNumber()))
+	return templates.Link(w.ref(), "Week "+strconv.Itoa(w.weekNumber()))
 }
 
 func (w Week) ref(prefix ...string) string {
@@ -585,15 +586,15 @@ func NewMonth(wd time.Weekday, year *Year, qrtr *Quarter, month time.Month) *Mon
 }
 
 func (m Month) Breadcrumb() string {
-	return rendering.Items{
-		rendering.NewIntItem(m.Year.Number),
-		rendering.NewTextItem("Q" + strconv.Itoa(m.Quarter.Number)),
-		rendering.NewMonthItem(m.Month),
+	return templates.Items{
+		templates.NewIntItem(m.Year.Number),
+		templates.NewTextItem("Q" + strconv.Itoa(m.Quarter.Number)),
+		templates.NewMonthItem(m.Month),
 	}.Table(true)
 }
 
 func (m Month) MonthLink() string {
-	return rendering.Link(m.ref(), m.Month.String())
+	return templates.Link(m.ref(), m.Month.String())
 }
 
 func (m Month) ref(prefix ...string) string {
@@ -616,7 +617,7 @@ func (m Month) HeadingMOS(prefix ...string) string {
 	}
 	monthStr := m.Month.String()
 	if len(leaf) > 0 {
-		monthStr = rendering.Link(m.ref(p), monthStr)
+		monthStr = templates.Link(m.ref(p), monthStr)
 	}
 
 	anglesize := `\dimexpr\myLenHeaderResizeBox-0.86pt`
@@ -624,40 +625,40 @@ func (m Month) HeadingMOS(prefix ...string) string {
 	var r1, r2 []string
 	if m.PrevExists() {
 		ll = "l"
-		leftNavBox := rendering.ResizeBoxW(anglesize, `$\langle$`)
-		r1 = append(r1, rendering.Multirow(2, rendering.Hyperlink(m.Prev().ref(p), leftNavBox)))
+		leftNavBox := templates.ResizeBoxW(anglesize, `$\langle$`)
+		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(m.Prev().ref(p), leftNavBox)))
 		r2 = append(r2, "")
 	}
-	r1 = append(r1, rendering.Multirow(2, rendering.ResizeBoxW(`\myLenHeaderResizeBox`, monthStr)))
+	r1 = append(r1, templates.Multirow(2, templates.ResizeBoxW(`\myLenHeaderResizeBox`, monthStr)))
 	r2 = append(r2, "")
-	r1 = append(r1, rendering.Bold(m.Month.String()))
+	r1 = append(r1, templates.Bold(m.Month.String()))
 	r2 = append(r2, strconv.Itoa(m.Year.Number))
 	if m.NextExists() {
 		rl = "l"
-		rightNavBox := rendering.ResizeBoxW(anglesize, `$\rangle$`)
-		r1 = append(r1, rendering.Multirow(2, rendering.Hyperlink(m.Next().ref(p), rightNavBox)))
+		rightNavBox := templates.ResizeBoxW(anglesize, `$\rangle$`)
+		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(m.Next().ref(p), rightNavBox)))
 		r2 = append(r2, "")
 	}
 	contents := strings.Join(r1, ` & `) + `\\` + "\n" + strings.Join(r2, ` & `)
-	return rendering.Hypertarget(p+m.ref(), "") + rendering.Tabular("@{}"+ll+"l|l"+rl, contents)
+	return templates.Hypertarget(p+m.ref(), "") + templates.Tabular("@{}"+ll+"l|l"+rl, contents)
 }
 
 // PrevNext creates navigation items for previous and next months
-func (m Month) PrevNext(prefix ...string) rendering.Items {
+func (m Month) PrevNext(prefix ...string) templates.Items {
 	p := ""
 	if len(prefix) > 0 {
 		p = prefix[0]
 	}
-	items := rendering.Items{}
+	items := templates.Items{}
 
 	if m.PrevExists() {
 		prev := m.Prev()
-		items = append(items, rendering.NewTextItem(prev.Month.String()).RefText(p+prev.ref()))
+		items = append(items, templates.NewTextItem(prev.Month.String()).RefText(p+prev.ref()))
 	}
 
 	if m.NextExists() {
 		next := m.Next()
-		items = append(items, rendering.NewTextItem(next.Month.String()).RefText(p+next.ref()))
+		items = append(items, templates.NewTextItem(next.Month.String()).RefText(p+next.ref()))
 	}
 
 	return items
@@ -723,7 +724,7 @@ func (m *Month) MaybeName(large interface{}) string {
 		return ""
 	}
 
-	return `\multicolumn{8}{c}{` + rendering.Link(m.Month.String(), m.Month.String()) + `} \\ \hline`
+	return `\multicolumn{8}{c}{` + templates.Link(m.Month.String(), m.Month.String()) + `} \\ \hline`
 }
 
 func (m *Month) WeekHeader(large interface{}) string {
@@ -799,13 +800,13 @@ func NewYear(wd time.Weekday, year int) *Year {
 }
 
 func (y Year) Breadcrumb() string {
-	return rendering.Items{
-		rendering.NewIntItem(y.Number),
+	return templates.Items{
+		templates.NewIntItem(y.Number),
 	}.Table(true)
 }
 
 func (y Year) YearLink() string {
-	return rendering.Link(y.ref(), strconv.Itoa(y.Number))
+	return templates.Link(y.ref(), strconv.Itoa(y.Number))
 }
 
 func (y Year) ref(prefix ...string) string {
@@ -848,14 +849,14 @@ func NewQuarter(wd time.Weekday, year *Year, quarter int) *Quarter {
 }
 
 func (q Quarter) Breadcrumb() string {
-	return rendering.Items{
-		rendering.NewIntItem(q.Year.Number),
-		rendering.NewTextItem("Q" + strconv.Itoa(q.Number)),
+	return templates.Items{
+		templates.NewIntItem(q.Year.Number),
+		templates.NewTextItem("Q" + strconv.Itoa(q.Number)),
 	}.Table(true)
 }
 
 func (q Quarter) QuarterLink() string {
-	return rendering.Link(q.ref(), "Q"+strconv.Itoa(q.Number))
+	return templates.Link(q.ref(), "Q"+strconv.Itoa(q.Number))
 }
 
 func (q Quarter) ref(prefix ...string) string {
@@ -883,7 +884,7 @@ type SpanningTask struct {
 }
 
 // CreateSpanningTask creates a new spanning task from basic task data
-func CreateSpanningTask(task shared.Task, startDate, endDate time.Time) SpanningTask {
+func CreateSpanningTask(task common.Task, startDate, endDate time.Time) SpanningTask {
 	// * Fixed: Use Category field instead of Priority
 	color := getColorForCategory(task.Category)
 

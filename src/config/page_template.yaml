@@ -3,4 +3,4 @@ pages:
     renderblocks:
       - funcname: monthly
         tpls:
-          - monthly_page.tpl
+          - page.tpl

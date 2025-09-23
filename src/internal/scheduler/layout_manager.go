@@ -1,4 +1,4 @@
-package calendar
+package scheduler
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"phd-dissertation-planner/internal/shared"
+	"phd-dissertation-planner/internal/common"
 )
 
 // LayoutEngine handles both multi-day task layout and calendar grid integration
@@ -29,7 +29,7 @@ type LayoutEngine struct {
 	spatialEngine            *SpatialEngine
 	gridConfig              *GridConfig
 	visualSettings          *IntegratedVisualSettings
-	dateValidator           *shared.DateValidator
+	dateValidator           *common.DateValidator
 }
 
 // TaskBar represents a rendered task bar with positioning information
@@ -88,7 +88,7 @@ type IntegratedTaskBar struct {
 
 // TaskGroup represents a group of overlapping tasks
 type TaskGroup struct {
-	Tasks     []*shared.Task
+	Tasks     []*common.Task
 	StartDate time.Time
 	EndDate   time.Time
 	Rows      int
@@ -163,7 +163,7 @@ type IntegratedLayoutStatistics struct {
 // MultiDayLayoutResult contains the results of multi-day layout processing
 type MultiDayLayoutResult struct {
 	TaskBars        []*TaskBar
-	ValidationResult []shared.DataValidationError
+	ValidationResult []common.DataValidationError
 	LayoutIssues    []string
 	TaskCount       int
 	ProcessedCount  int
@@ -561,7 +561,7 @@ func NewLayoutEngine(config *GridConfig) *LayoutEngine {
 	// Month boundary fields will be initialized in the struct
 	
 	// Create date validator
-	dateValidator := shared.NewDateValidator()
+	dateValidator := common.NewDateValidator()
 	
 	// Set visual constraints
 	if config.VisualConstraints == nil {
@@ -610,7 +610,7 @@ func NewLayoutEngine(config *GridConfig) *LayoutEngine {
 }
 
 // LayoutMultiDayTasks performs the two-step algorithm for multi-day task layout
-func (le *LayoutEngine) LayoutMultiDayTasks(tasks []*shared.Task) []*TaskBar {
+func (le *LayoutEngine) LayoutMultiDayTasks(tasks []*common.Task) []*TaskBar {
 	// Step 1: Group overlapping tasks
 	groups := le.groupOverlappingTasks(tasks)
 	
@@ -625,9 +625,9 @@ func (le *LayoutEngine) LayoutMultiDayTasks(tasks []*shared.Task) []*TaskBar {
 }
 
 // groupOverlappingTasks implements Step 1: Grouping Overlapping Events
-func (le *LayoutEngine) groupOverlappingTasks(tasks []*shared.Task) []*TaskGroup {
+func (le *LayoutEngine) groupOverlappingTasks(tasks []*common.Task) []*TaskGroup {
 	// Sort tasks by start date and duration
-	sortedTasks := make([]*shared.Task, len(tasks))
+	sortedTasks := make([]*common.Task, len(tasks))
 	copy(sortedTasks, tasks)
 	sort.Slice(sortedTasks, func(i, j int) bool {
 		if sortedTasks[i].StartDate.Equal(sortedTasks[j].StartDate) {
@@ -647,7 +647,7 @@ func (le *LayoutEngine) groupOverlappingTasks(tasks []*shared.Task) []*TaskGroup
 		
 		// Create a new group starting with this task
 		group := &TaskGroup{
-			Tasks:     []*shared.Task{task},
+			Tasks:     []*common.Task{task},
 			StartDate: task.StartDate,
 			EndDate:   task.EndDate,
 		}
@@ -682,7 +682,7 @@ func (le *LayoutEngine) groupOverlappingTasks(tasks []*shared.Task) []*TaskGroup
 }
 
 // tasksOverlap checks if a task overlaps with a group
-func (le *LayoutEngine) tasksOverlap(group *TaskGroup, task *shared.Task) bool {
+func (le *LayoutEngine) tasksOverlap(group *TaskGroup, task *common.Task) bool {
 	// Check if task overlaps with any task in the group
 	for _, groupTask := range group.Tasks {
 		if le.tasksOverlapDirect(groupTask, task) {
@@ -693,7 +693,7 @@ func (le *LayoutEngine) tasksOverlap(group *TaskGroup, task *shared.Task) bool {
 }
 
 // tasksOverlapDirect checks if two tasks overlap directly
-func (le *LayoutEngine) tasksOverlapDirect(task1, task2 *shared.Task) bool {
+func (le *LayoutEngine) tasksOverlapDirect(task1, task2 *common.Task) bool {
 	// Tasks overlap if one starts before the other ends
 	return !task1.StartDate.After(task2.EndDate) && !task2.StartDate.After(task1.EndDate)
 }
@@ -787,7 +787,7 @@ func (le *LayoutEngine) layoutTaskGroup(group *TaskGroup) []*TaskBar {
 }
 
 // findAvailableRow finds the first available row for a task
-func (le *LayoutEngine) findAvailableRow(task *shared.Task, rowEndTimes []time.Time) int {
+func (le *LayoutEngine) findAvailableRow(task *common.Task, rowEndTimes []time.Time) int {
 	// If no rows available, return 0
 	if len(rowEndTimes) == 0 {
 		return 0
@@ -804,7 +804,7 @@ func (le *LayoutEngine) findAvailableRow(task *shared.Task, rowEndTimes []time.T
 }
 
 // createTaskBar creates a task bar with positioning information
-func (le *LayoutEngine) createTaskBar(task *shared.Task, row, totalRows int) *TaskBar {
+func (le *LayoutEngine) createTaskBar(task *common.Task, row, totalRows int) *TaskBar {
 	// Calculate X coordinates based on start and end dates
 	startX := le.calculateXPosition(task.StartDate)
 	endX := le.calculateXPosition(task.EndDate)
@@ -816,7 +816,7 @@ func (le *LayoutEngine) createTaskBar(task *shared.Task, row, totalRows int) *Ta
 	width := endX - startX
 	
 	// Get task color from category
-	category := shared.GetCategory(task.Category)
+	category := common.GetCategory(task.Category)
 	
 	// Determine if this is a continuation, start, or end
 	isContinuation := le.isTaskContinuation(task)
@@ -862,32 +862,32 @@ func (le *LayoutEngine) calculateYPosition(row, totalRows int) float64 {
 }
 
 // isTaskContinuation checks if this task is a continuation from previous month
-func (le *LayoutEngine) isTaskContinuation(task *shared.Task) bool {
+func (le *LayoutEngine) isTaskContinuation(task *common.Task) bool {
 	// Check if task started before calendar start
 	return task.StartDate.Before(le.calendarStart)
 }
 
 // isTaskStart checks if this is the start of a multi-day task
-func (le *LayoutEngine) isTaskStart(task *shared.Task) bool {
+func (le *LayoutEngine) isTaskStart(task *common.Task) bool {
 	// Check if task starts on or after calendar start
 	return !task.StartDate.Before(le.calendarStart)
 }
 
 // isTaskEnd checks if this is the end of a multi-day task
-func (le *LayoutEngine) isTaskEnd(task *shared.Task) bool {
+func (le *LayoutEngine) isTaskEnd(task *common.Task) bool {
 	// Check if task ends on or before calendar end
 	return !task.EndDate.After(le.calendarEnd)
 }
 
 // hasMonthBoundary checks if task spans across month boundaries
-func (le *LayoutEngine) hasMonthBoundary(task *shared.Task) bool {
+func (le *LayoutEngine) hasMonthBoundary(task *common.Task) bool {
 	startMonth := task.StartDate.Month()
 	endMonth := task.EndDate.Month()
 	return startMonth != endMonth
 }
 
 // ProcessTasksWithSmartStacking processes tasks with integrated smart stacking
-func (le *LayoutEngine) ProcessTasksWithSmartStacking(tasks []*shared.Task) (*IntegratedLayoutResult, error) {
+func (le *LayoutEngine) ProcessTasksWithSmartStacking(tasks []*common.Task) (*IntegratedLayoutResult, error) {
 	// Step 1: Detect overlaps and conflicts
 	overlapAnalysis := le.spatialEngine.DetectOverlaps(tasks)
 	
@@ -990,7 +990,7 @@ func (le *LayoutEngine) ProcessTasksWithSmartStacking(tasks []*shared.Task) (*In
 
 // createIntegratedTaskBars creates integrated task bars with smart stacking
 func (le *LayoutEngine) createIntegratedTaskBars(
-	tasks []*shared.Task,
+	tasks []*common.Task,
 	stackingResult *StackingResult,
 	verticalStackingResult *VerticalStackingResult,
 	conflictResolutionResult *ConflictResolutionResult,
@@ -1041,7 +1041,7 @@ func (le *LayoutEngine) createIntegratedTaskBars(
 		)
 		
 		// Get task category and color
-		category := shared.GetCategory(task.Category)
+		category := common.GetCategory(task.Category)
 		
 		// Create integrated task bar
 		integratedBar := &IntegratedTaskBar{
@@ -1083,7 +1083,7 @@ func (le *LayoutEngine) createIntegratedTaskBars(
 }
 
 // calculateVisualWeight calculates the visual weight of a task
-func (le *LayoutEngine) calculateVisualWeight(task *shared.Task, priority *TaskPriority) float64 {
+func (le *LayoutEngine) calculateVisualWeight(task *common.Task, priority *TaskPriority) float64 {
 	// Base weight from priority
 	weight := priority.Weight
 	
@@ -1096,7 +1096,7 @@ func (le *LayoutEngine) calculateVisualWeight(task *shared.Task, priority *TaskP
 	}
 	
 	// Adjust based on category
-	category := shared.GetCategory(task.Category)
+	category := common.GetCategory(task.Category)
 	weight *= float64(category.Priority) / 5.0
 	
 	// Adjust based on milestone status
@@ -1108,7 +1108,7 @@ func (le *LayoutEngine) calculateVisualWeight(task *shared.Task, priority *TaskP
 }
 
 // calculateProminenceScore calculates the prominence score of a task
-func (le *LayoutEngine) calculateProminenceScore(task *shared.Task, priority *TaskPriority, visualWeight float64) float64 {
+func (le *LayoutEngine) calculateProminenceScore(task *common.Task, priority *TaskPriority, visualWeight float64) float64 {
 	// Base prominence from visual weight
 	prominence := visualWeight
 	
@@ -1141,7 +1141,7 @@ func (le *LayoutEngine) calculateProminenceScore(task *shared.Task, priority *Ta
 
 // determineStackingPosition determines the stacking position for a task
 func (le *LayoutEngine) determineStackingPosition(
-	task *shared.Task,
+	task *common.Task,
 	stackingResult *StackingResult,
 	verticalStackingResult *VerticalStackingResult,
 	visualWeight float64,
@@ -1173,7 +1173,7 @@ func (le *LayoutEngine) calculateYPositionInStack(relativeY, stackHeight float64
 }
 
 // calculateTaskHeight calculates the height of a task based on its properties
-func (le *LayoutEngine) calculateTaskHeight(task *shared.Task, visualWeight float64) float64 {
+func (le *LayoutEngine) calculateTaskHeight(task *common.Task, visualWeight float64) float64 {
 	// Base height
 	height := le.gridConfig.RowHeight
 	
@@ -1868,7 +1868,7 @@ func (le *LayoutEngine) generateIntegratedTaskBarLaTeX(bar *IntegratedTaskBar) s
 }
 
 // ProcessTasksWithValidation processes tasks with validation and creates multi-day layout
-func (le *LayoutEngine) ProcessTasksWithValidation(tasks []*shared.Task) (*MultiDayLayoutResult, error) {
+func (le *LayoutEngine) ProcessTasksWithValidation(tasks []*common.Task) (*MultiDayLayoutResult, error) {
 	// Validate tasks first
 	validationResult := le.dateValidator.ValidateDateRanges(tasks)
 	
@@ -1905,7 +1905,7 @@ func (le *LayoutEngine) ProcessTasksWithValidation(tasks []*shared.Task) (*Multi
 }
 
 // filterValidTasks filters out tasks with critical validation errors
-func (le *LayoutEngine) filterValidTasks(tasks []*shared.Task, validationErrors []shared.DataValidationError) []*shared.Task {
+func (le *LayoutEngine) filterValidTasks(tasks []*common.Task, validationErrors []common.DataValidationError) []*common.Task {
 	// Create map of tasks with critical errors
 	errorTasks := make(map[string]bool)
 	for _, err := range validationErrors {
@@ -1915,7 +1915,7 @@ func (le *LayoutEngine) filterValidTasks(tasks []*shared.Task, validationErrors 
 	}
 	
 	// Filter out tasks with critical errors
-	var validTasks []*shared.Task
+	var validTasks []*common.Task
 	for _, task := range tasks {
 		if !errorTasks[task.ID] {
 			validTasks = append(validTasks, task)

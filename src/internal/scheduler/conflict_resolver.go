@@ -1,9 +1,9 @@
-package calendar
+package scheduler
 
 import (
 	"time"
 
-	"phd-dissertation-planner/internal/shared"
+	"phd-dissertation-planner/internal/common"
 )
 
 // ConflictResolutionResult contains the result of conflict resolution
@@ -21,7 +21,7 @@ type ResolvedConflict struct {
 	ConflictID        string
 	ConflictType      string
 	ResolutionMethod  string
-	AffectedTasks     []*shared.Task
+	AffectedTasks     []*common.Task
 	VisualChanges     *VisualChanges
 	ResolutionQuality float64
 	BeforeMetrics     *ConflictMetrics
@@ -33,7 +33,7 @@ type OverflowResolution struct {
 	OverflowID        string
 	OverflowType      string
 	ResolutionMethod  string
-	AffectedTasks     []*shared.Task
+	AffectedTasks     []*common.Task
 	SpaceRecovered    float64
 	ResolutionQuality float64
 	BeforeMetrics     *OverflowMetrics
@@ -45,7 +45,7 @@ type VisualOptimization struct {
 	OptimizationID    string
 	OptimizationType  string
 	Description       string
-	AffectedTasks     []*shared.Task
+	AffectedTasks     []*common.Task
 	VisualImprovement float64
 	SpaceEfficiency   float64
 	BeforeMetrics     *VisualMetrics
@@ -57,7 +57,7 @@ type LayoutAdjustment struct {
 	AdjustmentID      string
 	AdjustmentType    string
 	Description       string
-	AffectedTasks     []*shared.Task
+	AffectedTasks     []*common.Task
 	PositionChanges   *PositionChanges
 	SizeChanges       *SizeChanges
 	VisualChanges     *VisualChanges
@@ -159,7 +159,7 @@ type TaskPrioritizationResult struct {
 
 // PrioritizedTask represents a task with prioritization information
 type PrioritizedTask struct {
-	Task              *shared.Task
+	Task              *common.Task
 	PriorityScore     *PriorityScore
 	VisibilityAction  *VisibilityAction
 	OptimizationAction *OptimizationAction
@@ -256,7 +256,7 @@ func NewConflictResolutionEngine(
 }
 
 // ResolveConflicts performs comprehensive conflict resolution
-func (cre *ConflictResolutionEngine) ResolveConflicts(tasks []*shared.Task, context *PriorityContext) *ConflictResolutionResult {
+func (cre *ConflictResolutionEngine) ResolveConflicts(tasks []*common.Task, context *PriorityContext) *ConflictResolutionResult {
 	// Simplified implementation - returns empty results for now
 	return &ConflictResolutionResult{
 		ResolvedConflicts:   []*ResolvedConflict{},
@@ -338,7 +338,7 @@ type PriorityRule struct {
 	Name        string
 	Description string
 	Weight      float64
-	Calculator  func(*shared.Task, *PriorityContext) float64
+	Calculator  func(*common.Task, *PriorityContext) float64
 	Category    PriorityCategory
 }
 
@@ -358,8 +358,8 @@ type VisibilityRule struct {
 	Name        string
 	Description string
 	Priority    int
-	Condition   func(*shared.Task, *PriorityContext) bool
-	Action      func(*shared.Task, *PriorityContext) *VisibilityAction
+	Condition   func(*common.Task, *PriorityContext) bool
+	Action      func(*common.Task, *PriorityContext) *VisibilityAction
 }
 
 type VisibilityAction struct {
@@ -374,8 +374,8 @@ type OptimizationRule struct {
 	Name        string
 	Description string
 	Priority    int
-	Condition   func(*shared.Task, *PriorityContext) bool
-	Action      func(*shared.Task, *PriorityContext) *OptimizationAction
+	Condition   func(*common.Task, *PriorityContext) bool
+	Action      func(*common.Task, *PriorityContext) *OptimizationAction
 }
 
 type OptimizationAction struct {
@@ -395,7 +395,7 @@ type StackingStrategy struct {
 type ConflictRule struct {
 	Name        string
 	Description string
-	Condition   func(*TaskOverlap, *shared.Task, *shared.Task) bool
+	Condition   func(*TaskOverlap, *common.Task, *common.Task) bool
 	Category    ConflictCategory
 	Severity    OverlapSeverity
 	Priority    int
@@ -451,7 +451,7 @@ const (
 )
 
 type OverflowContext struct {
-	Tasks            []*shared.Task
+	Tasks            []*common.Task
 	AvailableSpace   *SpaceConstraints
 	OverflowType     OverflowType
 	Severity         float64
@@ -462,14 +462,14 @@ type OverflowContext struct {
 
 type ConflictContext struct {
 	Conflicts        []*TaskOverlap
-	Tasks            []*shared.Task
+	Tasks            []*common.Task
 	PriorityContext  *PriorityContext
 	VisualSettings   *VisualSettings
 	Constraints      *VisualConstraints
 }
 
 type VisualContext struct {
-	Tasks            []*shared.Task
+	Tasks            []*common.Task
 	LayoutMetrics    *LayoutMetrics
 	VisualSettings   *VisualSettings
 	Constraints      *VisualConstraints
@@ -479,7 +479,7 @@ type VisualContext struct {
 type ResolutionResult struct {
 	Success          bool
 	SpaceRecovered   float64
-	TasksAffected    []*shared.Task
+	TasksAffected    []*common.Task
 	VisualChanges    *VisualChanges
 	Quality          float64
 	Recommendations  []string
@@ -634,7 +634,7 @@ type PriorityManagementEngine struct {
 }
 
 // PrioritizeTasks performs intelligent task prioritization for stacking order
-func (pme *PriorityManagementEngine) PrioritizeTasks(tasks []*shared.Task, context *PriorityContext) *TaskPrioritizationResult {
+func (pme *PriorityManagementEngine) PrioritizeTasks(tasks []*common.Task, context *PriorityContext) *TaskPrioritizationResult {
 	// Simplified implementation - return empty results for now
 	prioritizedTasks := make([]*PrioritizedTask, 0, len(tasks))
 	
@@ -670,7 +670,7 @@ func extractTaskIDs(prioritizedTasks []*PrioritizedTask) []string {
 }
 
 // CalculatePriorityScores calculates priority scores for all tasks
-func (pr *PriorityRanker) CalculatePriorityScores(tasks []*shared.Task, context *PriorityContext) *PriorityRankingResult {
+func (pr *PriorityRanker) CalculatePriorityScores(tasks []*common.Task, context *PriorityContext) *PriorityRankingResult {
 	taskScores := make([]*PriorityScore, 0, len(tasks))
 	
 	for _, task := range tasks {

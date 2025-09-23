@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 
-	"phd-dissertation-planner/internal/core"
+	"phd-dissertation-planner/internal/application"
 )
 
 func main() {
-	app := core.New()
+	app := application.New()
 	if err := app.Run(os.Args); err != nil {
 		os.Exit(1)
 	}

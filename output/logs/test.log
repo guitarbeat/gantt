@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  22 SEP 2025 20:36
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  22 SEP 2025 20:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1002,7 +1002,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmss on input line 6
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-(./page_template.aux (./monthly.aux))
+No file page_template.aux.
 \openout1 = `page_template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
@@ -1016,7 +1016,6 @@ LaTeX Font Info:    ... okay on input line 68.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 6
 8.
-
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -1068,9 +1067,11 @@ LaTeX Font Info:    ... okay on input line 68.
 
 \c@lstlisting=\count364
 Package hyperref Info: Link coloring OFF on input line 68.
-(./page_template.out) (./page_template.out)
 \@outlinefile=\write4
 \openout4 = `page_template.out'.
+
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
 
 \myLenTabColSep=\skip72
 \myLenLineThicknessDefault=\skip73
@@ -1092,11 +1093,10 @@ Package hyperref Info: Link coloring OFF on input line 68.
 \TaskVerticalOffset=\skip89
 \openout2 = `monthly.aux'.
 
- (./monthly.tex
+(./monthly.tex
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
 .
-
-(/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
@@ -4120,8 +4120,15 @@ l.6772 }
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-Package rerunfilecheck Info: File `page_template.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+
+Package rerunfilecheck Warning: File `page_template.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `page_template.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  )
 (\end occurred inside a group at level 25)
 
@@ -4152,10 +4159,10 @@ Package rerunfilecheck Info: File `page_template.out' has not changed.
 ### simple group (level 1) entered at line 262 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30127 strings out of 474773
- 605396 string characters out of 5757725
+ 30116 strings out of 474773
+ 605194 string characters out of 5757725
  1974839 words of memory out of 5000000
- 51713 multiletter control sequences out of 15000+600000
+ 51710 multiletter control sequences out of 15000+600000
  601096 words of font info for 72 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  84i,20n,96p,1013b,2664s stack positions out of 10000i,1000n,20000p,200000b,200000s
