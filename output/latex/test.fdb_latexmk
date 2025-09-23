@@ -1,12 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1758589036.1859 "/Users/aaron/Downloads/gantt/output/latex/test.tex" "test.pdf" "test" 1758589036.87837 2
-  "/Users/aaron/Downloads/gantt/output/latex/test.tex" 1758589035.19524 5602 46ba322f6a307a68492cdcceb419ce87 ""
-  "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
+["pdflatex"] 1758591392.83362 "/Users/aaron/Downloads/gantt/output/latex/test.tex" "test.pdf" "test" 1758591393.3598 1
+  "/Users/aaron/Downloads/gantt/output/latex/test.tex" 1758591389.61451 5947 e7bffbec6d3ba9bc95a5c781b24aa2f5 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/ecrm0900.tfm" 1136768653 3584 d3d8ac8b25ca19c0a40b86a5db1e8ccc ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr9.tfm" 1136768653 1292 6b21b9c2c7bebb38aa2273f7ca0fb3af ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmss9.tfm" 1254269338 11204 6ae1acdb5c7b9e57dc25853230e3cdae ""
-  "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb" 1255129361 95954 039cb8d6009e8fc5ea194e3e167ecc5f ""
   "/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2024/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/local/texlive/2024/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -190,14 +188,13 @@
   "/usr/local/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty" 1700082560 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1655411236 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "/usr/local/texlive/2024/texmf-dist/web2c/texmf.cnf" 1708706663 41649 5d6ae549fbbcb850a863f69aa41f3d10 ""
-  "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1741380554.87375 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1741380537 8221449 f967b546cde67c748e132d8be419db2b ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "monthly.aux" 1758589036.82886 1346 be3638f021626c5053b7dd4e6bd4ad22 "pdflatex"
+  "monthly.aux" 1758591393.32577 1346 78ee89d763080a2c0a42b81af0cd0589 "pdflatex"
   "monthly.tex" 0 -1 0 ""
-  "test.aux" 1758589036.82907 220 281d1522dff710f9e72b30395194323c "pdflatex"
-  "test.out" 1758589036.70417 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "test.tex" 1758589035.19524 5602 46ba322f6a307a68492cdcceb419ce87 ""
+  "test.aux" 1758591393.32592 159 606adc4e9118d80f332b0e784cf14054 "pdflatex"
+  "test.out" 1758591393.32255 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "test.tex" 1758591389.61451 5947 e7bffbec6d3ba9bc95a5c781b24aa2f5 ""
   (generated)
   "monthly.aux"
   "test.aux"
@@ -205,4 +202,3 @@
   "test.out"
   "test.pdf"
   (rewritten before read)
-  "monthly.aux"

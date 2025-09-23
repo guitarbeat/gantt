@@ -335,6 +335,12 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmss9.tfm
+INPUT ./test.aux
+INPUT ./test.aux
+INPUT test.aux
+INPUT ./monthly.aux
+INPUT ./monthly.aux
+INPUT monthly.aux
 OUTPUT test.aux
 INPUT /usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -344,9 +350,13 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.st
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+INPUT ./test.out
+INPUT ./test.out
+INPUT test.out
+INPUT test.out
+INPUT ./test.out
+INPUT ./test.out
 OUTPUT test.out
-INPUT /usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
 OUTPUT monthly.aux
 INPUT test.aux
 INPUT ./monthly.aux
@@ -354,4 +364,3 @@ INPUT ./monthly.aux
 INPUT monthly.aux
 INPUT ./test.out
 INPUT ./test.out
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss9.pfb
