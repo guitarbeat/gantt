@@ -16,5 +16,5 @@
   "inlineChat.hideOnRequest": true,
   "inlineChat.lineEmptyHint": true,
   "inlineChat.notebookAgent": true,
-  "editor.defaultFormatter": null
+  "editor.defaultFormatter": "yzhang.markdown-all-in-one"
 }

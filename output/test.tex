@@ -44,17 +44,14 @@
 \usepackage{pgffor}
 \usepackage[most]{tcolorbox}
 \usepackage{blindtext}
-\usepackage{hyperref}
+% Do not load hyperref; define safe no-op link commands
+\providecommand{\href}[2]{#2}
+\providecommand{\hyperlink}[2]{#2}
+\providecommand{\hypertarget}[2]{#2}
+\providecommand{\hypersetup}[1]{}
 
 
 \hypersetup{hidelinks,colorlinks=false,urlcolor=black,linkcolor=black,citecolor=black,pdfborder={0 0 0},pdfborderstyle={}}
-% Always disable link interactivity (render text only)
-\let\OrigHyperlink\hyperlink
-\renewcommand{\hyperlink}[2]{#2}
-\let\OrigHypertarget\hypertarget
-\renewcommand{\hypertarget}[2]{#2}
-\let\OrigHref\href
-\renewcommand{\href}[2]{#2}
 
 \geometry{paperwidth=15.6cm, paperheight=20.9cm}
 \geometry{

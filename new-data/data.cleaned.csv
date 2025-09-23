@@ -1,0 +1,85 @@
+Task ID,Task Name,Parent Task ID,Category,Start Date,Due Date,Dependencies,Description
+A,Draft timeline v1,,PROPOSAL,2025-08-29,2025-09-02,,Draft timeline for Tuesday review; bring printed and digital copies.
+B,Initial proposal skeleton,,PROPOSAL,2025-09-02,2025-09-08,,Develop 1-page Specific Aims and detailed outline following BME format requirements for PhD proposal.
+C,Submit proposal outline,,PROPOSAL,2025-09-05,2025-09-09,B,Send outline to advisor before Monday deadline.
+D,Define proposal committee,,PROPOSAL,2025-09-10,2025-09-14,A,Identify committee members; confirm availability; and schedule oral exam date. Reserve room for exam.
+F,Expand proposal draft,,PROPOSAL,2025-09-15,2025-09-25,B,Write 12‑page Research Strategy from outline per BME guidelines.
+G,Confirm exam date,,PROPOSAL,2025-09-28,2025-10-05,D,Oral exam date scheduled. Must send final proposal to committee ≥2 weeks prior to exam.
+H,Align seed laser,,EQUIPMENT,2025-09-02,2025-09-06,,Reach ≥30 mW output in fiber core (pre‑pump).
+I,Align amplifier,,EQUIPMENT,2025-09-09,2025-09-16,H,Restore amplified output to ≥130 mW (previous benchmark performance level).
+J,Check pulse compression,,EQUIPMENT,2025-10-01,2025-10-07,I,Verify ≤200 fs pulse duration; log specs.
+K,Calibrate microscope,,EQUIPMENT,2025-10-08,2025-10-14,J,Align imaging system using USAF target for optimal resolution before in vivo experiments.
+L,Laser system ready,,EQUIPMENT,2025-10-15,2025-10-21,K,Confirm laser and optics meet live imaging requirements.
+M,Plan imaging cohort,,RESEARCH,2025-10-14,2025-10-18,B,Plan ~3 pilot mice cohort with IACUC protocol confirmation and surgery slot booking.
+N,Annual progress review,,ADMIN,2025-09-03,2025-09-07,,Submit annual progress report (due early September).
+O1,Complete committee paperwork and Program of Work,,ADMIN,2025-10-08,2025-10-18,G,Complete and submit all required committee forms and develop detailed Program of Work document.
+O2,Reserve exam room and submit final paperwork,,ADMIN,2025-10-21,2025-11-30,O1,Reserve exam room; submit final paperwork to graduate office.
+P,Design AAV vectors,,RESEARCH,2025-10-21,2025-11-04,M,Design and order AAV-mScarlet (vascular) and jRGECO1b (neuronal) vectors. Finalize constructs and submit production orders to core facility.
+Q,AAV vectors ready,,RESEARCH,2025-12-20,2026-01-17,P,Receive AAV vectors; ready for injections.
+R1,Draft Specific Aims and Research Strategy,,PROPOSAL,2025-10-28,2025-11-08,F,Write 1-page Specific Aims and 12-page Research Strategy sections for proposal.
+R2,Draft Methods and Timeline sections,,PROPOSAL,2025-11-11,2025-11-18,R1,Write Methods and project timeline.
+R3,Finalize proposal draft and formatting,,PROPOSAL,2025-12-01,2025-12-07,"R2,O2",Complete full proposal document (~13 pages) with proper formatting and submit for review.
+S,Send proposal to committee,,PROPOSAL,2025-11-28,2025-12-05,"R3,G",Email proposal to committee ≥2 weeks before exam.
+T,Prepare presentation,,PROPOSAL,2025-12-08,2025-12-18,S,Create slide deck and practice oral exam presentation. Aim for two practice runs with lab members.
+U,PhD Proposal Exam,,PROPOSAL,2025-12-19,2025-12-22,"T,BW",Defend proposal in oral exam.
+V,Address committee feedback,,PROPOSAL,2025-12-23,2026-01-06,U,Incorporate committee revisions into proposal and submit signed approval form for final approval.
+W,Cranial window surgeries (3 mice),,RESEARCH,2026-02-01,2026-02-26,"L,Q,V",Install cranial windows and inject AAV in three pilot mice with staggered timing (1 week apart).
+Z,Post-operative recovery and monitoring,,RESEARCH,2026-02-27,2026-03-25,W,Monitor/medicate mice; maintain analgesia schedule.
+AE,Pilot imaging sessions (3 mice),,RESEARCH,2026-03-28,2026-04-15,Z,Acquire in vivo images for all three mice comparing AAV fluorescence vs traditional dye injection methods.
+AH,Pilot datasets complete,,RESEARCH,2026-04-16,2026-04-22,AE,Complete 3 pilot two‑photon datasets.
+AI,Process pilot data,,RESEARCH,2026-04-21,2026-04-28,AE,Perform image registration and SNR analysis. Calculate contrast metrics and refine imaging protocols.
+AJ1,Design U-Net architecture and training data,,RESEARCH,2026-05-01,2026-05-15,AI,Design U-Net architecture for vascular segmentation and prepare training datasets from pilot images.
+AJ2,Implement and test segmentation pipeline,,RESEARCH,2026-05-28,2026-06-25,AJ1,Implement U‑Net pipeline; test on pilot data.
+AK1,Configure dual-channel two-photon imaging,,RESEARCH,2026-04-19,2026-05-10,AH,Tune microscope optics for dual-channel two-photon imaging with spectral separation.
+AK2,Configure LSCI for blood flow measurements,,RESEARCH,2026-05-18,2026-06-20,AK1,Configure LSCI for blood‑flow measurements.
+AM,Order enhanced AAV,,RESEARCH,2026-04-19,2026-07-15,AH,Design and order enhanced-expression AAV with tissue-specific enhancer for improved dual-label imaging (Aim 2).
+AN,Enhanced AAV delivered,,RESEARCH,2026-07-18,2026-07-22,AM,Receive enhanced AAV; ready for in vivo tests.
+AO,Compare labeling methods,,RESEARCH,2026-05-23,2026-06-22,AK1,Systematically compare imaging depth; SNR; and contrast across different labeling methods (AAV vs dye) in vivo.
+AP,Draft methodology paper,,PUBLICATION,2026-04-19,2026-07-15,AH,Write manuscript on AAV-based vascular imaging methodology and pilot results from Aim 1 studies.
+AQ,Submit methodology paper,,PUBLICATION,2026-07-18,2026-07-22,AP,Submit methodology paper to journal.
+AR,Establish stroke protocol,,RESEARCH,2026-06-18,2026-06-23,AO,Complete training and IACUC approval for stroke induction method (photothrombosis). Ensure all regulatory approvals are in place.
+AS,Induce stroke,,RESEARCH,2026-06-26,2026-06-30,AR,Induce stroke in cohort to start Aim 3 imaging.
+AT,Acute-phase imaging,,RESEARCH,2026-07-08,2026-07-13,AS,Conduct two-photon + LSCI imaging sessions in acute phase (0-1 week post-stroke) to capture immediate vascular changes.
+AU,Transition-phase imaging,,RESEARCH,2026-07-20,2026-07-25,AT,Transition-phase imaging (2–4 wks).
+AV,Stabilization-phase imaging,,RESEARCH,2026-08-19,2026-08-24,AU,Conduct imaging sessions in early chronic phase (5-8 weeks post-stroke) to observe vascular remodeling processes.
+AW,Extended chronic imaging,,RESEARCH,2026-09-16,2026-09-20,AV,Extended chronic imaging (~12 wks), if needed.
+AX1,Adapt ML pipeline for stroke data,,RESEARCH,2026-07-14,2026-08-15,AJ2,Adapt machine learning segmentation pipeline for stroke dataset analysis and vascular feature detection.
+AX2,Optimize and validate segmentation performance,,RESEARCH,2026-08-18,2026-09-15,AX1,Optimize ML pipeline performance and validate segmentation accuracy on stroke imaging data.
+AY,Stroke data complete,,RESEARCH,2026-09-21,2026-09-27,AW,Completion of all planned longitudinal imaging sessions for stroke study (Aim 3).
+AZ,Integrate flow data,,RESEARCH,2026-09-26,2026-10-23,"AT,AU,AV,AW",Integrate LSCI flow with two‑photon data.
+BA,Analyze neurovascular coupling,,RESEARCH,2026-10-26,2026-12-09,AZ,Quantify microvascular network changes and neurovascular coupling dynamics from post-stroke imaging data.
+BB,Prepare conference presentation,,PUBLICATION,2026-12-10,2026-12-16,BA,Prepare conference talk/poster with results.
+BC,Draft second manuscript,,PUBLICATION,2026-12-10,2026-12-16,BA,Write second research paper covering dual-color imaging platform and initial stroke study findings (Aim 2/3).
+BD,Submit second manuscript,,PUBLICATION,2026-12-19,2026-12-23,BC,Submit second manuscript to journal.
+BE,Annual progress review,,ADMIN,2026-09-01,2026-09-07,N,Complete yearly graduate student progress review (department form) with advisor due early September.
+BG,PhD Dissertation & Defense,,DISSERTATION,2026-12-19,2027-08-15,"V,BX",Write dissertation, defend, and complete graduation requirements.
+BI,Draft Introduction and Literature Review,BG,DISSERTATION,2026-12-19,2027-01-31,V,Write dissertation Introduction chapter including literature review and study rationale for PhD thesis.
+BJ,Draft Methods and Results chapters (Aims 1-3),BG,DISSERTATION,2027-02-03,2027-05-15,V,Write chapters detailing all three research aims including methods; experiments; data; and findings for dissertation.
+BK,Draft Discussion and Conclusions,BG,DISSERTATION,2027-02-03,2027-06-15,V,Write final dissertation chapters summarizing findings; implications; and future research directions.
+BN,Dissertation draft complete,BG,DISSERTATION,2027-06-19,2027-06-30,"BI,BJ,BK",Complete PhD dissertation draft compiled and ready for committee review.
+BS,PhD Defense,BG,DISSERTATION,2027-07-17,2027-07-20,"BN,CA",Defend dissertation in oral exam.
+BT,Revise dissertation,BG,DISSERTATION,2027-07-21,2027-08-03,BS,Incorporate committee feedback and revisions after defense. Obtain final approval signatures.
+BU,Submit dissertation,BG,DISSERTATION,2027-08-05,2027-08-11,BT,Upload approved dissertation PDF and submit all required forms to Graduate School by deadline.
+BV,Complete TA requirement,,ADMIN,2025-09-04,2026-08-31,,Serve as Teaching Assistant at least once before graduation (BME program requirement).
+BW,Update committee membership,,ADMIN,2025-09-13,2025-09-23,D,Update committee membership if needed and file 'Request for Change in Doctoral Committee' form if required.
+BX,Advance to candidacy,,ADMIN,2025-09-06,2025-09-30,,Ensure doctoral candidacy status is confirmed (should already be completed by 5th year).
+BY1,Maintain continuous registration - Fall 2025,,ADMIN,2025-09-01,2025-12-31,,Maintain full-time registration (9+ hours) for Fall 2025 semester.
+BY2,Maintain continuous registration - Spring 2026,,ADMIN,2026-01-01,2026-05-31,BY1,Maintain full-time registration (9+ hours) for Spring 2026 semester.
+BY3,Maintain continuous registration - Fall 2026,,ADMIN,2026-09-01,2026-12-31,BY2,Maintain full-time registration (9+ hours) for Fall 2026 semester.
+BY4,Maintain continuous registration - Spring 2027,,ADMIN,2027-01-01,2027-05-31,BY3,Maintain full-time registration (9+ hours) for Spring 2027 semester.
+BY5,Maintain continuous registration - Summer 2027,,ADMIN,2027-06-01,2027-08-31,BY4,Maintain full-time registration (9+ hours) for Summer 2027 semester.
+BZ,Apply for graduation,,ADMIN,2027-01-01,2027-01-15,,Submit graduation application at beginning of final semester (required for summer 2027 graduation).
+CA,Request final oral exam,,ADMIN,2027-06-01,2027-06-15,,Submit 'Request for Final Oral Exam' form at least 2 weeks before defense date.
+CB,SPIE chapter activities,,ADMIN,2025-09-08,2026-12-31,,Plan and execute SPIE Student Chapter events and submit annual report by Dec 1, 2026.
+CC1,Equipment maintenance log - Q1 2026,,EQUIPMENT,2025-09-01,2025-12-31,,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC2,Equipment maintenance log - Q2 2026,,EQUIPMENT,2026-01-01,2026-03-31,CC1,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC3,Equipment maintenance log - Q3 2026,,EQUIPMENT,2026-04-01,2026-06-30,CC2,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC4,Equipment maintenance log - Q4 2026,,EQUIPMENT,2026-07-01,2026-09-30,CC3,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC5,Equipment maintenance log - Q1 2027,,EQUIPMENT,2026-10-01,2026-12-31,CC4,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC6,Equipment maintenance log - Q2 2027,,EQUIPMENT,2027-01-01,2027-03-31,CC5,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC7,Equipment maintenance log - Q3 2027,,EQUIPMENT,2027-04-01,2027-06-30,CC6,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CC8,Equipment maintenance log - Q4 2027,,EQUIPMENT,2027-07-01,2027-08-31,CC7,Maintain detailed rig log for any alignment changes and communicate modifications to colleagues.
+CD1,Data backup system implementation,,RESEARCH,2025-10-01,2025-12-31,,Implement automated quality control checks and nightly backups as outlined in proposal.
+CD2,Data backup system maintenance,,RESEARCH,2026-01-01,2027-08-31,CD1,Maintain and monitor automated quality control checks and nightly backups.
+CE,Surgical training,,RESEARCH,2025-10-01,2026-06-01,,Maintain proficiency with cranial window surgeries and train others; ensure IACUC compliance.
+CF,Lab culture responsibilities,,ADMIN,2025-09-10,2027-08-31,,Be punctual to meetings and injections; provide regular updates to advisor; take ownership of microscope.
