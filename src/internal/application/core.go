@@ -364,8 +364,7 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 		}
 
 		return modules, nil
-	}
-
+	} else {
 	// Fallback to original behavior if no CSV data
 	years := cfg.GetYears()
 	totalMonths := len(years) * 12
@@ -398,12 +397,14 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 	}
 
 	return modules, nil
+	}
 }
 
 // assignTasksToMonth assigns tasks to the appropriate days in a month
 func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 	// Convert data.Task to SpanningTask and apply to month
 	var spanningTasks []cal.SpanningTask
+
 
 	for _, task := range tasks {
 		// Check if task overlaps with this month

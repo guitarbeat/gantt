@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 16:42
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 17:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -876,7 +876,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmss on input line 7
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-No file page_template.aux.
+(./page_template.aux (./monthly.aux))
 \openout1 = `page_template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
@@ -890,6 +890,7 @@ LaTeX Font Info:    ... okay on input line 72.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 72.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 7
 2.
+
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -1009,19 +1010,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 259--262
 
 
 ]
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-
 Overfull \hbox (341.87576pt too wide) in paragraph at lines 522--522
 []|[][][] 
  []
@@ -1056,8 +1044,6 @@ Overfull \hbox (341.87576pt too wide) in paragraph at lines 522--522
 []|[][][] 
  []
 
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
 Overfull \hbox (284.89647pt too wide) in paragraph at lines 522--522
 []|[][][] 
@@ -1073,342 +1059,903 @@ Overfull \hbox (56.9793pt too wide) in paragraph at lines 522--522
 []|[][][] 
  []
 
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
 Overfull \hbox (341.87576pt too wide) in paragraph at lines 522--522
 []|[][][] 
  []
 
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
+
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 522--522
+[]|[][][] 
+ []
+
 [2]
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 788--788
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 792--792
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 788--788
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 792--792
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 788--788
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 792--792
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 788--788
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 792--792
 []|[][][] 
  []
 
 
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 788--788
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 792--792
 []|[][][] 
  []
 
 
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 788--788
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 792--792
+[]|[][][] 
+ []
+
+
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 792--792
 []|[][][] 
  []
 
 [3]
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 1053--1053
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 1060--1060
 []|[][][] 
  []
 
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-Overfull \hbox (113.95859pt too wide) in paragraph at lines 1053--1053
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 1060--1060
+[]|[][][] 
+ []
+
+
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 1060--1060
 []|[][][] 
  []
 
 [4]
-Overfull \hbox (341.87576pt too wide) in paragraph at lines 1320--1320
+Overfull \hbox (341.87576pt too wide) in paragraph at lines 1328--1328
 []|[][][] 
  []
 
 
-Overfull \hbox (341.87576pt too wide) in paragraph at lines 1320--1320
+Overfull \hbox (341.87576pt too wide) in paragraph at lines 1328--1328
 []|[][][] 
  []
 
 
-Overfull \hbox (113.95859pt too wide) in paragraph at lines 1320--1320
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 1328--1328
 []|[][][] 
  []
 
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 1320--1320
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 1328--1328
 []|[][][] 
  []
 
 
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 1320--1320
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 1328--1328
+[]|[][][] 
+ []
+
+
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 1328--1328
 []|[][][] 
  []
 
 [5]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 1587--1587
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 1596--1596
 []|[][][] 
  []
 
 [6]
-Overfull \hbox (113.95859pt too wide) in paragraph at lines 1848--1848
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 1858--1858
 []|[][][] 
  []
+
+./monthly.tex:1861: Misplaced alignment tab character &.
+l.1861 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [7]
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 2149--2149
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 2160--2160
 []|[][][] 
  []
+
+./monthly.tex:2163: Misplaced alignment tab character &.
+l.2163 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [8]
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 2413--2413
-[]|[][][] 
- []
-
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 2413--2413
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 2425--2425
 []|[][][] 
  []
 
 
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 2413--2413
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 2425--2425
+[]|[][][] 
+ []
+
+
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 2425--2425
 []|[][][] 
  []
 
 [9]
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-
-Overfull \hbox (113.95859pt too wide) in paragraph at lines 2680--2680
-[]|[][][] 
- []
-
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-
-Overfull \hbox (341.87576pt too wide) in paragraph at lines 2680--2680
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 2694--2694
 []|[][][] 
  []
 
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 2680--2680
+Overfull \hbox (341.87576pt too wide) in paragraph at lines 2694--2694
 []|[][][] 
  []
 
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 2680--2680
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 2694--2694
+[]|[][][] 
+ []
+
+
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 2694--2694
 []|[][][] 
  []
 
 [10]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 2945--2945
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 2960--2960
 []|[][][] 
  []
 
 
-Overfull \hbox (113.95859pt too wide) in paragraph at lines 2945--2945
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 2960--2960
 []|[][][] 
  []
 
 [11]
-Missing character: There is no – ("2013) in font ec-lmss8!
-Missing character: There is no – ("2013) in font ec-lmss8!
-Missing character: There is no – ("2013) in font ec-lmss8!
-Missing character: There is no – ("2013) in font ec-lmss8!
-
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 3212--3212
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 3229--3229
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 3212--3212
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 3229--3229
 []|[][][] 
  []
 
 
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 3212--3212
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 3229--3229
 []|[][][] 
  []
 
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 3212--3212
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 3229--3229
 []|[][][] 
  []
 
-Missing character: There is no – ("2013) in font ec-lmss8!
-Missing character: There is no – ("2013) in font ec-lmss8!
 
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 3212--3212
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 3229--3229
 []|[][][] 
  []
 
 [12]
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 3514--3514
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./monthly.tex:3533: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3533   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 3533--3533
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 3514--3514
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 3533--3533
 []|[][][] 
  []
+
+
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 3533--3533
+[]|[][][] 
+ []
+
+
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 3533--3533
+[]|[][][] 
+ []
+
+./monthly.tex:3536: Misplaced alignment tab character &.
+l.3536 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [13]
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 3778--3778
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 3800--3800
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 3778--3778
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 3800--3800
 []|[][][] 
  []
 
 
-Overfull \hbox (341.87576pt too wide) in paragraph at lines 3778--3778
+Overfull \hbox (341.87576pt too wide) in paragraph at lines 3800--3800
 []|[][][] 
  []
 
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 3778--3778
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 3800--3800
 []|[][][] 
  []
+
+./monthly.tex:3803: Misplaced alignment tab character &.
+l.3803 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [14]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 4044--4044
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 4070--4070
 []|[][][] 
  []
 
 
-Overfull \hbox (341.87576pt too wide) in paragraph at lines 4044--4044
+Overfull \hbox (341.87576pt too wide) in paragraph at lines 4070--4070
 []|[][][] 
  []
 
-[15] [16]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 4609--4609
+./monthly.tex:4073: Misplaced alignment tab character &.
+l.4073 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[15]
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 4372--4372
+[]|[][][] 
+ []
+
+./monthly.tex:4375: Misplaced alignment tab character &.
+l.4375 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[16]
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 4641--4641
 []|[][][] 
  []
 
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 4609--4609
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 4641--4641
 []|[][][] 
+ []
+
+
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 4641--4641
+[]|[][][] 
+ []
+
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (2.34491pt too wide) in paragraph at lines 4641--4641
+ []\T1/lmss/bx/n/7 Manuscript 
+ []
+
+
+Overfull \hbox (4.51888pt too wide) in paragraph at lines 4641--4641
+ \T1/lmss/bx/n/7 manuscripts 
+ []
+
+
+Overfull \hbox (0.60196pt too wide) in paragraph at lines 4641--4641
+ \T1/lmss/m/n/7 manuscript 
+ []
+
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./monthly.tex:4641: Package xcolor Error: Undefined color `navy'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4641   \end{tabularx}
+                       
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (2.34491pt too wide) in paragraph at lines 4641--4641
+ []\T1/lmss/bx/n/7 Manuscript 
+ []
+
+
+Overfull \hbox (4.51888pt too wide) in paragraph at lines 4641--4641
+ \T1/lmss/bx/n/7 manuscripts 
+ []
+
+
+Overfull \hbox (0.60196pt too wide) in paragraph at lines 4641--4641
+ \T1/lmss/m/n/7 manuscript 
  []
 
 [17]
-Overfull \hbox (113.95859pt too wide) in paragraph at lines 4877--4877
-[]|[][][] 
- []
+./monthly.tex:4644: Misplaced alignment tab character &.
+l.4644 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [18]
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 5103--5103
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 4913--4913
 []|[][][] 
  []
 
-[19] [20]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 5635--5635
+./monthly.tex:4916: Misplaced alignment tab character &.
+l.4916 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[19]
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 5141--5141
 []|[][][] 
  []
 
-[21] [22]
-Overfull \hbox (284.89647pt too wide) in paragraph at lines 6202--6202
+
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 5141--5141
+[]|[][][] 
+ []
+
+./monthly.tex:5144: Misplaced alignment tab character &.
+l.5144 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[20]
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 5410--5410
+[]|[][][] 
+ []
+
+./monthly.tex:5413: Misplaced alignment tab character &.
+l.5413 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[21]
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 5676--5676
 []|[][][] 
  []
 
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 6202--6202
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 5676--5676
 []|[][][] 
  []
+
+./monthly.tex:5679: Misplaced alignment tab character &.
+l.5679 ...rCircle{green} \small{Final Submission &
+                                                   Graduation}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[22]
+Overfull \hbox (341.87576pt too wide) in paragraph at lines 5979--5979
+[]|[][][] 
+ []
+
+
+Overfull \hbox (1.37248pt too wide) in paragraph at lines 5979--5979
+ []\T1/lmss/m/n/7 Incorporate 
+ []
+
+
+Overfull \hbox (1.37248pt too wide) in paragraph at lines 5979--5979
+ []\T1/lmss/m/n/7 Incorporate 
+ []
+
+./monthly.tex:5982: Misplaced alignment tab character &.
+l.5982 ...orCircle{gray} \small{Committee Review &
+                                                   Defense}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [23]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 6469--6469
+Overfull \hbox (284.89647pt too wide) in paragraph at lines 6246--6246
 []|[][][] 
  []
 
 
-Overfull \hbox (56.9793pt too wide) in paragraph at lines 6469--6469
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 6246--6246
 []|[][][] 
  []
 
 
-Overfull \hbox (227.91718pt too wide) in paragraph at lines 6469--6469
-[]|[][][] 
+Overfull \hbox (4.78111pt too wide) in paragraph at lines 6246--6246
+ []\T1/lmss/bx/n/7 Dissertation 
  []
+
+
+Overfull \hbox (4.78111pt too wide) in paragraph at lines 6246--6246
+ []\T1/lmss/bx/n/7 Dissertation 
+ []
+
+./monthly.tex:6249: Misplaced alignment tab character &.
+l.6249 ...orCircle{gray} \small{Committee Review &
+                                                   Defense}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 [24]
-Overfull \hbox (170.93788pt too wide) in paragraph at lines 6771--6771
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 6515--6515
 []|[][][] 
  []
 
-) [25] (./page_template.aux (./monthly.aux))
+
+Overfull \hbox (113.95859pt too wide) in paragraph at lines 6515--6515
+[]|[][][] 
+ []
+
+
+Overfull \hbox (56.9793pt too wide) in paragraph at lines 6515--6515
+[]|[][][] 
+ []
+
+
+Overfull \hbox (227.91718pt too wide) in paragraph at lines 6515--6515
+[]|[][][] 
+ []
+
+./monthly.tex:6518: Misplaced alignment tab character &.
+l.6518 ...orCircle{gray} \small{Committee Review &
+                                                   Defense}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[25]
+Overfull \hbox (170.93788pt too wide) in paragraph at lines 6818--6818
+[]|[][][] 
+ []
+
+
+Overfull \hbox (1.78442pt too wide) in paragraph at lines 6818--6818
+ []\T1/lmss/bx/n/7 Graduation 
+ []
+
+
+Overfull \hbox (1.78442pt too wide) in paragraph at lines 6818--6818
+ []\T1/lmss/bx/n/7 Graduation 
+ []
+
+./monthly.tex:6821: Misplaced alignment tab character &.
+l.6821 ...orCircle{gray} \small{Committee Review &
+                                                   Defense}%
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[26]
+
+./monthly.tex:7087: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.7087 \vfill{\centering\ColorCircle{maroon}
+                                             \small{AR Platform Development}%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[27]
+
+./monthly.tex:7352: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.7352 \vfill{\centering\ColorCircle{maroon}
+                                             \small{AR Platform Development}%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[28]
+
+./monthly.tex:7615: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.7615 \vfill{\centering\ColorCircle{maroon}
+                                             \small{AR Platform Development}%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[29]
+
+./monthly.tex:7880: Package xcolor Error: Undefined color `maroon'.
+
+See the xcolor package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.7880 \vfill{\centering\ColorCircle{maroon}
+                                             \small{AR Platform Development}%
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) [30] (./page_template.aux (./monthly.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
  )
-(\end occurred inside a group at level 25)
+(\end occurred inside a group at level 29)
 
-### simple group (level 25) entered at line 6774 ({)
-### simple group (level 24) entered at line 6472 ({)
-### simple group (level 23) entered at line 6205 ({)
-### simple group (level 22) entered at line 5940 ({)
-### simple group (level 21) entered at line 5638 ({)
-### simple group (level 20) entered at line 5373 ({)
-### simple group (level 19) entered at line 5106 ({)
-### simple group (level 18) entered at line 4880 ({)
-### simple group (level 17) entered at line 4612 ({)
-### simple group (level 16) entered at line 4346 ({)
-### simple group (level 15) entered at line 4047 ({)
-### simple group (level 14) entered at line 3781 ({)
-### simple group (level 13) entered at line 3517 ({)
-### simple group (level 12) entered at line 3215 ({)
-### simple group (level 11) entered at line 2948 ({)
-### simple group (level 10) entered at line 2683 ({)
-### simple group (level 9) entered at line 2416 ({)
-### simple group (level 8) entered at line 2152 ({)
-### simple group (level 7) entered at line 1851 ({)
-### simple group (level 6) entered at line 1590 ({)
-### simple group (level 5) entered at line 1323 ({)
-### simple group (level 4) entered at line 1056 ({)
-### simple group (level 3) entered at line 791 ({)
+### simple group (level 29) entered at line 7880 ({)
+### simple group (level 28) entered at line 7615 ({)
+### simple group (level 27) entered at line 7352 ({)
+### simple group (level 26) entered at line 7087 ({)
+### simple group (level 25) entered at line 6821 ({)
+### simple group (level 24) entered at line 6518 ({)
+### simple group (level 23) entered at line 6249 ({)
+### simple group (level 22) entered at line 5982 ({)
+### simple group (level 21) entered at line 5679 ({)
+### simple group (level 20) entered at line 5413 ({)
+### simple group (level 19) entered at line 5144 ({)
+### simple group (level 18) entered at line 4916 ({)
+### simple group (level 17) entered at line 4644 ({)
+### simple group (level 16) entered at line 4375 ({)
+### simple group (level 15) entered at line 4073 ({)
+### simple group (level 14) entered at line 3803 ({)
+### simple group (level 13) entered at line 3536 ({)
+### simple group (level 12) entered at line 3232 ({)
+### simple group (level 11) entered at line 2963 ({)
+### simple group (level 10) entered at line 2697 ({)
+### simple group (level 9) entered at line 2428 ({)
+### simple group (level 8) entered at line 2163 ({)
+### simple group (level 7) entered at line 1861 ({)
+### simple group (level 6) entered at line 1599 ({)
+### simple group (level 5) entered at line 1331 ({)
+### simple group (level 4) entered at line 1063 ({)
+### simple group (level 3) entered at line 795 ({)
 ### simple group (level 2) entered at line 525 ({)
 ### simple group (level 1) entered at line 262 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23718 strings out of 474773
- 505185 string characters out of 5757725
- 1997839 words of memory out of 5000000
- 45399 multiletter control sequences out of 15000+600000
+ 23767 strings out of 474773
+ 506012 string characters out of 5757725
+ 2000839 words of memory out of 5000000
+ 45444 multiletter control sequences out of 15000+600000
  600736 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,20n,96p,1724b,2650s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,20n,96p,1728b,2650s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on page_template.pdf (25 pages).
+Output written on page_template.pdf (30 pages).

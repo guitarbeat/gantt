@@ -207,6 +207,7 @@ func (cfg *Config) setDateRangeFromCSV() error {
     cfg.StartYear = earliest.Year()
     cfg.EndYear = latest.Year()
 
+
     // Convert months set to a sorted slice for deterministic ordering
     months := make([]MonthYear, 0, len(monthsSet))
     for m := range monthsSet {
@@ -678,14 +679,17 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	// * Added: Parse Task ID field (use Name as ID if not provided)
 	task.ID = getField("Task ID")
 	if task.ID == "" {
-		task.ID = getField("Task Name") // Fallback to name if no ID
+		task.ID = getField("Task") // Fallback to name if no ID
 	}
 
-	task.Name = getField("Task Name")
-	task.Description = getField("Description")
+	task.Name = getField("Task")
+	task.Description = getField("Objective")
 
-	// * Fixed: Use Category field instead of Priority for clarity
-	task.Category = getField("Category")
+	// * Use Sub-Phase as the primary category for better granularity
+	task.Category = getField("Sub-Phase")
+	if task.Category == "" {
+		task.Category = getField("Phase") // Fallback to Phase if Sub-Phase is empty
+	}
 
 	// * Added: Parse Priority as integer if available
 	if priorityStr := getField("Priority"); priorityStr != "" {
@@ -745,13 +749,13 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 		task.StartDate = startDate
 	}
 
-	endDateStr := getField("Due Date")
+	endDateStr := getField("End Date")
 	if endDateStr != "" {
 		endDate, err := r.parseDate(endDateStr)
 		if err != nil {
 			parseErr := &ParseError{
 				Row:     rowNum,
-				Column:  "Due Date",
+				Column:  "End Date",
 				Value:   endDateStr,
 				Message: "invalid date format",
 				Err:     err,

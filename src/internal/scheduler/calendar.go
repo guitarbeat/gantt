@@ -301,6 +301,7 @@ func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	var startingTasks []*SpanningTask
 	var maxCols int
 
+
 	for _, task := range d.SpanningTasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
@@ -886,7 +887,7 @@ type SpanningTask struct {
 
 // CreateSpanningTask creates a new spanning task from basic task data
 func CreateSpanningTask(task common.Task, startDate, endDate time.Time) SpanningTask {
-	// * Fixed: Use Category field instead of Priority
+	// * Use Sub-Phase as category for better granularity
 	color := getColorForCategory(task.Category)
 
 	return SpanningTask{
@@ -935,25 +936,53 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 
 // getColorForCategory returns a color for the given category
 func getColorForCategory(category string) string {
-	colorMap := map[string]string{
-		"PROPOSAL":      "blue",
-		"ADMIN":         "gray",
-		"LASER":         "red",
-		"IMAGING":       "green",
-		"PUBLICATION":   "purple",
-		"DISSERTATION":  "orange",
-		"RESEARCH":      "green",
-		"Planning":      "blue",
-		"Research":      "green",
-		"Development":   "orange",
-		"Testing":       "red",
-		"Documentation": "purple",
-		"Meeting":       "teal",
-		"Review":        "brown",
-		"Default":       "gray",
+	// First check for exact matches in the predefined color map
+	predefinedColors := map[string]string{
+		"PhD Proposal":                    "blue",
+		"Final Submission & Graduation":   "green",
+		"Data Management & Analysis":       "purple",
+		"Aim 3 - Stroke Study & Analysis": "red",
+		"Dissertation Writing":            "orange",
+		"Aim 1 - AAV-based Vascular Imaging": "teal",
+		"Aim 2 - Dual-channel Imaging Platform": "brown",
+		"Committee Review & Defense":      "gray",
+		"Microscope Setup":                "cyan",
+		"SLAVV-T Development":             "magenta",
+		"Research Paper":                  "lime",
+		"Laser System":                    "pink",
+		"Committee Management":            "olive",
+		"Methodology Paper":               "violet",
+		"Manuscript Submissions":          "navy",
+		"AR Platform Development":         "maroon",
 	}
-	if color, exists := colorMap[category]; exists {
+	
+	if color, exists := predefinedColors[category]; exists {
 		return color
 	}
-	return colorMap["Default"]
+	
+	// If no exact match, generate a color dynamically based on the category name
+	return generateDynamicColor(category)
+}
+
+// generateDynamicColor creates a consistent color based on the category name
+func generateDynamicColor(category string) string {
+	// Use a simple hash function to generate consistent colors
+	hash := 0
+	for _, char := range category {
+		hash = hash*31 + int(char)
+	}
+	
+	// Convert hash to a positive number and use modulo to get a color index
+	colorIndex := hash % 12
+	if colorIndex < 0 {
+		colorIndex = -colorIndex
+	}
+	
+	// Define a palette of distinct colors
+	colors := []string{
+		"blue", "red", "green", "orange", "purple", "teal",
+		"brown", "pink", "cyan", "lime", "magenta", "navy",
+	}
+	
+	return colors[colorIndex%len(colors)]
 }

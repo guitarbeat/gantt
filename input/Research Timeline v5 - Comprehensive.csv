@@ -53,7 +53,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 2,Aim 3 - Stroke Study & Analysis,T2.22,T2.10,Adapt ML Pipeline,2026-07-14,2026-08-15,Adapt ML pipeline for stroke imaging data analysis,false,Not Started
 2,Aim 3 - Stroke Study & Analysis,T2.23,T2.22,Optimize ML Pipeline,2026-08-18,2026-09-15,Optimize and validate ML segmentation performance on stroke data,false,Not Started
 2,Aim 3 - Stroke Study & Analysis,T2.24,T2.21,Complete Longitudinal Imaging,2026-09-21,2026-09-27,Complete comprehensive longitudinal stroke imaging study,false,Not Started
-2,Aim 3 - Stroke Study & Analysis,T2.25,"T2.18,T2.19,T2.20,T2.21",Integrate LSCI Data,2026-09-26,Integrate Laser Speckle Contrast Imaging flow data with two-photon data,,,
+2,Aim 3 - Stroke Study & Analysis,T2.25,"T2.18,T2.19,T2.20,T2.21",Integrate LSCI Data,2026-09-26,2026-10-25,Integrate Laser Speckle Contrast Imaging flow data with two-photon data,false,Not Started
 2,Aim 3 - Stroke Study & Analysis,T2.26,T2.25,Analyze Stroke Data,2026-10-26,2026-12-09,Analyze neurovascular coupling and microvascular changes post-stroke,false,Not Started
 2,Data Management & Analysis,T2.27,,Maintain Rig Log Q1 2026,2025-09-01,2025-12-31,Maintain equipment maintenance log for Q1 2026,false,Not Started
 2,Data Management & Analysis,T2.28,T2.27,Maintain Rig Log Q2 2026,2026-01-01,2026-03-31,Maintain equipment maintenance log for Q2 2026,false,Not Started

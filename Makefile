@@ -11,9 +11,9 @@ OUTDIR ?= src/build
 # Build planner PDF (runs tests, generates LaTeX, compiles PDF)
 build:
 	@echo "🧪 Running Go tests..."
-	cd src && go test ./internal/...
+	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
 	@echo "📄 Generating PDF test..."
-	@echo "🎯 Generating PDF from: ../input/data.cleaned.csv"
+	@echo "🎯 Generating PDF from: ../input/Research Timeline v5 - Comprehensive.csv"
 	@echo "📄 Output: test.pdf"
 	@cd src && \
 	if [ ! -f "build/plannergen" ]; then \
@@ -21,7 +21,7 @@ build:
 		go build -o build/plannergen .; \
 	fi && \
 	echo "📝 Generating LaTeX..." && \
-	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/data.cleaned.csv" \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/Research Timeline v5 - Comprehensive.csv" \
 	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
 	echo "🔧 Fixing LaTeX comment issues..." && \
 	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/page_template.tex && \

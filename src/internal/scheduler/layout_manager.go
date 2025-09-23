@@ -1660,6 +1660,7 @@ func (d Day) renderSpanningTaskOverlay() *overlayInfo {
 	if len(d.SpanningTasks) == 0 {
 		return nil
 	}
+	
 
 	dayDate := d.getDayDate()
 	startingTasks, maxCols := d.findStartingTasks(dayDate)
