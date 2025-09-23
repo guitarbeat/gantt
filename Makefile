@@ -41,6 +41,9 @@ build:
 		cp "build/page_template.pdf" "../output/test.pdf" && \
 		cp "build/page_template.tex" "../output/test.tex" 2>/dev/null || true && \
 		cp "build/page_template.log" "../output/test.log" 2>/dev/null || true && \
+		echo "🧹 Cleaning up auxiliary files from output..." && \
+		cd ../output && rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz 2>/dev/null || true && \
+		cd ../src && \
 		echo "✅ Created: test.pdf" && \
 		echo "📁 Also saved to: ../output/test.pdf"; \
 	else \
@@ -58,19 +61,17 @@ clean:
 	# Clean build directory
 	rm -rf "$(OUTDIR)"/*.pdf "$(OUTDIR)"/*.aux "$(OUTDIR)"/*.log "$(OUTDIR)"/*.out "$(OUTDIR)"/*.tex "$(OUTDIR)"/*.synctex.gz
 	rm -f "$(BINARY)"
+	# Clean src directory build artifacts
+	@echo "🧹 Cleaning src directory..."
+	@rm -f src/*.pdf src/*.tex src/*.aux src/*.log src/*.out src/*.synctex.gz src/*.fdb_latexmk src/*.fls src/coverage.out src/debug.log src/test.out 2>/dev/null || true
+	@echo "✅ Src directory cleaned"
 	# Clean parent directory build artifacts
 	rm -f ../*.pdf ../*.tex ../*.aux ../*.log ../*.out ../*.synctex.gz
 	# Clean any stray plannergen binaries
 	find .. -name "plannergen" -type f -delete 2>/dev/null || true
 	# Clean flat output directory
 	@echo "🧹 Cleaning output directory..."
-	@rm -f output/*.pdf 2>/dev/null || true
-	@rm -f output/*.tex 2>/dev/null || true
-	@rm -f output/*.log 2>/dev/null || true
-	# Also clean legacy subfolders if present
-	@rm -f output/pdfs/*.pdf 2>/dev/null || true
-	@rm -f output/latex/*.tex 2>/dev/null || true
-	@rm -f output/logs/*.log 2>/dev/null || true
+	@rm -f output/*.pdf output/*.tex output/*.log output/*.aux output/*.fdb_latexmk output/*.fls output/*.out output/*.synctex.gz 2>/dev/null || true
 	@echo "✅ Output directory cleaned"
 	@echo "📁 Directory structure preserved"
 
