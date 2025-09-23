@@ -7,29 +7,54 @@ BINARY ?= build/plannergen
 
 # Build the binary
 build:
-	cd src && $(GO) build -o build/plannergen ./cmd/plannergen
+	cd src && $(GO) build -o build/plannergen .
 
 # Generate PDF directly (no helper script)
 pdf: build
 	cd src && \
 	echo "🎯 Generating PDF from: $(CSV)" && \
 	echo "📄 Output: $(OUTPUT).pdf" && \
-	PLANNER_CSV_FILE="$(CSV)" ./build/plannergen --config "configs/base.yaml,configs/page_template.yaml,configs/planner_config.yaml" --outdir build && \
+	PLANNER_CSV_FILE="$(CSV)" ./build/plannergen --config "internal/config/base.yaml" --outdir build && \
 	echo "🔧 Fixing LaTeX comment issues..." && \
 	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex || true && \
 	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex || true && \
 	sed -i '' 's/%\\end{center}/\\end{center}/g' build/monthly.tex || true && \
 	echo "📚 Compiling PDF..." && \
-	cd build && xelatex -file-line-error -interaction=nonstopmode planner_config.tex > /dev/null 2>&1 || true && cd .. && \
+	cd build && xelatex -file-line-error -interaction=nonstopmode page_template.tex > /dev/null 2>&1 || true && cd .. && \
 	mkdir -p ../output/pdfs ../output/latex ../output/logs && \
-	cp "build/planner_config.pdf" "../output/pdfs/$(OUTPUT).pdf" && \
-	cp "build/planner_config.tex" "../output/latex/$(OUTPUT).tex" 2>/dev/null || true && \
-	cp "build/planner_config.log" "../output/logs/$(OUTPUT).log" 2>/dev/null || true && \
+	cp "build/page_template.pdf" "../output/pdfs/$(OUTPUT).pdf" && \
+	cp "build/page_template.tex" "../output/latex/$(OUTPUT).tex" 2>/dev/null || true && \
+	cp "build/page_template.log" "../output/logs/$(OUTPUT).log" 2>/dev/null || true && \
 	echo "📁 Also saved to: ../output/pdfs/$(OUTPUT).pdf"
 
-# Generate PDF with full dataset (temporary: use helper script until Go build fixed)
+# Generate PDF with full dataset and run Go tests
 test:
-	cd src && ./scripts/simple.sh ../input/data.cleaned.csv test
+	@echo "🧪 Running Go tests..."
+	cd src && go test ./internal/...
+	@echo "📄 Generating PDF test..."
+	@echo "🎯 Generating PDF from: ../input/data.cleaned.csv"
+	@echo "📄 Output: test.pdf"
+	@cd src && \
+	if [ ! -f "build/plannergen" ]; then \
+		echo "🔨 Building plannergen..."; \
+		go build -o build/plannergen .; \
+	fi && \
+	echo "📝 Generating LaTeX..." && \
+	PLANNER_CSV_FILE="../input/data.cleaned.csv" \
+	./build/plannergen --config "configs/base.yaml,configs/page_template.yaml" --outdir build && \
+	echo "🔧 Fixing LaTeX comment issues..." && \
+	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex && \
+	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex && \
+	sed -i '' 's/%\\end{center}/\\end{center}/g' build/monthly.tex && \
+	echo "📚 Compiling PDF..." && \
+	cd build && xelatex -file-line-error -interaction=nonstopmode page_template.tex > /dev/null 2>&1 || true && cd .. && \
+	mkdir -p ../output/pdfs ../output/latex ../output/logs && \
+	cp "build/page_template.pdf" "test.pdf" && \
+	cp "build/page_template.pdf" "../output/pdfs/test.pdf" && \
+	cp "build/page_template.tex" "../output/latex/test.tex" 2>/dev/null || true && \
+	cp "build/page_template.log" "../output/logs/test.log" 2>/dev/null || true && \
+	echo "✅ Created: test.pdf" && \
+	echo "📁 Also saved to: ../output/pdfs/test.pdf"
 
 # Legacy targets for backward compatibility
 run: test
@@ -53,9 +78,13 @@ clean:
 
 # Clean output directory
 clean-output:
-	./scripts/clean_output.sh
+	@echo "🧹 Cleaning output directory..."
+	@rm -f output/pdfs/*.pdf
+	@rm -f output/latex/*.tex
+	@rm -f output/logs/*.log
+	@echo "✅ Output directory cleaned"
+	@echo "📁 Directory structure preserved"
 
 # Clean both build and release directories
-clean-all:
-	./scripts/generate.sh --clean
+clean-all: clean clean-output
 

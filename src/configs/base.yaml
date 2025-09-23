@@ -3,6 +3,7 @@ ampmtime: false
 dotted: true
 calafterschedule: false
 addlasthalfhour: true
+cleartoprightcorner: false
 
 layout:
   paper:

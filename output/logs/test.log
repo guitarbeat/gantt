@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  19 SEP 2025 02:14
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  22 SEP 2025 20:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**planner_config.tex
-(./planner_config.tex
+**page_template.tex
+(./page_template.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
 (/usr/local/texlive/2024/texmf-dist/tex/latex/extsizes/extarticle.cls
@@ -1002,8 +1002,8 @@ LaTeX Font Info:    Trying to load font information for T1+lmss on input line 6
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-(./planner_config.aux (./monthly.aux))
-\openout1 = `planner_config.aux'.
+(./page_template.aux)
+\openout1 = `page_template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
@@ -1068,9 +1068,9 @@ LaTeX Font Info:    ... okay on input line 68.
 
 \c@lstlisting=\count364
 Package hyperref Info: Link coloring OFF on input line 68.
-(./planner_config.out) (./planner_config.out)
+(./page_template.out) (./page_template.out)
 \@outlinefile=\write4
-\openout4 = `planner_config.out'.
+\openout4 = `page_template.out'.
 
 \myLenTabColSep=\skip72
 \myLenLineThicknessDefault=\skip73
@@ -1089,6 +1089,7 @@ Package hyperref Info: Link coloring OFF on input line 68.
 \TaskBorderWidth=\skip86
 \TaskPaddingH=\skip87
 \TaskPaddingV=\skip88
+\TaskVerticalOffset=\skip89
 \openout2 = `monthly.aux'.
 
  (./monthly.tex
@@ -1132,8 +1133,8 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-./monthly.tex:260: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:260: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1147,8 +1148,8 @@ command, so I can't give any explicit help.
 Pretend that you're Hercule Poirot: Examine all clues,
 and deduce the truth by order and method.
 
-./monthly.tex:260: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:260: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1160,8 +1161,8 @@ l.260 }
 (That was another \errmessage.)
 
 
-./monthly.tex:260: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:260: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1181,8 +1182,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 260--262
 
 
 ]
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1193,8 +1194,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1205,8 +1206,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1217,8 +1218,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1229,8 +1230,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1241,8 +1242,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1253,8 +1254,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1265,8 +1266,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1277,8 +1278,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1290,8 +1291,8 @@ l.523 }
 (That was another \errmessage.)
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1302,8 +1303,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1314,8 +1315,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1326,8 +1327,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1339,8 +1340,8 @@ l.523 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1352,8 +1353,8 @@ l.523 }
 (That was another \errmessage.)
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1364,8 +1365,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1376,8 +1377,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1388,8 +1389,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1400,8 +1401,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1412,8 +1413,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1424,8 +1425,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1436,8 +1437,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1448,8 +1449,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1460,8 +1461,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1473,8 +1474,8 @@ l.523 }
 (That was another \errmessage.)
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1485,8 +1486,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1497,8 +1498,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1509,8 +1510,8 @@ l.523 }
        
 (That was another \errmessage.)
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1522,8 +1523,8 @@ l.523 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1535,8 +1536,8 @@ l.523 }
 (That was another \errmessage.)
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1548,8 +1549,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1561,8 +1562,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1574,8 +1575,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1587,8 +1588,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1600,8 +1601,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1613,8 +1614,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1626,8 +1627,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1639,8 +1640,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1652,8 +1653,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1666,8 +1667,8 @@ l.523 }
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1679,8 +1680,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1692,8 +1693,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1705,8 +1706,8 @@ l.523 }
 (That was another \errmessage.)
 
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1719,8 +1720,8 @@ l.523 }
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1733,8 +1734,8 @@ l.523 }
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
 
-./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:523: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1746,8 +1747,8 @@ l.523 }
 (That was another \errmessage.)
 
 [2]
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1758,8 +1759,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1770,8 +1771,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1782,8 +1783,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1794,8 +1795,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1806,8 +1807,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1818,8 +1819,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1830,8 +1831,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1842,8 +1843,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1854,8 +1855,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1866,8 +1867,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1878,8 +1879,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1890,8 +1891,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1902,8 +1903,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1914,8 +1915,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1926,8 +1927,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1938,8 +1939,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1950,21 +1951,8 @@ l.789 }
        
 (That was another \errmessage.)
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
-
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.789 }
-       
-(That was another \errmessage.)
-
-
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1976,8 +1964,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -1989,8 +1977,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2002,8 +1990,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2015,8 +2003,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2028,8 +2016,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2041,8 +2029,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2054,8 +2042,8 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}{
--0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2067,8 +2055,21 @@ l.789 }
 (That was another \errmessage.)
 
 
-./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}{
--0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}{
+-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it.
+
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.789 }
+       
+(That was another \errmessage.)
+
+
+./monthly.tex:789: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}{
+-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it.
 
 
 See the pgfkeys package documentation for explanation.
@@ -2080,8 +2081,8 @@ l.789 }
 (That was another \errmessage.)
 
 [3]
-./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2093,8 +2094,8 @@ l.1054 }
 (That was another \errmessage.)
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
-./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2105,34 +2106,8 @@ l.1054 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1054 }
-        
-(That was another \errmessage.)
-
-Missing character: There is no ≥ ("2265) in font ec-lmss8!
-./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1054 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2144,9 +2119,35 @@ l.1054 }
 (That was another \errmessage.)
 
 Missing character: There is no ≥ ("2265) in font ec-lmss8!
+./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
 
-./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1054 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1054 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no ≥ ("2265) in font ec-lmss8!
+
+./monthly.tex:1054: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2158,8 +2159,8 @@ l.1054 }
 (That was another \errmessage.)
 
 [4]
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2170,8 +2171,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2182,8 +2183,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2194,8 +2195,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2206,8 +2207,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2218,8 +2219,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2230,8 +2231,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2242,8 +2243,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2254,8 +2255,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2266,21 +2267,8 @@ l.1321 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1321 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2292,8 +2280,8 @@ l.1321 }
 (That was another \errmessage.)
 
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2305,8 +2293,8 @@ l.1321 }
 (That was another \errmessage.)
 
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2318,8 +2306,8 @@ l.1321 }
 (That was another \errmessage.)
 
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2331,8 +2319,21 @@ l.1321 }
 (That was another \errmessage.)
 
 
-./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1321 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:1321: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2344,8 +2345,8 @@ l.1321 }
 (That was another \errmessage.)
 
 [5]
-./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2356,8 +2357,8 @@ l.1588 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2368,8 +2369,8 @@ l.1588 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2380,21 +2381,8 @@ l.1588 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1588 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2406,8 +2394,21 @@ l.1588 }
 (That was another \errmessage.)
 
 
-./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1588 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:1588: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2419,8 +2420,8 @@ l.1588 }
 (That was another \errmessage.)
 
 [6]
-./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2431,8 +2432,8 @@ l.1849 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2443,8 +2444,8 @@ l.1849 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2455,21 +2456,8 @@ l.1849 }
         
 (That was another \errmessage.)
 
-./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1849 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2481,8 +2469,21 @@ l.1849 }
 (That was another \errmessage.)
 
 
-./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1849 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:1849: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2494,8 +2495,8 @@ l.1849 }
 (That was another \errmessage.)
 
 [7]
-./monthly.tex:2150: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2150: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2506,8 +2507,8 @@ l.2150 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2150: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2150: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2519,8 +2520,8 @@ l.2150 }
 (That was another \errmessage.)
 
 
-./monthly.tex:2150: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2150: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2532,8 +2533,8 @@ l.2150 }
 (That was another \errmessage.)
 
 [8]
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2545,8 +2546,8 @@ l.2414 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2557,8 +2558,8 @@ l.2414 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2569,8 +2570,8 @@ l.2414 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2581,8 +2582,8 @@ l.2414 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2593,70 +2594,8 @@ l.2414 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2414 }
-        
-(That was another \errmessage.)
-
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2414 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2414 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2414 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2414 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2668,9 +2607,44 @@ l.2414 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2414 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2414 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2414 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2682,8 +2656,22 @@ l.2414 }
 (That was another \errmessage.)
 
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2414 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
+
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2695,8 +2683,8 @@ l.2414 }
 (That was another \errmessage.)
 
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2708,8 +2696,21 @@ l.2414 }
 (That was another \errmessage.)
 
 
-./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2414 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:2414: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2721,8 +2722,8 @@ l.2414 }
 (That was another \errmessage.)
 
 [9]
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2734,8 +2735,8 @@ l.2681 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2746,33 +2747,8 @@ l.2681 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2681 }
-        
-(That was another \errmessage.)
-
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2681 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2784,8 +2760,8 @@ l.2681 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2796,34 +2772,8 @@ l.2681 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2681 }
-        
-(That was another \errmessage.)
-
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2681 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2835,9 +2785,33 @@ l.2681 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
 
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2849,8 +2823,8 @@ l.2681 }
 (That was another \errmessage.)
 
 
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2863,8 +2837,35 @@ l.2681 }
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
-./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2681 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
+
+./monthly.tex:2681: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2876,8 +2877,8 @@ l.2681 }
 (That was another \errmessage.)
 
 [10]
-./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2888,8 +2889,8 @@ l.2946 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2900,8 +2901,8 @@ l.2946 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2912,21 +2913,8 @@ l.2946 }
         
 (That was another \errmessage.)
 
-./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.2946 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2938,8 +2926,21 @@ l.2946 }
 (That was another \errmessage.)
 
 
-./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2946 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:2946: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2951,8 +2952,8 @@ l.2946 }
 (That was another \errmessage.)
 
 [11]
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2963,8 +2964,8 @@ l.3213 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2975,8 +2976,8 @@ l.3213 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2987,8 +2988,8 @@ l.3213 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -2999,81 +3000,8 @@ l.3213 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3213 }
-        
-(That was another \errmessage.)
-
-Missing character: There is no – ("2013) in font ec-lmss8!
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3213 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3213 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3213 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3213 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3213 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3085,8 +3013,81 @@ l.3213 }
 (That was another \errmessage.)
 
 Missing character: There is no – ("2013) in font ec-lmss8!
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3213 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3213 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3213 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3213 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3213 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3213 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no – ("2013) in font ec-lmss8!
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3098,8 +3099,8 @@ l.3213 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3111,8 +3112,8 @@ l.3213 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3124,8 +3125,8 @@ l.3213 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3137,8 +3138,8 @@ l.3213 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3150,8 +3151,8 @@ l.3213 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3164,8 +3165,8 @@ l.3213 }
 
 Missing character: There is no – ("2013) in font ec-lmss8!
 
-./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3213: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3177,8 +3178,8 @@ l.3213 }
 (That was another \errmessage.)
 
 [12]
-./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3189,8 +3190,8 @@ l.3515 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3201,8 +3202,8 @@ l.3515 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3213,21 +3214,8 @@ l.3515 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3515 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3239,8 +3227,21 @@ l.3515 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3515 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:3515: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3252,8 +3253,8 @@ l.3515 }
 (That was another \errmessage.)
 
 [13]
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3264,8 +3265,8 @@ l.3779 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3276,8 +3277,8 @@ l.3779 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3288,69 +3289,8 @@ l.3779 }
         
 (That was another \errmessage.)
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3779 }
-        
-(That was another \errmessage.)
-
-Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3779 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3779 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3779 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3779 }
-        
-(That was another \errmessage.)
-
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3362,8 +3302,69 @@ l.3779 }
 (That was another \errmessage.)
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3779 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3779 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3779 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3779 }
+        
+(That was another \errmessage.)
+
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3779 }
+        
+(That was another \errmessage.)
+
+Missing character: There is no ‑ ("2011) in font ec-lmss8!
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3375,8 +3376,8 @@ l.3779 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3388,8 +3389,8 @@ l.3779 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3401,8 +3402,8 @@ l.3779 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3414,8 +3415,8 @@ l.3779 }
 (That was another \errmessage.)
 
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3428,8 +3429,8 @@ l.3779 }
 
 Missing character: There is no ‑ ("2011) in font ec-lmss8!
 
-./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:3779: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3441,8 +3442,8 @@ l.3779 }
 (That was another \errmessage.)
 
 [14]
-./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3453,8 +3454,8 @@ l.4045 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3465,8 +3466,8 @@ l.4045 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3477,21 +3478,8 @@ l.4045 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4045 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3503,8 +3491,21 @@ l.4045 }
 (That was another \errmessage.)
 
 
-./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4045 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:4045: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3516,8 +3517,8 @@ l.4045 }
 (That was another \errmessage.)
 
 [15] [16]
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3528,8 +3529,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3540,8 +3541,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3552,8 +3553,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3564,8 +3565,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3576,8 +3577,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3588,8 +3589,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3600,21 +3601,8 @@ l.4610 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4610 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3626,8 +3614,8 @@ l.4610 }
 (That was another \errmessage.)
 
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3639,8 +3627,8 @@ l.4610 }
 (That was another \errmessage.)
 
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3652,8 +3640,21 @@ l.4610 }
 (That was another \errmessage.)
 
 
-./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4610 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:4610: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3665,8 +3666,8 @@ l.4610 }
 (That was another \errmessage.)
 
 [17]
-./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3677,8 +3678,8 @@ l.4878 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3689,8 +3690,8 @@ l.4878 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3701,21 +3702,8 @@ l.4878 }
         
 (That was another \errmessage.)
 
-./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.4878 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3727,8 +3715,21 @@ l.4878 }
 (That was another \errmessage.)
 
 
-./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4878 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:4878: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3740,8 +3741,8 @@ l.4878 }
 (That was another \errmessage.)
 
 [18]
-./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3752,8 +3753,8 @@ l.5104 }
         
 (That was another \errmessage.)
 
-./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3764,8 +3765,8 @@ l.5104 }
         
 (That was another \errmessage.)
 
-./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3776,21 +3777,8 @@ l.5104 }
         
 (That was another \errmessage.)
 
-./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.5104 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3802,8 +3790,21 @@ l.5104 }
 (That was another \errmessage.)
 
 
-./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.5104 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:5104: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3815,8 +3816,8 @@ l.5104 }
 (That was another \errmessage.)
 
 [19] [20]
-./monthly.tex:5636: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5636: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3827,8 +3828,8 @@ l.5636 }
         
 (That was another \errmessage.)
 
-./monthly.tex:5636: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5636: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3840,8 +3841,8 @@ l.5636 }
 (That was another \errmessage.)
 
 
-./monthly.tex:5636: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:5636: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3853,8 +3854,8 @@ l.5636 }
 (That was another \errmessage.)
 
 [21] [22]
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3865,8 +3866,8 @@ l.6203 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3877,8 +3878,8 @@ l.6203 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3889,8 +3890,8 @@ l.6203 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3901,8 +3902,8 @@ l.6203 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3913,21 +3914,8 @@ l.6203 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.6203 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3939,8 +3927,8 @@ l.6203 }
 (That was another \errmessage.)
 
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.1pt}
-{-0.1pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3952,8 +3940,21 @@ l.6203 }
 (That was another \errmessage.)
 
 
-./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.4pt}
+{-0.4pt}{0pt}{black!15}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6203 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:6203: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3965,8 +3966,8 @@ l.6203 }
 (That was another \errmessage.)
 
 [23]
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3977,8 +3978,8 @@ l.6470 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -3989,8 +3990,8 @@ l.6470 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4001,8 +4002,8 @@ l.6470 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4013,8 +4014,8 @@ l.6470 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4025,21 +4026,8 @@ l.6470 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
-.
-
-See the pgfkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.6470 }
-        
-(That was another \errmessage.)
-
-
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4051,8 +4039,8 @@ l.6470 }
 (That was another \errmessage.)
 
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4064,8 +4052,21 @@ l.6470 }
 (That was another \errmessage.)
 
 
-./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.6470 }
+        
+(That was another \errmessage.)
+
+
+./monthly.tex:6470: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4077,8 +4078,8 @@ l.6470 }
 (That was another \errmessage.)
 
 [24]
-./monthly.tex:6772: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6772: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4089,8 +4090,8 @@ l.6772 }
         
 (That was another \errmessage.)
 
-./monthly.tex:6772: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6772: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4102,8 +4103,8 @@ l.6772 }
 (That was another \errmessage.)
 
 
-./monthly.tex:6772: Package pgfkeys Error: I do not know the key '/tikz/{0.2pt}
-{-0.2pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
+./monthly.tex:6772: Package pgfkeys Error: I do not know the key '/tikz/{0.6pt}
+{-0.6pt}{0pt}{black!20}' and I am going to ignore it. Perhaps you misspelled it
 .
 
 See the pgfkeys package documentation for explanation.
@@ -4114,12 +4115,12 @@ l.6772 }
         
 (That was another \errmessage.)
 
-) [25] (./planner_config.aux (./monthly.aux))
+) [25] (./page_template.aux (./monthly.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-Package rerunfilecheck Info: File `planner_config.out' has not changed.
+Package rerunfilecheck Info: File `page_template.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  )
 (\end occurred inside a group at level 25)
@@ -4151,12 +4152,12 @@ Package rerunfilecheck Info: File `planner_config.out' has not changed.
 ### simple group (level 1) entered at line 262 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30123 strings out of 474773
- 605366 string characters out of 5757725
+ 30124 strings out of 474773
+ 605362 string characters out of 5757725
  1974839 words of memory out of 5000000
- 51709 multiletter control sequences out of 15000+600000
- 595557 words of font info for 70 fonts, out of 8000000 for 9000
+ 51712 multiletter control sequences out of 15000+600000
+ 601096 words of font info for 72 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,20n,96p,1000b,2663s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,20n,96p,1013b,2664s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on planner_config.pdf (25 pages).
+Output written on page_template.pdf (25 pages).

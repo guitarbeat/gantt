@@ -4,5 +4,3 @@ pages:
       - funcname: monthly
         tpls:
           - monthly_page.tpl
-
-
