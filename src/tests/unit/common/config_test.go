@@ -1,11 +1,12 @@
-package common
+package common_test
 
 import (
+	"phd-dissertation-planner/internal/common"
 	"testing"
 )
 
 func TestNewConfig(t *testing.T) {
-	config, err := NewConfig("testdata/config.yaml")
+	config, err := common.NewConfig("testdata/config.yaml")
 	if err != nil {
 		t.Fatalf("Failed to load config: %v", err)
 	}
@@ -20,14 +21,14 @@ func TestNewConfig(t *testing.T) {
 }
 
 func TestNewConfigNotFound(t *testing.T) {
-	_, err := NewConfig("nonexistent.yaml")
+	_, err := common.NewConfig("nonexistent.yaml")
 	if err != nil {
 		t.Error("Expected no error for non-existent config file (should skip)")
 	}
 }
 
 func TestConfigGetYears(t *testing.T) {
-	config := &Config{
+	config := &common.Config{
 		Year:      2024,
 		StartYear: 2024,
 		EndYear:   2025,
@@ -48,7 +49,7 @@ func TestConfigGetYears(t *testing.T) {
 }
 
 func TestConfigGetYearsFallback(t *testing.T) {
-	config := &Config{
+	config := &common.Config{
 		Year: 2024,
 	}
 	
