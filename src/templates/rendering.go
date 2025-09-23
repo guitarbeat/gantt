@@ -22,13 +22,15 @@ func TextColor(color, text string) string {
 }
 
 // Hyperlink creates a hyperlink
+// * Disabled: returns plain text without hyperlinking
 func Hyperlink(ref, text string) string {
-	return fmt.Sprintf(`\hyperlink{%s}{%s}`, ref, text)
+    return text
 }
 
 // Hypertarget creates a hypertarget
+// * Disabled: returns plain text without creating a target
 func Hypertarget(ref, text string) string {
-	return fmt.Sprintf(`\hypertarget{%s}{%s}`, ref, text)
+    return text
 }
 
 // Tabular creates a tabular environment
@@ -57,8 +59,9 @@ func Target(ref, text string) string {
 }
 
 // Link creates a hyperlink
+// * Disabled: returns plain text without hyperlinking
 func Link(ref, text string) string {
-	return "\\hyperlink{" + ref + "}{" + text + "}"
+    return text
 }
 
 // EmphCell creates an emphasized cell with black background and white text
@@ -122,9 +125,9 @@ func (i IntItem) Display() string {
 	s := strconv.Itoa(i.Val)
 
 	if i.ref {
-		out = Target(s, s)
+        out = s
 	} else {
-		out = Link(s, s)
+        out = s
 	}
 
 	return out
@@ -155,10 +158,10 @@ func (m MonthItem) Display() string {
 	}
 
 	if m.ref {
-		return Target(ref, text)
+        return text
 	}
 
-	return Link(ref, text)
+    return text
 }
 
 func (m MonthItem) Ref() MonthItem {
@@ -206,7 +209,7 @@ func (c CellItem) Display() string {
 		c.Ref = c.Text
 	}
 
-	link := `\hyperlink{` + c.Ref + `}{` + c.Text + `}`
+    link := c.Text
 
 	if c.selected {
 		return `\cellcolor{black}{\textcolor{white}{` + link + `}}`
@@ -231,27 +234,20 @@ func NewTextItem(name string) TextItem {
 }
 
 func (t TextItem) Display() string {
-	var (
-		out string
-		ref string
-	)
+    var out string
 	if t.bold {
 		out = "\\textbf{" + t.Name + "}"
 	} else {
 		out = t.Name
 	}
 
-	if len(t.refText) > 0 {
-		ref = t.refText
-	} else {
-		ref = t.refPrefix + t.Name
-	}
+    // refs are disabled; keep logic minimal and ignore ref values
 
 	if t.ref {
-		return Target(ref, out)
+        return out
 	}
 
-	return Link(ref, out)
+    return out
 }
 
 func (t TextItem) Ref(ref bool) TextItem {
