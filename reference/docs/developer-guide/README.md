@@ -143,8 +143,11 @@ GOOS=linux GOARCH=amd64 go build -o build/plannergen-linux ./cmd/plannergen
 
 ### Testing
 ```bash
-# Run all tests
+# Run all tests and generate PDF
 make test
+
+# Run Go tests only
+cd src && go test ./internal/...
 
 # Run specific test package
 go test ./internal/data/...
@@ -157,6 +160,21 @@ go test -v ./internal/calendar/...
 
 # Run integration tests
 go test -tags=integration ./tests/integration/...
+```
+
+### PDF Generation
+```bash
+# Generate PDF from CSV data
+make test
+
+# Generate PDF with custom CSV file
+make pdf CSV=../input/your_data.csv OUTPUT=your_planner
+
+# Clean generated files
+make clean
+
+# Clean output directory
+make clean-output
 ```
 
 ### Code Quality
@@ -280,10 +298,28 @@ go test -run TestSpecificFunction ./internal/data/
 xelatex --version
 
 # Test LaTeX compilation
-cd build && xelatex test.tex
+cd src/build && xelatex page_template.tex
 
 # Check LaTeX logs
-cat build/*.log
+cat src/build/*.log
+
+# Debug template generation
+cd src && PLANNER_CSV_FILE="../input/data.cleaned.csv" ./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build
+```
+
+#### PDF Generation Issues
+```bash
+# Check if monthly.tex is generated
+ls -la src/build/monthly.tex
+
+# Check if page_template.tex is generated
+ls -la src/build/page_template.tex
+
+# Verify PDF generation
+ls -la src/test.pdf output/pdfs/test.pdf
+
+# Check PDF size (should be ~116KB)
+ls -la src/test.pdf
 ```
 
 ### Debugging

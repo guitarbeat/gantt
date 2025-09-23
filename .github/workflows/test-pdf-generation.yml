@@ -1,0 +1,102 @@
+name: Test PDF Generation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-pdf-generation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+        
+    - name: Install XeLaTeX
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y texlive-xetex texlive-latex-extra
+        
+    - name: Verify XeLaTeX installation
+      run: xelatex --version
+      
+    - name: Install Go dependencies
+      run: |
+        cd src
+        go mod tidy
+        
+    - name: Build plannergen
+      run: |
+        cd src
+        go build -o build/plannergen .
+        
+    - name: Run PDF generation test
+      run: make test
+      
+    - name: Verify PDF was generated
+      run: |
+        if [ ! -f "src/test.pdf" ]; then
+          echo "❌ src/test.pdf not found"
+          exit 1
+        fi
+        if [ ! -f "output/pdfs/test.pdf" ]; then
+          echo "❌ output/pdfs/test.pdf not found"
+          exit 1
+        fi
+        echo "✅ PDF files generated successfully"
+        
+    - name: Check PDF file size
+      run: |
+        PDF_SIZE=$(stat -c%s "src/test.pdf")
+        MIN_SIZE=50000   # 50KB minimum
+        MAX_SIZE=200000  # 200KB maximum
+        
+        echo "PDF size: $PDF_SIZE bytes"
+        
+        if [ $PDF_SIZE -lt $MIN_SIZE ]; then
+          echo "❌ PDF too small: $PDF_SIZE bytes (minimum: $MIN_SIZE bytes)"
+          exit 1
+        fi
+        
+        if [ $PDF_SIZE -gt $MAX_SIZE ]; then
+          echo "❌ PDF too large: $PDF_SIZE bytes (maximum: $MAX_SIZE bytes)"
+          exit 1
+        fi
+        
+        echo "✅ PDF size within acceptable range: $PDF_SIZE bytes"
+        
+    - name: Verify PDF is valid
+      run: |
+        # Basic check that PDF file starts with PDF header
+        if ! file "src/test.pdf" | grep -q "PDF"; then
+          echo "❌ Generated file is not a valid PDF"
+          exit 1
+        fi
+        echo "✅ PDF file is valid"
+        
+    - name: Check LaTeX files were generated
+      run: |
+        if [ ! -f "src/build/page_template.tex" ]; then
+          echo "❌ page_template.tex not generated"
+          exit 1
+        fi
+        if [ ! -f "src/build/monthly.tex" ]; then
+          echo "❌ monthly.tex not generated"
+          exit 1
+        fi
+        echo "✅ Required LaTeX files generated"
+        
+    - name: Upload PDF artifact for inspection
+      uses: actions/upload-artifact@v3
+      with:
+        name: generated-pdf
+        path: src/test.pdf
+        retention-days: 7
