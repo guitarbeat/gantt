@@ -73,7 +73,7 @@
 \newcommand{\TaskOverlayBox}[3]{%
   \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
-    left=2.8mm, right=2.8mm, top=1.8mm, bottom=1.8mm,
+    left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
     colback=#1!20, colframe=#1!80,
     width=\linewidth, halign=left]
     \TaskFontSize\textbf{#2}\\#3%
@@ -98,7 +98,7 @@
 \newcommand{\TaskOverlayBoxP}[3]{%
   \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
-    left=3mm, right=3mm, top=1.8mm, bottom=1.8mm,
+    left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
     colback=#2!20, colframe=#2!80,
     width=\linewidth, halign=left]
     \TaskFontSize\textbf{#1}\\#3%
@@ -110,7 +110,7 @@
   \vspace*{#1}%
   \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule=0.7pt, arc=8pt,
-    left=2mm, right=2mm, top=1.4mm, bottom=1.4mm,
+    left=1.2mm, right=1.2mm, top=0.8mm, bottom=0.8mm,
     colback=#3!20, colframe=#3!70,
     width=\linewidth, halign=left, height=#2]
     \vfil

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 17:56
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 17:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1616,17 +1616,17 @@ If that doesn't work, type  X <return>  to quit.
 
 
 Overfull \hbox (2.34491pt too wide) in paragraph at lines 4641--4641
- []\T1/lmss/bx/n/7 Manuscript 
+[]\T1/lmss/bx/n/7 Manuscript 
  []
 
 
 Overfull \hbox (4.51888pt too wide) in paragraph at lines 4641--4641
- \T1/lmss/bx/n/7 manuscripts 
+\T1/lmss/bx/n/7 manuscripts 
  []
 
 
 Overfull \hbox (0.60196pt too wide) in paragraph at lines 4641--4641
- \T1/lmss/m/n/7 manuscript 
+\T1/lmss/m/n/7 manuscript 
  []
 
 
@@ -1655,17 +1655,17 @@ If that doesn't work, type  X <return>  to quit.
 
 
 Overfull \hbox (2.34491pt too wide) in paragraph at lines 4641--4641
- []\T1/lmss/bx/n/7 Manuscript 
+[]\T1/lmss/bx/n/7 Manuscript 
  []
 
 
 Overfull \hbox (4.51888pt too wide) in paragraph at lines 4641--4641
- \T1/lmss/bx/n/7 manuscripts 
+\T1/lmss/bx/n/7 manuscripts 
  []
 
 
 Overfull \hbox (0.60196pt too wide) in paragraph at lines 4641--4641
- \T1/lmss/m/n/7 manuscript 
+\T1/lmss/m/n/7 manuscript 
  []
 
 [17]
@@ -1756,12 +1756,12 @@ Overfull \hbox (341.87576pt too wide) in paragraph at lines 5979--5979
 
 
 Overfull \hbox (1.37248pt too wide) in paragraph at lines 5979--5979
- []\T1/lmss/m/n/7 Incorporate 
+[]\T1/lmss/m/n/7 Incorporate 
  []
 
 
 Overfull \hbox (1.37248pt too wide) in paragraph at lines 5979--5979
- []\T1/lmss/m/n/7 Incorporate 
+[]\T1/lmss/m/n/7 Incorporate 
  []
 
 ./monthly.tex:5982: Misplaced alignment tab character &.
@@ -1786,12 +1786,12 @@ Overfull \hbox (56.9793pt too wide) in paragraph at lines 6246--6246
 
 
 Overfull \hbox (4.78111pt too wide) in paragraph at lines 6246--6246
- []\T1/lmss/bx/n/7 Dissertation 
+[]\T1/lmss/bx/n/7 Dissertation 
  []
 
 
 Overfull \hbox (4.78111pt too wide) in paragraph at lines 6246--6246
- []\T1/lmss/bx/n/7 Dissertation 
+[]\T1/lmss/bx/n/7 Dissertation 
  []
 
 ./monthly.tex:6249: Misplaced alignment tab character &.
@@ -1841,12 +1841,12 @@ Overfull \hbox (170.93788pt too wide) in paragraph at lines 6818--6818
 
 
 Overfull \hbox (1.78442pt too wide) in paragraph at lines 6818--6818
- []\T1/lmss/bx/n/7 Graduation 
+[]\T1/lmss/bx/n/7 Graduation 
  []
 
 
 Overfull \hbox (1.78442pt too wide) in paragraph at lines 6818--6818
- []\T1/lmss/bx/n/7 Graduation 
+[]\T1/lmss/bx/n/7 Graduation 
  []
 
 ./monthly.tex:6821: Misplaced alignment tab character &.
@@ -1952,7 +1952,7 @@ L3 programming layer <2024-02-20>
 Here is how much of TeX's memory you used:
  23767 strings out of 474773
  506012 string characters out of 5757725
- 2000839 words of memory out of 5000000
+ 1999839 words of memory out of 5000000
  45444 multiletter control sequences out of 15000+600000
  600736 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
