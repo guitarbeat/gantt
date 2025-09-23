@@ -24,13 +24,13 @@ func TextColor(color, text string) string {
 // Hyperlink creates a hyperlink
 // * Disabled: returns plain text without hyperlinking
 func Hyperlink(ref, text string) string {
-    return text
+	return text
 }
 
 // Hypertarget creates a hypertarget
 // * Disabled: returns plain text without creating a target
 func Hypertarget(ref, text string) string {
-    return text
+	return text
 }
 
 // Tabular creates a tabular environment
@@ -61,7 +61,7 @@ func Target(ref, text string) string {
 // Link creates a hyperlink
 // * Disabled: returns plain text without hyperlinking
 func Link(ref, text string) string {
-    return text
+	return text
 }
 
 // EmphCell creates an emphasized cell with black background and white text
@@ -125,9 +125,9 @@ func (i IntItem) Display() string {
 	s := strconv.Itoa(i.Val)
 
 	if i.ref {
-        out = s
+		out = s
 	} else {
-        out = s
+		out = s
 	}
 
 	return out
@@ -158,10 +158,10 @@ func (m MonthItem) Display() string {
 	}
 
 	if m.ref {
-        return text
+		return text
 	}
 
-    return text
+	return text
 }
 
 func (m MonthItem) Ref() MonthItem {
@@ -174,8 +174,8 @@ func (m MonthItem) Shorten(f bool) MonthItem {
 	return m
 }
 
-func NewMonthItem(mo time.Month) MonthItem { 
-	return MonthItem{Val: mo} 
+func NewMonthItem(mo time.Month) MonthItem {
+	return MonthItem{Val: mo}
 }
 
 // CellItem represents a cell item with text, reference, and selection state
@@ -189,27 +189,27 @@ func NewCellItem(text string) CellItem {
 	return CellItem{Text: text}
 }
 
-func (c CellItem) Select() CellItem {
+func (c *CellItem) Select() *CellItem {
 	c.selected = true
 	return c
 }
 
-func (c CellItem) Selected(selected bool) CellItem {
+func (c *CellItem) Selected(selected bool) *CellItem {
 	c.selected = selected
 	return c
 }
 
-func (c CellItem) Refer(ref string) CellItem {
+func (c *CellItem) Refer(ref string) *CellItem {
 	c.Ref = ref
 	return c
 }
 
-func (c CellItem) Display() string {
+func (c *CellItem) Display() string {
 	if len(c.Ref) == 0 {
 		c.Ref = c.Text
 	}
 
-    link := c.Text
+	link := c.Text
 
 	if c.selected {
 		return `\cellcolor{black}{\textcolor{white}{` + link + `}}`
@@ -234,20 +234,20 @@ func NewTextItem(name string) TextItem {
 }
 
 func (t TextItem) Display() string {
-    var out string
+	var out string
 	if t.bold {
 		out = "\\textbf{" + t.Name + "}"
 	} else {
 		out = t.Name
 	}
 
-    // refs are disabled; keep logic minimal and ignore ref values
+	// refs are disabled; keep logic minimal and ignore ref values
 
 	if t.ref {
-        return out
+		return out
 	}
 
-    return out
+	return out
 }
 
 func (t TextItem) Ref(ref bool) TextItem {

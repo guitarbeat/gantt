@@ -12,11 +12,11 @@ import (
 
 // * LaTeX rendering constants
 const (
-	dayCellWidth           = "5mm"
-	maxTaskChars           = 18
-	maxTaskCharsCompact    = 15
+	dayCellWidth            = "5mm"
+	maxTaskChars            = 18
+	maxTaskCharsCompact     = 15
 	maxTaskCharsVeryCompact = 12
-	maxTasksDisplay        = 2  // Reduced to prevent overlap
+	maxTasksDisplay         = 2 // Reduced to prevent overlap
 )
 
 // * Day types and methods (from day.go)
@@ -207,7 +207,7 @@ func (d Day) buildDayNumberCell(day string) string {
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
 func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) string {
 	var width, spacing, contentWrapper string
-	
+
 	if isSpanning {
 		// Spanning task: use tikzpicture overlay with calculated width
 		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
@@ -221,7 +221,7 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 		spacing = `\hspace*{` + dayCellWidth + `}`
 		contentWrapper = `\footnotesize{` + content + `}`
 	}
-	
+
 	return `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
 		spacing +
@@ -247,12 +247,12 @@ func (d Day) TasksForDay() string {
 	for _, task := range d.Tasks {
 		// Only show task name, category is only used for color
 		taskStr := d.escapeLatexSpecialChars(task.Name)
-		
+
 		// Add star for milestone tasks
 		if d.isMilestoneTask(task) {
 			taskStr = "★ " + taskStr
 		}
-		
+
 		taskStrings = append(taskStrings, taskStr)
 	}
 	return strings.Join(taskStrings, "\\\\")
@@ -330,7 +330,7 @@ func (d Day) sortTasksByPriority(tasks []*SpanningTask) []*SpanningTask {
 		for j := 0; j < len(sorted)-i-1; j++ {
 			priority1 := d.getTaskPriority(sorted[j].Category, priorityOrder)
 			priority2 := d.getTaskPriority(sorted[j+1].Category, priorityOrder)
-			
+
 			// First sort by priority
 			if priority1 != priority2 {
 				if priority1 > priority2 {
@@ -338,7 +338,7 @@ func (d Day) sortTasksByPriority(tasks []*SpanningTask) []*SpanningTask {
 				}
 				continue
 			}
-			
+
 			// If same priority, sort by duration (shorter tasks first for better stacking)
 			duration1 := sorted[j].EndDate.Sub(sorted[j].StartDate)
 			duration2 := sorted[j+1].EndDate.Sub(sorted[j+1].StartDate)
@@ -403,7 +403,7 @@ func (d Day) smartTruncateText(text string, maxChars int) string {
 	if len(text) <= maxChars {
 		return text
 	}
-	
+
 	// Try to break at word boundaries
 	if maxChars > 8 {
 		words := strings.Fields(text)
@@ -422,7 +422,7 @@ func (d Day) smartTruncateText(text string, maxChars int) string {
 			return result + "..."
 		}
 	}
-	
+
 	// Fallback to simple truncation
 	return text[:maxChars-3] + "..."
 }
@@ -502,7 +502,7 @@ func (w *Week) weekNumber() int {
 	if firstDay.IsZero() {
 		return 0
 	}
-	
+
 	// Get the week number of the year
 	_, week := firstDay.ISOWeek()
 	return week
@@ -532,7 +532,6 @@ func (w Week) Breadcrumb() string {
 		templates.NewTextItem("Week " + strconv.Itoa(w.weekNumber())),
 	}.Table(true)
 }
-
 
 func (w Week) WeekLink() string {
 	return templates.Link(w.ref(), "Week "+strconv.Itoa(w.weekNumber()))
@@ -754,7 +753,7 @@ func (m *Month) WeekHeader(large interface{}) string {
 
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
-	
+
 	// Iterate through all weeks and days to find unique task colors
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
@@ -776,7 +775,7 @@ func (m *Month) GetTaskColors() map[string]string {
 			}
 		}
 	}
-	
+
 	return colorMap
 }
 
@@ -866,7 +865,6 @@ func (q Quarter) ref(prefix ...string) string {
 	}
 	return p + "quarter-" + strconv.Itoa(q.Year.Number) + "-" + strconv.Itoa(q.Number)
 }
-
 
 // SpanningTask represents a task that spans multiple days
 type SpanningTask struct {

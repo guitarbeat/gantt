@@ -54,24 +54,24 @@ type VisualOptimization struct {
 
 // LayoutAdjustment represents a layout adjustment made
 type LayoutAdjustment struct {
-	AdjustmentID      string
-	AdjustmentType    string
-	Description       string
-	AffectedTasks     []*common.Task
-	PositionChanges   *PositionChanges
-	SizeChanges       *SizeChanges
-	VisualChanges     *VisualChanges
+	AdjustmentID    string
+	AdjustmentType  string
+	Description     string
+	AffectedTasks   []*common.Task
+	PositionChanges *PositionChanges
+	SizeChanges     *SizeChanges
+	VisualChanges   *VisualChanges
 }
 
 // PriorityContext provides context for priority calculations
 type PriorityContext struct {
-	CurrentTime    time.Time
-	UserID         string
-	ProjectID      string
-	TeamMembers    []string
-	ResourceLimits map[string]int
+	CurrentTime         time.Time
+	UserID              string
+	ProjectID           string
+	TeamMembers         []string
+	ResourceLimits      map[string]int
 	DeadlineConstraints map[string]time.Time
-	WorkloadLimits map[string]float64
+	WorkloadLimits      map[string]float64
 }
 
 // TaskPriority represents task priority information
@@ -111,30 +111,30 @@ type VisualStyle struct {
 
 // ConflictAnalysis contains comprehensive conflict analysis results
 type ConflictAnalysis struct {
-	TotalConflicts      int
-	ConflictsByCategory map[ConflictCategory]int
-	ConflictsBySeverity map[OverlapSeverity]int
-	ConflictsByUrgency  map[string]int
-	ConflictsByRisk     map[string]int
+	TotalConflicts       int
+	ConflictsByCategory  map[ConflictCategory]int
+	ConflictsBySeverity  map[OverlapSeverity]int
+	ConflictsByUrgency   map[string]int
+	ConflictsByRisk      map[string]int
 	CategorizedConflicts []*CategorizedConflict
-	ResolutionSummary   map[string]int
-	RiskAssessment      string
-	Recommendations     []string
-	AnalysisDate        time.Time
+	ResolutionSummary    map[string]int
+	RiskAssessment       string
+	Recommendations      []string
+	AnalysisDate         time.Time
 }
 
 // CategorizedConflict represents a conflict with detailed categorization
 type CategorizedConflict struct {
 	*TaskOverlap
-	Category       ConflictCategory
-	SubCategory    string
-	RootCause      string
-	Impact         string
-	Resolution     ConflictResolution
+	Category               ConflictCategory
+	SubCategory            string
+	RootCause              string
+	Impact                 string
+	Resolution             ConflictResolution
 	AlternativeResolutions []ConflictResolution
-	RiskLevel      string
-	Urgency        string
-	Complexity     string
+	RiskLevel              string
+	Urgency                string
+	Complexity             string
 }
 
 // ConflictResolution represents a resolution strategy for a conflict
@@ -149,22 +149,22 @@ type ConflictResolution struct {
 
 // TaskPrioritizationResult contains the result of task prioritization
 type TaskPrioritizationResult struct {
-	PrioritizedTasks  []*PrioritizedTask
-	StackingOrder     []string
-	VisibilitySettings map[string]*VisibilityAction
+	PrioritizedTasks    []*PrioritizedTask
+	StackingOrder       []string
+	VisibilitySettings  map[string]*VisibilityAction
 	OptimizationResults []*OptimizationAction
-	Recommendations   []string
-	AnalysisDate      time.Time
+	Recommendations     []string
+	AnalysisDate        time.Time
 }
 
 // PrioritizedTask represents a task with prioritization information
 type PrioritizedTask struct {
-	Task              *common.Task
-	PriorityScore     *PriorityScore
-	VisibilityAction  *VisibilityAction
+	Task               *common.Task
+	PriorityScore      *PriorityScore
+	VisibilityAction   *VisibilityAction
 	OptimizationAction *OptimizationAction
-	StackingOrder     int
-	DisplayPriority   float64
+	StackingOrder      int
+	DisplayPriority    float64
 }
 
 // PriorityScore represents a calculated priority score
@@ -182,37 +182,37 @@ type PriorityScore struct {
 
 // PriorityFactor represents a single factor in priority calculation
 type PriorityFactor struct {
-	Category    PriorityCategory
-	Factor      VisualFactor
-	Value       float64
-	Weight      float64
+	Category     PriorityCategory
+	Factor       VisualFactor
+	Value        float64
+	Weight       float64
 	Contribution float64
-	Description string
+	Description  string
 }
 
 // Supporting data structures
 type ConflictMetrics struct {
-	CollisionCount    int
-	OverlapCount      int
-	SeverityScore     float64
-	VisualClarity     float64
-	SpaceEfficiency   float64
+	CollisionCount  int
+	OverlapCount    int
+	SeverityScore   float64
+	VisualClarity   float64
+	SpaceEfficiency float64
 }
 
 type OverflowMetrics struct {
-	OverflowAmount    float64
+	OverflowAmount     float64
 	OverflowPercentage float64
-	AffectedTasks     int
-	SeverityScore     float64
-	SpaceWaste        float64
+	AffectedTasks      int
+	SeverityScore      float64
+	SpaceWaste         float64
 }
 
 type VisualMetrics struct {
-	VisualBalance     float64
-	SpaceEfficiency   float64
-	ClarityScore      float64
-	HarmonyScore      float64
-	ReadabilityScore  float64
+	VisualBalance    float64
+	SpaceEfficiency  float64
+	ClarityScore     float64
+	HarmonyScore     float64
+	ReadabilityScore float64
 }
 
 type PositionChanges struct {
@@ -270,10 +270,10 @@ func (cre *ConflictResolutionEngine) ResolveConflicts(tasks []*common.Task, cont
 
 // Minimal supporting types for the engines
 type TaskPrioritizationEngine struct {
-	stackingEngine         *StackingEngine
-	priorityRanker         *PriorityRanker
-	visibilityManager      *VisibilityManager
-	stackingOptimizer      *StackingOptimizer
+	stackingEngine    *StackingEngine
+	priorityRanker    *PriorityRanker
+	visibilityManager *VisibilityManager
+	stackingOptimizer *StackingOptimizer
 }
 
 type PriorityRanker struct {
@@ -283,14 +283,14 @@ type PriorityRanker struct {
 }
 
 type VisibilityManager struct {
-	visibilityRules    []VisibilityRule
-	prominenceWeights  map[VisualProminence]float64
+	visibilityRules     []VisibilityRule
+	prominenceWeights   map[VisualProminence]float64
 	visibilityThreshold float64
-	adaptiveVisibility bool
+	adaptiveVisibility  bool
 }
 
 type StackingOptimizer struct {
-	optimizationRules []OptimizationRule
+	optimizationRules  []OptimizationRule
 	stackingStrategies map[PriorityCategory]StackingStrategy
 	adaptiveOrdering   bool
 }
@@ -302,17 +302,17 @@ type ConflictCategorizer struct {
 }
 
 type OverflowManager struct {
-	overflowThresholds map[OverflowType]float64
+	overflowThresholds   map[OverflowType]float64
 	resolutionStrategies map[OverflowType][]ResolutionStrategy
 	adaptiveThresholds   bool
 	smartCompression     bool
 }
 
 type VisualConflictResolver struct {
-	collisionDetector    *CollisionDetector
-	conflictResolvers    map[string]ConflictResolver
-	visualOptimizer      *VisualOptimizer
-	adaptiveResolution   bool
+	collisionDetector  *CollisionDetector
+	conflictResolvers  map[string]ConflictResolver
+	visualOptimizer    *VisualOptimizer
+	adaptiveResolution bool
 }
 
 type CollisionDetector struct {
@@ -322,8 +322,8 @@ type CollisionDetector struct {
 }
 
 type ZIndexManager struct {
-	baseZIndex    int
-	layerSpacing  int
+	baseZIndex     int
+	layerSpacing   int
 	priorityLayers map[VisualProminence]int
 }
 
@@ -451,56 +451,56 @@ const (
 )
 
 type OverflowContext struct {
-	Tasks            []*common.Task
-	AvailableSpace   *SpaceConstraints
-	OverflowType     OverflowType
-	Severity         float64
-	PriorityContext  *PriorityContext
-	VisualSettings   *VisualSettings
-	Constraints      *VisualConstraints
+	Tasks           []*common.Task
+	AvailableSpace  *SpaceConstraints
+	OverflowType    OverflowType
+	Severity        float64
+	PriorityContext *PriorityContext
+	VisualSettings  *VisualSettings
+	Constraints     *VisualConstraints
 }
 
 type ConflictContext struct {
-	Conflicts        []*TaskOverlap
-	Tasks            []*common.Task
-	PriorityContext  *PriorityContext
-	VisualSettings   *VisualSettings
-	Constraints      *VisualConstraints
+	Conflicts       []*TaskOverlap
+	Tasks           []*common.Task
+	PriorityContext *PriorityContext
+	VisualSettings  *VisualSettings
+	Constraints     *VisualConstraints
 }
 
 type VisualContext struct {
-	Tasks            []*common.Task
-	LayoutMetrics    *LayoutMetrics
-	VisualSettings   *VisualSettings
-	Constraints      *VisualConstraints
-	PriorityContext  *PriorityContext
+	Tasks           []*common.Task
+	LayoutMetrics   *LayoutMetrics
+	VisualSettings  *VisualSettings
+	Constraints     *VisualConstraints
+	PriorityContext *PriorityContext
 }
 
 type ResolutionResult struct {
-	Success          bool
-	SpaceRecovered   float64
-	TasksAffected    []*common.Task
-	VisualChanges    *VisualChanges
-	Quality          float64
-	Recommendations  []string
+	Success         bool
+	SpaceRecovered  float64
+	TasksAffected   []*common.Task
+	VisualChanges   *VisualChanges
+	Quality         float64
+	Recommendations []string
 }
 
 type SpaceConstraints struct {
-	MaxWidth    float64
-	MaxHeight   float64
-	MinWidth    float64
-	MinHeight   float64
+	MaxWidth      float64
+	MaxHeight     float64
+	MinWidth      float64
+	MinHeight     float64
 	AvailableArea float64
-	UsedArea    float64
+	UsedArea      float64
 }
 
 type LayoutMetrics struct {
-	TotalWidth        float64
-	TotalHeight       float64
-	UsedWidth         float64
-	UsedHeight        float64
-	SpaceEfficiency   float64
-	VisualBalance     float64
+	TotalWidth      float64
+	TotalHeight     float64
+	UsedWidth       float64
+	UsedHeight      float64
+	SpaceEfficiency float64
+	VisualBalance   float64
 }
 
 // Constructor functions
@@ -528,10 +528,10 @@ func NewPriorityRanker(conflictCategorizer *ConflictCategorizer) *PriorityRanker
 
 func NewVisibilityManager() *VisibilityManager {
 	return &VisibilityManager{
-		visibilityRules:    make([]VisibilityRule, 0),
-		prominenceWeights:  make(map[VisualProminence]float64),
+		visibilityRules:     make([]VisibilityRule, 0),
+		prominenceWeights:   make(map[VisualProminence]float64),
 		visibilityThreshold: 0.5,
-		adaptiveVisibility: true,
+		adaptiveVisibility:  true,
 	}
 }
 
@@ -545,7 +545,7 @@ func NewStackingOptimizer() *StackingOptimizer {
 
 func NewConflictCategorizer(spatialEngine *SpatialEngine) *ConflictCategorizer {
 	return &ConflictCategorizer{
-		spatialEngine: spatialEngine,
+		spatialEngine:   spatialEngine,
 		rules:           make([]ConflictRule, 0),
 		severityWeights: make(map[OverlapSeverity]int),
 	}
@@ -564,9 +564,9 @@ func NewOverflowManager() *OverflowManager {
 
 func NewVisualConflictResolver() *VisualConflictResolver {
 	return &VisualConflictResolver{
-		collisionDetector: NewCollisionDetector(),
-		conflictResolvers: make(map[string]ConflictResolver),
-		visualOptimizer:   NewVisualOptimizer(),
+		collisionDetector:  NewCollisionDetector(),
+		conflictResolvers:  make(map[string]ConflictResolver),
+		visualOptimizer:    NewVisualOptimizer(),
 		adaptiveResolution: true,
 	}
 }
@@ -581,7 +581,7 @@ func NewCollisionDetector() *CollisionDetector {
 
 func NewZIndexManager() *ZIndexManager {
 	return &ZIndexManager{
-		baseZIndex: 1000,
+		baseZIndex:   1000,
 		layerSpacing: 10,
 		priorityLayers: map[VisualProminence]int{
 			ProminenceCritical: 4,
@@ -617,7 +617,7 @@ func NewPriorityManagementEngine(
 		visibilityManager:   NewVisibilityManager(),
 		stackingOptimizer:   NewStackingOptimizer(),
 	}
-	
+
 	return engine
 }
 
@@ -637,19 +637,19 @@ type PriorityManagementEngine struct {
 func (pme *PriorityManagementEngine) PrioritizeTasks(tasks []*common.Task, context *PriorityContext) *TaskPrioritizationResult {
 	// Simplified implementation - return empty results for now
 	prioritizedTasks := make([]*PrioritizedTask, 0, len(tasks))
-	
+
 	for i, task := range tasks {
 		prioritizedTask := &PrioritizedTask{
-			Task:              task,
-			PriorityScore:     &PriorityScore{TaskID: task.ID, OverallScore: 0.5},
-			VisibilityAction:  &VisibilityAction{IsVisible: true, ProminenceLevel: ProminenceMedium},
+			Task:               task,
+			PriorityScore:      &PriorityScore{TaskID: task.ID, OverallScore: 0.5},
+			VisibilityAction:   &VisibilityAction{IsVisible: true, ProminenceLevel: ProminenceMedium},
 			OptimizationAction: &OptimizationAction{StackingOrder: i, VisualProminence: ProminenceMedium},
-			StackingOrder:     i,
-			DisplayPriority:   0.5,
+			StackingOrder:      i,
+			DisplayPriority:    0.5,
 		}
 		prioritizedTasks = append(prioritizedTasks, prioritizedTask)
 	}
-	
+
 	return &TaskPrioritizationResult{
 		PrioritizedTasks:    prioritizedTasks,
 		StackingOrder:       extractTaskIDs(prioritizedTasks),
@@ -672,7 +672,7 @@ func extractTaskIDs(prioritizedTasks []*PrioritizedTask) []string {
 // CalculatePriorityScores calculates priority scores for all tasks
 func (pr *PriorityRanker) CalculatePriorityScores(tasks []*common.Task, context *PriorityContext) *PriorityRankingResult {
 	taskScores := make([]*PriorityScore, 0, len(tasks))
-	
+
 	for _, task := range tasks {
 		score := &PriorityScore{
 			TaskID:           task.ID,
@@ -687,7 +687,7 @@ func (pr *PriorityRanker) CalculatePriorityScores(tasks []*common.Task, context 
 		}
 		taskScores = append(taskScores, score)
 	}
-	
+
 	return &PriorityRankingResult{
 		TaskScores:        taskScores,
 		RankingOrder:      extractTaskIDsFromScores(taskScores),

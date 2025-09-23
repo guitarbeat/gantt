@@ -20,12 +20,24 @@ pdf: build
 	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex || true && \
 	sed -i '' 's/%\\end{center}/\\end{center}/g' build/monthly.tex || true && \
 	echo "📚 Compiling PDF..." && \
-	cd build && xelatex -file-line-error -interaction=nonstopmode page_template.tex > /dev/null 2>&1 || true && cd .. && \
-	mkdir -p ../output/pdfs ../output/latex ../output/logs && \
-	cp "build/page_template.pdf" "../output/pdfs/$(OUTPUT).pdf" && \
-	cp "build/page_template.tex" "../output/latex/$(OUTPUT).tex" 2>/dev/null || true && \
-	cp "build/page_template.log" "../output/logs/$(OUTPUT).log" 2>/dev/null || true && \
-	echo "📁 Also saved to: ../output/pdfs/$(OUTPUT).pdf"
+	cd build && \
+	if xelatex -file-line-error -interaction=nonstopmode page_template.tex > xelatex.log 2>&1; then \
+		echo "✅ PDF compilation successful"; \
+	else \
+		echo "⚠️  PDF compilation completed with warnings (check xelatex.log for details)"; \
+	fi && \
+	cd .. && \
+	if [ -f "build/page_template.pdf" ]; then \
+		mkdir -p ../output/pdfs ../output/latex ../output/logs && \
+		cp "build/page_template.pdf" "../output/pdfs/$(OUTPUT).pdf" && \
+		cp "build/page_template.tex" "../output/latex/$(OUTPUT).tex" 2>/dev/null || true && \
+		cp "build/page_template.log" "../output/logs/$(OUTPUT).log" 2>/dev/null || true && \
+		echo "✅ Created: $(OUTPUT).pdf" && \
+		echo "📁 Also saved to: ../output/pdfs/$(OUTPUT).pdf"; \
+	else \
+		echo "❌ PDF generation failed - check build/xelatex.log for details"; \
+		exit 1; \
+	fi
 
 # Generate PDF with full dataset and run Go tests
 test:
@@ -41,20 +53,31 @@ test:
 	fi && \
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_CSV_FILE="../input/data.cleaned.csv" \
-	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
+	./build/plannergen --config "config/base.yaml" --outdir build && \
 	echo "🔧 Fixing LaTeX comment issues..." && \
 	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/monthly.tex && \
 	sed -i '' 's/%\\hspace{/\\hspace{/g' build/monthly.tex && \
 	sed -i '' 's/%\\end{center}/\\end{center}/g' build/monthly.tex && \
 	echo "📚 Compiling PDF..." && \
-	cd build && xelatex -file-line-error -interaction=nonstopmode page_template.tex > /dev/null 2>&1 || true && cd .. && \
-	mkdir -p ../output/pdfs ../output/latex ../output/logs && \
-	cp "build/page_template.pdf" "test.pdf" && \
-	cp "build/page_template.pdf" "../output/pdfs/test.pdf" && \
-	cp "build/page_template.tex" "../output/latex/test.tex" 2>/dev/null || true && \
-	cp "build/page_template.log" "../output/logs/test.log" 2>/dev/null || true && \
-	echo "✅ Created: test.pdf" && \
-	echo "📁 Also saved to: ../output/pdfs/test.pdf"
+	cd build && \
+	if xelatex -file-line-error -interaction=nonstopmode page_template.tex > xelatex.log 2>&1; then \
+		echo "✅ PDF compilation successful"; \
+	else \
+		echo "⚠️  PDF compilation completed with warnings (check xelatex.log for details)"; \
+	fi && \
+	cd .. && \
+	if [ -f "build/page_template.pdf" ]; then \
+		mkdir -p ../output/pdfs ../output/latex ../output/logs && \
+		cp "build/page_template.pdf" "test.pdf" && \
+		cp "build/page_template.pdf" "../output/pdfs/test.pdf" && \
+		cp "build/page_template.tex" "../output/latex/test.tex" 2>/dev/null || true && \
+		cp "build/page_template.log" "../output/logs/test.log" 2>/dev/null || true && \
+		echo "✅ Created: test.pdf" && \
+		echo "📁 Also saved to: ../output/pdfs/test.pdf"; \
+	else \
+		echo "❌ PDF generation failed - check build/xelatex.log for details"; \
+		exit 1; \
+	fi
 
 # Legacy targets for backward compatibility
 run: test

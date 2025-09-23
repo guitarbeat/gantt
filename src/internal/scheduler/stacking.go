@@ -32,15 +32,15 @@ type StackingRule struct {
 
 // StackingAction defines how a task should be stacked
 type StackingAction struct {
-	StackingType    StackingType
-	VerticalOffset  float64
-	HorizontalOffset float64
-	Height          float64
-	Width           float64
-	ZIndex          int
-	VisualStyle     *VisualStyle
+	StackingType       StackingType
+	VerticalOffset     float64
+	HorizontalOffset   float64
+	Height             float64
+	Width              float64
+	ZIndex             int
+	VisualStyle        *VisualStyle
 	CollisionAvoidance bool
-	Priority        int
+	Priority           int
 }
 
 // StackingType defines the type of stacking behavior
@@ -57,59 +57,59 @@ const (
 
 // VisualConstraints defines visual constraints for stacking
 type VisualConstraints struct {
-	MaxStackHeight      float64
-	MinTaskHeight       float64
-	MaxTaskHeight       float64
-	MinTaskWidth        float64
-	MaxTaskWidth        float64
-	VerticalSpacing     float64
-	HorizontalSpacing   float64
-	MaxStackDepth       int
-	CollisionThreshold  float64
-	OverflowThreshold   float64
+	MaxStackHeight     float64
+	MinTaskHeight      float64
+	MaxTaskHeight      float64
+	MinTaskWidth       float64
+	MaxTaskWidth       float64
+	VerticalSpacing    float64
+	HorizontalSpacing  float64
+	MaxStackDepth      int
+	CollisionThreshold float64
+	OverflowThreshold  float64
 }
 
 // StackingContext provides context for stacking decisions
 type StackingContext struct {
-	CalendarStart       time.Time
-	CalendarEnd         time.Time
-	CurrentTime         time.Time
-	DayWidth            float64
-	DayHeight           float64
-	AvailableHeight     float64
-	AvailableWidth      float64
-	ExistingStacks      []*TaskStack
-	TaskPriorities      map[string]*TaskPriority
-	ConflictAnalysis    *ConflictAnalysis
-	OverlapAnalysis     *OverlapAnalysis
-	VisualSettings      *VisualSettings
-	VisualConstraints   *VisualConstraints
+	CalendarStart     time.Time
+	CalendarEnd       time.Time
+	CurrentTime       time.Time
+	DayWidth          float64
+	DayHeight         float64
+	AvailableHeight   float64
+	AvailableWidth    float64
+	ExistingStacks    []*TaskStack
+	TaskPriorities    map[string]*TaskPriority
+	ConflictAnalysis  *ConflictAnalysis
+	OverlapAnalysis   *OverlapAnalysis
+	VisualSettings    *VisualSettings
+	VisualConstraints *VisualConstraints
 }
 
 // TaskStack represents a stack of overlapping tasks
 type TaskStack struct {
-	ID              string
-	Tasks           []*StackedTask
-	StartTime       time.Time
-	EndTime         time.Time
-	TotalHeight     float64
-	MaxWidth        float64
-	StackingType    StackingType
-	Priority        int
-	CollisionCount  int
-	OverflowCount   int
-	VisualStyle     *VisualStyle
+	ID             string
+	Tasks          []*StackedTask
+	StartTime      time.Time
+	EndTime        time.Time
+	TotalHeight    float64
+	MaxWidth       float64
+	StackingType   StackingType
+	Priority       int
+	CollisionCount int
+	OverflowCount  int
+	VisualStyle    *VisualStyle
 }
 
 // StackedTask represents a task within a stack
 type StackedTask struct {
-	Task            *common.Task
-	StackingAction  *StackingAction
-	Position        *Position
-	IsVisible       bool
-	IsCollapsed     bool
-	CollisionLevel  int
-	OverflowLevel   int
+	Task           *common.Task
+	StackingAction *StackingAction
+	Position       *Position
+	IsVisible      bool
+	IsCollapsed    bool
+	CollisionLevel int
+	OverflowLevel  int
 }
 
 // Position represents the position of a stacked task
@@ -123,33 +123,33 @@ type Position struct {
 
 // VisualSettings defines visual settings for stacking
 type VisualSettings struct {
-	ShowTaskNames      bool
-	ShowTaskDurations  bool
-	ShowTaskPriorities bool
+	ShowTaskNames          bool
+	ShowTaskDurations      bool
+	ShowTaskPriorities     bool
 	ShowConflictIndicators bool
-	CollapseThreshold  int
-	AnimationEnabled   bool
-	HighlightConflicts bool
-	ColorScheme        string
+	CollapseThreshold      int
+	AnimationEnabled       bool
+	HighlightConflicts     bool
+	ColorScheme            string
 }
 
 // StackingResult contains the result of stacking operations
 type StackingResult struct {
-	Stacks           []*TaskStack
-	TotalStacks      int
-	CollisionCount   int
-	OverflowCount    int
-	SpaceEfficiency  float64
-	VisualQuality    float64
-	Recommendations  []string
-	AnalysisDate     time.Time
+	Stacks          []*TaskStack
+	TotalStacks     int
+	CollisionCount  int
+	OverflowCount   int
+	SpaceEfficiency float64
+	VisualQuality   float64
+	Recommendations []string
+	AnalysisDate    time.Time
 }
 
 // HeightCalculator calculates optimal heights for stacked tasks
 type HeightCalculator struct {
-	baseHeight        float64
-	minHeight         float64
-	maxHeight         float64
+	baseHeight         float64
+	minHeight          float64
+	maxHeight          float64
 	priorityMultiplier map[VisualProminence]float64
 	durationMultiplier map[string]float64
 	contentMultiplier  map[string]float64
@@ -175,10 +175,10 @@ type SpaceOptimizer struct {
 type AlignmentMode string
 
 const (
-	AlignmentTop      AlignmentMode = "TOP"
-	AlignmentCenter   AlignmentMode = "CENTER"
-	AlignmentBottom   AlignmentMode = "BOTTOM"
-	AlignmentJustify  AlignmentMode = "JUSTIFY"
+	AlignmentTop        AlignmentMode = "TOP"
+	AlignmentCenter     AlignmentMode = "CENTER"
+	AlignmentBottom     AlignmentMode = "BOTTOM"
+	AlignmentJustify    AlignmentMode = "JUSTIFY"
 	AlignmentDistribute AlignmentMode = "DISTRIBUTE"
 )
 
@@ -207,42 +207,42 @@ type VerticalStackingResult struct {
 
 // VerticalStack represents a vertically stacked group of tasks
 type VerticalStack struct {
-	ID              string
-	Tasks           []*VerticallyStackedTask
-	StartTime       time.Time
-	EndTime         time.Time
-	TotalHeight     float64
-	MaxWidth        float64
-	AlignmentMode   AlignmentMode
+	ID               string
+	Tasks            []*VerticallyStackedTask
+	StartTime        time.Time
+	EndTime          time.Time
+	TotalHeight      float64
+	MaxWidth         float64
+	AlignmentMode    AlignmentMode
 	DistributionMode DistributionMode
-	SpaceEfficiency float64
-	VisualBalance   float64
-	CollisionCount  int
-	OverflowCount   int
+	SpaceEfficiency  float64
+	VisualBalance    float64
+	CollisionCount   int
+	OverflowCount    int
 }
 
 // VerticallyStackedTask represents a task within a vertical stack
 type VerticallyStackedTask struct {
-	Task            *common.Task
-	Position        *VerticalPosition
+	Task             *common.Task
+	Position         *VerticalPosition
 	CalculatedHeight float64
-	IsCompressed    bool
-	IsExpanded      bool
-	CollisionLevel  int
-	OverflowLevel   int
-	VisualWeight    float64
+	IsCompressed     bool
+	IsExpanded       bool
+	CollisionLevel   int
+	OverflowLevel    int
+	VisualWeight     float64
 }
 
 // VerticalPosition represents the vertical position of a stacked task
 type VerticalPosition struct {
-	X           float64
-	Y           float64
-	Width       float64
-	Height      float64
-	ZIndex      int
-	OffsetY     float64
-	RelativeY   float64
-	StackIndex  int
+	X          float64
+	Y          float64
+	Width      float64
+	Height     float64
+	ZIndex     int
+	OffsetY    float64
+	RelativeY  float64
+	StackIndex int
 }
 
 // NewStackingEngine creates a new consolidated stacking engine
@@ -252,7 +252,7 @@ func NewStackingEngine(spatialEngine *SpatialEngine, conflictCategorizer *Confli
 		conflictCategorizer: conflictCategorizer,
 		priorityRanker:      priorityRanker,
 		stackingRules:       make([]StackingRule, 0),
-		visualConstraints:   &VisualConstraints{
+		visualConstraints: &VisualConstraints{
 			MaxStackHeight:     100.0,
 			MinTaskHeight:      20.0,
 			MaxTaskHeight:      40.0,
@@ -268,10 +268,10 @@ func NewStackingEngine(spatialEngine *SpatialEngine, conflictCategorizer *Confli
 		positionCalculator: NewPositionCalculator(),
 		spaceOptimizer:     NewSpaceOptimizer(),
 	}
-	
+
 	// Initialize default stacking rules
 	engine.initializeDefaultRules()
-	
+
 	return engine
 }
 
@@ -289,14 +289,14 @@ func NewHeightCalculator() *HeightCalculator {
 			ProminenceMinimal:  0.6,
 		},
 		durationMultiplier: map[string]float64{
-			"short":  0.8,  // < 1 day
-			"medium": 1.0,  // 1-7 days
-			"long":   1.2,  // > 7 days
+			"short":  0.8, // < 1 day
+			"medium": 1.0, // 1-7 days
+			"long":   1.2, // > 7 days
 		},
 		contentMultiplier: map[string]float64{
-			"minimal": 0.7,  // Simple tasks
-			"normal":  1.0,  // Standard tasks
-			"complex": 1.3,  // Complex tasks with many details
+			"minimal": 0.7, // Simple tasks
+			"normal":  1.0, // Standard tasks
+			"complex": 1.3, // Complex tasks with many details
 		},
 	}
 }
@@ -512,10 +512,10 @@ func (se *StackingEngine) wouldCauseOverflow(task *common.Task, context *Stackin
 	for _, stack := range context.ExistingStacks {
 		currentHeight += stack.TotalHeight
 	}
-	
+
 	// Estimate height needed for new task
 	estimatedHeight := context.VisualConstraints.MinTaskHeight + context.VisualConstraints.VerticalSpacing
-	
+
 	// Check if adding this task would exceed available height
 	return (currentHeight + estimatedHeight) > context.AvailableHeight*context.VisualConstraints.OverflowThreshold
 }
@@ -530,7 +530,7 @@ func (se *StackingEngine) StackTasks(tasks []*common.Task, context *StackingCont
 		UserID:      "system",
 	}
 	priorityRanking := se.priorityRanker.CalculatePriorityScores(tasks, priorityContext)
-	
+
 	// Update context with analysis results
 	context.OverlapAnalysis = overlapAnalysis
 	context.ConflictAnalysis = nil
@@ -545,10 +545,10 @@ func (se *StackingEngine) StackTasks(tasks []*common.Task, context *StackingCont
 			Importance:  string(taskScore.VisualProminence),
 		}
 	}
-	
+
 	// Group tasks by overlapping time periods
 	overlapGroups := se.groupTasksByOverlap(tasks, overlapAnalysis)
-	
+
 	// Create stacks for each overlap group
 	var stacks []*TaskStack
 	for _, group := range overlapGroups {
@@ -557,7 +557,7 @@ func (se *StackingEngine) StackTasks(tasks []*common.Task, context *StackingCont
 			stacks = append(stacks, stack)
 		}
 	}
-	
+
 	// Calculate stacking metrics
 	result := &StackingResult{
 		Stacks:          stacks,
@@ -569,7 +569,7 @@ func (se *StackingEngine) StackTasks(tasks []*common.Task, context *StackingCont
 		Recommendations: se.generateRecommendations(stacks, context),
 		AnalysisDate:    time.Now(),
 	}
-	
+
 	return result
 }
 
@@ -577,7 +577,7 @@ func (se *StackingEngine) StackTasks(tasks []*common.Task, context *StackingCont
 func (se *StackingEngine) StackTasksVertically(tasks []*common.Task, context *StackingContext) *VerticalStackingResult {
 	// First, use the smart stacking engine to get initial stacks
 	smartResult := se.StackTasks(tasks, context)
-	
+
 	// Convert smart stacks to vertical stacks
 	var verticalStacks []*VerticalStack
 	for _, smartStack := range smartResult.Stacks {
@@ -586,36 +586,35 @@ func (se *StackingEngine) StackTasksVertically(tasks []*common.Task, context *St
 			verticalStacks = append(verticalStacks, verticalStack)
 		}
 	}
-	
+
 	// Optimize vertical stacking
 	verticalStacks = se.optimizeVerticalStacking(verticalStacks, context)
-	
+
 	// Calculate metrics
 	result := &VerticalStackingResult{
-		Stacks:          verticalStacks,
-		TotalHeight:     se.calculateTotalHeight(verticalStacks),
-		SpaceEfficiency: se.calculateVerticalSpaceEfficiency(verticalStacks, context),
-		VisualBalance:   se.calculateVisualBalance(verticalStacks),
-		CollisionCount:  se.calculateVerticalCollisionCount(verticalStacks),
-		OverflowCount:   se.calculateVerticalOverflowCount(verticalStacks, context),
+		Stacks:           verticalStacks,
+		TotalHeight:      se.calculateTotalHeight(verticalStacks),
+		SpaceEfficiency:  se.calculateVerticalSpaceEfficiency(verticalStacks, context),
+		VisualBalance:    se.calculateVisualBalance(verticalStacks),
+		CollisionCount:   se.calculateVerticalCollisionCount(verticalStacks),
+		OverflowCount:    se.calculateVerticalOverflowCount(verticalStacks, context),
 		CompressionRatio: se.calculateCompressionRatio(verticalStacks),
-		Recommendations: se.generateVerticalRecommendations(verticalStacks, context),
-		AnalysisDate:    time.Now(),
+		Recommendations:  se.generateVerticalRecommendations(verticalStacks, context),
+		AnalysisDate:     time.Now(),
 	}
-	
+
 	return result
 }
-
 
 // groupTasksByOverlap groups tasks by their overlapping time periods
 func (se *StackingEngine) groupTasksByOverlap(tasks []*common.Task, overlapAnalysis *OverlapAnalysis) [][]*common.Task {
 	var groups [][]*common.Task
-	
+
 	// Use overlap groups from analysis
 	for _, overlapGroup := range overlapAnalysis.OverlapGroups {
 		groups = append(groups, overlapGroup.Tasks)
 	}
-	
+
 	// Add individual tasks that don't overlap with others
 	overlappedTasks := make(map[string]bool)
 	for _, group := range groups {
@@ -623,13 +622,13 @@ func (se *StackingEngine) groupTasksByOverlap(tasks []*common.Task, overlapAnaly
 			overlappedTasks[task.ID] = true
 		}
 	}
-	
+
 	for _, task := range tasks {
 		if !overlappedTasks[task.ID] {
 			groups = append(groups, []*common.Task{task})
 		}
 	}
-	
+
 	return groups
 }
 
@@ -638,28 +637,28 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 	if len(tasks) == 0 {
 		return nil
 	}
-	
+
 	// Sort tasks by priority
 	sort.Slice(tasks, func(i, j int) bool {
 		priorityI := context.TaskPriorities[tasks[i].ID]
 		priorityJ := context.TaskPriorities[tasks[j].ID]
 		return priorityI.Weight > priorityJ.Weight
 	})
-	
+
 	// Create stack
 	stack := &TaskStack{
-		ID:           fmt.Sprintf("stack_%d", len(context.ExistingStacks)+1),
-		Tasks:        make([]*StackedTask, 0),
-		StartTime:    tasks[0].StartDate,
-		EndTime:      tasks[0].EndDate,
-		TotalHeight:  0.0,
-		MaxWidth:     0.0,
-		StackingType: StackingTypeVertical,
-		Priority:     0,
+		ID:             fmt.Sprintf("stack_%d", len(context.ExistingStacks)+1),
+		Tasks:          make([]*StackedTask, 0),
+		StartTime:      tasks[0].StartDate,
+		EndTime:        tasks[0].EndDate,
+		TotalHeight:    0.0,
+		MaxWidth:       0.0,
+		StackingType:   StackingTypeVertical,
+		Priority:       0,
 		CollisionCount: 0,
-		OverflowCount: 0,
+		OverflowCount:  0,
 	}
-	
+
 	// Calculate stack time range
 	for _, task := range tasks {
 		if task.StartDate.Before(stack.StartTime) {
@@ -669,7 +668,7 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 			stack.EndTime = task.EndDate
 		}
 	}
-	
+
 	// Stack each task
 	currentY := 0.0
 	for _, task := range tasks {
@@ -689,38 +688,38 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 			CollisionLevel: 0,
 			OverflowLevel:  0,
 		}
-		
+
 		// Check for collisions
 		if se.hasCollision(stackedTask, stack.Tasks) {
 			stackedTask.CollisionLevel = 1
 			stack.CollisionCount++
 		}
-		
+
 		// Check for overflow
 		if se.hasOverflow(stackedTask, context) {
 			stackedTask.OverflowLevel = 1
 			stack.OverflowCount++
 		}
-		
+
 		stack.Tasks = append(stack.Tasks, stackedTask)
 		stack.TotalHeight += stackingAction.Height + context.VisualConstraints.VerticalSpacing
-		
+
 		if stackingAction.Width > stack.MaxWidth {
 			stack.MaxWidth = stackingAction.Width
 		}
-		
+
 		// Update current Y position
 		currentY += stackingAction.Height + context.VisualConstraints.VerticalSpacing
 	}
-	
+
 	// Determine stack type based on tasks
 	stack.StackingType = se.determineStackType(stack)
-	
+
 	// Set stack priority
 	if len(stack.Tasks) > 0 {
 		stack.Priority = stack.Tasks[0].StackingAction.Priority
 	}
-	
+
 	return stack
 }
 
@@ -734,7 +733,7 @@ func (se *StackingEngine) determineStackingAction(task *common.Task, context *St
 			return action
 		}
 	}
-	
+
 	// Fallback to default action
 	return &StackingAction{
 		StackingType:       StackingTypeVertical,
@@ -753,7 +752,7 @@ func (se *StackingEngine) determineStackType(stack *TaskStack) StackingType {
 	if len(stack.Tasks) == 0 {
 		return StackingTypeVertical
 	}
-	
+
 	// Check if any task requires special stacking
 	for _, stackedTask := range stack.Tasks {
 		switch stackedTask.StackingAction.StackingType {
@@ -765,7 +764,7 @@ func (se *StackingEngine) determineStackType(stack *TaskStack) StackingType {
 			return StackingTypeCascading
 		}
 	}
-	
+
 	// Check if tasks are mostly horizontal
 	horizontalCount := 0
 	for _, stackedTask := range stack.Tasks {
@@ -773,11 +772,11 @@ func (se *StackingEngine) determineStackType(stack *TaskStack) StackingType {
 			horizontalCount++
 		}
 	}
-	
+
 	if float64(horizontalCount)/float64(len(stack.Tasks)) > 0.5 {
 		return StackingTypeHorizontal
 	}
-	
+
 	return StackingTypeVertical
 }
 
@@ -828,12 +827,12 @@ func (se *StackingEngine) calculateSpaceEfficiency(stacks []*TaskStack, context 
 	if context.AvailableHeight == 0 {
 		return 0.0
 	}
-	
+
 	usedHeight := 0.0
 	for _, stack := range stacks {
 		usedHeight += stack.TotalHeight
 	}
-	
+
 	return math.Min(usedHeight/context.AvailableHeight, 1.0)
 }
 
@@ -842,24 +841,24 @@ func (se *StackingEngine) calculateVisualQuality(stacks []*TaskStack, context *S
 	if len(stacks) == 0 {
 		return 1.0
 	}
-	
+
 	// Calculate quality based on collision and overflow counts
 	totalCollisions := se.calculateCollisionCount(stacks)
 	totalOverflows := se.calculateOverflowCount(stacks, context)
 	totalTasks := 0
-	
+
 	for _, stack := range stacks {
 		totalTasks += len(stack.Tasks)
 	}
-	
+
 	if totalTasks == 0 {
 		return 1.0
 	}
-	
+
 	// Quality decreases with collisions and overflows
 	collisionPenalty := float64(totalCollisions) / float64(totalTasks)
 	overflowPenalty := float64(totalOverflows) / float64(totalTasks)
-	
+
 	quality := 1.0 - collisionPenalty - overflowPenalty
 	return math.Max(quality, 0.0)
 }
@@ -867,38 +866,38 @@ func (se *StackingEngine) calculateVisualQuality(stacks []*TaskStack, context *S
 // generateRecommendations generates stacking recommendations
 func (se *StackingEngine) generateRecommendations(stacks []*TaskStack, context *StackingContext) []string {
 	var recommendations []string
-	
+
 	// Collision recommendations
 	totalCollisions := se.calculateCollisionCount(stacks)
 	if totalCollisions > 0 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			fmt.Sprintf("⚠️ %d visual collisions detected - consider adjusting task positioning", totalCollisions))
 	}
-	
+
 	// Overflow recommendations
 	totalOverflows := se.calculateOverflowCount(stacks, context)
 	if totalOverflows > 0 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			fmt.Sprintf("📏 %d overflow issues detected - consider reducing task sizes or using minimization", totalOverflows))
 	}
-	
+
 	// Space efficiency recommendations
 	efficiency := se.calculateSpaceEfficiency(stacks, context)
 	if efficiency < 0.5 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			"📊 Low space efficiency - consider optimizing task layouts")
 	} else if efficiency > 0.9 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			"📊 High space efficiency - good use of available space")
 	}
-	
+
 	// Visual quality recommendations
 	quality := se.calculateVisualQuality(stacks, context)
 	if quality < 0.7 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			"🎨 Visual quality could be improved - consider adjusting stacking rules")
 	}
-	
+
 	// Stack depth recommendations
 	maxDepth := 0
 	for _, stack := range stacks {
@@ -906,13 +905,13 @@ func (se *StackingEngine) generateRecommendations(stacks []*TaskStack, context *
 			maxDepth = len(stack.Tasks)
 		}
 	}
-	
+
 	if maxDepth > context.VisualConstraints.MaxStackDepth {
-		recommendations = append(recommendations, 
-			fmt.Sprintf("📚 Stack depth (%d) exceeds recommended maximum (%d) - consider task grouping", 
+		recommendations = append(recommendations,
+			fmt.Sprintf("📚 Stack depth (%d) exceeds recommended maximum (%d) - consider task grouping",
 				maxDepth, context.VisualConstraints.MaxStackDepth))
 	}
-	
+
 	return recommendations
 }
 
@@ -964,13 +963,12 @@ func (result *StackingResult) GetSummary() string {
 		result.AnalysisDate.Format("2006-01-02 15:04:05"))
 }
 
-
 // convertToVerticalStack converts a smart stack to a vertical stack
 func (se *StackingEngine) convertToVerticalStack(smartStack *TaskStack, context *StackingContext) *VerticalStack {
 	if len(smartStack.Tasks) == 0 {
 		return nil
 	}
-	
+
 	verticalStack := &VerticalStack{
 		ID:               smartStack.ID,
 		StartTime:        smartStack.StartTime,
@@ -980,54 +978,54 @@ func (se *StackingEngine) convertToVerticalStack(smartStack *TaskStack, context 
 		DistributionMode: se.determineDistributionMode(smartStack, context),
 		Tasks:            make([]*VerticallyStackedTask, 0),
 	}
-	
+
 	// Convert each stacked task
 	for i, stackedTask := range smartStack.Tasks {
 		verticallyStackedTask := &VerticallyStackedTask{
-			Task:            stackedTask.Task,
+			Task:             stackedTask.Task,
 			CalculatedHeight: se.calculateTaskHeight(stackedTask.Task, context),
-			IsCompressed:    false,
-			IsExpanded:      false,
-			CollisionLevel:  stackedTask.CollisionLevel,
-			OverflowLevel:   stackedTask.OverflowLevel,
-			VisualWeight:    se.calculateVisualWeight(stackedTask.Task, context),
+			IsCompressed:     false,
+			IsExpanded:       false,
+			CollisionLevel:   stackedTask.CollisionLevel,
+			OverflowLevel:    stackedTask.OverflowLevel,
+			VisualWeight:     se.calculateVisualWeight(stackedTask.Task, context),
 		}
-		
+
 		// Calculate position
 		verticallyStackedTask.Position = se.calculateVerticalPosition(
-			verticallyStackedTask, 
-			verticalStack, 
-			i, 
+			verticallyStackedTask,
+			verticalStack,
+			i,
 			context,
 		)
-		
+
 		verticalStack.Tasks = append(verticalStack.Tasks, verticallyStackedTask)
 	}
-	
+
 	// Calculate stack metrics
 	verticalStack.TotalHeight = se.calculateStackHeight(verticalStack)
 	verticalStack.SpaceEfficiency = se.calculateStackSpaceEfficiency(verticalStack, context)
 	verticalStack.VisualBalance = se.calculateStackVisualBalance(verticalStack)
 	verticalStack.CollisionCount = se.calculateStackCollisionCount(verticalStack)
 	verticalStack.OverflowCount = se.calculateStackOverflowCount(verticalStack, context)
-	
+
 	return verticalStack
 }
 
 // calculateTaskHeight calculates the optimal height for a task
 func (se *StackingEngine) calculateTaskHeight(task *common.Task, context *StackingContext) float64 {
 	hc := se.heightCalculator
-	
+
 	// Start with base height
 	height := hc.baseHeight
-	
+
 	// Apply priority multiplier
 	if priority, exists := context.TaskPriorities[task.ID]; exists {
 		if multiplier, exists := hc.priorityMultiplier[VisualProminence(priority.Urgency)]; exists {
 			height *= multiplier
 		}
 	}
-	
+
 	// Apply duration multiplier
 	duration := task.EndDate.Sub(task.StartDate)
 	if duration <= time.Hour*24 {
@@ -1037,26 +1035,26 @@ func (se *StackingEngine) calculateTaskHeight(task *common.Task, context *Stacki
 	} else {
 		height *= hc.durationMultiplier["long"]
 	}
-	
+
 	// Apply content multiplier based on task complexity
 	contentComplexity := se.assessContentComplexity(task)
 	if multiplier, exists := hc.contentMultiplier[contentComplexity]; exists {
 		height *= multiplier
 	}
-	
+
 	// Apply visual constraints
 	if context.VisualConstraints != nil {
 		height = math.Max(height, context.VisualConstraints.MinTaskHeight)
 		height = math.Min(height, context.VisualConstraints.MaxTaskHeight)
 	}
-	
+
 	return height
 }
 
 // assessContentComplexity assesses the complexity of task content
 func (se *StackingEngine) assessContentComplexity(task *common.Task) string {
 	complexity := "normal"
-	
+
 	// Check for complex indicators
 	if task.IsMilestone {
 		complexity = "complex"
@@ -1065,28 +1063,28 @@ func (se *StackingEngine) assessContentComplexity(task *common.Task) string {
 	} else if len(task.Name) < 10 {
 		complexity = "minimal"
 	}
-	
+
 	// Check for special categories
 	if task.Category == "DISSERTATION" || task.Category == "PROPOSAL" {
 		complexity = "complex"
 	}
-	
+
 	return complexity
 }
 
 // calculateVisualWeight calculates the visual weight of a task
 func (se *StackingEngine) calculateVisualWeight(task *common.Task, context *StackingContext) float64 {
 	weight := 1.0
-	
+
 	// Priority weight
 	if priority, exists := context.TaskPriorities[task.ID]; exists {
 		weight += priority.Weight * 0.1
 	}
-	
+
 	// Duration weight
 	duration := task.EndDate.Sub(task.StartDate)
 	weight += float64(duration.Hours()) * 0.01
-	
+
 	// Category weight
 	if task.Category == "DISSERTATION" {
 		weight += 2.0
@@ -1095,24 +1093,24 @@ func (se *StackingEngine) calculateVisualWeight(task *common.Task, context *Stac
 	} else if task.Category == "LASER" {
 		weight += 1.0
 	}
-	
+
 	// Milestone weight
 	if task.IsMilestone {
 		weight += 3.0
 	}
-	
+
 	return weight
 }
 
 // calculateVerticalPosition calculates the vertical position of a task
 func (se *StackingEngine) calculateVerticalPosition(
-	task *VerticallyStackedTask, 
-	stack *VerticalStack, 
-	index int, 
+	task *VerticallyStackedTask,
+	stack *VerticalStack,
+	index int,
 	context *StackingContext,
 ) *VerticalPosition {
 	pc := se.positionCalculator
-	
+
 	// Calculate base position
 	position := &VerticalPosition{
 		X:          0.0,
@@ -1122,29 +1120,29 @@ func (se *StackingEngine) calculateVerticalPosition(
 		ZIndex:     index + 1,
 		StackIndex: index,
 	}
-	
+
 	// Calculate Y position based on previous tasks
 	if index > 0 {
 		previousTask := stack.Tasks[index-1]
 		position.Y = previousTask.Position.Y + previousTask.Position.Height + pc.verticalSpacing
 	}
-	
+
 	// Apply alignment mode
 	position = se.applyAlignmentMode(position, stack, context)
-	
+
 	// Apply distribution mode
 	position = se.applyDistributionMode(position, stack, context)
-	
+
 	// Calculate relative position within stack
-	position.RelativeY = position.Y - stack.StartTime.Sub(time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)).Hours() * 10
-	
+	position.RelativeY = position.Y - stack.StartTime.Sub(time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)).Hours()*10
+
 	return position
 }
 
 // applyAlignmentMode applies the alignment mode to a position
 func (se *StackingEngine) applyAlignmentMode(position *VerticalPosition, stack *VerticalStack, context *StackingContext) *VerticalPosition {
 	pc := se.positionCalculator
-	
+
 	switch pc.alignmentMode {
 	case AlignmentTop:
 		// Already positioned at top
@@ -1173,14 +1171,14 @@ func (se *StackingEngine) applyAlignmentMode(position *VerticalPosition, stack *
 			}
 		}
 	}
-	
+
 	return position
 }
 
 // applyDistributionMode applies the distribution mode to a position
 func (se *StackingEngine) applyDistributionMode(position *VerticalPosition, stack *VerticalStack, context *StackingContext) *VerticalPosition {
 	pc := se.positionCalculator
-	
+
 	switch pc.distributionMode {
 	case DistributionEven:
 		// Even distribution (already handled in base calculation)
@@ -1214,7 +1212,7 @@ func (se *StackingEngine) applyDistributionMode(position *VerticalPosition, stac
 			}
 		}
 	}
-	
+
 	return position
 }
 
@@ -1228,15 +1226,15 @@ func (se *StackingEngine) determineAlignmentMode(stack *TaskStack, context *Stac
 			}
 		}
 	}
-	
+
 	// Check available space
 	if context.AvailableHeight > 0 {
 		estimatedHeight := float64(len(stack.Tasks)) * 25.0 // Rough estimate
-		if estimatedHeight < context.AvailableHeight * 0.5 {
+		if estimatedHeight < context.AvailableHeight*0.5 {
 			return AlignmentCenter
 		}
 	}
-	
+
 	return AlignmentTop
 }
 
@@ -1245,7 +1243,7 @@ func (se *StackingEngine) determineDistributionMode(stack *TaskStack, context *S
 	// Check if stack has mixed priorities
 	hasHighPriority := false
 	hasLowPriority := false
-	
+
 	for _, task := range stack.Tasks {
 		if priority, exists := context.TaskPriorities[task.Task.ID]; exists {
 			if priority.Urgency == "CRITICAL" || priority.Urgency == "HIGH" {
@@ -1255,15 +1253,15 @@ func (se *StackingEngine) determineDistributionMode(stack *TaskStack, context *S
 			}
 		}
 	}
-	
+
 	if hasHighPriority && hasLowPriority {
 		return DistributionPriority
 	}
-	
+
 	// Check if stack has mixed content complexity
 	hasComplexContent := false
 	hasSimpleContent := false
-	
+
 	for _, task := range stack.Tasks {
 		complexity := se.assessContentComplexity(task.Task)
 		if complexity == "complex" {
@@ -1272,41 +1270,41 @@ func (se *StackingEngine) determineDistributionMode(stack *TaskStack, context *S
 			hasSimpleContent = true
 		}
 	}
-	
+
 	if hasComplexContent && hasSimpleContent {
 		return DistributionContent
 	}
-	
+
 	return DistributionEven
 }
 
 // optimizeVerticalStacking optimizes the vertical stacking layout
 func (se *StackingEngine) optimizeVerticalStacking(stacks []*VerticalStack, context *StackingContext) []*VerticalStack {
 	so := se.spaceOptimizer
-	
+
 	// Apply space optimization
-	for _, stack := range stacks {
+	for i, stack := range stacks {
 		// Check if compression is needed
 		if se.needsCompression(stack, context) {
-			stack = se.compressStack(stack, context)
+			stacks[i] = se.compressStack(stack, context)
 		}
-		
+
 		// Check if expansion is possible
 		if se.canExpand(stack, context) {
-			stack = se.expandStack(stack, context)
+			stacks[i] = se.expandStack(stack, context)
 		}
-		
+
 		// Apply adaptive spacing
 		if so.adaptiveSpacing {
-			stack = se.applyAdaptiveSpacing(stack, context)
+			stacks[i] = se.applyAdaptiveSpacing(stack, context)
 		}
-		
+
 		// Apply smart collapsing
 		if so.smartCollapsing {
-			stack = se.applySmartCollapsing(stack, context)
+			stacks[i] = se.applySmartCollapsing(stack, context)
 		}
 	}
-	
+
 	return stacks
 }
 
@@ -1315,9 +1313,9 @@ func (se *StackingEngine) needsCompression(stack *VerticalStack, context *Stacki
 	if context.AvailableHeight <= 0 {
 		return false
 	}
-	
+
 	stackHeight := se.calculateStackHeight(stack)
-	return stackHeight > context.AvailableHeight * se.spaceOptimizer.compressionThreshold
+	return stackHeight > context.AvailableHeight*se.spaceOptimizer.compressionThreshold
 }
 
 // canExpand checks if a stack can be expanded
@@ -1325,9 +1323,9 @@ func (se *StackingEngine) canExpand(stack *VerticalStack, context *StackingConte
 	if context.AvailableHeight <= 0 {
 		return false
 	}
-	
+
 	stackHeight := se.calculateStackHeight(stack)
-	return stackHeight < context.AvailableHeight * se.spaceOptimizer.expansionThreshold
+	return stackHeight < context.AvailableHeight*se.spaceOptimizer.expansionThreshold
 }
 
 // compressStack compresses a stack to fit available space
@@ -1335,21 +1333,21 @@ func (se *StackingEngine) compressStack(stack *VerticalStack, context *StackingC
 	if context.AvailableHeight <= 0 {
 		return stack
 	}
-	
+
 	// Calculate compression ratio
 	currentHeight := se.calculateStackHeight(stack)
 	compressionRatio := context.AvailableHeight / currentHeight
-	
+
 	// Apply compression to each task
 	for _, task := range stack.Tasks {
 		task.CalculatedHeight *= compressionRatio
 		task.IsCompressed = true
 		task.Position.Height = task.CalculatedHeight
 	}
-	
+
 	// Recalculate positions
 	se.recalculateStackPositions(stack)
-	
+
 	return stack
 }
 
@@ -1358,21 +1356,21 @@ func (se *StackingEngine) expandStack(stack *VerticalStack, context *StackingCon
 	if context.AvailableHeight <= 0 {
 		return stack
 	}
-	
+
 	// Calculate expansion ratio
 	currentHeight := se.calculateStackHeight(stack)
-	expansionRatio := math.Min(1.5, context.AvailableHeight / currentHeight)
-	
+	expansionRatio := math.Min(1.5, context.AvailableHeight/currentHeight)
+
 	// Apply expansion to each task
 	for _, task := range stack.Tasks {
 		task.CalculatedHeight *= expansionRatio
 		task.IsExpanded = true
 		task.Position.Height = task.CalculatedHeight
 	}
-	
+
 	// Recalculate positions
 	se.recalculateStackPositions(stack)
-	
+
 	return stack
 }
 
@@ -1381,22 +1379,22 @@ func (se *StackingEngine) applyAdaptiveSpacing(stack *VerticalStack, context *St
 	if context.AvailableHeight <= 0 {
 		return stack
 	}
-	
+
 	// Calculate adaptive spacing
 	currentHeight := se.calculateStackHeight(stack)
 	availableSpace := context.AvailableHeight - currentHeight
-	
+
 	if availableSpace > 0 {
 		// Distribute extra space as adaptive spacing
 		adaptiveSpacing := availableSpace / float64(len(stack.Tasks))
-		
+
 		for i, task := range stack.Tasks {
 			if i > 0 {
 				task.Position.Y += adaptiveSpacing * float64(i)
 			}
 		}
 	}
-	
+
 	return stack
 }
 
@@ -1405,7 +1403,7 @@ func (se *StackingEngine) applySmartCollapsing(stack *VerticalStack, context *St
 	// Collapse low-priority tasks if space is limited
 	if context.AvailableHeight > 0 {
 		stackHeight := se.calculateStackHeight(stack)
-		if stackHeight > context.AvailableHeight * 0.9 {
+		if stackHeight > context.AvailableHeight*0.9 {
 			// Collapse tasks with low visual weight
 			for _, task := range stack.Tasks {
 				if task.VisualWeight < 1.0 {
@@ -1413,19 +1411,19 @@ func (se *StackingEngine) applySmartCollapsing(stack *VerticalStack, context *St
 					task.Position.Height = task.CalculatedHeight
 				}
 			}
-			
+
 			// Recalculate positions
 			se.recalculateStackPositions(stack)
 		}
 	}
-	
+
 	return stack
 }
 
 // recalculateStackPositions recalculates positions after height changes
 func (se *StackingEngine) recalculateStackPositions(stack *VerticalStack) {
 	pc := se.positionCalculator
-	
+
 	for i, task := range stack.Tasks {
 		if i == 0 {
 			task.Position.Y = 0.0
@@ -1441,7 +1439,7 @@ func (se *StackingEngine) calculateStackHeight(stack *VerticalStack) float64 {
 	if len(stack.Tasks) == 0 {
 		return 0.0
 	}
-	
+
 	lastTask := stack.Tasks[len(stack.Tasks)-1]
 	return lastTask.Position.Y + lastTask.Position.Height
 }
@@ -1451,9 +1449,9 @@ func (se *StackingEngine) calculateStackSpaceEfficiency(stack *VerticalStack, co
 	if context.AvailableHeight <= 0 {
 		return 1.0
 	}
-	
+
 	stackHeight := se.calculateStackHeight(stack)
-	return math.Min(stackHeight / context.AvailableHeight, 1.0)
+	return math.Min(stackHeight/context.AvailableHeight, 1.0)
 }
 
 // calculateStackVisualBalance calculates the visual balance of a stack
@@ -1461,22 +1459,22 @@ func (se *StackingEngine) calculateStackVisualBalance(stack *VerticalStack) floa
 	if len(stack.Tasks) == 0 {
 		return 1.0
 	}
-	
+
 	// Calculate weight distribution
 	totalWeight := 0.0
 	for _, task := range stack.Tasks {
 		totalWeight += task.VisualWeight
 	}
-	
+
 	// Calculate balance (closer to 1.0 is more balanced)
 	avgWeight := totalWeight / float64(len(stack.Tasks))
 	balance := 1.0
-	
+
 	for _, task := range stack.Tasks {
-		deviation := math.Abs(task.VisualWeight - avgWeight) / avgWeight
+		deviation := math.Abs(task.VisualWeight-avgWeight) / avgWeight
 		balance -= deviation * 0.1
 	}
-	
+
 	return math.Max(balance, 0.0)
 }
 
@@ -1512,9 +1510,9 @@ func (se *StackingEngine) calculateVerticalSpaceEfficiency(stacks []*VerticalSta
 	if context.AvailableHeight <= 0 {
 		return 1.0
 	}
-	
+
 	totalHeight := se.calculateTotalHeight(stacks)
-	return math.Min(totalHeight / context.AvailableHeight, 1.0)
+	return math.Min(totalHeight/context.AvailableHeight, 1.0)
 }
 
 // calculateVisualBalance calculates the overall visual balance
@@ -1522,12 +1520,12 @@ func (se *StackingEngine) calculateVisualBalance(stacks []*VerticalStack) float6
 	if len(stacks) == 0 {
 		return 1.0
 	}
-	
+
 	totalBalance := 0.0
 	for _, stack := range stacks {
 		totalBalance += se.calculateStackVisualBalance(stack)
 	}
-	
+
 	return totalBalance / float64(len(stacks))
 }
 
@@ -1553,7 +1551,7 @@ func (se *StackingEngine) calculateVerticalOverflowCount(stacks []*VerticalStack
 func (se *StackingEngine) calculateCompressionRatio(stacks []*VerticalStack) float64 {
 	compressedTasks := 0
 	totalTasks := 0
-	
+
 	for _, stack := range stacks {
 		for _, task := range stack.Tasks {
 			totalTasks++
@@ -1562,56 +1560,56 @@ func (se *StackingEngine) calculateCompressionRatio(stacks []*VerticalStack) flo
 			}
 		}
 	}
-	
+
 	if totalTasks == 0 {
 		return 0.0
 	}
-	
+
 	return float64(compressedTasks) / float64(totalTasks)
 }
 
 // generateVerticalRecommendations generates recommendations for vertical stacking
 func (se *StackingEngine) generateVerticalRecommendations(stacks []*VerticalStack, context *StackingContext) []string {
 	var recommendations []string
-	
+
 	// Space efficiency recommendations
 	efficiency := se.calculateVerticalSpaceEfficiency(stacks, context)
 	if efficiency < 0.5 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			"📏 Low space efficiency - consider adjusting task heights or using compression")
 	} else if efficiency > 0.9 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			"📏 High space efficiency - good utilization of available space")
 	}
-	
+
 	// Visual balance recommendations
 	balance := se.calculateVisualBalance(stacks)
 	if balance < 0.7 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			"⚖️ Visual balance could be improved - consider adjusting task weights")
 	}
-	
+
 	// Compression recommendations
 	compressionRatio := se.calculateCompressionRatio(stacks)
 	if compressionRatio > 0.5 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			fmt.Sprintf("🗜️ High compression ratio (%.1f%%) - consider increasing available space", compressionRatio*100))
 	}
-	
+
 	// Collision recommendations
 	collisionCount := se.calculateVerticalCollisionCount(stacks)
 	if collisionCount > 0 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			fmt.Sprintf("⚠️ %d visual collisions detected - consider adjusting task positioning", collisionCount))
 	}
-	
+
 	// Overflow recommendations
 	overflowCount := se.calculateVerticalOverflowCount(stacks, context)
 	if overflowCount > 0 {
-		recommendations = append(recommendations, 
+		recommendations = append(recommendations,
 			fmt.Sprintf("📏 %d overflow issues detected - consider reducing task sizes", overflowCount))
 	}
-	
+
 	return recommendations
 }
 

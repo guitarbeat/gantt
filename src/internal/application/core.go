@@ -59,7 +59,6 @@ func action(c *cli.Context) error {
 	if cfg, err = common.NewConfig(pathConfigs...); err != nil {
 		return fmt.Errorf("config new: %w", err)
 	}
-	
 
 	// If CLI flag for outdir provided, override config
 	if od := strings.TrimSpace(c.Path(fOutDir)); od != "" {
@@ -137,6 +136,7 @@ func RootFilename(pathconfig string) string {
 	filename := filepath.Base(pathconfig)
 	return strings.TrimSuffix(filename, filepath.Ext(filename)) + ".tex"
 }
+
 var tpl = func() *template.Template {
 	t := template.New("").Funcs(template.FuncMap{
 		"dict": func(values ...interface{}) (map[string]interface{}, error) {
@@ -222,12 +222,12 @@ var tpl = func() *template.Template {
 			default:
 				prominence = "MINIMAL"
 			}
-			
+
 			// Generate LaTeX for individual task bar using the visual design system
 			return fmt.Sprintf("\\TaskOverlayBoxP{%s}{%s}{%s}{%s}",
-				prominence,     // prominence level
-				bar.Color,      // category color
-				bar.TaskName,   // task name
+				prominence,      // prominence level
+				bar.Color,       // category color
+				bar.TaskName,    // task name
 				bar.Description, // description
 			)
 		},
@@ -279,7 +279,7 @@ func (t Tpl) Document(wr io.Writer, cfg common.Config) error {
 	}
 
 	data := pack{Cfg: cfg, Pages: cfg.Pages}
-		if err := t.tpl.ExecuteTemplate(wr, "document.tpl", data); err != nil {
+	if err := t.tpl.ExecuteTemplate(wr, "document.tpl", data); err != nil {
 		return fmt.Errorf("execute template: %w", err)
 	}
 
@@ -369,7 +369,7 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 	// Fallback to original behavior if no CSV data
 	years := cfg.GetYears()
 	totalMonths := len(years) * 12
-		modules := make(common.Modules, 0, totalMonths)
+	modules := make(common.Modules, 0, totalMonths)
 
 	for _, yearNum := range years {
 		year := cal.NewYear(cfg.WeekStart, yearNum)
@@ -424,9 +424,10 @@ func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 	// Apply spanning tasks to the month for background coloring
 	cal.ApplySpanningTasksToMonth(month, spanningTasks)
 }
+
 // LayoutIntegration bridges the integrated layout system with the template system
 type LayoutIntegration struct {
-	gridConfig *cal.GridConfig
+	gridConfig  *cal.GridConfig
 	integration *cal.LayoutEngine
 }
 

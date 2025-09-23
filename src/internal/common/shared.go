@@ -249,14 +249,15 @@ func FilterUniqueModules(array []Module) []Module {
 
 	return filtered
 }
+
 const (
 	// DateFormats supported date formats in CSV files (in order of preference)
-	DateFormatISO     = "2006-01-02"     // ISO format: 2024-01-15
-	DateFormatUS      = "01/02/2006"     // US format: 01/15/2024
-	DateFormatEU      = "02/01/2006"     // EU format: 15/01/2024
-	DateFormatSlash   = "2006/01/02"     // Slash format: 2024/01/15
-	DateFormatDot     = "02.01.2006"     // Dot format: 15.01.2024
-	DateFormatSpace   = "2006-01-02 15:04:05" // With time: 2024-01-15 10:30:00
+	DateFormatISO   = "2006-01-02"          // ISO format: 2024-01-15
+	DateFormatUS    = "01/02/2006"          // US format: 01/15/2024
+	DateFormatEU    = "02/01/2006"          // EU format: 15/01/2024
+	DateFormatSlash = "2006/01/02"          // Slash format: 2024/01/15
+	DateFormatDot   = "02.01.2006"          // Dot format: 15.01.2024
+	DateFormatSpace = "2006-01-02 15:04:05" // With time: 2024-01-15 10:30:00
 )
 
 // Error types for detailed error reporting
@@ -290,7 +291,6 @@ func (e *ValidationError) Error() string {
 	return fmt.Sprintf("task %s, field '%s', value '%s': %s", e.TaskID, e.Field, e.Value, e.Message)
 }
 
-
 // Supported date formats for parsing
 var supportedDateFormats = []string{
 	DateFormatISO,
@@ -303,18 +303,18 @@ var supportedDateFormats = []string{
 
 // Task represents a single task from the CSV data
 type Task struct {
-	ID          string    // * Added: Unique task identifier
-	Name        string
-	StartDate   time.Time
-	EndDate     time.Time
-	Category    string    // * Fixed: Use Category instead of Priority for clarity
-	Description string
-	Priority    int       // * Added: Separate priority field for task ordering
-	Status      string    // * Added: Task status (Planned, In Progress, Completed, etc.)
-	Assignee    string    // * Added: Task assignee
-	ParentID    string    // * Added: Parent task ID for hierarchical relationships
+	ID           string // * Added: Unique task identifier
+	Name         string
+	StartDate    time.Time
+	EndDate      time.Time
+	Category     string // * Fixed: Use Category instead of Priority for clarity
+	Description  string
+	Priority     int      // * Added: Separate priority field for task ordering
+	Status       string   // * Added: Task status (Planned, In Progress, Completed, etc.)
+	Assignee     string   // * Added: Task assignee
+	ParentID     string   // * Added: Parent task ID for hierarchical relationships
 	Dependencies []string // * Added: List of task IDs this task depends on
-	IsMilestone bool      // * Added: Whether this is a milestone task
+	IsMilestone  bool     // * Added: Whether this is a milestone task
 }
 
 // DateRange represents the earliest and latest dates from the task data
@@ -334,28 +334,28 @@ type Reader struct {
 	filePath string
 	logger   *log.Logger
 	// * Added: Configuration options
-	strictMode    bool // If true, fail on any parsing error
-	skipInvalid   bool // If true, skip invalid rows instead of failing
-	maxMemoryMB   int  // Maximum memory usage in MB for large files
+	strictMode  bool // If true, fail on any parsing error
+	skipInvalid bool // If true, skip invalid rows instead of failing
+	maxMemoryMB int  // Maximum memory usage in MB for large files
 	// * Added: Error collection
 	errors []error // Collected errors during parsing
 }
 
 // ReaderOptions configures the CSV reader behavior
 type ReaderOptions struct {
-	StrictMode            bool
-	SkipInvalid           bool
-	MaxMemoryMB           int
-	Logger                *log.Logger
+	StrictMode  bool
+	SkipInvalid bool
+	MaxMemoryMB int
+	Logger      *log.Logger
 }
 
 // DefaultReaderOptions returns sensible defaults for the reader
 func DefaultReaderOptions() *ReaderOptions {
 	return &ReaderOptions{
-		StrictMode:            false,
-		SkipInvalid:           true,
-		MaxMemoryMB:           100, // 100MB default limit
-		Logger:                log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
+		StrictMode:  false,
+		SkipInvalid: true,
+		MaxMemoryMB: 100, // 100MB default limit
+		Logger:      log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile),
 	}
 }
 
@@ -397,14 +397,14 @@ func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 
 	// Clean the date string
 	dateStr = strings.TrimSpace(dateStr)
-	
+
 	// Try each supported format
 	for _, format := range supportedDateFormats {
 		if parsed, err := time.Parse(format, dateStr); err == nil {
 			return parsed, nil
 		}
 	}
-	
+
 	return time.Time{}, &ParseError{
 		Column:  "Date",
 		Value:   dateStr,
@@ -412,31 +412,23 @@ func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 	}
 }
 
-
-
-
 // isMilestoneTask determines if a task is a milestone based on its name or description
 func (r *Reader) isMilestoneTask(name, description string) bool {
 	text := strings.ToLower(name + " " + description)
 	milestoneKeywords := []string{"milestone", "deadline", "due", "complete", "finish", "submit", "deliver"}
-	
+
 	for _, keyword := range milestoneKeywords {
 		if strings.Contains(text, keyword) {
 			return true
 		}
 	}
-	
+
 	return false
 }
 
 // addError adds an error to the reader's error collection
 func (r *Reader) addError(err error) {
 	r.errors = append(r.errors, err)
-}
-
-// getErrors returns all collected errors
-func (r *Reader) getErrors() []error {
-	return r.errors
 }
 
 // clearErrors clears all collected errors
@@ -454,14 +446,14 @@ func (r *Reader) getErrorSummary() string {
 	if len(r.errors) == 0 {
 		return "No errors"
 	}
-	
+
 	var summary strings.Builder
 	summary.WriteString(fmt.Sprintf("Found %d errors:\n", len(r.errors)))
-	
+
 	for i, err := range r.errors {
 		summary.WriteString(fmt.Sprintf("%d. %v\n", i+1, err))
 	}
-	
+
 	return summary.String()
 }
 
@@ -469,7 +461,7 @@ func (r *Reader) getErrorSummary() string {
 func (r *Reader) ReadTasks() ([]Task, error) {
 	// Clear any previous errors
 	r.clearErrors()
-	
+
 	file, err := os.Open(r.filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open CSV file: %w", err)
@@ -481,14 +473,14 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to get file info: %w", err)
 	}
-	
+
 	fileSizeMB := fileInfo.Size() / (1024 * 1024)
 	if fileSizeMB > int64(r.maxMemoryMB) {
 		r.logger.Printf("Warning: File size %dMB exceeds limit %dMB, consider using streaming mode", fileSizeMB, r.maxMemoryMB)
 	}
 
 	reader := csv.NewReader(file)
-	reader.FieldsPerRecord = -1 // Allow variable number of fields
+	reader.FieldsPerRecord = -1    // Allow variable number of fields
 	reader.TrimLeadingSpace = true // * Added: Trim leading spaces
 
 	// Read header
@@ -528,15 +520,15 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 		if err != nil {
 			parseErrors = append(parseErrors, fmt.Errorf("row %d: %w", rowNum, err))
 			r.addError(fmt.Errorf("row %d: %w", rowNum, err))
-			
+
 			if r.strictMode {
 				return nil, fmt.Errorf("strict mode: failed to parse task at row %d: %w", rowNum, err)
 			}
-			
+
 			if !r.skipInvalid {
 				return nil, fmt.Errorf("failed to parse task at row %d: %w", rowNum, err)
 			}
-			
+
 			// Log error but continue processing other tasks
 			r.logger.Printf("Warning: failed to parse task at row %d: %v", rowNum, err)
 			continue
@@ -551,7 +543,6 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 	} else {
 		r.logger.Printf("Successfully parsed %d tasks", len(tasks))
 	}
-
 
 	// * Added: Log comprehensive error summary if there were any errors
 	if r.hasErrors() {
@@ -604,7 +595,7 @@ func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 		// Add all months from start to end (inclusive)
 		current := task.StartDate
 		end := task.EndDate
-		
+
 		for !current.After(end) {
 			month := MonthYear{
 				Year:  current.Year(),
@@ -645,19 +636,18 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 		return ""
 	}
 
-
 	// * Added: Parse Task ID field (use Name as ID if not provided)
 	task.ID = getField("Task ID")
 	if task.ID == "" {
 		task.ID = getField("Task Name") // Fallback to name if no ID
 	}
-	
+
 	task.Name = getField("Task Name")
 	task.Description = getField("Description")
 
 	// * Fixed: Use Category field instead of Priority for clarity
 	task.Category = getField("Category")
-	
+
 	// * Added: Parse Priority as integer if available
 	if priorityStr := getField("Priority"); priorityStr != "" {
 		// Try to parse as integer, default to 1 if parsing fails
@@ -792,15 +782,15 @@ func (r *Reader) ReadTasksStreaming(processTask func(Task) error) error {
 		task, err := r.parseTask(record, fieldIndex, rowNum)
 		if err != nil {
 			parseErrors = append(parseErrors, fmt.Errorf("row %d: %w", rowNum, err))
-			
+
 			if r.strictMode {
 				return fmt.Errorf("strict mode: failed to parse task at row %d: %w", rowNum, err)
 			}
-			
+
 			if !r.skipInvalid {
 				return fmt.Errorf("failed to parse task at row %d: %w", rowNum, err)
 			}
-			
+
 			r.logger.Printf("Warning: failed to parse task at row %d: %v", rowNum, err)
 			continue
 		}
@@ -844,7 +834,7 @@ func (r *Reader) ValidateCSVFormat() error {
 	requiredFields := []string{"task name", "start date", "due date"}
 	optionalFields := []string{"parent task id", "category", "description", "priority", "status", "assignee"}
 	fieldMap := make(map[string]bool)
-	
+
 	for _, field := range header {
 		normalizedField := strings.ToLower(strings.TrimSpace(field))
 		fieldMap[normalizedField] = true
@@ -893,7 +883,7 @@ var (
 		Priority:    1,
 		Description: "PhD proposal related tasks",
 	}
-	
+
 	CategoryLASER = TaskCategory{
 		Name:        "LASER",
 		DisplayName: "Laser System",
@@ -901,7 +891,7 @@ var (
 		Priority:    2,
 		Description: "Laser system setup and maintenance",
 	}
-	
+
 	CategoryIMAGING = TaskCategory{
 		Name:        "IMAGING",
 		DisplayName: "Imaging",
@@ -909,7 +899,7 @@ var (
 		Priority:    3,
 		Description: "Imaging experiments and data collection",
 	}
-	
+
 	CategoryADMIN = TaskCategory{
 		Name:        "ADMIN",
 		DisplayName: "Administrative",
@@ -917,7 +907,7 @@ var (
 		Priority:    4,
 		Description: "Administrative tasks and paperwork",
 	}
-	
+
 	CategoryDISSERTATION = TaskCategory{
 		Name:        "DISSERTATION",
 		DisplayName: "Dissertation",
@@ -925,7 +915,7 @@ var (
 		Priority:    5,
 		Description: "Dissertation writing and defense",
 	}
-	
+
 	CategoryRESEARCH = TaskCategory{
 		Name:        "RESEARCH",
 		DisplayName: "Research",
@@ -933,7 +923,7 @@ var (
 		Priority:    6,
 		Description: "General research activities",
 	}
-	
+
 	CategoryPUBLICATION = TaskCategory{
 		Name:        "PUBLICATION",
 		DisplayName: "Publication",
@@ -1011,25 +1001,25 @@ func (tc *TaskCollection) AddTask(task *Task) {
 	if task == nil {
 		return
 	}
-	
+
 	tc.tasks = append(tc.tasks, task)
 	tc.byDate = append(tc.byDate, task)
-	
+
 	// Update category index
 	if task.Category != "" {
 		tc.byCategory[task.Category] = append(tc.byCategory[task.Category], task)
 	}
-	
+
 	// Update status index
 	if task.Status != "" {
 		tc.byStatus[task.Status] = append(tc.byStatus[task.Status], task)
 	}
-	
+
 	// Update assignee index
 	if task.Assignee != "" {
 		tc.byAssignee[task.Assignee] = append(tc.byAssignee[task.Assignee], task)
 	}
-	
+
 	tc.sorted = false
 }
 
@@ -1068,7 +1058,7 @@ func (tc *TaskCollection) GetTasksByDateRange(start, end time.Time) []*Task {
 	if !tc.sorted {
 		tc.sortByDate()
 	}
-	
+
 	var result []*Task
 	for _, task := range tc.byDate {
 		if task.OverlapsWithDateRange(start, end) {
@@ -1083,7 +1073,7 @@ func (tc *TaskCollection) GetTasksByDate(date time.Time) []*Task {
 	if !tc.sorted {
 		tc.sortByDate()
 	}
-	
+
 	var result []*Task
 	for _, task := range tc.byDate {
 		if task.IsOnDate(date) {
@@ -1100,7 +1090,6 @@ func (tc *TaskCollection) sortByDate() {
 	})
 	tc.sorted = true
 }
-
 
 // TaskHierarchy represents the parent-child hierarchy of tasks
 type TaskHierarchy struct {
@@ -1125,9 +1114,9 @@ func (th *TaskHierarchy) AddTask(task *Task) {
 	if task == nil {
 		return
 	}
-	
+
 	th.tasks = append(th.tasks, task)
-	
+
 	if task.ParentID == "" {
 		// This is a root task
 		th.roots = append(th.roots, task)
@@ -1162,12 +1151,12 @@ func (th *TaskHierarchy) GetParent(taskName string) *Task {
 func (th *TaskHierarchy) GetAncestors(taskName string) []*Task {
 	var ancestors []*Task
 	current := th.GetParent(taskName)
-	
+
 	for current != nil {
 		ancestors = append(ancestors, current)
 		current = th.GetParent(current.Name)
 	}
-	
+
 	return ancestors
 }
 
@@ -1175,12 +1164,12 @@ func (th *TaskHierarchy) GetAncestors(taskName string) []*Task {
 func (th *TaskHierarchy) GetDescendants(taskName string) []*Task {
 	var descendants []*Task
 	children := th.GetChildren(taskName)
-	
+
 	for _, child := range children {
 		descendants = append(descendants, child)
 		descendants = append(descendants, th.GetDescendants(child.Name)...)
 	}
-	
+
 	return descendants
 }
 
@@ -1200,20 +1189,20 @@ func NewCalendarLayout(startDate, endDate time.Time, tasks []*Task) *CalendarLay
 		endDate:   endDate,
 		tasks:     tasks,
 	}
-	
+
 	cl.generateMonths()
 	cl.generateWeeks()
-	
+
 	return cl
 }
 
 // generateMonths generates all months in the date range
 func (cl *CalendarLayout) generateMonths() {
 	cl.months = make([]MonthYear, 0)
-	
+
 	current := time.Date(cl.startDate.Year(), cl.startDate.Month(), 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(cl.endDate.Year(), cl.endDate.Month(), 1, 0, 0, 0, 0, time.UTC)
-	
+
 	for !current.After(end) {
 		cl.months = append(cl.months, MonthYear{
 			Year:  current.Year(),
@@ -1226,13 +1215,13 @@ func (cl *CalendarLayout) generateMonths() {
 // generateWeeks generates all weeks in the date range
 func (cl *CalendarLayout) generateWeeks() {
 	cl.weeks = make([]time.Time, 0)
-	
+
 	// Find the start of the first week
 	start := cl.startDate
 	for start.Weekday() != time.Monday {
 		start = start.AddDate(0, 0, -1)
 	}
-	
+
 	// Generate weeks until we cover the end date
 	for !start.After(cl.endDate) {
 		cl.weeks = append(cl.weeks, start)
@@ -1255,13 +1244,13 @@ func (cl *CalendarLayout) GetTasksForMonth(year int, month time.Month) []*Task {
 	var result []*Task
 	monthStart := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC)
 	monthEnd := monthStart.AddDate(0, 1, -1)
-	
+
 	for _, task := range cl.tasks {
 		if task.OverlapsWithDateRange(monthStart, monthEnd) {
 			result = append(result, task)
 		}
 	}
-	
+
 	return result
 }
 
@@ -1269,13 +1258,13 @@ func (cl *CalendarLayout) GetTasksForMonth(year int, month time.Month) []*Task {
 func (cl *CalendarLayout) GetTasksForWeek(weekStart time.Time) []*Task {
 	var result []*Task
 	weekEnd := weekStart.AddDate(0, 0, 6)
-	
+
 	for _, task := range cl.tasks {
 		if task.OverlapsWithDateRange(weekStart, weekEnd) {
 			result = append(result, task)
 		}
 	}
-	
+
 	return result
 }
 
@@ -1296,7 +1285,7 @@ type TaskRenderer struct {
 // NewTaskRenderer creates a new task renderer
 func NewTaskRenderer(task *Task) *TaskRenderer {
 	category := GetCategory(task.Category)
-	
+
 	return &TaskRenderer{
 		TaskID:      task.Name,
 		Color:       category.Color,
@@ -1314,12 +1303,12 @@ func (t *Task) IsOnDate(date time.Time) bool {
 	if t.StartDate.IsZero() || t.EndDate.IsZero() {
 		return false
 	}
-	
+
 	// Normalize dates to compare only the date part
 	taskStart := time.Date(t.StartDate.Year(), t.StartDate.Month(), t.StartDate.Day(), 0, 0, 0, 0, time.UTC)
 	taskEnd := time.Date(t.EndDate.Year(), t.EndDate.Month(), t.EndDate.Day(), 0, 0, 0, 0, time.UTC)
 	checkDate := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC)
-	
+
 	return !checkDate.Before(taskStart) && !checkDate.After(taskEnd)
 }
 
@@ -1328,7 +1317,7 @@ func (t *Task) OverlapsWithDateRange(start, end time.Time) bool {
 	if t.StartDate.IsZero() || t.EndDate.IsZero() {
 		return false
 	}
-	
+
 	// Task overlaps if it starts before the range ends and ends after the range starts
 	return !t.StartDate.After(end) && !t.EndDate.Before(start)
 }
@@ -1338,7 +1327,7 @@ func (t *Task) GetDuration() int {
 	if t.StartDate.IsZero() || t.EndDate.IsZero() {
 		return 0
 	}
-	
+
 	duration := t.EndDate.Sub(t.StartDate)
 	return int(duration.Hours()/24) + 1 // +1 to include both start and end days
 }
@@ -1353,7 +1342,7 @@ func (t *Task) IsOverdue() bool {
 	if t.EndDate.IsZero() {
 		return false
 	}
-	
+
 	now := time.Now()
 	return now.After(t.EndDate) && t.Status != "Completed"
 }
@@ -1363,7 +1352,7 @@ func (t *Task) IsUpcoming() bool {
 	if t.StartDate.IsZero() {
 		return false
 	}
-	
+
 	now := time.Now()
 	sevenDaysFromNow := now.AddDate(0, 0, 7)
 	return t.StartDate.After(now) && t.StartDate.Before(sevenDaysFromNow)
@@ -1374,29 +1363,30 @@ func (t *Task) GetProgressPercentage() float64 {
 	if t.StartDate.IsZero() || t.EndDate.IsZero() {
 		return 0.0
 	}
-	
+
 	now := time.Now()
 	totalDuration := t.EndDate.Sub(t.StartDate)
 	elapsed := now.Sub(t.StartDate)
-	
+
 	if elapsed < 0 {
 		return 0.0
 	}
-	
+
 	if elapsed >= totalDuration {
 		return 100.0
 	}
-	
+
 	return (elapsed.Hours() / totalDuration.Hours()) * 100.0
 }
 
 // String returns a string representation of the task
 func (t *Task) String() string {
-	return fmt.Sprintf("Task[%s (%s) %s - %s]", 
-		t.Name, t.Category, 
-		t.StartDate.Format("2006-01-02"), 
+	return fmt.Sprintf("Task[%s (%s) %s - %s]",
+		t.Name, t.Category,
+		t.StartDate.Format("2006-01-02"),
 		t.EndDate.Format("2006-01-02"))
 }
+
 // DataValidationError represents a validation error with detailed context
 type DataValidationError struct {
 	Type        string    // Error type (e.g., "DATE_RANGE", "CONFLICT", "DEPENDENCY")
@@ -1416,10 +1406,10 @@ func (ve *DataValidationError) Error() string {
 
 // DateValidator handles date range validation and conflict detection
 type DateValidator struct {
-	workDays    map[time.Weekday]bool
-	holidays    []time.Time
-	timezone    *time.Location
-	strictMode  bool
+	workDays   map[time.Weekday]bool
+	holidays   []time.Time
+	timezone   *time.Location
+	strictMode bool
 }
 
 // NewDateValidator creates a new date validator
@@ -1443,22 +1433,22 @@ func NewDateValidator() *DateValidator {
 // ValidateDateRanges validates date ranges for a slice of tasks
 func (dv *DateValidator) ValidateDateRanges(tasks []*Task) []DataValidationError {
 	var errors []DataValidationError
-	
+
 	for _, task := range tasks {
 		// Basic date validation
 		if task.StartDate.After(task.EndDate) {
 			errors = append(errors, DataValidationError{
-				Type:      "DATE_RANGE",
-				TaskID:    task.ID,
-				Field:     "dates",
-				Value:     fmt.Sprintf("%s - %s", task.StartDate.Format("2006-01-02"), task.EndDate.Format("2006-01-02")),
-				Message:   "Start date is after end date",
-				Severity:  "ERROR",
-				Timestamp: time.Now(),
+				Type:        "DATE_RANGE",
+				TaskID:      task.ID,
+				Field:       "dates",
+				Value:       fmt.Sprintf("%s - %s", task.StartDate.Format("2006-01-02"), task.EndDate.Format("2006-01-02")),
+				Message:     "Start date is after end date",
+				Severity:    "ERROR",
+				Timestamp:   time.Now(),
 				Suggestions: []string{"Correct the start or end date"},
 			})
 		}
 	}
-	
+
 	return errors
 }
