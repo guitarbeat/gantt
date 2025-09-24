@@ -1,6 +1,6 @@
 % moved from templates/document.tpl
 {{/* same content */}}
-\documentclass[9pt]{extarticle}
+\documentclass[{{.Cfg.Layout.LaTeX.Document.FontSize}}]{extarticle}
 
 % Core packages (load early)
 \usepackage{expl3}
@@ -69,8 +69,8 @@
 \pagestyle{empty}
 {{if $.Cfg.Layout.Paper.ReverseMargins}}\reversemarginpar{{end}}
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
-\parindent=0pt
-\fboxsep0pt
+\parindent={{.Cfg.Layout.LaTeX.Document.ParIndent}}
+\fboxsep{{.Cfg.Layout.LaTeX.Document.FBoxSep}}
 
 \begin{document}
 

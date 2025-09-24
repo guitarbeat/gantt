@@ -1625,17 +1625,17 @@ func (le *LayoutEngine) generateBoundaryRecommendations(metrics *BoundaryMetrics
 func getDefaultTaskRenderingConfig() TaskRenderingConfig {
 	return TaskRenderingConfig{
 		// Spacing configuration - increased to prevent overlap
-		DefaultSpacing:   "0.8ex",
-		FirstTaskSpacing: "0.5ex",
+		DefaultSpacing:   "0.8ex", // TODO: Use config value
+		FirstTaskSpacing: "0.5ex", // TODO: Use config value
 
 		// Height configuration - increased to prevent overlap
-		DefaultHeight:   "3.0ex",
-		FirstTaskHeight: "3.5ex",
+		DefaultHeight:   "3.0ex", // TODO: Use config value
+		FirstTaskHeight: "3.5ex", // TODO: Use config value
 
 		// Text configuration - from constants in day.go
-		MaxChars:            maxTaskChars,
-		MaxCharsCompact:     maxTaskCharsCompact,
-		MaxCharsVeryCompact: maxTaskCharsVeryCompact,
+		MaxChars:            16, // TODO: Use config value
+		MaxCharsCompact:     13, // TODO: Use config value
+		MaxCharsVeryCompact: 10, // TODO: Use config value
 	}
 }
 

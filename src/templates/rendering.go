@@ -276,12 +276,12 @@ func (t TextItem) RefText(refText string) TextItem {
 
 // Items methods for working with collections of items
 
-func (i Items) WithTopRightCorner(flag bool) Items {
+func (i Items) WithTopRightCorner(flag bool, kernSpacing string) Items {
 	if !flag {
 		return i
 	}
 
-	return append(i, plainItem(`\kern 5mm`))
+	return append(i, plainItem(`\kern `+kernSpacing))
 }
 
 func (i Items) Length() int {

@@ -26,7 +26,7 @@ CONFIG_FILES ?= $(CONFIG_BASE),$(CONFIG_PAGE)
 
 # Configurable output file names with defaults
 OUTPUT_BASE_NAME ?= monthly_calendar
-FINAL_BASE_NAME ?= test
+FINAL_BASE_NAME ?= monthly_calendar
 
 # Configurable binary path with defaults
 BINARY_DIR ?= output
@@ -58,13 +58,9 @@ build:
 		echo "⚠️  PDF compilation completed with warnings (check xelatex.log for details)"; \
 	fi && \
 	if [ -f "$(OUTPUT_BASE_NAME).pdf" ]; then \
-		cp "$(OUTPUT_BASE_NAME).pdf" "../$(FINAL_BASE_NAME).pdf" && \
-		cp "$(OUTPUT_BASE_NAME).tex" "../$(FINAL_BASE_NAME).tex" 2>/dev/null || true && \
-		cp "$(OUTPUT_BASE_NAME).log" "../$(FINAL_BASE_NAME).log" 2>/dev/null || true && \
 		echo "🧹 Cleaning up auxiliary files from output..." && \
 		rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz 2>/dev/null || true && \
-		echo "✅ Created: $(FINAL_BASE_NAME).pdf" && \
-		echo "📁 Also saved to: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
+		echo "✅ Created: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
 	else \
 		echo "❌ PDF generation failed - check $(BINARY_DIR)/$(OUTPUT_BASE_NAME).log for details"; \
 		exit 1; \

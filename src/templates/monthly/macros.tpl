@@ -6,13 +6,13 @@
 {{- $numbers := .Cfg.Layout.Numbers -}}
 
 % Define category colors for consistent rendering
-\definecolor{taskProposal}{RGB}{74,144,226}
-\definecolor{taskLaser}{RGB}{245,166,35}
-\definecolor{taskImaging}{RGB}{126,211,33}
-\definecolor{taskAdmin}{RGB}{189,16,224}
-\definecolor{taskDissertation}{RGB}{208,2,27}
-\definecolor{taskResearch}{RGB}{80,227,194}
-\definecolor{taskPublication}{RGB}{184,233,134}
+\definecolor{taskProposal}{RGB}{ {{.Cfg.Layout.TaskColors.Proposal.R}},{{.Cfg.Layout.TaskColors.Proposal.G}},{{.Cfg.Layout.TaskColors.Proposal.B}} }
+\definecolor{taskLaser}{RGB}{ {{.Cfg.Layout.TaskColors.Laser.R}},{{.Cfg.Layout.TaskColors.Laser.G}},{{.Cfg.Layout.TaskColors.Laser.B}} }
+\definecolor{taskImaging}{RGB}{ {{.Cfg.Layout.TaskColors.Imaging.R}},{{.Cfg.Layout.TaskColors.Imaging.G}},{{.Cfg.Layout.TaskColors.Imaging.B}} }
+\definecolor{taskAdmin}{RGB}{ {{.Cfg.Layout.TaskColors.Admin.R}},{{.Cfg.Layout.TaskColors.Admin.G}},{{.Cfg.Layout.TaskColors.Admin.B}} }
+\definecolor{taskDissertation}{RGB}{ {{.Cfg.Layout.TaskColors.Dissertation.R}},{{.Cfg.Layout.TaskColors.Dissertation.G}},{{.Cfg.Layout.TaskColors.Dissertation.B}} }
+\definecolor{taskResearch}{RGB}{ {{.Cfg.Layout.TaskColors.Research.R}},{{.Cfg.Layout.TaskColors.Research.G}},{{.Cfg.Layout.TaskColors.Research.B}} }
+\definecolor{taskPublication}{RGB}{ {{.Cfg.Layout.TaskColors.Publication.R}},{{.Cfg.Layout.TaskColors.Publication.G}},{{.Cfg.Layout.TaskColors.Publication.B}} }
 
 \newlength{\myLenTabColSep}
 \newlength{\myLenLineThicknessDefault}
@@ -30,26 +30,26 @@
 \newlength{\myLenHeaderSideMonthsWidth}
 
 \setlength{\myLenTabColSep}{ {{.Cfg.Layout.LaTeX.TabColSep}} }
-\setlength{\myLenLineThicknessDefault}{.4pt}
-\setlength{\myLenLineThicknessThick}{.8pt}
+\setlength{\myLenLineThicknessDefault}{ {{.Cfg.Layout.LaTeX.LineThicknessDefault}} }
+\setlength{\myLenLineThicknessThick}{ {{.Cfg.Layout.LaTeX.LineThicknessThick}} }
 \setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
-\setlength{\myLenTwoColSep}{5pt}
+\setlength{\myLenTwoColSep}{ {{.Cfg.Layout.LaTeX.Spacing.TwoColSep}} }
 \setlength{\myLenTwoCol}{5pt}
-\setlength{\myLenTriColSep}{5pt}
+\setlength{\myLenTriColSep}{ {{.Cfg.Layout.LaTeX.Spacing.TriColSep}} }
 \setlength{\myLenTriCol}{5pt}
-\setlength{\myLenFiveColSep}{5pt}
+\setlength{\myLenFiveColSep}{ {{.Cfg.Layout.LaTeX.Spacing.FiveColSep}} }
 \setlength{\myLenFiveCol}{5pt}
-\setlength{\myLenMonthlyCellHeight}{78pt}
+\setlength{\myLenMonthlyCellHeight}{ {{.Cfg.Layout.LaTeX.MonthlyCellHeight}} }
 
-\setlength{\myLenHeaderResizeBox}{6mm}
+\setlength{\myLenHeaderResizeBox}{ {{.Cfg.Layout.LaTeX.HeaderResizeBox}} }
 \setlength{\myLenHeaderSideMonthsWidth}{ {{.Cfg.Layout.LaTeX.HeaderSideMonthsWidth}} }
 
 % Simple task bar definitions
 % * Define fixed font size macros for task title and body
-\newcommand{\TaskTitleSize}{\small}
+\newcommand{\TaskTitleSize}{ {{.Cfg.Layout.LaTeX.TaskFontSize}} }
 \newcommand{\TaskFontSize}{\footnotesize}
 \newlength{\TaskBarHeight}
-\setlength{\TaskBarHeight}{4mm}
+\setlength{\TaskBarHeight}{ {{.Cfg.Layout.LaTeX.TaskBarHeight}} }
 \newlength{\TaskBorderWidth}
 \setlength{\TaskBorderWidth}{ {{.Cfg.Layout.LaTeX.TaskBorderWidth}} }
 \newlength{\TaskPaddingH}
@@ -84,13 +84,13 @@
   \definecolor{taskbgcolor}{RGB}{#1}%
   \definecolor{taskfgcolor}{RGB}{#1}%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
-    left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
-    colback=taskbgcolor!20, colframe=taskfgcolor!80,
+  \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
+    left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top={{.Cfg.Layout.LaTeX.TColorBox.Top}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.Bottom}},
+    colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
     width=\linewidth, halign=left]
-    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+    {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
      \TaskTitleSize\textbf{#2}\par
-     \vspace{0.2ex}%
+     \vspace{{.Cfg.Layout.LaTeX.TaskContentSpacing}}%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
 }
@@ -102,10 +102,10 @@
   \begin{tikzpicture}[overlay]
     \node[anchor=north west, inner sep=0pt] at (#1,#2) {
       \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt,
-        left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
+        left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top={{.Cfg.Layout.LaTeX.TColorBox.Top}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.Bottom}},
         width=#3pt, height=#4pt,
         colback=taskbarcolor]
-        {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=1em%
+        {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
          \footnotesize \raggedright #6}
       \end{tcolorbox}
     };
@@ -116,13 +116,13 @@
   \definecolor{taskoverlaypbgcolor}{RGB}{#2}%
   \definecolor{taskoverlaypfgcolor}{RGB}{#2}%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
-    left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
-    colback=taskoverlaypbgcolor!20, colframe=taskoverlaypfgcolor!80,
+  \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
+    left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top={{.Cfg.Layout.LaTeX.TColorBox.Top}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.Bottom}},
+    colback=taskoverlaypbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskoverlaypfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
     width=\linewidth, halign=left]
-    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+    {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
      \TaskTitleSize\textbf{#1}\par
-     \vspace{0.2ex}%
+     \vspace{{.Cfg.Layout.LaTeX.TaskContentSpacing}}%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
 }
@@ -133,11 +133,11 @@
   \definecolor{taskcompactfgcolor}{RGB}{#3}%
   \vspace*{#1}%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule=0.7pt, arc=8pt,
-    left=1.2mm, right=1.2mm, top=0.8mm, bottom=0.8mm,
-    colback=taskcompactbgcolor!20, colframe=taskcompactfgcolor!70,
+  \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.TaskBoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.TaskArc}},
+    left={{.Cfg.Layout.LaTeX.TColorBox.TaskLeft}}, right={{.Cfg.Layout.LaTeX.TColorBox.TaskRight}}, top={{.Cfg.Layout.LaTeX.TColorBox.TaskTop}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.TaskBottom}},
+    colback=taskcompactbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskcompactfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
     width=\linewidth, halign=left, height=#2]
-    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+    {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
      \TaskTitleSize\raggedright\textbf{#4}\par}
   \end{tcolorbox}%
 }
@@ -158,18 +158,18 @@
 % Color legend macro for task categories - uses circles with correct RGB colors
 \newcommand{\ColorLegend}{%
   {\centering
-    \textcolor[RGB]{74,144,226}{\Large$\bullet$}~\small Proposal%
-    \hspace{1.5em}%
-    \textcolor[RGB]{245,166,35}{\Large$\bullet$}~\small Laser%
-    \hspace{1.5em}%
-    \textcolor[RGB]{126,211,33}{\Large$\bullet$}~\small Imaging%
-    \hspace{1.5em}%
-    \textcolor[RGB]{189,16,224}{\Large$\bullet$}~\small Admin%
-    \hspace{1.5em}%
-    \textcolor[RGB]{208,2,27}{\Large$\bullet$}~\small Dissertation%
-    \hspace{1.5em}%
-    \textcolor[RGB]{80,227,194}{\Large$\bullet$}~\small Research%
-    \hspace{1.5em}%
-    \textcolor[RGB]{184,233,134}{\Large$\bullet$}~\small Publication%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Proposal.R}},{{.Cfg.Layout.TaskColors.Proposal.G}},{{.Cfg.Layout.TaskColors.Proposal.B}} }{\Large$\bullet$}~\small Proposal%
+    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Laser.R}},{{.Cfg.Layout.TaskColors.Laser.G}},{{.Cfg.Layout.TaskColors.Laser.B}} }{\Large$\bullet$}~\small Laser%
+    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Imaging.R}},{{.Cfg.Layout.TaskColors.Imaging.G}},{{.Cfg.Layout.TaskColors.Imaging.B}} }{\Large$\bullet$}~\small Imaging%
+    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Admin.R}},{{.Cfg.Layout.TaskColors.Admin.G}},{{.Cfg.Layout.TaskColors.Admin.B}} }{\Large$\bullet$}~\small Admin%
+    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Dissertation.R}},{{.Cfg.Layout.TaskColors.Dissertation.G}},{{.Cfg.Layout.TaskColors.Dissertation.B}} }{\Large$\bullet$}~\small Dissertation%
+    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Research.R}},{{.Cfg.Layout.TaskColors.Research.G}},{{.Cfg.Layout.TaskColors.Research.B}} }{\Large$\bullet$}~\small Research%
+    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Publication.R}},{{.Cfg.Layout.TaskColors.Publication.G}},{{.Cfg.Layout.TaskColors.Publication.B}} }{\Large$\bullet$}~\small Publication%
   \par}
 }

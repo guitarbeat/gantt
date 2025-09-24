@@ -1,0 +1,23 @@
+# Build artifacts
+output/
+src/build/
+*.pdf
+*.tex
+*.log
+*.aux
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+plannergen
+coverage.out
+debug.log
+test.out
+
+# Go module cache
+go.sum.bak
+
+# OS specific
+.DS_Store
+Thumbs.db
+

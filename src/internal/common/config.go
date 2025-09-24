@@ -36,7 +36,9 @@ type Config struct {
 	// OutputDir is the directory where generated .tex and .pdf files will be written
 	// Defaults to "build" when not provided via environment or config
 	OutputDir string `env:"PLANNER_OUTPUT_DIR"`
+
 }
+
 
 type Debug struct {
 	ShowFrame bool
@@ -68,6 +70,22 @@ type Colors struct {
 	LightGray string
 }
 
+type TaskColors struct {
+	Proposal     RGBColor
+	Laser        RGBColor
+	Imaging      RGBColor
+	Admin        RGBColor
+	Dissertation RGBColor
+	Research     RGBColor
+	Publication  RGBColor
+}
+
+type RGBColor struct {
+	R int
+	G int
+	B int
+}
+
 type LaTeX struct {
 	TabColSep             string
 	HeaderSideMonthsWidth string
@@ -76,6 +94,66 @@ type LaTeX struct {
 	TaskPaddingV          string
 	TaskVerticalOffset    string
 	ArrayStretch          float64
+	TaskFontSize          string
+	TaskBarHeight         string
+	MonthlyCellHeight     string
+	HeaderResizeBox       string
+	LineThicknessDefault   string
+	LineThicknessThick     string
+
+	// Task styling parameters
+	TaskBackgroundOpacity int    `yaml:"task_background_opacity"`
+	TaskBorderOpacity     int    `yaml:"task_border_opacity"`
+	TaskContentSpacing    string `yaml:"task_content_spacing"`
+
+	// TColorBox styling
+	TColorBox TColorBox `yaml:"tcolorbox"`
+
+	// Typography settings
+	Typography Typography `yaml:"typography"`
+
+	// Spacing and layout
+	Spacing Spacing `yaml:"spacing"`
+
+	// Document settings
+	Document Document `yaml:"document"`
+}
+
+type TColorBox struct {
+	Arc       string
+	Left      string
+	Right     string
+	Top       string
+	Bottom    string
+	BoxRule   string
+	TaskBoxRule string
+	TaskArc   string
+	TaskLeft  string
+	TaskRight string
+	TaskTop   string
+	TaskBottom string
+}
+
+type Typography struct {
+	HyphenPenalty       int
+	Tolerance           int
+	EmergencyStretch    string
+	SloppyEmergencyStretch string
+}
+
+type Spacing struct {
+	TwoColSep      string
+	TriColSep      string
+	FiveColSep     string
+	TableColSep    string
+	ColorLegendSep string
+	PageBreak      string
+}
+
+type Document struct {
+	FontSize  string
+	ParIndent string
+	FBoxSep   string
 }
 
 type Constraints struct {
@@ -89,6 +167,34 @@ type Constraints struct {
 	CollisionThreshold float64
 	OverflowThreshold  float64
 	ExpansionThreshold float64
+
+	// Task sizing multipliers
+	MinTaskHeightMultiplier float64 `yaml:"min_task_height_multiplier"`
+	MaxTaskHeightMultiplier float64 `yaml:"max_task_height_multiplier"`
+	MinTaskWidthMultiplier  float64 `yaml:"min_task_width_multiplier"`
+	MaxTaskWidthDays        float64 `yaml:"max_task_width_days"`
+
+	// Visual styling
+	TaskBarOpacity   float64 `yaml:"task_bar_opacity"`
+	BorderWidth      float64 `yaml:"border_width"`
+	OpacityThreshold float64 `yaml:"opacity_threshold"`
+
+	// Algorithm thresholds
+	CompressionThreshold     float64 `yaml:"compression_threshold"`
+	QualityThreshold         float64 `yaml:"quality_threshold"`
+	BalanceThreshold         float64 `yaml:"balance_threshold"`
+	EfficiencyThreshold      float64 `yaml:"efficiency_threshold"`
+	EfficiencyGoodThreshold  float64 `yaml:"efficiency_good_threshold"`
+
+	// Task positioning
+	TaskVerticalOffset           float64 `yaml:"task_vertical_offset"`
+	TaskHorizontalOffset         float64 `yaml:"task_horizontal_offset"`
+	ExpandedTaskVerticalOffset   float64 `yaml:"expanded_task_vertical_offset"`
+	ExpandedTaskHorizontalOffset float64 `yaml:"expanded_task_horizontal_offset"`
+	ExpandedTaskHeightMultiplier float64 `yaml:"expanded_task_height_multiplier"`
+	ExpandedTaskWidthMultiplier  float64 `yaml:"expanded_task_width_multiplier"`
+	CollapsedTaskHeightMultiplier float64 `yaml:"collapsed_task_height_multiplier"`
+	CollapsedTaskWidthMultiplier float64 `yaml:"collapsed_task_width_multiplier"`
 }
 
 type Layout struct {
@@ -97,8 +203,83 @@ type Layout struct {
 	Numbers     Numbers
 	Lengths     Lengths
 	Colors      Colors
-	LaTeX       LaTeX
+	TaskColors  TaskColors `yaml:"task_colors"`
+	LaTeX       LaTeX      `yaml:"latex"`
 	Constraints Constraints
+	Calendar    Calendar
+	Stacking    Stacking
+}
+
+type Calendar struct {
+	DayNumberWidth    string
+	DayContentMargin  string
+	TaskKernSpacing   string
+	CollapseThreshold int
+	TaskBarOpacity    float64
+	BorderWidth       float64
+
+	// Typography settings for calendar content
+	EmergencyStretch string `yaml:"emergencystretch"`
+	InnerSep         string `yaml:"inner_sep"`
+
+	// Cell rendering parameters
+	DayCellMinipageWidth string `yaml:"day_cell_minipage_width"`
+	TaskCellMargin       string `yaml:"task_cell_margin"`
+	TaskCellSpacing      string `yaml:"task_cell_spacing"`
+
+	// Task rendering parameters
+	MaxTaskChars            int    `yaml:"max_task_chars"`
+	MaxTaskCharsCompact     int    `yaml:"max_task_chars_compact"`
+	MaxTaskCharsVeryCompact int    `yaml:"max_task_chars_very_compact"`
+	DefaultTaskSpacing      string `yaml:"default_task_spacing"`
+	FirstTaskSpacing        string `yaml:"first_task_spacing"`
+	DefaultTaskHeight       string `yaml:"default_task_height"`
+	FirstTaskHeight         string `yaml:"first_task_height"`
+}
+
+type Stacking struct {
+	BaseHeight float64 `yaml:"base_height"`
+	MinHeight  float64 `yaml:"min_height"`
+	MaxHeight  float64 `yaml:"max_height"`
+
+	// Prominence multipliers
+	ProminenceCritical float64 `yaml:"prominence_critical"`
+	ProminenceHigh     float64 `yaml:"prominence_high"`
+	ProminenceMedium   float64 `yaml:"prominence_medium"`
+	ProminenceLow      float64 `yaml:"prominence_low"`
+	ProminenceMinimal  float64 `yaml:"prominence_minimal"`
+
+	// Duration-based weighting
+	DurationShortWeight  float64 `yaml:"duration_short_weight"`
+	DurationMediumWeight float64 `yaml:"duration_medium_weight"`
+	DurationLongWeight   float64 `yaml:"duration_long_weight"`
+
+	// Complexity-based weighting
+	ComplexityMinimalWeight float64 `yaml:"complexity_minimal_weight"`
+	ComplexityNormalWeight  float64 `yaml:"complexity_normal_weight"`
+	ComplexityComplexWeight float64 `yaml:"complexity_complex_weight"`
+
+	// Task positioning parameters
+	VerticalSpacing   float64 `yaml:"vertical_spacing"`
+	HorizontalSpacing float64 `yaml:"horizontal_spacing"`
+
+	// Visual quality thresholds
+	VisibilityThreshold float64 `yaml:"visibility_threshold"`
+	OverflowVertical    float64 `yaml:"overflow_vertical"`
+	CollisionThreshold  float64 `yaml:"collision_threshold"`
+	BoundingBoxBuffer   float64 `yaml:"bounding_box_buffer"`
+
+	// Quality assessment thresholds
+	QualityHighThreshold      float64 `yaml:"quality_high_threshold"`
+	BalanceHighThreshold      float64 `yaml:"balance_high_threshold"`
+	CompressionHighThreshold  float64 `yaml:"compression_high_threshold"`
+
+	// Weight calculation parameters
+	DurationWeightFactor float64 `yaml:"duration_weight_factor"`
+	CategoryHighWeight   float64 `yaml:"category_high_weight"`
+	CategoryMediumWeight float64 `yaml:"category_medium_weight"`
+	CategoryNormalWeight float64 `yaml:"category_normal_weight"`
+	CategoryHighBonus    float64 `yaml:"category_high_bonus"`
 }
 
 type Numbers struct {
