@@ -4,6 +4,7 @@ dist/
 
 # Built binaries
 plannergen
+phd-dissertation-planner
 
 # Generated PDFs
 *.pdf
