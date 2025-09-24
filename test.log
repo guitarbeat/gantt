@@ -1,10 +1,10 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 21:13
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 21:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**page_template.tex
-(./page_template.tex
+**monthly_calendar.tex
+(./monthly_calendar.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
 (/usr/local/texlive/2024/texmf-dist/tex/latex/extsizes/extarticle.cls
@@ -30,7 +30,7 @@ LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 \c@figure=\count190
 \c@table=\count191
 \abovecaptionskip=\skip48
-\belowcaptionskip=\ski)
+\belowcaptionskip=\)
 (/usr/local/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
 (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg)
 (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-def/xetex.def)
@@ -241,7 +241,7 @@ Library (tcolorbox): 'tcbposter.code.tex' version '6.2.0'
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/blindtext/blindtext.sty
 (/usr/local/texlive/2024/texmf-dist/tex/latex/tools/xspace.sty))
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmss.fd)
-No file page_template.aux.
+No file monthly_calendar.aux.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd)
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -13845,11 +13845,11 @@ l.7759   \end{tabularx}
 
 Underfull \hbox (badness 10000) in paragraph at lines 7759--7762
 
-) [30] (./page_template.aux (./monthly.aux)) )
+) [30] (./monthly_calendar.aux (./monthly.aux)) )
 (see the transcript file for additional information)
-Output written on page_template.pdf (30 pages).
-Transcript written on page_template.log.
-fnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
+Output written on monthly_calendar.pdf (30 pages).
+Transcript written on monthly_calendar.log.
+m 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
 l.5057   \end{tabularx}
                        
 I expect to see \noalign only after the \cr of
@@ -21875,19 +21875,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 7759--7762
 
  []
 
-) [30] (./page_template.aux (./monthly.aux))
+) [30] (./monthly_calendar.aux (./monthly.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 23777 strings out of 474773
- 506220 string characters out of 5757725
+ 23776 strings out of 474773
+ 506241 string characters out of 5757725
  2001839 words of memory out of 5000000
- 45458 multiletter control sequences out of 15000+600000
- 603504 words of font info for 72 fonts, out of 8000000 for 9000
+ 45457 multiletter control sequences out of 15000+600000
+ 597968 words of font info for 70 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,20n,96p,1838b,1596s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,20n,96p,1904b,1596s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on page_template.pdf (30 pages).
+Output written on monthly_calendar.pdf (30 pages).

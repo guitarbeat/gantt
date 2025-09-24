@@ -57,7 +57,7 @@ func action(c *cli.Context) error {
 
 	pathConfigs := strings.Split(c.Path(fConfig), ",")
 	if cfg, err = common.NewConfig(pathConfigs...); err != nil {
-		return fmt.Errorf("config new: %w", err)
+		return fmt.Errorf("failed to load configuration from %v: %w", pathConfigs, err)
 	}
 
 	// If CLI flag for outdir provided, override config
@@ -67,20 +67,23 @@ func action(c *cli.Context) error {
 
 	// Ensure output directory exists
 	if err := os.MkdirAll(cfg.OutputDir, 0o755); err != nil {
-		return fmt.Errorf("create output dir: %w", err)
+		return fmt.Errorf("failed to create output directory %q: %w", cfg.OutputDir, err)
 	}
+	fmt.Fprintf(os.Stderr, "📁 Output directory: %s\n", cfg.OutputDir)
 
 	wr := &bytes.Buffer{}
 
 	t := NewTpl()
 
 	if err = t.Document(wr, cfg); err != nil {
-		return fmt.Errorf("tex document: %w", err)
+		return fmt.Errorf("failed to generate LaTeX document: %w", err)
 	}
 
-	if err = os.WriteFile(cfg.OutputDir+"/"+RootFilename(pathConfigs[len(pathConfigs)-1]), wr.Bytes(), 0o600); err != nil {
-		return fmt.Errorf("write file: %w", err)
+	outputFile := cfg.OutputDir + "/" + RootFilename(pathConfigs[len(pathConfigs)-1])
+	if err = os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
+		return fmt.Errorf("failed to write LaTeX file to %q: %w", outputFile, err)
 	}
+	fmt.Fprintf(os.Stderr, "📄 Generated LaTeX file: %s\n", outputFile)
 
 	for _, file := range cfg.Pages {
 		wr.Reset()
@@ -88,45 +91,46 @@ func action(c *cli.Context) error {
 		var mom []common.Modules
 		for _, block := range file.RenderBlocks {
 			if fn, ok = common.ComposerMap[block.FuncName]; !ok {
-				return fmt.Errorf("unknown func " + block.FuncName)
+				return fmt.Errorf("unknown composer function %q - check configuration", block.FuncName)
 			}
 
 			modules, err := fn(cfg, block.Tpls)
+			if err != nil {
+				return fmt.Errorf("failed to compose modules for %q: %w", block.FuncName, err)
+			}
 
 			// Only one page per unique module if preview flag is enabled
 			if preview {
 				modules = common.FilterUniqueModules(modules)
 			}
 
-			if err != nil {
-				return fmt.Errorf("%s: %w", block.FuncName, err)
-			}
-
 			mom = append(mom, modules)
 		}
 
 		if len(mom) == 0 {
-			return fmt.Errorf("modules of modules must have some modules")
+			return fmt.Errorf("no modules generated for page %q", file.Name)
 		}
 
 		allLen := len(mom[0])
 		for _, mods := range mom {
 			if len(mods) != allLen {
-				return errors.New("some modules are not aligned")
+				return fmt.Errorf("module alignment error for page %q: expected %d modules, got %d", file.Name, allLen, len(mods))
 			}
 		}
 
 		for i := 0; i < allLen; i++ {
 			for j, mod := range mom {
 				if err = t.Execute(wr, mod[i].Tpl, mod[i]); err != nil {
-					return fmt.Errorf("execute %s on %s: %w", file.RenderBlocks[j].FuncName, mod[i].Tpl, err)
+					return fmt.Errorf("failed to execute template %s for function %s: %w", mod[i].Tpl, file.RenderBlocks[j].FuncName, err)
 				}
 			}
 		}
 
-		if err = os.WriteFile(cfg.OutputDir+"/"+file.Name+".tex", wr.Bytes(), 0o600); err != nil {
-			return fmt.Errorf("write file: %w", err)
+		pageFile := cfg.OutputDir + "/" + file.Name + ".tex"
+		if err = os.WriteFile(pageFile, wr.Bytes(), 0o600); err != nil {
+			return fmt.Errorf("failed to write page file %q: %w", pageFile, err)
 		}
+		fmt.Fprintf(os.Stderr, "📄 Generated page: %s\n", pageFile)
 	}
 
 	return nil

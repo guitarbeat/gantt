@@ -16,7 +16,6 @@ package scheduler
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 	"strings"
 	"time"
@@ -28,11 +27,9 @@ import (
 // * LaTeX rendering constants
 // These constants control the visual appearance and layout of the calendar
 const (
-	dayCellWidth            = "5mm"  // Base width for day cells (not used for day numbers after fix)
-	maxTaskChars            = 16     // Character limit for task names (currently disabled per user request)
-	maxTaskCharsCompact     = 13     // Character limit for compact task display (currently disabled)
-	maxTaskCharsVeryCompact = 10     // Character limit for very compact display (currently disabled)
-	maxTasksDisplay         = 2      // Maximum number of tasks to show per day cell
+	maxTaskChars            = 16     // Character limit for task names
+	maxTaskCharsCompact     = 13     // Character limit for compact task display
+	maxTaskCharsVeryCompact = 10     // Character limit for very compact display
 )
 
 // * Day types and methods (from day.go)
@@ -104,124 +101,13 @@ func (d Day) ref(prefix ...string) string {
 	return p + d.Time.Format(time.RFC3339)
 }
 
-// Add creates a new day by adding the specified number of days
-func (d Day) Add(days int) Day {
-	return Day{Time: d.Time.AddDate(0, 0, days), Tasks: nil, SpanningTasks: nil}
-}
-
-// WeekLink creates a link for the week view
-func (d Day) WeekLink() string {
-	return templates.Link(d.ref(), strconv.Itoa(d.Time.Day())+", "+d.Time.Weekday().String())
-}
-
-// Breadcrumb creates a breadcrumb navigation for the day
-func (d Day) Breadcrumb(prefix string, leaf string, shorten bool) string {
-	wpref := ""
-	_, wn := d.Time.ISOWeek()
-	if wn > 50 && d.Time.Month() == time.January {
-		wpref = "fw"
-	}
-
-	dayLayout := "Monday, 2"
-	if shorten {
-		dayLayout = "Mon, 2"
-	}
-
-	dayItem := templates.NewTextItem(d.Time.Format(dayLayout)).RefText(d.Time.Format(time.RFC3339))
-	items := templates.Items{
-		templates.NewIntItem(d.Time.Year()),
-		templates.NewTextItem("Q" + strconv.Itoa(int(math.Ceil(float64(d.Time.Month())/3.)))),
-		templates.NewMonthItem(d.Time.Month()).Shorten(shorten),
-		templates.NewTextItem("Week " + strconv.Itoa(wn)).RefPrefix(wpref),
-	}
-
-	if len(leaf) > 0 {
-		items = append(items, dayItem, templates.NewTextItem(leaf).RefText(prefix+d.ref()).Ref(true))
-	} else {
-		items = append(items, dayItem.Ref(true))
-	}
-
-	return items.Table(true)
-}
-
-// LinkLeaf creates a link with a leaf text
-func (d Day) LinkLeaf(prefix, leaf string) string {
-	return templates.Link(prefix+d.ref(), leaf)
-}
-
-// PrevNext creates navigation items for previous and next days
-func (d Day) PrevNext(prefix string) templates.Items {
-	items := templates.Items{}
-
-	if d.PrevExists() {
-		prev := d.Prev()
-		items = append(items, templates.NewTextItem(prev.Time.Format("Mon, 2")).RefText(prefix+prev.ref()))
-	}
-
-	if d.NextExists() {
-		next := d.Next()
-		items = append(items, templates.NewTextItem(next.Time.Format("Mon, 2")).RefText(prefix+next.ref()))
-	}
-
-	return items
-}
-
-// Next returns the next day
-func (d Day) Next() Day { return d.Add(1) }
-
-// Prev returns the previous day
-func (d Day) Prev() Day { return d.Add(-1) }
-
-// NextExists checks if the next day exists
-func (d Day) NextExists() bool { return d.Time.Month() < time.December || d.Time.Day() < 31 }
-
-// PrevExists checks if the previous day exists
-func (d Day) PrevExists() bool { return d.Time.Month() > time.January || d.Time.Day() > 1 }
-
-// Quarter returns the quarter number for this day
-func (d Day) Quarter() int { return int(math.Ceil(float64(d.Time.Month()) / 3.)) }
-
-// Month returns the month for this day
-func (d Day) Month() time.Month { return d.Time.Month() }
-
-// HeadingMOS creates a heading for the month-overview-single view
-func (d Day) HeadingMOS(prefix, leaf string) string {
-	day := strconv.Itoa(d.Time.Day())
-	if len(leaf) > 0 {
-		day = templates.Link(d.ref(), day)
-	}
-
-	anglesize := `\dimexpr\myLenHeaderResizeBox-0.86pt`
-	var ll, rl string
-	var r1, r2 []string
-	if d.PrevExists() {
-		ll = "l"
-		leftNavBox := templates.ResizeBoxW(anglesize, `$\langle$`)
-		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(d.Prev().ref(prefix), leftNavBox)))
-		r2 = append(r2, "")
-	}
-	r1 = append(r1, templates.Multirow(2, templates.ResizeBoxW(`\myLenHeaderResizeBox`, day)))
-	r2 = append(r2, "")
-	r1 = append(r1, templates.Bold(d.Time.Weekday().String()))
-	r2 = append(r2, d.Time.Month().String())
-	if d.NextExists() {
-		rl = "l"
-		rightNavBox := templates.ResizeBoxW(anglesize, `$\rangle$`)
-		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(d.Next().ref(prefix), rightNavBox)))
-		r2 = append(r2, "")
-	}
-	contents := strings.Join(r1, ` & `) + `\\` + "\n" + strings.Join(r2, ` & `)
-	return templates.Hypertarget(prefix+d.ref(), "") + templates.Tabular("@{}"+ll+"l|l"+rl, contents)
-}
 
 // * LaTeX cell construction functions
 
 // buildDayNumberCell creates the basic day number cell with proper alignment
 // Uses a reasonable fixed width that works well with tabularx auto-sizing
 func (d Day) buildDayNumberCell(day string) string {
-	// Use left alignment with proper spacing to ensure numbers align with cell boundaries
-	// Fixed width prevents stretching while maintaining consistent alignment
-	return `\begin{tabular}{@{}p{6mm}@{}|}\raggedright{}` + day + `\\ \hline\end{tabular}`
+	return `\begin{tabular}{@{}p{6mm}@{}|}\centering{}` + day + `\\ \hline\end{tabular}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
@@ -423,6 +309,14 @@ func escapeLatexSpecialChars(text string) string {
 	return text
 }
 
+// smartTruncateText intelligently truncates text at word boundaries when possible
+// NOTE: Currently disabled - returning full text to avoid aggressive truncation
+func (d Day) smartTruncateText(text string, maxChars int) string {
+	// For now, return full text to avoid unwanted truncation
+	// TODO: Implement better space utilization strategies
+	return text
+}
+
 // escapeLatexSpecialChars escapes special LaTeX characters in text
 func (d Day) escapeLatexSpecialChars(text string) string {
 	// Replace special LaTeX characters with their escaped versions
@@ -439,13 +333,6 @@ func (d Day) escapeLatexSpecialChars(text string) string {
 	return text
 }
 
-// smartTruncateText intelligently truncates text at word boundaries when possible
-// NOTE: Currently disabled - returning full text to avoid aggressive truncation
-func (d Day) smartTruncateText(text string, maxChars int) string {
-	// For now, return full text to avoid unwanted truncation
-	// TODO: Implement better space utilization strategies
-	return text
-}
 
 // * Week types and methods (from week.go)
 
@@ -517,15 +404,43 @@ func (w *Week) WeekNumber(large interface{}) string {
 }
 
 func (w *Week) weekNumber() int {
-	// Calculate week number based on the first day of the week
-	firstDay := w.Days[0].Time
+	// Calculate sequential week number for the entire year (1-based)
+	// Find the first non-zero day in the week
+	var firstDay time.Time
+	for _, day := range w.Days {
+		if !day.Time.IsZero() {
+			firstDay = day.Time
+			break
+		}
+	}
+
 	if firstDay.IsZero() {
 		return 0
 	}
 
-	// Get the week number of the year
-	_, week := firstDay.ISOWeek()
-	return week
+	// Find the first day of the year
+	firstOfYear := time.Date(firstDay.Year(), 1, 1, 0, 0, 0, 0, firstDay.Location())
+
+	// Calculate how many days from the start of the year to the first day of this week
+	daysFromStart := int(firstDay.Sub(firstOfYear).Hours()/24)
+
+	// Calculate the week number (1-based, starting from the first week of the year)
+	weekNum := (daysFromStart / 7) + 1
+
+	// Ensure we don't go below 1
+	if weekNum < 1 {
+		weekNum = 1
+	}
+
+	return weekNum
+}
+
+func (w Week) ref(prefix ...string) string {
+	p := ""
+	if len(prefix) > 0 {
+		p = prefix[0]
+	}
+	return p + "week-" + strconv.Itoa(w.Year.Number) + "-" + strconv.Itoa(w.weekNumber())
 }
 
 func NewWeeksForYear(wd time.Weekday, year *Year) Weeks {
@@ -546,24 +461,6 @@ func NewWeeksForYear(wd time.Weekday, year *Year) Weeks {
 	return weeks
 }
 
-func (w Week) Breadcrumb() string {
-	return templates.Items{
-		templates.NewIntItem(w.Year.Number),
-		templates.NewTextItem("Week " + strconv.Itoa(w.weekNumber())),
-	}.Table(true)
-}
-
-func (w Week) WeekLink() string {
-	return templates.Link(w.ref(), "Week "+strconv.Itoa(w.weekNumber()))
-}
-
-func (w Week) ref(prefix ...string) string {
-	p := ""
-	if len(prefix) > 0 {
-		p = prefix[0]
-	}
-	return p + "week-" + strconv.Itoa(w.Year.Number) + "-" + strconv.Itoa(w.weekNumber())
-}
 
 // * Month types and methods (from month.go)
 

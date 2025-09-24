@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -535,7 +534,6 @@ type TaskRenderingConfig struct {
 	MaxChars            int
 	MaxCharsCompact     int
 	MaxCharsVeryCompact int
-	MaxTasksDisplay     int
 }
 
 // NewLayoutEngine creates a new layout engine instance
@@ -1650,7 +1648,6 @@ func getDefaultTaskRenderingConfig() TaskRenderingConfig {
 		MaxChars:            maxTaskChars,
 		MaxCharsCompact:     maxTaskCharsCompact,
 		MaxCharsVeryCompact: maxTaskCharsVeryCompact,
-		MaxTasksDisplay:     2, // Reduced from 3 to prevent overlap
 	}
 }
 
@@ -1707,41 +1704,21 @@ func (d Day) buildMultiTaskOverlayContent(tasks []*SpanningTask) string {
 		return d.buildTaskOverlayContent(tasks[0])
 	}
 
-	config := getDefaultTaskRenderingConfig()
-
 	// Sort tasks by category priority for better visual organization
 	sortedTasks := d.sortTasksByPriority(tasks)
 
 	var contentParts []string
 
-	// Show up to maxTasksDisplay tasks in compact format
-	for i := 0; i < config.MaxTasksDisplay && i < len(sortedTasks); i++ {
+	// Show all tasks in compact format (no limit)
+	for i := 0; i < len(sortedTasks); i++ {
 		task := sortedTasks[i]
 		compactContent := d.buildCompactTaskOverlay(task, i, len(sortedTasks))
 		contentParts = append(contentParts, compactContent)
 	}
 
-	// Add indicator if there are more tasks than we can display
-	if len(sortedTasks) > config.MaxTasksDisplay {
-		moreCount := len(sortedTasks) - config.MaxTasksDisplay
-		indicator := d.buildMoreTasksIndicator(moreCount)
-		contentParts = append(contentParts, indicator)
-	}
-
 	return strings.Join(contentParts, "")
 }
 
-// buildMoreTasksIndicator creates the "+X more" indicator for additional tasks
-// Shows when there are more tasks than can be displayed in the available space
-func (d Day) buildMoreTasksIndicator(moreCount int) string {
-	return `\vspace*{0.02ex}{\begingroup\setlength{\fboxsep}{0pt}` +
-		`\begin{tcolorbox}[enhanced, boxrule=0pt, arc=0pt,` +
-		` left=0.5mm, right=0.5mm, top=0.1mm, bottom=0.1mm,` +
-		` colback=gray!15, height=0.5ex,` +
-		` borderline west={0.5pt}{0pt}{gray!40}]` +
-		`{\centering\color{gray}\textbf{\tiny +` + strconv.Itoa(moreCount) + ` more}}` +
-		`\end{tcolorbox}\endgroup}`
-}
 
 // buildCompactTaskOverlay creates a compact task overlay for multiple tasks
 // Used when multiple tasks start on the same day to create stacked display
