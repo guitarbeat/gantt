@@ -212,24 +212,9 @@ var tpl = func() *template.Template {
 			if bar == nil {
 				return ""
 			}
-			// Convert priority to prominence level
-			var prominence string
-			switch {
-			case bar.Priority >= 4:
-				prominence = "CRITICAL"
-			case bar.Priority >= 3:
-				prominence = "HIGH"
-			case bar.Priority >= 2:
-				prominence = "MEDIUM"
-			case bar.Priority >= 1:
-				prominence = "LOW"
-			default:
-				prominence = "MINIMAL"
-			}
 
 			// Generate LaTeX for individual task bar using the visual design system
-			return fmt.Sprintf("\\TaskOverlayBoxP{%s}{%s}{%s}{%s}",
-				prominence,      // prominence level
+			return fmt.Sprintf("\\TaskOverlayBox{%s}{%s}{%s}",
 				bar.Color,       // category color
 				bar.TaskName,    // task name
 				bar.Description, // description

@@ -228,28 +228,14 @@ func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	return startingTasks, maxCols
 }
 
-// sortTasksByPriority sorts tasks by category priority for better visual organization
-func (d Day) sortTasksByPriority(tasks []*SpanningTask) []*SpanningTask {
+// sortTasksByDuration sorts tasks by duration for better visual organization
+func (d Day) sortTasksByDuration(tasks []*SpanningTask) []*SpanningTask {
 	sorted := make([]*SpanningTask, len(tasks))
 	copy(sorted, tasks)
 
-	priorityOrder := d.getCategoryPriorityOrder()
-
-	// Enhanced sorting: priority first, then by duration (shorter tasks first), then by start time
+	// Sort by duration (shorter tasks first for better stacking)
 	for i := 0; i < len(sorted)-1; i++ {
 		for j := 0; j < len(sorted)-i-1; j++ {
-			priority1 := d.getTaskPriority(sorted[j].Category, priorityOrder)
-			priority2 := d.getTaskPriority(sorted[j+1].Category, priorityOrder)
-
-			// First sort by priority
-			if priority1 != priority2 {
-				if priority1 > priority2 {
-					sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
-				}
-				continue
-			}
-
-			// If same priority, sort by duration (shorter tasks first for better stacking)
 			duration1 := sorted[j].EndDate.Sub(sorted[j].StartDate)
 			duration2 := sorted[j+1].EndDate.Sub(sorted[j+1].StartDate)
 			if duration1 > duration2 {
@@ -261,26 +247,6 @@ func (d Day) sortTasksByPriority(tasks []*SpanningTask) []*SpanningTask {
 	return sorted
 }
 
-// getCategoryPriorityOrder returns the priority order for task categories
-func (d Day) getCategoryPriorityOrder() map[string]int {
-	return map[string]int{
-		"DISSERTATION": 1,
-		"PROPOSAL":     2,
-		"PUBLICATION":  3,
-		"RESEARCH":     4,
-		"IMAGING":      5,
-		"LASER":        6,
-		"ADMIN":        7,
-	}
-}
-
-// getTaskPriority returns the priority for a task category
-func (d Day) getTaskPriority(category string, priorityOrder map[string]int) int {
-	if priority, exists := priorityOrder[category]; exists {
-		return priority
-	}
-	return 99 // Unknown categories go last
-}
 
 // isMilestoneTask checks if a task is a milestone based on its description
 func (d Day) isMilestoneTask(task Task) bool {
@@ -826,7 +792,6 @@ type SpanningTask struct {
 	StartDate   time.Time
 	EndDate     time.Time
 	Color       string
-	Priority    int
 	Progress    int    // Progress percentage (0-100)
 	Status      string // Task status
 	Assignee    string // Task assignee
@@ -845,7 +810,6 @@ func CreateSpanningTask(task common.Task, startDate, endDate time.Time) Spanning
 		StartDate:   startDate,
 		EndDate:     endDate,
 		Color:       color,
-		Priority:    task.Priority, // * Fixed: Use actual Priority field
 		Progress:    0,             // Default progress
 		Status:      task.Status,   // * Fixed: Use actual Status field
 		Assignee:    task.Assignee, // * Fixed: Use actual Assignee field

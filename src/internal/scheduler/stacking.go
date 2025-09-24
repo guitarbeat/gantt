@@ -25,7 +25,6 @@ type StackingEngine struct {
 type StackingRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*common.Task, *StackingContext) bool
 	Action      func(*common.Task, *StackingContext) *StackingAction
 }
@@ -40,7 +39,6 @@ type StackingAction struct {
 	ZIndex             int
 	VisualStyle        *VisualStyle
 	CollisionAvoidance bool
-	Priority           int
 }
 
 // StackingType defines the type of stacking behavior
@@ -95,7 +93,6 @@ type TaskStack struct {
 	TotalHeight    float64
 	MaxWidth       float64
 	StackingType   StackingType
-	Priority       int
 	CollisionCount int
 	OverflowCount  int
 	VisualStyle    *VisualStyle
@@ -325,55 +322,8 @@ func NewSpaceOptimizer() *SpaceOptimizer {
 func (se *StackingEngine) initializeDefaultRules() {
 	se.stackingRules = []StackingRule{
 		{
-			Name:        "Critical Task Priority",
-			Description: "Critical tasks get top priority in stacking",
-			Priority:    1,
-			Condition: func(task *common.Task, context *StackingContext) bool {
-				if priority, exists := context.TaskPriorities[task.ID]; exists {
-					return priority.Urgency == "CRITICAL"
-				}
-				return false
-			},
-			Action: func(task *common.Task, context *StackingContext) *StackingAction {
-				return &StackingAction{
-					StackingType:       StackingTypeLayered,
-					VerticalOffset:     0.0,
-					HorizontalOffset:   0.0,
-					Height:             context.VisualConstraints.MaxTaskHeight,
-					Width:              context.VisualConstraints.MaxTaskWidth,
-					ZIndex:             10,
-					CollisionAvoidance: true,
-					Priority:           1,
-				}
-			},
-		},
-		{
-			Name:        "High Priority Task",
-			Description: "High priority tasks get prominent stacking",
-			Priority:    2,
-			Condition: func(task *common.Task, context *StackingContext) bool {
-				if priority, exists := context.TaskPriorities[task.ID]; exists {
-					return priority.Urgency == "HIGH"
-				}
-				return false
-			},
-			Action: func(task *common.Task, context *StackingContext) *StackingAction {
-				return &StackingAction{
-					StackingType:       StackingTypeVertical,
-					VerticalOffset:     0.0,
-					HorizontalOffset:   0.0,
-					Height:             context.VisualConstraints.MaxTaskHeight * 0.9,
-					Width:              context.VisualConstraints.MaxTaskWidth * 0.9,
-					ZIndex:             8,
-					CollisionAvoidance: true,
-					Priority:           2,
-				}
-			},
-		},
-		{
 			Name:        "Milestone Task",
 			Description: "Milestone tasks get special stacking treatment",
-			Priority:    3,
 			Condition: func(task *common.Task, context *StackingContext) bool {
 				return task.IsMilestone
 			},
@@ -386,14 +336,12 @@ func (se *StackingEngine) initializeDefaultRules() {
 					Width:              context.VisualConstraints.MaxTaskWidth,
 					ZIndex:             9,
 					CollisionAvoidance: true,
-					Priority:           3,
 				}
 			},
 		},
 		{
 			Name:        "Long Duration Task",
 			Description: "Long duration tasks get horizontal stacking",
-			Priority:    4,
 			Condition: func(task *common.Task, context *StackingContext) bool {
 				duration := task.EndDate.Sub(task.StartDate)
 				return duration > time.Hour*24*7 // More than a week
@@ -407,14 +355,12 @@ func (se *StackingEngine) initializeDefaultRules() {
 					Width:              context.VisualConstraints.MaxTaskWidth,
 					ZIndex:             5,
 					CollisionAvoidance: false,
-					Priority:           4,
 				}
 			},
 		},
 		{
 			Name:        "Short Duration Task",
 			Description: "Short duration tasks get vertical stacking",
-			Priority:    5,
 			Condition: func(task *common.Task, context *StackingContext) bool {
 				duration := task.EndDate.Sub(task.StartDate)
 				return duration <= time.Hour*24 // One day or less
@@ -428,14 +374,12 @@ func (se *StackingEngine) initializeDefaultRules() {
 					Width:              context.VisualConstraints.MinTaskWidth,
 					ZIndex:             3,
 					CollisionAvoidance: false,
-					Priority:           5,
 				}
 			},
 		},
 		{
 			Name:        "Conflict Resolution",
 			Description: "Tasks with conflicts get special stacking treatment",
-			Priority:    6,
 			Condition: func(task *common.Task, context *StackingContext) bool {
 				// Check if task has conflicts
 				if context.ConflictAnalysis == nil {
@@ -457,14 +401,12 @@ func (se *StackingEngine) initializeDefaultRules() {
 					Width:              context.VisualConstraints.MaxTaskWidth * 0.8,
 					ZIndex:             7,
 					CollisionAvoidance: true,
-					Priority:           6,
 				}
 			},
 		},
 		{
 			Name:        "Overflow Handling",
 			Description: "Tasks that cause overflow get minimized stacking",
-			Priority:    7,
 			Condition: func(task *common.Task, context *StackingContext) bool {
 				// Check if adding this task would cause overflow
 				return se.wouldCauseOverflow(task, context)
@@ -478,14 +420,12 @@ func (se *StackingEngine) initializeDefaultRules() {
 					Width:              context.VisualConstraints.MinTaskWidth * 0.5,
 					ZIndex:             1,
 					CollisionAvoidance: false,
-					Priority:           7,
 				}
 			},
 		},
 		{
 			Name:        "Default Stacking",
 			Description: "Default stacking for all other tasks",
-			Priority:    8,
 			Condition: func(task *common.Task, context *StackingContext) bool {
 				return true // Always matches
 			},
@@ -498,7 +438,6 @@ func (se *StackingEngine) initializeDefaultRules() {
 					Width:              context.VisualConstraints.MinTaskWidth,
 					ZIndex:             2,
 					CollisionAvoidance: false,
-					Priority:           8,
 				}
 			},
 		},
@@ -638,11 +577,9 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 		return nil
 	}
 
-	// Sort tasks by priority
+	// Sort tasks by start date
 	sort.Slice(tasks, func(i, j int) bool {
-		priorityI := context.TaskPriorities[tasks[i].ID]
-		priorityJ := context.TaskPriorities[tasks[j].ID]
-		return priorityI.Weight > priorityJ.Weight
+		return tasks[i].StartDate.Before(tasks[j].StartDate)
 	})
 
 	// Create stack
@@ -654,7 +591,6 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 		TotalHeight:    0.0,
 		MaxWidth:       0.0,
 		StackingType:   StackingTypeVertical,
-		Priority:       0,
 		CollisionCount: 0,
 		OverflowCount:  0,
 	}
@@ -715,10 +651,6 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 	// Determine stack type based on tasks
 	stack.StackingType = se.determineStackType(stack)
 
-	// Set stack priority
-	if len(stack.Tasks) > 0 {
-		stack.Priority = stack.Tasks[0].StackingAction.Priority
-	}
 
 	return stack
 }
@@ -729,7 +661,6 @@ func (se *StackingEngine) determineStackingAction(task *common.Task, context *St
 	for _, rule := range se.stackingRules {
 		if rule.Condition(task, context) {
 			action := rule.Action(task, context)
-			action.Priority = rule.Priority
 			return action
 		}
 	}
@@ -743,7 +674,6 @@ func (se *StackingEngine) determineStackingAction(task *common.Task, context *St
 		Width:              context.VisualConstraints.MinTaskWidth,
 		ZIndex:             2,
 		CollisionAvoidance: false,
-		Priority:           8,
 	}
 }
 
@@ -918,10 +848,6 @@ func (se *StackingEngine) generateRecommendations(stacks []*TaskStack, context *
 // AddCustomRule adds a custom stacking rule
 func (se *StackingEngine) AddCustomRule(rule StackingRule) {
 	se.stackingRules = append(se.stackingRules, rule)
-	// Sort rules by priority (highest first)
-	sort.Slice(se.stackingRules, func(i, j int) bool {
-		return se.stackingRules[i].Priority < se.stackingRules[j].Priority
-	})
 }
 
 // GetStacksByType returns stacks filtered by stacking type
@@ -935,16 +861,6 @@ func (result *StackingResult) GetStacksByType(stackingType StackingType) []*Task
 	return filtered
 }
 
-// GetStacksByPriority returns stacks filtered by priority
-func (result *StackingResult) GetStacksByPriority(priority int) []*TaskStack {
-	var filtered []*TaskStack
-	for _, stack := range result.Stacks {
-		if stack.Priority == priority {
-			filtered = append(filtered, stack)
-		}
-	}
-	return filtered
-}
 
 // GetSummary returns a summary of the stacking result
 func (result *StackingResult) GetSummary() string {
@@ -1019,12 +935,6 @@ func (se *StackingEngine) calculateTaskHeight(task *common.Task, context *Stacki
 	// Start with base height
 	height := hc.baseHeight
 
-	// Apply priority multiplier
-	if priority, exists := context.TaskPriorities[task.ID]; exists {
-		if multiplier, exists := hc.priorityMultiplier[VisualProminence(priority.Urgency)]; exists {
-			height *= multiplier
-		}
-	}
 
 	// Apply duration multiplier
 	duration := task.EndDate.Sub(task.StartDate)
@@ -1076,10 +986,6 @@ func (se *StackingEngine) assessContentComplexity(task *common.Task) string {
 func (se *StackingEngine) calculateVisualWeight(task *common.Task, context *StackingContext) float64 {
 	weight := 1.0
 
-	// Priority weight
-	if priority, exists := context.TaskPriorities[task.ID]; exists {
-		weight += priority.Weight * 0.1
-	}
 
 	// Duration weight
 	duration := task.EndDate.Sub(task.StartDate)
@@ -1184,13 +1090,8 @@ func (se *StackingEngine) applyDistributionMode(position *VerticalPosition, stac
 		// Even distribution (already handled in base calculation)
 		break
 	case DistributionPriority:
-		// Distribute based on priority
-		if len(stack.Tasks) > position.StackIndex {
-			if priority, exists := context.TaskPriorities[stack.Tasks[position.StackIndex].Task.ID]; exists {
-				priorityOffset := priority.Weight * 0.5
-				position.Y += priorityOffset
-			}
-		}
+		// Distribute evenly (no priority-based distribution)
+		break
 	case DistributionContent:
 		// Distribute based on content complexity
 		if len(stack.Tasks) > position.StackIndex {
@@ -1218,12 +1119,10 @@ func (se *StackingEngine) applyDistributionMode(position *VerticalPosition, stac
 
 // determineAlignmentMode determines the best alignment mode for a stack
 func (se *StackingEngine) determineAlignmentMode(stack *TaskStack, context *StackingContext) AlignmentMode {
-	// Check if stack has critical tasks
+	// Check if stack has milestone tasks
 	for _, task := range stack.Tasks {
-		if priority, exists := context.TaskPriorities[task.Task.ID]; exists {
-			if priority.Urgency == "CRITICAL" {
-				return AlignmentTop
-			}
+		if task.Task.IsMilestone {
+			return AlignmentTop
 		}
 	}
 
@@ -1240,23 +1139,6 @@ func (se *StackingEngine) determineAlignmentMode(stack *TaskStack, context *Stac
 
 // determineDistributionMode determines the best distribution mode for a stack
 func (se *StackingEngine) determineDistributionMode(stack *TaskStack, context *StackingContext) DistributionMode {
-	// Check if stack has mixed priorities
-	hasHighPriority := false
-	hasLowPriority := false
-
-	for _, task := range stack.Tasks {
-		if priority, exists := context.TaskPriorities[task.Task.ID]; exists {
-			if priority.Urgency == "CRITICAL" || priority.Urgency == "HIGH" {
-				hasHighPriority = true
-			} else if priority.Urgency == "LOW" || priority.Urgency == "MINIMAL" {
-				hasLowPriority = true
-			}
-		}
-	}
-
-	if hasHighPriority && hasLowPriority {
-		return DistributionPriority
-	}
 
 	// Check if stack has mixed content complexity
 	hasComplexContent := false
@@ -1782,7 +1664,6 @@ type ConflictResolution struct {
 	Strategy    string
 	Description string
 	Actions     []string
-	Priority    int
 	Effort      string // "LOW", "MEDIUM", "HIGH"
 	Impact      string // "LOW", "MEDIUM", "HIGH"
 }
@@ -1997,7 +1878,6 @@ const (
 type VisibilityRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*common.Task, *PriorityContext) bool
 	Action      func(*common.Task, *PriorityContext) *VisibilityAction
 }
@@ -2013,7 +1893,6 @@ type VisibilityAction struct {
 type OptimizationRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*common.Task, *PriorityContext) bool
 	Action      func(*common.Task, *PriorityContext) *OptimizationAction
 }
@@ -2038,7 +1917,6 @@ type ConflictRule struct {
 	Condition   func(*TaskOverlap, *common.Task, *common.Task) bool
 	Category    ConflictCategory
 	Severity    OverlapSeverity
-	Priority    int
 }
 
 type ConflictCategory string
@@ -2056,7 +1934,6 @@ const (
 type ResolutionStrategy struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*OverflowContext) bool
 	Action      func(*OverflowContext) *ResolutionResult
 }
@@ -2064,7 +1941,6 @@ type ResolutionStrategy struct {
 type ConflictResolver struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*ConflictContext) bool
 	Action      func(*ConflictContext) *ConflictResolutionResult
 }
@@ -2072,7 +1948,6 @@ type ConflictResolver struct {
 type VisualOptimizationRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*VisualContext) bool
 	Action      func(*VisualContext) *VisualOptimization
 }

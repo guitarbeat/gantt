@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -394,18 +393,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 		task.Category = getField("Phase") // Fallback to Phase if Sub-Phase is empty
 	}
 
-	// * Added: Parse Priority as integer if available
-	if priorityStr := getField("Priority"); priorityStr != "" {
-		// Try to parse as integer, default to 1 if parsing fails
-		if priority, err := strconv.Atoi(priorityStr); err == nil {
-			task.Priority = priority
-		} else {
-			task.Priority = 1 // Default priority
-			r.logger.Printf("Warning: Invalid priority '%s', using default priority 1", priorityStr)
-		}
-	} else {
-		task.Priority = 1 // Default priority
-	}
 
 	// * Added: Parse Status field
 	task.Status = getField("Status")
