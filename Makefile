@@ -6,10 +6,15 @@ GO ?= go
 BINARY ?= build/plannergen
 OUTDIR ?= src/build
 
+# Configurable paths with defaults
+CONFIG_BASE ?= config/base.yaml
+CONFIG_PAGE ?= config/page_template.yaml
+CONFIG_FILES ?= $(CONFIG_BASE),$(CONFIG_PAGE)
+
 # Find the first CSV file in the input directory
 CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
 
-.PHONY: build clean fmt vet
+.PHONY: build clean fmt vet test
 
 # Build planner PDF (runs tests, generates LaTeX, compiles PDF)
 build:
@@ -25,7 +30,7 @@ build:
 	fi && \
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
-	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
+	./build/plannergen --config "$(CONFIG_FILES)" --outdir build && \
 	echo "📚 Compiling PDF..." && \
 	cd build && \
 	if xelatex -file-line-error -interaction=nonstopmode page_template.tex > xelatex.log 2>&1; then \
@@ -49,6 +54,10 @@ build:
 		echo "❌ PDF generation failed - check build/xelatex.log for details"; \
 		exit 1; \
 	fi
+
+test:
+	@echo "🧪 Running Go tests..."
+	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
 
 fmt:
 	$(GO) fmt ./...
