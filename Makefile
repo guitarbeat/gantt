@@ -34,7 +34,7 @@ BINARY_NAME ?= plannergen
 BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 
 # Find the first CSV file in the input directory
-CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
+CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs -I {} basename "{}")
 
 .PHONY: build clean clean-build fmt vet
 
