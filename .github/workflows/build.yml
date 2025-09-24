@@ -1,47 +1,42 @@
-name: Build Planner PDF
+name: Build and Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: 'stable'
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
 
-      - name: Install XeLaTeX dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            xz-utils \
-            texlive-xetex \
-            texlive-fonts-recommended \
-            texlive-latex-recommended \
-            texlive-latex-extra \
-            texlive-plain-generic \
-            lmodern
+    - name: Install LaTeX
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-xetex texlive-fonts-recommended texlive-fonts-extra
 
-      - name: Build
-        run: make
+    - name: Create input directory and sample CSV
+      run: |
+        mkdir -p input
+        # Create a minimal sample CSV for testing
+        echo "ID,Name,Start Date,End Date,Phase,Category,Description,Priority,Status,Assignee" > input/sample.csv
+        echo "T1.1,Sample Task,2025-01-01,2025-01-05,Phase 1,Research,Sample task description,1,Active,User" >> input/sample.csv
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: planner-outputs
-          path: |
-            output/*.pdf
-            output/*.tex
-            output/*.log
-          if-no-files-found: warn
+    - name: Build project
+      run: make
 
-
+    - name: Verify PDF generation
+      run: |
+        if [ ! -f "test.pdf" ]; then
+          echo "PDF file not found!"
+          exit 1
+        fi
+        echo "✅ PDF generated successfully"
