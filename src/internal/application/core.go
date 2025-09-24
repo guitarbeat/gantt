@@ -28,6 +28,7 @@ const (
 func New() *cli.App {
 	// Initialize the composer map
 	common.ComposerMap["monthly"] = Monthly
+	common.ComposerMap["phases"] = Phases
 
 	return &cli.App{
 		Name: "plannergen",
@@ -428,5 +429,101 @@ func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 
 	// Apply spanning tasks to the month for background coloring
 	cal.ApplySpanningTasksToMonth(month, spanningTasks)
+}
+
+// Phases generates the phases overview page
+func Phases(cfg common.Config, tpls []string) (common.Modules, error) {
+	// Define the phases and subphases data
+	phasesData := map[string]interface{}{
+		"Phases": []PhaseInfo{
+			{
+				Number: 1,
+				SubPhases: []SubPhaseInfo{
+					{Name: "PhD Proposal", Description: "Proposal development, committee formation, and oral defense"},
+					{Name: "Laser System", Description: "Seed laser alignment and amplified output restoration"},
+					{Name: "Microscope Setup", Description: "Imaging system alignment and live imaging validation"},
+					{Name: "Committee Management", Description: "Progress reports, membership updates, and candidacy confirmation"},
+				},
+			},
+			{
+				Number: 2,
+				SubPhases: []SubPhaseInfo{
+					{Name: "Aim 1 - AAV-based Vascular Imaging", Description: "AAV vector design, in vivo imaging, and pilot data collection"},
+					{Name: "Aim 2 - Dual-channel Imaging Platform", Description: "U-Net architecture, dual-channel configuration, and LSCI setup"},
+					{Name: "Aim 3 - Stroke Study & Analysis", Description: "Stroke model establishment, longitudinal imaging, and data analysis"},
+					{Name: "Data Management & Analysis", Description: "Equipment maintenance logs and automated backup systems"},
+				},
+			},
+			{
+				Number: 3,
+				SubPhases: []SubPhaseInfo{
+					{Name: "Methodology Paper", Description: "Manuscript development for AAV-based vascular imaging approach"},
+					{Name: "SLAVV-T Development", Description: "Codebase development and temporal analysis method"},
+					{Name: "Research Paper", Description: "Conference presentations and research manuscript preparation"},
+					{Name: "AR Platform Development", Description: "Augmented reality platform development and methods paper"},
+					{Name: "Manuscript Submissions", Description: "Final manuscript submissions and publication process"},
+				},
+			},
+			{
+				Number: 4,
+				SubPhases: []SubPhaseInfo{
+					{Name: "Dissertation Writing", Description: "Introduction, methods, results, and conclusions chapters"},
+					{Name: "Committee Review & Defense", Description: "Draft completion, committee meetings, and oral defense"},
+					{Name: "Final Submission & Graduation", Description: "Final dissertation submission and graduation requirements"},
+				},
+			},
+		},
+		"Milestones": []MilestoneInfo{
+			{Phase: 1, Name: "PhD Proposal Exam", Description: "Defend proposal in oral examination", Date: "December 2025"},
+			{Phase: 2, Name: "Dual-Color Platform Operational", Description: "Platform achieves operational status", Date: "July 2026"},
+			{Phase: 2, Name: "Data Acquisition Complete", Description: "Complete all planned imaging studies", Date: "December 2026"},
+			{Phase: 3, Name: "Manuscript Submissions Complete", Description: "All planned manuscripts submitted", Date: "December 2026"},
+			{Phase: 4, Name: "Dissertation Complete", Description: "Complete dissertation draft", Date: "June 2027"},
+			{Phase: 4, Name: "PhD Defense", Description: "Successfully defend PhD dissertation", Date: "July 2027"},
+			{Phase: 4, Name: "Graduation", Description: "Complete PhD program and graduate", Date: "August 2027"},
+		},
+		"Timeline": []TimelineInfo{
+			{Phase: 1, Period: "September 2025 - January 2026", Description: "PhD Proposal and System Setup"},
+			{Phase: 2, Period: "October 2025 - December 2026", Description: "Research Implementation and Data Collection"},
+			{Phase: 3, Period: "April 2026 - December 2026", Description: "Manuscript Development and Publication"},
+			{Phase: 4, Period: "September 2026 - August 2027", Description: "Dissertation Writing and Defense"},
+		},
+	}
+
+	modules := make(common.Modules, 1)
+	modules[0] = common.Module{
+		Cfg:  cfg,
+		Tpl:  tpls[0],
+		Body: phasesData,
+	}
+
+	return modules, nil
+}
+
+// PhaseInfo represents a phase with its subphases
+type PhaseInfo struct {
+	Number    int
+	SubPhases []SubPhaseInfo
+}
+
+// SubPhaseInfo represents a subphase with its description
+type SubPhaseInfo struct {
+	Name        string
+	Description string
+}
+
+// MilestoneInfo represents a milestone
+type MilestoneInfo struct {
+	Phase       int
+	Name        string
+	Description string
+	Date        string
+}
+
+// TimelineInfo represents timeline information
+type TimelineInfo struct {
+	Phase       int
+	Period      string
+	Description string
 }
 

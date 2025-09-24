@@ -1,4 +1,9 @@
 pages:
+  - name: phases
+    renderblocks:
+      - funcname: phases
+        tpls:
+          - phases_page.tpl
   - name: monthly
     renderblocks:
       - funcname: monthly
