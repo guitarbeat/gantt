@@ -38,3 +38,13 @@ layout:
   colors:
     gray: gray
     lightgray: gray!50
+
+  # LaTeX visual constants
+  latex:
+    tabcolsep: 3.5pt
+    headersidemonthswidth: 14.5cm
+    taskborderwidth: 0.6pt
+    taskpaddingh: 1.5mm
+    taskpaddingv: 0.5mm
+    taskverticaloffset: 0.7mm
+    arraystretch: 1.2

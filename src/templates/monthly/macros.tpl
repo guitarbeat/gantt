@@ -4,6 +4,7 @@
 \ExplSyntaxOff
 
 {{- $numbers := .Cfg.Layout.Numbers -}}
+{{- $latex := .Cfg.Layout.LaTeX -}}
 
 % Define category colors for consistent rendering
 \definecolor{taskProposal}{RGB}{74,144,226}
@@ -29,7 +30,7 @@
 \newlength{\myLenHeaderResizeBox}
 \newlength{\myLenHeaderSideMonthsWidth}
 
-\setlength{\myLenTabColSep}{3.5pt}
+\setlength{\myLenTabColSep}{{$latex.TabColSep }}}
 \setlength{\myLenLineThicknessDefault}{.4pt}
 \setlength{\myLenLineThicknessThick}{.8pt}
 \setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
@@ -42,7 +43,7 @@
 \setlength{\myLenMonthlyCellHeight}{78pt}
 
 \setlength{\myLenHeaderResizeBox}{6mm}
-\setlength{\myLenHeaderSideMonthsWidth}{14.5cm}
+\setlength{\myLenHeaderSideMonthsWidth}{{$latex.HeaderSideMonthsWidth }}}
 
 % Simple task bar definitions
 % * Define fixed font size macros for task title and body
@@ -51,17 +52,17 @@
 \newlength{\TaskBarHeight}
 \setlength{\TaskBarHeight}{4mm}
 \newlength{\TaskBorderWidth}
-\setlength{\TaskBorderWidth}{0.6pt}
+\setlength{\TaskBorderWidth}{{$latex.TaskBorderWidth }}}
 \newlength{\TaskPaddingH}
-\setlength{\TaskPaddingH}{1.5mm}
+\setlength{\TaskPaddingH}{{$latex.TaskPaddingH }}}
 \newlength{\TaskPaddingV}
-\setlength{\TaskPaddingV}{0.5mm}
+\setlength{\TaskPaddingV}{{$latex.TaskPaddingV }}}
 % * Global vertical nudge for task elements (push tasks slightly lower)
 \newlength{\TaskVerticalOffset}
-\setlength{\TaskVerticalOffset}{0.7mm}
+\setlength{\TaskVerticalOffset}{{$latex.TaskVerticalOffset }}}
 
 % Array stretch macro
-\newcommand{\myNumArrayStretch}{1.2}
+\newcommand{\myNumArrayStretch}{{$latex.ArrayStretch }}}
 
 % Line thickness macro
 \newcommand{\myLineThick}{\rule{\linewidth}{\myLenLineThicknessThick}}

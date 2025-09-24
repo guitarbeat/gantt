@@ -68,12 +68,23 @@ type Colors struct {
 	LightGray string
 }
 
+type LaTeX struct {
+	TabColSep             string
+	HeaderSideMonthsWidth string
+	TaskBorderWidth       string
+	TaskPaddingH          string
+	TaskPaddingV          string
+	TaskVerticalOffset    string
+	ArrayStretch          float64
+}
+
 type Layout struct {
 	Paper Paper
 
 	Numbers Numbers
 	Lengths Lengths
 	Colors  Colors
+	LaTeX   LaTeX
 }
 
 type Numbers struct {
