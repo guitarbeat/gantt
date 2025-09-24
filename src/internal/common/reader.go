@@ -22,36 +22,7 @@ const (
 	DateFormatSpace = "2006-01-02 15:04:05" // With time: 2024-01-15 10:30:00
 )
 
-// Error types for detailed error reporting
-type ParseError struct {
-	Row     int
-	Column  string
-	Value   string
-	Message string
-	Err     error
-}
-
-func (e *ParseError) Error() string {
-	if e.Row > 0 {
-		return fmt.Sprintf("row %d, column '%s', value '%s': %s", e.Row, e.Column, e.Value, e.Message)
-	}
-	return fmt.Sprintf("column '%s', value '%s': %s", e.Column, e.Value, e.Message)
-}
-
-func (e *ParseError) Unwrap() error {
-	return e.Err
-}
-
-type ValidationError struct {
-	TaskID  string
-	Field   string
-	Value   string
-	Message string
-}
-
-func (e *ValidationError) Error() string {
-	return fmt.Sprintf("task %s, field '%s', value '%s': %s", e.TaskID, e.Field, e.Value, e.Message)
-}
+// Error types are now defined in errors.go
 
 // Supported date formats for parsing
 var supportedDateFormats = []string{
