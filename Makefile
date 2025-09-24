@@ -6,6 +6,9 @@ GO ?= go
 BINARY ?= build/plannergen
 OUTDIR ?= src/build
 
+# Find the first CSV file in the input directory
+CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
+
 .PHONY: build clean fmt vet
 
 # Build planner PDF (runs tests, generates LaTeX, compiles PDF)
@@ -13,7 +16,7 @@ build:
 	@echo "🧪 Running Go tests..."
 	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
 	@echo "📄 Generating PDF test..."
-	@echo "🎯 Generating PDF from: ../input/Research Timeline v5 - Comprehensive.csv"
+	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
 	@echo "📄 Output: test.pdf"
 	@cd src && \
 	if [ ! -f "build/plannergen" ]; then \
@@ -21,7 +24,7 @@ build:
 		go build -o build/plannergen .; \
 	fi && \
 	echo "📝 Generating LaTeX..." && \
-	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/Research Timeline v5 - Comprehensive.csv" \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
 	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
 	echo "📚 Compiling PDF..." && \
 	cd build && \
