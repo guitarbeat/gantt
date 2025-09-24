@@ -3,7 +3,6 @@
 .DEFAULT_GOAL := build
 
 GO ?= go
-BINARY ?= build/plannergen
 OUTDIR ?= src/build
 
 # Configurable paths with defaults
@@ -14,6 +13,11 @@ CONFIG_FILES ?= $(CONFIG_BASE),$(CONFIG_PAGE)
 # Configurable output file names with defaults
 OUTPUT_BASE_NAME ?= page_template
 FINAL_BASE_NAME ?= test
+
+# Configurable binary path with defaults
+BINARY_DIR ?= build
+BINARY_NAME ?= plannergen
+BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 
 # Find the first CSV file in the input directory
 CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
@@ -28,13 +32,13 @@ build:
 	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
 	@echo "📄 Output: $(FINAL_BASE_NAME).pdf"
 	@cd src && \
-	if [ ! -f "build/plannergen" ]; then \
-		echo "🔨 Building plannergen..."; \
-		go build -o build/plannergen .; \
+	if [ ! -f "$(BINARY_PATH)" ]; then \
+		echo "🔨 Building $(BINARY_NAME)..."; \
+		go build -o $(BINARY_PATH) .; \
 	fi && \
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
-	./build/plannergen --config "$(CONFIG_FILES)" --outdir build && \
+	./$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir build && \
 	echo "📚 Compiling PDF..." && \
 	cd build && \
 	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
@@ -72,7 +76,7 @@ vet:
 clean:
 	# Clean build directory
 	rm -rf "$(OUTDIR)"/*.pdf "$(OUTDIR)"/*.aux "$(OUTDIR)"/*.log "$(OUTDIR)"/*.out "$(OUTDIR)"/*.tex "$(OUTDIR)"/*.synctex.gz
-	rm -f "$(BINARY)"
+	rm -f "$(BINARY_PATH)"
 	# Clean src directory build artifacts
 	@echo "🧹 Cleaning src directory..."
 	@rm -f src/*.pdf src/*.tex src/*.aux src/*.log src/*.out src/*.synctex.gz src/*.fdb_latexmk src/*.fls src/coverage.out src/debug.log src/test.out 2>/dev/null || true
