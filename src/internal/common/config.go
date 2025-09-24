@@ -78,13 +78,27 @@ type LaTeX struct {
 	ArrayStretch          float64
 }
 
+type Constraints struct {
+	MaxStackHeight     float64
+	MinTaskHeight      float64
+	MaxTaskHeight      float64
+	MinTaskWidth       float64
+	MaxTaskWidth       float64
+	VerticalSpacing    float64
+	HorizontalSpacing  float64
+	CollisionThreshold float64
+	OverflowThreshold  float64
+	ExpansionThreshold float64
+}
+
 type Layout struct {
 	Paper Paper
 
-	Numbers Numbers
-	Lengths Lengths
-	Colors  Colors
-	LaTeX   LaTeX
+	Numbers     Numbers
+	Lengths     Lengths
+	Colors      Colors
+	LaTeX       LaTeX
+	Constraints Constraints
 }
 
 type Numbers struct {

@@ -48,3 +48,16 @@ layout:
     taskpaddingv: 0.5mm
     taskverticaloffset: 0.7mm
     arraystretch: 1.2
+
+  # Layout constraints for task positioning
+  constraints:
+    maxstackheight: 100.0
+    mintaskheight: 20.0
+    maxtaskheight: 40.0
+    mintaskwidth: 50.0
+    maxtaskwidth: 200.0
+    verticalspacing: 2.0
+    horizontalspacing: 5.0
+    collisionthreshold: 0.1
+    overflowthreshold: 0.8
+    expansionthreshold: 0.6
