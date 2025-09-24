@@ -370,38 +370,38 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 
 		return modules, nil
 	} else {
-	// Fallback to original behavior if no CSV data
-	years := cfg.GetYears()
-	totalMonths := len(years) * 12
-	modules := make(common.Modules, 0, totalMonths)
+		// Fallback to original behavior if no CSV data
+		years := cfg.GetYears()
+		totalMonths := len(years) * 12
+		modules := make(common.Modules, 0, totalMonths)
 
-	for _, yearNum := range years {
-		year := cal.NewYear(cfg.WeekStart, yearNum)
+		for _, yearNum := range years {
+			year := cal.NewYear(cfg.WeekStart, yearNum)
 
-		for _, quarter := range year.Quarters {
-			for _, month := range quarter.Months {
-				modules = append(modules, common.Module{
-					Cfg: cfg,
-					Tpl: tpls[0],
-					Body: map[string]interface{}{
-						"Year":         year,
-						"Quarter":      quarter,
-						"Month":        month,
-						"Breadcrumb":   month.Breadcrumb(),
-						"HeadingMOS":   month.HeadingMOS(),
-						"SideQuarters": year.SideQuarters(quarter.Number),
-						"SideMonths":   year.SideMonths(month.Month),
-						"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
-						"Large":        true,
-						"TableType":    "tabularx",
-						"Today":        cal.Day{Time: time.Now()},
-					},
-				})
+			for _, quarter := range year.Quarters {
+				for _, month := range quarter.Months {
+					modules = append(modules, common.Module{
+						Cfg: cfg,
+						Tpl: tpls[0],
+						Body: map[string]interface{}{
+							"Year":         year,
+							"Quarter":      quarter,
+							"Month":        month,
+							"Breadcrumb":   month.Breadcrumb(),
+							"HeadingMOS":   month.HeadingMOS(),
+							"SideQuarters": year.SideQuarters(quarter.Number),
+							"SideMonths":   year.SideMonths(month.Month),
+							"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
+							"Large":        true,
+							"TableType":    "tabularx",
+							"Today":        cal.Day{Time: time.Now()},
+						},
+					})
+				}
 			}
 		}
-	}
 
-	return modules, nil
+		return modules, nil
 	}
 }
 
@@ -409,7 +409,6 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 	// Convert data.Task to SpanningTask and apply to month
 	var spanningTasks []cal.SpanningTask
-
 
 	for _, task := range tasks {
 		// Check if task overlaps with this month
@@ -526,4 +525,3 @@ type TimelineInfo struct {
 	Period      string
 	Description string
 }
-
