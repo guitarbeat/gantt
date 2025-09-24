@@ -5,16 +5,18 @@ A Go-based tool for generating professional PDF planners from CSV task data usin
 ## 🚀 Quick Start
 
 ```bash
-# Generate PDF from CSV data
-make test
+# Build the generator and produce the PDF (auto-detects first CSV in input/)
+make clean-build
 
-# Generate PDF with custom data
-make pdf CSV=../input/your_data.csv OUTPUT=your_planner
+# Or run the generator manually from src/
+cd src && go build -o ../output/plannergen . && \
+  PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/your_data.csv" \
+  ../output/plannergen --config "config/base.yaml,config/monthly_calendar.yaml" --outdir ../output
 ```
 
 ## ✅ Status
 
-[![PDF Generation Test](https://github.com/your-username/phd-dissertation-planner/workflows/Test%20PDF%20Generation/badge.svg)](https://github.com/your-username/phd-dissertation-planner/actions)
+[![CI](https://github.com/your-username/phd-dissertation-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/phd-dissertation-planner/actions)
 
 - ✅ **PDF Generation**: Working (generates ~116KB PDFs)
 - ✅ **CSV Processing**: 84 tasks parsed successfully
@@ -37,14 +39,18 @@ make pdf CSV=../input/your_data.csv OUTPUT=your_planner
 ## 🔧 Development
 
 ```bash
-# Build and test
-make test
+# Format and vet
+make fmt
+make vet
 
 # Clean generated files
 make clean
 
-# Run Go tests only
-cd src && go test ./internal/...
+# Build only (without PDF generation)
+cd src && go build ./...
+
+# Run Go tests (if present)
+cd src && go test ./...
 ```
 
 ## 📚 Documentation
