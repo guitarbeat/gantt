@@ -104,10 +104,10 @@ func (d Day) ref(prefix ...string) string {
 
 // * LaTeX cell construction functions
 
-// buildDayNumberCell creates the basic day number cell with proper alignment
-// Uses a reasonable fixed width that works well with tabularx auto-sizing
+// buildDayNumberCell creates the basic day number cell with minimal padding
+// Uses minipage instead of tabular to eliminate auto padding
 func (d Day) buildDayNumberCell(day string) string {
-	return `\begin{tabular}{@{}p{6mm}@{}|}\centering{}` + day + `\\[2pt] \hline\end{tabular}`
+	return `\begin{minipage}[t]{6mm}\centering{}` + day + `\end{minipage}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
