@@ -1,3 +1,17 @@
+// Package scheduler handles calendar layout, task positioning, and LaTeX rendering
+// for the PhD dissertation planner system.
+//
+// Key responsibilities:
+// - Calendar grid generation with proper day/week/month structure
+// - Task bar positioning and stacking for multi-day spanning tasks
+// - Color management for task categories with LaTeX-safe escaping
+// - PDF-optimized LaTeX template rendering with proper spacing
+//
+// This file specifically handles:
+// - Day cell construction with responsive sizing
+// - Task overlay rendering with smart truncation disabled per user request
+// - Special character escaping for LaTeX compatibility (especially & in category names)
+// - Dynamic color legend generation based on actual task categories present
 package scheduler
 
 import (
@@ -12,12 +26,13 @@ import (
 )
 
 // * LaTeX rendering constants
+// These constants control the visual appearance and layout of the calendar
 const (
-	dayCellWidth            = "5mm"
-	maxTaskChars            = 16  // Reduced to prevent mid-word cutting
-	maxTaskCharsCompact     = 13  // Reduced to prevent mid-word cutting
-	maxTaskCharsVeryCompact = 10  // Reduced to prevent mid-word cutting
-	maxTasksDisplay         = 2   // Reduced to prevent overlap
+	dayCellWidth            = "5mm"  // Base width for day cells (not used for day numbers after fix)
+	maxTaskChars            = 16     // Character limit for task names (currently disabled per user request)
+	maxTaskCharsCompact     = 13     // Character limit for compact task display (currently disabled)
+	maxTaskCharsVeryCompact = 10     // Character limit for very compact display (currently disabled)
+	maxTasksDisplay         = 2      // Maximum number of tasks to show per day cell
 )
 
 // * Day types and methods (from day.go)
@@ -201,9 +216,12 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 
 // * LaTeX cell construction functions
 
-// buildDayNumberCell creates the basic day number cell with minimal width
+// buildDayNumberCell creates the basic day number cell with proper centering
+// Uses a reasonable fixed width that works well with tabularx auto-sizing
 func (d Day) buildDayNumberCell(day string) string {
-	return `\begin{tabular}{@{}p{3mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}`
+	// Use a slightly larger fixed width (6mm instead of 3mm) and proper centering
+	// to prevent day numbers from appearing stretched in auto-sized columns
+	return `\begin{tabular}{@{}p{6mm}@{}|}\centering{}` + day + `\\ \hline\end{tabular}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
@@ -219,8 +237,8 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 		contentWrapper = content
 	} else {
 		// Regular task: use full available width and better text flow
-		width = `\dimexpr\linewidth - 6mm\relax` // Leave minimal space for day number
-		spacing = `\hspace*{4mm}` // Reduced spacing to maximize text space
+		width = `\dimexpr\linewidth - 8mm\relax` // Leave space for 6mm day number + margins
+		spacing = `\hspace*{6mm}` // Spacing to align with day number cell width
 		contentWrapper = `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=3em\footnotesize\raggedright ` + content + `}`
 	}
 
@@ -386,6 +404,23 @@ func (d Day) isMilestoneTask(task Task) bool {
 // isMilestoneSpanningTask checks if a spanning task is a milestone based on its description
 func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 	return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(task.Description)), "MILESTONE:")
+}
+
+// escapeLatexSpecialChars replaces special LaTeX characters with their escaped versions
+func escapeLatexSpecialChars(text string) string {
+	// Replace special LaTeX characters with their escaped versions
+	text = strings.ReplaceAll(text, "\\", "\\textbackslash{}")
+	text = strings.ReplaceAll(text, "{", "\\{")
+	text = strings.ReplaceAll(text, "}", "\\}")
+	text = strings.ReplaceAll(text, "$", "\\$")
+	text = strings.ReplaceAll(text, "&", "\\&")
+	text = strings.ReplaceAll(text, "%", "\\%")
+	text = strings.ReplaceAll(text, "#", "\\#")
+	text = strings.ReplaceAll(text, "^", "\\textasciicircum{}")
+	text = strings.ReplaceAll(text, "_", "\\_")
+	text = strings.ReplaceAll(text, "~", "\\textasciitilde{}")
+
+	return text
 }
 
 // escapeLatexSpecialChars escapes special LaTeX characters in text
@@ -774,7 +809,9 @@ func (m *Month) GetTaskColors() map[string]string {
 					color := getColorForCategory(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
-						colorMap[hexToRGB(color)] = task.Category
+						// Escape LaTeX special characters in category name
+						escapedCategory := escapeLatexSpecialChars(task.Category)
+						colorMap[hexToRGB(color)] = escapedCategory
 					}
 				}
 			}
@@ -784,7 +821,9 @@ func (m *Month) GetTaskColors() map[string]string {
 					color := getColorForCategory(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
-						colorMap[hexToRGB(color)] = task.Category
+						// Escape LaTeX special characters in category name
+						escapedCategory := escapeLatexSpecialChars(task.Category)
+						colorMap[hexToRGB(color)] = escapedCategory
 					}
 				}
 			}

@@ -1,5 +1,18 @@
-# Simple Makefile for latex-yearly-planner
-# Default goal is clean-build for reliable development (prevents binary corruption)
+# PhD Dissertation Planner - Makefile
+# 
+# This Makefile orchestrates the complete build process for generating LaTeX-based
+# calendar PDFs from CSV timeline data. The process involves:
+# 1. Running Go unit tests for code quality assurance
+# 2. Timeline validation to catch data inconsistencies 
+# 3. Binary compilation with cache cleaning to prevent corruption
+# 4. LaTeX generation from CSV data using Go templates
+# 5. XeLaTeX compilation to produce final PDF output
+#
+# Key fixes implemented:
+# - Path corrections for src/ directory context execution
+# - Special character escaping for LaTeX (& symbols in category names)
+# - Validation logging to output/validation.log for persistent review
+# - Default clean-build target to ensure reliable development builds
 
 .DEFAULT_GOAL := clean-build
 
@@ -25,11 +38,14 @@ CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
 
 .PHONY: build clean clean-build fmt vet test
 
-# Build planner PDF without cleaning (uses existing binary if available)
+# Build planner PDF with comprehensive pipeline
+# Note: All paths are relative to src/ directory due to 'cd src' context
 build:
 	@echo "🧪 Running Go tests..."
 	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
 	@echo "🔍 Validating timeline data..."
+	# Timeline validation runs with '-' prefix to continue build even with validation warnings
+	# Results are saved to ../output/validation.log for persistent review
 	-cd src && go run tests/validate_timeline.go || echo "⚠️  Timeline validation found issues (continuing build)"
 	@echo "📄 Generating PDF test..."
 	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
@@ -37,10 +53,10 @@ build:
 	@echo "🔨 Building $(BINARY_NAME)..."; \
 	cd src && go clean -cache && go build -o ../$(BINARY_PATH) . && \
 	echo "📝 Generating LaTeX..." && \
-	PLANNER_SILENT=1 PLANNER_CSV_FILE="input/$(CSV_FILE)" \
-	$(BINARY_PATH) --config "src/config/base.yaml,src/config/page_template.yaml" --outdir $(BINARY_DIR) && \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
+	../$(BINARY_PATH) --config "config/base.yaml,config/page_template.yaml" --outdir ../$(BINARY_DIR) && \
 	echo "📚 Compiling PDF..." && \
-	cd $(BINARY_DIR) && \
+	cd ../$(BINARY_DIR) && \
 	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
 		echo "✅ PDF compilation successful"; \
 	else \
