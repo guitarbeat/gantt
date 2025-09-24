@@ -23,13 +23,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-xetex texlive-fonts-recommended texlive-fonts-extra
 
-    - name: Create input directory and sample CSV
-      run: |
-        mkdir -p input
-        # Create a minimal sample CSV for testing
-        echo "ID,Name,Start Date,End Date,Phase,Category,Description,Priority,Status,Assignee" > input/sample.csv
-        echo "T1.1,Sample Task,2025-01-01,2025-01-05,Phase 1,Research,Sample task description,1,Active,User" >> input/sample.csv
-
     - name: Build project
       run: make
 
