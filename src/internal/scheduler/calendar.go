@@ -201,9 +201,9 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 
 // * LaTeX cell construction functions
 
-// buildDayNumberCell creates the basic day number cell
+// buildDayNumberCell creates the basic day number cell with minimal width
 func (d Day) buildDayNumberCell(day string) string {
-	return `\begin{tabular}{@{}p{` + dayCellWidth + `}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}`
+	return `\begin{tabular}{@{}p{3mm}@{}|}\hfil{}` + day + `\\ \hline\end{tabular}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
@@ -218,10 +218,10 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 			`\end{tikzpicture}` + `}`
 		contentWrapper = content
 	} else {
-		// Regular task: use hspace and improved formatting
-		width = `\dimexpr\linewidth\relax`
-		spacing = `\hspace*{` + dayCellWidth + `}`
-		contentWrapper = `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em\footnotesize\raggedright ` + content + `}`
+		// Regular task: use full available width and better text flow
+		width = `\dimexpr\linewidth - 6mm\relax` // Leave minimal space for day number
+		spacing = `\hspace*{4mm}` // Reduced spacing to maximize text space
+		contentWrapper = `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=3em\footnotesize\raggedright ` + content + `}`
 	}
 
     inner := `{\begingroup` +
@@ -405,68 +405,11 @@ func (d Day) escapeLatexSpecialChars(text string) string {
 }
 
 // smartTruncateText intelligently truncates text at word boundaries when possible
+// NOTE: Currently disabled - returning full text to avoid aggressive truncation
 func (d Day) smartTruncateText(text string, maxChars int) string {
-	if len(text) <= maxChars {
-		return text
-	}
-
-	// Strategy 1: Try to break at word boundaries (most readable)
-	if maxChars > 8 {
-		words := strings.Fields(text)
-		result := ""
-		for _, word := range words {
-			// Check if adding this word would exceed the limit
-			newLength := len(result) + len(word) + 1
-			if result != "" {
-				newLength++ // Account for space
-			}
-
-			if newLength <= maxChars-3 {
-				if result != "" {
-					result += " "
-				}
-				result += word
-			} else {
-				// If the word itself is too long, try to truncate it
-				if result == "" && len(word) <= maxChars-3 {
-					return word[:maxChars-3] + "..."
-				}
-				break
-			}
-		}
-		if result != "" {
-			return result + "..."
-		}
-	}
-
-	// Strategy 2: Look for any punctuation or word boundaries within the limit
-	searchRange := maxChars - 3
-	if searchRange > 8 {
-		searchRange = maxChars - 3
-	}
-
-	// Look backwards from searchRange for a good break point
-	for i := searchRange; i >= maxChars/2; i-- {
-		if i < len(text) {
-			if text[i] == ' ' || text[i] == '-' || text[i] == '_' || text[i] == '/' {
-				return text[:i] + "..."
-			}
-		}
-	}
-
-	// Strategy 3: Look forwards from the beginning for any break points
-	for i := 0; i < maxChars-3 && i < len(text); i++ {
-		if text[i] == ' ' || text[i] == '-' || text[i] == '_' || text[i] == '/' {
-			return text[:i] + "..."
-		}
-	}
-
-	// Strategy 4: As a last resort, truncate at a safe position
-	safePos := maxChars - 3
-	if safePos < 3 {
-		safePos = maxChars
-	}
-	return text[:safePos] + "..."
+	// For now, return full text to avoid unwanted truncation
+	// TODO: Implement better space utilization strategies
+	return text
 }
 
 // * Week types and methods (from week.go)
