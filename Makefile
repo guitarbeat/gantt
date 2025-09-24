@@ -1,6 +1,7 @@
 # Simple Makefile for latex-yearly-planner
+# Default goal is clean-build for reliable development (prevents binary corruption)
 
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := clean-build
 
 GO ?= go
 OUTDIR ?= src/build
@@ -24,7 +25,7 @@ CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
 
 .PHONY: build clean clean-build fmt vet test
 
-# Build planner PDF (runs tests, generates LaTeX, compiles PDF)
+# Build planner PDF without cleaning (uses existing binary if available)
 build:
 	@echo "🧪 Running Go tests..."
 	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
