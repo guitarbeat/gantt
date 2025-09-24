@@ -2555,7 +2555,6 @@ func (se *SpatialEngine) calculateOverlapPercentage(task1, task2 *common.Task, o
 	return float64(overlapDuration) / float64(baseDuration)
 }
 
-
 // generateConflictInfo generates conflict reason and resolution hint
 func (se *SpatialEngine) generateConflictInfo(task1, task2 *common.Task, overlapType OverlapType, severity OverlapSeverity) (string, string) {
 	var reason, hint string

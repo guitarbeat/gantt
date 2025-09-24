@@ -244,7 +244,6 @@ func (d Day) sortTasksByDuration(tasks []*SpanningTask) []*SpanningTask {
 	return sorted
 }
 
-
 // isMilestoneTask checks if a task is a milestone based on its description
 func (d Day) isMilestoneTask(task Task) bool {
 	return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(task.Description)), "MILESTONE:")

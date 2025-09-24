@@ -651,7 +651,6 @@ func (se *StackingEngine) createStackForGroup(tasks []*common.Task, context *Sta
 	// Determine stack type based on tasks
 	stack.StackingType = se.determineStackType(stack)
 
-
 	return stack
 }
 
@@ -861,7 +860,6 @@ func (result *StackingResult) GetStacksByType(stackingType StackingType) []*Task
 	return filtered
 }
 
-
 // GetSummary returns a summary of the stacking result
 func (result *StackingResult) GetSummary() string {
 	return fmt.Sprintf("Smart Stacking Summary:\n"+
@@ -935,7 +933,6 @@ func (se *StackingEngine) calculateTaskHeight(task *common.Task, context *Stacki
 	// Start with base height
 	height := hc.baseHeight
 
-
 	// Apply duration multiplier
 	duration := task.EndDate.Sub(task.StartDate)
 	if duration <= time.Hour*24 {
@@ -985,7 +982,6 @@ func (se *StackingEngine) assessContentComplexity(task *common.Task) string {
 // calculateVisualWeight calculates the visual weight of a task
 func (se *StackingEngine) calculateVisualWeight(task *common.Task, context *StackingContext) float64 {
 	weight := 1.0
-
 
 	// Duration weight
 	duration := task.EndDate.Sub(task.StartDate)

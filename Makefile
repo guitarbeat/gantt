@@ -50,6 +50,12 @@ build:
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
 	../$(BINARY_PATH) --config "config/base.yaml,config/monthly_calendar.yaml" --outdir ../$(BINARY_DIR) && \
+	# Conditionally skip PDF compilation if SKIP_PDF is set or xelatex is missing \
+	if [ -n "$$SKIP_PDF" ] || ! command -v xelatex >/dev/null 2>&1; then \
+		echo "ℹ️  Skipping PDF compilation (set SKIP_PDF=1 or install xelatex)"; \
+		echo "   Generated LaTeX at $(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex"; \
+		exit 0; \
+	fi && \
 	echo "📚 Compiling PDF..." && \
 	cd ../$(BINARY_DIR) && \
 	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
