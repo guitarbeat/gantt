@@ -79,7 +79,6 @@ type IntegratedTaskBar struct {
 	IsVisible       bool
 	CollisionLevel  int
 	OverflowLevel   int
-	Priority        int
 	Category        string
 	TaskName        string
 	Description     string
@@ -184,7 +183,6 @@ type LayoutStatistics struct {
 type BoundaryRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*IntegratedTaskBar, *MonthBoundaryContext) bool
 	Action      func(*IntegratedTaskBar, *MonthBoundaryContext) *BoundaryAction
 }
@@ -193,7 +191,6 @@ type BoundaryRule struct {
 type TransitionRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*IntegratedTaskBar, *MonthBoundaryContext) bool
 	Action      func(*IntegratedTaskBar, *MonthBoundaryContext) *TransitionAction
 }
@@ -202,7 +199,6 @@ type TransitionRule struct {
 type ContinuityRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func([]*IntegratedTaskBar, *MonthBoundaryContext) bool
 	Action      func([]*IntegratedTaskBar, *MonthBoundaryContext) *ContinuityAction
 }
@@ -239,7 +235,6 @@ type BoundaryAction struct {
 	NewHeight          float64
 	ContinuationID     string
 	VisualStyle        *BoundaryVisualStyle
-	Priority           int
 }
 
 // TransitionAction defines how a task should transition between months
@@ -252,7 +247,6 @@ type TransitionAction struct {
 	Duration         time.Duration
 	EasingFunction   EasingFunction
 	VisualEffects    []VisualEffect
-	Priority         int
 }
 
 // ContinuityAction defines how to maintain visual continuity
@@ -262,7 +256,6 @@ type ContinuityAction struct {
 	ConsistentColors  bool
 	ConsistentSizes   bool
 	VisualConnections []VisualConnection
-	Priority          int
 }
 
 // BoundaryVisualStyle defines visual styling for month boundaries
@@ -346,7 +339,6 @@ type VisualConnection struct {
 	LineWidth      float64
 	ArrowStyle     ArrowStyle
 	Label          string
-	Priority       int
 }
 
 // ConnectionType defines the type of visual connection
@@ -410,7 +402,6 @@ type TaskContinuation struct {
 	ContinuationType ContinuationType
 	VisualStyle      *BoundaryVisualStyle
 	ConnectionStyle  *VisualConnection
-	Priority         int
 }
 
 // TaskTransition represents a task transition between months
@@ -423,7 +414,6 @@ type TaskTransition struct {
 	VisualEffects  []VisualEffect
 	Duration       time.Duration
 	EasingFunction EasingFunction
-	Priority       int
 }
 
 // ContinuationType defines the type of task continuation
@@ -758,8 +748,8 @@ func (le *LayoutEngine) layoutTaskGroup(group *TaskGroup) []*TaskBar {
 	// Sort tasks by start date and priority
 	sort.Slice(group.Tasks, func(i, j int) bool {
 		if group.Tasks[i].StartDate.Equal(group.Tasks[j].StartDate) {
-			// If start dates are equal, sort by priority (higher first)
-			return group.Tasks[i].Priority > group.Tasks[j].Priority
+			// If start dates are equal, sort by name
+			return group.Tasks[i].Name < group.Tasks[j].Name
 		}
 		return group.Tasks[i].StartDate.Before(group.Tasks[j].StartDate)
 	})
@@ -835,7 +825,7 @@ func (le *LayoutEngine) createTaskBar(task *common.Task, row, totalRows int) *Ta
 		Color:          category.Color,
 		BorderColor:    "#000000",
 		Opacity:        1.0,
-		ZIndex:         category.Priority,
+		ZIndex:         1,
 		IsContinuation: isContinuation,
 		IsStart:        isStart,
 		IsEnd:          isEnd,
@@ -1000,7 +990,7 @@ func (le *LayoutEngine) createIntegratedTaskBars(
 	priorityMap := make(map[string]*TaskPriority)
 	for _, prioritizedTask := range prioritizationResult.PrioritizedTasks {
 		priorityMap[prioritizedTask.Task.ID] = &TaskPriority{
-			Value:       prioritizedTask.Task.Priority,
+			Value:       0,
 			Category:    prioritizedTask.Task.Category,
 			Description: prioritizedTask.Task.Description,
 			Weight:      prioritizedTask.PriorityScore.OverallScore,
@@ -1020,7 +1010,7 @@ func (le *LayoutEngine) createIntegratedTaskBars(
 		priority := priorityMap[task.ID]
 		if priority == nil {
 			priority = &TaskPriority{
-				Value:       task.Priority,
+				Value:       0,
 				Category:    task.Category,
 				Description: task.Description,
 				Weight:      0.5,
@@ -1068,7 +1058,6 @@ func (le *LayoutEngine) createIntegratedTaskBars(
 			IsVisible:       true,
 			CollisionLevel:  0,
 			OverflowLevel:   0,
-			Priority:        int(priority.Weight * 5),
 			Category:        task.Category,
 			TaskName:        task.Name,
 			Description:     task.Description,
@@ -1094,8 +1083,7 @@ func (le *LayoutEngine) calculateVisualWeight(task *common.Task, priority *TaskP
 	}
 
 	// Adjust based on category
-	category := common.GetCategory(task.Category)
-	weight *= float64(category.Priority) / 5.0
+	weight *= 1.0
 
 	// Adjust based on milestone status
 	if strings.Contains(strings.ToUpper(task.Name), "MILESTONE") {
@@ -1704,7 +1692,7 @@ func (d Day) buildMultiTaskOverlayContent(tasks []*SpanningTask) string {
 	}
 
 	// Sort tasks by category priority for better visual organization
-	sortedTasks := d.sortTasksByPriority(tasks)
+	sortedTasks := d.sortTasksByDuration(tasks)
 
 	var contentParts []string
 
@@ -2057,7 +2045,6 @@ type TaskOverlap struct {
 	OverlapDays    int
 	ConflictReason string
 	ResolutionHint string
-	Priority       int
 }
 
 // OverlapGroup represents a group of overlapping tasks
@@ -2090,7 +2077,6 @@ type OverlapAnalysis struct {
 type AlignmentRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*IntegratedTaskBar, *PositioningContext) bool
 	Action      func(*IntegratedTaskBar, *PositioningContext) *PositioningAction
 }
@@ -2099,7 +2085,6 @@ type AlignmentRule struct {
 type SpacingRule struct {
 	Name        string
 	Description string
-	Priority    int
 	Condition   func(*IntegratedTaskBar, *IntegratedTaskBar, *PositioningContext) bool
 	Action      func(*IntegratedTaskBar, *IntegratedTaskBar, *PositioningContext) *SpacingAction
 }
@@ -2149,7 +2134,6 @@ type PositioningAction struct {
 	HorizontalOffset float64
 	ZIndex           int
 	SnapToGrid       bool
-	Priority         int
 }
 
 // PositioningAlignmentMode defines the alignment mode for tasks
@@ -2184,7 +2168,6 @@ type SpacingAction struct {
 	HorizontalSpacing  float64
 	CollisionAvoidance bool
 	OverlapResolution  bool
-	Priority           int
 }
 
 // PositioningLayoutMetrics contains metrics about the layout
@@ -2446,7 +2429,7 @@ func (se *SpatialEngine) detectGroupOverlaps(tasks []*common.Task) []*TaskOverla
 		if overlaps[i].Severity != overlaps[j].Severity {
 			return se.severityOrder(overlaps[i].Severity) < se.severityOrder(overlaps[j].Severity)
 		}
-		return overlaps[i].Priority > overlaps[j].Priority
+		return overlaps[i].StartDate.Before(overlaps[j].StartDate)
 	})
 
 	return overlaps
@@ -2475,9 +2458,6 @@ func (se *SpatialEngine) analyzeTaskOverlap(task1, task2 *common.Task) *TaskOver
 	// Calculate severity
 	severity := se.calculateOverlapSeverity(task1, task2, overlapType, overlapDuration)
 
-	// Calculate priority (higher priority task wins)
-	priority := se.calculateOverlapPriority(task1, task2)
-
 	// Generate conflict reason and resolution hint
 	conflictReason, resolutionHint := se.generateConflictInfo(task1, task2, overlapType, severity)
 
@@ -2495,7 +2475,6 @@ func (se *SpatialEngine) analyzeTaskOverlap(task1, task2 *common.Task) *TaskOver
 		OverlapDays:    overlapDays,
 		ConflictReason: conflictReason,
 		ResolutionHint: resolutionHint,
-		Priority:       priority,
 	}
 }
 
@@ -2576,14 +2555,6 @@ func (se *SpatialEngine) calculateOverlapPercentage(task1, task2 *common.Task, o
 	return float64(overlapDuration) / float64(baseDuration)
 }
 
-// calculateOverlapPriority calculates priority for overlap resolution
-func (se *SpatialEngine) calculateOverlapPriority(task1, task2 *common.Task) int {
-	// Higher priority task wins
-	if task1.Priority > task2.Priority {
-		return task1.Priority
-	}
-	return task2.Priority
-}
 
 // generateConflictInfo generates conflict reason and resolution hint
 func (se *SpatialEngine) generateConflictInfo(task1, task2 *common.Task, overlapType OverlapType, severity OverlapSeverity) (string, string) {
@@ -2874,7 +2845,7 @@ func (se *SpatialEngine) createIntegratedTaskBars(tasks []*common.Task, context 
 			Color:           category.Color,
 			BorderColor:     "#000000",
 			Opacity:         0.9,
-			ZIndex:          category.Priority,
+			ZIndex:          1,
 			IsContinuation:  se.isTaskContinuation(task, context),
 			IsStart:         se.isTaskStart(task, context),
 			IsEnd:           se.isTaskEnd(task, context),
@@ -2886,7 +2857,6 @@ func (se *SpatialEngine) createIntegratedTaskBars(tasks []*common.Task, context 
 			IsVisible:       true,
 			CollisionLevel:  0,
 			OverflowLevel:   0,
-			Priority:        task.Priority,
 			Category:        task.Category,
 			TaskName:        task.Name,
 			Description:     task.Description,
@@ -2910,7 +2880,7 @@ func (se *SpatialEngine) calculateInitialYPosition(task *common.Task, context *P
 	baseY := context.DayHeight * 0.1 // 10% from top
 
 	// Adjust based on task priority
-	priorityOffset := float64(task.Priority) * context.DayHeight * 0.1
+	priorityOffset := 0.0
 
 	return baseY + priorityOffset
 }
@@ -2993,7 +2963,7 @@ func (se *SpatialEngine) getDefaultVisualSettings() *IntegratedVisualSettings {
 func (se *SpatialEngine) applyPositioningRules(bars []*IntegratedTaskBar, context *PositioningContext) []*IntegratedTaskBar {
 	// Sort rules by priority
 	sort.Slice(se.alignmentRules, func(i, j int) bool {
-		return se.alignmentRules[i].Priority > se.alignmentRules[j].Priority
+		return se.alignmentRules[i].Name < se.alignmentRules[j].Name
 	})
 
 	// Apply rules to each bar
@@ -3014,7 +2984,7 @@ func (se *SpatialEngine) applyPositioningRules(bars []*IntegratedTaskBar, contex
 func (se *SpatialEngine) applySpacingRules(bars []*IntegratedTaskBar, context *PositioningContext) []*IntegratedTaskBar {
 	// Sort rules by priority
 	sort.Slice(se.spacingRules, func(i, j int) bool {
-		return se.spacingRules[i].Priority > se.spacingRules[j].Priority
+		return se.spacingRules[i].Name < se.spacingRules[j].Name
 	})
 
 	// Apply spacing rules between adjacent bars
@@ -3110,7 +3080,7 @@ func (se *SpatialEngine) snapToGrid(bars []*IntegratedTaskBar, context *Position
 func (se *SpatialEngine) resolveCollisions(bars []*IntegratedTaskBar, context *PositioningContext) []*IntegratedTaskBar {
 	// Sort bars by priority (higher priority first)
 	sort.Slice(bars, func(i, j int) bool {
-		return bars[i].Priority > bars[j].Priority
+		return bars[i].StartDate.Before(bars[j].StartDate)
 	})
 
 	// Resolve collisions
@@ -3140,14 +3110,8 @@ func (se *SpatialEngine) barsCollide(bar1, bar2 *IntegratedTaskBar, context *Pos
 
 // resolveCollision resolves a collision between two task bars
 func (se *SpatialEngine) resolveCollision(bar1, bar2 *IntegratedTaskBar, context *PositioningContext) {
-	// Move the lower priority bar
-	if bar1.Priority > bar2.Priority {
-		// Move bar2
-		bar2.Y = bar1.Y + bar1.Height + context.GridConstraints.CollisionBuffer
-	} else {
-		// Move bar1
-		bar1.Y = bar2.Y + bar2.Height + context.GridConstraints.CollisionBuffer
-	}
+	// Move the second bar down
+	bar2.Y = bar1.Y + bar1.Height + context.GridConstraints.CollisionBuffer
 }
 
 // calculateDistance calculates the distance between two task bars
@@ -3219,28 +3183,11 @@ func (se *SpatialEngine) barsOverlap(bar1, bar2 *IntegratedTaskBar) bool {
 
 // Add default alignment and spacing rules
 func (se *SpatialEngine) addDefaultAlignmentRules() {
-	// High priority tasks alignment rule
-	se.alignmentRules = append(se.alignmentRules, AlignmentRule{
-		Name:        "High Priority Alignment",
-		Description: "Align high priority tasks to the top",
-		Priority:    10,
-		Condition: func(bar *IntegratedTaskBar, context *PositioningContext) bool {
-			return bar.Priority >= 4
-		},
-		Action: func(bar *IntegratedTaskBar, context *PositioningContext) *PositioningAction {
-			return &PositioningAction{
-				Y:             context.DayHeight * 0.1,
-				AlignmentMode: PositioningAlignmentTop,
-				Priority:      10,
-			}
-		},
-	})
 
 	// Milestone tasks alignment rule
 	se.alignmentRules = append(se.alignmentRules, AlignmentRule{
 		Name:        "Milestone Alignment",
 		Description: "Center milestone tasks vertically",
-		Priority:    8,
 		Condition: func(bar *IntegratedTaskBar, context *PositioningContext) bool {
 			return bar.Category == "MILESTONE" ||
 				(bar.TaskName != "" && len(bar.TaskName) > 10 &&
@@ -3250,7 +3197,6 @@ func (se *SpatialEngine) addDefaultAlignmentRules() {
 			return &PositioningAction{
 				Y:             context.DayHeight * 0.4,
 				AlignmentMode: PositioningAlignmentCenter,
-				Priority:      8,
 			}
 		},
 	})
@@ -3259,7 +3205,6 @@ func (se *SpatialEngine) addDefaultAlignmentRules() {
 	se.alignmentRules = append(se.alignmentRules, AlignmentRule{
 		Name:        "Default Alignment",
 		Description: "Default alignment for all tasks",
-		Priority:    1,
 		Condition: func(bar *IntegratedTaskBar, context *PositioningContext) bool {
 			return true
 		},
@@ -3267,35 +3212,17 @@ func (se *SpatialEngine) addDefaultAlignmentRules() {
 			return &PositioningAction{
 				Y:             context.DayHeight * 0.2,
 				AlignmentMode: PositioningAlignmentLeft,
-				Priority:      1,
 			}
 		},
 	})
 }
 
 func (se *SpatialEngine) addDefaultSpacingRules() {
-	// High priority spacing rule
-	se.spacingRules = append(se.spacingRules, SpacingRule{
-		Name:        "High Priority Spacing",
-		Description: "Extra spacing around high priority tasks",
-		Priority:    10,
-		Condition: func(bar1, bar2 *IntegratedTaskBar, context *PositioningContext) bool {
-			return bar1.Priority >= 4 || bar2.Priority >= 4
-		},
-		Action: func(bar1, bar2 *IntegratedTaskBar, context *PositioningContext) *SpacingAction {
-			return &SpacingAction{
-				VerticalSpacing:   3.0,
-				HorizontalSpacing: 2.0,
-				Priority:          10,
-			}
-		},
-	})
 
 	// Default spacing rule
 	se.spacingRules = append(se.spacingRules, SpacingRule{
 		Name:        "Default Spacing",
 		Description: "Default spacing between tasks",
-		Priority:    1,
 		Condition: func(bar1, bar2 *IntegratedTaskBar, context *PositioningContext) bool {
 			return true
 		},
@@ -3303,7 +3230,6 @@ func (se *SpatialEngine) addDefaultSpacingRules() {
 			return &SpacingAction{
 				VerticalSpacing:   1.0,
 				HorizontalSpacing: 0.5,
-				Priority:          1,
 			}
 		},
 	})

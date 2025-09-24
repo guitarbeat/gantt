@@ -14,7 +14,6 @@ type Task struct {
 	EndDate      time.Time
 	Category     string // * Fixed: Use Category instead of Priority for clarity
 	Description  string
-	Priority     int      // * Added: Separate priority field for task ordering
 	Status       string   // * Added: Task status (Planned, In Progress, Completed, etc.)
 	Assignee     string   // * Added: Task assignee
 	ParentID     string   // * Added: Parent task ID for hierarchical relationships
@@ -39,7 +38,6 @@ type TaskCategory struct {
 	Name        string
 	DisplayName string
 	Color       string
-	Priority    int
 	Description string
 }
 
@@ -49,7 +47,6 @@ var (
 		Name:        "PROPOSAL",
 		DisplayName: "Proposal",
 		Color:       "#4A90E2", // Blue
-		Priority:    1,
 		Description: "PhD proposal related tasks",
 	}
 
@@ -57,7 +54,6 @@ var (
 		Name:        "LASER",
 		DisplayName: "Laser System",
 		Color:       "#F5A623", // Orange
-		Priority:    2,
 		Description: "Laser system setup and maintenance",
 	}
 
@@ -65,7 +61,6 @@ var (
 		Name:        "IMAGING",
 		DisplayName: "Imaging",
 		Color:       "#7ED321", // Green
-		Priority:    3,
 		Description: "Imaging experiments and data collection",
 	}
 
@@ -73,7 +68,6 @@ var (
 		Name:        "ADMIN",
 		DisplayName: "Administrative",
 		Color:       "#BD10E0", // Purple
-		Priority:    4,
 		Description: "Administrative tasks and paperwork",
 	}
 
@@ -81,7 +75,6 @@ var (
 		Name:        "DISSERTATION",
 		DisplayName: "Dissertation",
 		Color:       "#D0021B", // Red
-		Priority:    5,
 		Description: "Dissertation writing and defense",
 	}
 
@@ -89,7 +82,6 @@ var (
 		Name:        "RESEARCH",
 		DisplayName: "Research",
 		Color:       "#50E3C2", // Teal
-		Priority:    6,
 		Description: "General research activities",
 	}
 
@@ -97,7 +89,6 @@ var (
 		Name:        "PUBLICATION",
 		DisplayName: "Publication",
 		Color:       "#B8E986", // Light Green
-		Priority:    7,
 		Description: "Publication and manuscript writing",
 	}
 )
@@ -124,7 +115,6 @@ func GetCategory(categoryName string) TaskCategory {
 			Name:        categoryName,
 			DisplayName: categoryName,
 			Color:       "#CCCCCC", // Default gray
-			Priority:    99,
 			Description: "Custom category",
 		}
 	}
@@ -154,7 +144,6 @@ type TaskRenderer struct {
 	BorderColor string  // Border color
 	Opacity     float64 // Opacity (0.0 to 1.0)
 	Visible     bool    // Whether task is visible
-	ZIndex      int     // Rendering order
 }
 
 // NewTaskRenderer creates a new task renderer
@@ -167,7 +156,6 @@ func NewTaskRenderer(task *Task) *TaskRenderer {
 		BorderColor: "#000000",
 		Opacity:     1.0,
 		Visible:     true,
-		ZIndex:      category.Priority,
 	}
 }
 
