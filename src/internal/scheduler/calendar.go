@@ -27,9 +27,9 @@ import (
 // * LaTeX rendering constants
 // These constants control the visual appearance and layout of the calendar
 const (
-	maxTaskChars            = 16     // Character limit for task names
-	maxTaskCharsCompact     = 13     // Character limit for compact task display
-	maxTaskCharsVeryCompact = 10     // Character limit for very compact display
+	maxTaskChars            = 16 // Character limit for task names
+	maxTaskCharsCompact     = 13 // Character limit for compact task display
+	maxTaskCharsVeryCompact = 10 // Character limit for very compact display
 )
 
 // * Day types and methods (from day.go)
@@ -89,7 +89,6 @@ func (d Day) renderLargeDay(day string) string {
 	return d.buildSimpleDayCell(leftCell)
 }
 
-
 // ref generates a reference string for the day
 func (d Day) ref(prefix ...string) string {
 	p := ""
@@ -100,7 +99,6 @@ func (d Day) ref(prefix ...string) string {
 
 	return p + d.Time.Format(time.RFC3339)
 }
-
 
 // * LaTeX cell construction functions
 
@@ -124,20 +122,20 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	} else {
 		// Regular task: use full available width and better text flow
 		width = `\dimexpr\linewidth - 8mm\relax` // Leave space for 6mm day number + margins
-		spacing = `\hspace*{6mm}` // Spacing to align with day number cell width
+		spacing = `\hspace*{6mm}`                // Spacing to align with day number cell width
 		contentWrapper = `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=3em\footnotesize\raggedright ` + content + `}`
 	}
 
-    inner := `{\begingroup` +
+	inner := `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
 		spacing +
 		`\begin{minipage}[t]{` + width + `}` +
 		contentWrapper +
 		`\end{minipage}` +
-        `\endgroup}`
+		`\endgroup}`
 
-    // Wrap entire cell in hyperlink to the day's reference (restores link without visual borders via hypersetup)
-    return `\hyperlink{` + d.ref() + `}{` + inner + `}`
+	// Wrap entire cell in hyperlink to the day's reference (restores link without visual borders via hypersetup)
+	return `\hyperlink{` + d.ref() + `}{` + inner + `}`
 }
 
 // buildSimpleDayCell creates a simple day cell without tasks
@@ -206,7 +204,6 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	var startingTasks []*SpanningTask
 	var maxCols int
-
 
 	for _, task := range d.SpanningTasks {
 		start := d.getTaskStartDate(task)
@@ -333,7 +330,6 @@ func (d Day) escapeLatexSpecialChars(text string) string {
 	return text
 }
 
-
 // * Week types and methods (from week.go)
 
 type Weeks []*Week
@@ -422,7 +418,7 @@ func (w *Week) weekNumber() int {
 	firstOfYear := time.Date(firstDay.Year(), 1, 1, 0, 0, 0, 0, firstDay.Location())
 
 	// Calculate how many days from the start of the year to the first day of this week
-	daysFromStart := int(firstDay.Sub(firstOfYear).Hours()/24)
+	daysFromStart := int(firstDay.Sub(firstOfYear).Hours() / 24)
 
 	// Calculate the week number (1-based, starting from the first week of the year)
 	weekNum := (daysFromStart / 7) + 1
@@ -460,7 +456,6 @@ func NewWeeksForYear(wd time.Weekday, year *Year) Weeks {
 
 	return weeks
 }
-
 
 // * Month types and methods (from month.go)
 
@@ -680,7 +675,7 @@ func stripHashPrefix(color string) string {
 func hexToRGB(hex string) string {
 	// Remove # prefix if present
 	hex = stripHashPrefix(hex)
-	
+
 	// Convert hex to RGB
 	if len(hex) == 6 {
 		// Parse hex values
@@ -689,7 +684,7 @@ func hexToRGB(hex string) string {
 		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
 		return fmt.Sprintf("%d,%d,%d", r, g, b)
 	}
-	
+
 	// Fallback for invalid hex
 	return "128,128,128"
 }
@@ -885,28 +880,28 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 func getColorForCategory(category string) string {
 	// First check for exact matches in the predefined color map
 	predefinedColors := map[string]string{
-		"PhD Proposal":                    "#4A90E2", // Blue
-		"Final Submission & Graduation":   "#7ED321", // Green
-		"Data Management & Analysis":       "#BD10E0", // Purple
-		"Aim 3 - Stroke Study & Analysis": "#D0021B", // Red
-		"Dissertation Writing":            "#F5A623", // Orange
-		"Aim 1 - AAV-based Vascular Imaging": "#50E3C2", // Teal
+		"PhD Proposal":                          "#4A90E2", // Blue
+		"Final Submission & Graduation":         "#7ED321", // Green
+		"Data Management & Analysis":            "#BD10E0", // Purple
+		"Aim 3 - Stroke Study & Analysis":       "#D0021B", // Red
+		"Dissertation Writing":                  "#F5A623", // Orange
+		"Aim 1 - AAV-based Vascular Imaging":    "#50E3C2", // Teal
 		"Aim 2 - Dual-channel Imaging Platform": "#8B4513", // Brown
-		"Committee Review & Defense":      "#CCCCCC", // Gray
-		"Microscope Setup":                "#00FFFF", // Cyan
-		"SLAVV-T Development":             "#FF00FF", // Magenta
-		"Research Paper":                  "#00FF00", // Lime
-		"Laser System":                    "#FFC0CB", // Pink
-		"Committee Management":            "#808000", // Olive
-		"Methodology Paper":               "#8A2BE2", // Violet
-		"Manuscript Submissions":          "#000080", // Navy
-		"AR Platform Development":         "#800000", // Maroon
+		"Committee Review & Defense":            "#CCCCCC", // Gray
+		"Microscope Setup":                      "#00FFFF", // Cyan
+		"SLAVV-T Development":                   "#FF00FF", // Magenta
+		"Research Paper":                        "#00FF00", // Lime
+		"Laser System":                          "#FFC0CB", // Pink
+		"Committee Management":                  "#808000", // Olive
+		"Methodology Paper":                     "#8A2BE2", // Violet
+		"Manuscript Submissions":                "#000080", // Navy
+		"AR Platform Development":               "#800000", // Maroon
 	}
-	
+
 	if color, exists := predefinedColors[category]; exists {
 		return color
 	}
-	
+
 	// If no exact match, generate a color dynamically based on the category name
 	return generateDynamicColor(category)
 }
@@ -918,18 +913,18 @@ func generateDynamicColor(category string) string {
 	for _, char := range category {
 		hash = hash*31 + int(char)
 	}
-	
+
 	// Convert hash to a positive number and use modulo to get a color index
 	colorIndex := hash % 12
 	if colorIndex < 0 {
 		colorIndex = -colorIndex
 	}
-	
+
 	// Define a palette of distinct hex colors
 	colors := []string{
 		"#4A90E2", "#D0021B", "#7ED321", "#F5A623", "#BD10E0", "#50E3C2",
 		"#8B4513", "#FFC0CB", "#00FFFF", "#00FF00", "#FF00FF", "#000080",
 	}
-	
+
 	return colors[colorIndex%len(colors)]
 }

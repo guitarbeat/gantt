@@ -23,12 +23,12 @@ func TextColor(color, text string) string {
 
 // Hyperlink creates a hyperlink
 func Hyperlink(ref, text string) string {
-    return fmt.Sprintf(`\hyperlink{%s}{%s}`, ref, text)
+	return fmt.Sprintf(`\hyperlink{%s}{%s}`, ref, text)
 }
 
 // Hypertarget creates a hypertarget
 func Hypertarget(ref, text string) string {
-    return fmt.Sprintf(`\hypertarget{%s}{%s}`, ref, text)
+	return fmt.Sprintf(`\hypertarget{%s}{%s}`, ref, text)
 }
 
 // Tabular creates a tabular environment
@@ -58,7 +58,7 @@ func Target(ref, text string) string {
 
 // Link creates a hyperlink
 func Link(ref, text string) string {
-    return "\\hyperlink{" + ref + "}{" + text + "}"
+	return "\\hyperlink{" + ref + "}{" + text + "}"
 }
 
 // EmphCell creates an emphasized cell with black background and white text
@@ -118,16 +118,16 @@ type IntItem struct {
 }
 
 func (i IntItem) Display() string {
-    var out string
-    s := strconv.Itoa(i.Val)
+	var out string
+	s := strconv.Itoa(i.Val)
 
-    if i.ref {
-        out = Target(s, s)
-    } else {
-        out = Link(s, s)
-    }
+	if i.ref {
+		out = Target(s, s)
+	} else {
+		out = Link(s, s)
+	}
 
-    return out
+	return out
 }
 
 func (i IntItem) Ref() IntItem {
@@ -147,18 +147,18 @@ type MonthItem struct {
 }
 
 func (m MonthItem) Display() string {
-    ref := m.Val.String()
-    text := ref
+	ref := m.Val.String()
+	text := ref
 
-    if m.shorten {
-        text = text[:3]
-    }
+	if m.shorten {
+		text = text[:3]
+	}
 
-    if m.ref {
-        return Target(ref, text)
-    }
+	if m.ref {
+		return Target(ref, text)
+	}
 
-    return Link(ref, text)
+	return Link(ref, text)
 }
 
 func (m MonthItem) Ref() MonthItem {
@@ -231,27 +231,27 @@ func NewTextItem(name string) TextItem {
 }
 
 func (t TextItem) Display() string {
-    var (
-        out string
-        ref string
-    )
-    if t.bold {
-        out = "\\textbf{" + t.Name + "}"
-    } else {
-        out = t.Name
-    }
+	var (
+		out string
+		ref string
+	)
+	if t.bold {
+		out = "\\textbf{" + t.Name + "}"
+	} else {
+		out = t.Name
+	}
 
-    if len(t.refText) > 0 {
-        ref = t.refText
-    } else {
-        ref = t.refPrefix + t.Name
-    }
+	if len(t.refText) > 0 {
+		ref = t.refText
+	} else {
+		ref = t.refPrefix + t.Name
+	}
 
-    if t.ref {
-        return Target(ref, out)
-    }
+	if t.ref {
+		return Target(ref, out)
+	}
 
-    return Link(ref, out)
+	return Link(ref, out)
 }
 
 func (t TextItem) Ref(ref bool) TextItem {

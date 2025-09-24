@@ -25,6 +25,9 @@ const (
 	fOutDir = "outdir"
 )
 
+// New creates and configures a new CLI application instance.
+// It sets up the application name, flags, and action handler.
+// The composer map is initialized with available template composers.
 func New() *cli.App {
 	// Initialize the composer map
 	common.ComposerMap["monthly"] = Monthly
@@ -45,6 +48,9 @@ func New() *cli.App {
 	}
 }
 
+// action is the main application logic that processes configuration,
+// generates LaTeX documents, and handles template rendering.
+// It supports both CSV-based task data and fallback calendar generation.
 func action(c *cli.Context) error {
 	var (
 		fn  common.Composer
@@ -141,7 +147,22 @@ func RootFilename(pathconfig string) string {
 	return strings.TrimSuffix(filename, filepath.Ext(filename)) + ".tex"
 }
 
-var tpl = func() *template.Template {
+// TemplateError represents an error in template initialization
+type TemplateError struct {
+	Operation string
+	Err       error
+}
+
+func (e *TemplateError) Error() string {
+	return fmt.Sprintf("template %s failed: %v", e.Operation, e.Err)
+}
+
+func (e *TemplateError) Unwrap() error {
+	return e.Err
+}
+
+// newTemplate creates a new template with proper error handling
+func newTemplate() (*template.Template, error) {
 	t := template.New("").Funcs(template.FuncMap{
 		"dict": func(values ...interface{}) (map[string]interface{}, error) {
 			if len(values)%2 != 0 {
@@ -252,7 +273,7 @@ var tpl = func() *template.Template {
 		var sub fs.FS
 		sub, err = fs.Sub(tmplfs.FS, "monthly")
 		if err != nil {
-			panic(fmt.Sprintf("failed to sub FS for monthly templates: %v", err))
+			return nil, &TemplateError{Operation: "sub FS", Err: err}
 		}
 		useFS = sub
 	}
@@ -260,9 +281,19 @@ var tpl = func() *template.Template {
 	// Parse all *.tpl templates from the selected FS
 	t, err = t.ParseFS(useFS, "*.tpl")
 	if err != nil {
-		panic(fmt.Sprintf("failed to parse monthly templates: %v", err))
+		return nil, &TemplateError{Operation: "parse templates", Err: err}
 	}
 
+	return t, nil
+}
+
+var tpl = func() *template.Template {
+	t, err := newTemplate()
+	if err != nil {
+		// Log the error but continue with a basic template to avoid panicking
+		fmt.Fprintf(os.Stderr, "Warning: Failed to initialize templates: %v\n", err)
+		return template.New("")
+	}
 	return t
 }()
 
@@ -369,38 +400,38 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 
 		return modules, nil
 	} else {
-	// Fallback to original behavior if no CSV data
-	years := cfg.GetYears()
-	totalMonths := len(years) * 12
-	modules := make(common.Modules, 0, totalMonths)
+		// Fallback to original behavior if no CSV data
+		years := cfg.GetYears()
+		totalMonths := len(years) * 12
+		modules := make(common.Modules, 0, totalMonths)
 
-	for _, yearNum := range years {
-		year := cal.NewYear(cfg.WeekStart, yearNum)
+		for _, yearNum := range years {
+			year := cal.NewYear(cfg.WeekStart, yearNum)
 
-		for _, quarter := range year.Quarters {
-			for _, month := range quarter.Months {
-				modules = append(modules, common.Module{
-					Cfg: cfg,
-					Tpl: tpls[0],
-					Body: map[string]interface{}{
-						"Year":         year,
-						"Quarter":      quarter,
-						"Month":        month,
-						"Breadcrumb":   month.Breadcrumb(),
-						"HeadingMOS":   month.HeadingMOS(),
-						"SideQuarters": year.SideQuarters(quarter.Number),
-						"SideMonths":   year.SideMonths(month.Month),
-						"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
-						"Large":        true,
-						"TableType":    "tabularx",
-						"Today":        cal.Day{Time: time.Now()},
-					},
-				})
+			for _, quarter := range year.Quarters {
+				for _, month := range quarter.Months {
+					modules = append(modules, common.Module{
+						Cfg: cfg,
+						Tpl: tpls[0],
+						Body: map[string]interface{}{
+							"Year":         year,
+							"Quarter":      quarter,
+							"Month":        month,
+							"Breadcrumb":   month.Breadcrumb(),
+							"HeadingMOS":   month.HeadingMOS(),
+							"SideQuarters": year.SideQuarters(quarter.Number),
+							"SideMonths":   year.SideMonths(month.Month),
+							"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
+							"Large":        true,
+							"TableType":    "tabularx",
+							"Today":        cal.Day{Time: time.Now()},
+						},
+					})
+				}
 			}
 		}
-	}
 
-	return modules, nil
+		return modules, nil
 	}
 }
 
@@ -408,7 +439,6 @@ func MonthlyLegacy(cfg common.Config, tpls []string) (common.Modules, error) {
 func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 	// Convert data.Task to SpanningTask and apply to month
 	var spanningTasks []cal.SpanningTask
-
 
 	for _, task := range tasks {
 		// Check if task overlaps with this month
@@ -429,4 +459,3 @@ func assignTasksToMonth(month *cal.Month, tasks []common.Task) {
 	// Apply spanning tasks to the month for background coloring
 	cal.ApplySpanningTasksToMonth(month, spanningTasks)
 }
-

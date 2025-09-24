@@ -1657,7 +1657,6 @@ func (d Day) renderSpanningTaskOverlay() *overlayInfo {
 	if len(d.SpanningTasks) == 0 {
 		return nil
 	}
-	
 
 	dayDate := d.getDayDate()
 	startingTasks, maxCols := d.findStartingTasks(dayDate)
@@ -1687,9 +1686,9 @@ func (d Day) buildTaskOverlayContent(task *SpanningTask) string {
 	}
 
 	// Use calendar macros for overlay with proper spacing
-		// Convert hex color to RGB for LaTeX compatibility
-		color := hexToRGB(task.Color)
-		return `\vspace*{0.1ex}` + `\TaskOverlayBox{` + color + `}{` + nameText + `}{` + descText + `}`
+	// Convert hex color to RGB for LaTeX compatibility
+	color := hexToRGB(task.Color)
+	return `\vspace*{0.1ex}` + `\TaskOverlayBox{` + color + `}{` + nameText + `}{` + descText + `}`
 }
 
 // buildMultiTaskOverlayContent creates compact stacked content for multiple tasks
@@ -1718,7 +1717,6 @@ func (d Day) buildMultiTaskOverlayContent(tasks []*SpanningTask) string {
 
 	return strings.Join(contentParts, "")
 }
-
 
 // buildCompactTaskOverlay creates a compact task overlay for multiple tasks
 // Used when multiple tasks start on the same day to create stacked display
@@ -2008,6 +2006,7 @@ func (ls *LayoutStatistics) String() string {
 		ls.TotalTasks, ls.ProcessedBars, ls.ValidationErrors,
 		ls.LayoutIssues, ls.OverlapCount, ls.MonthBoundaryCount)
 }
+
 // SpatialEngine handles both overlap detection and positioning of tasks within the calendar grid
 type SpatialEngine struct {
 	// Overlap detection components
@@ -2982,7 +2981,7 @@ func (se *SpatialEngine) getDefaultVisualSettings() *IntegratedVisualSettings {
 		ShowConflictIndicators: true,
 		CollapseThreshold:      5,
 		AnimationEnabled:       false,
-        HighlightConflicts:     false,
+		HighlightConflicts:     false,
 		ColorScheme:            "default",
 		FontSize:               "small",
 		TaskBarOpacity:         0.9,
@@ -3458,4 +3457,3 @@ func (se *SpatialEngine) calculateAverageSpacing(bars []*IntegratedTaskBar, cont
 
 	return totalSpacing / float64(pairCount)
 }
-
