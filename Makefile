@@ -29,6 +29,8 @@ CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
 build:
 	@echo "🧪 Running Go tests..."
 	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
+	@echo "🔍 Validating timeline data..."
+	-cd src && go run tests/validate_timeline.go || echo "⚠️  Timeline validation found issues (continuing build)"
 	@echo "📄 Generating PDF test..."
 	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
 	@echo "📄 Output: $(FINAL_BASE_NAME).pdf"

@@ -538,7 +538,7 @@ func (t *TimelineValidationTest) findCircularDependency(taskID string, visited m
 }
 
 func main() {
-	csvFile := "input/Research Timeline v5 - Comprehensive.csv"
+	csvFile := "../input/Research Timeline v5 - Comprehensive.csv"
 	if len(os.Args) > 1 {
 		csvFile = os.Args[1]
 	}
