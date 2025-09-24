@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"path/filepath"
 )
 
 // TimelineValidationResult holds the results of timeline validation
@@ -537,6 +538,101 @@ func (t *TimelineValidationTest) findCircularDependency(taskID string, visited m
 	return nil
 }
 
+// saveValidationLog saves validation results to a log file
+func saveValidationLog(result *TimelineValidationResult, logPath string) error {
+	// Create output directory if it doesn't exist
+	dir := filepath.Dir(logPath)
+	err := os.MkdirAll(dir, 0755)
+	if err != nil {
+		return fmt.Errorf("failed to create output directory: %w", err)
+	}
+
+	// Open log file for writing
+	file, err := os.Create(logPath)
+	if err != nil {
+		return fmt.Errorf("failed to create log file: %w", err)
+	}
+	defer file.Close()
+
+	// Write header
+	fmt.Fprintf(file, "Timeline Validation Report\n")
+	fmt.Fprintf(file, "Generated: %s\n", time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Fprintf(file, "========================================\n\n")
+
+	// Write summary
+	fmt.Fprintf(file, "VALIDATION SUMMARY\n")
+	fmt.Fprintf(file, "========================================\n")
+	fmt.Fprintf(file, "❌ ERRORS: %d\n", len(result.Errors))
+	fmt.Fprintf(file, "⚠️  WARNINGS: %d\n", len(result.Warnings))
+	fmt.Fprintf(file, "\n")
+
+	// Write errors
+	if len(result.Errors) > 0 {
+		fmt.Fprintf(file, "ERRORS\n")
+		fmt.Fprintf(file, "----------------------------------------\n")
+		for i, err := range result.Errors {
+			fmt.Fprintf(file, "%d. %s\n", i+1, err)
+		}
+		fmt.Fprintf(file, "\n")
+	}
+
+	// Write warnings
+	if len(result.Warnings) > 0 {
+		fmt.Fprintf(file, "WARNINGS\n")
+		fmt.Fprintf(file, "----------------------------------------\n")
+		for i, warning := range result.Warnings {
+			fmt.Fprintf(file, "%d. %s\n", i+1, warning)
+		}
+		fmt.Fprintf(file, "\n")
+	}
+
+	// Write task details
+	fmt.Fprintf(file, "TASK DETAILS\n")
+	fmt.Fprintf(file, "========================================\n")
+	fmt.Fprintf(file, "Total Tasks: %d\n\n", len(result.Tasks))
+
+	// Group tasks by phase for better organization
+	phaseGroups := make(map[string][]TaskInfo)
+	for _, task := range result.Tasks {
+		phaseGroups[task.Phase] = append(phaseGroups[task.Phase], task)
+	}
+
+	for phase, tasks := range phaseGroups {
+		fmt.Fprintf(file, "Phase: %s (%d tasks)\n", phase, len(tasks))
+		fmt.Fprintf(file, "----------------------------------------\n")
+		for _, task := range tasks {
+			fmt.Fprintf(file, "  • %s (%s to %s)\n", task.Task, task.StartDate, task.EndDate)
+			if task.Status != "" {
+				fmt.Fprintf(file, "    Status: %s\n", task.Status)
+			}
+			if task.Milestone != "" {
+				fmt.Fprintf(file, "    Milestone: %s\n", task.Milestone)
+			}
+		}
+		fmt.Fprintf(file, "\n")
+	}
+
+	// Write recommendations
+	fmt.Fprintf(file, "RECOMMENDATIONS\n")
+	fmt.Fprintf(file, "========================================\n")
+	if len(result.Errors) > 0 {
+		fmt.Fprintf(file, "• Fix missing dependencies\n")
+		fmt.Fprintf(file, "• Resolve circular dependencies\n")
+		fmt.Fprintf(file, "• Check for typos in task IDs\n")
+		fmt.Fprintf(file, "• Review overlapping tasks that cannot run simultaneously\n")
+	}
+	if len(result.Warnings) > 0 {
+		fmt.Fprintf(file, "• Consider adjusting task schedules to reduce overlaps\n")
+		fmt.Fprintf(file, "• Review orphaned tasks for proper integration\n")
+		fmt.Fprintf(file, "• Evaluate large gaps between sequential tasks\n")
+	}
+	if len(result.Errors) == 0 && len(result.Warnings) == 0 {
+		fmt.Fprintf(file, "✅ No issues detected - timeline looks good!\n")
+	}
+
+	return nil
+}
+
 func main() {
 	csvFile := "../input/Research Timeline v5 - Comprehensive.csv"
 	if len(os.Args) > 1 {
@@ -554,6 +650,14 @@ func main() {
 	fmt.Println()
 
 	result := validator.ValidateTimeline()
+
+	// Save validation results to log file
+	err = saveValidationLog(result, "../output/validation.log")
+	if err != nil {
+		fmt.Printf("⚠️  Warning: Failed to save validation log: %v\n", err)
+	} else {
+		fmt.Printf("📝 Validation results saved to: ../output/validation.log\n")
+	}
 
 	if len(result.Errors) > 0 {
 		os.Exit(1)
