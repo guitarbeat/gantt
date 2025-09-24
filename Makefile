@@ -11,6 +11,10 @@ CONFIG_BASE ?= config/base.yaml
 CONFIG_PAGE ?= config/page_template.yaml
 CONFIG_FILES ?= $(CONFIG_BASE),$(CONFIG_PAGE)
 
+# Configurable output file names with defaults
+OUTPUT_BASE_NAME ?= page_template
+FINAL_BASE_NAME ?= test
+
 # Find the first CSV file in the input directory
 CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
 
@@ -22,7 +26,7 @@ build:
 	cd src && unset PLANNER_CSV_FILE && go test ./tests/unit/...
 	@echo "📄 Generating PDF test..."
 	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
-	@echo "📄 Output: test.pdf"
+	@echo "📄 Output: $(FINAL_BASE_NAME).pdf"
 	@cd src && \
 	if [ ! -f "build/plannergen" ]; then \
 		echo "🔨 Building plannergen..."; \
@@ -33,25 +37,25 @@ build:
 	./build/plannergen --config "$(CONFIG_FILES)" --outdir build && \
 	echo "📚 Compiling PDF..." && \
 	cd build && \
-	if xelatex -file-line-error -interaction=nonstopmode page_template.tex > xelatex.log 2>&1; then \
+	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
 		echo "✅ PDF compilation successful"; \
 	else \
 		echo "⚠️  PDF compilation completed with warnings (check xelatex.log for details)"; \
 	fi && \
 	cd .. && \
-	if [ -f "build/page_template.pdf" ]; then \
+	if [ -f "build/$(OUTPUT_BASE_NAME).pdf" ]; then \
 		mkdir -p ../output && \
-		cp "build/page_template.pdf" "test.pdf" && \
-		cp "build/page_template.pdf" "../output/test.pdf" && \
-		cp "build/page_template.tex" "../output/test.tex" 2>/dev/null || true && \
-		cp "build/page_template.log" "../output/test.log" 2>/dev/null || true && \
+		cp "build/$(OUTPUT_BASE_NAME).pdf" "$(FINAL_BASE_NAME).pdf" && \
+		cp "build/$(OUTPUT_BASE_NAME).pdf" "../output/$(FINAL_BASE_NAME).pdf" && \
+		cp "build/$(OUTPUT_BASE_NAME).tex" "../output/$(FINAL_BASE_NAME).tex" 2>/dev/null || true && \
+		cp "build/$(OUTPUT_BASE_NAME).log" "../output/$(FINAL_BASE_NAME).log" 2>/dev/null || true && \
 		echo "🧹 Cleaning up auxiliary files from output..." && \
 		cd ../output && rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz 2>/dev/null || true && \
 		cd ../src && \
-		echo "✅ Created: test.pdf" && \
-		echo "📁 Also saved to: ../output/test.pdf"; \
+		echo "✅ Created: $(FINAL_BASE_NAME).pdf" && \
+		echo "📁 Also saved to: ../output/$(FINAL_BASE_NAME).pdf"; \
 	else \
-		echo "❌ PDF generation failed - check build/xelatex.log for details"; \
+		echo "❌ PDF generation failed - check build/$(OUTPUT_BASE_NAME).log for details"; \
 		exit 1; \
 	fi
 
