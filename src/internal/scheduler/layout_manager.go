@@ -1673,10 +1673,13 @@ func (d Day) buildTaskOverlayContent(task *SpanningTask) string {
 		nameText = "★ " + nameText
 	}
 
-	// Use calendar macros for overlay with proper spacing
-	// Convert hex color to RGB for LaTeX compatibility
-	color := hexToRGB(task.Color)
-	return `\vspace*{0.1ex}` + `\TaskOverlayBox{` + color + `}{` + nameText + `}{` + descText + `}`
+    // Wrap title with hyperlink to task ID, and add an invisible hypertarget at the same ID
+    idRef := d.escapeLatexSpecialChars(task.ID)
+    linkedName := templates.Link(idRef, nameText)
+    // Use calendar macros for overlay with proper spacing
+    // Convert hex color to RGB for LaTeX compatibility
+    color := hexToRGB(task.Color)
+    return `\vspace*{0.1ex}` + `\hypertarget{` + idRef + `}{}` + `\TaskOverlayBox{` + color + `}{` + linkedName + `}{` + descText + `}`
 }
 
 // buildMultiTaskOverlayContent creates compact stacked content for multiple tasks
@@ -1712,12 +1715,16 @@ func (d Day) buildCompactTaskOverlay(task *SpanningTask, index, total int) strin
 	nameText := d.prepareTaskName(task)
 	nameText = d.truncateTaskName(nameText, total)
 
-	spacing, boxHeight := d.getTaskSpacingAndHeight(index)
-	textBody := d.buildTaskTextBody(nameText)
+    spacing, boxHeight := d.getTaskSpacingAndHeight(index)
+    // Link compact name to task ID and include a hypertarget
+    idRef := d.escapeLatexSpecialChars(task.ID)
+    linkedName := templates.Link(idRef, nameText)
+    textBody := d.buildTaskTextBody(linkedName)
 
-	// Convert hex color to RGB for LaTeX compatibility
-	color := hexToRGB(task.Color)
-	return d.buildCompactTaskBox(spacing, boxHeight, color, textBody)
+    // Convert hex color to RGB for LaTeX compatibility
+    color := hexToRGB(task.Color)
+    // Prepend hypertarget so the compact box is a valid link target
+    return `\hypertarget{` + idRef + `}{}` + d.buildCompactTaskBox(spacing, boxHeight, color, textBody)
 }
 
 // prepareTaskName prepares the task name with milestone indicator

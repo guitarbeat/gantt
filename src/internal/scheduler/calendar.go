@@ -105,7 +105,8 @@ func (d Day) ref(prefix ...string) string {
 // buildDayNumberCell creates the basic day number cell with minimal padding
 // Uses minipage instead of tabular to eliminate auto padding
 func (d Day) buildDayNumberCell(day string) string {
-	return `\begin{minipage}[t]{6mm}\centering{}` + day + `\end{minipage}`
+    // Add an invisible hypertarget at the day's reference to support hyperlinks into this cell
+    return `\hypertarget{` + d.ref() + `}{}` + `\begin{minipage}[t]{6mm}\centering{}` + day + `\end{minipage}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
@@ -153,14 +154,18 @@ func (d Day) TasksForDay() string {
 	var taskStrings []string
 	for _, task := range d.Tasks {
 		// Only show task name, category is only used for color
-		taskStr := d.escapeLatexSpecialChars(task.Name)
+        nameEsc := d.escapeLatexSpecialChars(task.Name)
+        // Link task name to a task-scoped reference id
+        // Use task.ID as the link ref and ensure it's LaTeX-safe by escaping braces and specials
+        refEsc := d.escapeLatexSpecialChars(task.ID)
+        taskStr := templates.Link(refEsc, nameEsc)
 
 		// Add star for milestone tasks
 		if d.isMilestoneTask(task) {
 			taskStr = "★ " + taskStr
 		}
 
-		taskStrings = append(taskStrings, taskStr)
+        taskStrings = append(taskStrings, taskStr)
 	}
 	return strings.Join(taskStrings, "\\\\")
 }
