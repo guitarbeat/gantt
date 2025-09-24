@@ -1,0 +1,359 @@
+Timeline Validation Report
+Generated: 2025-09-23 21:12:59
+========================================
+
+VALIDATION SUMMARY
+========================================
+❌ ERRORS: 1
+⚠️  WARNINGS: 3
+
+ERRORS
+----------------------------------------
+1. Timeline logic issues found: 24
+
+WARNINGS
+----------------------------------------
+1. Orphaned tasks found: 7
+2. Overlapping tasks found: 80
+3. Large gaps found: 37
+
+TASK DETAILS
+========================================
+Total Tasks: 107
+
+Phase: 1 (30 tasks)
+----------------------------------------
+  • Send Proposal to Committee (2025-11-12 to 2025-12-01)
+    Status: Not Started
+    Milestone: false
+  • Confirm Live Imaging Requirements (2025-10-15 to 2025-10-21)
+    Status: Not Started
+    Milestone: false
+  • Image USAF Target (2025-10-01 to 2025-10-05)
+    Status: Not Started
+    Milestone: false
+  • Update Committee Membership (2025-09-13 to 2025-09-23)
+    Status: Not Started
+    Milestone: false
+  • Create Presentation (2025-12-08 to 2025-12-18)
+    Status: Not Started
+    Milestone: false
+  • Write Research Strategy (2025-09-15 to 2025-09-25)
+    Status: Not Started
+    Milestone: false
+  • Write Methods & Timeline (2025-11-11 to 2025-11-18)
+    Status: Not Started
+    Milestone: false
+  • Complete Proposal Document (2025-12-01 to 2025-12-07)
+    Milestone: High
+  • Verify Pulse Duration (2025-10-01 to 2025-10-07)
+    Status: Not Started
+    Milestone: false
+  • Align Laser Through Microscope (2025-09-26 to 2025-09-30)
+    Status: Not Started
+    Milestone: false
+  • Meet with Advisor to Finalize Revised Timeline (2025-09-09 to 2025-09-13)
+    Status: Not Started
+    Milestone: false
+  • Submit Outline to Advisor (2025-09-05 to 2025-09-09)
+    Status: Not Started
+    Milestone: false
+  • Confirm Exam Date (2025-09-28 to 2025-10-05)
+    Status: Not Started
+    Milestone: false
+  • PhD Proposal Exam - Defend proposal in oral examination (2025-12-19 to 2025-12-22)
+    Milestone: Critical
+  • Draft Timeline v1 (2025-08-29 to 2025-09-02)
+    Status: Not Started
+    Milestone: false
+  • Restore Amplified Output (2025-09-09 to 2025-09-16)
+    Status: Not Started
+    Milestone: false
+  • Define Committee & Schedule Exam (2025-09-10 to 2025-09-14)
+    Status: Not Started
+    Milestone: false
+  • Create Proposal Presentation (2025-12-01 to 2025-12-16)
+    Status: Not Started
+    Milestone: false
+  • Incorporate Revisions (2025-12-23 to 2026-01-06)
+    Status: Not Started
+    Milestone: false
+  • Finalize Proposal & Schedule (2025-10-28 to 2025-11-08)
+    Status: Not Started
+    Milestone: false
+  • Write Specific Aims & Research Strategy (2025-10-07 to 2025-10-13)
+    Status: Not Started
+    Milestone: false
+  • Develop Specific Aims & Outline (2025-09-02 to 2025-09-08)
+    Status: Not Started
+    Milestone: false
+  • Submit Final Proposal Document (2025-12-17 to 2025-12-20)
+    Status: Not Started
+    Milestone: false
+  • Email Proposal to Committee (2025-11-28 to 2025-12-05)
+    Milestone: High
+  • Acquire Preliminary In Vivo Images (2025-10-07 to 2025-10-11)
+    Status: Not Started
+    Milestone: false
+  • Submit Annual Progress Report (2025-09-03 to 2025-09-07)
+    Status: Not Started
+    Milestone: false
+  • Condense Proposal Draft (2025-10-14 to 2025-10-25)
+    Status: Not Started
+    Milestone: false
+  • Align Imaging System (2025-10-08 to 2025-10-14)
+    Status: Not Started
+    Milestone: false
+  • Confirm Doctoral Candidacy (2025-09-06 to 2025-09-30)
+    Status: Not Started
+    Milestone: false
+  • Align Seed Laser (2025-09-02 to 2025-09-06)
+    Status: Not Started
+    Milestone: false
+
+Phase: 2 (39 tasks)
+----------------------------------------
+  • Complete Longitudinal Imaging (2026-09-21 to 2026-09-27)
+    Status: Not Started
+    Milestone: false
+  • Maintain Automated Backups (2026-01-01 to 2027-08-31)
+    Status: Not Started
+    Milestone: false
+  • Install Cranial Windows & Inject AAV (2026-02-01 to 2026-02-26)
+    Milestone: false
+  • Establish Stroke Model (2026-06-18 to 2026-06-23)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q4 2027 (2027-07-01 to 2027-08-31)
+    Status: Not Started
+    Milestone: false
+  • Process Pilot Data (2026-04-21 to 2026-04-28)
+    Status: Not Started
+    Milestone: false
+  • Compare Imaging Methods (2026-05-23 to 2026-06-22)
+    Status: Not Started
+    Milestone: false
+  • Analyze Stroke Data (2026-10-26 to 2026-12-09)
+    Status: Not Started
+    Milestone: false
+  • Plan Pilot Mice Cohort (2025-10-14 to 2025-10-18)
+    Status: Not Started
+    Milestone: false
+  • Adapt ML Pipeline (2026-07-14 to 2026-08-15)
+    Status: Not Started
+    Milestone: false
+  • Maintain Surgical Training (2025-10-01 to 2026-06-01)
+    Status: Not Started
+    Milestone: false
+  • Design U-Net Architecture (2026-05-01 to 2026-05-15)
+    Status: Not Started
+    Milestone: false
+  • Extended Chronic Imaging (2026-09-16 to 2026-09-20)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q2 2027 (2027-01-01 to 2027-03-31)
+    Status: Not Started
+    Milestone: false
+  • Receive AAV Vectors (2025-12-20 to 2026-01-17)
+    Status: Not Started
+    Milestone: false
+  • Configure Dual-Channel Imaging (2026-04-19 to 2026-05-10)
+    Status: Not Started
+    Milestone: false
+  • Implement U-Net Pipeline (2026-05-28 to 2026-06-25)
+    Status: Not Started
+    Milestone: false
+  • Design & Order AAV Vectors (2025-10-21 to 2025-11-04)
+    Status: Not Started
+    Milestone: false
+  • Design Enhanced AAV (2026-04-19 to 2026-07-15)
+    Status: Not Started
+    Milestone: false
+  • Configure LSCI (2026-05-18 to 2026-06-20)
+    Status: Not Started
+    Milestone: false
+  • Induce Stroke (2026-06-26 to 2026-06-30)
+    Status: Not Started
+    Milestone: false
+  • Acute Phase Imaging (2026-07-08 to 2026-07-13)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q2 2026 (2026-01-01 to 2026-03-31)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q3 2027 (2027-04-01 to 2027-06-30)
+    Status: Not Started
+    Milestone: false
+  • Complete Pilot Datasets (2026-04-16 to 2026-04-22)
+    Status: Not Started
+    Milestone: false
+  • Transition Phase Imaging (2026-07-20 to 2026-07-25)
+    Status: Not Started
+    Milestone: false
+  • Data Acquisition Complete - Complete all planned imaging studies (2026-12-09 to 2026-12-09)
+    Status: Not Started
+    Milestone: true
+  • Optimize ML Pipeline (2026-08-18 to 2026-09-15)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q3 2026 (2026-04-01 to 2026-06-30)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q1 2027 (2026-10-01 to 2026-12-31)
+    Status: Not Started
+    Milestone: false
+  • Dual-Color Platform Operational - Achieve operational status of the dual-color platform (2026-07-18 to 2026-07-18)
+    Status: Not Started
+    Milestone: true
+  • Maintain Rig Log Q1 2026 (2025-09-01 to 2025-12-31)
+    Status: Not Started
+    Milestone: false
+  • Early Chronic Phase Imaging (2026-08-19 to 2026-08-24)
+    Status: Not Started
+    Milestone: false
+  • Receive Enhanced AAV (2026-07-18 to 2026-07-22)
+    Status: Not Started
+    Milestone: false
+  • Maintain Rig Log Q4 2026 (2026-07-01 to 2026-09-30)
+    Status: Not Started
+    Milestone: false
+  • Acquire In Vivo Images (2026-03-28 to 2026-04-15)
+    Status: Not Started
+    Milestone: false
+  • Integrate LSCI Data (2026-09-26 to 2026-10-25)
+    Status: Not Started
+    Milestone: false
+  • Implement Automated Backups (2025-10-01 to 2025-12-31)
+    Status: Not Started
+    Milestone: false
+  • Monitor & Medicate Mice (2026-02-27 to 2026-03-25)
+    Status: Not Started
+    Milestone: false
+
+Phase: 3 (10 tasks)
+----------------------------------------
+  • Develop SLAVV-T Codebase (2026-08-11 to 2026-11-10)
+    Status: Not Started
+    Milestone: false
+  • Manuscript Submissions Complete - All planned manuscripts submitted (2026-12-23 to 2026-12-23)
+    Status: Not Started
+    Milestone: true
+  • Submit SLAVV-T Manuscript (2026-12-22 to 2027-02-20)
+    Status: Not Started
+    Milestone: false
+  • Write Methodology Manuscript (2026-04-19 to 2026-07-15)
+    Status: Not Started
+    Milestone: false
+  • Write Research Paper (2026-12-10 to 2026-12-16)
+    Status: Not Started
+    Milestone: false
+  • AR Vascular Platform (2026-08-01 to 2027-12-31)
+    Status: Not Started
+    Milestone: false
+  • Submit Methodology Paper (2026-07-18 to 2026-07-22)
+    Status: Not Started
+    Milestone: false
+  • Submit Research Paper (2026-12-19 to 2026-12-23)
+    Status: Not Started
+    Milestone: false
+  • Draft SLAVV-T Manuscript (2026-11-11 to 2026-12-21)
+    Status: Not Started
+    Milestone: false
+  • Prepare Conference Presentation (2026-12-10 to 2026-12-16)
+    Status: Not Started
+    Milestone: false
+
+Phase: 4 (28 tasks)
+----------------------------------------
+  • Draft Dissertation Introduction & Methods (2027-01-01 to 2027-02-15)
+    Status: Not Started
+    Milestone: false
+  • Maintain Fall 2026 Registration (2026-09-01 to 2026-12-31)
+    Status: Not Started
+    Milestone: false
+  • Write Introduction Chapter (2026-12-19 to 2027-01-31)
+    Status: Not Started
+    Milestone: false
+  • Submit Final Dissertation (2027-08-05 to 2027-08-11)
+    Status: Not Started
+    Milestone: false
+  • Dissertation Complete - Complete dissertation draft for committee review (2027-06-30 to 2027-06-30)
+    Status: Not Started
+    Milestone: true
+  • Draft Aim 2/3 Chapter (2027-03-16 to 2027-04-15)
+    Status: Not Started
+    Milestone: false
+  • Submit Graduation Application (2027-01-01 to 2027-01-15)
+    Status: Not Started
+    Milestone: false
+  • SPIE Student Chapter Activities (2025-09-08 to 2026-12-31)
+    Status: Not Started
+    Milestone: false
+  • Draft Dissertation Conclusions (2027-04-16 to 2027-05-15)
+    Status: Not Started
+    Milestone: false
+  • Final Submission (2027-07-16 to 2027-07-31)
+    Status: Not Started
+    Milestone: false
+  • Maintain Summer 2027 Registration (2027-06-01 to 2027-08-31)
+    Status: Not Started
+    Milestone: false
+  • Final Committee Meeting (2027-05-17 to 2027-05-29)
+    Status: Not Started
+    Milestone: false
+  • Final Revisions (2027-05-30 to 2027-06-30)
+    Status: Not Started
+    Milestone: false
+  • Maintain Lab Responsibilities (2025-09-10 to 2027-08-31)
+    Status: Not Started
+    Milestone: false
+  • Graduation - Complete PhD program and graduate (2027-08-11 to 2027-08-11)
+    Status: Not Started
+    Milestone: true
+  • Submit Final Oral Exam Request (2027-06-01 to 2027-06-15)
+    Status: Not Started
+    Milestone: false
+  • Complete Dissertation Draft (2027-06-19 to 2027-06-30)
+  • Complete Progress Review (2026-09-01 to 2026-09-07)
+    Status: Not Started
+    Milestone: false
+  • Defend Dissertation (2027-07-17 to 2027-07-20)
+    Status: Not Started
+    Milestone: false
+  • Incorporate Committee Feedback (2027-07-21 to 2027-08-03)
+    Status: Not Started
+    Milestone: false
+  • Write Methods & Results Chapters (2027-02-03 to 2027-05-15)
+    Status: Not Started
+    Milestone: false
+  • Draft Aim 1 Chapter (2027-02-16 to 2027-03-15)
+    Status: Not Started
+    Milestone: false
+  • Complete Dissertation Draft (2027-05-16 to 2027-05-16)
+    Status: Not Started
+    Milestone: true
+  • Complete Teaching Assistant Requirement (2025-09-04 to 2026-08-31)
+    Status: Not Started
+    Milestone: false
+  • Maintain Spring 2026 Registration (2026-01-01 to 2026-05-31)
+    Status: Not Started
+    Milestone: false
+  • Write Discussion & Conclusions (2027-02-03 to 2027-06-15)
+    Status: Not Started
+    Milestone: false
+  • Maintain Spring 2027 Registration (2027-01-01 to 2027-05-31)
+    Status: Not Started
+    Milestone: false
+  • PhD Defense - Successfully defend PhD dissertation (2027-07-17 to 2027-07-17)
+    Status: Not Started
+    Milestone: true
+
+RECOMMENDATIONS
+========================================
+• Fix missing dependencies
+• Resolve circular dependencies
+• Check for typos in task IDs
+• Review overlapping tasks that cannot run simultaneously
+• Consider adjusting task schedules to reduce overlaps
+• Review orphaned tasks for proper integration
+• Evaluate large gaps between sequential tasks

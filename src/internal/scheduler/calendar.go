@@ -216,12 +216,12 @@ func (d Day) HeadingMOS(prefix, leaf string) string {
 
 // * LaTeX cell construction functions
 
-// buildDayNumberCell creates the basic day number cell with proper centering
+// buildDayNumberCell creates the basic day number cell with proper alignment
 // Uses a reasonable fixed width that works well with tabularx auto-sizing
 func (d Day) buildDayNumberCell(day string) string {
-	// Use a slightly larger fixed width (6mm instead of 3mm) and proper centering
-	// to prevent day numbers from appearing stretched in auto-sized columns
-	return `\begin{tabular}{@{}p{6mm}@{}|}\centering{}` + day + `\\ \hline\end{tabular}`
+	// Use left alignment with proper spacing to ensure numbers align with cell boundaries
+	// Fixed width prevents stretching while maintaining consistent alignment
+	return `\begin{tabular}{@{}p{6mm}@{}|}\raggedright{}` + day + `\\ \hline\end{tabular}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks

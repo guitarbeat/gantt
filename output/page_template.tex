@@ -1,0 +1,249 @@
+% moved from templates/document.tpl
+
+\documentclass[9pt]{extarticle}
+
+% Core packages (load early)
+\usepackage{expl3}
+\usepackage{xparse}
+\usepackage{calc}
+\usepackage{geometry}
+
+% Font configuration - use modern sans-serif font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Color and graphics
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{adjustbox}
+
+% Table and array packages
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+
+% Layout and spacing
+\usepackage{setspace}
+\usepackage{leading}
+\usepackage{dashrule}
+\usepackage{varwidth}
+\usepackage{wrapfig}
+\usepackage{marginnote}
+\usepackage{fancyhdr}
+
+% Math and symbols
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+% Special features
+\usepackage{multido}
+\usepackage{pgffor}
+\usepackage[most]{tcolorbox}
+\usepackage{blindtext}
+% Do not load hyperref; define safe no-op link commands
+\providecommand{\href}[2]{#2}
+\providecommand{\hyperlink}[2]{#2}
+\providecommand{\hypertarget}[2]{#2}
+\providecommand{\hypersetup}[1]{}
+
+
+\hypersetup{hidelinks,colorlinks=false,urlcolor=black,linkcolor=black,citecolor=black,pdfborder={0 0 0},pdfborderstyle={}}
+
+\geometry{paperwidth=15.6cm, paperheight=20.9cm}
+\geometry{
+  top=0.2cm,
+  bottom=0.5cm,
+  left=0.5cm,
+  right=0.5cm,
+  marginparwidth=1cm,
+  marginparsep=0cm
+}
+
+\pagestyle{empty}
+\reversemarginpar
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\parindent=0pt
+\fboxsep0pt
+
+\begin{document}
+
+% Simple macros template without problematic LaTeX commands
+\ExplSyntaxOn
+\cs_new_eq:NN \Repeat \prg_replicate:nn
+\ExplSyntaxOff% Define category colors for consistent rendering
+\definecolor{taskProposal}{RGB}{74,144,226}
+\definecolor{taskLaser}{RGB}{245,166,35}
+\definecolor{taskImaging}{RGB}{126,211,33}
+\definecolor{taskAdmin}{RGB}{189,16,224}
+\definecolor{taskDissertation}{RGB}{208,2,27}
+\definecolor{taskResearch}{RGB}{80,227,194}
+\definecolor{taskPublication}{RGB}{184,233,134}
+
+\newlength{\myLenTabColSep}
+\newlength{\myLenLineThicknessDefault}
+\newlength{\myLenLineThicknessThick}
+\newlength{\myLenLineHeightButLine}
+\newlength{\myLenTwoColSep}
+\newlength{\myLenTwoCol}
+\newlength{\myLenTriColSep}
+\newlength{\myLenTriCol}
+\newlength{\myLenFiveColSep}
+\newlength{\myLenFiveCol}
+\newlength{\myLenMonthlyCellHeight}
+
+\newlength{\myLenHeaderResizeBox}
+\newlength{\myLenHeaderSideMonthsWidth}
+
+\setlength{\myLenTabColSep}{ 3.5pt }
+\setlength{\myLenLineThicknessDefault}{.4pt}
+\setlength{\myLenLineThicknessThick}{.8pt}
+\setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
+\setlength{\myLenTwoColSep}{5pt}
+\setlength{\myLenTwoCol}{5pt}
+\setlength{\myLenTriColSep}{5pt}
+\setlength{\myLenTriCol}{5pt}
+\setlength{\myLenFiveColSep}{5pt}
+\setlength{\myLenFiveCol}{5pt}
+\setlength{\myLenMonthlyCellHeight}{78pt}
+
+\setlength{\myLenHeaderResizeBox}{6mm}
+\setlength{\myLenHeaderSideMonthsWidth}{ 14.5cm }
+
+% Simple task bar definitions
+% * Define fixed font size macros for task title and body
+\newcommand{\TaskTitleSize}{\small}
+\newcommand{\TaskFontSize}{\footnotesize}
+\newlength{\TaskBarHeight}
+\setlength{\TaskBarHeight}{4mm}
+\newlength{\TaskBorderWidth}
+\setlength{\TaskBorderWidth}{ 0.6pt }
+\newlength{\TaskPaddingH}
+\setlength{\TaskPaddingH}{ 1.5mm }
+\newlength{\TaskPaddingV}
+\setlength{\TaskPaddingV}{ 0.5mm }
+% * Global vertical nudge for task elements (push tasks slightly lower)
+\newlength{\TaskVerticalOffset}
+\setlength{\TaskVerticalOffset}{ 0.7mm }
+
+% Array stretch macro
+\newcommand{\myNumArrayStretch}{ 1.2 }
+
+% Line thickness macro
+\newcommand{\myLineThick}{\rule{\linewidth}{\myLenLineThicknessThick}}
+
+% Category palette setup macro
+\newcommand{\SetupDefaultCategoryPalette}[1]{#1}
+
+% Simple task rendering
+\newcommand{\SimpleTaskBar}[4]{%
+  \vspace*{\TaskVerticalOffset}%
+  \fbox{\parbox{\dimexpr#3-2\TaskPaddingH\relax}{%
+    \vspace{\TaskPaddingV}%
+    {\TaskTitleSize\raggedright\textbf{#1}\par}%
+    \vspace{\TaskPaddingV}%
+  }}%
+}
+
+% Task overlay box macros - pill shaped with rounded corners
+\newcommand{\TaskOverlayBox}[3]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \vspace*{\TaskVerticalOffset}%
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
+    colback=taskbgcolor!20, colframe=taskfgcolor!80,
+    width=\linewidth, halign=left]
+    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{#2}\par
+     \vspace{0.2ex}%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Multi-day task bar drawing macro to centralize styling
+% Args: 1=x(pt), 2=y(pt), 3=width(pt), 4=height(pt), 5=color, 6=label
+\newcommand{\DrawTaskBar}[6]{%
+  \definecolor{taskbarcolor}{RGB}{#5}%
+  \begin{tikzpicture}[overlay]
+    \node[anchor=north west, inner sep=0pt] at (#1,#2) {
+      \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt,
+        left=1.5mm, right=1.5mm, top=0.5mm, bottom=0.5mm,
+        width=#3pt, height=#4pt,
+        colback=taskbarcolor]
+        {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=1em%
+         \footnotesize \raggedright #6}
+      \end{tcolorbox}
+    };
+  \end{tikzpicture}%
+}
+
+\newcommand{\TaskOverlayBoxP}[3]{%
+  \definecolor{taskoverlaypbgcolor}{RGB}{#2}%
+  \definecolor{taskoverlaypfgcolor}{RGB}{#2}%
+  \vspace*{\TaskVerticalOffset}%
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=1.0mm, bottom=1.0mm,
+    colback=taskoverlaypbgcolor!20, colframe=taskoverlaypfgcolor!80,
+    width=\linewidth, halign=left]
+    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{#1}\par
+     \vspace{0.2ex}%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Task compact box macro with pill shape and better spacing
+\newcommand{\TaskCompactBox}[4]{%
+  \definecolor{taskcompactbgcolor}{RGB}{#3}%
+  \definecolor{taskcompactfgcolor}{RGB}{#3}%
+  \vspace*{#1}%
+  \vspace*{\TaskVerticalOffset}%
+  \begin{tcolorbox}[enhanced, boxrule=0.7pt, arc=8pt,
+    left=1.2mm, right=1.2mm, top=0.8mm, bottom=0.8mm,
+    colback=taskcompactbgcolor!20, colframe=taskcompactfgcolor!70,
+    width=\linewidth, halign=left, height=#2]
+    {\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\raggedright\textbf{#4}\par}
+  \end{tcolorbox}%
+}
+
+% Underline macro
+\newcommand{\myUnderline}[1]{%
+  \underline{\textbf{#1}}%
+}
+
+% Colored circle macro for legend - handles hex colors
+\newcommand{\ColorCircle}[1]{%
+  \definecolor{circlecolor}{RGB}{#1}%
+  \textcolor{circlecolor}{\Large$\bullet$}%
+}
+
+
+
+% Color legend macro for task categories - uses circles with correct RGB colors
+\newcommand{\ColorLegend}{%
+  {\centering
+    \textcolor[RGB]{74,144,226}{\Large$\bullet$}~\small Proposal%
+    \hspace{1.5em}%
+    \textcolor[RGB]{245,166,35}{\Large$\bullet$}~\small Laser%
+    \hspace{1.5em}%
+    \textcolor[RGB]{126,211,33}{\Large$\bullet$}~\small Imaging%
+    \hspace{1.5em}%
+    \textcolor[RGB]{189,16,224}{\Large$\bullet$}~\small Admin%
+    \hspace{1.5em}%
+    \textcolor[RGB]{208,2,27}{\Large$\bullet$}~\small Dissertation%
+    \hspace{1.5em}%
+    \textcolor[RGB]{80,227,194}{\Large$\bullet$}~\small Research%
+    \hspace{1.5em}%
+    \textcolor[RGB]{184,233,134}{\Large$\bullet$}~\small Publication%
+  \par}
+}
+
+
+  \include{monthly}
+  
+\end{document}
