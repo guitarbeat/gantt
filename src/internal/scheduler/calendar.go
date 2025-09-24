@@ -107,7 +107,7 @@ func (d Day) ref(prefix ...string) string {
 // buildDayNumberCell creates the basic day number cell with proper alignment
 // Uses a reasonable fixed width that works well with tabularx auto-sizing
 func (d Day) buildDayNumberCell(day string) string {
-	return `\begin{tabular}{@{}p{6mm}@{}|}\centering{}` + day + `\\ \hline\end{tabular}`
+	return `\begin{tabular}{@{}p{6mm}@{}|}\centering{}` + day + `\\[2pt] \hline\end{tabular}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks

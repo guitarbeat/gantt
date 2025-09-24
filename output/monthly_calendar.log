@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 21:48
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.7)  23 SEP 2025 21:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -11999,7 +11999,7 @@ l.6707   \end{tabularx}
 
 Underfull \hbox (badness 10000) in paragraph at lines 6707--6710
 
-[26]
+[26] [27]
 ./monthly.tex:6969: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -12453,7 +12453,7 @@ l.6969   \end{tabularx}
 
 Underfull \hbox (badness 10000) in paragraph at lines 6969--6972
 
-[27]
+[28]
 ./monthly.tex:7233: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -12922,7 +12922,7 @@ l.7233   \end{tabularx}
 
 Underfull \hbox (badness 10000) in paragraph at lines 7233--7236
 
-[28]
+[29]
 ./monthly.tex:7495: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -13376,7 +13376,7 @@ l.7495   \end{tabularx}
 
 Underfull \hbox (badness 10000) in paragraph at lines 7495--7498
 
-[29]
+[30]
 ./monthly.tex:7759: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -13845,11 +13845,11 @@ l.7759   \end{tabularx}
 
 Underfull \hbox (badness 10000) in paragraph at lines 7759--7762
 
-) [30] (./monthly_calendar.aux (./monthly.aux)) )
+) [31] (./monthly_calendar.aux (./monthly.aux)) )
 (see the transcript file for additional information)
-Output written on monthly_calendar.pdf (30 pages).
+Output written on monthly_calendar.pdf (31 pages).
 Transcript written on monthly_calendar.log.
-m 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
+}\fi \let \hskip \vskip \let \vrule \hrule \let...
 l.5057   \end{tabularx}
                        
 I expect to see \noalign only after the \cr of
@@ -18923,7 +18923,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 6707--6710
 
  []
 
-[26]
+[26] [27]
 ./monthly.tex:6969: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -19649,7 +19649,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 6969--6972
 
  []
 
-[27]
+[28]
 ./monthly.tex:7233: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -20399,7 +20399,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7233--7236
 
  []
 
-[28]
+[29]
 ./monthly.tex:7495: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -21125,7 +21125,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7495--7498
 
  []
 
-[29]
+[30]
 ./monthly.tex:7759: Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
@@ -21875,7 +21875,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7759--7762
 
  []
 
-) [30] (./monthly_calendar.aux (./monthly.aux))
+) [31] (./monthly_calendar.aux (./monthly.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -21888,6 +21888,6 @@ Here is how much of TeX's memory you used:
  45457 multiletter control sequences out of 15000+600000
  597968 words of font info for 70 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,20n,96p,1904b,1596s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,20n,96p,1909b,1596s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on monthly_calendar.pdf (30 pages).
+Output written on monthly_calendar.pdf (31 pages).
