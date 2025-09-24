@@ -393,7 +393,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 		task.Category = getField("Phase") // Fallback to Phase if Sub-Phase is empty
 	}
 
-
 	// * Added: Parse Status field
 	task.Status = getField("Status")
 	if task.Status == "" {
