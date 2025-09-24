@@ -22,7 +22,7 @@ BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 # Find the first CSV file in the input directory
 CSV_FILE := $(shell ls input/*.csv 2>/dev/null | head -1 | xargs basename)
 
-.PHONY: build clean fmt vet test
+.PHONY: build clean clean-build fmt vet test
 
 # Build planner PDF (runs tests, generates LaTeX, compiles PDF)
 build:
@@ -31,11 +31,8 @@ build:
 	@echo "📄 Generating PDF test..."
 	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
 	@echo "📄 Output: $(FINAL_BASE_NAME).pdf"
-	@cd src && \
-	if [ ! -f "$(BINARY_PATH)" ]; then \
-		echo "🔨 Building $(BINARY_NAME)..."; \
-		go build -o $(BINARY_PATH) .; \
-	fi && \
+	@echo "🔨 Building $(BINARY_NAME)..."; \
+	cd src && go clean -cache && go build -o $(BINARY_PATH) . && \
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
 	./$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir build && \
@@ -74,20 +71,26 @@ vet:
 	$(GO) vet ./...
 
 clean:
+	# Clean Go build cache
+	@echo "🧹 Cleaning Go build cache..."
+	@cd src && go clean -cache -testcache -modcache 2>/dev/null || true
 	# Clean build directory
-	rm -rf "$(OUTDIR)"/*.pdf "$(OUTDIR)"/*.aux "$(OUTDIR)"/*.log "$(OUTDIR)"/*.out "$(OUTDIR)"/*.tex "$(OUTDIR)"/*.synctex.gz
+	rm -rf "src/$(BINARY_DIR)"/*.pdf "src/$(BINARY_DIR)"/*.aux "src/$(BINARY_DIR)"/*.log "src/$(BINARY_DIR)"/*.out "src/$(BINARY_DIR)"/*.tex "src/$(BINARY_DIR)"/*.synctex.gz
 	rm -f "$(BINARY_PATH)"
 	# Clean src directory build artifacts
 	@echo "🧹 Cleaning src directory..."
 	@rm -f src/*.pdf src/*.tex src/*.aux src/*.log src/*.out src/*.synctex.gz src/*.fdb_latexmk src/*.fls src/coverage.out src/debug.log src/test.out 2>/dev/null || true
 	@echo "✅ Src directory cleaned"
 	# Clean parent directory build artifacts
-	rm -f ../*.pdf ../*.tex ../*.aux ../*.log ../*.out ../*.synctex.gz
+	rm -f *.pdf *.tex *.aux *.log *.out *.synctex.gz
 	# Clean any stray plannergen binaries
-	find .. -name "plannergen" -type f -delete 2>/dev/null || true
+	find . -name "plannergen" -type f -delete 2>/dev/null || true
 	# Clean flat output directory
 	@echo "🧹 Cleaning output directory..."
 	@rm -f output/*.pdf output/*.tex output/*.log output/*.aux output/*.fdb_latexmk output/*.fls output/*.out output/*.synctex.gz 2>/dev/null || true
 	@echo "✅ Output directory cleaned"
 	@echo "📁 Directory structure preserved"
+
+# Clean and build (recommended for development to avoid binary corruption)
+clean-build: clean build
 
