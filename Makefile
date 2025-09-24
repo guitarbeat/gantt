@@ -16,7 +16,7 @@ OUTPUT_BASE_NAME ?= page_template
 FINAL_BASE_NAME ?= test
 
 # Configurable binary path with defaults
-BINARY_DIR ?= build
+BINARY_DIR ?= output
 BINARY_NAME ?= plannergen
 BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 
@@ -35,31 +35,27 @@ build:
 	@echo "🎯 Generating PDF from: input/$(CSV_FILE)"
 	@echo "📄 Output: $(FINAL_BASE_NAME).pdf"
 	@echo "🔨 Building $(BINARY_NAME)..."; \
-	cd src && go clean -cache && go build -o $(BINARY_PATH) . && \
+	cd src && go clean -cache && go build -o ../$(BINARY_PATH) . && \
 	echo "📝 Generating LaTeX..." && \
-	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/$(CSV_FILE)" \
-	./$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir build && \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="input/$(CSV_FILE)" \
+	$(BINARY_PATH) --config "src/config/base.yaml,src/config/page_template.yaml" --outdir $(BINARY_DIR) && \
 	echo "📚 Compiling PDF..." && \
-	cd build && \
+	cd $(BINARY_DIR) && \
 	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
 		echo "✅ PDF compilation successful"; \
 	else \
 		echo "⚠️  PDF compilation completed with warnings (check xelatex.log for details)"; \
 	fi && \
-	cd .. && \
-	if [ -f "build/$(OUTPUT_BASE_NAME).pdf" ]; then \
-		mkdir -p ../output && \
-		cp "build/$(OUTPUT_BASE_NAME).pdf" "$(FINAL_BASE_NAME).pdf" && \
-		cp "build/$(OUTPUT_BASE_NAME).pdf" "../output/$(FINAL_BASE_NAME).pdf" && \
-		cp "build/$(OUTPUT_BASE_NAME).tex" "../output/$(FINAL_BASE_NAME).tex" 2>/dev/null || true && \
-		cp "build/$(OUTPUT_BASE_NAME).log" "../output/$(FINAL_BASE_NAME).log" 2>/dev/null || true && \
+	if [ -f "$(OUTPUT_BASE_NAME).pdf" ]; then \
+		cp "$(OUTPUT_BASE_NAME).pdf" "../$(FINAL_BASE_NAME).pdf" && \
+		cp "$(OUTPUT_BASE_NAME).tex" "../$(FINAL_BASE_NAME).tex" 2>/dev/null || true && \
+		cp "$(OUTPUT_BASE_NAME).log" "../$(FINAL_BASE_NAME).log" 2>/dev/null || true && \
 		echo "🧹 Cleaning up auxiliary files from output..." && \
-		cd ../output && rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz 2>/dev/null || true && \
-		cd ../src && \
+		rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz 2>/dev/null || true && \
 		echo "✅ Created: $(FINAL_BASE_NAME).pdf" && \
-		echo "📁 Also saved to: ../output/$(FINAL_BASE_NAME).pdf"; \
+		echo "📁 Also saved to: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
 	else \
-		echo "❌ PDF generation failed - check build/$(OUTPUT_BASE_NAME).log for details"; \
+		echo "❌ PDF generation failed - check $(BINARY_DIR)/$(OUTPUT_BASE_NAME).log for details"; \
 		exit 1; \
 	fi
 
@@ -77,8 +73,8 @@ clean:
 	# Clean Go build cache
 	@echo "🧹 Cleaning Go build cache..."
 	@cd src && go clean -cache -testcache -modcache 2>/dev/null || true
-	# Clean build directory
-	rm -rf "src/$(BINARY_DIR)"/*.pdf "src/$(BINARY_DIR)"/*.aux "src/$(BINARY_DIR)"/*.log "src/$(BINARY_DIR)"/*.out "src/$(BINARY_DIR)"/*.tex "src/$(BINARY_DIR)"/*.synctex.gz
+	# Clean output directory build artifacts
+	rm -rf "$(BINARY_DIR)"/*.pdf "$(BINARY_DIR)"/*.aux "$(BINARY_DIR)"/*.log "$(BINARY_DIR)"/*.out "$(BINARY_DIR)"/*.tex "$(BINARY_DIR)"/*.synctex.gz
 	rm -f "$(BINARY_PATH)"
 	# Clean src directory build artifacts
 	@echo "🧹 Cleaning src directory..."
@@ -88,10 +84,6 @@ clean:
 	rm -f *.pdf *.tex *.aux *.log *.out *.synctex.gz
 	# Clean any stray plannergen binaries
 	find . -name "plannergen" -type f -delete 2>/dev/null || true
-	# Clean flat output directory
-	@echo "🧹 Cleaning output directory..."
-	@rm -f output/*.pdf output/*.tex output/*.log output/*.aux output/*.fdb_latexmk output/*.fls output/*.out output/*.synctex.gz 2>/dev/null || true
-	@echo "✅ Output directory cleaned"
 	@echo "📁 Directory structure preserved"
 
 # Clean and build (recommended for development to avoid binary corruption)
