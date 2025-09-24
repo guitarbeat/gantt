@@ -23,10 +23,6 @@ build:
 	echo "📝 Generating LaTeX..." && \
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="../input/Research Timeline v5 - Comprehensive.csv" \
 	./build/plannergen --config "config/base.yaml,config/page_template.yaml" --outdir build && \
-	echo "🔧 Fixing LaTeX comment issues..." && \
-	sed -i '' 's/%\\ColorCircle{/\\ColorCircle{/g' build/page_template.tex && \
-	sed -i '' 's/%\\hspace{/\\hspace{/g' build/page_template.tex && \
-	sed -i '' 's/%\\end{center}/\\end{center}/g' build/page_template.tex && \
 	echo "📚 Compiling PDF..." && \
 	cd build && \
 	if xelatex -file-line-error -interaction=nonstopmode page_template.tex > xelatex.log 2>&1; then \

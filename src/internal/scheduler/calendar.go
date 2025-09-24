@@ -822,47 +822,22 @@ func hexToRGB(hex string) string {
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
 
-	// First, add all predefined category colors to ensure legend completeness
-	predefinedCategories := []string{
-		"PhD Proposal",
-		"Final Submission & Graduation", 
-		"Data Management & Analysis",
-		"Aim 3 - Stroke Study & Analysis",
-		"Dissertation Writing",
-		"Aim 1 - AAV-based Vascular Imaging",
-		"Aim 2 - Dual-channel Imaging Platform",
-		"Committee Review & Defense",
-		"Microscope Setup",
-		"SLAVV-T Development",
-		"Research Paper",
-		"Laser System",
-		"Committee Management",
-		"Methodology Paper",
-		"Manuscript Submissions",
-		"AR Platform Development",
-	}
-	
-	for _, category := range predefinedCategories {
-		color := getColorForCategory(category)
-		if color != "" {
-			colorMap[hexToRGB(color)] = category
-		}
-	}
-
-	// Then, iterate through all weeks and days to find additional unique task colors
+	// Only add colors for task categories that are actually present in this month
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
 			// Check spanning tasks
 			for _, task := range day.SpanningTasks {
-				if task.Color != "" {
-					// Convert to RGB for LaTeX compatibility
-					colorMap[hexToRGB(task.Color)] = task.Category
+				if task.Category != "" {
+					color := getColorForCategory(task.Category)
+					if color != "" {
+						// Convert to RGB for LaTeX compatibility
+						colorMap[hexToRGB(color)] = task.Category
+					}
 				}
 			}
 			// Check regular tasks
 			for _, task := range day.Tasks {
 				if task.Category != "" {
-					// Get color for this category
 					color := getColorForCategory(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
