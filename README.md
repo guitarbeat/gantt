@@ -36,9 +36,8 @@ go build -mod=vendor -o generated/plannergen ./cmd/planner && \
 │   ├── app/              # Main application logic
 │   ├── core/             # Core utilities and shared logic
 │   ├── calendar/         # Calendar/scheduling functionality
-│   ├── shared/           # Shared/reusable code
-│   │   └── templates/    # LaTeX templates (embedded)
-│   └── assets/           # Small runtime assets (embedded)
+│   └── shared/           # Shared/reusable code
+│       └── templates/    # LaTeX templates (embedded)
 ├── input_data/           # Input data files (CSV, etc.)
 ├── generated/            # Generated output files (PDFs, logs)
 ├── static_assets/        # Static files/assets
