@@ -68,8 +68,8 @@ go test -mod=vendor ./...
 
 ## 📚 Documentation
 
-- [Developer Guide](docs/developer-guide/README.md)
-- [User Guide](docs/user-guide/README.md)
+- [Developer Guide](docs/developer-guide.md)
+- [User Guide](docs/user-guide.md)
 
 ## 🐛 Troubleshooting
 
