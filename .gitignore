@@ -1,23 +1,52 @@
-# Build artifacts
+# Build output binaries
 output/
-src/build/
+dist/
+build/
+
+# Built binaries
+plannergen
+phd-dissertation-planner
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Generated PDFs and LaTeX files
 *.pdf
 *.tex
-*.log
 *.aux
+*.log
 *.out
-*.synctex.gz
 *.fdb_latexmk
 *.fls
-plannergen
-coverage.out
-debug.log
-test.out
+*.synctex.gz
 
-# Go module cache
-go.sum.bak
+# Go build artifacts
+*.test
+*.out
+go.work
 
-# OS specific
+# Test output directories
+test_output/
+test_single_output/
+test_triple_output/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
 .DS_Store
 Thumbs.db
 
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Go coverage files
+coverage.out
