@@ -1,0 +1,3 @@
+# This file ensures the assets directory is tracked by git
+# Add small runtime assets here (images/*.png, icons/*.svg)
+# Large files should remain in static_assets/ to avoid bloating the binary

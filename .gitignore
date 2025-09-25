@@ -26,6 +26,7 @@ phd-dissertation-planner
 *.test
 *.out
 go.work
+vendor/
 
 # Test output directories
 test_output/

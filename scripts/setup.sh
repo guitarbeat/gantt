@@ -69,7 +69,8 @@ install_deps() {
     log_info "Installing Go dependencies..."
     go mod download
     go mod tidy
-    log_success "Dependencies installed"
+    go mod vendor
+    log_success "Dependencies installed and vendored for offline use"
 }
 
 # Verify the setup

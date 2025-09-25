@@ -20,8 +20,8 @@ GO ?= go
 OUTDIR ?= src/build
 
 # Configurable paths with defaults
-CONFIG_BASE ?= configs/base.yaml
-CONFIG_PAGE ?= configs/monthly_calendar.yaml
+CONFIG_BASE ?= src/core/base.yaml
+CONFIG_PAGE ?= src/core/monthly_calendar.yaml
 CONFIG_FILES ?= $(CONFIG_BASE),$(CONFIG_PAGE)
 
 # Configurable output file names with defaults
@@ -29,20 +29,20 @@ OUTPUT_BASE_NAME ?= monthly_calendar
 FINAL_BASE_NAME ?= monthly_calendar
 
 # Configurable binary path with defaults
-BINARY_DIR ?= output
+BINARY_DIR ?= generated
 BINARY_NAME ?= plannergen
 BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 
 # Use the most comprehensive CSV file
-CSV_FILE := Research Timeline v5 - Comprehensive.csv
+CSV_FILE := research_timeline_v5_comprehensive.csv
 
 .PHONY: build clean clean-build fmt vet
 
 # Build planner PDF with comprehensive pipeline
 build:
 	@echo "Building PDF from $(CSV_FILE)..."
-	@go clean -cache && go build -o $(BINARY_PATH) ./cmd/planner && \
-	PLANNER_SILENT=1 PLANNER_CSV_FILE="data/$(CSV_FILE)" \
+	@go clean -cache && go build -mod=vendor -o $(BINARY_PATH) ./cmd/planner && \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="input_data/$(CSV_FILE)" \
 	$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir $(BINARY_DIR) && \
 	cd $(BINARY_DIR) && \
 	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
