@@ -6,7 +6,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"sort"
 	"strings"
 	"time"
 )
@@ -278,48 +277,6 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 	}
 
 	return tasks, nil
-}
-
-// GetMonthsWithTasks returns a slice of MonthYear structs for months that have tasks
-func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
-	tasks, err := r.ReadTasks()
-	if err != nil {
-		return nil, err
-	}
-
-	// Track which months have tasks using a map for deduplication
-	monthsWithTasks := make(map[MonthYear]bool)
-
-	for _, task := range tasks {
-		// Add all months from start to end (inclusive)
-		current := task.StartDate
-		end := task.EndDate
-
-		for !current.After(end) {
-			month := MonthYear{
-				Year:  current.Year(),
-				Month: current.Month(),
-			}
-			monthsWithTasks[month] = true
-			current = current.AddDate(0, 1, 0)
-		}
-	}
-
-	// Convert to slice and sort
-	months := make([]MonthYear, 0, len(monthsWithTasks))
-	for month := range monthsWithTasks {
-		months = append(months, month)
-	}
-
-	// Sort by year, then by month
-	sort.Slice(months, func(i, j int) bool {
-		if months[i].Year != months[j].Year {
-			return months[i].Year < months[j].Year
-		}
-		return months[i].Month < months[j].Month
-	})
-
-	return months, nil
 }
 
 // parseTask parses a single CSV record into a Task struct with improved field mapping
