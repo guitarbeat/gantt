@@ -218,9 +218,17 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	plainTaskStrings := make([]string, len(startingTasks))
 	for i, spanningTask := range startingTasks {
 		// Remove color formatting from task strings for the pill content
-		plainTaskStrings[i] = d.escapeLatexSpecialChars(spanningTask.Name)
+		taskName := d.escapeLatexSpecialChars(spanningTask.Name)
 		if d.isMilestoneSpanningTask(spanningTask) {
-			plainTaskStrings[i] = "★ " + plainTaskStrings[i]
+			taskName = "★ " + taskName
+		}
+		
+		// Add objective in smaller text if available
+		if spanningTask.Description != "" {
+			objective := d.escapeLatexSpecialChars(spanningTask.Description)
+			plainTaskStrings[i] = fmt.Sprintf(`%s\\\small{%s}`, taskName, objective)
+		} else {
+			plainTaskStrings[i] = taskName
 		}
 	}
 
