@@ -82,8 +82,7 @@ layout:
       tablecolsep: 0.5em
       colorlegendsep: 1.5em
       pagebreak: \pagebreak
-      verticalspacing: 2.0
-      horizontalspacing: 5.0
+      # Spacing values are hardcoded in stacking.go
       # Template-specific spacing values
       col: "5pt"
       task_content_vspace: "0.2ex"
@@ -106,10 +105,7 @@ layout:
     overflowthreshold: 0.8
     expansionthreshold: 0.6
 
-    # Task sizing multipliers (relative to day dimensions)
-    min_task_height_multiplier: 0.5
-    max_task_height_multiplier: 2.0
-    min_task_width_multiplier: 0.1
+    # Task sizing constraints
     max_task_width_days: 7.0  # Maximum task width in days
 
     # Visual styling (inherited from layout_engine)
@@ -128,8 +124,6 @@ layout:
 
   # Calendar rendering parameters
   calendar:
-    daynumberwidth: 6mm
-    daycontentmargin: 8mm
     taskkernspacing: 5mm
     collapse_threshold: 5
     # Visual styling (inherited from layout_engine)
@@ -138,12 +132,7 @@ layout:
     emergencystretch: 3em
     inner_sep: 2pt
 
-    # Cell rendering parameters
-    day_cell_minipage_width: 6mm
-    task_cell_margin: 8mm
-    task_cell_spacing: 6mm
-
-    # Task rendering parameters (inherited from layout_engine)
+    # Layout parameters (inherited from layout_engine.calendar_layout)
 
   # Stacking algorithm parameters
   stacking:
@@ -198,13 +187,7 @@ layout:
       collision_buffer: 2.0
       transition_buffer: 2.0
     
-    # Visual styling
-    visual_styling:
-      task_bar_opacity: 1.0
-      task_bar_opacity_fallback: 0.9
-      border_width: 0.5
-      opacity_threshold: 0.999
-      inner_sep: "2pt"
+    # Visual styling (hardcoded in layout_manager.go)
     
     # Calendar layout constants
     calendar_layout:

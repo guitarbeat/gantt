@@ -163,17 +163,13 @@ type Constraints struct {
 	MaxTaskHeight      float64
 	MinTaskWidth       float64
 	MaxTaskWidth       float64
-	VerticalSpacing    float64
-	HorizontalSpacing  float64
+	// Spacing values are hardcoded in stacking.go
 	CollisionThreshold float64
 	OverflowThreshold  float64
 	ExpansionThreshold float64
 
-	// Task sizing multipliers
-	MinTaskHeightMultiplier float64 `yaml:"min_task_height_multiplier"`
-	MaxTaskHeightMultiplier float64 `yaml:"max_task_height_multiplier"`
-	MinTaskWidthMultiplier  float64 `yaml:"min_task_width_multiplier"`
-	MaxTaskWidthDays        float64 `yaml:"max_task_width_days"`
+	// Task sizing constraints
+	MaxTaskWidthDays float64 `yaml:"max_task_width_days"`
 
 	// Visual styling (inherited from layout_engine)
 
@@ -205,8 +201,6 @@ type Layout struct {
 }
 
 type Calendar struct {
-	DayNumberWidth    string
-	DayContentMargin  string
 	TaskKernSpacing   string
 	CollapseThreshold int
 	// Visual styling (inherited from layout_engine)
@@ -215,10 +209,7 @@ type Calendar struct {
 	EmergencyStretch string `yaml:"emergencystretch"`
 	InnerSep         string `yaml:"inner_sep"`
 
-	// Cell rendering parameters
-	DayCellMinipageWidth string `yaml:"day_cell_minipage_width"`
-	TaskCellMargin       string `yaml:"task_cell_margin"`
-	TaskCellSpacing      string `yaml:"task_cell_spacing"`
+	// Layout parameters (inherited from layout_engine.calendar_layout)
 
 	// Task rendering parameters (inherited from layout_engine)
 }
@@ -265,7 +256,7 @@ type LayoutEngine struct {
 	GridConstraints LayoutGridConstraints `yaml:"grid_constraints"`
 
 	// Visual styling
-	VisualStyling LayoutVisualStyling `yaml:"visual_styling"`
+	// Visual styling (hardcoded in layout_manager.go)
 
 	// Calendar layout constants
 	CalendarLayout LayoutCalendarLayout `yaml:"calendar_layout"`
@@ -298,13 +289,7 @@ type LayoutGridConstraints struct {
 	TransitionBuffer   float64 `yaml:"transition_buffer"`
 }
 
-type LayoutVisualStyling struct {
-	TaskBarOpacity         float64 `yaml:"task_bar_opacity"`
-	TaskBarOpacityFallback float64 `yaml:"task_bar_opacity_fallback"`
-	BorderWidth            float64 `yaml:"border_width"`
-	OpacityThreshold       float64 `yaml:"opacity_threshold"`
-	InnerSep               string  `yaml:"inner_sep"`
-}
+// LayoutVisualStyling removed - values are hardcoded in layout_manager.go
 
 type LayoutCalendarLayout struct {
 	DayNumberWidth        string `yaml:"day_number_width"`
@@ -628,22 +613,7 @@ func (cfg *Config) setLayoutEngineDefaults() {
 		cfg.Layout.LayoutEngine.GridConstraints.TransitionBuffer = 2.0
 	}
 
-	// * Set visual styling defaults
-	if cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacity == 0 {
-		cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacity = 1.0
-	}
-	if cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacityFallback == 0 {
-		cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacityFallback = 0.9
-	}
-	if cfg.Layout.LayoutEngine.VisualStyling.BorderWidth == 0 {
-		cfg.Layout.LayoutEngine.VisualStyling.BorderWidth = 0.5
-	}
-	if cfg.Layout.LayoutEngine.VisualStyling.OpacityThreshold == 0 {
-		cfg.Layout.LayoutEngine.VisualStyling.OpacityThreshold = 0.999
-	}
-	if cfg.Layout.LayoutEngine.VisualStyling.InnerSep == "" {
-		cfg.Layout.LayoutEngine.VisualStyling.InnerSep = "2pt"
-	}
+	// Visual styling defaults removed - values are hardcoded in layout_manager.go
 
 	// * Set calendar layout defaults
 	if cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth == "" {
