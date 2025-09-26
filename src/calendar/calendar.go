@@ -169,10 +169,9 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 
 // TasksForDay returns a formatted string of tasks for this day
 func (d Day) TasksForDay() string {
-	if len(d.Tasks) == 0 {
-		return ""
-	}
 	var taskStrings []string
+
+	// Add regular tasks
 	for _, task := range d.Tasks {
 		// Only show task name, category is only used for color
 		taskStr := d.escapeLatexSpecialChars(task.Name)
@@ -184,6 +183,25 @@ func (d Day) TasksForDay() string {
 
 		taskStrings = append(taskStrings, taskStr)
 	}
+
+	// Add spanning tasks that start on this day
+	dayDate := d.getDayDate()
+	startingTasks, _ := d.findStartingTasks(dayDate)
+	for _, spanningTask := range startingTasks {
+		taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
+
+		// Add star for milestone spanning tasks
+		if d.isMilestoneSpanningTask(spanningTask) {
+			taskStr = "★ " + taskStr
+		}
+
+		taskStrings = append(taskStrings, taskStr)
+	}
+
+	if len(taskStrings) == 0 {
+		return ""
+	}
+
 	return strings.Join(taskStrings, "\\\\")
 }
 

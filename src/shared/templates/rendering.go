@@ -89,27 +89,6 @@ type ItemsGroup struct {
 	delim string
 }
 
-func NewItemsGroup(items ...Item) ItemsGroup {
-	return ItemsGroup{
-		Items: items,
-		delim: "\\quad{}",
-	}
-}
-
-func (i ItemsGroup) Display() string {
-	list := make([]string, 0, len(i.Items))
-
-	for _, item := range i.Items {
-		list = append(list, item.Display())
-	}
-
-	return strings.Join(list, i.delim)
-}
-
-func (i ItemsGroup) Delim(delim string) ItemsGroup {
-	i.delim = delim
-	return i
-}
 
 // IntItem represents an integer item with optional reference
 type IntItem struct {
@@ -182,38 +161,6 @@ type CellItem struct {
 	selected bool
 }
 
-func NewCellItem(text string) CellItem {
-	return CellItem{Text: text}
-}
-
-func (c *CellItem) Select() *CellItem {
-	c.selected = true
-	return c
-}
-
-func (c *CellItem) Selected(selected bool) *CellItem {
-	c.selected = selected
-	return c
-}
-
-func (c *CellItem) Refer(ref string) *CellItem {
-	c.Ref = ref
-	return c
-}
-
-func (c *CellItem) Display() string {
-	if len(c.Ref) == 0 {
-		c.Ref = c.Text
-	}
-
-	link := c.Text
-
-	if c.selected {
-		return `\cellcolor{black}{\textcolor{white}{` + link + `}}`
-	}
-
-	return link
-}
 
 // TextItem represents a text item with formatting and reference options
 type TextItem struct {
