@@ -215,27 +215,33 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 	// Create the overlay content using TaskOverlayBox macro
 	// Use the task color for the pill background, and plain text (no color) for the content
-	plainTaskStrings := make([]string, len(startingTasks))
+	taskNames := make([]string, len(startingTasks))
+	objectives := make([]string, len(startingTasks))
+	
 	for i, spanningTask := range startingTasks {
-		// Remove color formatting from task strings for the pill content
+		// Task name (will be bolded by the macro)
 		taskName := d.escapeLatexSpecialChars(spanningTask.Name)
 		if d.isMilestoneSpanningTask(spanningTask) {
 			taskName = "★ " + taskName
 		}
+		taskNames[i] = taskName
 		
-		// Add objective in smaller text if available
+		// Objective (will be smaller by the macro)
 		if spanningTask.Description != "" {
-			objective := d.escapeLatexSpecialChars(spanningTask.Description)
-			plainTaskStrings[i] = fmt.Sprintf(`\textbf{%s}: \small{%s}`, taskName, objective)
+			objectives[i] = d.escapeLatexSpecialChars(spanningTask.Description)
 		} else {
-			plainTaskStrings[i] = taskName
+			objectives[i] = ""
 		}
 	}
 
+	// Combine multiple tasks if there are any
+	taskNameText := strings.Join(taskNames, "\\\\")
+	objectiveText := strings.Join(objectives, "\\\\")
+
 	content := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
 		pillColor, // Use the actual task color for the pill background
-		strings.Join(plainTaskStrings, "\\\\"),
-		"") // Empty description for now
+		taskNameText, // Task names (will be bolded by macro)
+		objectiveText) // Objectives (will be smaller by macro)
 
 	return &TaskOverlay{
 		content: content,
