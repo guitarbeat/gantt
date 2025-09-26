@@ -70,7 +70,9 @@ func (d Day) renderLargeDay(day string) string {
 	// Check for spanning tasks that start on this day
 	overlay := d.renderSpanningTaskOverlay()
 	if overlay != nil {
-		return d.buildTaskCell(leftCell, overlay.content, true, overlay.cols)
+		// For spanning tasks, render them as regular content that stacks vertically
+		// instead of using TikZ overlays that can stack in z-dimension
+		return d.buildTaskCell(leftCell, overlay.content, false, overlay.cols)
 	}
 
 	// Check for regular tasks
@@ -134,12 +136,17 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	}
 
 	if isSpanning {
-		// Spanning task: use tikzpicture overlay with calculated width
+		// Spanning task: use tikzpicture overlay with calculated width (z-dimension stacking)
 		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
 		spacing = `\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
 			`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + content + `\end{minipage}` + `};` +
 			`\end{tikzpicture}` + `}`
 		contentWrapper = "" // Don't add content twice for spanning tasks
+	} else if cols > 0 {
+		// Spanning task but rendered as regular content (vertical stacking)
+		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
+		spacing = `\hspace*{` + dayNumberWidth + `}` // Spacing to align with day number cell width
+		contentWrapper = content // Use the content directly without additional wrapping
 	} else {
 		// Regular task: use full available width and better text flow
 		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
