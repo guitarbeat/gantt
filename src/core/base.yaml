@@ -40,7 +40,7 @@ layout:
     taskborderwidth: 0.6pt
     taskpaddingh: 1.5mm
     taskpaddingv: 0.5mm
-    taskverticaloffset: 0.7mm
+    taskverticaloffset: 0.2mm
     arraystretch: 1.2
     taskfontsize: \small
     taskbarheight: 5mm
