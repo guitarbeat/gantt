@@ -230,21 +230,21 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		}
 		
 		// Create a separate pill for this task
-		// Only the first task gets vertical offset, others touch
+		// Only the first task gets normal padding, others have no padding so they touch
+		var padding string
 		if i == 0 {
-			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
-				taskColor, // Use the task's specific color
-				taskName,  // Task name (will be bolded by macro)
-				objective) // Objective (will be smaller by macro)
-			pillContents = append(pillContents, pillContent)
+			padding = "1.0mm" // Normal padding for first task
 		} else {
-			// For subsequent tasks, use a custom macro without vertical offset
-			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`, 
-				taskColor, // Use the task's specific color
-				taskName,  // Task name (will be bolded by macro)
-				objective) // Objective (will be smaller by macro)
-			pillContents = append(pillContents, pillContent)
+			padding = "0pt" // No padding for subsequent tasks so they touch
 		}
+		
+		pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}{%s}`, 
+			taskColor, // Use the task's specific color
+			taskName,  // Task name (will be bolded by macro)
+			objective, // Objective (will be smaller by macro)
+			padding)   // Padding (1.0mm for first, 0pt for others)
+		
+		pillContents = append(pillContents, pillContent)
 	}
 
 	// Stack the pills vertically
