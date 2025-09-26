@@ -175,17 +175,9 @@ type Constraints struct {
 	MinTaskWidthMultiplier  float64 `yaml:"min_task_width_multiplier"`
 	MaxTaskWidthDays        float64 `yaml:"max_task_width_days"`
 
-	// Visual styling
-	TaskBarOpacity   float64 `yaml:"task_bar_opacity"`
-	BorderWidth      float64 `yaml:"border_width"`
-	OpacityThreshold float64 `yaml:"opacity_threshold"`
+	// Visual styling (inherited from layout_engine)
 
-	// Algorithm thresholds
-	CompressionThreshold    float64 `yaml:"compression_threshold"`
-	QualityThreshold        float64 `yaml:"quality_threshold"`
-	BalanceThreshold        float64 `yaml:"balance_threshold"`
-	EfficiencyThreshold     float64 `yaml:"efficiency_threshold"`
-	EfficiencyGoodThreshold float64 `yaml:"efficiency_good_threshold"`
+	// Algorithm thresholds (inherited from layout_engine)
 
 	// Task positioning
 	TaskVerticalOffset            float64 `yaml:"task_vertical_offset"`
@@ -217,8 +209,7 @@ type Calendar struct {
 	DayContentMargin  string
 	TaskKernSpacing   string
 	CollapseThreshold int
-	TaskBarOpacity    float64
-	BorderWidth       float64
+	// Visual styling (inherited from layout_engine)
 
 	// Typography settings for calendar content
 	EmergencyStretch string `yaml:"emergencystretch"`

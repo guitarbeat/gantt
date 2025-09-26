@@ -140,17 +140,9 @@ layout:
     min_task_width_multiplier: 0.1
     max_task_width_days: 7.0  # Maximum task width in days
 
-    # Visual styling
-    task_bar_opacity: 1.0
-    border_width: 0.5
-    opacity_threshold: 0.999
+    # Visual styling (inherited from layout_engine)
 
-    # Algorithm thresholds
-    compression_threshold: 0.8
-    quality_threshold: 0.8
-    balance_threshold: 0.7
-    efficiency_threshold: 0.5
-    efficiency_good_threshold: 0.9
+    # Algorithm thresholds (inherited from layout_engine)
 
     # Task positioning
     task_vertical_offset: 0.0
@@ -168,8 +160,7 @@ layout:
     daycontentmargin: 8mm
     taskkernspacing: 5mm
     collapse_threshold: 5
-    taskbar_opacity: 1.0
-    border_width: 0.5
+    # Visual styling (inherited from layout_engine)
 
     # Typography settings for calendar content
     emergencystretch: 3em
