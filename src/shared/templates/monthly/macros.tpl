@@ -69,30 +69,38 @@
   \definecolor{taskbgcolor}{RGB}{#1}%
   \definecolor{taskfgcolor}{RGB}{#1}%
   \vspace*{\TaskVerticalOffset}%
-  \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
-    left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top={{.Cfg.Layout.LaTeX.TColorBox.Top}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.Bottom}},
-    colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
-    width=\linewidth, halign=left]
-    {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
-     \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
-     {\TaskFontSize\raggedright #3\par}}%
-  \end{tcolorbox}%
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[anchor=north west, inner sep=0pt] at (0,0) {
+      \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
+        left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top={{.Cfg.Layout.LaTeX.TColorBox.Top}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.Bottom}},
+        colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
+        width=\linewidth, halign=left]
+        {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
+         \TaskTitleSize\textbf{#2}\par
+         \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
+         {\TaskFontSize\raggedright #3\par}}%
+      \end{tcolorbox}
+    };
+  \end{tikzpicture}%
 }
 
 % Task overlay box without vertical offset - for stacked tasks that should touch
 \newcommand{\TaskOverlayBoxNoOffset}[3]{%
   \definecolor{taskbgcolor}{RGB}{#1}%
   \definecolor{taskfgcolor}{RGB}{#1}%
-  \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
-    left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top=0pt, bottom=0pt,
-    colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
-    width=\linewidth, halign=left]
-    {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
-     \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
-     {\TaskFontSize\raggedright #3\par}}%
-  \end{tcolorbox}%
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[anchor=north west, inner sep=0pt] at (0,0) {
+      \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
+        left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top=0pt, bottom=0pt,
+        colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
+        width=\linewidth, halign=left]
+        {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
+         \TaskTitleSize\textbf{#2}\par
+         \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
+         {\TaskFontSize\raggedright #3\par}}%
+      \end{tcolorbox}
+    };
+  \end{tikzpicture}%
 }
 
 % Multi-day task bar drawing macro to centralize styling
