@@ -145,7 +145,7 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	} else if cols > 0 {
 		// Spanning task but rendered as regular content (vertical stacking)
 		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
-		spacing = `\hspace*{` + dayNumberWidth + `}` // Spacing to align with day number cell width
+		spacing = "" // No offset - start at the beginning of the cell
 		contentWrapper = content // Use the content directly without additional wrapping
 	} else {
 		// Regular task: use full available width and better text flow
