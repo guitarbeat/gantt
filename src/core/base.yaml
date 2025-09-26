@@ -43,8 +43,8 @@ layout:
     taskverticaloffset: 0.7mm
     arraystretch: 1.2
     taskfontsize: \small
-    taskbarheight: 4mm
-    monthlycellheight: 78pt
+    taskbarheight: 5mm
+    monthlycellheight: 95pt
     headerresizebox: 6mm
     linethicknessdefault: .4pt
     linethicknessthick: .8pt
