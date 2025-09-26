@@ -36,14 +36,14 @@ func (cb *CellBuilder) BuildSimpleDayCell(leftCell string) string {
 
 // BuildTaskCell constructs a task cell with proper spacing and alignment
 func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, cols int) string {
-	dayNumberWidth := "6mm" // Default width
+	dayNumberWidth := "6mm"   // Default width
 	dayContentMargin := "1mm" // Default margin
 
 	var width, spacing, contentWrapper string
 
 	// Get typography settings
-	hyphenPenalty := 10000 // Default value
-	tolerance := 1000      // Default value
+	hyphenPenalty := 10000    // Default value
+	tolerance := 1000         // Default value
 	emergencyStretch := "2em" // Default value
 
 	if cb.cfg.Layout.LaTeX.Typography.HyphenPenalty != 0 {
@@ -66,13 +66,13 @@ func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, 
 	} else if cols > 0 {
 		// Spanning task but rendered as regular content (vertical stacking)
 		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
-		spacing = "" // No offset - start at the beginning of the cell
+		spacing = ""             // No offset - start at the beginning of the cell
 		contentWrapper = content // Use the content directly without additional wrapping
 	} else {
 		// Regular task: use full available width and better text flow
 		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
-		spacing = `\hspace*{` + dayNumberWidth + `}`                // Spacing to align with day number cell width
-		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `, 
+		spacing = `\hspace*{` + dayNumberWidth + `}`                  // Spacing to align with day number cell width
+		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
 			hyphenPenalty, tolerance, emergencyStretch) + content + `}`
 	}
 
@@ -91,7 +91,7 @@ func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, 
 // BuildWeekHeaderCell creates a week header cell
 func (cb *CellBuilder) BuildWeekHeaderCell(weekNum int) string {
 	weekHeaderHeight := "\\myLenMonthlyCellHeight" // Default height
-	
+
 	return fmt.Sprintf(`\hyperlink{week-%d}{\rotatebox[origin=tr]{90}{\makebox[%s][c]{Week %d}}}`,
 		weekNum, weekHeaderHeight, weekNum)
 }
@@ -99,7 +99,7 @@ func (cb *CellBuilder) BuildWeekHeaderCell(weekNum int) string {
 // BuildMonthHeaderCell creates a month header cell
 func (cb *CellBuilder) BuildMonthHeaderCell(monthName string, monthNum int) string {
 	monthHeaderHeight := "\\myLenMonthlyCellHeight" // Default height
-	
+
 	return fmt.Sprintf(`\hyperlink{month-%d}{\rotatebox[origin=tr]{90}{\makebox[%s][c]{%s}}}`,
 		monthNum, monthHeaderHeight, monthName)
 }

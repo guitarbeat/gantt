@@ -138,19 +138,19 @@ func (tr *TaskRenderer) escapeLatexSpecialChars(text string) string {
 func (tr *TaskRenderer) isMilestoneTask(task Task) bool {
 	// Check if task name contains milestone indicators
 	name := strings.ToLower(task.Name)
-	return strings.Contains(name, "milestone") || 
-		   strings.Contains(name, "deliverable") || 
-		   strings.Contains(name, "deadline") ||
-		   strings.Contains(name, "★")
+	return strings.Contains(name, "milestone") ||
+		strings.Contains(name, "deliverable") ||
+		strings.Contains(name, "deadline") ||
+		strings.Contains(name, "★")
 }
 
 func (tr *TaskRenderer) isMilestoneSpanningTask(task *SpanningTask) bool {
 	// Check if spanning task name contains milestone indicators
 	name := strings.ToLower(task.Name)
-	return strings.Contains(name, "milestone") || 
-		   strings.Contains(name, "deliverable") || 
-		   strings.Contains(name, "deadline") ||
-		   strings.Contains(name, "★")
+	return strings.Contains(name, "milestone") ||
+		strings.Contains(name, "deliverable") ||
+		strings.Contains(name, "deadline") ||
+		strings.Contains(name, "★")
 }
 
 func (tr *TaskRenderer) getColorForCategory(category string) string {

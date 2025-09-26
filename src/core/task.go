@@ -106,13 +106,13 @@ func generateCategoryColor(category string) string {
 	}
 
 	// Generate HSL color with good saturation and lightness for readability
-	hue := float64(hash%360)                    // 0-360 degrees
+	hue := float64(hash % 360)                 // 0-360 degrees
 	saturation := 0.7 + float64(hash%30)/100.0 // 0.7-1.0 for good saturation
 	lightness := 0.5 + float64(hash%20)/100.0  // 0.5-0.7 for good contrast
 
 	// Convert HSL to RGB
 	r, g, b := hslToRgb(hue, saturation, lightness)
-	
+
 	// Convert to hex
 	return fmt.Sprintf("#%02X%02X%02X", r, g, b)
 }
@@ -121,9 +121,9 @@ func generateCategoryColor(category string) string {
 func hslToRgb(h, s, l float64) (int, int, int) {
 	// Normalize values
 	h = h / 360.0
-	
+
 	var r, g, b float64
-	
+
 	if s == 0 {
 		// Grayscale
 		r, g, b = l, l, l
@@ -135,12 +135,12 @@ func hslToRgb(h, s, l float64) (int, int, int) {
 			q = l + s - l*s
 		}
 		p = 2*l - q
-		
+
 		r = hueToRgb(p, q, h+1.0/3.0)
 		g = hueToRgb(p, q, h)
 		b = hueToRgb(p, q, h-1.0/3.0)
 	}
-	
+
 	return int(r * 255), int(g * 255), int(b * 255)
 }
 

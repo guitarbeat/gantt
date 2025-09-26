@@ -380,4 +380,3 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 
 	return task, nil
 }
-

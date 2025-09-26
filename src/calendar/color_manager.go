@@ -74,13 +74,13 @@ func (cm *ColorManager) SetCategoryColor(category, color string) {
 // GenerateColorLegend generates a LaTeX color legend
 func (cm *ColorManager) GenerateColorLegend() string {
 	var legendItems []string
-	
+
 	for category, color := range cm.categoryColors {
 		rgbColor := cm.HexToRGB(color)
 		legendItem := fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, category)
 		legendItems = append(legendItems, legendItem)
 	}
-	
+
 	return strings.Join(legendItems, " \\quad ")
 }
 
@@ -102,14 +102,14 @@ func getDefaultCategoryColors() map[string]string {
 
 // Color constants for easy reference
 const (
-	ColorRed     = "#FF6B6B"
-	ColorTeal    = "#4ECDC4"
-	ColorBlue    = "#45B7D1"
-	ColorGreen   = "#96CEB4"
-	ColorYellow  = "#FFEAA7"
-	ColorPlum    = "#DDA0DD"
-	ColorMint    = "#98D8C8"
-	ColorPurple  = "#BB8FCE"
+	ColorRed       = "#FF6B6B"
+	ColorTeal      = "#4ECDC4"
+	ColorBlue      = "#45B7D1"
+	ColorGreen     = "#96CEB4"
+	ColorYellow    = "#FFEAA7"
+	ColorPlum      = "#DDA0DD"
+	ColorMint      = "#98D8C8"
+	ColorPurple    = "#BB8FCE"
 	ColorLightBlue = "#85C1E9"
-	ColorGray    = "#E0E0E0"
+	ColorGray      = "#E0E0E0"
 )

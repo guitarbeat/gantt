@@ -90,7 +90,7 @@ func (d Day) renderLargeDayRefactored(day string) string {
 	// Create the refactored components
 	taskRenderer := NewTaskRenderer(d.Cfg)
 	cellBuilder := NewCellBuilder(d.Cfg)
-	
+
 	leftCell := cellBuilder.BuildDayNumberCell(day)
 
 	// Check for spanning tasks that start on this day
@@ -170,13 +170,13 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	} else if cols > 0 {
 		// Spanning task but rendered as regular content (vertical stacking)
 		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
-		spacing = "" // No offset - start at the beginning of the cell
+		spacing = ""             // No offset - start at the beginning of the cell
 		contentWrapper = content // Use the content directly without additional wrapping
 	} else {
 		// Regular task: use full available width and better text flow
 		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
-		spacing = `\hspace*{` + dayNumberWidth + `}`                // Spacing to align with day number cell width
-		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `, 
+		spacing = `\hspace*{` + dayNumberWidth + `}`                  // Spacing to align with day number cell width
+		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
 			hyphenPenalty, tolerance, emergencyStretch) + content + `}`
 	}
 
@@ -209,7 +209,7 @@ type TaskOverlay struct {
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	dayDate := d.getDayDate()
 	startingTasks, maxCols := d.findStartingTasks(dayDate)
-	
+
 	if len(startingTasks) == 0 {
 		return nil
 	}
@@ -241,37 +241,37 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 	// Create separate pills for each spanning task
 	var pillContents []string
-	
+
 	for i, spanningTask := range startingTasks {
 		// Task name (will be bolded by the macro)
 		taskName := d.escapeLatexSpecialChars(spanningTask.Name)
 		if d.isMilestoneSpanningTask(spanningTask) {
 			taskName = "★ " + taskName
 		}
-		
+
 		// Objective (will be smaller by the macro)
 		objective := ""
 		if spanningTask.Description != "" {
 			objective = d.escapeLatexSpecialChars(spanningTask.Description)
 		}
-		
+
 		// Get the color for this specific task
 		taskColor := hexToRGB(spanningTask.Color)
 		if taskColor == "" {
 			taskColor = "224,50,212" // Default fallback
 		}
-		
+
 		// Create a separate pill for this task
 		// Only the first task gets vertical offset, others touch
 		if i == 0 {
-			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
+			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
 				taskColor, // Use the task's specific color
 				taskName,  // Task name (will be bolded by macro)
 				objective) // Objective (will be smaller by macro)
 			pillContents = append(pillContents, pillContent)
 		} else {
 			// For subsequent tasks, use a custom macro without vertical offset
-			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`, 
+			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`,
 				taskColor, // Use the task's specific color
 				taskName,  // Task name (will be bolded by macro)
 				objective) // Objective (will be smaller by macro)
@@ -1018,13 +1018,13 @@ func generateDynamicColor(category string) string {
 	}
 
 	// Generate HSL color with good saturation and lightness for readability
-	hue := float64(hash%360)                    // 0-360 degrees
+	hue := float64(hash % 360)                 // 0-360 degrees
 	saturation := 0.7 + float64(hash%30)/100.0 // 0.7-1.0 for good saturation
 	lightness := 0.5 + float64(hash%20)/100.0  // 0.5-0.7 for good contrast
 
 	// Convert HSL to RGB
 	r, g, b := hslToRgb(hue, saturation, lightness)
-	
+
 	// Convert to hex
 	return fmt.Sprintf("#%02X%02X%02X", r, g, b)
 }
@@ -1033,9 +1033,9 @@ func generateDynamicColor(category string) string {
 func hslToRgb(h, s, l float64) (int, int, int) {
 	// Normalize values
 	h = h / 360.0
-	
+
 	var r, g, b float64
-	
+
 	if s == 0 {
 		// Grayscale
 		r, g, b = l, l, l
@@ -1047,12 +1047,12 @@ func hslToRgb(h, s, l float64) (int, int, int) {
 			q = l + s - l*s
 		}
 		p = 2*l - q
-		
+
 		r = hueToRgb(p, q, h+1.0/3.0)
 		g = hueToRgb(p, q, h)
 		b = hueToRgb(p, q, h-1.0/3.0)
 	}
-	
+
 	return int(r * 255), int(g * 255), int(b * 255)
 }
 

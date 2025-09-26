@@ -140,14 +140,14 @@ type Typography struct {
 }
 
 type Spacing struct {
-	ColSep          string
-	TableColSep     string
-	ColorLegendSep  string
+	ColSep         string
+	TableColSep    string
+	ColorLegendSep string
 	// Page break hardcoded in templates
 	// Template-specific spacing values
-	Col              string `yaml:"col"`
+	Col               string `yaml:"col"`
 	TaskContentVspace string `yaml:"task_content_vspace"`
-	TaskOverlayArc   string `yaml:"task_overlay_arc"`
+	TaskOverlayArc    string `yaml:"task_overlay_arc"`
 }
 
 type Document struct {
@@ -156,11 +156,11 @@ type Document struct {
 }
 
 type Constraints struct {
-	MaxStackHeight     float64
-	MinTaskHeight      float64
-	MaxTaskHeight      float64
-	MinTaskWidth       float64
-	MaxTaskWidth       float64
+	MaxStackHeight float64
+	MinTaskHeight  float64
+	MaxTaskHeight  float64
+	MinTaskWidth   float64
+	MaxTaskWidth   float64
 	// Spacing values are hardcoded in stacking.go
 	CollisionThreshold float64
 	OverflowThreshold  float64
@@ -179,16 +179,16 @@ type Constraints struct {
 type Layout struct {
 	Paper Paper
 
-	Numbers     Numbers
-	Lengths     Lengths
-	Colors            Colors
+	Numbers Numbers
+	Lengths Lengths
+	Colors  Colors
 	// TaskColors removed - using algorithmic colors
 	AlgorithmicColors AlgorithmicColors
-	LaTeX       LaTeX      `yaml:"latex"`
-	Constraints Constraints
-	Calendar    Calendar
-	Stacking    Stacking
-	LayoutEngine LayoutEngine `yaml:"layout_engine"`
+	LaTeX             LaTeX `yaml:"latex"`
+	Constraints       Constraints
+	Calendar          Calendar
+	Stacking          Stacking
+	LayoutEngine      LayoutEngine `yaml:"layout_engine"`
 }
 
 type Calendar struct {
@@ -220,7 +220,6 @@ type LayoutEngine struct {
 	CategoryWeightMultiplier  float64 `yaml:"category_weight_multiplier"`
 
 	// Urgency multipliers removed - using simplified prominence calculation
-
 
 	// Quality assessment thresholds (hardcoded as constants)
 
@@ -698,4 +697,3 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 
 	return nil
 }
-

@@ -89,7 +89,6 @@ type ItemsGroup struct {
 	delim string
 }
 
-
 // IntItem represents an integer item with optional reference
 type IntItem struct {
 	Val int
@@ -160,7 +159,6 @@ type CellItem struct {
 	Ref      string
 	selected bool
 }
-
 
 // TextItem represents a text item with formatting and reference options
 type TextItem struct {

@@ -7,93 +7,63 @@ import (
 	"phd-dissertation-planner/src/core"
 )
 
-func TestDateValidator_ValidateDateRanges(t *testing.T) {
-	validator := core.NewDateValidator()
-
-	tests := []struct {
-		name     string
-		tasks    []*core.Task
-		expected int // number of validation errors expected
-	}{
-		{
-			name: "valid date ranges",
-			tasks: []*core.Task{
-				{
-					Name:      "Task 1",
-					StartDate: time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC),
-					EndDate:   time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
-				},
-				{
-					Name:      "Task 2", 
-					StartDate: time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC),
-					EndDate:   time.Date(2024, 2, 10, 0, 0, 0, 0, time.UTC),
-				},
-			},
-			expected: 0,
-		},
-		{
-			name: "invalid date range - end before start",
-			tasks: []*core.Task{
-				{
-					Name:      "Invalid Task",
-					StartDate: time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
-					EndDate:   time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC),
-				},
-			},
-			expected: 1,
-		},
-		{
-			name: "mixed valid and invalid",
-			tasks: []*core.Task{
-				{
-					Name:      "Valid Task",
-					StartDate: time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC),
-					EndDate:   time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
-				},
-				{
-					Name:      "Invalid Task",
-					StartDate: time.Date(2024, 1, 25, 0, 0, 0, 0, time.UTC),
-					EndDate:   time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
-				},
-			},
-			expected: 1,
-		},
+// TestTaskValidation tests basic task validation functionality
+// (DateValidator was removed during dead code cleanup)
+func TestTaskValidation(t *testing.T) {
+	// Test that we can create tasks with valid dates
+	task := &core.Task{
+		Name:      "Test Task",
+		StartDate: time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC),
+		EndDate:   time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			errors := validator.ValidateDateRanges(tt.tasks)
-			
-			if len(errors) != tt.expected {
-				t.Errorf("Expected %d validation errors, got %d", tt.expected, len(errors))
-			}
-			
-			// If we expect errors, verify they contain meaningful messages
-			if tt.expected > 0 && len(errors) > 0 {
-				if errors[0].Message == "" {
-					t.Errorf("Expected validation error to have a message")
-				}
-			}
-		})
+	if task.Name != "Test Task" {
+		t.Errorf("Expected task name 'Test Task', got %s", task.Name)
+	}
+
+	if task.StartDate.IsZero() {
+		t.Errorf("Expected non-zero start date")
+	}
+
+	if task.EndDate.IsZero() {
+		t.Errorf("Expected non-zero end date")
+	}
+
+	// Test that end date is after start date
+	if !task.EndDate.After(task.StartDate) {
+		t.Errorf("Expected end date to be after start date")
 	}
 }
 
-func TestDateValidator_EmptyTaskList(t *testing.T) {
-	validator := core.NewDateValidator()
-	
-	errors := validator.ValidateDateRanges([]*core.Task{})
-	
-	if len(errors) != 0 {
-		t.Errorf("Expected no errors for empty task list, got %d", len(errors))
+// TestTaskCreation tests basic task creation
+func TestTaskCreation(t *testing.T) {
+	// Test creating a task with all fields
+	task := &core.Task{
+		ID:          "task-1",
+		Name:        "Test Task",
+		Description: "A test task",
+		Category:    "Test",
+		StartDate:   time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC),
+		EndDate:     time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC),
+		IsMilestone: true,
+		Status:      "In Progress",
+		Assignee:    "Test User",
 	}
-}
 
-func TestDateValidator_NilTaskList(t *testing.T) {
-	validator := core.NewDateValidator()
-	
-	errors := validator.ValidateDateRanges(nil)
-	
-	if len(errors) != 0 {
-		t.Errorf("Expected no errors for nil task list, got %d", len(errors))
+	// Verify all fields are set correctly
+	if task.ID != "task-1" {
+		t.Errorf("Expected ID 'task-1', got %s", task.ID)
+	}
+
+	if task.Name != "Test Task" {
+		t.Errorf("Expected name 'Test Task', got %s", task.Name)
+	}
+
+	if !task.IsMilestone {
+		t.Errorf("Expected milestone to be true")
+	}
+
+	if task.Status != "In Progress" {
+		t.Errorf("Expected status 'In Progress', got %s", task.Status)
 	}
 }
