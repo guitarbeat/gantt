@@ -253,8 +253,6 @@ type LayoutEngine struct {
 
 	// Urgency multipliers removed - using simplified prominence calculation
 
-	// Milestone priority multiplier
-	MilestonePriorityMultiplier float64 `yaml:"milestone_priority_multiplier"`
 
 	// Quality assessment thresholds (hardcoded as constants)
 
@@ -562,9 +560,6 @@ func (cfg *Config) setLayoutEngineDefaults() {
 	if cfg.Layout.LayoutEngine.CategoryWeightMultiplier == 0 {
 		cfg.Layout.LayoutEngine.CategoryWeightMultiplier = 1.0
 	}
-	if cfg.Layout.LayoutEngine.MilestonePriorityMultiplier == 0 {
-		cfg.Layout.LayoutEngine.MilestonePriorityMultiplier = 1.2
-	}
 
 	// Urgency multiplier defaults removed - using simplified prominence calculation
 
@@ -687,7 +682,6 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 		{"duration_short_multiplier", cfg.Layout.LayoutEngine.DurationShortMultiplier},
 		{"milestone_weight_multiplier", cfg.Layout.LayoutEngine.MilestoneWeightMultiplier},
 		{"category_weight_multiplier", cfg.Layout.LayoutEngine.CategoryWeightMultiplier},
-		{"milestone_priority_multiplier", cfg.Layout.LayoutEngine.MilestonePriorityMultiplier},
 	}
 
 	for _, m := range multipliers {

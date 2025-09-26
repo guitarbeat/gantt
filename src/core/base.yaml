@@ -204,8 +204,6 @@ layout:
     
     # Urgency multipliers removed - using simplified prominence calculation
     
-    # Milestone priority multiplier
-    milestone_priority_multiplier: 1.2
     
     # Quality assessment thresholds (hardcoded as constants)
     # space_efficiency_threshold: 0.7

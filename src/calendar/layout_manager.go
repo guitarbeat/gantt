@@ -1010,13 +1010,9 @@ func (le *LayoutEngine) calculateProminenceScore(task *core.Task, priority *Task
 	// Urgency is now handled through the priority.Weight multiplier above
 
 	// Adjust based on milestone priority
-	// * Use config-driven milestone priority multiplier
-	milestonePriorityMultiplier := 1.2 // Default fallback
-	if le.config.Layout.LayoutEngine.MilestonePriorityMultiplier > 0 {
-		milestonePriorityMultiplier = le.config.Layout.LayoutEngine.MilestonePriorityMultiplier
-	}
+	// * Use hardcoded milestone priority multiplier
 	if priority.Category == "MILESTONE" {
-		prominence *= milestonePriorityMultiplier
+		prominence *= 1.2
 	}
 
 	return math.Min(prominence, 1.0)
