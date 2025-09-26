@@ -1,0 +1,35 @@
+package app
+
+import (
+	"os"
+
+	"phd-dissertation-planner/src/core"
+
+	"github.com/urfave/cli/v2"
+)
+
+const (
+	fConfig = "config"
+	pConfig = "preview"
+	fOutDir = "outdir"
+)
+
+func New() *cli.App {
+	// Initialize the composer map
+	core.ComposerMap["monthly"] = Monthly
+
+	return &cli.App{
+		Name: "plannergen",
+
+		Writer:    os.Stdout,
+		ErrWriter: os.Stderr,
+
+		Flags: []cli.Flag{
+			&cli.PathFlag{Name: fConfig, Required: false, Value: "src/core/base.yaml", Usage: "config file(s), comma-separated"},
+			&cli.BoolFlag{Name: pConfig, Required: false, Usage: "render only one page per unique module"},
+			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
+		},
+
+		Action: action,
+	}
+}

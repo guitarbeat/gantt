@@ -24,14 +24,6 @@ import (
 	"phd-dissertation-planner/src/shared/templates"
 )
 
-// * LaTeX rendering constants
-// These constants control the visual appearance and layout of the calendar
-const (
-	maxTaskChars            = 16 // Character limit for task names
-	maxTaskCharsCompact     = 13 // Character limit for compact task display
-	maxTaskCharsVeryCompact = 10 // Character limit for very compact display
-)
-
 // * Day types and methods (from day.go)
 
 type Days []*Day
@@ -39,6 +31,7 @@ type Day struct {
 	Time          time.Time
 	Tasks         []Task
 	SpanningTasks []*SpanningTask
+	Cfg           *core.Config // * Reference to core configuration
 }
 
 // Task represents a task for a specific day
@@ -105,12 +98,40 @@ func (d Day) ref(prefix ...string) string {
 // buildDayNumberCell creates the basic day number cell with minimal padding
 // Uses minipage instead of tabular to eliminate auto padding
 func (d Day) buildDayNumberCell(day string) string {
-	return `\begin{minipage}[t]{6mm}\centering{}` + day + `\end{minipage}`
+	// * Use config-driven day number width
+	dayWidth := "6mm" // Default fallback
+	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
+		dayWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
+	}
+	return `\begin{minipage}[t]{` + dayWidth + `}\centering{}` + day + `\end{minipage}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
 func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) string {
 	var width, spacing, contentWrapper string
+
+	// * Get config values with fallbacks
+	dayNumberWidth := "6mm"
+	dayContentMargin := "8mm"
+	hyphenPenalty := 50
+	tolerance := 1000
+	emergencyStretch := "3em"
+
+	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
+		dayNumberWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
+	}
+	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
+		dayContentMargin = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin
+	}
+	if d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty > 0 {
+		hyphenPenalty = d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty
+	}
+	if d.Cfg.Layout.LayoutEngine.Typography.Tolerance > 0 {
+		tolerance = d.Cfg.Layout.LayoutEngine.Typography.Tolerance
+	}
+	if d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar != "" {
+		emergencyStretch = d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar
+	}
 
 	if isSpanning {
 		// Spanning task: use tikzpicture overlay with calculated width
@@ -121,9 +142,10 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 		contentWrapper = content
 	} else {
 		// Regular task: use full available width and better text flow
-		width = `\dimexpr\linewidth - 8mm\relax` // Leave space for 6mm day number + margins
-		spacing = `\hspace*{6mm}`                // Spacing to align with day number cell width
-		contentWrapper = `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=3em\footnotesize\raggedright ` + content + `}`
+		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
+		spacing = `\hspace*{` + dayNumberWidth + `}`                // Spacing to align with day number cell width
+		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `, 
+			hyphenPenalty, tolerance, emergencyStretch) + content + `}`
 	}
 
 	inner := `{\begingroup` +
@@ -273,7 +295,7 @@ func escapeLatexSpecialChars(text string) string {
 
 // smartTruncateText intelligently truncates text at word boundaries when possible
 // NOTE: Currently disabled - returning full text to avoid aggressive truncation
-func (d Day) smartTruncateText(text string, maxChars int) string {
+func (d Day) smartTruncateText(text string) string {
 	// For now, return full text to avoid unwanted truncation
 	// TODO: Implement better space utilization strategies
 	return text
@@ -307,7 +329,7 @@ type Week struct {
 	Quarters Quarters
 }
 
-func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month) Weeks {
+func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month, cfg *core.Config) Weeks {
 	ptr := time.Date(year.Number, month.Month, 1, 0, 0, 0, 0, time.Local)
 	weekday := ptr.Weekday()
 	shift := (7 + weekday - wd) % 7
@@ -315,7 +337,7 @@ func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month) 
 	week := &Week{Weekday: wd, Year: year, Months: Months{month}, Quarters: Quarters{qrtr}}
 
 	for i := shift; i < 7; i++ {
-		week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil}
+		week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil, Cfg: cfg}
 		ptr = ptr.AddDate(0, 0, 1)
 	}
 
@@ -330,7 +352,7 @@ func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month) 
 				break
 			}
 
-			week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil}
+			week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil, Cfg: cfg}
 			ptr = ptr.AddDate(0, 0, 1)
 		}
 
@@ -404,7 +426,7 @@ func (w Week) ref(prefix ...string) string {
 	return p + "week-" + strconv.Itoa(w.Year.Number) + "-" + strconv.Itoa(w.weekNumber())
 }
 
-func NewWeeksForYear(wd time.Weekday, year *Year) Weeks {
+func NewWeeksForYear(wd time.Weekday, year *Year, cfg *core.Config) Weeks {
 	var weeks Weeks
 	ptr := time.Date(year.Number, 1, 1, 0, 0, 0, 0, time.Local)
 	weekday := ptr.Weekday()
@@ -413,7 +435,7 @@ func NewWeeksForYear(wd time.Weekday, year *Year) Weeks {
 	for i := 0; i < 53; i++ {
 		week := &Week{Weekday: wd, Year: year}
 		for j := 0; j < 7; j++ {
-			week.Days[j] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil}
+			week.Days[j] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil, Cfg: cfg}
 			ptr = ptr.AddDate(0, 0, 1)
 		}
 		weeks = append(weeks, week)
@@ -446,17 +468,19 @@ type Month struct {
 	Month   time.Month
 	Weekday time.Weekday
 	Weeks   Weeks
+	Cfg     *core.Config // * Reference to core configuration
 }
 
-func NewMonth(wd time.Weekday, year *Year, qrtr *Quarter, month time.Month) *Month {
+func NewMonth(wd time.Weekday, year *Year, qrtr *Quarter, month time.Month, cfg *core.Config) *Month {
 	m := &Month{
 		Year:    year,
 		Quarter: qrtr,
 		Month:   month,
 		Weekday: wd,
+		Cfg:     cfg,
 	}
 
-	m.Weeks = NewWeeksForMonth(wd, year, qrtr, m)
+	m.Weeks = NewWeeksForMonth(wd, year, qrtr, m, cfg)
 
 	return m
 }
@@ -496,7 +520,12 @@ func (m Month) HeadingMOS(prefix ...string) string {
 		monthStr = templates.Link(m.ref(p), monthStr)
 	}
 
-	anglesize := `\dimexpr\myLenHeaderResizeBox-0.86pt`
+	// * Use config-driven header angle size offset
+	headerAngleOffset := "0.86pt" // Default fallback
+	if m.Cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset != "" {
+		headerAngleOffset = m.Cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset
+	}
+	anglesize := `\dimexpr\myLenHeaderResizeBox-` + headerAngleOffset
 	var ll, rl string
 	var r1, r2 []string
 	if m.PrevExists() {
@@ -700,11 +729,11 @@ type Year struct {
 	Weeks    Weeks
 }
 
-func NewYear(wd time.Weekday, year int) *Year {
+func NewYear(wd time.Weekday, year int, cfg *core.Config) *Year {
 	out := &Year{Number: year}
-	out.Weeks = NewWeeksForYear(wd, out)
+	out.Weeks = NewWeeksForYear(wd, out, cfg)
 	for q := 1; q <= 4; q++ {
-		out.Quarters = append(out.Quarters, NewQuarter(wd, out, q))
+		out.Quarters = append(out.Quarters, NewQuarter(wd, out, q, cfg))
 	}
 	return out
 }
@@ -749,11 +778,11 @@ type Quarter struct {
 	Months Months
 }
 
-func NewQuarter(wd time.Weekday, year *Year, quarter int) *Quarter {
+func NewQuarter(wd time.Weekday, year *Year, quarter int, cfg *core.Config) *Quarter {
 	out := &Quarter{Number: quarter, Year: year}
 	for m := 1; m <= 3; m++ {
 		month := time.Month((quarter-1)*3 + m)
-		out.Months = append(out.Months, NewMonth(wd, year, out, month))
+		out.Months = append(out.Months, NewMonth(wd, year, out, month, cfg))
 	}
 	return out
 }

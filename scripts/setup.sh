@@ -78,7 +78,7 @@ verify_setup() {
     log_info "Verifying setup..."
 
     # Try to build the project
-    if make > /dev/null 2>&1; then
+    if make -f scripts/Makefile > /dev/null 2>&1; then
         log_success "Build verification passed"
     else
         log_error "Build verification failed"

@@ -243,27 +243,55 @@ type VerticalPosition struct {
 }
 
 // NewStackingEngine creates a new consolidated stacking engine
-func NewStackingEngine(spatialEngine *SpatialEngine, conflictCategorizer *ConflictCategorizer, priorityRanker *PriorityRanker) *StackingEngine {
+func NewStackingEngine(spatialEngine *SpatialEngine, conflictCategorizer *ConflictCategorizer, priorityRanker *PriorityRanker, config *core.Config) *StackingEngine {
+	// * Use config-driven visual constraints with fallbacks
+	visualConstraints := &VisualConstraints{
+		MaxStackHeight:     100.0, // Default fallback
+		MinTaskHeight:      20.0,  // Default fallback
+		MaxTaskHeight:      40.0,  // Default fallback
+		MinTaskWidth:       50.0,  // Default fallback
+		MaxTaskWidth:       200.0, // Default fallback
+		VerticalSpacing:    2.0,   // Default fallback
+		HorizontalSpacing:  5.0,   // Default fallback
+		MaxStackDepth:      10,    // Default fallback
+		CollisionThreshold: 0.1,   // Default fallback
+		OverflowThreshold:  0.8,   // Default fallback
+	}
+
+	// Override with config values if available
+	if config != nil {
+		if config.Layout.Stacking.BaseHeight > 0 {
+			visualConstraints.MaxStackHeight = config.Layout.Stacking.BaseHeight
+		}
+		if config.Layout.Stacking.MinHeight > 0 {
+			visualConstraints.MinTaskHeight = config.Layout.Stacking.MinHeight
+		}
+		if config.Layout.Stacking.MaxHeight > 0 {
+			visualConstraints.MaxTaskHeight = config.Layout.Stacking.MaxHeight
+		}
+		if config.Layout.Stacking.VerticalSpacing > 0 {
+			visualConstraints.VerticalSpacing = config.Layout.Stacking.VerticalSpacing
+		}
+		if config.Layout.Stacking.HorizontalSpacing > 0 {
+			visualConstraints.HorizontalSpacing = config.Layout.Stacking.HorizontalSpacing
+		}
+		if config.Layout.Stacking.CollisionThreshold > 0 {
+			visualConstraints.CollisionThreshold = config.Layout.Stacking.CollisionThreshold
+		}
+		if config.Layout.Stacking.OverflowVertical > 0 {
+			visualConstraints.OverflowThreshold = config.Layout.Stacking.OverflowVertical
+		}
+	}
+
 	engine := &StackingEngine{
 		spatialEngine:       spatialEngine,
 		conflictCategorizer: conflictCategorizer,
 		priorityRanker:      priorityRanker,
 		stackingRules:       make([]StackingRule, 0),
-		visualConstraints: &VisualConstraints{
-			MaxStackHeight:     100.0,
-			MinTaskHeight:      20.0,
-			MaxTaskHeight:      40.0,
-			MinTaskWidth:       50.0,
-			MaxTaskWidth:       200.0,
-			VerticalSpacing:    2.0,
-			HorizontalSpacing:  5.0,
-			MaxStackDepth:      10,
-			CollisionThreshold: 0.1,
-			OverflowThreshold:  0.8,
-		},
-		heightCalculator:   NewHeightCalculator(),
-		positionCalculator: NewPositionCalculator(),
-		spaceOptimizer:     NewSpaceOptimizer(),
+		visualConstraints:   visualConstraints,
+		heightCalculator:    NewHeightCalculator(),
+		positionCalculator:  NewPositionCalculator(),
+		spaceOptimizer:      NewSpaceOptimizer(),
 	}
 
 	// Initialize default stacking rules
@@ -1142,9 +1170,10 @@ func (se *StackingEngine) determineDistributionMode(stack *TaskStack, context *S
 
 	for _, task := range stack.Tasks {
 		complexity := se.assessContentComplexity(task.Task)
-		if complexity == "complex" {
+		switch complexity {
+case "complex":
 			hasComplexContent = true
-		} else if complexity == "minimal" {
+		case "minimal":
 			hasSimpleContent = true
 		}
 	}

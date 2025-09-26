@@ -29,6 +29,7 @@ type LayoutEngine struct {
 	gridConfig               *GridConfig
 	visualSettings           *IntegratedVisualSettings
 	dateValidator            *core.DateValidator
+	config                   *core.Config // * Reference to core configuration
 }
 
 // TaskBar represents a rendered task bar with positioning information
@@ -104,6 +105,7 @@ type GridConfig struct {
 	MonthBoundaryGap  float64
 	TaskSpacing       float64
 	VisualConstraints *VisualConstraints
+	CoreConfig        *core.Config // * Reference to core configuration
 }
 
 // IntegratedVisualSettings defines visual settings for the integrated system
@@ -278,56 +280,11 @@ type BoundaryVisualStyle struct {
 // BorderStyle defines the style of borders at month boundaries
 type BorderStyle string
 
-const (
-	BorderSolid  BorderStyle = "SOLID"
-	BorderDashed BorderStyle = "DASHED"
-	BorderDotted BorderStyle = "DOTTED"
-	BorderDouble BorderStyle = "DOUBLE"
-	BorderGroove BorderStyle = "GROOVE"
-	BorderRidge  BorderStyle = "RIDGE"
-	BorderInset  BorderStyle = "INSET"
-	BorderOutset BorderStyle = "OUTSET"
-	BorderNone   BorderStyle = "NONE"
-)
-
 // EasingFunction defines easing functions for transitions
 type EasingFunction string
 
-const (
-	EasingLinear    EasingFunction = "LINEAR"
-	EasingEaseIn    EasingFunction = "EASE_IN"
-	EasingEaseOut   EasingFunction = "EASE_OUT"
-	EasingEaseInOut EasingFunction = "EASE_IN_OUT"
-	EasingBounce    EasingFunction = "BOUNCE"
-	EasingElastic   EasingFunction = "ELASTIC"
-	EasingBack      EasingFunction = "BACK"
-	EasingCubic     EasingFunction = "CUBIC"
-	EasingQuart     EasingFunction = "QUART"
-	EasingQuint     EasingFunction = "QUINT"
-	EasingSine      EasingFunction = "SINE"
-	EasingExpo      EasingFunction = "EXPO"
-	EasingCirc      EasingFunction = "CIRC"
-)
-
 // VisualEffect defines visual effects for transitions
 type VisualEffect string
-
-const (
-	EffectFadeIn     VisualEffect = "FADE_IN"
-	EffectFadeOut    VisualEffect = "FADE_OUT"
-	EffectSlideLeft  VisualEffect = "SLIDE_LEFT"
-	EffectSlideRight VisualEffect = "SLIDE_RIGHT"
-	EffectSlideUp    VisualEffect = "SLIDE_UP"
-	EffectSlideDown  VisualEffect = "SLIDE_DOWN"
-	EffectScaleIn    VisualEffect = "SCALE_IN"
-	EffectScaleOut   VisualEffect = "SCALE_OUT"
-	EffectRotateIn   VisualEffect = "ROTATE_IN"
-	EffectRotateOut  VisualEffect = "ROTATE_OUT"
-	EffectFlipIn     VisualEffect = "FLIP_IN"
-	EffectFlipOut    VisualEffect = "FLIP_OUT"
-	EffectZoomIn     VisualEffect = "ZOOM_IN"
-	EffectZoomOut    VisualEffect = "ZOOM_OUT"
-)
 
 // VisualConnection defines visual connections between months
 type VisualConnection struct {
@@ -344,41 +301,11 @@ type VisualConnection struct {
 // ConnectionType defines the type of visual connection
 type ConnectionType string
 
-const (
-	ConnectionArrow  ConnectionType = "ARROW"
-	ConnectionLine   ConnectionType = "LINE"
-	ConnectionCurve  ConnectionType = "CURVE"
-	ConnectionDashed ConnectionType = "DASHED"
-	ConnectionDotted ConnectionType = "DOTTED"
-	ConnectionThick  ConnectionType = "THICK"
-	ConnectionThin   ConnectionType = "THIN"
-	ConnectionDouble ConnectionType = "DOUBLE"
-)
-
 // LineStyle defines the style of connection lines
 type LineStyle string
 
-const (
-	LineSolid      LineStyle = "SOLID"
-	LineDashed     LineStyle = "DASHED"
-	LineDotted     LineStyle = "DOTTED"
-	LineDashDot    LineStyle = "DASH_DOT"
-	LineDashDotDot LineStyle = "DASH_DOT_DOT"
-)
-
 // ArrowStyle defines the style of arrows
 type ArrowStyle string
-
-const (
-	ArrowNone      ArrowStyle = "NONE"
-	ArrowSimple    ArrowStyle = "SIMPLE"
-	ArrowFilled    ArrowStyle = "FILLED"
-	ArrowHollow    ArrowStyle = "HOLLOW"
-	ArrowDouble    ArrowStyle = "DOUBLE"
-	ArrowCurved    ArrowStyle = "CURVED"
-	ArrowBarbed    ArrowStyle = "BARBED"
-	ArrowFeathered ArrowStyle = "FEATHERED"
-)
 
 // MonthBoundaryResult contains the result of month boundary processing
 type MonthBoundaryResult struct {
@@ -419,30 +346,8 @@ type TaskTransition struct {
 // ContinuationType defines the type of task continuation
 type ContinuationType string
 
-const (
-	ContinuationSplit    ContinuationType = "SPLIT"
-	ContinuationExtend   ContinuationType = "EXTEND"
-	ContinuationWrap     ContinuationType = "WRAP"
-	ContinuationOverflow ContinuationType = "OVERFLOW"
-	ContinuationTruncate ContinuationType = "TRUNCATE"
-	ContinuationMinimize ContinuationType = "MINIMIZE"
-	ContinuationCollapse ContinuationType = "COLLAPSE"
-)
-
 // TransitionType defines the type of task transition
 type TransitionType string
-
-const (
-	TransitionSmooth  TransitionType = "SMOOTH"
-	TransitionFade    TransitionType = "FADE"
-	TransitionSlide   TransitionType = "SLIDE"
-	TransitionScale   TransitionType = "SCALE"
-	TransitionRotate  TransitionType = "ROTATE"
-	TransitionFlip    TransitionType = "FLIP"
-	TransitionZoom    TransitionType = "ZOOM"
-	TransitionBounce  TransitionType = "BOUNCE"
-	TransitionElastic TransitionType = "ELASTIC"
-)
 
 // TransitionAnimation defines animation properties for transitions
 type TransitionAnimation struct {
@@ -459,31 +364,11 @@ type TransitionAnimation struct {
 // AnimationDirection defines the direction of animation
 type AnimationDirection string
 
-const (
-	DirectionNormal           AnimationDirection = "NORMAL"
-	DirectionReverse          AnimationDirection = "REVERSE"
-	DirectionAlternate        AnimationDirection = "ALTERNATE"
-	DirectionAlternateReverse AnimationDirection = "ALTERNATE_REVERSE"
-)
-
 // FillMode defines how animations fill their target values
 type FillMode string
 
-const (
-	FillNone      FillMode = "NONE"
-	FillForwards  FillMode = "FORWARDS"
-	FillBackwards FillMode = "BACKWARDS"
-	FillBoth      FillMode = "BOTH"
-)
-
 // PlayState defines the play state of animations
 type PlayState string
-
-const (
-	PlayRunning PlayState = "RUNNING"
-	PlayPaused  PlayState = "PAUSED"
-	PlayStopped PlayState = "STOPPED"
-)
 
 // BoundaryMetrics contains metrics about month boundary processing
 type BoundaryMetrics struct {
@@ -534,7 +419,7 @@ func NewLayoutEngine(config *GridConfig) *LayoutEngine {
 	// Create stacking engine
 	conflictCategorizer := NewConflictCategorizer(spatialEngine)
 	priorityRanker := NewPriorityRanker(conflictCategorizer)
-	stackingEngine := NewStackingEngine(spatialEngine, conflictCategorizer, priorityRanker)
+	stackingEngine := NewStackingEngine(spatialEngine, conflictCategorizer, priorityRanker, config.CoreConfig)
 
 	// Create visibility manager and stacking optimizer
 	visibilityManager := NewVisibilityManager()
@@ -594,6 +479,7 @@ func NewLayoutEngine(config *GridConfig) *LayoutEngine {
 			BorderWidth:            0.5,
 		},
 		dateValidator: dateValidator,
+		config:        config.CoreConfig,
 	}
 }
 
@@ -1076,18 +962,37 @@ func (le *LayoutEngine) calculateVisualWeight(task *core.Task, priority *TaskPri
 
 	// Adjust based on task duration
 	duration := task.EndDate.Sub(task.StartDate).Hours() / 24
+	// * Use config-driven duration multipliers
+	durationLongMultiplier := 1.2  // Default fallback
+	durationShortMultiplier := 0.8 // Default fallback
+	if le.config.Layout.LayoutEngine.DurationLongMultiplier > 0 {
+		durationLongMultiplier = le.config.Layout.LayoutEngine.DurationLongMultiplier
+	}
+	if le.config.Layout.LayoutEngine.DurationShortMultiplier > 0 {
+		durationShortMultiplier = le.config.Layout.LayoutEngine.DurationShortMultiplier
+	}
 	if duration > 7 {
-		weight *= 1.2 // Longer tasks get more visual weight
+		weight *= durationLongMultiplier // Longer tasks get more visual weight
 	} else if duration < 1 {
-		weight *= 0.8 // Shorter tasks get less visual weight
+		weight *= durationShortMultiplier // Shorter tasks get less visual weight
 	}
 
 	// Adjust based on category
-	weight *= 1.0
+	// * Use config-driven category weight multiplier
+	categoryWeightMultiplier := 1.0 // Default fallback
+	if le.config.Layout.LayoutEngine.CategoryWeightMultiplier > 0 {
+		categoryWeightMultiplier = le.config.Layout.LayoutEngine.CategoryWeightMultiplier
+	}
+	weight *= categoryWeightMultiplier
 
 	// Adjust based on milestone status
+	// * Use config-driven milestone weight multiplier
+	milestoneWeightMultiplier := 1.5 // Default fallback
+	if le.config.Layout.LayoutEngine.MilestoneWeightMultiplier > 0 {
+		milestoneWeightMultiplier = le.config.Layout.LayoutEngine.MilestoneWeightMultiplier
+	}
 	if strings.Contains(strings.ToUpper(task.Name), "MILESTONE") {
-		weight *= 1.5
+		weight *= milestoneWeightMultiplier
 	}
 
 	return math.Min(weight, 1.0)
@@ -1102,24 +1007,30 @@ func (le *LayoutEngine) calculateProminenceScore(task *core.Task, priority *Task
 	prominence *= priority.Weight
 
 	// Adjust based on urgency (convert string to float)
-	urgencyMultiplier := 0.5 // Default
+	// * Use config-driven urgency multipliers
+	urgencyMultiplier := le.config.Layout.LayoutEngine.UrgencyMultipliers.Default // Default
 	switch priority.Urgency {
 	case "CRITICAL":
-		urgencyMultiplier = 1.0
+		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Critical
 	case "HIGH":
-		urgencyMultiplier = 0.8
+		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.High
 	case "MEDIUM":
-		urgencyMultiplier = 0.6
+		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Medium
 	case "LOW":
-		urgencyMultiplier = 0.4
+		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Low
 	case "MINIMAL":
-		urgencyMultiplier = 0.2
+		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Minimal
 	}
 	prominence *= urgencyMultiplier
 
 	// Adjust based on milestone priority
+	// * Use config-driven milestone priority multiplier
+	milestonePriorityMultiplier := 1.2 // Default fallback
+	if le.config.Layout.LayoutEngine.MilestonePriorityMultiplier > 0 {
+		milestonePriorityMultiplier = le.config.Layout.LayoutEngine.MilestonePriorityMultiplier
+	}
 	if priority.Category == "MILESTONE" {
-		prominence *= 1.2
+		prominence *= milestonePriorityMultiplier
 	}
 
 	return math.Min(prominence, 1.0)
@@ -1146,7 +1057,12 @@ func (le *LayoutEngine) determineStackingPosition(
 	}
 
 	// Default positioning if not found in stacks
-	y := le.gridConfig.DayHeight * 0.1 // 10% from top
+	// * Use config-driven initial Y position multiplier
+	initialYMultiplier := 0.1 // Default fallback
+	if le.config.Layout.LayoutEngine.InitialYPositionMultiplier > 0 {
+		initialYMultiplier = le.config.Layout.LayoutEngine.InitialYPositionMultiplier
+	}
+	y := le.gridConfig.DayHeight * initialYMultiplier
 	height := le.calculateTaskHeight(task, visualWeight)
 
 	return StackingTypeVertical, 0, y, height
@@ -1419,12 +1335,22 @@ func (le *LayoutEngine) generateRecommendations(
 	var recommendations []string
 
 	// Space efficiency recommendations
-	if statistics.SpaceEfficiency < 0.7 {
+	// * Use config-driven space efficiency threshold
+	spaceEfficiencyThreshold := 0.7 // Default fallback
+	if le.config.Layout.LayoutEngine.SpaceEfficiencyThreshold > 0 {
+		spaceEfficiencyThreshold = le.config.Layout.LayoutEngine.SpaceEfficiencyThreshold
+	}
+	if statistics.SpaceEfficiency < spaceEfficiencyThreshold {
 		recommendations = append(recommendations, "Consider reducing task spacing to improve space efficiency")
 	}
 
 	// Visual quality recommendations
-	if statistics.VisualQuality < 0.8 {
+	// * Use config-driven visual quality threshold
+	visualQualityThreshold := 0.8 // Default fallback
+	if le.config.Layout.LayoutEngine.VisualQualityThreshold > 0 {
+		visualQualityThreshold = le.config.Layout.LayoutEngine.VisualQualityThreshold
+	}
+	if statistics.VisualQuality < visualQualityThreshold {
 		recommendations = append(recommendations, "Consider adjusting task heights and colors to improve visual quality")
 	}
 
@@ -1515,16 +1441,16 @@ func (le *LayoutEngine) getNextYear(month time.Month, year int) int {
 
 func (le *LayoutEngine) getDefaultGridConstraints() *GridConstraints {
 	return &GridConstraints{
-		MinTaskSpacing:     1.0,
-		MaxTaskSpacing:     10.0,
-		MinRowHeight:       8.0,
-		MaxRowHeight:       20.0,
-		MinColumnWidth:     5.0,
-		MaxColumnWidth:     50.0,
+		MinTaskSpacing:     1.0,  // Default value, should be overridden with config
+		MaxTaskSpacing:     10.0, // Default value, should be overridden with config
+		MinRowHeight:       8.0,  // Default value, should be overridden with config
+		MaxRowHeight:       20.0, // Default value, should be overridden with config
+		MinColumnWidth:     5.0,  // Default value, should be overridden with config
+		MaxColumnWidth:     50.0, // Default value, should be overridden with config
 		SnapToGrid:         true,
-		GridResolution:     1.0,
-		AlignmentTolerance: 0.5,
-		CollisionBuffer:    2.0,
+		GridResolution:     1.0,  // Default value, should be overridden with config
+		AlignmentTolerance: 0.5,  // Default value, should be overridden with config
+		CollisionBuffer:    2.0,  // Default value, should be overridden with config
 	}
 }
 
@@ -1625,17 +1551,17 @@ func (le *LayoutEngine) generateBoundaryRecommendations(metrics *BoundaryMetrics
 func getDefaultTaskRenderingConfig() TaskRenderingConfig {
 	return TaskRenderingConfig{
 		// Spacing configuration - increased to prevent overlap
-		DefaultSpacing:   "0.8ex", // TODO: Use config value
-		FirstTaskSpacing: "0.5ex", // TODO: Use config value
+		DefaultSpacing:   "0.8ex", // Default value, should be overridden with config
+		FirstTaskSpacing: "0.5ex", // Default value, should be overridden with config
 
 		// Height configuration - increased to prevent overlap
-		DefaultHeight:   "3.0ex", // TODO: Use config value
-		FirstTaskHeight: "3.5ex", // TODO: Use config value
+		DefaultHeight:   "3.0ex", // Default value, should be overridden with config
+		FirstTaskHeight: "3.5ex", // Default value, should be overridden with config
 
 		// Text configuration - from constants in day.go
-		MaxChars:            16, // TODO: Use config value
-		MaxCharsCompact:     13, // TODO: Use config value
-		MaxCharsVeryCompact: 10, // TODO: Use config value
+		MaxChars:            16, // Default value, should be overridden with config
+		MaxCharsCompact:     13, // Default value, should be overridden with config
+		MaxCharsVeryCompact: 10, // Default value, should be overridden with config
 	}
 }
 
@@ -1676,7 +1602,14 @@ func (d Day) buildTaskOverlayContent(task *SpanningTask) string {
 	// Use calendar macros for overlay with proper spacing
 	// Convert hex color to RGB for LaTeX compatibility
 	color := hexToRGB(task.Color)
-	return `\vspace*{0.1ex}` + `\TaskOverlayBox{` + color + `}{` + nameText + `}{` + descText + `}`
+	
+	// * Use config-driven vertical spacing
+	verticalSpacing := "0.1ex" // Default fallback
+	if d.Cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing != "" {
+		verticalSpacing = d.Cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing
+	}
+	
+	return `\vspace*{` + verticalSpacing + `}` + `\TaskOverlayBox{` + color + `}{` + nameText + `}{` + descText + `}`
 }
 
 // buildMultiTaskOverlayContent creates compact stacked content for multiple tasks
@@ -1733,7 +1666,8 @@ func (d Day) prepareTaskName(task *SpanningTask) string {
 // truncateTaskName truncates task name based on total number of tasks
 // Uses progressive truncation: more tasks = shorter text per task
 func (d Day) truncateTaskName(nameText string, total int) string {
-	config := getDefaultTaskRenderingConfig()
+	// * Use config-driven task rendering configuration
+	config := d.getTaskRenderingConfig()
 
 	// Progressive truncation based on number of tasks
 	maxChars := config.MaxChars
@@ -1746,15 +1680,55 @@ func (d Day) truncateTaskName(nameText string, total int) string {
 
 	// Apply truncation if needed
 	if len(nameText) > maxChars {
-		nameText = d.smartTruncateText(nameText, maxChars)
+		nameText = d.smartTruncateText(nameText)
 	}
 	return nameText
+}
+
+// getTaskRenderingConfig returns the task rendering configuration from config
+func (d Day) getTaskRenderingConfig() TaskRenderingConfig {
+	// * Use config-driven task rendering configuration with fallbacks
+	config := TaskRenderingConfig{
+		DefaultSpacing:   "0.8ex", // Default fallback
+		FirstTaskSpacing: "0.5ex", // Default fallback
+		DefaultHeight:    "3.0ex", // Default fallback
+		FirstTaskHeight:  "3.5ex", // Default fallback
+		MaxChars:         16,      // Default fallback
+		MaxCharsCompact:  13,      // Default fallback
+		MaxCharsVeryCompact: 10,   // Default fallback
+	}
+
+	// Override with config values if available
+	if d.Cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing != "" {
+		config.DefaultSpacing = d.Cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing
+	}
+	if d.Cfg.Layout.LayoutEngine.TaskRendering.FirstTaskSpacing != "" {
+		config.FirstTaskSpacing = d.Cfg.Layout.LayoutEngine.TaskRendering.FirstTaskSpacing
+	}
+	if d.Cfg.Layout.LayoutEngine.TaskRendering.DefaultHeight != "" {
+		config.DefaultHeight = d.Cfg.Layout.LayoutEngine.TaskRendering.DefaultHeight
+	}
+	if d.Cfg.Layout.LayoutEngine.TaskRendering.FirstTaskHeight != "" {
+		config.FirstTaskHeight = d.Cfg.Layout.LayoutEngine.TaskRendering.FirstTaskHeight
+	}
+	if d.Cfg.Layout.Calendar.MaxTaskChars > 0 {
+		config.MaxChars = d.Cfg.Layout.Calendar.MaxTaskChars
+	}
+	if d.Cfg.Layout.Calendar.MaxTaskCharsCompact > 0 {
+		config.MaxCharsCompact = d.Cfg.Layout.Calendar.MaxTaskCharsCompact
+	}
+	if d.Cfg.Layout.Calendar.MaxTaskCharsVeryCompact > 0 {
+		config.MaxCharsVeryCompact = d.Cfg.Layout.Calendar.MaxTaskCharsVeryCompact
+	}
+
+	return config
 }
 
 // getTaskSpacingAndHeight returns spacing and height based on task index
 // Uses configuration to ensure consistent spacing and readability
 func (d Day) getTaskSpacingAndHeight(index int) (string, string) {
-	config := getDefaultTaskRenderingConfig()
+	// * Use config-driven task rendering configuration
+	config := d.getTaskRenderingConfig()
 
 	// First task gets special treatment for better visual hierarchy
 	if index == 0 {
@@ -1767,8 +1741,23 @@ func (d Day) getTaskSpacingAndHeight(index int) (string, string) {
 
 // buildTaskTextBody creates the text body for a task
 func (d Day) buildTaskTextBody(nameText string) string {
-	// * Use improved text formatting with better line breaking and left alignment
-	return `{\sloppy\hyphenpenalty=50\tolerance=1000\emergencystretch=2em\color{black}\TaskFontSize\raggedright\textbf{` + nameText + `}}`
+	// * Use config-driven typography settings with fallbacks
+	hyphenPenalty := 50
+	tolerance := 1000
+	emergencyStretch := "2em"
+
+	if d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty > 0 {
+		hyphenPenalty = d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty
+	}
+	if d.Cfg.Layout.LayoutEngine.Typography.Tolerance > 0 {
+		tolerance = d.Cfg.Layout.LayoutEngine.Typography.Tolerance
+	}
+	if d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretch != "" {
+		emergencyStretch = d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretch
+	}
+
+	return fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\color{black}\TaskFontSize\raggedright\textbf{`, 
+		hyphenPenalty, tolerance, emergencyStretch) + nameText + `}}`
 }
 
 // buildCompactTaskBox creates the tcolorbox for a compact task
@@ -2008,6 +1997,7 @@ type SpatialEngine struct {
 	alignmentRules    []AlignmentRule
 	spacingRules      []SpacingRule
 	layoutMetrics     *PositioningLayoutMetrics
+	config            *core.Config // * Reference to core configuration
 }
 
 // OverlapType represents the type of overlap between two tasks
@@ -2153,14 +2143,6 @@ const (
 // JustificationMode defines how tasks should be justified within available space
 type JustificationMode string
 
-const (
-	JustifyStart        JustificationMode = "START"
-	JustifyEnd          JustificationMode = "END"
-	JustifyCenter       JustificationMode = "CENTER"
-	JustifySpaceBetween JustificationMode = "SPACE_BETWEEN"
-	JustifySpaceAround  JustificationMode = "SPACE_AROUND"
-	JustifySpaceEvenly  JustificationMode = "SPACE_EVENLY"
-)
 
 // SpacingAction defines spacing adjustments between tasks
 type SpacingAction struct {
@@ -2207,6 +2189,7 @@ func NewSpatialEngine(calendarStart, calendarEnd time.Time, gridConfig *GridConf
 		alignmentRules:    []AlignmentRule{},
 		spacingRules:      []SpacingRule{},
 		layoutMetrics:     &PositioningLayoutMetrics{},
+		config:            gridConfig.CoreConfig,
 	}
 
 	// Add default alignment rules
@@ -2265,22 +2248,42 @@ func (se *SpatialEngine) generatePositioningRecommendations(metrics *Positioning
 	var recommendations []string
 
 	// Space efficiency recommendations
-	if metrics.SpaceEfficiency < 0.7 {
+	// * Use config-driven space efficiency threshold
+	spaceEfficiencyThreshold := 0.7 // Default fallback
+	if se.config.Layout.LayoutEngine.SpaceEfficiencyThreshold > 0 {
+		spaceEfficiencyThreshold = se.config.Layout.LayoutEngine.SpaceEfficiencyThreshold
+	}
+	if metrics.SpaceEfficiency < spaceEfficiencyThreshold {
 		recommendations = append(recommendations, "Consider reducing task spacing to improve space efficiency")
 	}
 
 	// Alignment recommendations
-	if metrics.AlignmentScore < 0.8 {
+	// * Use config-driven alignment score threshold
+	alignmentScoreThreshold := 0.8 // Default fallback
+	if se.config.Layout.LayoutEngine.AlignmentScoreThreshold > 0 {
+		alignmentScoreThreshold = se.config.Layout.LayoutEngine.AlignmentScoreThreshold
+	}
+	if metrics.AlignmentScore < alignmentScoreThreshold {
 		recommendations = append(recommendations, "Enable grid snapping to improve alignment consistency")
 	}
 
 	// Spacing recommendations
-	if metrics.SpacingScore < 0.7 {
+	// * Use config-driven spacing score threshold
+	spacingScoreThreshold := 0.7 // Default fallback
+	if se.config.Layout.LayoutEngine.SpacingScoreThreshold > 0 {
+		spacingScoreThreshold = se.config.Layout.LayoutEngine.SpacingScoreThreshold
+	}
+	if metrics.SpacingScore < spacingScoreThreshold {
 		recommendations = append(recommendations, "Adjust spacing rules to improve visual consistency")
 	}
 
 	// Visual balance recommendations
-	if metrics.VisualBalance < 0.6 {
+	// * Use config-driven visual balance threshold
+	visualBalanceThreshold := 0.6 // Default fallback
+	if se.config.Layout.LayoutEngine.VisualBalanceThreshold > 0 {
+		visualBalanceThreshold = se.config.Layout.LayoutEngine.VisualBalanceThreshold
+	}
+	if metrics.VisualBalance < visualBalanceThreshold {
 		recommendations = append(recommendations, "Redistribute tasks to improve visual balance")
 	}
 
@@ -2523,9 +2526,18 @@ func (se *SpatialEngine) calculateOverlapSeverity(task1, task2 *core.Task, overl
 	case OverlapPartial:
 		// Severity based on overlap percentage
 		overlapPercentage := se.calculateOverlapPercentage(task1, task2, duration)
-		if overlapPercentage >= 0.8 {
+		// * Use config-driven overlap thresholds
+		overlapHighThreshold := 0.8   // Default fallback
+		overlapMediumThreshold := 0.5 // Default fallback
+		if se.config.Layout.LayoutEngine.OverlapHighThreshold > 0 {
+			overlapHighThreshold = se.config.Layout.LayoutEngine.OverlapHighThreshold
+		}
+		if se.config.Layout.LayoutEngine.OverlapMediumThreshold > 0 {
+			overlapMediumThreshold = se.config.Layout.LayoutEngine.OverlapMediumThreshold
+		}
+		if overlapPercentage >= overlapHighThreshold {
 			return SeverityHigh
-		} else if overlapPercentage >= 0.5 {
+		} else if overlapPercentage >= overlapMediumThreshold {
 			return SeverityMedium
 		} else {
 			return SeverityLow
@@ -2887,14 +2899,28 @@ func (se *SpatialEngine) calculateInitialYPosition(task *core.Task, context *Pos
 // calculateTaskHeight calculates the height of a task
 func (se *SpatialEngine) calculateTaskHeight(task *core.Task, context *PositioningContext) float64 {
 	// Base height
-	height := context.DayHeight * 0.6 // 60% of day height
+	// * Use config-driven task height multiplier
+	taskHeightMultiplier := 0.6 // Default fallback
+	if se.config.Layout.LayoutEngine.TaskHeightMultiplier > 0 {
+		taskHeightMultiplier = se.config.Layout.LayoutEngine.TaskHeightMultiplier
+	}
+	height := context.DayHeight * taskHeightMultiplier
 
 	// Adjust based on task duration
 	duration := task.EndDate.Sub(task.StartDate).Hours() / 24
+	// * Use config-driven duration multipliers
+	durationLongMultiplier := 1.2  // Default fallback
+	durationShortMultiplier := 0.8 // Default fallback
+	if se.config.Layout.LayoutEngine.DurationLongMultiplier > 0 {
+		durationLongMultiplier = se.config.Layout.LayoutEngine.DurationLongMultiplier
+	}
+	if se.config.Layout.LayoutEngine.DurationShortMultiplier > 0 {
+		durationShortMultiplier = se.config.Layout.LayoutEngine.DurationShortMultiplier
+	}
 	if duration > 7 {
-		height *= 1.2 // Longer tasks get more height
+		height *= durationLongMultiplier // Longer tasks get more height
 	} else if duration < 1 {
-		height *= 0.8 // Shorter tasks get less height
+		height *= durationShortMultiplier // Shorter tasks get less height
 	}
 
 	// Ensure within constraints

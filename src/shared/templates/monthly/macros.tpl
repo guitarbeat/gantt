@@ -18,12 +18,8 @@
 \newlength{\myLenLineThicknessDefault}
 \newlength{\myLenLineThicknessThick}
 \newlength{\myLenLineHeightButLine}
-\newlength{\myLenTwoColSep}
-\newlength{\myLenTwoCol}
-\newlength{\myLenTriColSep}
-\newlength{\myLenTriCol}
-\newlength{\myLenFiveColSep}
-\newlength{\myLenFiveCol}
+\newlength{\myLenColSep}
+\newlength{\myLenCol}
 \newlength{\myLenMonthlyCellHeight}
 
 \newlength{\myLenHeaderResizeBox}
@@ -33,12 +29,8 @@
 \setlength{\myLenLineThicknessDefault}{ {{.Cfg.Layout.LaTeX.LineThicknessDefault}} }
 \setlength{\myLenLineThicknessThick}{ {{.Cfg.Layout.LaTeX.LineThicknessThick}} }
 \setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
-\setlength{\myLenTwoColSep}{ {{.Cfg.Layout.LaTeX.Spacing.TwoColSep}} }
-\setlength{\myLenTwoCol}{5pt}
-\setlength{\myLenTriColSep}{ {{.Cfg.Layout.LaTeX.Spacing.TriColSep}} }
-\setlength{\myLenTriCol}{5pt}
-\setlength{\myLenFiveColSep}{ {{.Cfg.Layout.LaTeX.Spacing.FiveColSep}} }
-\setlength{\myLenFiveCol}{5pt}
+\setlength{\myLenColSep}{ {{.Cfg.Layout.LaTeX.ColSep}} }
+\setlength{\myLenCol}{ {{.Cfg.Layout.LaTeX.Spacing.Col}} }
 \setlength{\myLenMonthlyCellHeight}{ {{.Cfg.Layout.LaTeX.MonthlyCellHeight}} }
 
 \setlength{\myLenHeaderResizeBox}{ {{.Cfg.Layout.LaTeX.HeaderResizeBox}} }
@@ -90,7 +82,7 @@
     width=\linewidth, halign=left]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
      \TaskTitleSize\textbf{#2}\par
-     \vspace{0.2ex}%
+     \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
 }
@@ -101,7 +93,7 @@
   \definecolor{taskbarcolor}{RGB}{#5}%
   \begin{tikzpicture}[overlay]
     \node[anchor=north west, inner sep=0pt] at (#1,#2) {
-      \begin{tcolorbox}[enhanced, boxrule=0pt, arc=2pt,
+      \begin{tcolorbox}[enhanced, boxrule=0pt, arc={ {{.Cfg.Layout.LaTeX.Spacing.TaskOverlayArc}} },
         left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top={{.Cfg.Layout.LaTeX.TColorBox.Top}}, bottom={{.Cfg.Layout.LaTeX.TColorBox.Bottom}},
         width=#3pt, height=#4pt,
         colback=taskbarcolor]
@@ -122,7 +114,7 @@
     width=\linewidth, halign=left]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
      \TaskTitleSize\textbf{#1}\par
-     \vspace{0.2ex}%
+     \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
 }

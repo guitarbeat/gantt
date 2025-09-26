@@ -563,7 +563,7 @@ func (r *Reader) ValidateCSVFormat() error {
 	}
 
 	// Check for required fields
-	requiredFields := []string{"task name", "start date", "due date"}
+	requiredFields := []string{"task name", "start date", "end date"}
 	optionalFields := []string{"parent task id", "category", "description", "priority", "status", "assignee"}
 	fieldMap := make(map[string]bool)
 

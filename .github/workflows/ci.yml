@@ -2,12 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, develop ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   test:
+    name: Test (Go ${{ matrix.go-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,6 +45,7 @@ jobs:
         name: codecov-umbrella
 
   build:
+    name: Build & PDF Generation
     runs-on: ubuntu-latest
     needs: test
 
@@ -62,6 +65,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
+    - name: Install XeLaTeX
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
+
     - name: Download dependencies
       run: go mod download
 
@@ -76,25 +84,63 @@ jobs:
           exit 1
         fi
 
-    - name: Build
-      run: make
+    - name: Build project
+      run: make -f scripts/Makefile
 
-    - name: Test PDF generation
+    - name: Verify PDF generation
       run: |
-        if [ ! -f "output/monthly_calendar.pdf" ]; then
-          echo "PDF generation failed"
+        # Check for main PDF output
+        if [ ! -f "generated/monthly_calendar.pdf" ]; then
+          echo "❌ Main PDF not found: generated/monthly_calendar.pdf"
+          ls -la generated/
           exit 1
         fi
 
+        # Check PDF file size (50KB - 200KB range)
+        PDF_SIZE=$(stat -c%s "generated/monthly_calendar.pdf")
+        MIN_SIZE=50000
+        MAX_SIZE=200000
+
+        echo "✅ PDF size: $PDF_SIZE bytes"
+
+        if [ $PDF_SIZE -lt $MIN_SIZE ]; then
+          echo "❌ PDF too small: $PDF_SIZE bytes (minimum: $MIN_SIZE bytes)"
+          exit 1
+        fi
+
+        if [ $PDF_SIZE -gt $MAX_SIZE ]; then
+          echo "❌ PDF too large: $PDF_SIZE bytes (maximum: $MAX_SIZE bytes)"
+          exit 1
+        fi
+
+        # Verify PDF is valid
+        if ! file "generated/monthly_calendar.pdf" | grep -q "PDF"; then
+          echo "❌ Generated file is not a valid PDF"
+          exit 1
+        fi
+
+        echo "✅ PDF generation successful"
+
+    - name: Verify LaTeX files generated
+      run: |
+        if [ ! -f "generated/monthly_calendar.tex" ]; then
+          echo "❌ LaTeX source file not found"
+          exit 1
+        fi
+        echo "✅ LaTeX files generated"
+
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: phd-planner-${{ github.sha }}
         path: |
-          output/*.pdf
-          output/plannergen
+          generated/*.pdf
+          generated/*.tex
+          generated/plannergen
+        retention-days: 7
 
   security:
+    name: Security Scan
     runs-on: ubuntu-latest
 
     steps:
@@ -106,6 +152,7 @@ jobs:
         args: ./...
 
   lint:
+    name: Code Quality
     runs-on: ubuntu-latest
 
     steps:

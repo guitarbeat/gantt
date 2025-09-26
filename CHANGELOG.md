@@ -8,12 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - `scripts/` directory with build and setup automation scripts
 - `assets/` directory for static resources (PDFs, documents)
 - `CONTRIBUTING.md` with development guidelines
 - Standard Go project structure following community best practices
 
 ### Changed
+
 - Reorganized project structure:
   - `cmd/planner/` for main application entry point
   - `pkg/templates/` for reusable template components
@@ -25,11 +27,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved `.gitignore` with comprehensive build artifact exclusions
 
 ### Removed
+
 - Build artifacts from version control
 - Backup files (`.backup`, `.bak`) from repository
 - Old `src/` directory structure
 
 ### Fixed
+
 - Import paths updated to reflect new package structure
 - Makefile paths corrected for new directory layout
 - Silent mode implementation for cleaner build output
@@ -37,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-01-XX
 
 ### Added
+
 - Initial release of PhD Dissertation Planner
 - CSV-based timeline data processing
 - LaTeX calendar generation with XeLaTeX
@@ -45,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Command-line interface with CLI library
 
 ### Features
+
 - Academic timeline visualization
 - Task stacking and layout management
 - Configurable calendar rendering
@@ -56,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Guidelines for Changelog Updates
 
 ### Types of Changes
+
 - **Added** for new features
 - **Changed** for changes in existing functionality
 - **Deprecated** for soon-to-be removed features
@@ -64,12 +71,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Security** in case of vulnerabilities
 
 ### Version Numbering
+
 This project uses [Semantic Versioning](https://semver.org/):
+
 - **MAJOR** version for incompatible API changes
 - **MINOR** version for backwards-compatible functionality additions
 - **PATCH** version for backwards-compatible bug fixes
 
 ### Release Process
+
 1. Update version in relevant files
 2. Move unreleased changes to new version section
 3. Create git tag

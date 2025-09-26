@@ -126,14 +126,14 @@ fi
 
 if [ "$CLEAN" = true ]; then
     log_info "Cleaning build artifacts..."
-    make clean
+    make -f scripts/Makefile clean
 fi
 
 log_info "Building project..."
 if [ "$VERBOSE" = true ]; then
-    make
+    make -f scripts/Makefile
 else
-    make > /dev/null 2>&1
+    make -f scripts/Makefile > /dev/null 2>&1
 fi
 
 log_success "Build completed successfully!"

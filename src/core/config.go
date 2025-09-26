@@ -98,6 +98,7 @@ type LaTeX struct {
 	HeaderResizeBox       string
 	LineThicknessDefault  string
 	LineThicknessThick    string
+	ColSep                string
 
 	// Task styling parameters
 	TaskBackgroundOpacity int    `yaml:"task_background_opacity"`
@@ -140,12 +141,14 @@ type Typography struct {
 }
 
 type Spacing struct {
-	TwoColSep      string
-	TriColSep      string
-	FiveColSep     string
-	TableColSep    string
-	ColorLegendSep string
-	PageBreak      string
+	ColSep          string
+	TableColSep     string
+	ColorLegendSep  string
+	PageBreak       string
+	// Template-specific spacing values
+	Col              string `yaml:"col"`
+	TaskContentVspace string `yaml:"task_content_vspace"`
+	TaskOverlayArc   string `yaml:"task_overlay_arc"`
 }
 
 type Document struct {
@@ -206,6 +209,7 @@ type Layout struct {
 	Constraints Constraints
 	Calendar    Calendar
 	Stacking    Stacking
+	LayoutEngine LayoutEngine `yaml:"layout_engine"`
 }
 
 type Calendar struct {
@@ -278,6 +282,147 @@ type Stacking struct {
 	CategoryMediumWeight float64 `yaml:"category_medium_weight"`
 	CategoryNormalWeight float64 `yaml:"category_normal_weight"`
 	CategoryHighBonus    float64 `yaml:"category_high_bonus"`
+
+	// Urgency multipliers
+	UrgencyCritical float64 `yaml:"urgency_critical"`
+	UrgencyHigh     float64 `yaml:"urgency_high"`
+	UrgencyMedium   float64 `yaml:"urgency_medium"`
+	UrgencyLow      float64 `yaml:"urgency_low"`
+	UrgencyMinimal  float64 `yaml:"urgency_minimal"`
+	UrgencyDefault  float64 `yaml:"urgency_default"`
+
+	// Prominence multipliers
+	ProminenceMultiplier float64 `yaml:"prominence_multiplier"`
+
+	// Grid configuration
+	GridResolution     float64 `yaml:"grid_resolution"`
+	AlignmentTolerance float64 `yaml:"alignment_tolerance"`
+	CollisionBuffer    float64 `yaml:"collision_buffer"`
+	TransitionBuffer   float64 `yaml:"transition_buffer"`
+
+	// Spacing configuration
+	MinTaskSpacing float64 `yaml:"min_task_spacing"`
+	MaxTaskSpacing float64 `yaml:"max_task_spacing"`
+	MinRowHeight   float64 `yaml:"min_row_height"`
+	MaxRowHeight   float64 `yaml:"max_row_height"`
+	MinColumnWidth float64 `yaml:"min_column_width"`
+	MaxColumnWidth float64 `yaml:"max_column_width"`
+
+	// Quality thresholds
+	AlignmentScoreThreshold  float64 `yaml:"alignment_score_threshold"`
+	OverlapHighThreshold     float64 `yaml:"overlap_high_threshold"`
+	OverlapMediumThreshold   float64 `yaml:"overlap_medium_threshold"`
+
+	// Visual weight defaults
+	DefaultVisualWeight    float64 `yaml:"default_visual_weight"`
+	DefaultProminenceScore float64 `yaml:"default_prominence_score"`
+}
+
+type LayoutEngine struct {
+	// Task positioning multipliers (relative to day dimensions)
+	InitialYPositionMultiplier float64 `yaml:"initial_y_position_multiplier"`
+	TaskHeightMultiplier       float64 `yaml:"task_height_multiplier"`
+	MaxTaskWidthDays           float64 `yaml:"max_task_width_days"`
+
+	// Visual weight calculation multipliers
+	DurationLongMultiplier    float64 `yaml:"duration_long_multiplier"`
+	DurationShortMultiplier   float64 `yaml:"duration_short_multiplier"`
+	MilestoneWeightMultiplier float64 `yaml:"milestone_weight_multiplier"`
+	CategoryWeightMultiplier  float64 `yaml:"category_weight_multiplier"`
+
+	// Urgency multipliers for prominence calculation
+	UrgencyMultipliers UrgencyMultipliers `yaml:"urgency_multipliers"`
+
+	// Milestone priority multiplier
+	MilestonePriorityMultiplier float64 `yaml:"milestone_priority_multiplier"`
+
+	// Quality assessment thresholds
+	SpaceEfficiencyThreshold float64 `yaml:"space_efficiency_threshold"`
+	VisualQualityThreshold   float64 `yaml:"visual_quality_threshold"`
+	AlignmentScoreThreshold  float64 `yaml:"alignment_score_threshold"`
+	SpacingScoreThreshold    float64 `yaml:"spacing_score_threshold"`
+	VisualBalanceThreshold   float64 `yaml:"visual_balance_threshold"`
+
+	// Overlap severity thresholds
+	OverlapHighThreshold   float64 `yaml:"overlap_high_threshold"`
+	OverlapMediumThreshold float64 `yaml:"overlap_medium_threshold"`
+
+	// Task rendering configuration
+	TaskRendering TaskRendering `yaml:"task_rendering"`
+
+	// Typography settings for task text
+	Typography LayoutTypography `yaml:"typography"`
+
+	// Grid constraints
+	GridConstraints LayoutGridConstraints `yaml:"grid_constraints"`
+
+	// Visual styling
+	VisualStyling LayoutVisualStyling `yaml:"visual_styling"`
+
+	// Calendar layout constants
+	CalendarLayout LayoutCalendarLayout `yaml:"calendar_layout"`
+
+	// Task density calculation
+	DensityCalculation LayoutDensityCalculation `yaml:"density_calculation"`
+}
+
+type UrgencyMultipliers struct {
+	Critical float64 `yaml:"critical"`
+	High     float64 `yaml:"high"`
+	Medium   float64 `yaml:"medium"`
+	Low      float64 `yaml:"low"`
+	Minimal  float64 `yaml:"minimal"`
+	Default  float64 `yaml:"default"`
+}
+
+type TaskRendering struct {
+	DefaultSpacing   string `yaml:"default_spacing"`
+	FirstTaskSpacing string `yaml:"first_task_spacing"`
+	DefaultHeight    string `yaml:"default_height"`
+	FirstTaskHeight  string `yaml:"first_task_height"`
+	VerticalSpacing  string `yaml:"vertical_spacing"`
+}
+
+type LayoutTypography struct {
+	HyphenPenalty          int    `yaml:"hyphenpenalty"`
+	Tolerance              int    `yaml:"tolerance"`
+	EmergencyStretch       string `yaml:"emergencystretch"`
+	EmergencyStretchCalendar string `yaml:"emergencystretch_calendar"`
+}
+
+type LayoutGridConstraints struct {
+	MinTaskSpacing     float64 `yaml:"min_task_spacing"`
+	MaxTaskSpacing     float64 `yaml:"max_task_spacing"`
+	MinRowHeight       float64 `yaml:"min_row_height"`
+	MaxRowHeight       float64 `yaml:"max_row_height"`
+	MinColumnWidth     float64 `yaml:"min_column_width"`
+	MaxColumnWidth     float64 `yaml:"max_column_width"`
+	GridResolution     float64 `yaml:"grid_resolution"`
+	AlignmentTolerance float64 `yaml:"alignment_tolerance"`
+	CollisionBuffer    float64 `yaml:"collision_buffer"`
+	TransitionBuffer   float64 `yaml:"transition_buffer"`
+}
+
+type LayoutVisualStyling struct {
+	TaskBarOpacity         float64 `yaml:"task_bar_opacity"`
+	TaskBarOpacityFallback float64 `yaml:"task_bar_opacity_fallback"`
+	BorderWidth            float64 `yaml:"border_width"`
+	OpacityThreshold       float64 `yaml:"opacity_threshold"`
+	InnerSep               string  `yaml:"inner_sep"`
+}
+
+type LayoutCalendarLayout struct {
+	DayNumberWidth        string `yaml:"day_number_width"`
+	DayContentMargin      string `yaml:"day_content_margin"`
+	TaskCellMargin        string `yaml:"task_cell_margin"`
+	TaskCellSpacing       string `yaml:"task_cell_spacing"`
+	DayCellMinipageWidth  string `yaml:"day_cell_minipage_width"`
+	HeaderAngleSizeOffset string `yaml:"header_angle_size_offset"`
+}
+
+type LayoutDensityCalculation struct {
+	WeeksPerMonth      float64 `yaml:"weeks_per_month"`
+	TaskAreaMultiplier float64 `yaml:"task_area_multiplier"`
 }
 
 type Numbers struct {
@@ -377,6 +522,14 @@ func NewConfig(pathConfigs ...string) (Config, error) {
 	// Default output dir
 	if strings.TrimSpace(cfg.OutputDir) == "" {
 		cfg.OutputDir = "build"
+	}
+
+	// * Set defaults for layout engine configuration
+	cfg.setLayoutEngineDefaults()
+
+	// * Validate layout engine configuration
+	if err := cfg.validateLayoutEngineConfig(); err != nil {
+		return cfg, fmt.Errorf("layout engine config validation failed: %w", err)
 	}
 
 	// If CSV file is provided, determine date range dynamically
@@ -489,4 +642,268 @@ func (cfg *Config) GetYears() []int {
 	}
 
 	return years
+}
+
+// setLayoutEngineDefaults sets default values for layout engine configuration
+func (cfg *Config) setLayoutEngineDefaults() {
+	// * Set defaults for layout engine if not already set
+	if cfg.Layout.LayoutEngine.InitialYPositionMultiplier == 0 {
+		cfg.Layout.LayoutEngine.InitialYPositionMultiplier = 0.1
+	}
+	if cfg.Layout.LayoutEngine.TaskHeightMultiplier == 0 {
+		cfg.Layout.LayoutEngine.TaskHeightMultiplier = 0.6
+	}
+	if cfg.Layout.LayoutEngine.MaxTaskWidthDays == 0 {
+		cfg.Layout.LayoutEngine.MaxTaskWidthDays = 7.0
+	}
+	if cfg.Layout.LayoutEngine.DurationLongMultiplier == 0 {
+		cfg.Layout.LayoutEngine.DurationLongMultiplier = 1.2
+	}
+	if cfg.Layout.LayoutEngine.DurationShortMultiplier == 0 {
+		cfg.Layout.LayoutEngine.DurationShortMultiplier = 0.8
+	}
+	if cfg.Layout.LayoutEngine.MilestoneWeightMultiplier == 0 {
+		cfg.Layout.LayoutEngine.MilestoneWeightMultiplier = 1.5
+	}
+	if cfg.Layout.LayoutEngine.CategoryWeightMultiplier == 0 {
+		cfg.Layout.LayoutEngine.CategoryWeightMultiplier = 1.0
+	}
+	if cfg.Layout.LayoutEngine.MilestonePriorityMultiplier == 0 {
+		cfg.Layout.LayoutEngine.MilestonePriorityMultiplier = 1.2
+	}
+
+	// * Set urgency multiplier defaults
+	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Critical == 0 {
+		cfg.Layout.LayoutEngine.UrgencyMultipliers.Critical = 1.0
+	}
+	if cfg.Layout.LayoutEngine.UrgencyMultipliers.High == 0 {
+		cfg.Layout.LayoutEngine.UrgencyMultipliers.High = 0.8
+	}
+	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Medium == 0 {
+		cfg.Layout.LayoutEngine.UrgencyMultipliers.Medium = 0.6
+	}
+	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Low == 0 {
+		cfg.Layout.LayoutEngine.UrgencyMultipliers.Low = 0.4
+	}
+	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Minimal == 0 {
+		cfg.Layout.LayoutEngine.UrgencyMultipliers.Minimal = 0.2
+	}
+	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Default == 0 {
+		cfg.Layout.LayoutEngine.UrgencyMultipliers.Default = 0.5
+	}
+
+	// * Set quality threshold defaults
+	if cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold == 0 {
+		cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold = 0.7
+	}
+	if cfg.Layout.LayoutEngine.VisualQualityThreshold == 0 {
+		cfg.Layout.LayoutEngine.VisualQualityThreshold = 0.8
+	}
+	if cfg.Layout.LayoutEngine.AlignmentScoreThreshold == 0 {
+		cfg.Layout.LayoutEngine.AlignmentScoreThreshold = 0.8
+	}
+	if cfg.Layout.LayoutEngine.SpacingScoreThreshold == 0 {
+		cfg.Layout.LayoutEngine.SpacingScoreThreshold = 0.7
+	}
+	if cfg.Layout.LayoutEngine.VisualBalanceThreshold == 0 {
+		cfg.Layout.LayoutEngine.VisualBalanceThreshold = 0.6
+	}
+	if cfg.Layout.LayoutEngine.OverlapHighThreshold == 0 {
+		cfg.Layout.LayoutEngine.OverlapHighThreshold = 0.8
+	}
+	if cfg.Layout.LayoutEngine.OverlapMediumThreshold == 0 {
+		cfg.Layout.LayoutEngine.OverlapMediumThreshold = 0.5
+	}
+
+	// * Set task rendering defaults
+	if cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing == "" {
+		cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing = "0.8ex"
+	}
+	if cfg.Layout.LayoutEngine.TaskRendering.FirstTaskSpacing == "" {
+		cfg.Layout.LayoutEngine.TaskRendering.FirstTaskSpacing = "0.5ex"
+	}
+	if cfg.Layout.LayoutEngine.TaskRendering.DefaultHeight == "" {
+		cfg.Layout.LayoutEngine.TaskRendering.DefaultHeight = "3.0ex"
+	}
+	if cfg.Layout.LayoutEngine.TaskRendering.FirstTaskHeight == "" {
+		cfg.Layout.LayoutEngine.TaskRendering.FirstTaskHeight = "3.5ex"
+	}
+	if cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing == "" {
+		cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing = "0.1ex"
+	}
+
+	// * Set typography defaults
+	if cfg.Layout.LayoutEngine.Typography.HyphenPenalty == 0 {
+		cfg.Layout.LayoutEngine.Typography.HyphenPenalty = 50
+	}
+	if cfg.Layout.LayoutEngine.Typography.Tolerance == 0 {
+		cfg.Layout.LayoutEngine.Typography.Tolerance = 1000
+	}
+	if cfg.Layout.LayoutEngine.Typography.EmergencyStretch == "" {
+		cfg.Layout.LayoutEngine.Typography.EmergencyStretch = "2em"
+	}
+	if cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar == "" {
+		cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar = "3em"
+	}
+
+	// * Set grid constraints defaults
+	if cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing = 1.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing = 10.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.MinRowHeight == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.MinRowHeight = 8.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.MaxRowHeight == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.MaxRowHeight = 20.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.MinColumnWidth == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.MinColumnWidth = 5.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.MaxColumnWidth == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.MaxColumnWidth = 50.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.GridResolution == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.GridResolution = 1.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.AlignmentTolerance == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.AlignmentTolerance = 0.5
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.CollisionBuffer == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.CollisionBuffer = 2.0
+	}
+	if cfg.Layout.LayoutEngine.GridConstraints.TransitionBuffer == 0 {
+		cfg.Layout.LayoutEngine.GridConstraints.TransitionBuffer = 2.0
+	}
+
+	// * Set visual styling defaults
+	if cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacity == 0 {
+		cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacity = 1.0
+	}
+	if cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacityFallback == 0 {
+		cfg.Layout.LayoutEngine.VisualStyling.TaskBarOpacityFallback = 0.9
+	}
+	if cfg.Layout.LayoutEngine.VisualStyling.BorderWidth == 0 {
+		cfg.Layout.LayoutEngine.VisualStyling.BorderWidth = 0.5
+	}
+	if cfg.Layout.LayoutEngine.VisualStyling.OpacityThreshold == 0 {
+		cfg.Layout.LayoutEngine.VisualStyling.OpacityThreshold = 0.999
+	}
+	if cfg.Layout.LayoutEngine.VisualStyling.InnerSep == "" {
+		cfg.Layout.LayoutEngine.VisualStyling.InnerSep = "2pt"
+	}
+
+	// * Set calendar layout defaults
+	if cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth == "" {
+		cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth = "6mm"
+	}
+	if cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin == "" {
+		cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin = "8mm"
+	}
+	if cfg.Layout.LayoutEngine.CalendarLayout.TaskCellMargin == "" {
+		cfg.Layout.LayoutEngine.CalendarLayout.TaskCellMargin = "8mm"
+	}
+	if cfg.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing == "" {
+		cfg.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing = "6mm"
+	}
+	if cfg.Layout.LayoutEngine.CalendarLayout.DayCellMinipageWidth == "" {
+		cfg.Layout.LayoutEngine.CalendarLayout.DayCellMinipageWidth = "6mm"
+	}
+	if cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset == "" {
+		cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset = "0.86pt"
+	}
+
+	// * Set density calculation defaults
+	if cfg.Layout.LayoutEngine.DensityCalculation.WeeksPerMonth == 0 {
+		cfg.Layout.LayoutEngine.DensityCalculation.WeeksPerMonth = 4.0
+	}
+	if cfg.Layout.LayoutEngine.DensityCalculation.TaskAreaMultiplier == 0 {
+		cfg.Layout.LayoutEngine.DensityCalculation.TaskAreaMultiplier = 0.6
+	}
+}
+
+// validateLayoutEngineConfig validates the layout engine configuration
+func (cfg *Config) validateLayoutEngineConfig() error {
+	// * Validate multiplier ranges (0.0 to 10.0)
+	multipliers := []struct {
+		name  string
+		value float64
+	}{
+		{"initial_y_position_multiplier", cfg.Layout.LayoutEngine.InitialYPositionMultiplier},
+		{"task_height_multiplier", cfg.Layout.LayoutEngine.TaskHeightMultiplier},
+		{"max_task_width_days", cfg.Layout.LayoutEngine.MaxTaskWidthDays},
+		{"duration_long_multiplier", cfg.Layout.LayoutEngine.DurationLongMultiplier},
+		{"duration_short_multiplier", cfg.Layout.LayoutEngine.DurationShortMultiplier},
+		{"milestone_weight_multiplier", cfg.Layout.LayoutEngine.MilestoneWeightMultiplier},
+		{"category_weight_multiplier", cfg.Layout.LayoutEngine.CategoryWeightMultiplier},
+		{"milestone_priority_multiplier", cfg.Layout.LayoutEngine.MilestonePriorityMultiplier},
+	}
+
+	for _, m := range multipliers {
+		if m.value < 0.0 || m.value > 10.0 {
+			return fmt.Errorf("invalid %s: %f (must be between 0.0 and 10.0)", m.name, m.value)
+		}
+	}
+
+	// * Validate threshold ranges (0.0 to 1.0)
+	thresholds := []struct {
+		name  string
+		value float64
+	}{
+		{"space_efficiency_threshold", cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold},
+		{"visual_quality_threshold", cfg.Layout.LayoutEngine.VisualQualityThreshold},
+		{"alignment_score_threshold", cfg.Layout.LayoutEngine.AlignmentScoreThreshold},
+		{"spacing_score_threshold", cfg.Layout.LayoutEngine.SpacingScoreThreshold},
+		{"visual_balance_threshold", cfg.Layout.LayoutEngine.VisualBalanceThreshold},
+		{"overlap_high_threshold", cfg.Layout.LayoutEngine.OverlapHighThreshold},
+		{"overlap_medium_threshold", cfg.Layout.LayoutEngine.OverlapMediumThreshold},
+	}
+
+	for _, t := range thresholds {
+		if t.value < 0.0 || t.value > 1.0 {
+			return fmt.Errorf("invalid %s: %f (must be between 0.0 and 1.0)", t.name, t.value)
+		}
+	}
+
+	// * Validate urgency multipliers (0.0 to 2.0)
+	urgencyMultipliers := []struct {
+		name  string
+		value float64
+	}{
+		{"urgency_critical", cfg.Layout.LayoutEngine.UrgencyMultipliers.Critical},
+		{"urgency_high", cfg.Layout.LayoutEngine.UrgencyMultipliers.High},
+		{"urgency_medium", cfg.Layout.LayoutEngine.UrgencyMultipliers.Medium},
+		{"urgency_low", cfg.Layout.LayoutEngine.UrgencyMultipliers.Low},
+		{"urgency_minimal", cfg.Layout.LayoutEngine.UrgencyMultipliers.Minimal},
+		{"urgency_default", cfg.Layout.LayoutEngine.UrgencyMultipliers.Default},
+	}
+
+	for _, u := range urgencyMultipliers {
+		if u.value < 0.0 || u.value > 2.0 {
+			return fmt.Errorf("invalid %s: %f (must be between 0.0 and 2.0)", u.name, u.value)
+		}
+	}
+
+	// * Validate grid constraints
+	if cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing > cfg.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing {
+		return fmt.Errorf("min_task_spacing (%f) cannot be greater than max_task_spacing (%f)",
+			cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing,
+			cfg.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing)
+	}
+
+	if cfg.Layout.LayoutEngine.GridConstraints.MinRowHeight > cfg.Layout.LayoutEngine.GridConstraints.MaxRowHeight {
+		return fmt.Errorf("min_row_height (%f) cannot be greater than max_row_height (%f)",
+			cfg.Layout.LayoutEngine.GridConstraints.MinRowHeight,
+			cfg.Layout.LayoutEngine.GridConstraints.MaxRowHeight)
+	}
+
+	if cfg.Layout.LayoutEngine.GridConstraints.MinColumnWidth > cfg.Layout.LayoutEngine.GridConstraints.MaxColumnWidth {
+		return fmt.Errorf("min_column_width (%f) cannot be greater than max_column_width (%f)",
+			cfg.Layout.LayoutEngine.GridConstraints.MinColumnWidth,
+			cfg.Layout.LayoutEngine.GridConstraints.MaxColumnWidth)
+	}
+
+	return nil
 }

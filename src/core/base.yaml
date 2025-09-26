@@ -24,16 +24,7 @@ layout:
     arraystretch: 1.1
 
   lengths:
-    tabcolsep: 3pt
-    linethicknessdefault: .4pt
-    linethicknessthick: .8pt
     lineheightbutline: \dimexpr5mm-.4pt
-    twocolsep: 5pt
-    tricolsep: 5pt
-    fivecolsep: 5pt
-    monthlycellheight: 78pt
-    headerresizebox: 6mm
-    headersidemonthswidth: 14.5cm
 
   colors:
     gray: gray
@@ -85,6 +76,7 @@ layout:
     headerresizebox: 6mm
     linethicknessdefault: .4pt
     linethicknessthick: .8pt
+    colsep: 5pt
 
     # Task styling parameters
     task_background_opacity: 20
@@ -115,12 +107,15 @@ layout:
 
     # Spacing and layout
     spacing:
-      twocolsep: 5pt
-      tricolsep: 5pt
-      fivecolsep: 5pt
       tablecolsep: 0.5em
       colorlegendsep: 1.5em
       pagebreak: \pagebreak
+      verticalspacing: 2.0
+      horizontalspacing: 5.0
+      # Template-specific spacing values
+      col: "5pt"
+      task_content_vspace: "0.2ex"
+      task_overlay_arc: "2pt"
 
     # Document settings
     document:
@@ -135,8 +130,6 @@ layout:
     maxtaskheight: 40.0
     mintaskwidth: 50.0
     maxtaskwidth: 200.0
-    verticalspacing: 2.0
-    horizontalspacing: 5.0
     collisionthreshold: 0.1
     overflowthreshold: 0.8
     expansionthreshold: 0.6
@@ -219,10 +212,6 @@ layout:
     complexity_normal_weight: 1.0
     complexity_complex_weight: 1.3
 
-    # Task positioning parameters
-    vertical_spacing: 2.0
-    horizontal_spacing: 5.0
-
     # Visual quality thresholds
     visibility_threshold: 0.5
     overflow_vertical: 0.8
@@ -240,4 +229,131 @@ layout:
     category_medium_weight: 1.5
     category_normal_weight: 1.0
     category_high_bonus: 3.0
+
+    # Urgency multipliers
+    urgency_critical: 1.0
+    urgency_high: 0.8
+    urgency_medium: 0.6
+    urgency_low: 0.4
+    urgency_minimal: 0.2
+    urgency_default: 0.5
+
+    # Prominence multipliers
+    prominence_multiplier: 1.2
+
+    # Grid configuration
+    grid_resolution: 1.0
+    alignment_tolerance: 0.5
+    collision_buffer: 2.0
+    transition_buffer: 2.0
+
+    # Spacing configuration
+    min_task_spacing: 1.0
+    max_task_spacing: 10.0
+    min_row_height: 8.0
+    max_row_height: 20.0
+    min_column_width: 5.0
+    max_column_width: 50.0
+
+    # Quality thresholds
+    alignment_score_threshold: 0.8
+    overlap_high_threshold: 0.8
+    overlap_medium_threshold: 0.5
+
+    # Visual weight defaults
+    default_visual_weight: 0.5
+    default_prominence_score: 0.5
+
+  # Layout engine specific parameters
+  layout_engine:
+    # Task positioning multipliers (relative to day dimensions)
+    initial_y_position_multiplier: 0.1  # 10% from top of day
+    task_height_multiplier: 0.6         # 60% of day height
+    max_task_width_days: 7.0            # Maximum task width in days
+    
+    # Visual weight calculation multipliers
+    duration_long_multiplier: 1.2       # For tasks > 7 days
+    duration_short_multiplier: 0.8      # For tasks < 1 day
+    milestone_weight_multiplier: 1.5    # For milestone tasks
+    category_weight_multiplier: 1.0     # Base category weight
+    
+    # Urgency multipliers for prominence calculation
+    urgency_multipliers:
+      critical: 1.0
+      high: 0.8
+      medium: 0.6
+      low: 0.4
+      minimal: 0.2
+      default: 0.5
+    
+    # Milestone priority multiplier
+    milestone_priority_multiplier: 1.2
+    
+    # Quality assessment thresholds
+    space_efficiency_threshold: 0.7
+    visual_quality_threshold: 0.8
+    alignment_score_threshold: 0.8
+    spacing_score_threshold: 0.7
+    visual_balance_threshold: 0.6
+    
+    # Overlap severity thresholds
+    overlap_high_threshold: 0.8
+    overlap_medium_threshold: 0.5
+    
+    # Task rendering configuration
+    task_rendering:
+      default_spacing: "0.8ex"
+      first_task_spacing: "0.5ex"
+      default_height: "3.0ex"
+      first_task_height: "3.5ex"
+      vertical_spacing: "0.1ex"
+    
+    # Typography settings for task text
+    typography:
+      hyphenpenalty: 50
+      tolerance: 1000
+      emergencystretch: "2em"
+      emergencystretch_calendar: "3em"
+    
+    # Grid constraints
+    grid_constraints:
+      min_task_spacing: 1.0
+      max_task_spacing: 10.0
+      min_row_height: 8.0
+      max_row_height: 20.0
+      min_column_width: 5.0
+      max_column_width: 50.0
+      grid_resolution: 1.0
+      alignment_tolerance: 0.5
+      collision_buffer: 2.0
+      transition_buffer: 2.0
+    
+    # Visual styling
+    visual_styling:
+      task_bar_opacity: 1.0
+      task_bar_opacity_fallback: 0.9
+      border_width: 0.5
+      opacity_threshold: 0.999
+      inner_sep: "2pt"
+    
+    # Calendar layout constants
+    calendar_layout:
+      day_number_width: "6mm"
+      day_content_margin: "8mm"
+      task_cell_margin: "8mm"
+      task_cell_spacing: "6mm"
+      day_cell_minipage_width: "6mm"
+      header_angle_size_offset: "0.86pt"
+    
+    # Task density calculation
+    density_calculation:
+      weeks_per_month: 4.0
+      task_area_multiplier: 0.6
+
+pages:
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - page.tpl
 
