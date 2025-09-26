@@ -207,16 +207,14 @@ layout:
     # Milestone priority multiplier
     milestone_priority_multiplier: 1.2
     
-    # Quality assessment thresholds
-    space_efficiency_threshold: 0.7
-    visual_quality_threshold: 0.8
-    alignment_score_threshold: 0.8
-    spacing_score_threshold: 0.7
-    visual_balance_threshold: 0.6
-    
-    # Overlap severity thresholds
-    overlap_high_threshold: 0.8
-    overlap_medium_threshold: 0.5
+    # Quality assessment thresholds (hardcoded as constants)
+    # space_efficiency_threshold: 0.7
+    # visual_quality_threshold: 0.8
+    # alignment_score_threshold: 0.8
+    # spacing_score_threshold: 0.7
+    # visual_balance_threshold: 0.6
+    # overlap_high_threshold: 0.8
+    # overlap_medium_threshold: 0.5
     
     # Task rendering configuration
     task_rendering:

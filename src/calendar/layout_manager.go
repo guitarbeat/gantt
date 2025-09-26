@@ -1321,21 +1321,15 @@ func (le *LayoutEngine) generateRecommendations(
 	var recommendations []string
 
 	// Space efficiency recommendations
-	// * Use config-driven space efficiency threshold
-	spaceEfficiencyThreshold := 0.7 // Default fallback
-	if le.config.Layout.LayoutEngine.SpaceEfficiencyThreshold > 0 {
-		spaceEfficiencyThreshold = le.config.Layout.LayoutEngine.SpaceEfficiencyThreshold
-	}
+	// * Use hardcoded space efficiency threshold
+	spaceEfficiencyThreshold := 0.7
 	if statistics.SpaceEfficiency < spaceEfficiencyThreshold {
 		recommendations = append(recommendations, "Consider reducing task spacing to improve space efficiency")
 	}
 
 	// Visual quality recommendations
-	// * Use config-driven visual quality threshold
-	visualQualityThreshold := 0.8 // Default fallback
-	if le.config.Layout.LayoutEngine.VisualQualityThreshold > 0 {
-		visualQualityThreshold = le.config.Layout.LayoutEngine.VisualQualityThreshold
-	}
+	// * Use hardcoded visual quality threshold
+	visualQualityThreshold := 0.8
 	if statistics.VisualQuality < visualQualityThreshold {
 		recommendations = append(recommendations, "Consider adjusting task heights and colors to improve visual quality")
 	}
@@ -2229,41 +2223,29 @@ func (se *SpatialEngine) generatePositioningRecommendations(metrics *Positioning
 	var recommendations []string
 
 	// Space efficiency recommendations
-	// * Use config-driven space efficiency threshold
-	spaceEfficiencyThreshold := 0.7 // Default fallback
-	if se.config.Layout.LayoutEngine.SpaceEfficiencyThreshold > 0 {
-		spaceEfficiencyThreshold = se.config.Layout.LayoutEngine.SpaceEfficiencyThreshold
-	}
+	// * Use hardcoded space efficiency threshold
+	spaceEfficiencyThreshold := 0.7
 	if metrics.SpaceEfficiency < spaceEfficiencyThreshold {
 		recommendations = append(recommendations, "Consider reducing task spacing to improve space efficiency")
 	}
 
 	// Alignment recommendations
-	// * Use config-driven alignment score threshold
-	alignmentScoreThreshold := 0.8 // Default fallback
-	if se.config.Layout.LayoutEngine.AlignmentScoreThreshold > 0 {
-		alignmentScoreThreshold = se.config.Layout.LayoutEngine.AlignmentScoreThreshold
-	}
+	// * Use hardcoded alignment score threshold
+	alignmentScoreThreshold := 0.8
 	if metrics.AlignmentScore < alignmentScoreThreshold {
 		recommendations = append(recommendations, "Enable grid snapping to improve alignment consistency")
 	}
 
 	// Spacing recommendations
-	// * Use config-driven spacing score threshold
-	spacingScoreThreshold := 0.7 // Default fallback
-	if se.config.Layout.LayoutEngine.SpacingScoreThreshold > 0 {
-		spacingScoreThreshold = se.config.Layout.LayoutEngine.SpacingScoreThreshold
-	}
+	// * Use hardcoded spacing score threshold
+	spacingScoreThreshold := 0.7
 	if metrics.SpacingScore < spacingScoreThreshold {
 		recommendations = append(recommendations, "Adjust spacing rules to improve visual consistency")
 	}
 
 	// Visual balance recommendations
-	// * Use config-driven visual balance threshold
-	visualBalanceThreshold := 0.6 // Default fallback
-	if se.config.Layout.LayoutEngine.VisualBalanceThreshold > 0 {
-		visualBalanceThreshold = se.config.Layout.LayoutEngine.VisualBalanceThreshold
-	}
+	// * Use hardcoded visual balance threshold
+	visualBalanceThreshold := 0.6
 	if metrics.VisualBalance < visualBalanceThreshold {
 		recommendations = append(recommendations, "Redistribute tasks to improve visual balance")
 	}
@@ -2507,15 +2489,9 @@ func (se *SpatialEngine) calculateOverlapSeverity(task1, task2 *core.Task, overl
 	case OverlapPartial:
 		// Severity based on overlap percentage
 		overlapPercentage := se.calculateOverlapPercentage(task1, task2, duration)
-		// * Use config-driven overlap thresholds
-		overlapHighThreshold := 0.8   // Default fallback
-		overlapMediumThreshold := 0.5 // Default fallback
-		if se.config.Layout.LayoutEngine.OverlapHighThreshold > 0 {
-			overlapHighThreshold = se.config.Layout.LayoutEngine.OverlapHighThreshold
-		}
-		if se.config.Layout.LayoutEngine.OverlapMediumThreshold > 0 {
-			overlapMediumThreshold = se.config.Layout.LayoutEngine.OverlapMediumThreshold
-		}
+		// * Use hardcoded overlap thresholds
+		overlapHighThreshold := 0.8
+		overlapMediumThreshold := 0.5
 		if overlapPercentage >= overlapHighThreshold {
 			return SeverityHigh
 		} else if overlapPercentage >= overlapMediumThreshold {

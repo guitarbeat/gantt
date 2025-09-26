@@ -256,16 +256,7 @@ type LayoutEngine struct {
 	// Milestone priority multiplier
 	MilestonePriorityMultiplier float64 `yaml:"milestone_priority_multiplier"`
 
-	// Quality assessment thresholds
-	SpaceEfficiencyThreshold float64 `yaml:"space_efficiency_threshold"`
-	VisualQualityThreshold   float64 `yaml:"visual_quality_threshold"`
-	AlignmentScoreThreshold  float64 `yaml:"alignment_score_threshold"`
-	SpacingScoreThreshold    float64 `yaml:"spacing_score_threshold"`
-	VisualBalanceThreshold   float64 `yaml:"visual_balance_threshold"`
-
-	// Overlap severity thresholds
-	OverlapHighThreshold   float64 `yaml:"overlap_high_threshold"`
-	OverlapMediumThreshold float64 `yaml:"overlap_medium_threshold"`
+	// Quality assessment thresholds (hardcoded as constants)
 
 	// Task rendering configuration
 	TaskRendering TaskRendering `yaml:"task_rendering"`
@@ -577,28 +568,7 @@ func (cfg *Config) setLayoutEngineDefaults() {
 
 	// Urgency multiplier defaults removed - using simplified prominence calculation
 
-	// * Set quality threshold defaults
-	if cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold == 0 {
-		cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold = 0.7
-	}
-	if cfg.Layout.LayoutEngine.VisualQualityThreshold == 0 {
-		cfg.Layout.LayoutEngine.VisualQualityThreshold = 0.8
-	}
-	if cfg.Layout.LayoutEngine.AlignmentScoreThreshold == 0 {
-		cfg.Layout.LayoutEngine.AlignmentScoreThreshold = 0.8
-	}
-	if cfg.Layout.LayoutEngine.SpacingScoreThreshold == 0 {
-		cfg.Layout.LayoutEngine.SpacingScoreThreshold = 0.7
-	}
-	if cfg.Layout.LayoutEngine.VisualBalanceThreshold == 0 {
-		cfg.Layout.LayoutEngine.VisualBalanceThreshold = 0.6
-	}
-	if cfg.Layout.LayoutEngine.OverlapHighThreshold == 0 {
-		cfg.Layout.LayoutEngine.OverlapHighThreshold = 0.8
-	}
-	if cfg.Layout.LayoutEngine.OverlapMediumThreshold == 0 {
-		cfg.Layout.LayoutEngine.OverlapMediumThreshold = 0.5
-	}
+	// Quality threshold defaults removed - using hardcoded constants
 
 	// * Set task rendering defaults
 	if cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing == "" {
@@ -726,25 +696,7 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 		}
 	}
 
-	// * Validate threshold ranges (0.0 to 1.0)
-	thresholds := []struct {
-		name  string
-		value float64
-	}{
-		{"space_efficiency_threshold", cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold},
-		{"visual_quality_threshold", cfg.Layout.LayoutEngine.VisualQualityThreshold},
-		{"alignment_score_threshold", cfg.Layout.LayoutEngine.AlignmentScoreThreshold},
-		{"spacing_score_threshold", cfg.Layout.LayoutEngine.SpacingScoreThreshold},
-		{"visual_balance_threshold", cfg.Layout.LayoutEngine.VisualBalanceThreshold},
-		{"overlap_high_threshold", cfg.Layout.LayoutEngine.OverlapHighThreshold},
-		{"overlap_medium_threshold", cfg.Layout.LayoutEngine.OverlapMediumThreshold},
-	}
-
-	for _, t := range thresholds {
-		if t.value < 0.0 || t.value > 1.0 {
-			return fmt.Errorf("invalid %s: %f (must be between 0.0 and 1.0)", t.name, t.value)
-		}
-	}
+	// Quality threshold validation removed - using hardcoded constants
 
 	// Urgency multiplier validation removed - using simplified prominence calculation
 
