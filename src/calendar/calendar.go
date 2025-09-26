@@ -709,8 +709,20 @@ func stripHashPrefix(color string) string {
 
 // hexToRGB converts hex color to RGB format for LaTeX
 func hexToRGB(hex string) string {
-	// Debug: temporarily return a fixed RGB value
-	return "255,0,0"  // Red color for testing
+	// Remove # prefix if present
+	hex = stripHashPrefix(hex)
+
+	// Convert hex to RGB
+	if len(hex) == 6 {
+		// Parse hex values
+		r, _ := strconv.ParseInt(hex[0:2], 16, 64)
+		g, _ := strconv.ParseInt(hex[2:4], 16, 64)
+		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
+		return fmt.Sprintf("%d,%d,%d", r, g, b)
+	}
+
+	// Fallback for invalid hex
+	return "128,128,128"
 }
 
 func (m *Month) GetTaskColors() map[string]string {
