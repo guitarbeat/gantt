@@ -68,10 +68,10 @@ func (d Day) renderLargeDay(day string) string {
 	leftCell := d.buildDayNumberCell(day)
 
 	// Check for spanning tasks that start on this day
-	overlay := d.renderSpanningTaskOverlay()
-	if overlay != nil {
-		return d.buildTaskCell(leftCell, overlay.content, true, overlay.cols)
-	}
+	// overlay := d.renderSpanningTaskOverlay()
+	// if overlay != nil {
+	// 	return d.buildTaskCell(leftCell, overlay.content, true, overlay.cols)
+	// }
 
 	// Check for regular tasks
 	if tasks := d.TasksForDay(); tasks != "" {

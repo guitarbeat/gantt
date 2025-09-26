@@ -156,50 +156,50 @@ var tpl = func() *template.Template {
 			return i != nil
 		},
 
-		// Layout integration functions
-		"hasLayoutData": func(data interface{}) bool {
-			if data == nil {
-				return false
-			}
-			// Check if data has layout-related fields
-			if m, ok := data.(map[string]interface{}); ok {
-				_, hasLayout := m["LayoutResult"]
-				_, hasTaskBars := m["TaskBars"]
-				return hasLayout || hasTaskBars
-			}
-			return false
-		},
+		// Layout integration functions (commented out - not used)
+		// "hasLayoutData": func(data interface{}) bool {
+		// 	if data == nil {
+		// 		return false
+		// 	}
+		// 	// Check if data has layout-related fields
+		// 	if m, ok := data.(map[string]interface{}); ok {
+		// 		_, hasLayout := m["LayoutResult"]
+		// 		_, hasTaskBars := m["TaskBars"]
+		// 		return hasLayout || hasTaskBars
+		// 	}
+		// 	return false
+		// },
 
-		"getTaskBars": func(data interface{}) []*cal.IntegratedTaskBar {
-			if m, ok := data.(map[string]interface{}); ok {
-				if bars, ok := m["TaskBars"].([]*cal.IntegratedTaskBar); ok {
-					return bars
-				}
-			}
-			return nil
-		},
+		// "getTaskBars": func(data interface{}) []*cal.IntegratedTaskBar {
+		// 	if m, ok := data.(map[string]interface{}); ok {
+		// 		if bars, ok := m["TaskBars"].([]*cal.IntegratedTaskBar); ok {
+		// 			return bars
+		// 		}
+		// 	}
+		// 	return nil
+		// },
 
-		"getLayoutStats": func(data interface{}) *cal.IntegratedLayoutStatistics {
-			if m, ok := data.(map[string]interface{}); ok {
-				if stats, ok := m["LayoutStats"].(*cal.IntegratedLayoutStatistics); ok {
-					return stats
-				}
-			}
-			return nil
-		},
+		// "getLayoutStats": func(data interface{}) *cal.IntegratedLayoutStatistics {
+		// 	if m, ok := data.(map[string]interface{}); ok {
+		// 		if stats, ok := m["LayoutStats"].(*cal.IntegratedLayoutStatistics); ok {
+		// 			return stats
+		// 		}
+		// 	}
+		// 	return nil
+		// },
 
-		"formatTaskBar": func(bar *cal.IntegratedTaskBar) string {
-			if bar == nil {
-				return ""
-			}
+		// "formatTaskBar": func(bar *cal.IntegratedTaskBar) string {
+		// 	if bar == nil {
+		// 		return ""
+		// 	}
 
-			// Generate LaTeX for individual task bar using the visual design system
-			return fmt.Sprintf("\\TaskOverlayBox{%s}{%s}{%s}",
-				bar.Color,       // category color
-				bar.TaskName,    // task name
-				bar.Description, // description
-			)
-		},
+		// 	// Generate LaTeX for individual task bar using the visual design system
+		// 	return fmt.Sprintf("\\TaskOverlayBox{%s}{%s}{%s}",
+		// 		bar.Color,       // category color
+		// 		bar.TaskName,    // task name
+		// 		bar.Description, // description
+		// 	)
+		// },
 	})
 
 	// Choose source of templates: embedded by default, filesystem when DEV_TEMPLATES is set
