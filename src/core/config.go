@@ -281,8 +281,7 @@ type LayoutEngine struct {
 	// Calendar layout constants
 	CalendarLayout LayoutCalendarLayout `yaml:"calendar_layout"`
 
-	// Task density calculation
-	DensityCalculation LayoutDensityCalculation `yaml:"density_calculation"`
+	// Task density calculation removed - not used in code
 }
 
 // UrgencyMultipliers struct removed - using simplified prominence calculation
@@ -295,12 +294,7 @@ type TaskRendering struct {
 	VerticalSpacing  string `yaml:"vertical_spacing"`
 }
 
-type LayoutTypography struct {
-	HyphenPenalty          int    `yaml:"hyphenpenalty"`
-	Tolerance              int    `yaml:"tolerance"`
-	EmergencyStretch       string `yaml:"emergencystretch"`
-	EmergencyStretchCalendar string `yaml:"emergencystretch_calendar"`
-}
+// LayoutTypography struct removed - not used in code
 
 type LayoutGridConstraints struct {
 	MinTaskSpacing     float64 `yaml:"min_task_spacing"`
@@ -332,10 +326,7 @@ type LayoutCalendarLayout struct {
 	HeaderAngleSizeOffset string `yaml:"header_angle_size_offset"`
 }
 
-type LayoutDensityCalculation struct {
-	WeeksPerMonth      float64 `yaml:"weeks_per_month"`
-	TaskAreaMultiplier float64 `yaml:"task_area_multiplier"`
-}
+// LayoutDensityCalculation struct removed - not used in code
 
 type Numbers struct {
 	ArrayStretch float64
@@ -709,13 +700,7 @@ func (cfg *Config) setLayoutEngineDefaults() {
 		cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset = "0.86pt"
 	}
 
-	// * Set density calculation defaults
-	if cfg.Layout.LayoutEngine.DensityCalculation.WeeksPerMonth == 0 {
-		cfg.Layout.LayoutEngine.DensityCalculation.WeeksPerMonth = 4.0
-	}
-	if cfg.Layout.LayoutEngine.DensityCalculation.TaskAreaMultiplier == 0 {
-		cfg.Layout.LayoutEngine.DensityCalculation.TaskAreaMultiplier = 0.6
-	}
+	// Density calculation defaults removed - not used in code
 }
 
 // validateLayoutEngineConfig validates the layout engine configuration

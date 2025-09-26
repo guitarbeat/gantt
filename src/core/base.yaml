@@ -258,10 +258,7 @@ layout:
       day_cell_minipage_width: "6mm"
       header_angle_size_offset: "0.86pt"
     
-    # Task density calculation
-    density_calculation:
-      weeks_per_month: 4.0
-      task_area_multiplier: 0.6
+    # Task density calculation removed - not used in code
 
 pages:
   - name: monthly
