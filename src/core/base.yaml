@@ -112,27 +112,12 @@ layout:
 
     # Algorithm thresholds (inherited from layout_engine)
 
-    # Task positioning
-    task_vertical_offset: 0.0
-    task_horizontal_offset: 0.0
-    expanded_task_vertical_offset: 5.0
-    expanded_task_horizontal_offset: 5.0
-    expanded_task_height_multiplier: 0.8
-    expanded_task_width_multiplier: 0.8
-    collapsed_task_height_multiplier: 0.5
-    collapsed_task_width_multiplier: 0.5
+    # Task positioning (hardcoded in layout_manager.go)
 
   # Calendar rendering parameters
   calendar:
     taskkernspacing: 5mm
-    collapse_threshold: 5
-    # Visual styling (inherited from layout_engine)
-
-    # Typography settings for calendar content
-    emergencystretch: 3em
-    inner_sep: 2pt
-
-    # Layout parameters (inherited from layout_engine.calendar_layout)
+    # Other parameters hardcoded in calendar.go
 
   # Stacking algorithm parameters
   stacking:
@@ -141,14 +126,9 @@ layout:
     max_height: 60.0
 
     # Visual quality thresholds
-    visibility_threshold: 0.5
     overflow_vertical: 0.8
     collision_threshold: 0.1
-    bounding_box_buffer: 2.0
-
-    # Visual weight defaults
-    default_visual_weight: 0.5
-    default_prominence_score: 0.5
+    # Other thresholds hardcoded in stacking.go
 
   # Layout engine specific parameters
   layout_engine:

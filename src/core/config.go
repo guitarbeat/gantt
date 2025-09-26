@@ -175,15 +175,7 @@ type Constraints struct {
 
 	// Algorithm thresholds (inherited from layout_engine)
 
-	// Task positioning
-	TaskVerticalOffset            float64 `yaml:"task_vertical_offset"`
-	TaskHorizontalOffset          float64 `yaml:"task_horizontal_offset"`
-	ExpandedTaskVerticalOffset    float64 `yaml:"expanded_task_vertical_offset"`
-	ExpandedTaskHorizontalOffset  float64 `yaml:"expanded_task_horizontal_offset"`
-	ExpandedTaskHeightMultiplier  float64 `yaml:"expanded_task_height_multiplier"`
-	ExpandedTaskWidthMultiplier   float64 `yaml:"expanded_task_width_multiplier"`
-	CollapsedTaskHeightMultiplier float64 `yaml:"collapsed_task_height_multiplier"`
-	CollapsedTaskWidthMultiplier  float64 `yaml:"collapsed_task_width_multiplier"`
+	// Task positioning (hardcoded in layout_manager.go)
 }
 
 type Layout struct {
@@ -201,17 +193,8 @@ type Layout struct {
 }
 
 type Calendar struct {
-	TaskKernSpacing   string
-	CollapseThreshold int
-	// Visual styling (inherited from layout_engine)
-
-	// Typography settings for calendar content
-	EmergencyStretch string `yaml:"emergencystretch"`
-	InnerSep         string `yaml:"inner_sep"`
-
-	// Layout parameters (inherited from layout_engine.calendar_layout)
-
-	// Task rendering parameters (inherited from layout_engine)
+	TaskKernSpacing string `yaml:"taskkernspacing"`
+	// Other parameters hardcoded in calendar.go
 }
 
 type Stacking struct {
@@ -220,14 +203,9 @@ type Stacking struct {
 	MaxHeight  float64 `yaml:"max_height"`
 
 	// Visual quality thresholds
-	VisibilityThreshold float64 `yaml:"visibility_threshold"`
-	OverflowVertical    float64 `yaml:"overflow_vertical"`
-	CollisionThreshold  float64 `yaml:"collision_threshold"`
-	BoundingBoxBuffer   float64 `yaml:"bounding_box_buffer"`
-
-	// Visual weight defaults
-	DefaultVisualWeight    float64 `yaml:"default_visual_weight"`
-	DefaultProminenceScore float64 `yaml:"default_prominence_score"`
+	OverflowVertical   float64 `yaml:"overflow_vertical"`
+	CollisionThreshold float64 `yaml:"collision_threshold"`
+	// Other thresholds hardcoded in stacking.go
 }
 
 type LayoutEngine struct {
