@@ -269,12 +269,9 @@ func NewStackingEngine(spatialEngine *SpatialEngine, conflictCategorizer *Confli
 		if config.Layout.Stacking.MaxHeight > 0 {
 			visualConstraints.MaxTaskHeight = config.Layout.Stacking.MaxHeight
 		}
-		if config.Layout.Stacking.VerticalSpacing > 0 {
-			visualConstraints.VerticalSpacing = config.Layout.Stacking.VerticalSpacing
-		}
-		if config.Layout.Stacking.HorizontalSpacing > 0 {
-			visualConstraints.HorizontalSpacing = config.Layout.Stacking.HorizontalSpacing
-		}
+		// Use default spacing values
+		visualConstraints.VerticalSpacing = 2.0
+		visualConstraints.HorizontalSpacing = 5.0
 		if config.Layout.Stacking.CollisionThreshold > 0 {
 			visualConstraints.CollisionThreshold = config.Layout.Stacking.CollisionThreshold
 		}

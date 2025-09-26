@@ -228,52 +228,11 @@ type Stacking struct {
 	MinHeight  float64 `yaml:"min_height"`
 	MaxHeight  float64 `yaml:"max_height"`
 
-	// Prominence multipliers
-	ProminenceCritical float64 `yaml:"prominence_critical"`
-	ProminenceHigh     float64 `yaml:"prominence_high"`
-	ProminenceMedium   float64 `yaml:"prominence_medium"`
-	ProminenceLow      float64 `yaml:"prominence_low"`
-	ProminenceMinimal  float64 `yaml:"prominence_minimal"`
-
-	// Duration-based weighting
-	DurationShortWeight  float64 `yaml:"duration_short_weight"`
-	DurationMediumWeight float64 `yaml:"duration_medium_weight"`
-	DurationLongWeight   float64 `yaml:"duration_long_weight"`
-
-	// Complexity-based weighting
-	ComplexityMinimalWeight float64 `yaml:"complexity_minimal_weight"`
-	ComplexityNormalWeight  float64 `yaml:"complexity_normal_weight"`
-	ComplexityComplexWeight float64 `yaml:"complexity_complex_weight"`
-
-	// Task positioning parameters
-	VerticalSpacing   float64 `yaml:"vertical_spacing"`
-	HorizontalSpacing float64 `yaml:"horizontal_spacing"`
-
 	// Visual quality thresholds
 	VisibilityThreshold float64 `yaml:"visibility_threshold"`
 	OverflowVertical    float64 `yaml:"overflow_vertical"`
 	CollisionThreshold  float64 `yaml:"collision_threshold"`
 	BoundingBoxBuffer   float64 `yaml:"bounding_box_buffer"`
-
-	// Quality assessment thresholds
-	QualityHighThreshold     float64 `yaml:"quality_high_threshold"`
-	BalanceHighThreshold     float64 `yaml:"balance_high_threshold"`
-	CompressionHighThreshold float64 `yaml:"compression_high_threshold"`
-
-	// Weight calculation parameters
-	DurationWeightFactor float64 `yaml:"duration_weight_factor"`
-	CategoryHighWeight   float64 `yaml:"category_high_weight"`
-	CategoryMediumWeight float64 `yaml:"category_medium_weight"`
-	CategoryNormalWeight float64 `yaml:"category_normal_weight"`
-	CategoryHighBonus    float64 `yaml:"category_high_bonus"`
-
-	// Urgency multipliers (inherited from layout_engine)
-
-	// Prominence multipliers
-	ProminenceMultiplier float64 `yaml:"prominence_multiplier"`
-
-	// Grid configuration (inherited from layout_engine)
-	// Quality thresholds (inherited from layout_engine)
 
 	// Visual weight defaults
 	DefaultVisualWeight    float64 `yaml:"default_visual_weight"`
