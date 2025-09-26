@@ -730,17 +730,17 @@ func (m *Month) DefineTable(typ interface{}, large interface{}) string {
 
 	typStr, ok := typ.(string)
 	if !ok || typStr == "tabularx" {
-		weekAlign := "Y|"
+		weekAlign := "Y"
 		days := "Y"
 		if full {
-			weekAlign = `|l!{\vrule width \myLenLineThicknessThick}`
-			days = "@{}X@{}|"
+			weekAlign = `l`
+			days = `@{}X@{}`
 		}
 
 		return `\begin{tabularx}{\linewidth}{` + weekAlign + `*{7}{` + days + `}}`
 	}
 
-	return `\begin{tabular}[t]{c|*{7}{c}}`
+	return `\begin{tabular}[t]{c*{7}{c}}`
 }
 
 func (m *Month) EndTable(typ interface{}) string {

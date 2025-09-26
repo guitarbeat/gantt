@@ -51,7 +51,7 @@ layout:
     colsep: 5pt
 
     # Task styling parameters
-    task_background_opacity: 100
+    task_background_opacity: 20
     task_border_opacity: 80
     task_content_spacing: "0.2ex"
 
