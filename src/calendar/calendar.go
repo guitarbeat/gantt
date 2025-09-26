@@ -226,7 +226,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		// Add objective in smaller text if available
 		if spanningTask.Description != "" {
 			objective := d.escapeLatexSpecialChars(spanningTask.Description)
-			plainTaskStrings[i] = fmt.Sprintf(`%s\\\small{%s}`, taskName, objective)
+			plainTaskStrings[i] = fmt.Sprintf(`\textbf{%s}: \small{%s}`, taskName, objective)
 		} else {
 			plainTaskStrings[i] = taskName
 		}
