@@ -242,7 +242,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	// Create separate pills for each spanning task
 	var pillContents []string
 
-	for _, spanningTask := range startingTasks {
+	for i, spanningTask := range startingTasks {
 		// Task name (will be bolded by the macro)
 		taskName := d.escapeLatexSpecialChars(spanningTask.Name)
 		if d.isMilestoneSpanningTask(spanningTask) {
@@ -262,12 +262,21 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		}
 
 		// Create a separate pill for this task
-		// All tasks use no offset to make them touch
-		pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`,
-			taskColor, // Use the task's specific color
-			taskName,  // Task name (will be bolded by macro)
-			objective) // Objective (will be smaller by macro)
-		pillContents = append(pillContents, pillContent)
+		// Only the first task gets vertical offset, others touch
+		if i == 0 {
+			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
+				taskColor, // Use the task's specific color
+				taskName,  // Task name (will be bolded by macro)
+				objective) // Objective (will be smaller by macro)
+			pillContents = append(pillContents, pillContent)
+		} else {
+			// For subsequent tasks, use a custom macro without vertical offset
+			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`,
+				taskColor, // Use the task's specific color
+				taskName,  // Task name (will be bolded by macro)
+				objective) // Objective (will be smaller by macro)
+			pillContents = append(pillContents, pillContent)
+		}
 	}
 
 	// Stack the pills vertically without extra spacing
