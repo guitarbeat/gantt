@@ -226,13 +226,13 @@ func (d Day) renderLargeDayRefactored(day string) string {
 
 ## 📝 **Code Quality Metrics**
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **Lines per file** | 1,053 | ~200-300 | 70% reduction |
-| **Functions per file** | 50+ | 10-15 | 70% reduction |
-| **Cyclomatic complexity** | High | Low | Significant improvement |
-| **Testability** | Poor | Good | Major improvement |
-| **Maintainability** | Poor | Good | Major improvement |
+| Metric                    | Before | After    | Improvement             |
+| ------------------------- | ------ | -------- | ----------------------- |
+| **Lines per file**        | 1,053  | ~200-300 | 70% reduction           |
+| **Functions per file**    | 50+    | 10-15    | 70% reduction           |
+| **Cyclomatic complexity** | High   | Low      | Significant improvement |
+| **Testability**           | Poor   | Good     | Major improvement       |
+| **Maintainability**       | Poor   | Good     | Major improvement       |
 
 ---
 
