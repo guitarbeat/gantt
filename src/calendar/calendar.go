@@ -868,55 +868,80 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 	}
 }
 
-// getColorForCategory returns a color for the given category
+// getColorForCategory returns a color for the given category using algorithmic generation
 func getColorForCategory(category string) string {
-	// First check for exact matches in the predefined color map
-	predefinedColors := map[string]string{
-		"PhD Proposal":                          "#4A90E2", // Blue
-		"Final Submission & Graduation":         "#7ED321", // Green
-		"Data Management & Analysis":            "#BD10E0", // Purple
-		"Aim 3 - Stroke Study & Analysis":       "#D0021B", // Red
-		"Dissertation Writing":                  "#F5A623", // Orange
-		"Aim 1 - AAV-based Vascular Imaging":    "#50E3C2", // Teal
-		"Aim 2 - Dual-channel Imaging Platform": "#8B4513", // Brown
-		"Committee Review & Defense":            "#CCCCCC", // Gray
-		"Microscope Setup":                      "#00FFFF", // Cyan
-		"SLAVV-T Development":                   "#FF00FF", // Magenta
-		"Research Paper":                        "#00FF00", // Lime
-		"Laser System":                          "#FFC0CB", // Pink
-		"Committee Management":                  "#808000", // Olive
-		"Methodology Paper":                     "#8A2BE2", // Violet
-		"Manuscript Submissions":                "#000080", // Navy
-		"AR Platform Development":               "#800000", // Maroon
-	}
-
-	if color, exists := predefinedColors[category]; exists {
-		return color
-	}
-
-	// If no exact match, generate a color dynamically based on the category name
+	// Generate a consistent, visually distinct color algorithmically
 	return generateDynamicColor(category)
 }
 
-// generateDynamicColor creates a consistent color based on the category name
+// generateDynamicColor creates a consistent, visually distinct color based on the category name
 func generateDynamicColor(category string) string {
-	// Use a simple hash function to generate consistent colors
+	// Use a better hash function to generate consistent colors
 	hash := 0
-	for _, char := range category {
-		hash = hash*31 + int(char)
+	for i, char := range category {
+		hash = hash*31 + int(char) + i*7 // Add position to improve distribution
 	}
 
-	// Convert hash to a positive number and use modulo to get a color index
-	colorIndex := hash % 12
-	if colorIndex < 0 {
-		colorIndex = -colorIndex
+	// Convert hash to a positive number
+	if hash < 0 {
+		hash = -hash
 	}
 
-	// Define a palette of distinct hex colors
-	colors := []string{
-		"#4A90E2", "#D0021B", "#7ED321", "#F5A623", "#BD10E0", "#50E3C2",
-		"#8B4513", "#FFC0CB", "#00FFFF", "#00FF00", "#FF00FF", "#000080",
-	}
+	// Generate HSL color with good saturation and lightness for readability
+	hue := float64(hash%360)                    // 0-360 degrees
+	saturation := 0.7 + float64(hash%30)/100.0 // 0.7-1.0 for good saturation
+	lightness := 0.5 + float64(hash%20)/100.0  // 0.5-0.7 for good contrast
 
-	return colors[colorIndex%len(colors)]
+	// Convert HSL to RGB
+	r, g, b := hslToRgb(hue, saturation, lightness)
+	
+	// Convert to hex
+	return fmt.Sprintf("#%02X%02X%02X", r, g, b)
+}
+
+// hslToRgb converts HSL color values to RGB
+func hslToRgb(h, s, l float64) (int, int, int) {
+	// Normalize values
+	h = h / 360.0
+	
+	var r, g, b float64
+	
+	if s == 0 {
+		// Grayscale
+		r, g, b = l, l, l
+	} else {
+		var q, p float64
+		if l < 0.5 {
+			q = l * (1 + s)
+		} else {
+			q = l + s - l*s
+		}
+		p = 2*l - q
+		
+		r = hueToRgb(p, q, h+1.0/3.0)
+		g = hueToRgb(p, q, h)
+		b = hueToRgb(p, q, h-1.0/3.0)
+	}
+	
+	return int(r * 255), int(g * 255), int(b * 255)
+}
+
+// hueToRgb helper function for HSL to RGB conversion
+func hueToRgb(p, q, t float64) float64 {
+	if t < 0 {
+		t += 1
+	}
+	if t > 1 {
+		t -= 1
+	}
+	if t < 1.0/6.0 {
+		return p + (q-p)*6*t
+	}
+	if t < 1.0/2.0 {
+		return q
+	}
+	if t < 2.0/3.0 {
+		return p + (q-p)*(2.0/3.0-t)*6
+	}
+	return p
 }

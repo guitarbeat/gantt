@@ -46,52 +46,124 @@ var (
 	CategoryPROPOSAL = TaskCategory{
 		Name:        "PROPOSAL",
 		DisplayName: "Proposal",
-		Color:       "#4A90E2", // Blue
+		Color:       generateCategoryColor("PROPOSAL"),
 		Description: "PhD proposal related tasks",
 	}
 
 	CategoryLASER = TaskCategory{
 		Name:        "LASER",
 		DisplayName: "Laser System",
-		Color:       "#F5A623", // Orange
+		Color:       generateCategoryColor("LASER"),
 		Description: "Laser system setup and maintenance",
 	}
 
 	CategoryIMAGING = TaskCategory{
 		Name:        "IMAGING",
 		DisplayName: "Imaging",
-		Color:       "#7ED321", // Green
+		Color:       generateCategoryColor("IMAGING"),
 		Description: "Imaging experiments and data collection",
 	}
 
 	CategoryADMIN = TaskCategory{
 		Name:        "ADMIN",
 		DisplayName: "Administrative",
-		Color:       "#BD10E0", // Purple
+		Color:       generateCategoryColor("ADMIN"),
 		Description: "Administrative tasks and paperwork",
 	}
 
 	CategoryDISSERTATION = TaskCategory{
 		Name:        "DISSERTATION",
 		DisplayName: "Dissertation",
-		Color:       "#D0021B", // Red
+		Color:       generateCategoryColor("DISSERTATION"),
 		Description: "Dissertation writing and defense",
 	}
 
 	CategoryRESEARCH = TaskCategory{
 		Name:        "RESEARCH",
 		DisplayName: "Research",
-		Color:       "#50E3C2", // Teal
+		Color:       generateCategoryColor("RESEARCH"),
 		Description: "General research activities",
 	}
 
 	CategoryPUBLICATION = TaskCategory{
 		Name:        "PUBLICATION",
 		DisplayName: "Publication",
-		Color:       "#B8E986", // Light Green
+		Color:       generateCategoryColor("PUBLICATION"),
 		Description: "Publication and manuscript writing",
 	}
 )
+
+// generateCategoryColor creates a consistent, visually distinct color based on the category name
+func generateCategoryColor(category string) string {
+	// Use a better hash function to generate consistent colors
+	hash := 0
+	for i, char := range category {
+		hash = hash*31 + int(char) + i*7 // Add position to improve distribution
+	}
+
+	// Convert hash to a positive number
+	if hash < 0 {
+		hash = -hash
+	}
+
+	// Generate HSL color with good saturation and lightness for readability
+	hue := float64(hash%360)                    // 0-360 degrees
+	saturation := 0.7 + float64(hash%30)/100.0 // 0.7-1.0 for good saturation
+	lightness := 0.5 + float64(hash%20)/100.0  // 0.5-0.7 for good contrast
+
+	// Convert HSL to RGB
+	r, g, b := hslToRgb(hue, saturation, lightness)
+	
+	// Convert to hex
+	return fmt.Sprintf("#%02X%02X%02X", r, g, b)
+}
+
+// hslToRgb converts HSL color values to RGB
+func hslToRgb(h, s, l float64) (int, int, int) {
+	// Normalize values
+	h = h / 360.0
+	
+	var r, g, b float64
+	
+	if s == 0 {
+		// Grayscale
+		r, g, b = l, l, l
+	} else {
+		var q, p float64
+		if l < 0.5 {
+			q = l * (1 + s)
+		} else {
+			q = l + s - l*s
+		}
+		p = 2*l - q
+		
+		r = hueToRgb(p, q, h+1.0/3.0)
+		g = hueToRgb(p, q, h)
+		b = hueToRgb(p, q, h-1.0/3.0)
+	}
+	
+	return int(r * 255), int(g * 255), int(b * 255)
+}
+
+// hueToRgb helper function for HSL to RGB conversion
+func hueToRgb(p, q, t float64) float64 {
+	if t < 0 {
+		t += 1
+	}
+	if t > 1 {
+		t -= 1
+	}
+	if t < 1.0/6.0 {
+		return p + (q-p)*6*t
+	}
+	if t < 1.0/2.0 {
+		return q
+	}
+	if t < 2.0/3.0 {
+		return p + (q-p)*(2.0/3.0-t)*6
+	}
+	return p
+}
 
 // GetCategory returns the TaskCategory for a given category name
 func GetCategory(categoryName string) TaskCategory {
