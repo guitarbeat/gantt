@@ -230,29 +230,25 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		}
 		
 		// Create a separate pill for this task
-		// Only the first task gets normal padding and vertical offset, others have no padding so they touch
-		var padding string
-		var verticalOffset string
+		// Only the first task gets vertical offset, others touch
 		if i == 0 {
-			padding = "1.0mm" // Normal padding for first task
-			verticalOffset = "\\vspace*{\\TaskVerticalOffset}" // Vertical offset for first task
+			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
+				taskColor, // Use the task's specific color
+				taskName,  // Task name (will be bolded by macro)
+				objective) // Objective (will be smaller by macro)
+			pillContents = append(pillContents, pillContent)
 		} else {
-			padding = "0pt" // No padding for subsequent tasks so they touch
-			verticalOffset = "\\vspace*{-1.0mm}" // Negative spacing to pull up and touch previous task
+			// For subsequent tasks, use a custom macro without vertical offset
+			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`, 
+				taskColor, // Use the task's specific color
+				taskName,  // Task name (will be bolded by macro)
+				objective) // Objective (will be smaller by macro)
+			pillContents = append(pillContents, pillContent)
 		}
-		
-		pillContent := fmt.Sprintf(`%s\TaskOverlayBox{%s}{%s}{%s}{%s}`, 
-			verticalOffset, // Vertical offset (positive for first, negative for others)
-			taskColor,      // Use the task's specific color
-			taskName,       // Task name (will be bolded by macro)
-			objective,      // Objective (will be smaller by macro)
-			padding)        // Padding (1.0mm for first, 0pt for others)
-		
-		pillContents = append(pillContents, pillContent)
 	}
 
-	// Stack the pills vertically
-	content := strings.Join(pillContents, "\\\\")
+	// Stack the pills vertically without extra spacing
+	content := strings.Join(pillContents, "")
 
 	return &TaskOverlay{
 		content: content,
