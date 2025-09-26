@@ -113,20 +113,6 @@ func NewReader(filePath string) *Reader {
 	}
 }
 
-// NewReaderWithOptions creates a new CSV data reader with custom options
-func NewReaderWithOptions(filePath string, opts *ReaderOptions) *Reader {
-	if opts == nil {
-		opts = DefaultReaderOptions()
-	}
-	return &Reader{
-		filePath:    filePath,
-		logger:      opts.Logger,
-		strictMode:  opts.StrictMode,
-		skipInvalid: opts.SkipInvalid,
-		maxMemoryMB: opts.MaxMemoryMB,
-	}
-}
-
 // parseDate attempts to parse a date string using multiple supported formats
 func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 	if dateStr == "" {
