@@ -355,18 +355,19 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 	return overlayCols
 }
 
-// findStartingTasks finds tasks that start on the given day and calculates max columns
+// findStartingTasks finds tasks that are active on the given day and calculates max columns
 func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
-	var startingTasks []*SpanningTask
+	var activeTasks []*SpanningTask
 	var maxCols int
 
 	for _, task := range d.SpanningTasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Only show tasks that START on this day (not just active on this day)
-		if dayDate.Equal(start) {
-			startingTasks = append(startingTasks, task)
+		// Show tasks that are active on this day (started on or before this day, and end on or after this day)
+		if (dayDate.Equal(start) || dayDate.After(start)) && (dayDate.Equal(end) || dayDate.Before(end)) {
+			activeTasks = append(activeTasks, task)
+			// Calculate columns from this day to the end of the task
 			cols := d.calculateTaskSpanColumns(dayDate, end)
 			if cols > maxCols {
 				maxCols = cols
@@ -374,7 +375,7 @@ func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
 		}
 	}
 
-	return startingTasks, maxCols
+	return activeTasks, maxCols
 }
 
 // sortTasksByDuration sorts tasks by duration for better visual organization
