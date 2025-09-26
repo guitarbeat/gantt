@@ -355,47 +355,26 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 	return overlayCols
 }
 
-// findStartingTasks finds tasks that should be displayed on this day and calculates max columns
+// findStartingTasks finds tasks that start on the given day and calculates max columns
 func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
-	var tasksToShow []*SpanningTask
+	var startingTasks []*SpanningTask
 	var maxCols int
 
-	// Find all tasks that are active on this day
-	var activeTasks []*SpanningTask
 	for _, task := range d.SpanningTasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Check if task is active on this day
-		if (dayDate.Equal(start) || dayDate.After(start)) && (dayDate.Equal(end) || dayDate.Before(end)) {
-			activeTasks = append(activeTasks, task)
-		}
-	}
-
-	// If there are multiple active tasks, show them all stacked (overlapping case)
-	// If there's only one active task, only show it if it starts on this day
-	if len(activeTasks) > 1 {
-		// Multiple tasks active - show them all stacked
-		tasksToShow = activeTasks
-		for _, task := range activeTasks {
-			end := d.getTaskEndDate(task)
+		// Only show tasks that START on this day (not just active on this day)
+		if dayDate.Equal(start) {
+			startingTasks = append(startingTasks, task)
 			cols := d.calculateTaskSpanColumns(dayDate, end)
 			if cols > maxCols {
 				maxCols = cols
 			}
 		}
-	} else if len(activeTasks) == 1 {
-		// Single task - only show if it starts on this day
-		task := activeTasks[0]
-		start := d.getTaskStartDate(task)
-		if dayDate.Equal(start) {
-			tasksToShow = activeTasks
-			end := d.getTaskEndDate(task)
-			maxCols = d.calculateTaskSpanColumns(dayDate, end)
-		}
 	}
 
-	return tasksToShow, maxCols
+	return startingTasks, maxCols
 }
 
 // sortTasksByDuration sorts tasks by duration for better visual organization
