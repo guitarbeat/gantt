@@ -173,12 +173,20 @@ func (d Day) TasksForDay() string {
 
 	// Add regular tasks
 	for _, task := range d.Tasks {
-		// Only show task name, category is only used for color
 		taskStr := d.escapeLatexSpecialChars(task.Name)
 
 		// Add star for milestone tasks
 		if d.isMilestoneTask(task) {
 			taskStr = "★ " + taskStr
+		}
+
+		// Apply color styling based on category
+		if task.Category != "" {
+			color := getColorForCategory(task.Category)
+			if color != "" {
+				rgbColor := hexToRGB(color)
+				taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
+			}
 		}
 
 		taskStrings = append(taskStrings, taskStr)
@@ -193,6 +201,11 @@ func (d Day) TasksForDay() string {
 		// Add star for milestone spanning tasks
 		if d.isMilestoneSpanningTask(spanningTask) {
 			taskStr = "★ " + taskStr
+		}
+
+		// Apply color styling based on category
+		if spanningTask.Category != "" && spanningTask.Color != "" {
+			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, spanningTask.Color, taskStr)
 		}
 
 		taskStrings = append(taskStrings, taskStr)
