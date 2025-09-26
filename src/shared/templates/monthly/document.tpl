@@ -70,7 +70,7 @@
 {{if $.Cfg.Layout.Paper.ReverseMargins}}\reversemarginpar{{end}}
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
 \parindent={{.Cfg.Layout.LaTeX.Document.ParIndent}}
-\fboxsep{{.Cfg.Layout.LaTeX.Document.FBoxSep}}
+\fboxsep0pt
 
 \begin{document}
 

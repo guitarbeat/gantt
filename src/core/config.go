@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -68,20 +69,18 @@ type Colors struct {
 	LightGray string
 }
 
-type TaskColors struct {
-	Proposal     RGBColor
-	Laser        RGBColor
-	Imaging      RGBColor
-	Admin        RGBColor
-	Dissertation RGBColor
-	Research     RGBColor
-	Publication  RGBColor
-}
+// TaskColors removed - using algorithmic colors
 
-type RGBColor struct {
-	R int
-	G int
-	B int
+// RGBColor removed - using algorithmic colors
+
+type AlgorithmicColors struct {
+	Proposal     string
+	Laser        string
+	Imaging      string
+	Admin        string
+	Dissertation string
+	Research     string
+	Publication  string
 }
 
 type LaTeX struct {
@@ -144,7 +143,7 @@ type Spacing struct {
 	ColSep          string
 	TableColSep     string
 	ColorLegendSep  string
-	PageBreak       string
+	// Page break hardcoded in templates
 	// Template-specific spacing values
 	Col              string `yaml:"col"`
 	TaskContentVspace string `yaml:"task_content_vspace"`
@@ -154,7 +153,6 @@ type Spacing struct {
 type Document struct {
 	FontSize  string
 	ParIndent string
-	FBoxSep   string
 }
 
 type Constraints struct {
@@ -183,8 +181,9 @@ type Layout struct {
 
 	Numbers     Numbers
 	Lengths     Lengths
-	Colors      Colors
-	TaskColors  TaskColors `yaml:"task_colors"`
+	Colors            Colors
+	// TaskColors removed - using algorithmic colors
+	AlgorithmicColors AlgorithmicColors
 	LaTeX       LaTeX      `yaml:"latex"`
 	Constraints Constraints
 	Calendar    Calendar
@@ -382,6 +381,9 @@ func NewConfig(pathConfigs ...string) (Config, error) {
 	// * Set defaults for layout engine configuration
 	cfg.setLayoutEngineDefaults()
 
+	// * Set algorithmic colors for predefined categories
+	cfg.setAlgorithmicColors()
+
 	// * Validate layout engine configuration
 	if err := cfg.validateLayoutEngineConfig(); err != nil {
 		return cfg, fmt.Errorf("layout engine config validation failed: %w", err)
@@ -482,6 +484,39 @@ func (cfg *Config) setDateRangeFromCSV() error {
 	}
 
 	return nil
+}
+
+// setAlgorithmicColors sets the algorithmic colors for predefined categories
+func (cfg *Config) setAlgorithmicColors() {
+	cfg.Layout.AlgorithmicColors = AlgorithmicColors{
+		Proposal:     hexToRGB(generateCategoryColor("PROPOSAL")),
+		Laser:        hexToRGB(generateCategoryColor("LASER")),
+		Imaging:      hexToRGB(generateCategoryColor("IMAGING")),
+		Admin:        hexToRGB(generateCategoryColor("ADMIN")),
+		Dissertation: hexToRGB(generateCategoryColor("DISSERTATION")),
+		Research:     hexToRGB(generateCategoryColor("RESEARCH")),
+		Publication:  hexToRGB(generateCategoryColor("PUBLICATION")),
+	}
+}
+
+// hexToRGB converts hex color to RGB format for LaTeX
+func hexToRGB(hex string) string {
+	// Remove # prefix if present
+	if len(hex) > 0 && hex[0] == '#' {
+		hex = hex[1:]
+	}
+
+	// Convert hex to RGB
+	if len(hex) == 6 {
+		// Parse hex values
+		r, _ := strconv.ParseInt(hex[0:2], 16, 64)
+		g, _ := strconv.ParseInt(hex[2:4], 16, 64)
+		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
+		return fmt.Sprintf("%d,%d,%d", r, g, b)
+	}
+
+	// Fallback for invalid hex
+	return "128,128,128"
 }
 
 // GetYears returns a slice of years to generate planners for
@@ -663,3 +698,4 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 
 	return nil
 }
+

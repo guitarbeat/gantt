@@ -5,14 +5,7 @@
 
 {{- $numbers := .Cfg.Layout.Numbers -}}
 
-% Define category colors for consistent rendering
-\definecolor{taskProposal}{RGB}{ {{.Cfg.Layout.TaskColors.Proposal.R}},{{.Cfg.Layout.TaskColors.Proposal.G}},{{.Cfg.Layout.TaskColors.Proposal.B}} }
-\definecolor{taskLaser}{RGB}{ {{.Cfg.Layout.TaskColors.Laser.R}},{{.Cfg.Layout.TaskColors.Laser.G}},{{.Cfg.Layout.TaskColors.Laser.B}} }
-\definecolor{taskImaging}{RGB}{ {{.Cfg.Layout.TaskColors.Imaging.R}},{{.Cfg.Layout.TaskColors.Imaging.G}},{{.Cfg.Layout.TaskColors.Imaging.B}} }
-\definecolor{taskAdmin}{RGB}{ {{.Cfg.Layout.TaskColors.Admin.R}},{{.Cfg.Layout.TaskColors.Admin.G}},{{.Cfg.Layout.TaskColors.Admin.B}} }
-\definecolor{taskDissertation}{RGB}{ {{.Cfg.Layout.TaskColors.Dissertation.R}},{{.Cfg.Layout.TaskColors.Dissertation.G}},{{.Cfg.Layout.TaskColors.Dissertation.B}} }
-\definecolor{taskResearch}{RGB}{ {{.Cfg.Layout.TaskColors.Research.R}},{{.Cfg.Layout.TaskColors.Research.G}},{{.Cfg.Layout.TaskColors.Research.B}} }
-\definecolor{taskPublication}{RGB}{ {{.Cfg.Layout.TaskColors.Publication.R}},{{.Cfg.Layout.TaskColors.Publication.G}},{{.Cfg.Layout.TaskColors.Publication.B}} }
+% Task colors are now generated algorithmically - no need for predefined colors
 
 \newlength{\myLenTabColSep}
 \newlength{\myLenLineThicknessDefault}
@@ -147,21 +140,21 @@
 
 
 
-% Color legend macro for task categories - uses circles with correct RGB colors
+% Color legend macro for task categories - uses algorithmic colors
 \newcommand{\ColorLegend}{%
   {\centering
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Proposal.R}},{{.Cfg.Layout.TaskColors.Proposal.G}},{{.Cfg.Layout.TaskColors.Proposal.B}} }{\Large$\bullet$}~\small Proposal%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\Large$\bullet$}~\small{Proposal}%
     \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Laser.R}},{{.Cfg.Layout.TaskColors.Laser.G}},{{.Cfg.Layout.TaskColors.Laser.B}} }{\Large$\bullet$}~\small Laser%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\Large$\bullet$}~\small{Laser}%
     \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Imaging.R}},{{.Cfg.Layout.TaskColors.Imaging.G}},{{.Cfg.Layout.TaskColors.Imaging.B}} }{\Large$\bullet$}~\small Imaging%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\Large$\bullet$}~\small{Imaging}%
     \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Admin.R}},{{.Cfg.Layout.TaskColors.Admin.G}},{{.Cfg.Layout.TaskColors.Admin.B}} }{\Large$\bullet$}~\small Admin%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\Large$\bullet$}~\small{Admin}%
     \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Dissertation.R}},{{.Cfg.Layout.TaskColors.Dissertation.G}},{{.Cfg.Layout.TaskColors.Dissertation.B}} }{\Large$\bullet$}~\small Dissertation%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\Large$\bullet$}~\small{Dissertation}%
     \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Research.R}},{{.Cfg.Layout.TaskColors.Research.G}},{{.Cfg.Layout.TaskColors.Research.B}} }{\Large$\bullet$}~\small Research%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\Large$\bullet$}~\small{Research}%
     \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
-    \textcolor[RGB]{ {{.Cfg.Layout.TaskColors.Publication.R}},{{.Cfg.Layout.TaskColors.Publication.G}},{{.Cfg.Layout.TaskColors.Publication.B}} }{\Large$\bullet$}~\small Publication%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\Large$\bullet$}~\small{Publication}%
   \par}
 }

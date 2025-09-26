@@ -81,7 +81,7 @@ layout:
     spacing:
       tablecolsep: 0.5em
       colorlegendsep: 1.5em
-      pagebreak: \pagebreak
+      # Page break hardcoded in templates
       # Spacing values are hardcoded in stacking.go
       # Template-specific spacing values
       col: "5pt"
@@ -92,7 +92,6 @@ layout:
     document:
       fontsize: 9pt
       parindent: 0pt
-      fboxsep: 0pt
 
   # Layout constraints for task positioning
   constraints:
