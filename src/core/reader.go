@@ -280,35 +280,6 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 	return tasks, nil
 }
 
-// GetDateRange extracts the earliest and latest dates from the tasks
-func (r *Reader) GetDateRange() (*DateRange, error) {
-	tasks, err := r.ReadTasks()
-	if err != nil {
-		return nil, err
-	}
-
-	if len(tasks) == 0 {
-		return nil, fmt.Errorf("no tasks found in CSV file")
-	}
-
-	earliest := tasks[0].StartDate
-	latest := tasks[0].EndDate
-
-	for _, task := range tasks {
-		if task.StartDate.Before(earliest) {
-			earliest = task.StartDate
-		}
-		if task.EndDate.After(latest) {
-			latest = task.EndDate
-		}
-	}
-
-	return &DateRange{
-		Earliest: earliest,
-		Latest:   latest,
-	}, nil
-}
-
 // GetMonthsWithTasks returns a slice of MonthYear structs for months that have tasks
 func (r *Reader) GetMonthsWithTasks() ([]MonthYear, error) {
 	tasks, err := r.ReadTasks()
