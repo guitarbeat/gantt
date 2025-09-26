@@ -238,11 +238,11 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			verticalOffset = "\\vspace*{\\TaskVerticalOffset}" // Vertical offset for first task
 		} else {
 			padding = "0pt" // No padding for subsequent tasks so they touch
-			verticalOffset = "" // No vertical offset for subsequent tasks
+			verticalOffset = "\\vspace*{-1.0mm}" // Negative spacing to pull up and touch previous task
 		}
 		
 		pillContent := fmt.Sprintf(`%s\TaskOverlayBox{%s}{%s}{%s}{%s}`, 
-			verticalOffset, // Vertical offset (only for first task)
+			verticalOffset, // Vertical offset (positive for first, negative for others)
 			taskColor,      // Use the task's specific color
 			taskName,       // Task name (will be bolded by macro)
 			objective,      // Objective (will be smaller by macro)
