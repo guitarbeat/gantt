@@ -72,7 +72,7 @@ layout:
 
     # Typography settings
     typography:
-      hyphenpenalty: 50
+      hyphenpenalty: 10000  # Prevent word splitting
       tolerance: 1000
       emergencystretch: 2em
       sloppyemergencystretch: 3em

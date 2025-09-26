@@ -205,43 +205,41 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
-	// Get the color from the first spanning task for the pill background
-	var pillColor string
-	if len(startingTasks) > 0 && startingTasks[0].Color != "" {
-		pillColor = hexToRGB(startingTasks[0].Color)
-	} else {
-		pillColor = "224,50,212" // Default fallback
-	}
+	// Each task will get its own color, so we don't need a shared pillColor
 
-	// Create the overlay content using TaskOverlayBox macro
-	// Use the task color for the pill background, and plain text (no color) for the content
-	taskNames := make([]string, len(startingTasks))
-	objectives := make([]string, len(startingTasks))
+	// Create separate pills for each spanning task
+	var pillContents []string
 	
-	for i, spanningTask := range startingTasks {
+	for _, spanningTask := range startingTasks {
 		// Task name (will be bolded by the macro)
 		taskName := d.escapeLatexSpecialChars(spanningTask.Name)
 		if d.isMilestoneSpanningTask(spanningTask) {
 			taskName = "★ " + taskName
 		}
-		taskNames[i] = taskName
 		
 		// Objective (will be smaller by the macro)
+		objective := ""
 		if spanningTask.Description != "" {
-			objectives[i] = d.escapeLatexSpecialChars(spanningTask.Description)
-		} else {
-			objectives[i] = ""
+			objective = d.escapeLatexSpecialChars(spanningTask.Description)
 		}
+		
+		// Get the color for this specific task
+		taskColor := hexToRGB(spanningTask.Color)
+		if taskColor == "" {
+			taskColor = "224,50,212" // Default fallback
+		}
+		
+		// Create a separate pill for this task
+		pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
+			taskColor, // Use the task's specific color
+			taskName,  // Task name (will be bolded by macro)
+			objective) // Objective (will be smaller by macro)
+		
+		pillContents = append(pillContents, pillContent)
 	}
 
-	// Combine multiple tasks if there are any
-	taskNameText := strings.Join(taskNames, "\\\\")
-	objectiveText := strings.Join(objectives, "\\\\")
-
-	content := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
-		pillColor, // Use the actual task color for the pill background
-		taskNameText, // Task names (will be bolded by macro)
-		objectiveText) // Objectives (will be smaller by macro)
+	// Stack the pills vertically
+	content := strings.Join(pillContents, "\\\\")
 
 	return &TaskOverlay{
 		content: content,
