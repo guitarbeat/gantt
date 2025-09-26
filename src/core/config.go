@@ -251,8 +251,7 @@ type LayoutEngine struct {
 	MilestoneWeightMultiplier float64 `yaml:"milestone_weight_multiplier"`
 	CategoryWeightMultiplier  float64 `yaml:"category_weight_multiplier"`
 
-	// Urgency multipliers for prominence calculation
-	UrgencyMultipliers UrgencyMultipliers `yaml:"urgency_multipliers"`
+	// Urgency multipliers removed - using simplified prominence calculation
 
 	// Milestone priority multiplier
 	MilestonePriorityMultiplier float64 `yaml:"milestone_priority_multiplier"`
@@ -286,14 +285,7 @@ type LayoutEngine struct {
 	DensityCalculation LayoutDensityCalculation `yaml:"density_calculation"`
 }
 
-type UrgencyMultipliers struct {
-	Critical float64 `yaml:"critical"`
-	High     float64 `yaml:"high"`
-	Medium   float64 `yaml:"medium"`
-	Low      float64 `yaml:"low"`
-	Minimal  float64 `yaml:"minimal"`
-	Default  float64 `yaml:"default"`
-}
+// UrgencyMultipliers struct removed - using simplified prominence calculation
 
 type TaskRendering struct {
 	DefaultSpacing   string `yaml:"default_spacing"`
@@ -592,25 +584,7 @@ func (cfg *Config) setLayoutEngineDefaults() {
 		cfg.Layout.LayoutEngine.MilestonePriorityMultiplier = 1.2
 	}
 
-	// * Set urgency multiplier defaults
-	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Critical == 0 {
-		cfg.Layout.LayoutEngine.UrgencyMultipliers.Critical = 1.0
-	}
-	if cfg.Layout.LayoutEngine.UrgencyMultipliers.High == 0 {
-		cfg.Layout.LayoutEngine.UrgencyMultipliers.High = 0.8
-	}
-	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Medium == 0 {
-		cfg.Layout.LayoutEngine.UrgencyMultipliers.Medium = 0.6
-	}
-	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Low == 0 {
-		cfg.Layout.LayoutEngine.UrgencyMultipliers.Low = 0.4
-	}
-	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Minimal == 0 {
-		cfg.Layout.LayoutEngine.UrgencyMultipliers.Minimal = 0.2
-	}
-	if cfg.Layout.LayoutEngine.UrgencyMultipliers.Default == 0 {
-		cfg.Layout.LayoutEngine.UrgencyMultipliers.Default = 0.5
-	}
+	// Urgency multiplier defaults removed - using simplified prominence calculation
 
 	// * Set quality threshold defaults
 	if cfg.Layout.LayoutEngine.SpaceEfficiencyThreshold == 0 {
@@ -787,24 +761,7 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 		}
 	}
 
-	// * Validate urgency multipliers (0.0 to 2.0)
-	urgencyMultipliers := []struct {
-		name  string
-		value float64
-	}{
-		{"urgency_critical", cfg.Layout.LayoutEngine.UrgencyMultipliers.Critical},
-		{"urgency_high", cfg.Layout.LayoutEngine.UrgencyMultipliers.High},
-		{"urgency_medium", cfg.Layout.LayoutEngine.UrgencyMultipliers.Medium},
-		{"urgency_low", cfg.Layout.LayoutEngine.UrgencyMultipliers.Low},
-		{"urgency_minimal", cfg.Layout.LayoutEngine.UrgencyMultipliers.Minimal},
-		{"urgency_default", cfg.Layout.LayoutEngine.UrgencyMultipliers.Default},
-	}
-
-	for _, u := range urgencyMultipliers {
-		if u.value < 0.0 || u.value > 2.0 {
-			return fmt.Errorf("invalid %s: %f (must be between 0.0 and 2.0)", u.name, u.value)
-		}
-	}
+	// Urgency multiplier validation removed - using simplified prominence calculation
 
 	// * Validate grid constraints
 	if cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing > cfg.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing {

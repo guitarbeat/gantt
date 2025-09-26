@@ -1006,22 +1006,8 @@ func (le *LayoutEngine) calculateProminenceScore(task *core.Task, priority *Task
 	// Adjust based on priority (using weight as proxy)
 	prominence *= priority.Weight
 
-	// Adjust based on urgency (convert string to float)
-	// * Use config-driven urgency multipliers
-	urgencyMultiplier := le.config.Layout.LayoutEngine.UrgencyMultipliers.Default // Default
-	switch priority.Urgency {
-	case "CRITICAL":
-		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Critical
-	case "HIGH":
-		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.High
-	case "MEDIUM":
-		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Medium
-	case "LOW":
-		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Low
-	case "MINIMAL":
-		urgencyMultiplier = le.config.Layout.LayoutEngine.UrgencyMultipliers.Minimal
-	}
-	prominence *= urgencyMultiplier
+	// Simplified urgency handling - use priority weight directly
+	// Urgency is now handled through the priority.Weight multiplier above
 
 	// Adjust based on milestone priority
 	// * Use config-driven milestone priority multiplier

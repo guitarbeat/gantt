@@ -202,14 +202,7 @@ layout:
     milestone_weight_multiplier: 1.5    # For milestone tasks
     category_weight_multiplier: 1.0     # Base category weight
     
-    # Urgency multipliers for prominence calculation
-    urgency_multipliers:
-      critical: 1.0
-      high: 0.8
-      medium: 0.6
-      low: 0.4
-      minimal: 0.2
-      default: 0.5
+    # Urgency multipliers removed - using simplified prominence calculation
     
     # Milestone priority multiplier
     milestone_priority_multiplier: 1.2
