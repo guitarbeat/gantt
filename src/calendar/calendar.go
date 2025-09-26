@@ -123,14 +123,14 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
 		dayContentMargin = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin
 	}
-	if d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty > 0 {
-		hyphenPenalty = d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty
+	if d.Cfg.Layout.LaTeX.Typography.HyphenPenalty > 0 {
+		hyphenPenalty = d.Cfg.Layout.LaTeX.Typography.HyphenPenalty
 	}
-	if d.Cfg.Layout.LayoutEngine.Typography.Tolerance > 0 {
-		tolerance = d.Cfg.Layout.LayoutEngine.Typography.Tolerance
+	if d.Cfg.Layout.LaTeX.Typography.Tolerance > 0 {
+		tolerance = d.Cfg.Layout.LaTeX.Typography.Tolerance
 	}
-	if d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar != "" {
-		emergencyStretch = d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar
+	if d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch != "" {
+		emergencyStretch = d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch
 	}
 
 	if isSpanning {

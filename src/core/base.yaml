@@ -180,14 +180,7 @@ layout:
     task_cell_margin: 8mm
     task_cell_spacing: 6mm
 
-    # Task rendering parameters
-    max_task_chars: 16
-    max_task_chars_compact: 13
-    max_task_chars_very_compact: 10
-    default_task_spacing: "0.8ex"
-    first_task_spacing: "0.5ex"
-    default_task_height: "3.0ex"
-    first_task_height: "3.5ex"
+    # Task rendering parameters (inherited from layout_engine)
 
   # Stacking algorithm parameters
   stacking:
@@ -230,35 +223,14 @@ layout:
     category_normal_weight: 1.0
     category_high_bonus: 3.0
 
-    # Urgency multipliers
-    urgency_critical: 1.0
-    urgency_high: 0.8
-    urgency_medium: 0.6
-    urgency_low: 0.4
-    urgency_minimal: 0.2
-    urgency_default: 0.5
+    # Urgency multipliers (inherited from layout_engine)
 
     # Prominence multipliers
     prominence_multiplier: 1.2
 
-    # Grid configuration
-    grid_resolution: 1.0
-    alignment_tolerance: 0.5
-    collision_buffer: 2.0
-    transition_buffer: 2.0
+    # Grid configuration (inherited from layout_engine)
 
-    # Spacing configuration
-    min_task_spacing: 1.0
-    max_task_spacing: 10.0
-    min_row_height: 8.0
-    max_row_height: 20.0
-    min_column_width: 5.0
-    max_column_width: 50.0
-
-    # Quality thresholds
-    alignment_score_threshold: 0.8
-    overlap_high_threshold: 0.8
-    overlap_medium_threshold: 0.5
+    # Quality thresholds (inherited from layout_engine)
 
     # Visual weight defaults
     default_visual_weight: 0.5
@@ -308,12 +280,7 @@ layout:
       first_task_height: "3.5ex"
       vertical_spacing: "0.1ex"
     
-    # Typography settings for task text
-    typography:
-      hyphenpenalty: 50
-      tolerance: 1000
-      emergencystretch: "2em"
-      emergencystretch_calendar: "3em"
+    # Typography settings for task text (inherited from main typography)
     
     # Grid constraints
     grid_constraints:

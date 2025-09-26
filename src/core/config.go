@@ -229,14 +229,7 @@ type Calendar struct {
 	TaskCellMargin       string `yaml:"task_cell_margin"`
 	TaskCellSpacing      string `yaml:"task_cell_spacing"`
 
-	// Task rendering parameters
-	MaxTaskChars            int    `yaml:"max_task_chars"`
-	MaxTaskCharsCompact     int    `yaml:"max_task_chars_compact"`
-	MaxTaskCharsVeryCompact int    `yaml:"max_task_chars_very_compact"`
-	DefaultTaskSpacing      string `yaml:"default_task_spacing"`
-	FirstTaskSpacing        string `yaml:"first_task_spacing"`
-	DefaultTaskHeight       string `yaml:"default_task_height"`
-	FirstTaskHeight         string `yaml:"first_task_height"`
+	// Task rendering parameters (inherited from layout_engine)
 }
 
 type Stacking struct {
@@ -283,35 +276,13 @@ type Stacking struct {
 	CategoryNormalWeight float64 `yaml:"category_normal_weight"`
 	CategoryHighBonus    float64 `yaml:"category_high_bonus"`
 
-	// Urgency multipliers
-	UrgencyCritical float64 `yaml:"urgency_critical"`
-	UrgencyHigh     float64 `yaml:"urgency_high"`
-	UrgencyMedium   float64 `yaml:"urgency_medium"`
-	UrgencyLow      float64 `yaml:"urgency_low"`
-	UrgencyMinimal  float64 `yaml:"urgency_minimal"`
-	UrgencyDefault  float64 `yaml:"urgency_default"`
+	// Urgency multipliers (inherited from layout_engine)
 
 	// Prominence multipliers
 	ProminenceMultiplier float64 `yaml:"prominence_multiplier"`
 
-	// Grid configuration
-	GridResolution     float64 `yaml:"grid_resolution"`
-	AlignmentTolerance float64 `yaml:"alignment_tolerance"`
-	CollisionBuffer    float64 `yaml:"collision_buffer"`
-	TransitionBuffer   float64 `yaml:"transition_buffer"`
-
-	// Spacing configuration
-	MinTaskSpacing float64 `yaml:"min_task_spacing"`
-	MaxTaskSpacing float64 `yaml:"max_task_spacing"`
-	MinRowHeight   float64 `yaml:"min_row_height"`
-	MaxRowHeight   float64 `yaml:"max_row_height"`
-	MinColumnWidth float64 `yaml:"min_column_width"`
-	MaxColumnWidth float64 `yaml:"max_column_width"`
-
-	// Quality thresholds
-	AlignmentScoreThreshold  float64 `yaml:"alignment_score_threshold"`
-	OverlapHighThreshold     float64 `yaml:"overlap_high_threshold"`
-	OverlapMediumThreshold   float64 `yaml:"overlap_medium_threshold"`
+	// Grid configuration (inherited from layout_engine)
+	// Quality thresholds (inherited from layout_engine)
 
 	// Visual weight defaults
 	DefaultVisualWeight    float64 `yaml:"default_visual_weight"`
@@ -350,8 +321,7 @@ type LayoutEngine struct {
 	// Task rendering configuration
 	TaskRendering TaskRendering `yaml:"task_rendering"`
 
-	// Typography settings for task text
-	Typography LayoutTypography `yaml:"typography"`
+	// Typography settings for task text (inherited from main typography)
 
 	// Grid constraints
 	GridConstraints LayoutGridConstraints `yaml:"grid_constraints"`
@@ -732,18 +702,18 @@ func (cfg *Config) setLayoutEngineDefaults() {
 		cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing = "0.1ex"
 	}
 
-	// * Set typography defaults
-	if cfg.Layout.LayoutEngine.Typography.HyphenPenalty == 0 {
-		cfg.Layout.LayoutEngine.Typography.HyphenPenalty = 50
+	// * Set typography defaults (using main typography settings)
+	if cfg.Layout.LaTeX.Typography.HyphenPenalty == 0 {
+		cfg.Layout.LaTeX.Typography.HyphenPenalty = 50
 	}
-	if cfg.Layout.LayoutEngine.Typography.Tolerance == 0 {
-		cfg.Layout.LayoutEngine.Typography.Tolerance = 1000
+	if cfg.Layout.LaTeX.Typography.Tolerance == 0 {
+		cfg.Layout.LaTeX.Typography.Tolerance = 1000
 	}
-	if cfg.Layout.LayoutEngine.Typography.EmergencyStretch == "" {
-		cfg.Layout.LayoutEngine.Typography.EmergencyStretch = "2em"
+	if cfg.Layout.LaTeX.Typography.EmergencyStretch == "" {
+		cfg.Layout.LaTeX.Typography.EmergencyStretch = "2em"
 	}
-	if cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar == "" {
-		cfg.Layout.LayoutEngine.Typography.EmergencyStretchCalendar = "3em"
+	if cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch == "" {
+		cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch = "3em"
 	}
 
 	// * Set grid constraints defaults

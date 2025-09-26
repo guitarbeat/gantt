@@ -1711,15 +1711,10 @@ func (d Day) getTaskRenderingConfig() TaskRenderingConfig {
 	if d.Cfg.Layout.LayoutEngine.TaskRendering.FirstTaskHeight != "" {
 		config.FirstTaskHeight = d.Cfg.Layout.LayoutEngine.TaskRendering.FirstTaskHeight
 	}
-	if d.Cfg.Layout.Calendar.MaxTaskChars > 0 {
-		config.MaxChars = d.Cfg.Layout.Calendar.MaxTaskChars
-	}
-	if d.Cfg.Layout.Calendar.MaxTaskCharsCompact > 0 {
-		config.MaxCharsCompact = d.Cfg.Layout.Calendar.MaxTaskCharsCompact
-	}
-	if d.Cfg.Layout.Calendar.MaxTaskCharsVeryCompact > 0 {
-		config.MaxCharsVeryCompact = d.Cfg.Layout.Calendar.MaxTaskCharsVeryCompact
-	}
+	// Use default values for task character limits (these are now hardcoded defaults)
+	config.MaxChars = 16
+	config.MaxCharsCompact = 13
+	config.MaxCharsVeryCompact = 10
 
 	return config
 }
@@ -1746,14 +1741,14 @@ func (d Day) buildTaskTextBody(nameText string) string {
 	tolerance := 1000
 	emergencyStretch := "2em"
 
-	if d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty > 0 {
-		hyphenPenalty = d.Cfg.Layout.LayoutEngine.Typography.HyphenPenalty
+	if d.Cfg.Layout.LaTeX.Typography.HyphenPenalty > 0 {
+		hyphenPenalty = d.Cfg.Layout.LaTeX.Typography.HyphenPenalty
 	}
-	if d.Cfg.Layout.LayoutEngine.Typography.Tolerance > 0 {
-		tolerance = d.Cfg.Layout.LayoutEngine.Typography.Tolerance
+	if d.Cfg.Layout.LaTeX.Typography.Tolerance > 0 {
+		tolerance = d.Cfg.Layout.LaTeX.Typography.Tolerance
 	}
-	if d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretch != "" {
-		emergencyStretch = d.Cfg.Layout.LayoutEngine.Typography.EmergencyStretch
+	if d.Cfg.Layout.LaTeX.Typography.EmergencyStretch != "" {
+		emergencyStretch = d.Cfg.Layout.LaTeX.Typography.EmergencyStretch
 	}
 
 	return fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\color{black}\TaskFontSize\raggedright\textbf{`, 
