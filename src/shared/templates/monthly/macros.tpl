@@ -74,7 +74,7 @@
     colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
     width=\linewidth, halign=left]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
+     \TaskTitleSize\textbf{\nohyphenation{#2}}\par
      \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
