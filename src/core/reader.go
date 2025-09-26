@@ -381,11 +381,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	return task, nil
 }
 
-// GetSupportedDateFormats returns the list of supported date formats
-func GetSupportedDateFormats() []string {
-	return append([]string{}, supportedDateFormats...)
-}
-
 // ValidateCSVFormat validates that a CSV file has the required columns
 func (r *Reader) ValidateCSVFormat() error {
 	file, err := os.Open(r.filePath)
