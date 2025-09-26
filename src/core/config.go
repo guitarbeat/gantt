@@ -489,18 +489,18 @@ func (cfg *Config) setDateRangeFromCSV() error {
 // setAlgorithmicColors sets the algorithmic colors for predefined categories
 func (cfg *Config) setAlgorithmicColors() {
 	cfg.Layout.AlgorithmicColors = AlgorithmicColors{
-		Proposal:     hexToRGB(generateCategoryColor("PROPOSAL")),
-		Laser:        hexToRGB(generateCategoryColor("LASER")),
-		Imaging:      hexToRGB(generateCategoryColor("IMAGING")),
-		Admin:        hexToRGB(generateCategoryColor("ADMIN")),
-		Dissertation: hexToRGB(generateCategoryColor("DISSERTATION")),
-		Research:     hexToRGB(generateCategoryColor("RESEARCH")),
-		Publication:  hexToRGB(generateCategoryColor("PUBLICATION")),
+		Proposal:     hexToRGBConfig(generateCategoryColor("PROPOSAL")),
+		Laser:        hexToRGBConfig(generateCategoryColor("LASER")),
+		Imaging:      hexToRGBConfig(generateCategoryColor("IMAGING")),
+		Admin:        hexToRGBConfig(generateCategoryColor("ADMIN")),
+		Dissertation: hexToRGBConfig(generateCategoryColor("DISSERTATION")),
+		Research:     hexToRGBConfig(generateCategoryColor("RESEARCH")),
+		Publication:  hexToRGBConfig(generateCategoryColor("PUBLICATION")),
 	}
 }
 
-// hexToRGB converts hex color to RGB format for LaTeX
-func hexToRGB(hex string) string {
+// hexToRGBConfig converts hex color to RGB format for LaTeX (config version)
+func hexToRGBConfig(hex string) string {
 	// Remove # prefix if present
 	if len(hex) > 0 && hex[0] == '#' {
 		hex = hex[1:]

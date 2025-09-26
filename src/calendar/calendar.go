@@ -171,29 +171,29 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 func (d Day) TasksForDay() string {
 	var taskStrings []string
 
-	// Add regular tasks
-	for _, task := range d.Tasks {
-		taskStr := d.escapeLatexSpecialChars(task.Name)
+	// Add spanning tasks that are active on this day
+	dayDate := d.getDayDate()
+	for _, spanningTask := range d.SpanningTasks {
+		// Check if this spanning task is active on this day
+		if d.isTaskActiveOnDay(dayDate, spanningTask.StartDate, spanningTask.EndDate) {
+			taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
 
-		// Add star for milestone tasks
-		if d.isMilestoneTask(task) {
-			taskStr = "★ " + taskStr
-		}
+			// Add star for milestone spanning tasks
+			if d.isMilestoneSpanningTask(spanningTask) {
+				taskStr = "★ " + taskStr
+			}
 
-		// Apply color styling based on category
-		if task.Category != "" {
-			color := getColorForCategory(task.Category)
-			if color != "" {
-				rgbColor := hexToRGB(color)
+			// Apply color styling based on category
+			if spanningTask.Category != "" && spanningTask.Color != "" {
+				rgbColor := hexToRGB(spanningTask.Color)
 				taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
 			}
-		}
 
-		taskStrings = append(taskStrings, taskStr)
+			taskStrings = append(taskStrings, taskStr)
+		}
 	}
 
-	// Add spanning tasks that start on this day
-	dayDate := d.getDayDate()
+	// Add spanning tasks that start on this day (for display at start)
 	startingTasks, _ := d.findStartingTasks(dayDate)
 	for _, spanningTask := range startingTasks {
 		taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
@@ -205,10 +205,21 @@ func (d Day) TasksForDay() string {
 
 		// Apply color styling based on category
 		if spanningTask.Category != "" && spanningTask.Color != "" {
-			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, spanningTask.Color, taskStr)
+			rgbColor := hexToRGB(spanningTask.Color)
+			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
 		}
 
-		taskStrings = append(taskStrings, taskStr)
+		// Only add if not already in the list
+		alreadyAdded := false
+		for _, existing := range taskStrings {
+			if existing == taskStr {
+				alreadyAdded = true
+				break
+			}
+		}
+		if !alreadyAdded {
+			taskStrings = append(taskStrings, taskStr)
+		}
 	}
 
 	if len(taskStrings) == 0 {
@@ -698,20 +709,8 @@ func stripHashPrefix(color string) string {
 
 // hexToRGB converts hex color to RGB format for LaTeX
 func hexToRGB(hex string) string {
-	// Remove # prefix if present
-	hex = stripHashPrefix(hex)
-
-	// Convert hex to RGB
-	if len(hex) == 6 {
-		// Parse hex values
-		r, _ := strconv.ParseInt(hex[0:2], 16, 64)
-		g, _ := strconv.ParseInt(hex[2:4], 16, 64)
-		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
-		return fmt.Sprintf("%d,%d,%d", r, g, b)
-	}
-
-	// Fallback for invalid hex
-	return "128,128,128"
+	// Debug: temporarily return a fixed RGB value
+	return "255,0,0"  // Red color for testing
 }
 
 func (m *Month) GetTaskColors() map[string]string {
