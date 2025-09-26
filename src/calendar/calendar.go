@@ -84,6 +84,31 @@ func (d Day) renderLargeDay(day string) string {
 	return d.buildSimpleDayCell(leftCell)
 }
 
+// renderLargeDayRefactored demonstrates how to use the refactored modules
+// This is an example of how the code could be refactored to use the new modules
+func (d Day) renderLargeDayRefactored(day string) string {
+	// Create the refactored components
+	taskRenderer := NewTaskRenderer(d.Cfg)
+	cellBuilder := NewCellBuilder(d.Cfg)
+	
+	leftCell := cellBuilder.BuildDayNumberCell(day)
+
+	// Check for spanning tasks that start on this day
+	overlay := taskRenderer.RenderSpanningTaskOverlay(d)
+	if overlay != nil {
+		// For spanning tasks, render them as regular content that stacks vertically
+		return cellBuilder.BuildTaskCell(leftCell, overlay.content, false, overlay.cols)
+	}
+
+	// Check for regular tasks
+	if tasks := taskRenderer.RenderTasksForDay(d); tasks != "" {
+		return cellBuilder.BuildTaskCell(leftCell, tasks, false, 0)
+	}
+
+	// No tasks: just the day number
+	return cellBuilder.BuildSimpleDayCell(leftCell)
+}
+
 // ref generates a reference string for the day
 func (d Day) ref(prefix ...string) string {
 	p := ""
