@@ -139,7 +139,7 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 		spacing = `\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
 			`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + content + `\end{minipage}` + `};` +
 			`\end{tikzpicture}` + `}`
-		contentWrapper = content
+		contentWrapper = "" // Don't add content twice for spanning tasks
 	} else {
 		// Regular task: use full available width and better text flow
 		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
@@ -205,10 +205,28 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
+	// Get the color from the first spanning task for the pill background
+	var pillColor string
+	if len(startingTasks) > 0 && startingTasks[0].Color != "" {
+		pillColor = hexToRGB(startingTasks[0].Color)
+	} else {
+		pillColor = "224,50,212" // Default fallback
+	}
+
 	// Create the overlay content using TaskOverlayBox macro
+	// Use the task color for the pill background, and plain text (no color) for the content
+	plainTaskStrings := make([]string, len(startingTasks))
+	for i, spanningTask := range startingTasks {
+		// Remove color formatting from task strings for the pill content
+		plainTaskStrings[i] = d.escapeLatexSpecialChars(spanningTask.Name)
+		if d.isMilestoneSpanningTask(spanningTask) {
+			plainTaskStrings[i] = "★ " + plainTaskStrings[i]
+		}
+	}
+
 	content := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
-		"224,50,212", // Default color, will be overridden by individual task colors
-		strings.Join(taskStrings, "\\\\"),
+		pillColor, // Use the actual task color for the pill background
+		strings.Join(plainTaskStrings, "\\\\"),
 		"") // Empty description for now
 
 	return &TaskOverlay{
@@ -221,55 +239,25 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 func (d Day) TasksForDay() string {
 	var taskStrings []string
 
-	// Add spanning tasks that are active on this day
-	dayDate := d.getDayDate()
-	for _, spanningTask := range d.SpanningTasks {
-		// Check if this spanning task is active on this day
-		if d.isTaskActiveOnDay(dayDate, spanningTask.StartDate, spanningTask.EndDate) {
-			taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
+	// Add regular tasks (non-spanning tasks)
+	for _, task := range d.Tasks {
+		taskStr := d.escapeLatexSpecialChars(task.Name)
 
-			// Add star for milestone spanning tasks
-			if d.isMilestoneSpanningTask(spanningTask) {
-				taskStr = "★ " + taskStr
-			}
-
-			// Apply color styling based on category
-			if spanningTask.Category != "" && spanningTask.Color != "" {
-				rgbColor := hexToRGB(spanningTask.Color)
-				taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
-			}
-
-			taskStrings = append(taskStrings, taskStr)
-		}
-	}
-
-	// Add spanning tasks that start on this day (for display at start)
-	startingTasks, _ := d.findStartingTasks(dayDate)
-	for _, spanningTask := range startingTasks {
-		taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
-
-		// Add star for milestone spanning tasks
-		if d.isMilestoneSpanningTask(spanningTask) {
+		// Add star for milestone tasks
+		if d.isMilestoneTask(task) {
 			taskStr = "★ " + taskStr
 		}
 
 		// Apply color styling based on category
-		if spanningTask.Category != "" && spanningTask.Color != "" {
-			rgbColor := hexToRGB(spanningTask.Color)
-			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
-		}
-
-		// Only add if not already in the list
-		alreadyAdded := false
-		for _, existing := range taskStrings {
-			if existing == taskStr {
-				alreadyAdded = true
-				break
+		if task.Category != "" {
+			color := getColorForCategory(task.Category)
+			if color != "" {
+				rgbColor := hexToRGB(color)
+				taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
 			}
 		}
-		if !alreadyAdded {
-			taskStrings = append(taskStrings, taskStr)
-		}
+
+		taskStrings = append(taskStrings, taskStr)
 	}
 
 	if len(taskStrings) == 0 {
@@ -323,10 +311,7 @@ func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		if !d.isTaskActiveOnDay(dayDate, start, end) {
-			continue
-		}
-
+		// Only show tasks that START on this day (not just active on this day)
 		if dayDate.Equal(start) {
 			startingTasks = append(startingTasks, task)
 			cols := d.calculateTaskSpanColumns(dayDate, end)
