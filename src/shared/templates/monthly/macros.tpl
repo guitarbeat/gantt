@@ -68,7 +68,6 @@
 \newcommand{\TaskOverlayBox}[4]{%
   \definecolor{taskbgcolor}{RGB}{#1}%
   \definecolor{taskfgcolor}{RGB}{#1}%
-  \vspace*{\TaskVerticalOffset}%
   \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
     left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top=#4, bottom=#4,
     colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
