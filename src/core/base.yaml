@@ -80,7 +80,7 @@ layout:
     # Spacing and layout
     spacing:
       tablecolsep: 0.5em
-      colorlegendsep: 1.5em
+      colorlegendsep: 0.5em
       # Page break hardcoded in templates
       # Spacing values are hardcoded in stacking.go
       # Template-specific spacing values

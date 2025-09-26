@@ -159,17 +159,17 @@
 \newcommand{\ColorLegend}{%
   {\centering
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\Large$\bullet$}~\small{Proposal}%
-    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \quad
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\Large$\bullet$}~\small{Laser}%
-    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \quad
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\Large$\bullet$}~\small{Imaging}%
-    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \quad
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\Large$\bullet$}~\small{Admin}%
-    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \quad
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\Large$\bullet$}~\small{Dissertation}%
-    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \quad
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\Large$\bullet$}~\small{Research}%
-    \hspace{ {{.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }%
+    \quad
     \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\Large$\bullet$}~\small{Publication}%
   \par}
 }
