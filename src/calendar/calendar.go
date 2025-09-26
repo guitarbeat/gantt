@@ -68,10 +68,10 @@ func (d Day) renderLargeDay(day string) string {
 	leftCell := d.buildDayNumberCell(day)
 
 	// Check for spanning tasks that start on this day
-	// overlay := d.renderSpanningTaskOverlay()
-	// if overlay != nil {
-	// 	return d.buildTaskCell(leftCell, overlay.content, true, overlay.cols)
-	// }
+	overlay := d.renderSpanningTaskOverlay()
+	if overlay != nil {
+		return d.buildTaskCell(leftCell, overlay.content, true, overlay.cols)
+	}
 
 	// Check for regular tasks
 	if tasks := d.TasksForDay(); tasks != "" {
@@ -166,6 +166,56 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 }
 
 // * Task processing and utility functions
+
+// TaskOverlay represents a spanning task overlay
+type TaskOverlay struct {
+	content string
+	cols    int
+}
+
+// renderSpanningTaskOverlay creates a spanning task overlay if this day starts a spanning task
+func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
+	dayDate := d.getDayDate()
+	startingTasks, maxCols := d.findStartingTasks(dayDate)
+	
+	if len(startingTasks) == 0 {
+		return nil
+	}
+
+	// Build the task content for the overlay
+	var taskStrings []string
+	for _, spanningTask := range startingTasks {
+		taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
+
+		// Add star for milestone spanning tasks
+		if d.isMilestoneSpanningTask(spanningTask) {
+			taskStr = "★ " + taskStr
+		}
+
+		// Apply color styling based on category
+		if spanningTask.Category != "" && spanningTask.Color != "" {
+			rgbColor := hexToRGB(spanningTask.Color)
+			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
+		}
+
+		taskStrings = append(taskStrings, taskStr)
+	}
+
+	if len(taskStrings) == 0 {
+		return nil
+	}
+
+	// Create the overlay content using TaskOverlayBox macro
+	content := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`, 
+		"224,50,212", // Default color, will be overridden by individual task colors
+		strings.Join(taskStrings, "\\\\"),
+		"") // Empty description for now
+
+	return &TaskOverlay{
+		content: content,
+		cols:    maxCols,
+	}
+}
 
 // TasksForDay returns a formatted string of tasks for this day
 func (d Day) TasksForDay() string {
