@@ -8,11 +8,15 @@
 \usepackage{calc}
 \usepackage{geometry}
 
-% Font configuration - use modern sans-serif font
+% Font configuration - use modern sans-serif font with Unicode support
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \renewcommand{\familydefault}{\sfdefault}
+
+% Unicode character support
+\usepackage{textcomp}
+\usepackage{gensymb}
 
 % Color and graphics
 \usepackage[table]{xcolor}
@@ -56,7 +60,7 @@
 \hypersetup{hidelinks,colorlinks=false,urlcolor=black,linkcolor=black,citecolor=black,pdfborder={0 0 0},pdfborderstyle={}}
 {{- end}}
 
-\geometry{paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}
+\geometry{verbose=false,paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}
 \geometry{
   top={{.Cfg.Layout.Paper.Margin.Top}},
   bottom={{.Cfg.Layout.Paper.Margin.Bottom}},
@@ -71,6 +75,10 @@
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
 \parindent={{.Cfg.Layout.LaTeX.Document.ParIndent}}
 \fboxsep0pt
+
+% Suppress verbose output
+\hoffset=0pt
+\voffset=0pt
 
 \begin{document}
 

@@ -17,9 +17,9 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 1,PhD Proposal,T1.10a,"T1.9a,T1.6a",Email Proposal to Committee,2025-11-28,2025-12-05,Distribute final proposal to committee members with sufficient advance notice,High,
 1,PhD Proposal,T1.11,T1.10,Create Presentation,2025-12-08,2025-12-18,Create comprehensive presentation and practice oral exam delivery,false,Not Started
 1,PhD Proposal,T1.12,T1.M1,Incorporate Revisions,2025-12-23,2026-01-06,Address committee feedback and obtain final approval for proposal,false,Not Started
-1,Laser System,T1.13,,Align Seed Laser,2025-09-02,2025-09-06,Align seed laser to achieve ≥30 mW output in fiber core for pre-pump optimization,false,Not Started
-1,Laser System,T1.14,T1.13,Restore Amplified Output,2025-09-09,2025-09-16,Restore amplified laser output to ≥130 mW benchmark performance level,false,Not Started
-1,Laser System,T1.15,T1.14,Verify Pulse Duration,2025-10-01,2025-10-07,Verify pulse compression to ≤200 fs duration and document specifications,false,Not Started
+1,Laser System,T1.13,,Align Seed Laser,2025-09-02,2025-09-06,Align seed laser to achieve >=30 mW output in fiber core for pre-pump optimization,false,Not Started
+1,Laser System,T1.14,T1.13,Restore Amplified Output,2025-09-09,2025-09-16,Restore amplified laser output to >=130 mW benchmark performance level,false,Not Started
+1,Laser System,T1.15,T1.14,Verify Pulse Duration,2025-10-01,2025-10-07,Verify pulse compression to <=200 fs duration and document specifications,false,Not Started
 1,Microscope Setup,T1.16,T1.15,Align Imaging System,2025-10-08,2025-10-14,Align imaging system using USAF target for optimal resolution validation,false,Not Started
 1,Microscope Setup,T1.17,T1.16,Confirm Live Imaging Requirements,2025-10-15,2025-10-21,Validate laser and optics system meets live imaging performance requirements,false,Not Started
 1,Microscope Setup,T1.18,T1.16,Align Laser Through Microscope,2025-09-26,2025-09-30,Align laser beam through microscope optical system,false,Not Started

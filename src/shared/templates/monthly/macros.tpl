@@ -65,6 +65,7 @@
 }
 
 % Task overlay box macros - pill shaped with rounded corners
+% Uses TikZ overlay to draw on top of table gridlines
 \newcommand{\TaskOverlayBox}[3]{%
   \definecolor{taskbgcolor}{RGB}{#1}%
   \definecolor{taskfgcolor}{RGB}{#1}%

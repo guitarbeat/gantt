@@ -46,9 +46,7 @@ func (cm *ColorManager) HexToRGB(hex string) string {
 	}
 
 	// Remove # if present
-	if strings.HasPrefix(hex, "#") {
-		hex = hex[1:]
-	}
+	hex = strings.TrimPrefix(hex, "#")
 
 	// Convert hex to RGB
 	if len(hex) == 6 {

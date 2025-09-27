@@ -98,6 +98,7 @@ type LaTeX struct {
 	LineThicknessDefault  string
 	LineThicknessThick    string
 	ColSep                string
+	ShowTaskObjectives    bool   `yaml:"showtaskobjectives"`
 
 	// Task styling parameters
 	TaskBackgroundOpacity int    `yaml:"task_background_opacity"`

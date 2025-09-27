@@ -8,7 +8,7 @@ cleartoprightcorner: false
 layout:
   paper:
     width: 15.6cm
-    height: 20.9cm
+    height: 21.5cm
 
     marginparwidth: 1cm
     marginparsep: 0cm
@@ -44,10 +44,11 @@ layout:
     arraystretch: 1.2
     taskfontsize: \small
     taskbarheight: 5mm
-    monthlycellheight: 95pt
+    monthlycellheight: 75pt  # Reduced from 95pt for more compact display
     headerresizebox: 6mm
     linethicknessdefault: .4pt
     linethicknessthick: .8pt
+    showtaskobjectives: false  # Set to true to show task descriptions/objectives
     colsep: 5pt
 
     # Task styling parameters

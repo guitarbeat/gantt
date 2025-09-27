@@ -45,13 +45,15 @@ build:
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="input_data/$(CSV_FILE)" \
 	$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir $(BINARY_DIR) && \
 	cd $(BINARY_DIR) && \
-	if xelatex -file-line-error -interaction=nonstopmode $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).log 2>&1; then \
+	if xelatex -file-line-error -interaction=batchmode -quiet $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).tmp 2>&1; then \
+		grep -E "(Error|Warning|Overfull|Underfull)" $(OUTPUT_BASE_NAME).tmp > $(OUTPUT_BASE_NAME).log 2>/dev/null || echo "PDF compiled successfully" > $(OUTPUT_BASE_NAME).log; \
 		echo "PDF compiled successfully"; \
 	else \
+		cat $(OUTPUT_BASE_NAME).tmp > $(OUTPUT_BASE_NAME).log; \
 		echo "Warning: PDF compilation had warnings (check $(OUTPUT_BASE_NAME).log)"; \
 	fi && \
 	if [ -f "$(OUTPUT_BASE_NAME).pdf" ]; then \
-		rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz 2>/dev/null || true && \
+		rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz *.tmp 2>/dev/null || true && \
 		echo "Created: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
 	else \
 		echo "Error: PDF generation failed - check $(BINARY_DIR)/$(OUTPUT_BASE_NAME).log"; \
