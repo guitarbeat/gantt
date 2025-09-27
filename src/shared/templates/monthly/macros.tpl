@@ -87,7 +87,11 @@
   \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.LaTeX.TColorBox.BoxRule}}, arc={{.Cfg.Layout.LaTeX.TColorBox.Arc}},
     left={{.Cfg.Layout.LaTeX.TColorBox.Left}}, right={{.Cfg.Layout.LaTeX.TColorBox.Right}}, top=0pt, bottom=0pt,
     colback=taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.LaTeX.TaskBorderOpacity}},
-    width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+    width=\linewidth, halign=left, before skip=0pt, after skip=0pt, overlay={
+      \begin{tikzpicture}[remember picture, overlay]
+        \fill[taskbgcolor!{{.Cfg.Layout.LaTeX.TaskBackgroundOpacity}}] (0,0) rectangle (\linewidth, \baselineskip);
+      \end{tikzpicture}
+    }]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
      \TaskTitleSize\textbf{#2}\par
      \vspace{ {{.Cfg.Layout.LaTeX.Spacing.TaskContentVspace}} }%
