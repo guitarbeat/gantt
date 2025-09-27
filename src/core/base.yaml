@@ -37,39 +37,17 @@ layout:
   latex:
     tabcolsep: 3.5pt
     headersidemonthswidth: 14.5cm
-    taskborderwidth: 0.6pt
-    taskpaddingh: 1.5mm
-    taskpaddingv: 0.5mm
-    taskverticaloffset: 0.2mm
     arraystretch: 1.2
-    taskfontsize: \small
-    taskbarheight: 5mm
-    monthlycellheight: 75pt  # Reduced from 95pt for more compact display
+    monthlycellheight: 75pt  # Reduced from 95pt for better display
     headerresizebox: 6mm
     linethicknessdefault: .4pt
     linethicknessthick: .8pt
-    showtaskobjectives: false  # Set to true to show task descriptions/objectives
     colsep: 5pt
 
-    # Task styling parameters
-    task_background_opacity: 20
-    task_border_opacity: 80
-    task_content_spacing: "0.2ex"
-
-    # TColorBox styling parameters
-    tcolorbox:
-      arc: 9pt
-      left: 1.5mm
-      right: 1.5mm
-      top: 1.0mm
-      bottom: 1.0mm
-      boxrule: 0.9pt
-      taskboxrule: 0.7pt
-      taskarc: 8pt
-      taskleft: 1.2mm
-      taskright: 1.2mm
-      tasktop: 0.8mm
-      taskbottom: 0.8mm
+    # Document settings
+    document:
+      fontsize: 9pt
+      parindent: 0pt
 
     # Typography settings
     typography:
@@ -78,21 +56,43 @@ layout:
       emergencystretch: 2em
       sloppyemergencystretch: 3em
 
-    # Spacing and layout
-    spacing:
-      tablecolsep: 0.5em
-      colorlegendsep: 0.5em
-      # Page break hardcoded in templates
-      # Spacing values are hardcoded in stacking.go
-      # Template-specific spacing values
-      col: "5pt"
-      task_content_vspace: "0.2ex"
-      task_overlay_arc: "2pt"
+  # Task styling and spacing - centralized for easier maintenance
+  task_styling:
+    # Core task appearance
+    fontsize: \small
+    bar_height: 5mm
+    border_width: 0.6pt
+    show_objectives: false  # Set to true to show task descriptions/objectives
 
-    # Document settings
-    document:
-      fontsize: 9pt
-      parindent: 0pt
+    # Visual styling
+    background_opacity: 20
+    border_opacity: 80
+
+    # Task box spacing and padding
+    spacing:
+      vertical_offset: 0pt          # Tasks positioned at bottom of cell using \vfill
+      content_vspace: "0.2ex"       # Space between task title and description
+      padding_horizontal: 1.5mm     # Horizontal padding inside task boxes
+      padding_vertical: 0.5mm       # Vertical padding inside task boxes
+
+    # TColorBox styling for task boxes
+    tcolorbox:
+      # Main task overlay boxes (spanning tasks)
+      overlay:
+        arc: 9pt
+        left: 1.5mm
+        right: 1.5mm
+        top: 0pt          # No top padding for perfect grid alignment
+        bottom: 1.0mm
+        boxrule: 0.9pt
+
+
+  # Spacing and layout constants
+  spacing:
+    table_colsep: 0.5em
+    color_legend_sep: 0.5em
+    col: "5pt"
+    task_overlay_arc: "2pt"
 
   # Layout constraints for task positioning
   constraints:

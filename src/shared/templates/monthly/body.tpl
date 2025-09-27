@@ -8,7 +8,7 @@
 {{- $taskColors := .Body.Month.GetTaskColors -}}
 {{- if $taskColors -}}
 {\centering
-{{- range $color, $category := $taskColors -}}\ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }\hspace{ {{$.Cfg.Layout.LaTeX.Spacing.ColorLegendSep}} }{{- end -}}
+{{- range $color, $category := $taskColors -}}\ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }\hspace{ {{$.Cfg.Layout.Spacing.ColorLegendSep}} }{{- end -}}
 \par}
 {{- else -}}
 \ColorLegend

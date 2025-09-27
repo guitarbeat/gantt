@@ -66,8 +66,8 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 2,Data Management & Analysis,T2.35,,Implement Automated Backups,2025-10-01,2025-12-31,Implement automated data backup and quality control system,false,Not Started
 2,Data Management & Analysis,T2.36,T2.35,Maintain Automated Backups,2026-01-01,2027-08-31,Maintain automated data backup and quality control system,false,Not Started
 2,Data Management & Analysis,T2.37,,Maintain Surgical Training,2025-10-01,2026-06-01,Maintain surgical training and ensure IACUC compliance,false,Not Started
-2,Data Management & Analysis,T2.M1,T2.12,Dual-Color Platform Operational - Achieve operational status of the dual-color platform,2026-07-18,2026-07-18,Dual-color imaging platform achieves operational status,true,Not Started
-2,Data Management & Analysis,T2.M2,T2.26,Data Acquisition Complete - Complete all planned imaging studies,2026-12-09,2026-12-09,Complete comprehensive data acquisition for all research aims,true,Not Started
+2,Data Management & Analysis,T2.M1,T2.12,Dual-Color Platform Operational - Achieve operational status of the dual-color platform,2026-07-15,2026-07-19,Dual-color imaging platform achieves operational status,true,Not Started
+2,Data Management & Analysis,T2.M2,T2.26,Data Acquisition Complete - Complete all planned imaging studies,2026-12-06,2026-12-13,Complete comprehensive data acquisition for all research aims,true,Not Started
 3,Methodology Paper,T3.1,T2.7,Write Methodology Manuscript,2026-04-19,2026-07-15,Write comprehensive methodology manuscript covering AAV-based vascular imaging approach,false,Not Started
 3,Methodology Paper,T3.2,T3.1,Submit Methodology Paper,2026-07-18,2026-07-22,Submit methodology manuscript to appropriate journal,false,Not Started
 3,SLAVV-T Development,T3.3,T2.6,Develop SLAVV-T Codebase,2026-08-11,2026-11-10,Develop improved codebase for temporal analysis,false,Not Started
@@ -77,7 +77,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 3,Research Paper,T3.7,T2.26,Write Research Paper,2026-12-10,2026-12-16,Write comprehensive research paper covering dual-color platform and stroke findings,false,Not Started
 3,Research Paper,T3.8,T3.7,Submit Research Paper,2026-12-19,2026-12-23,Submit second research manuscript to appropriate journal,false,Not Started
 3,AR Platform Development,T3.9,,AR Vascular Platform,2026-08-01,2027-12-31,Develop AR platform and draft methods paper,false,Not Started
-3,Manuscript Submissions,T3.M1,T3.8,Manuscript Submissions Complete - All planned manuscripts submitted,2026-12-23,2026-12-23,Complete all planned manuscript submissions,true,Not Started
+3,Manuscript Submissions,T3.M1,T3.8,Manuscript Submissions Complete - All planned manuscripts submitted,2026-12-20,2026-12-27,Complete all planned manuscript submissions,true,Not Started
 4,Dissertation Writing,T4.1,T1.12,Complete Progress Review,2026-09-01,2026-09-07,Complete annual progress review for 2026,false,Not Started
 4,Dissertation Writing,T4.2,T2.26,Draft Dissertation Introduction & Methods,2027-01-01,2027-02-15,Complete the draft of the dissertation introduction and methods,false,Not Started
 4,Dissertation Writing,T4.2a,T3.2,Draft Aim 1 Chapter,2027-02-16,2027-03-15,Draft Aim 1 Chapter utilizing the completed manuscript,false,Not Started
@@ -87,7 +87,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 4,Dissertation Writing,T4.5,T4.2b,Draft Dissertation Conclusions,2027-04-16,2027-05-15,Draft Dissertation Conclusions,false,Not Started
 4,Dissertation Writing,T4.5a,T1.12,Write Discussion & Conclusions,2027-02-03,2027-06-15,Write comprehensive Discussion and Conclusions chapters,false,Not Started
 4,Committee Review & Defense,T4.6,"T4.3,T4.4,T4.5",Complete Dissertation Draft,2027-06-19,2027-06-30,false,,
-4,Committee Review & Defense,T4.M1a,T4.5,Complete Dissertation Draft,2027-05-16,2027-05-16,Complete dissertation draft for committee review,true,Not Started
+4,Committee Review & Defense,T4.M1a,T4.5,Complete Dissertation Draft,2027-05-13,2027-05-19,Complete dissertation draft for committee review,true,Not Started
 4,Committee Review & Defense,T4.5b,T4.M1a,Final Committee Meeting,2027-05-17,2027-05-29,Final Committee Meeting,false,Not Started
 4,Committee Review & Defense,T4.6a,T4.5b,Final Revisions,2027-05-30,2027-06-30,Incorporate Final Revisions,false,Not Started
 4,Committee Review & Defense,T4.7,T4.6a,Defend Dissertation,2027-07-17,2027-07-20,Successfully defend PhD dissertation in oral examination,false,Not Started
@@ -103,6 +103,6 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 4,Final Submission & Graduation,T4.16,T4.6,Submit Final Oral Exam Request,2027-06-01,2027-06-15,Submit final oral exam request form,false,Not Started
 4,Final Submission & Graduation,T4.17,,SPIE Student Chapter Activities,2025-09-08,2026-12-31,Plan and execute SPIE Student Chapter activities,false,Not Started
 4,Final Submission & Graduation,T4.18,,Maintain Lab Responsibilities,2025-09-10,2027-08-31,Maintain lab culture responsibilities and equipment ownership,false,Not Started
-4,Final Submission & Graduation,T4.M1,T4.6,Dissertation Complete - Complete dissertation draft for committee review,2027-06-30,2027-06-30,Complete comprehensive dissertation draft,true,Not Started
-4,Final Submission & Graduation,T4.M2,T4.7,PhD Defense - Successfully defend PhD dissertation,2027-07-17,2027-07-17,Successfully defend PhD dissertation,true,Not Started
-4,Final Submission & Graduation,T4.M3,T4.9,Graduation - Complete PhD program and graduate,2027-08-11,2027-08-11,Complete PhD program and graduate,true,Not Started
+4,Final Submission & Graduation,T4.M1,T4.6,Dissertation Complete - Complete dissertation draft for committee review,2027-06-27,2027-07-03,Complete comprehensive dissertation draft,true,Not Started
+4,Final Submission & Graduation,T4.M2,T4.7,PhD Defense - Successfully defend PhD dissertation,2027-07-14,2027-07-20,Successfully defend PhD dissertation,true,Not Started
+4,Final Submission & Graduation,T4.M3,T4.9,Graduation - Complete PhD program and graduate,2027-08-08,2027-08-14,Complete PhD program and graduate,true,Not Started

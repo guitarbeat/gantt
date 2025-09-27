@@ -86,52 +86,59 @@ type AlgorithmicColors struct {
 type LaTeX struct {
 	TabColSep             string
 	HeaderSideMonthsWidth string
-	TaskBorderWidth       string
-	TaskPaddingH          string
-	TaskPaddingV          string
-	TaskVerticalOffset    string
 	ArrayStretch          float64
-	TaskFontSize          string
-	TaskBarHeight         string
 	MonthlyCellHeight     string
 	HeaderResizeBox       string
 	LineThicknessDefault  string
 	LineThicknessThick    string
 	ColSep                string
-	ShowTaskObjectives    bool   `yaml:"showtaskobjectives"`
-
-	// Task styling parameters
-	TaskBackgroundOpacity int    `yaml:"task_background_opacity"`
-	TaskBorderOpacity     int    `yaml:"task_border_opacity"`
-	TaskContentSpacing    string `yaml:"task_content_spacing"`
-
-	// TColorBox styling
-	TColorBox TColorBox `yaml:"tcolorbox"`
-
-	// Typography settings
-	Typography Typography `yaml:"typography"`
-
-	// Spacing and layout
-	Spacing Spacing `yaml:"spacing"`
 
 	// Document settings
 	Document Document `yaml:"document"`
+
+	// Typography settings
+	Typography Typography `yaml:"typography"`
 }
 
-type TColorBox struct {
-	Arc         string
-	Left        string
-	Right       string
-	Top         string
-	Bottom      string
-	BoxRule     string
-	TaskBoxRule string
-	TaskArc     string
-	TaskLeft    string
-	TaskRight   string
-	TaskTop     string
-	TaskBottom  string
+type TaskStyling struct {
+	// Core task appearance
+	FontSize       string `yaml:"fontsize"`
+	BarHeight      string `yaml:"bar_height"`
+	BorderWidth    string `yaml:"border_width"`
+	ShowObjectives bool   `yaml:"show_objectives"`
+
+	// Visual styling
+	BackgroundOpacity int `yaml:"background_opacity"`
+	BorderOpacity     int `yaml:"border_opacity"`
+
+	// Task box spacing and padding
+	Spacing TaskStylingSpacing `yaml:"spacing"`
+
+	// TColorBox styling for task boxes
+	TColorBox TaskStylingTColorBox `yaml:"tcolorbox"`
 }
+
+type TaskStylingSpacing struct {
+	VerticalOffset    string `yaml:"vertical_offset"`
+	ContentVspace     string `yaml:"content_vspace"`
+	PaddingHorizontal string `yaml:"padding_horizontal"`
+	PaddingVertical   string `yaml:"padding_vertical"`
+}
+
+type TaskStylingTColorBox struct {
+	// Main task overlay boxes (spanning tasks)
+	Overlay TColorBoxOverlay `yaml:"overlay"`
+}
+
+type TColorBoxOverlay struct {
+	Arc     string
+	Left    string
+	Right   string
+	Top     string
+	Bottom  string
+	BoxRule string
+}
+
 
 type Typography struct {
 	HyphenPenalty          int
@@ -141,14 +148,10 @@ type Typography struct {
 }
 
 type Spacing struct {
-	ColSep         string
-	TableColSep    string
-	ColorLegendSep string
-	// Page break hardcoded in templates
-	// Template-specific spacing values
-	Col               string `yaml:"col"`
-	TaskContentVspace string `yaml:"task_content_vspace"`
-	TaskOverlayArc    string `yaml:"task_overlay_arc"`
+	TableColSep    string `yaml:"table_colsep"`
+	ColorLegendSep string `yaml:"color_legend_sep"`
+	Col            string `yaml:"col"`
+	TaskOverlayArc string `yaml:"task_overlay_arc"`
 }
 
 type Document struct {
@@ -186,10 +189,15 @@ type Layout struct {
 	// TaskColors removed - using algorithmic colors
 	AlgorithmicColors AlgorithmicColors
 	LaTeX             LaTeX `yaml:"latex"`
-	Constraints       Constraints
-	Calendar          Calendar
-	Stacking          Stacking
-	LayoutEngine      LayoutEngine `yaml:"layout_engine"`
+
+	// Centralized task styling and spacing
+	TaskStyling TaskStyling `yaml:"task_styling"`
+	Spacing     Spacing     `yaml:"spacing"`
+
+	Constraints  Constraints
+	Calendar     Calendar
+	Stacking     Stacking
+	LayoutEngine LayoutEngine `yaml:"layout_engine"`
 }
 
 type Calendar struct {

@@ -72,14 +72,14 @@ func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, 
 		// Regular task: use full available width and better text flow
 		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
 		spacing = `\hspace*{` + dayNumberWidth + `}`                  // Spacing to align with day number cell width
-		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
+		contentWrapper = fmt.Sprintf(`\vfill{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
 			hyphenPenalty, tolerance, emergencyStretch) + content + `}`
 	}
 
 	inner := `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
 		spacing +
-		`\begin{minipage}[t]{` + width + `}` +
+		`\begin{minipage}[b]{` + width + `}` +
 		contentWrapper +
 		`\end{minipage}` +
 		`\endgroup}`
