@@ -5,13 +5,14 @@
 ## 🚧 **Immediate Priority Tasks**
 
 ### 🔧 Build System & CI/CD
-- [ ] **Fix XeLaTeX dependency issues** 
-  - Build fails when XeLaTeX is not available
+- [x] **Fix XeLaTeX dependency issues** 
+  - ✅ Build now succeeds when XeLaTeX is not available
+  - ✅ Added conditional PDF compilation in Makefile
+  - ✅ Added build-latex and build-pdf targets for different use cases
   - Related PR: #10 "Debug failing checks" addresses this
-  - Need conditional PDF compilation in Makefile
-- [ ] **Resolve vendoring inconsistencies**
-  - Current `go mod vendor` issues with explicit requirements
-  - Update vendor/modules.txt to match go.mod
+- [x] **Resolve vendoring inconsistencies**
+  - ✅ Fixed `go mod vendor` issues with explicit requirements
+  - ✅ Updated vendor/modules.txt to match go.mod
 - [ ] **Enhance CI workflow robustness**
   - Make builds pass without LaTeX dependencies in CI environment
   - Add proper status badges and build verification

@@ -36,28 +36,34 @@ BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 # Use the most comprehensive CSV file
 CSV_FILE := research_timeline_v5_comprehensive.csv
 
-.PHONY: build clean clean-build fmt vet test test-unit test-integration test-all
+.PHONY: build clean clean-build build-latex build-pdf fmt vet test test-unit test-integration test-all
 
-# Build planner PDF with comprehensive pipeline
+# Build planner with optional PDF compilation
 build:
-	@echo "Building PDF from $(CSV_FILE)..."
+	@echo "Building from $(CSV_FILE)..."
 	@go clean -cache && go build -mod=vendor -o $(BINARY_PATH) ./cmd/planner && \
 	PLANNER_SILENT=1 PLANNER_CSV_FILE="input_data/$(CSV_FILE)" \
 	$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir $(BINARY_DIR) && \
+	echo "LaTeX file generated: $(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex" && \
 	cd $(BINARY_DIR) && \
-	if xelatex -file-line-error -interaction=batchmode -quiet $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).tmp 2>&1; then \
-		grep -E "(Error|Warning|Overfull|Underfull)" $(OUTPUT_BASE_NAME).tmp > $(OUTPUT_BASE_NAME).log 2>/dev/null || echo "PDF compiled successfully" > $(OUTPUT_BASE_NAME).log; \
-		echo "PDF compiled successfully"; \
+	if command -v xelatex >/dev/null 2>&1; then \
+		echo "XeLaTeX found - attempting PDF compilation..."; \
+		if xelatex -file-line-error -interaction=batchmode -quiet $(OUTPUT_BASE_NAME).tex > $(OUTPUT_BASE_NAME).tmp 2>&1; then \
+			grep -E "(Error|Warning|Overfull|Underfull)" $(OUTPUT_BASE_NAME).tmp > $(OUTPUT_BASE_NAME).log 2>/dev/null || echo "PDF compiled successfully" > $(OUTPUT_BASE_NAME).log; \
+			echo "PDF compiled successfully"; \
+		else \
+			cat $(OUTPUT_BASE_NAME).tmp > $(OUTPUT_BASE_NAME).log; \
+			echo "Warning: PDF compilation had warnings (check $(OUTPUT_BASE_NAME).log)"; \
+		fi; \
+		if [ -f "$(OUTPUT_BASE_NAME).pdf" ]; then \
+			rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz *.tmp 2>/dev/null || true && \
+			echo "Created: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
+		else \
+			echo "Warning: PDF generation failed - check $(BINARY_DIR)/$(OUTPUT_BASE_NAME).log"; \
+		fi; \
 	else \
-		cat $(OUTPUT_BASE_NAME).tmp > $(OUTPUT_BASE_NAME).log; \
-		echo "Warning: PDF compilation had warnings (check $(OUTPUT_BASE_NAME).log)"; \
-	fi && \
-	if [ -f "$(OUTPUT_BASE_NAME).pdf" ]; then \
-		rm -f *.aux *.fdb_latexmk *.fls *.out *.synctex.gz *.tmp 2>/dev/null || true && \
-		echo "Created: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
-	else \
-		echo "Error: PDF generation failed - check $(BINARY_DIR)/$(OUTPUT_BASE_NAME).log"; \
-		exit 1; \
+		echo "Warning: XeLaTeX not found - LaTeX file generated but PDF compilation skipped"; \
+		echo "To enable PDF generation, install XeLaTeX (e.g., apt-get install texlive-xetex)"; \
 	fi
 
 
@@ -98,4 +104,24 @@ test-all:
 
 # Clean and build (recommended for development to avoid binary corruption)
 clean-build: clean build
+
+# Build LaTeX only (without PDF compilation)
+build-latex:
+	@echo "Building LaTeX from $(CSV_FILE)..."
+	@go clean -cache && go build -mod=vendor -o $(BINARY_PATH) ./cmd/planner && \
+	PLANNER_SILENT=1 PLANNER_CSV_FILE="input_data/$(CSV_FILE)" \
+	$(BINARY_PATH) --config "$(CONFIG_FILES)" --outdir $(BINARY_DIR) && \
+	echo "LaTeX file generated: $(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex"
+
+# Force PDF compilation (fails if XeLaTeX not available) 
+build-pdf: build-latex
+	@echo "Attempting PDF compilation..."
+	@cd $(BINARY_DIR) && \
+	if command -v xelatex >/dev/null 2>&1; then \
+		xelatex -file-line-error -interaction=batchmode $(OUTPUT_BASE_NAME).tex && \
+		echo "Created: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf"; \
+	else \
+		echo "Error: XeLaTeX not found. Install with: apt-get install texlive-xetex"; \
+		exit 1; \
+	fi
 
