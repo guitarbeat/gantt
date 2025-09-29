@@ -13,15 +13,20 @@
 - [x] **Resolve vendoring inconsistencies**
   - ✅ Fixed `go mod vendor` issues with explicit requirements
   - ✅ Updated vendor/modules.txt to match go.mod
-- [ ] **Enhance CI workflow robustness**
-  - Make builds pass without LaTeX dependencies in CI environment
-  - Add proper status badges and build verification
+- [x] **Enhance CI workflow robustness**
+  - ✅ Added build-without-latex job to test conditional compilation
+  - ✅ Enhanced CI workflow to handle builds without LaTeX dependencies
+  - ✅ Added proper artifact uploads for both PDF and LaTeX-only builds
+  - ✅ Made builds pass without LaTeX dependencies in CI environment
 
 ### 🐛 Bug Fixes & Issues
-- [ ] **Complete hyperlink functionality**
-  - Related PR: #8 "Return task hyperlinks" 
-  - Add clickable navigation in generated PDFs
-  - Implement hypertargets for day cells and task references
+- [x] **Complete hyperlink functionality**
+  - ✅ Enabled hyperref package in LaTeX template 
+  - ✅ Added hypertargets to day cells for navigation anchors
+  - ✅ Added showlinks configuration option (enabled by default)
+  - ✅ Clickable navigation now works in generated PDFs
+  - ✅ Implemented hypertargets for day cells and task references
+  - Related PR: #8 "Return task hyperlinks" - now complete
 - [ ] **PDF generation error handling**
   - Current build fails silently on LaTeX compilation errors
   - Improve error reporting and graceful degradation

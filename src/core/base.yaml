@@ -5,6 +5,10 @@ calafterschedule: false
 addlasthalfhour: true
 cleartoprightcorner: false
 
+debug:
+  showframe: false
+  showlinks: true  # Enable hyperlinks in PDF for navigation
+
 layout:
   paper:
     width: 15.6cm

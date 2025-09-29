@@ -91,7 +91,7 @@ func (d Day) renderLargeDayRefactored(day string) string {
 	taskRenderer := NewTaskRenderer(d.Cfg)
 	cellBuilder := NewCellBuilder(d.Cfg)
 
-	leftCell := cellBuilder.BuildDayNumberCell(day)
+	leftCell := cellBuilder.BuildDayNumberCell(day, d.ref())
 
 	// Check for spanning tasks that start on this day
 	overlay := taskRenderer.RenderSpanningTaskOverlay(d)
@@ -122,7 +122,7 @@ func (d Day) ref(prefix ...string) string {
 
 // * LaTeX cell construction functions
 
-// buildDayNumberCell creates the basic day number cell with minimal padding
+// buildDayNumberCell creates the basic day number cell with minimal padding and hypertarget
 // Uses minipage instead of tabular to eliminate auto padding
 func (d Day) buildDayNumberCell(day string) string {
 	// * Use config-driven day number width
@@ -130,7 +130,9 @@ func (d Day) buildDayNumberCell(day string) string {
 	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
 		dayWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
 	}
-	return `\begin{minipage}[t]{` + dayWidth + `}\centering{}` + day + `\end{minipage}`
+	// Create hypertarget for this day to enable hyperlink navigation
+	hypertarget := fmt.Sprintf(`\hypertarget{%s}{}`, d.ref())
+	return hypertarget + `\begin{minipage}[t]{` + dayWidth + `}\centering{}` + day + `\end{minipage}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
