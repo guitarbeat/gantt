@@ -24,6 +24,11 @@
 - [ ] **PDF generation error handling**
   - Current build fails silently on LaTeX compilation errors
   - Improve error reporting and graceful degradation
+- [ ] **LaTeX rendering improvements**
+  - Recent commits show ongoing issues with grid lines vs task pills
+  - Fix z-order issues with TikZ overlays
+  - Resolve tcolorbox command conflicts
+  - Improve task layering and visual consistency
 
 ## 📚 **Code Quality & Architecture**
 
@@ -115,6 +120,10 @@ Based on README.md "Directory Structure & Organization" section:
   - Multiple config files in src/core/
   - Create unified configuration schema
   - Add configuration validation
+- [ ] **Address TODO/FIXME comments**
+  - Found 3 TODO items in codebase (scripts/build.sh, src/calendar/calendar.go)
+  - Found 1 FIXME item in scripts/build.sh
+  - Review and resolve outstanding technical debt markers
 
 ## 🚀 **Development Workflow**
 
@@ -213,6 +222,13 @@ Based on README.md "Directory Structure & Organization" section:
 - ⚠️ Build issues with LaTeX dependencies
 - ⚠️ Limited test coverage
 - ⚠️ Some outdated dependencies
+
+### Recent Development Activity:
+- ✅ Active development with frequent commits (10 commits in recent days)
+- ✅ Focus on LaTeX rendering improvements and visual consistency
+- ✅ Task styling and layout configuration centralization
+- ⚠️ Ongoing challenges with LaTeX grid line vs task pill rendering
+- ⚠️ Multiple experimental approaches to z-order and opacity issues
 
 ### Key Strengths:
 - Well-documented codebase with comprehensive README
