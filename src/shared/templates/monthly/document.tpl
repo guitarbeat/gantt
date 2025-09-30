@@ -55,7 +55,16 @@
 {{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 
 {{- if not .Cfg.Debug.ShowLinks}}
-\hypersetup{hidelinks,colorlinks=false,urlcolor=black,linkcolor=black,citecolor=black,pdfborder={0 0 0},pdfborderstyle={}}
+\hypersetup{
+    hidelinks,
+    colorlinks=false,
+    linkbordercolor={1 1 1},
+    citebordercolor={1 1 1},
+    filebordercolor={1 1 1},
+    urlbordercolor={1 1 1},
+    pdfborderstyle={/S/U/W 0},
+    pdfborder={0 0 0}
+}
 {{- end}}
 
 \geometry{verbose=false,paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}
