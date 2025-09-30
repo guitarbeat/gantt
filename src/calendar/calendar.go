@@ -1,4 +1,4 @@
-// Package scheduler handles calendar layout, task positioning, and LaTeX rendering
+// Package calendar handles calendar layout, task positioning, and LaTeX rendering
 // for the PhD dissertation planner system.
 //
 // Key responsibilities:
@@ -6,12 +6,6 @@
 // - Task bar positioning and stacking for multi-day spanning tasks
 // - Color management for task categories with LaTeX-safe escaping
 // - PDF-optimized LaTeX template rendering with proper spacing
-//
-// This file specifically handles:
-// - Day cell construction with responsive sizing
-// - Task overlay rendering with smart truncation disabled per user request
-// - Special character escaping for LaTeX compatibility (especially & in category names)
-// - Dynamic color legend generation based on actual task categories present
 package calendar
 
 import (
@@ -24,23 +18,38 @@ import (
 	"phd-dissertation-planner/src/shared/templates"
 )
 
-// * Day types and methods (from day.go)
+// ============================================================================
+// DATA STRUCTURES
+// ============================================================================
 
+// Days is a collection of Day pointers
 type Days []*Day
+
+// Day represents a single calendar day with its tasks
 type Day struct {
 	Time          time.Time
-	Tasks         []Task
-	SpanningTasks []*SpanningTask
-	Cfg           *core.Config // * Reference to core configuration
+	Tasks         []Task        // Single-day tasks
+	SpanningTasks []*SpanningTask // Tasks spanning multiple days
+	Cfg           *core.Config
 }
 
-// Task represents a task for a specific day
+// Task represents a simple task for a specific day
 type Task struct {
 	ID          string
 	Name        string
 	Description string
 	Category    string
 }
+
+// TaskOverlay represents a spanning task overlay with LaTeX content
+type TaskOverlay struct {
+	content string // LaTeX content
+	cols    int    // Number of columns to span
+}
+
+// ============================================================================
+// DAY RENDERING
+// ============================================================================
 
 // Day renders the day cell for both small and large views
 func (d Day) Day(today, large interface{}) string {
@@ -99,7 +108,9 @@ func (d Day) ref(prefix ...string) string {
 	return p + d.Time.Format(time.RFC3339)
 }
 
-// * LaTeX cell construction functions
+// ============================================================================
+// LATEX CELL CONSTRUCTION
+// ============================================================================
 
 // buildDayNumberCell creates the basic day number cell with minimal padding and hypertarget
 // Uses minipage instead of tabular to eliminate auto padding
@@ -178,13 +189,9 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 	return leftCell
 }
 
-// * Task processing and utility functions
-
-// TaskOverlay represents a spanning task overlay
-type TaskOverlay struct {
-	content string
-	cols    int
-}
+// ============================================================================
+// TASK RENDERING - SPANNING TASKS
+// ============================================================================
 
 // renderSpanningTaskOverlay creates a spanning task overlay if this day starts a spanning task
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
@@ -301,6 +308,10 @@ func (d Day) TasksForDay() string {
 	return strings.Join(taskStrings, "\\\\")
 }
 
+// ============================================================================
+// HELPER FUNCTIONS - DATE AND TASK UTILITIES
+// ============================================================================
+
 // getDayDate returns the day date normalized to UTC midnight
 func (d Day) getDayDate() time.Time {
 	return time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
@@ -387,6 +398,10 @@ func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 	return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(task.Description)), "MILESTONE:")
 }
 
+// ============================================================================
+// HELPER FUNCTIONS - LATEX UTILITIES  
+// ============================================================================
+
 // escapeLatexSpecialChars replaces special LaTeX characters with their escaped versions
 func escapeLatexSpecialChars(text string) string {
 	// Replace special LaTeX characters with their escaped versions
@@ -428,7 +443,9 @@ func (d Day) escapeLatexSpecialChars(text string) string {
 	return text
 }
 
-// * Week types and methods (from week.go)
+// ============================================================================
+// WEEK STRUCTURES AND METHODS
+// ============================================================================
 
 type Weeks []*Week
 type Week struct {
@@ -555,7 +572,9 @@ func NewWeeksForYear(wd time.Weekday, year *Year, cfg *core.Config) Weeks {
 	return weeks
 }
 
-// * Month types and methods (from month.go)
+// ============================================================================
+// MONTH STRUCTURES AND METHODS
+// ============================================================================
 
 type Months []*Month
 
@@ -832,7 +851,9 @@ func (m *Month) GetTaskColors() map[string]string {
 	return colorMap
 }
 
-// * Year and Quarter types and methods (from time_units.go)
+// ============================================================================
+// YEAR AND QUARTER STRUCTURES
+// ============================================================================
 
 type Years []*Year
 
@@ -918,6 +939,10 @@ func (q Quarter) ref(prefix ...string) string {
 	}
 	return p + "quarter-" + strconv.Itoa(q.Year.Number) + "-" + strconv.Itoa(q.Number)
 }
+
+// ============================================================================
+// SPANNING TASK DATA STRUCTURES AND UTILITIES
+// ============================================================================
 
 // SpanningTask represents a task that spans multiple days
 type SpanningTask struct {
