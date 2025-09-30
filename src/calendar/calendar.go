@@ -724,7 +724,8 @@ func (m *Month) WeekHeader(large interface{}) string {
 	for i := time.Sunday; i < 7; i++ {
 		name := ((m.Weekday + i) % 7).String()
 		if full {
-			name = `\hfil{}` + name
+			// Add vertical padding with \rule for equal top/bottom spacing
+			name = `\hfil{}\rule{0pt}{2.5ex}\rule[-1ex]{0pt}{0pt}` + name
 		} else {
 			name = name[:1]
 		}
