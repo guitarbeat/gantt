@@ -155,7 +155,7 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	}
 
 	inner := `{\begingroup` +
-		`\makebox[0pt][l]{` + leftCell + `}` +
+		leftCell +
 		spacing +
 		`\begin{minipage}[t]{` + width + `}` +
 		contentWrapper +
