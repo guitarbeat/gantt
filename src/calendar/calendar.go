@@ -679,7 +679,7 @@ func (m *Month) DefineTable(typ interface{}, large interface{}) string {
 		weekAlign := "Y|"
 		days := "Y"
 		if full {
-			weekAlign = `|m{1cm}!{\vrule width \myLenLineThicknessThick}`
+			weekAlign = `|l!{\vrule width \myLenLineThicknessThick}`
 			days = `@{}X@{}|`
 		}
 
