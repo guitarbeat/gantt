@@ -27,18 +27,9 @@ type Days []*Day
 
 // Day represents a single calendar day with its tasks
 type Day struct {
-	Time          time.Time
-	Tasks         []Task        // Single-day tasks
-	SpanningTasks []*SpanningTask // Tasks spanning multiple days
-	Cfg           *core.Config
-}
-
-// Task represents a simple task for a specific day
-type Task struct {
-	ID          string
-	Name        string
-	Description string
-	Category    string
+	Time  time.Time
+	Tasks []*SpanningTask // All tasks (even 1-day tasks are "spanning")
+	Cfg   *core.Config
 }
 
 // TaskOverlay represents a spanning task overlay with LaTeX content
@@ -193,7 +184,7 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 // TASK RENDERING - SPANNING TASKS
 // ============================================================================
 
-// renderSpanningTaskOverlay creates a spanning task overlay if this day starts a spanning task
+// renderSpanningTaskOverlay creates a task overlay if this day starts a task
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	dayDate := d.getDayDate()
 	startingTasks, maxCols := d.findStartingTasks(dayDate)
@@ -204,17 +195,17 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 	// Build the task content for the overlay
 	var taskStrings []string
-	for _, spanningTask := range startingTasks {
-		taskStr := d.escapeLatexSpecialChars(spanningTask.Name)
+	for _, task := range startingTasks {
+		taskStr := d.escapeLatexSpecialChars(task.Name)
 
-		// Add star for milestone spanning tasks
-		if d.isMilestoneSpanningTask(spanningTask) {
+		// Add star for milestone tasks
+		if d.isMilestoneSpanningTask(task) {
 			taskStr = "★ " + taskStr
 		}
 
 		// Apply color styling based on category
-		if spanningTask.Category != "" && spanningTask.Color != "" {
-			rgbColor := hexToRGB(spanningTask.Color)
+		if task.Category != "" && task.Color != "" {
+			rgbColor := hexToRGB(task.Color)
 			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
 		}
 
@@ -225,26 +216,24 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
-	// Each task will get its own color, so we don't need a shared pillColor
-
-	// Create separate pills for each spanning task
+	// Create separate pills for each task
 	var pillContents []string
 
-	for i, spanningTask := range startingTasks {
+	for i, task := range startingTasks {
 		// Task name (will be bolded by the macro)
-		taskName := d.escapeLatexSpecialChars(spanningTask.Name)
-		if d.isMilestoneSpanningTask(spanningTask) {
+		taskName := d.escapeLatexSpecialChars(task.Name)
+		if d.isMilestoneSpanningTask(task) {
 			taskName = "★ " + taskName
 		}
 
 		// Objective (will be smaller by the macro)
 		objective := ""
-		if spanningTask.Description != "" {
-			objective = d.escapeLatexSpecialChars(spanningTask.Description)
+		if task.Description != "" {
+			objective = d.escapeLatexSpecialChars(task.Description)
 		}
 
 		// Get the color for this specific task
-		taskColor := hexToRGB(spanningTask.Color)
+		taskColor := hexToRGB(task.Color)
 		if taskColor == "" {
 			taskColor = "224,50,212" // Default fallback
 		}
@@ -253,16 +242,16 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		// Only the first task gets vertical offset, others touch
 		if i == 0 {
 			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
-				taskColor, // Use the task's specific color
-				taskName,  // Task name (will be bolded by macro)
-				objective) // Objective (will be smaller by macro)
+				taskColor,
+				taskName,
+				objective)
 			pillContents = append(pillContents, pillContent)
 		} else {
 			// For subsequent tasks, use a custom macro without vertical offset
 			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`,
-				taskColor, // Use the task's specific color
-				taskName,  // Task name (will be bolded by macro)
-				objective) // Objective (will be smaller by macro)
+				taskColor,
+				taskName,
+				objective)
 			pillContents = append(pillContents, pillContent)
 		}
 	}
@@ -274,38 +263,6 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		content: content,
 		cols:    maxCols,
 	}
-}
-
-// TasksForDay returns a formatted string of tasks for this day
-func (d Day) TasksForDay() string {
-	var taskStrings []string
-
-	// Add regular tasks (non-spanning tasks)
-	for _, task := range d.Tasks {
-		taskStr := d.escapeLatexSpecialChars(task.Name)
-
-		// Add star for milestone tasks
-		if d.isMilestoneTask(task) {
-			taskStr = "★ " + taskStr
-		}
-
-		// Apply color styling based on category
-		if task.Category != "" {
-			color := getColorForCategory(task.Category)
-			if color != "" {
-				rgbColor := hexToRGB(color)
-				taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
-			}
-		}
-
-		taskStrings = append(taskStrings, taskStr)
-	}
-
-	if len(taskStrings) == 0 {
-		return ""
-	}
-
-	return strings.Join(taskStrings, "\\\\")
 }
 
 // ============================================================================
@@ -352,7 +309,7 @@ func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	var startingTasks []*SpanningTask
 	var maxCols int
 
-	for _, task := range d.SpanningTasks {
+	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
@@ -388,12 +345,7 @@ func (d Day) sortTasksByDuration(tasks []*SpanningTask) []*SpanningTask {
 	return sorted
 }
 
-// isMilestoneTask checks if a task is a milestone based on its description
-func (d Day) isMilestoneTask(task Task) bool {
-	return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(task.Description)), "MILESTONE:")
-}
-
-// isMilestoneSpanningTask checks if a spanning task is a milestone based on its description
+// isMilestoneSpanningTask checks if a task is a milestone
 func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 	return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(task.Description)), "MILESTONE:")
 }
@@ -465,7 +417,7 @@ func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month, 
 	week := &Week{Weekday: wd, Year: year, Months: Months{month}, Quarters: Quarters{qrtr}}
 
 	for i := shift; i < 7; i++ {
-		week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil, Cfg: cfg}
+		week.Days[i] = Day{Time: ptr, Tasks: nil, Cfg: cfg}
 		ptr = ptr.AddDate(0, 0, 1)
 	}
 
@@ -480,7 +432,7 @@ func NewWeeksForMonth(wd time.Weekday, year *Year, qrtr *Quarter, month *Month, 
 				break
 			}
 
-			week.Days[i] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil, Cfg: cfg}
+			week.Days[i] = Day{Time: ptr, Tasks: nil, Cfg: cfg}
 			ptr = ptr.AddDate(0, 0, 1)
 		}
 
@@ -563,7 +515,7 @@ func NewWeeksForYear(wd time.Weekday, year *Year, cfg *core.Config) Weeks {
 	for i := 0; i < 53; i++ {
 		week := &Week{Weekday: wd, Year: year}
 		for j := 0; j < 7; j++ {
-			week.Days[j] = Day{Time: ptr, Tasks: nil, SpanningTasks: nil, Cfg: cfg}
+			week.Days[j] = Day{Time: ptr, Tasks: nil, Cfg: cfg}
 			ptr = ptr.AddDate(0, 0, 1)
 		}
 		weeks = append(weeks, week)
@@ -822,7 +774,7 @@ func (m *Month) GetTaskColors() map[string]string {
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
 			// Check spanning tasks
-			for _, task := range day.SpanningTasks {
+			for _, task := range day.Tasks {
 				if task.Category != "" {
 					color := getColorForCategory(task.Category)
 					if color != "" {
@@ -995,7 +947,7 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 							// Create a copy of the task to avoid pointer issues
 							taskCopy := tasks[taskIndex]
 							// Add the spanning task to this day
-							week.Days[i].SpanningTasks = append(week.Days[i].SpanningTasks, &taskCopy)
+							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
 							break
 						}
 					}
