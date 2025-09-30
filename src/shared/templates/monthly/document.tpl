@@ -80,6 +80,7 @@
 \pagestyle{empty}
 {{if $.Cfg.Layout.Paper.ReverseMargins}}\reversemarginpar{{end}}
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{M}{>{\centering\arraybackslash}m}
 \parindent={{.Cfg.Layout.LaTeX.Document.ParIndent}}
 \fboxsep0pt
 
