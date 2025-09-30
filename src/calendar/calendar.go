@@ -178,42 +178,19 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 // TASK RENDERING - SPANNING TASKS
 // ============================================================================
 
-// renderSpanningTaskOverlay creates a task overlay if this day starts a task
+// renderSpanningTaskOverlay creates a task overlay showing ALL active tasks on this day
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	dayDate := d.getDayDate()
-	startingTasks, maxCols := d.findStartingTasks(dayDate)
+	activeTasks, maxCols := d.findActiveTasks(dayDate)
 
-	if len(startingTasks) == 0 {
-		return nil
-	}
-
-	// Build the task content for the overlay
-	var taskStrings []string
-	for _, task := range startingTasks {
-		taskStr := d.escapeLatexSpecialChars(task.Name)
-
-		// Add star for milestone tasks
-		if d.isMilestoneSpanningTask(task) {
-			taskStr = "★ " + taskStr
-		}
-
-		// Apply color styling based on category
-		if task.Category != "" && task.Color != "" {
-			rgbColor := hexToRGB(task.Color)
-			taskStr = fmt.Sprintf(`\textcolor[RGB]{%s}{%s}`, rgbColor, taskStr)
-		}
-
-		taskStrings = append(taskStrings, taskStr)
-	}
-
-	if len(taskStrings) == 0 {
+	if len(activeTasks) == 0 {
 		return nil
 	}
 
 	// Create separate pills for each task
 	var pillContents []string
 
-	for i, task := range startingTasks {
+	for i, task := range activeTasks {
 		// Task name (will be bolded by the macro)
 		taskName := d.escapeLatexSpecialChars(task.Name)
 		if d.isMilestoneSpanningTask(task) {
@@ -298,26 +275,53 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 	return overlayCols
 }
 
-// findStartingTasks finds tasks that start on the given day and calculates max columns
-func (d Day) findStartingTasks(dayDate time.Time) ([]*SpanningTask, int) {
-	var startingTasks []*SpanningTask
+// findActiveTasks finds ALL tasks that are active on the given day (started on or before this day)
+// Returns tasks sorted by start date, and calculates max columns needed
+func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
+	var activeTasks []*SpanningTask
 	var maxCols int
 
 	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Only show tasks that START on this day (not just active on this day)
-		if dayDate.Equal(start) {
-			startingTasks = append(startingTasks, task)
-			cols := d.calculateTaskSpanColumns(dayDate, end)
-			if cols > maxCols {
-				maxCols = cols
+		// Show all tasks that are active on this day (not just those starting today)
+		if d.isTaskActiveOnDay(dayDate, start, end) {
+			activeTasks = append(activeTasks, task)
+			
+			// Calculate columns from TODAY's perspective (not from start date)
+			// But only if the task starts on or before today
+			if !dayDate.Before(start) {
+				// Calculate remaining span from this day forward
+				cols := d.calculateTaskSpanColumns(dayDate, end)
+				if cols > maxCols {
+					maxCols = cols
+				}
 			}
 		}
 	}
 
-	return startingTasks, maxCols
+	// Sort tasks by start date (earlier tasks appear first/on top)
+	activeTasks = d.sortTasksByStartDate(activeTasks)
+
+	return activeTasks, maxCols
+}
+
+// sortTasksByStartDate sorts tasks by their start date (earliest first)
+func (d Day) sortTasksByStartDate(tasks []*SpanningTask) []*SpanningTask {
+	sorted := make([]*SpanningTask, len(tasks))
+	copy(sorted, tasks)
+
+	// Sort by start date (earliest first)
+	for i := 0; i < len(sorted)-1; i++ {
+		for j := 0; j < len(sorted)-i-1; j++ {
+			if sorted[j].StartDate.After(sorted[j+1].StartDate) {
+				sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
+			}
+		}
+	}
+
+	return sorted
 }
 
 // sortTasksByDuration sorts tasks by duration for better visual organization
