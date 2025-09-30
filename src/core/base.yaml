@@ -7,7 +7,7 @@ cleartoprightcorner: false
 
 debug:
   showframe: false
-  showlinks: true  # Enable hyperlinks in PDF for navigation
+  showlinks: false  # Disable hyperlink borders (red boxes) but keep links functional
 
 layout:
   paper:
