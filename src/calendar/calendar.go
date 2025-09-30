@@ -155,7 +155,7 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 	}
 
 	inner := `{\begingroup` +
-		leftCell +
+		`\makebox[0pt][l]{` + leftCell + `}` +
 		spacing +
 		`\begin{minipage}[t]{` + width + `}` +
 		contentWrapper +
@@ -167,8 +167,11 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 }
 
 // buildSimpleDayCell creates a simple day cell without tasks
+// Wrap in makebox to match the formatting of days with tasks
 func (d Day) buildSimpleDayCell(leftCell string) string {
-	return leftCell
+	// Wrap in the same structure as task cells for consistency
+	inner := `{\begingroup\makebox[0pt][l]{` + leftCell + `}\endgroup}`
+	return `\hyperlink{` + d.ref() + `}{` + inner + `}`
 }
 
 // ============================================================================
