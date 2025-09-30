@@ -63,28 +63,18 @@ func (d Day) Day(today, large interface{}) string {
 	return day
 }
 
-// renderLargeDay renders the day cell for large (monthly) view using refactored modules
+// renderLargeDay renders the day cell for large (monthly) view with tasks
 func (d Day) renderLargeDay(day string) string {
-	// Use the refactored components for better maintainability
-	taskRenderer := NewTaskRenderer(d.Cfg)
-	cellBuilder := NewCellBuilder(d.Cfg)
+	leftCell := d.buildDayNumberCell(day)
 
-	leftCell := cellBuilder.BuildDayNumberCell(day, d.ref())
-
-	// Check for spanning tasks that start on this day
-	overlay := taskRenderer.RenderSpanningTaskOverlay(d)
+	// Check for tasks using intelligent stacking
+	overlay := d.renderSpanningTaskOverlay()
 	if overlay != nil {
-		// For spanning tasks, render them as regular content that stacks vertically
-		return cellBuilder.BuildTaskCell(leftCell, overlay.content, false, overlay.cols)
-	}
-
-	// Check for regular tasks
-	if tasks := taskRenderer.RenderTasksForDay(d); tasks != "" {
-		return cellBuilder.BuildTaskCell(leftCell, tasks, false, 0)
+		return d.buildTaskCell(leftCell, overlay.content, false, overlay.cols)
 	}
 
 	// No tasks: just the day number
-	return cellBuilder.BuildSimpleDayCell(leftCell)
+	return d.buildSimpleDayCell(leftCell)
 }
 
 
