@@ -142,7 +142,8 @@ func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) 
 		contentWrapper = "" // Don't add content twice for spanning tasks
 	} else if cols > 0 {
 		// Spanning task but rendered as regular content (vertical stacking)
-		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
+		// Don't multiply linewidth - that causes overflow in table cells
+		width = `\linewidth` // Just use the cell width, task will flow naturally
 		spacing = ""             // No offset - start at the beginning of the cell
 		contentWrapper = content // Use the content directly without additional wrapping
 	} else {
