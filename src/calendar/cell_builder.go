@@ -23,10 +23,18 @@ func NewCellBuilder(cfg *core.Config) *CellBuilder {
 	return &CellBuilder{cfg: cfg}
 }
 
-// BuildDayNumberCell creates the basic day number cell with minimal padding
-func (cb *CellBuilder) BuildDayNumberCell(day string) string {
+// BuildDayNumberCell creates the basic day number cell with minimal padding and hypertarget
+func (cb *CellBuilder) BuildDayNumberCell(day string, ref ...string) string {
 	dayNumberWidth := "6mm" // Default width
-	return fmt.Sprintf(`\begin{minipage}[t]{%s}\centering{}%s\end{minipage}`, dayNumberWidth, day)
+	dayNumberCell := fmt.Sprintf(`\begin{minipage}[t]{%s}\centering{}%s\end{minipage}`, dayNumberWidth, day)
+	
+	// Add hypertarget if reference is provided
+	if len(ref) > 0 && ref[0] != "" {
+		hypertarget := fmt.Sprintf(`\hypertarget{%s}{}`, ref[0])
+		return hypertarget + dayNumberCell
+	}
+	
+	return dayNumberCell
 }
 
 // BuildSimpleDayCell creates a simple day cell with just the day number

@@ -63,35 +63,13 @@ func (d Day) Day(today, large interface{}) string {
 	return day
 }
 
-// renderLargeDay renders the day cell for large (monthly) view with tasks and spanning tasks
+// renderLargeDay renders the day cell for large (monthly) view using refactored modules
 func (d Day) renderLargeDay(day string) string {
-	leftCell := d.buildDayNumberCell(day)
-
-	// Check for spanning tasks that start on this day
-	overlay := d.renderSpanningTaskOverlay()
-	if overlay != nil {
-		// For spanning tasks, render them as regular content that stacks vertically
-		// instead of using TikZ overlays that can stack in z-dimension
-		return d.buildTaskCell(leftCell, overlay.content, false, overlay.cols)
-	}
-
-	// Check for regular tasks
-	if tasks := d.TasksForDay(); tasks != "" {
-		return d.buildTaskCell(leftCell, tasks, false, 0)
-	}
-
-	// No tasks: just the day number
-	return d.buildSimpleDayCell(leftCell)
-}
-
-// renderLargeDayRefactored demonstrates how to use the refactored modules
-// This is an example of how the code could be refactored to use the new modules
-func (d Day) renderLargeDayRefactored(day string) string {
-	// Create the refactored components
+	// Use the refactored components for better maintainability
 	taskRenderer := NewTaskRenderer(d.Cfg)
 	cellBuilder := NewCellBuilder(d.Cfg)
 
-	leftCell := cellBuilder.BuildDayNumberCell(day)
+	leftCell := cellBuilder.BuildDayNumberCell(day, d.ref())
 
 	// Check for spanning tasks that start on this day
 	overlay := taskRenderer.RenderSpanningTaskOverlay(d)
@@ -109,6 +87,7 @@ func (d Day) renderLargeDayRefactored(day string) string {
 	return cellBuilder.BuildSimpleDayCell(leftCell)
 }
 
+
 // ref generates a reference string for the day
 func (d Day) ref(prefix ...string) string {
 	p := ""
@@ -122,7 +101,7 @@ func (d Day) ref(prefix ...string) string {
 
 // * LaTeX cell construction functions
 
-// buildDayNumberCell creates the basic day number cell with minimal padding
+// buildDayNumberCell creates the basic day number cell with minimal padding and hypertarget
 // Uses minipage instead of tabular to eliminate auto padding
 func (d Day) buildDayNumberCell(day string) string {
 	// * Use config-driven day number width
@@ -130,7 +109,9 @@ func (d Day) buildDayNumberCell(day string) string {
 	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
 		dayWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
 	}
-	return `\begin{minipage}[t]{` + dayWidth + `}\centering{}` + day + `\end{minipage}`
+	// Create hypertarget for this day to enable hyperlink navigation
+	hypertarget := fmt.Sprintf(`\hypertarget{%s}{}`, d.ref())
+	return hypertarget + `\begin{minipage}[t]{` + dayWidth + `}\centering{}` + day + `\end{minipage}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks

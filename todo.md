@@ -5,25 +5,35 @@
 ## 🚧 **Immediate Priority Tasks**
 
 ### 🔧 Build System & CI/CD
-- [ ] **Fix XeLaTeX dependency issues** 
-  - Build fails when XeLaTeX is not available
+- [x] **Fix XeLaTeX dependency issues** 
+  - ✅ Build now succeeds when XeLaTeX is not available
+  - ✅ Added conditional PDF compilation in Makefile
+  - ✅ Added build-latex and build-pdf targets for different use cases
   - Related PR: #10 "Debug failing checks" addresses this
-  - Need conditional PDF compilation in Makefile
-- [ ] **Resolve vendoring inconsistencies**
-  - Current `go mod vendor` issues with explicit requirements
-  - Update vendor/modules.txt to match go.mod
-- [ ] **Enhance CI workflow robustness**
-  - Make builds pass without LaTeX dependencies in CI environment
-  - Add proper status badges and build verification
+- [x] **Resolve vendoring inconsistencies**
+  - ✅ Fixed `go mod vendor` issues with explicit requirements
+  - ✅ Updated vendor/modules.txt to match go.mod
+- [x] **Enhance CI workflow robustness**
+  - ✅ Added build-without-latex job to test conditional compilation
+  - ✅ Enhanced CI workflow to handle builds without LaTeX dependencies
+  - ✅ Added proper artifact uploads for both PDF and LaTeX-only builds
+  - ✅ Made builds pass without LaTeX dependencies in CI environment
 
 ### 🐛 Bug Fixes & Issues
-- [ ] **Complete hyperlink functionality**
-  - Related PR: #8 "Return task hyperlinks" 
-  - Add clickable navigation in generated PDFs
-  - Implement hypertargets for day cells and task references
-- [ ] **PDF generation error handling**
-  - Current build fails silently on LaTeX compilation errors
-  - Improve error reporting and graceful degradation
+- [x] **Complete hyperlink functionality**
+  - ✅ Enabled hyperref package in LaTeX template 
+  - ✅ Added hypertargets to day cells for navigation anchors
+  - ✅ Added showlinks configuration option (enabled by default)
+  - ✅ Clickable navigation now works in generated PDFs
+  - ✅ Implemented hypertargets for day cells and task references
+  - Related PR: #8 "Return task hyperlinks" - now complete
+- [x] **PDF generation error handling**
+  - ✅ Enhanced error reporting with clear success/failure indicators
+  - ✅ Added LaTeX file size validation to catch generation failures
+  - ✅ Improved error messages with specific troubleshooting steps
+  - ✅ Added troubleshooting command for diagnostics
+  - ✅ No longer fails silently on LaTeX compilation errors
+  - ✅ Added graceful degradation and better installation instructions
 - [ ] **LaTeX rendering improvements**
   - Recent commits show ongoing issues with grid lines vs task pills
   - Fix z-order issues with TikZ overlays
