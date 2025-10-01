@@ -181,7 +181,7 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 // ============================================================================
 
 // renderSpanningTaskOverlay creates a task overlay with proper vertical stacking
-// Key insight: Uses TaskOverlayBox (with \vfill) for bottom task, TaskOverlayBoxNoOffset for stacked tasks
+// Uses natural LaTeX flow positioning - tasks are stacked bottom-to-top with spacing
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	dayDate := d.getDayDate()
 	activeTasks, maxCols := d.findActiveTasks(dayDate)
@@ -191,31 +191,15 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	}
 
 	// Build rendering list: only tasks that START today
-	// However, we need to know the correct stack position based on ALL active tasks
-	var tasksToRender []struct {
-		task         *SpanningTask
-		stackPos     int
-		isBottomTask bool
-	}
+	// We need to maintain the stack order based on ALL active tasks
+	var tasksToRender []*SpanningTask
 
 	// Find which tasks actually start today and need to be rendered
-	var firstRenderIndex int = -1
-	for stackPos, task := range activeTasks {
+	for _, task := range activeTasks {
 		start := d.getTaskStartDate(task)
 		if dayDate.Equal(start) {
 			// This task starts today and should be rendered
-			if firstRenderIndex == -1 {
-				firstRenderIndex = stackPos
-			}
-			tasksToRender = append(tasksToRender, struct {
-				task         *SpanningTask
-				stackPos     int
-				isBottomTask bool
-			}{
-				task:         task,
-				stackPos:     stackPos,
-				isBottomTask: false, // Will be set below
-			})
+			tasksToRender = append(tasksToRender, task)
 		}
 	}
 
@@ -224,19 +208,11 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
-	// The bottom task is the one with the lowest stackPos among rendered tasks
-	// But for visual purposes, we use the first one we're rendering
-	for i := range tasksToRender {
-		if i == 0 {
-			tasksToRender[i].isBottomTask = true
-		}
-	}
-
-	// Render task pills
+	// Render task pills in order (earliest tasks first, which will appear at bottom)
+	// Use simple vertical stacking with natural LaTeX flow
 	var pillContents []string
 
-	for _, tr := range tasksToRender {
-		task := tr.task
+	for i, task := range tasksToRender {
 		taskName := d.escapeLatexSpecialChars(task.Name)
 		if d.isMilestoneSpanningTask(task) {
 			taskName = "★ " + taskName
@@ -252,20 +228,21 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			taskColor = "224,50,212" // Default fallback
 		}
 
-		// Use stackPos to determine vertical offset
-		// Each stack level needs a fixed vertical offset (starting from 0 for the bottom)
-		verticalOffset := fmt.Sprintf("%.1fem", float64(tr.stackPos)*2.0) // 2.0em per level
-		
-		// All tasks use offset-based positioning
-		pillContent := fmt.Sprintf(`\TaskOverlayBoxWithOffset{%s}{%s}{%s}{%s}`,
+		// Use \vspace for spacing between tasks (except for the first task)
+		var spacing string
+		if i > 0 {
+			spacing = `\vspace{1mm}` // Add 1mm spacing between stacked tasks
+		}
+
+		// Use simple TaskOverlayBox without offsets - let LaTeX stack naturally
+		pillContent := spacing + fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
 			taskColor,
 			taskName,
-			objective,
-			verticalOffset)
+			objective)
 		pillContents = append(pillContents, pillContent)
 	}
 
-	// Stack the pills vertically
+	// Join the pills - they will stack naturally bottom-to-top
 	content := strings.Join(pillContents, "")
 
 	return &TaskOverlay{
