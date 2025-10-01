@@ -81,11 +81,28 @@
   \end{tcolorbox}%
 }
 
+% Task overlay box with Y-offset for stacking on top of other tasks
+% Args: 1=RGB color, 2=title, 3=description, 4=Y offset in pt
+\newcommand{\TaskOverlayBoxWithOffset}[4]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \raisebox{#4}{%
+    \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.BoxRule}}, arc={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Arc}},
+      left={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Left}}, right={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Right}}, top=0pt, bottom={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Bottom}},
+      colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.BorderOpacity}},
+      width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+      {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
+       \TaskTitleSize\textbf{#2}\par
+       \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
+       {\TaskFontSize\raggedright #3\par}}%
+    \end{tcolorbox}%
+  }%
+}
+
 % Task overlay box without vertical offset - for stacked tasks that should touch
 \newcommand{\TaskOverlayBoxNoOffset}[3]{%
   \definecolor{taskbgcolor}{RGB}{#1}%
   \definecolor{taskfgcolor}{RGB}{#1}%
-  \vfill
   \begin{tcolorbox}[enhanced, boxrule={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.BoxRule}}, arc={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Arc}},
     left={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Left}}, right={{.Cfg.Layout.TaskStyling.TColorBox.Overlay.Right}}, top=0pt, bottom=0pt,
     colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.BorderOpacity}},
@@ -95,13 +112,6 @@
      \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
-}
-
-% Invisible spacer to reserve space for continuing tasks
-% This maintains proper vertical stacking without showing duplicate task bars
-\newcommand{\TaskOverlayBoxSpacer}{%
-  \vfill
-  \vspace{ {{.Cfg.Layout.TaskStyling.BarHeight}} }%
 }
 
 % Multi-day task bar drawing macro to centralize styling

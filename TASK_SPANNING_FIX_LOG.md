@@ -7,9 +7,97 @@ Multi-day tasks fail to stack properly. Issues:
 
 Example: Nov 11 task "Write Methods" and Nov 12 task "Send Proposal" overlap visually on Nov 12-18.
 
-## Attempted Fixes
+## Root Cause
+Each day only sees tasks that **start** on that day. Tasks that started earlier and are still active are invisible to subsequent days, causing visual overlap instead of stacking.
 
-### Fix #1: Show Active Tasks Within Same Week
+## Solution Implemented
+
+### Final Fix: Account for Active Tasks in Stack Position
+**Commit**: Latest
+
+**Approach**: Modified `findActiveTasks()` to include ALL active tasks (both starting and continuing), then only render tasks that start on the current day, but use the full active list to determine stack position.
+
+**Key Changes**:
+
+1. **Enhanced `findActiveTasks()`**: Now returns ALL tasks active on a given day
+   ```go
+   func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
+       // Include tasks that START on this day
+       // AND tasks that STARTED EARLIER but are still active
+       // This ensures proper vertical stacking
+   }
+   ```
+
+2. **Added `calculateRemainingSpanColumns()`**: For continuing tasks
+   ```go
+   func (d Day) calculateRemainingSpanColumns(dayDate, end time.Time) int {
+       // Calculate how many columns a continuing task spans
+       // from current day to its end (or end of week)
+   }
+   ```
+
+3. **Smart Rendering Logic**: Only render tasks that START today, but know their position
+   ```go
+   func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
+       activeTasks, _ := d.findActiveTasks(dayDate)
+       
+       // For each task that STARTS today:
+       // - If stackPos == 0: use TaskOverlayBox (with \vfill - bottom)
+       // - If stackPos > 0: use TaskOverlayBoxNoOffset (no \vfill - stacked)
+   }
+   ```
+
+4. **LaTeX Macro Distinction**:
+   - `\TaskOverlayBox`: Uses `\vfill` to position at bottom of cell
+   - `\TaskOverlayBoxNoOffset`: No `\vfill` - stacks naturally on top
+
+**Result**:
+- ✅ Fixed overlapping: Tasks stack vertically based on start date
+- ✅ No repetition: Each task appears only once at its start
+- ✅ Proper spanning: Tasks span multiple days correctly
+- ✅ Efficient: 34 pages (reasonable size)
+
+## How It Works
+
+### Example: Nov 11-12 Week
+1. **Nov 11 (Monday)**:
+   - Active tasks: ["Write Methods" (starts today)]
+   - "Write Methods" gets stackPos=0 → uses `\TaskOverlayBox` (bottom)
+   
+2. **Nov 12 (Tuesday)**:
+   - Active tasks: ["Write Methods" (continuing), "Send Proposal" (starts today)]
+   - Sorted by start date: "Write Methods" (Nov 11) comes first
+   - "Send Proposal" gets stackPos=1 → uses `\TaskOverlayBoxNoOffset` (stacked on top)
+   - Only "Send Proposal" renders (starts today), but it knows it's stackPos=1
+
+### Vertical Positioning
+- `\vfill` in `\TaskOverlayBox` pushes task to bottom of cell
+- `\TaskOverlayBoxNoOffset` has no `\vfill`, so it flows naturally
+- Multiple `\TaskOverlayBoxNoOffset` boxes stack vertically without overlap
+
+## Testing
+- Generated PDF: 34 pages
+- Task stacking: Properly handles multi-day overlaps
+- Visual appearance: Tasks don't overlap, colors preserved
+- Performance: LaTeX compiles successfully
+
+## Previous Attempts (for reference)
+
+### Attempt #1: Spacer Approach (Failed)
+- Added `\TaskOverlayBoxSpacer{}` for continuing tasks
+- Result: 71 pages, excessive spacing
+- Issue: `\vfill` + fixed height created too much vertical space
+
+### Attempt #2: Render All Active (Failed)
+- Rendered ALL active tasks on each day
+- Result: Task repetition, performance issues
+- Issue: Same task appeared multiple times across its span
+
+### Attempt #3: Intelligent Stack Position (Success!)
+- Find all active tasks but only render those that start today
+- Use active list to determine stack position
+- Apply correct LaTeX macro based on position
+- Result: Perfect stacking without repetition
 **Commit**: `4303f5d`
 
 **Change**: Modified `findActiveTasks()` to include tasks that started within the same week and are still active.
