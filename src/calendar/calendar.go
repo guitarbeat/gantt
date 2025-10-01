@@ -70,7 +70,9 @@ func (d Day) renderLargeDay(day string) string {
 	// Check for tasks using intelligent stacking
 	overlay := d.renderSpanningTaskOverlay()
 	if overlay != nil {
-		return d.buildTaskCell(leftCell, overlay.content, false, overlay.cols)
+		// Use spanning mode if any task spans more than 1 column
+		isSpanning := overlay.cols > 1
+		return d.buildTaskCell(leftCell, overlay.content, isSpanning, overlay.cols)
 	}
 
 	// No tasks: just the day number
