@@ -106,31 +106,13 @@ type cellConfig struct {
 
 // getCellConfig extracts cell configuration from Day config with fallbacks
 func (d Day) getCellConfig() cellConfig {
-	cfg := cellConfig{
-		dayNumberWidth:   "6mm",
-		dayContentMargin: "8mm",
-		hyphenPenalty:    50,
-		tolerance:        1000,
-		emergencyStretch: "3em",
+	return cellConfig{
+		dayNumberWidth:   d.Cfg.GetDayNumberWidth(),
+		dayContentMargin: d.Cfg.GetDayContentMargin(),
+		hyphenPenalty:    d.Cfg.GetHyphenPenalty(),
+		tolerance:        d.Cfg.GetTolerance(),
+		emergencyStretch: d.Cfg.GetEmergencyStretch(),
 	}
-
-	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
-		cfg.dayNumberWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
-	}
-	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
-		cfg.dayContentMargin = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin
-	}
-	if d.Cfg.Layout.LaTeX.Typography.HyphenPenalty > 0 {
-		cfg.hyphenPenalty = d.Cfg.Layout.LaTeX.Typography.HyphenPenalty
-	}
-	if d.Cfg.Layout.LaTeX.Typography.Tolerance > 0 {
-		cfg.tolerance = d.Cfg.Layout.LaTeX.Typography.Tolerance
-	}
-	if d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch != "" {
-		cfg.emergencyStretch = d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch
-	}
-
-	return cfg
 }
 
 // cellLayout defines the LaTeX layout parameters for a cell
@@ -291,7 +273,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 		taskColor := hexToRGB(task.Color)
 		if taskColor == "" {
-			taskColor = "224,50,212" // Default fallback
+			taskColor = core.Defaults.DefaultTaskColor
 		}
 
 		// Add spacing between stacked tasks (except for the first task)
@@ -768,11 +750,8 @@ func (m Month) HeadingMOS(prefix ...string) string {
 		monthStr = templates.Link(m.ref(p), monthStr)
 	}
 
-	// * Use config-driven header angle size offset
-	headerAngleOffset := "0.86pt" // Default fallback
-	if m.Cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset != "" {
-		headerAngleOffset = m.Cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset
-	}
+	// Use config helper for header angle size offset
+	headerAngleOffset := m.Cfg.GetHeaderAngleSizeOffset()
 	anglesize := `\dimexpr\myLenHeaderResizeBox-` + headerAngleOffset
 	var ll, rl string
 	var r1, r2 []string

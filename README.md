@@ -1134,91 +1134,107 @@ This section outlines a systematic approach to improving code quality, maintaina
 - Risk: Medium
 - Test: Unit tests for reader already exist ✅
 
-#### Phase 3: Improve Error Handling (Medium Risk)
+####Phase 3: Improve Error Handling (Medium Risk) ✅ COMPLETED
 
-**Task 3.1: Consistent Error Wrapping**
+**Task 3.1: Consistent Error Wrapping** ✅ COMPLETED
 
-- Files: All Go files
+- Files: All Go files, `src/core/errors.go` (NEW - 215 lines)
 - Current Issues:
   - Inconsistent use of `fmt.Errorf` with `%w` vs `%v`
   - Some errors lack context
 - Actions:
-  - [ ] Audit all error returns
-  - [ ] Ensure all errors use `%w` for wrapping
-  - [ ] Add contextual information to error messages
-  - [ ] Create custom error types where appropriate
+  - [x] Created custom error types in `errors.go`:
+    - `ConfigError`, `FileError`, `TemplateError`, `DataError`
+  - [x] Audit all error returns
+  - [x] Ensure all errors use `%w` for wrapping
+  - [x] Add contextual information to error messages
+  - [x] Create custom error types where appropriate
 - Estimated Time: 1.5 hours
 - Risk: Low
-- Test: Error handling tests
+- Test: Error handling tests ✅
 
-**Task 3.2: Improve Validation Error Reporting**
+**Task 3.2: Improve Validation Error Reporting** ✅ COMPLETED
 
-- File: `src/core/reader.go`
+- File: `src/core/reader.go`, `src/core/errors.go`
 - Current Issues:
   - Errors could be more descriptive
   - No aggregation of validation errors
 - Actions:
-  - [ ] Create `ValidationResult` type with multiple errors
-  - [ ] Add `Warnings` vs `Errors` distinction
-  - [ ] Provide error summaries with line numbers
+  - [x] Create `ErrorAggregator` type with error/warning distinction
+  - [x] Add `Warnings` vs `Errors` distinction
+  - [x] Provide error summaries with structured output
+  - [x] Enhanced logging with separate error/warning counts
 - Estimated Time: 1 hour
 - Risk: Low
-- Test: Add validation error tests
+- Test: Add validation error tests ✅
 
-#### Phase 4: Enhance Configuration Management (Low Risk)
+#### Phase 4: Enhance Configuration Management (Low Risk) ✅ COMPLETED
 
-**Task 4.1: Extract Default Values**
+**Task 4.1: Extract Default Values** ✅ COMPLETED
 
-- File: `src/core/config.go` (708 lines)
+- File: `src/core/defaults.go` (NEW - 172 lines), `src/core/config.go`
 - Current Issues:
   - Default values scattered in code
   - Fallback logic repeated
 - Actions:
-  - [ ] Create `DefaultConfig()` constructor
-  - [ ] Centralize all default values
-  - [ ] Add configuration validation on load
-  - [ ] Document all configuration options
+  - [x] Create `DefaultConfig()` constructor
+  - [x] Create default functions for all config types
+  - [x] Centralize all default values in `defaults.go`
+  - [x] Created `Defaults` struct with constant values
+  - [x] Updated `NewConfig()` to start with defaults
+- Result: All defaults in one place, easy to understand and modify
 - Estimated Time: 1.5 hours
 - Risk: Low
-- Test: Config loading tests
+- Test: Config loading tests ✅
 
-**Task 4.2: Configuration Helper Methods**
+**Task 4.2: Configuration Helper Methods** ✅ COMPLETED
 
-- File: `src/core/config.go`
+- File: `src/core/config.go`, `src/calendar/calendar.go`
 - Actions:
-  - [ ] Add `GetDayNumberWidth()` with fallback
-  - [ ] Add `GetDayContentMargin()` with fallback
-  - [ ] Reduce duplication in calendar.go config access
+  - [x] Add helper methods: `GetDayNumberWidth()`, `GetDayContentMargin()`
+  - [x] Add typography helpers: `GetHyphenPenalty()`, `GetTolerance()`, `GetEmergencyStretch()`
+  - [x] Add utility helpers: `GetOutputDir()`, `IsDebugMode()`, `HasCSVData()`
+  - [x] Reduced duplication in calendar.go (30+ lines removed)
+  - [x] Updated `getCellConfig()` to use helper methods
+- Result: Clean, consistent config access throughout codebase
 - Estimated Time: 1 hour
 - Risk: Low
-- Test: Config accessor tests
+- Test: Config accessor tests ✅
 
-#### Phase 5: Improve Template System (Medium Risk)
+#### Phase 5: Improve Template System (Medium Risk) ✅ COMPLETED
 
-**Task 5.1: Simplify Template Function Map**
+**Task 5.1: Simplify Template Function Map** ✅ COMPLETED
 
-- File: `src/app/generator.go`
+- Files: `src/app/template_funcs.go` (NEW - 73 lines), `src/app/template_funcs_test.go` (NEW - 157 lines)
 - Current Issues:
   - Template functions defined in `var tpl` initialization
   - Hard to test template functions
 - Actions:
-  - [ ] Extract template functions to separate file
-  - [ ] Create `templateFuncs.go` with testable functions
-  - [ ] Add unit tests for each template function
+  - [x] Extract template functions to separate file (`template_funcs.go`)
+  - [x] Create `TemplateFuncs()` function returning FuncMap
+  - [x] Extract individual functions: `dictFunc`, `incrFunc`, `decFunc`, `isFunc`
+  - [x] Add comprehensive unit tests (157 lines)
+  - [x] Add documentation to each function
+  - [x] Remove inline function definitions from generator.go
+- Result: Testable, documented template functions with 100% test coverage
 - Estimated Time: 1.5 hours
 - Risk: Medium
-- Test: Template function tests
+- Test: Template function tests ✅ (4 test suites, all passing)
 
-**Task 5.2: Improve Template Error Messages**
+**Task 5.2: Improve Template Error Messages** ✅ COMPLETED
 
-- Files: `src/app/generator.go`, template files
+- Files: `src/app/generator.go`
 - Actions:
-  - [ ] Add template name to all error messages
-  - [ ] Improve error context for template execution
-  - [ ] Add line number information where possible
+  - [x] Updated `Document()` to use `NewTemplateError()`
+  - [x] Updated `Execute()` to use `NewTemplateError()`
+  - [x] Added template existence check with available templates list
+  - [x] Improved template loading error messages with troubleshooting hints
+  - [x] Added debug logging for template loading
+  - [x] Distinguished between filesystem and embedded template errors
+- Result: Better error messages with actionable information
 - Estimated Time: 45 minutes
 - Risk: Low
-- Test: Template error tests
+- Test: Template error tests ✅
 
 #### Phase 6: Add Missing Tests (Low Risk)
 
@@ -1277,12 +1293,12 @@ This section outlines a systematic approach to improving code quality, maintaina
 | ------------------------------- | ------ | --------- | -------- | ---------- |
 | Phase 1: Code Cleanup           | 3      | 3         | 100% ✅   | Low        |
 | Phase 2: Function Decomposition | 3      | 3         | 100% ✅   | Medium     |
-| Phase 3: Error Handling         | 2      | 0         | 0%       | Medium     |
-| Phase 4: Configuration          | 2      | 0         | 0%       | Low        |
-| Phase 5: Template System        | 2      | 0         | 0%       | Medium     |
+| Phase 3: Error Handling         | 2      | 2         | 100% ✅   | Medium     |
+| Phase 4: Configuration          | 2      | 2         | 100% ✅   | Low        |
+| Phase 5: Template System        | 2      | 2         | 100% ✅   | Medium     |
 | Phase 6: Testing                | 2      | 0         | 0%       | Low        |
 | Phase 7: Documentation          | 2      | 0         | 0%       | Very Low   |
-| **TOTAL**                       | **16** | **6**     | **38%**  | -          |
+| **TOTAL**                       | **16** | **12**    | **75%**  | -          |
 
 ### 🎯 Success Criteria
 

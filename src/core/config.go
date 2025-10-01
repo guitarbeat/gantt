@@ -346,24 +346,28 @@ func FilterUniqueModules(array []Module) []Module {
 }
 
 // NewConfig creates a new configuration from config files and environment variables
+// Starts with sensible defaults and overlays file and environment configuration
 func NewConfig(pathConfigs ...string) (Config, error) {
 	var (
 		bts []byte
 		err error
-		cfg Config
 	)
 
+	// Start with default configuration
+	cfg := DefaultConfig()
+
+	// Overlay configuration from files
 	for _, filepath := range pathConfigs {
-		// * Skip missing files instead of failing
+		// Skip missing files instead of failing
 		if bts, err = os.ReadFile(strings.ToLower(filepath)); err != nil {
 			if os.IsNotExist(err) {
-				// * File doesn't exist, skip it
+				// File doesn't exist, skip it
 				continue
 			}
 			return cfg, fmt.Errorf("read file: %w", err)
 		}
 
-		// * Skip empty files
+		// Skip empty files
 		if len(strings.TrimSpace(string(bts))) == 0 {
 			continue
 		}
@@ -373,26 +377,27 @@ func NewConfig(pathConfigs ...string) (Config, error) {
 		}
 	}
 
+	// Overlay environment variables
 	if err = env.Parse(&cfg); err != nil {
 		return cfg, fmt.Errorf("env parse: %w", err)
 	}
 
+	// Apply fallbacks for unset values
 	if cfg.Year == 0 {
 		cfg.Year = time.Now().Year()
 	}
 
-	// Default output dir
 	if strings.TrimSpace(cfg.OutputDir) == "" {
-		cfg.OutputDir = "build"
+		cfg.OutputDir = Defaults.DefaultOutputDir
 	}
 
-	// * Set defaults for layout engine configuration
+	// Set defaults for layout engine configuration
 	cfg.setLayoutEngineDefaults()
 
-	// * Set algorithmic colors for predefined categories
+	// Set algorithmic colors for predefined categories
 	cfg.setAlgorithmicColors()
 
-	// * Validate layout engine configuration
+	// Validate layout engine configuration
 	if err := cfg.validateLayoutEngineConfig(); err != nil {
 		return cfg, fmt.Errorf("layout engine config validation failed: %w", err)
 	}
@@ -705,4 +710,101 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 	}
 
 	return nil
+}
+
+// ============================================================================
+// Configuration Helper Methods
+// ============================================================================
+
+// GetDayNumberWidth returns the day number width with fallback to default
+func (c *Config) GetDayNumberWidth() string {
+	if c.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
+		return c.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
+	}
+	return Defaults.DayNumberWidth
+}
+
+// GetDayContentMargin returns the day content margin with fallback to default
+func (c *Config) GetDayContentMargin() string {
+	if c.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
+		return c.Layout.LayoutEngine.CalendarLayout.DayContentMargin
+	}
+	return Defaults.DayContentMargin
+}
+
+// GetTaskCellMargin returns the task cell margin with fallback to default
+func (c *Config) GetTaskCellMargin() string {
+	if c.Layout.LayoutEngine.CalendarLayout.TaskCellMargin != "" {
+		return c.Layout.LayoutEngine.CalendarLayout.TaskCellMargin
+	}
+	return Defaults.TaskCellMargin
+}
+
+// GetTaskCellSpacing returns the task cell spacing with fallback to default
+func (c *Config) GetTaskCellSpacing() string {
+	if c.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing != "" {
+		return c.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing
+	}
+	return Defaults.TaskCellSpacing
+}
+
+// GetHeaderAngleSizeOffset returns the header angle size offset with fallback
+func (c *Config) GetHeaderAngleSizeOffset() string {
+	if c.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset != "" {
+		return c.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset
+	}
+	return Defaults.HeaderAngleSizeOffset
+}
+
+// GetHyphenPenalty returns the hyphen penalty with fallback to default
+func (c *Config) GetHyphenPenalty() int {
+	if c.Layout.LaTeX.Typography.HyphenPenalty > 0 {
+		return c.Layout.LaTeX.Typography.HyphenPenalty
+	}
+	return Defaults.HyphenPenalty
+}
+
+// GetTolerance returns the tolerance with fallback to default
+func (c *Config) GetTolerance() int {
+	if c.Layout.LaTeX.Typography.Tolerance > 0 {
+		return c.Layout.LaTeX.Typography.Tolerance
+	}
+	return Defaults.Tolerance
+}
+
+// GetEmergencyStretch returns the emergency stretch with fallback to default
+func (c *Config) GetEmergencyStretch() string {
+	if c.Layout.LaTeX.Typography.SloppyEmergencyStretch != "" {
+		return c.Layout.LaTeX.Typography.SloppyEmergencyStretch
+	}
+	if c.Layout.LaTeX.Typography.EmergencyStretch != "" {
+		return c.Layout.LaTeX.Typography.EmergencyStretch
+	}
+	return Defaults.EmergencyStretch
+}
+
+// GetOutputDir returns the output directory with fallback to default
+func (c *Config) GetOutputDir() string {
+	if strings.TrimSpace(c.OutputDir) != "" {
+		return c.OutputDir
+	}
+	return Defaults.DefaultOutputDir
+}
+
+// IsDebugMode returns true if any debug flag is enabled
+func (c *Config) IsDebugMode() bool {
+	return c.Debug.ShowFrame || c.Debug.ShowLinks
+}
+
+// GetYear returns the configured year or current year if not set
+func (c *Config) GetYear() int {
+	if c.Year > 0 {
+		return c.Year
+	}
+	return time.Now().Year()
+}
+
+// HasCSVData returns true if a CSV file path is configured
+func (c *Config) HasCSVData() bool {
+	return strings.TrimSpace(c.CSVFilePath) != ""
 }

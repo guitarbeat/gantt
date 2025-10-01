@@ -2,7 +2,6 @@ package app
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"io"
 	"io/fs"
@@ -234,40 +233,8 @@ func RootFilename(pathconfig string) string {
 }
 
 var tpl = func() *template.Template {
-	t := template.New("").Funcs(template.FuncMap{
-		"dict": func(values ...interface{}) (map[string]interface{}, error) {
-			if len(values)%2 != 0 {
-				return nil, errors.New("invalid dict call")
-			}
-			dict := make(map[string]interface{}, len(values)/2)
-			for i := 0; i < len(values); i += 2 {
-				key, ok := values[i].(string)
-				if !ok {
-					return nil, errors.New("dict keys must be strings")
-				}
-
-				dict[key] = values[i+1]
-			}
-
-			return dict, nil
-		},
-
-		"incr": func(i int) int {
-			return i + 1
-		},
-
-		"dec": func(i int) int {
-			return i - 1
-		},
-
-		"is": func(i interface{}) bool {
-			if value, ok := i.(bool); ok {
-				return value
-			}
-
-			return i != nil
-		},
-	})
+	// Create template with custom functions
+	t := template.New("").Funcs(TemplateFuncs())
 
 	// Choose source of templates: embedded by default, filesystem when DEV_TEMPLATES is set
 	var (
@@ -277,14 +244,16 @@ var tpl = func() *template.Template {
 
 	if os.Getenv(envDevTemplate) != "" {
 		// Use on-disk templates for development override
+		logger.Debug("Loading templates from filesystem: %s", templatePath)
 		useFS = os.DirFS(filepath.Join("src", "shared", "templates", templateSubDir))
 	} else {
 		// Use embedded templates from templates.FS
+		logger.Debug("Loading embedded templates from: %s", templateSubDir)
 		// Narrow to monthly/ subdir
 		var sub fs.FS
 		sub, err = fs.Sub(tmplfs.FS, templateSubDir)
 		if err != nil {
-			panic(fmt.Sprintf("failed to sub FS for monthly templates: %v", err))
+			panic(fmt.Sprintf("failed to access embedded templates directory '%s': %v (check that templates are properly embedded)", templateSubDir, err))
 		}
 		useFS = sub
 	}
@@ -292,9 +261,17 @@ var tpl = func() *template.Template {
 	// Parse all *.tpl templates from the selected FS
 	t, err = t.ParseFS(useFS, templatePattern)
 	if err != nil {
-		panic(fmt.Sprintf("failed to parse monthly templates: %v", err))
+		// Provide detailed error message with troubleshooting hints
+		if os.Getenv(envDevTemplate) != "" {
+			panic(fmt.Sprintf("failed to parse templates from filesystem '%s' with pattern '%s': %v\n"+
+				"Check that template files exist and have valid syntax", templatePath, templatePattern, err))
+		} else {
+			panic(fmt.Sprintf("failed to parse embedded templates with pattern '%s': %v\n"+
+				"This may indicate a build issue - ensure templates are embedded correctly", templatePattern, err))
+		}
 	}
 
+	logger.Debug("Successfully loaded templates with pattern: %s", templatePattern)
 	return t
 }()
 
@@ -316,15 +293,29 @@ func (t Tpl) Document(wr io.Writer, cfg core.Config) error {
 
 	data := pack{Cfg: cfg, Pages: cfg.Pages}
 	if err := t.tpl.ExecuteTemplate(wr, documentTpl, data); err != nil {
-		return fmt.Errorf("execute template: %w", err)
+		return core.NewTemplateError(documentTpl, 0, "failed to execute document template", err)
 	}
 
 	return nil
 }
 
 func (t Tpl) Execute(wr io.Writer, name string, data interface{}) error {
+	// Check if template exists before trying to execute
+	if t.tpl.Lookup(name) == nil {
+		availableTemplates := make([]string, 0)
+		for _, tmpl := range t.tpl.Templates() {
+			availableTemplates = append(availableTemplates, tmpl.Name())
+		}
+		return core.NewTemplateError(
+			name,
+			0,
+			fmt.Sprintf("template not found (available: %v)", availableTemplates),
+			nil,
+		)
+	}
+
 	if err := t.tpl.ExecuteTemplate(wr, name, data); err != nil {
-		return fmt.Errorf("execute template: %w", err)
+		return core.NewTemplateError(name, 0, "failed to execute template", err)
 	}
 
 	return nil
