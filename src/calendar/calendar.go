@@ -276,26 +276,21 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 }
 
 // findActiveTasks finds tasks to display on this day
-// Shows tasks that start on this day, PLUS tasks that started within the same week and are still active
-// This ensures proper stacking without showing every long-running task
+// Only shows tasks that START on this day (not continuing tasks)
+// This ensures each task bar appears only once at its start position
 func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	var activeTasks []*SpanningTask
 	var maxCols int
-
-	// Calculate the start of this week (Monday)
-	weekStart := dayDate.AddDate(0, 0, -int((dayDate.Weekday()+6)%7))
 
 	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Show tasks that:
-		// 1. Start on this day, OR
-		// 2. Started this week (after weekStart) and are still active today
-		if dayDate.Equal(start) || (start.After(weekStart.AddDate(0, 0, -1)) && start.Before(dayDate) && d.isTaskActiveOnDay(dayDate, start, end)) {
+		// Only show tasks that START on this day
+		if dayDate.Equal(start) {
 			activeTasks = append(activeTasks, task)
 			
-			// Calculate columns from TODAY's perspective
+			// Calculate how many columns this task spans from its start
 			cols := d.calculateTaskSpanColumns(dayDate, end)
 			if cols > maxCols {
 				maxCols = cols
