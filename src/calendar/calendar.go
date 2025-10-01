@@ -95,85 +95,136 @@ func (d Day) ref(prefix ...string) string {
 // LATEX CELL CONSTRUCTION
 // ============================================================================
 
+// cellConfig holds configuration values for cell rendering
+type cellConfig struct {
+	dayNumberWidth   string
+	dayContentMargin string
+	hyphenPenalty    int
+	tolerance        int
+	emergencyStretch string
+}
+
+// getCellConfig extracts cell configuration from Day config with fallbacks
+func (d Day) getCellConfig() cellConfig {
+	cfg := cellConfig{
+		dayNumberWidth:   "6mm",
+		dayContentMargin: "8mm",
+		hyphenPenalty:    50,
+		tolerance:        1000,
+		emergencyStretch: "3em",
+	}
+
+	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
+		cfg.dayNumberWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
+	}
+	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
+		cfg.dayContentMargin = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin
+	}
+	if d.Cfg.Layout.LaTeX.Typography.HyphenPenalty > 0 {
+		cfg.hyphenPenalty = d.Cfg.Layout.LaTeX.Typography.HyphenPenalty
+	}
+	if d.Cfg.Layout.LaTeX.Typography.Tolerance > 0 {
+		cfg.tolerance = d.Cfg.Layout.LaTeX.Typography.Tolerance
+	}
+	if d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch != "" {
+		cfg.emergencyStretch = d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch
+	}
+
+	return cfg
+}
+
+// cellLayout defines the LaTeX layout parameters for a cell
+type cellLayout struct {
+	width          string
+	spacing        string
+	contentWrapper string
+}
+
 // buildDayNumberCell creates the basic day number cell with minimal padding and hypertarget
 // Uses minipage instead of tabular to eliminate auto padding
 func (d Day) buildDayNumberCell(day string) string {
-	// * Use config-driven day number width
-	dayWidth := "6mm" // Default fallback
-	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
-		dayWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
-	}
+	cfg := d.getCellConfig()
 	// Create hypertarget for this day to enable hyperlink navigation
 	hypertarget := fmt.Sprintf(`\hypertarget{%s}{}`, d.ref())
-	return hypertarget + `\begin{minipage}[t]{` + dayWidth + `}\centering{}` + day + `\end{minipage}`
+	return hypertarget + `\begin{minipage}[t]{` + cfg.dayNumberWidth + `}\centering{}` + day + `\end{minipage}`
 }
 
 // buildTaskCell creates a cell with either spanning tasks or regular tasks
 func (d Day) buildTaskCell(leftCell, content string, isSpanning bool, cols int) string {
-	var width, spacing, contentWrapper string
+	cfg := d.getCellConfig()
+	layout := d.determineCellLayout(content, isSpanning, cols, cfg)
 
-	// * Get config values with fallbacks
-	dayNumberWidth := "6mm"
-	dayContentMargin := "8mm"
-	hyphenPenalty := 50
-	tolerance := 1000
-	emergencyStretch := "3em"
+	inner := d.buildCellInner(leftCell, layout)
+	return d.wrapWithHyperlink(inner)
+}
 
-	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
-		dayNumberWidth = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
-	}
-	if d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
-		dayContentMargin = d.Cfg.Layout.LayoutEngine.CalendarLayout.DayContentMargin
-	}
-	if d.Cfg.Layout.LaTeX.Typography.HyphenPenalty > 0 {
-		hyphenPenalty = d.Cfg.Layout.LaTeX.Typography.HyphenPenalty
-	}
-	if d.Cfg.Layout.LaTeX.Typography.Tolerance > 0 {
-		tolerance = d.Cfg.Layout.LaTeX.Typography.Tolerance
-	}
-	if d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch != "" {
-		emergencyStretch = d.Cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch
-	}
-
+// determineCellLayout determines the appropriate layout based on task type
+func (d Day) determineCellLayout(content string, isSpanning bool, cols int, cfg cellConfig) cellLayout {
 	if isSpanning {
-		// Spanning task: use tikzpicture overlay with calculated width (z-dimension stacking)
-		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
-		spacing = `\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
-			`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + content + `\end{minipage}` + `};` +
-			`\end{tikzpicture}` + `}`
-		contentWrapper = "" // Don't add content twice for spanning tasks
+		return d.buildSpanningLayout(content, cols)
 	} else if cols > 0 {
-		// Spanning task but rendered as regular content (vertical stacking)
-		// Don't multiply linewidth - that causes overflow in table cells
-		width = `\linewidth` // Just use the cell width, task will flow naturally
-		spacing = ""             // No offset - start at the beginning of the cell
-		contentWrapper = content // Use the content directly without additional wrapping
-	} else {
-		// Regular task: use full available width and better text flow
-		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
-		spacing = `\hspace*{` + dayNumberWidth + `}`                  // Spacing to align with day number cell width
-		contentWrapper = fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
-			hyphenPenalty, tolerance, emergencyStretch) + content + `}`
+		return d.buildVerticalStackLayout(content)
 	}
+	return d.buildRegularLayout(content, cfg)
+}
 
-	inner := `{\begingroup` +
+// buildSpanningLayout creates layout for spanning tasks using tikzpicture overlay
+func (d Day) buildSpanningLayout(content string, cols int) cellLayout {
+	width := `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
+	spacing := `\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
+		`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + content + `\end{minipage}` + `};` +
+		`\end{tikzpicture}` + `}`
+
+	return cellLayout{
+		width:          width,
+		spacing:        spacing,
+		contentWrapper: "", // Don't add content twice for spanning tasks
+	}
+}
+
+// buildVerticalStackLayout creates layout for vertically stacked tasks
+func (d Day) buildVerticalStackLayout(content string) cellLayout {
+	return cellLayout{
+		width:          `\linewidth`, // Just use the cell width
+		spacing:        "",            // No offset
+		contentWrapper: content,       // Use content directly
+	}
+}
+
+// buildRegularLayout creates layout for regular tasks with text flow
+func (d Day) buildRegularLayout(content string, cfg cellConfig) cellLayout {
+	width := `\dimexpr\linewidth - ` + cfg.dayContentMargin + `\relax`
+	spacing := `\hspace*{` + cfg.dayNumberWidth + `}`
+	contentWrapper := fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
+		cfg.hyphenPenalty, cfg.tolerance, cfg.emergencyStretch) + content + `}`
+
+	return cellLayout{
+		width:          width,
+		spacing:        spacing,
+		contentWrapper: contentWrapper,
+	}
+}
+
+// buildCellInner constructs the inner content of a cell
+func (d Day) buildCellInner(leftCell string, layout cellLayout) string {
+	return `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
-		spacing +
-		`\begin{minipage}[t]{` + width + `}` +
-		contentWrapper +
+		layout.spacing +
+		`\begin{minipage}[t]{` + layout.width + `}` +
+		layout.contentWrapper +
 		`\end{minipage}` +
 		`\endgroup}`
+}
 
-	// Wrap entire cell in hyperlink to the day's reference (restores link without visual borders via hypersetup)
+// wrapWithHyperlink wraps content with a hyperlink to the day's reference
+func (d Day) wrapWithHyperlink(inner string) string {
 	return `\hyperlink{` + d.ref() + `}{` + inner + `}`
 }
 
 // buildSimpleDayCell creates a simple day cell without tasks
-// Wrap in makebox to match the formatting of days with tasks
 func (d Day) buildSimpleDayCell(leftCell string) string {
-	// Wrap in the same structure as task cells for consistency
 	inner := `{\begingroup\makebox[0pt][l]{` + leftCell + `}\endgroup}`
-	return `\hyperlink{` + d.ref() + `}{` + inner + `}`
+	return d.wrapWithHyperlink(inner)
 }
 
 // ============================================================================

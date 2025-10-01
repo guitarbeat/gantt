@@ -38,94 +38,193 @@ const (
 
 var logger = core.NewDefaultLogger()
 
+// action is the main CLI action that orchestrates document generation
 func action(c *cli.Context) error {
-	var (
-		fn  core.Composer
-		ok  bool
-		cfg core.Config
-		err error
-	)
-
-	preview := c.Bool(pConfig)
-
-	pathConfigs := strings.Split(c.Path(fConfig), ",")
-	if cfg, err = core.NewConfig(pathConfigs...); err != nil {
-		return fmt.Errorf("failed to load configuration from %v: %w", pathConfigs, err)
+	// Load and prepare configuration
+	cfg, pathConfigs, err := loadConfiguration(c)
+	if err != nil {
+		return err
 	}
 
-	// If CLI flag for outdir provided, override config
+	// Setup output directory
+	if err := setupOutputDirectory(cfg); err != nil {
+		return err
+	}
+
+	// Generate root document
+	if err := generateRootDocument(cfg, pathConfigs); err != nil {
+		return err
+	}
+
+	// Generate pages
+	preview := c.Bool(pConfig)
+	if err := generatePages(cfg, preview); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// loadConfiguration loads and validates the configuration from CLI context
+func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
+	pathConfigs := strings.Split(c.Path(fConfig), ",")
+	cfg, err := core.NewConfig(pathConfigs...)
+	if err != nil {
+		return core.Config{}, nil, core.NewConfigError(
+			strings.Join(pathConfigs, ","),
+			"",
+			"failed to load configuration",
+			err,
+		)
+	}
+
+	// Override output directory from CLI flag if provided
 	if od := strings.TrimSpace(c.Path(fOutDir)); od != "" {
 		cfg.OutputDir = od
 	}
 
-	// Ensure output directory exists
+	return cfg, pathConfigs, nil
+}
+
+// setupOutputDirectory ensures the output directory exists and logs its location
+func setupOutputDirectory(cfg core.Config) error {
 	if err := os.MkdirAll(cfg.OutputDir, 0o755); err != nil {
-		return fmt.Errorf("failed to create output directory %q: %w", cfg.OutputDir, err)
+		return core.NewFileError(cfg.OutputDir, "create directory", err)
 	}
 	logger.Info("Output directory: %s", cfg.OutputDir)
+	return nil
+}
 
+// generateRootDocument creates the main LaTeX document file
+func generateRootDocument(cfg core.Config, pathConfigs []string) error {
 	wr := &bytes.Buffer{}
-
 	t := NewTpl()
 
-	if err = t.Document(wr, cfg); err != nil {
-		return fmt.Errorf("failed to generate LaTeX document: %w", err)
+	if err := t.Document(wr, cfg); err != nil {
+		return core.NewTemplateError(documentTpl, 0, "failed to generate LaTeX document", err)
 	}
 
-	outputFile := cfg.OutputDir + "/" + RootFilename(pathConfigs[len(pathConfigs)-1])
-	if err = os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
-		return fmt.Errorf("failed to write LaTeX file to %q: %w", outputFile, err)
+	outputFile := filepath.Join(cfg.OutputDir, RootFilename(pathConfigs[len(pathConfigs)-1]))
+	if err := os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
+		return core.NewFileError(outputFile, "write", err)
 	}
 	logger.Info("Generated LaTeX file: %s", outputFile)
+	return nil
+}
+
+// generatePages creates all page files from the configuration
+func generatePages(cfg core.Config, preview bool) error {
+	t := NewTpl()
 
 	for _, file := range cfg.Pages {
-		wr.Reset()
-
-		var mom []core.Modules
-		for _, block := range file.RenderBlocks {
-			if fn, ok = core.ComposerMap[block.FuncName]; !ok {
-				return fmt.Errorf("unknown composer function %q - check configuration", block.FuncName)
-			}
-
-			modules, err := fn(cfg, block.Tpls)
-			if err != nil {
-				return fmt.Errorf("failed to compose modules for %q: %w", block.FuncName, err)
-			}
-
-			// Only one page per unique module if preview flag is enabled
-			if preview {
-				modules = core.FilterUniqueModules(modules)
-			}
-
-			mom = append(mom, modules)
+		if err := generateSinglePage(cfg, file, t, preview); err != nil {
+			return err
 		}
-
-		if len(mom) == 0 {
-			return fmt.Errorf("no modules generated for page %q", file.Name)
-		}
-
-		allLen := len(mom[0])
-		for _, mods := range mom {
-			if len(mods) != allLen {
-				return fmt.Errorf("module alignment error for page %q: expected %d modules, got %d", file.Name, allLen, len(mods))
-			}
-		}
-
-		for i := 0; i < allLen; i++ {
-			for j, mod := range mom {
-				if err = t.Execute(wr, mod[i].Tpl, mod[i]); err != nil {
-					return fmt.Errorf("failed to execute template %s for function %s: %w", mod[i].Tpl, file.RenderBlocks[j].FuncName, err)
-				}
-			}
-		}
-
-		pageFile := cfg.OutputDir + "/" + file.Name + texExtension
-		if err = os.WriteFile(pageFile, wr.Bytes(), 0o600); err != nil {
-			return fmt.Errorf("failed to write page file %q: %w", pageFile, err)
-		}
-		logger.Info("Generated page: %s", pageFile)
 	}
 
+	return nil
+}
+
+// generateSinglePage generates a single page file
+func generateSinglePage(cfg core.Config, file core.Page, t Tpl, preview bool) error {
+	wr := &bytes.Buffer{}
+
+	// Compose all modules for this page
+	modules, err := composePageModules(cfg, file, preview)
+	if err != nil {
+		return err
+	}
+
+	// Validate module alignment
+	if err := validateModuleAlignment(modules, file.Name); err != nil {
+		return err
+	}
+
+	// Render modules to buffer
+	if err := t.renderModules(wr, modules, file); err != nil {
+		return err
+	}
+
+	// Write page file
+	return writePageFile(cfg, file.Name, wr.Bytes())
+}
+
+// composePageModules composes all modules for a page by calling composer functions
+func composePageModules(cfg core.Config, file core.Page, preview bool) ([]core.Modules, error) {
+	var modules []core.Modules
+
+	for _, block := range file.RenderBlocks {
+		fn, ok := core.ComposerMap[block.FuncName]
+		if !ok {
+			return nil, fmt.Errorf("unknown composer function %q - check configuration", block.FuncName)
+		}
+
+		blockModules, err := fn(cfg, block.Tpls)
+		if err != nil {
+			return nil, fmt.Errorf("failed to compose modules for %q: %w", block.FuncName, err)
+		}
+
+		// Only one page per unique module if preview flag is enabled
+		if preview {
+			blockModules = core.FilterUniqueModules(blockModules)
+		}
+
+		modules = append(modules, blockModules)
+	}
+
+	if len(modules) == 0 {
+		return nil, fmt.Errorf("no modules generated for page %q", file.Name)
+	}
+
+	return modules, nil
+}
+
+// validateModuleAlignment ensures all module arrays have the same length
+func validateModuleAlignment(modules []core.Modules, pageName string) error {
+	if len(modules) == 0 {
+		return nil
+	}
+
+	expectedLen := len(modules[0])
+	for _, mods := range modules {
+		if len(mods) != expectedLen {
+			return fmt.Errorf("module alignment error for page %q: expected %d modules, got %d", pageName, expectedLen, len(mods))
+		}
+	}
+
+	return nil
+}
+
+// renderModules renders all modules to the writer using the template
+func (t Tpl) renderModules(wr io.Writer, modules []core.Modules, file core.Page) error {
+	if len(modules) == 0 {
+		return nil
+	}
+
+	moduleCount := len(modules[0])
+	for i := 0; i < moduleCount; i++ {
+		for j, mod := range modules {
+			if err := t.Execute(wr, mod[i].Tpl, mod[i]); err != nil {
+				return core.NewTemplateError(
+					mod[i].Tpl,
+					0,
+					fmt.Sprintf("failed to execute template for function %s", file.RenderBlocks[j].FuncName),
+					err,
+				)
+			}
+		}
+	}
+
+	return nil
+}
+
+// writePageFile writes the page content to a file
+func writePageFile(cfg core.Config, pageName string, content []byte) error {
+	pageFile := filepath.Join(cfg.OutputDir, pageName+texExtension)
+	if err := os.WriteFile(pageFile, content, 0o600); err != nil {
+		return core.NewFileError(pageFile, "write", err)
+	}
+	logger.Info("Generated page: %s", pageFile)
 	return nil
 }
 
