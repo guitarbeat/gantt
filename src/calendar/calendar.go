@@ -801,6 +801,91 @@ func (m *Month) GetTaskColors() map[string]string {
 	return colorMap
 }
 
+// PhaseGroup represents a phase with its sub-phases and colors for the legend
+type PhaseGroup struct {
+	PhaseNumber string
+	PhaseName   string
+	SubPhases   []SubPhaseLegendItem
+}
+
+// SubPhaseLegendItem represents a sub-phase entry in the legend
+type SubPhaseLegendItem struct {
+	Name  string
+	Color string // RGB format for LaTeX
+}
+
+// GetTaskColorsByPhase returns tasks grouped by phase for a structured legend
+func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
+	// Map to track unique phase -> subphase -> color
+	phaseMap := make(map[string]map[string]string)
+	phaseNames := make(map[string]string) // phase number -> full phase description
+	
+	// Collect all unique phase/subphase combinations in this month
+	for _, week := range m.Weeks {
+		for _, day := range week.Days {
+			for _, task := range day.Tasks {
+				if task.Phase != "" && task.SubPhase != "" {
+					// Initialize phase map if needed
+					if phaseMap[task.Phase] == nil {
+						phaseMap[task.Phase] = make(map[string]string)
+					}
+					
+					// Get color for this subphase (category)
+					color := getColorForCategory(task.SubPhase)
+					if color != "" {
+						phaseMap[task.Phase][task.SubPhase] = hexToRGB(color)
+					}
+					
+					// Store phase name (use first non-empty one)
+					if phaseNames[task.Phase] == "" && task.SubPhase != "" {
+						phaseNames[task.Phase] = task.SubPhase
+					}
+				}
+			}
+		}
+	}
+	
+	// Convert to sorted structure
+	var phases []PhaseGroup
+	phaseOrder := []string{"1", "2", "3", "4"} // Typical phase numbering
+	
+	for _, phaseNum := range phaseOrder {
+		if subPhases, exists := phaseMap[phaseNum]; exists {
+			phase := PhaseGroup{
+				PhaseNumber: phaseNum,
+				PhaseName:   getPhaseDescription(phaseNum),
+			}
+			
+			// Add each subphase
+			for subPhaseName, color := range subPhases {
+				phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
+					Name:  escapeLatexSpecialChars(subPhaseName),
+					Color: color,
+				})
+			}
+			
+			phases = append(phases, phase)
+		}
+	}
+	
+	return phases
+}
+
+// getPhaseDescription returns a human-readable phase description
+func getPhaseDescription(phaseNum string) string {
+	descriptions := map[string]string{
+		"1": "Phase 1: Proposal \\& Setup",
+		"2": "Phase 2: Research \\& Data Collection",
+		"3": "Phase 3: Publications",
+		"4": "Phase 4: Dissertation",
+	}
+	
+	if desc, exists := descriptions[phaseNum]; exists {
+		return desc
+	}
+	return "Phase " + phaseNum
+}
+
 // ============================================================================
 // YEAR AND QUARTER STRUCTURES
 // ============================================================================
@@ -899,6 +984,8 @@ type SpanningTask struct {
 	ID          string
 	Name        string
 	Description string
+	Phase       string // Added: Phase number
+	SubPhase    string // Added: Sub-Phase description
 	Category    string
 	StartDate   time.Time
 	EndDate     time.Time
@@ -917,6 +1004,8 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
+		Phase:       task.Phase,    // * Added: Include Phase
+		SubPhase:    task.SubPhase, // * Added: Include SubPhase
 		Category:    task.Category, // * Fixed: Use Category field
 		StartDate:   startDate,
 		EndDate:     endDate,

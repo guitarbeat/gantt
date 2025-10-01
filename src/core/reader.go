@@ -301,10 +301,14 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	task.Name = getField("Task")
 	task.Description = getField("Objective")
 
+	// * Added: Parse Phase and Sub-Phase fields
+	task.Phase = getField("Phase")
+	task.SubPhase = getField("Sub-Phase")
+
 	// * Use Sub-Phase as the primary category for better granularity
-	task.Category = getField("Sub-Phase")
+	task.Category = task.SubPhase
 	if task.Category == "" {
-		task.Category = getField("Phase") // Fallback to Phase if Sub-Phase is empty
+		task.Category = task.Phase // Fallback to Phase if Sub-Phase is empty
 	}
 
 	// * Added: Parse Status field

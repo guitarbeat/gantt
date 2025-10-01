@@ -11,7 +11,9 @@ type Task struct {
 	Name         string
 	StartDate    time.Time
 	EndDate      time.Time
-	Category     string // * Fixed: Use Category instead of Priority for clarity
+	Phase        string   // * Added: Phase (1, 2, 3, 4)
+	SubPhase     string   // * Added: Sub-Phase (detailed phase description)
+	Category     string   // * Fixed: Use Category instead of Priority for clarity
 	Description  string
 	Status       string   // * Added: Task status (Planned, In Progress, Completed, etc.)
 	Assignee     string   // * Added: Task assignee
