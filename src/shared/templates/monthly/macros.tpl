@@ -97,6 +97,13 @@
   \end{tcolorbox}%
 }
 
+% Invisible spacer to reserve space for continuing tasks
+% This maintains proper vertical stacking without showing duplicate task bars
+\newcommand{\TaskOverlayBoxSpacer}{%
+  \vfill
+  \vspace{ {{.Cfg.Layout.TaskStyling.BarHeight}} }%
+}
+
 % Multi-day task bar drawing macro to centralize styling
 % Args: 1=x(pt), 2=y(pt), 3=width(pt), 4=height(pt), 5=color, 6=label
 \newcommand{\DrawTaskBar}[6]{%

@@ -180,7 +180,8 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 // TASK RENDERING - SPANNING TASKS
 // ============================================================================
 
-// renderSpanningTaskOverlay creates a task overlay showing ALL active tasks on this day
+// renderSpanningTaskOverlay creates a task overlay showing ONLY tasks that START on this day
+// However, it accounts for ALL active tasks (including continuing ones) for proper spacing
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	dayDate := d.getDayDate()
 	activeTasks, maxCols := d.findActiveTasks(dayDate)
@@ -189,44 +190,52 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
-	// Create separate pills for each task
+	// Create separate pills ONLY for tasks that START on this day
 	var pillContents []string
+	pillIndex := 0
 
-	for i, task := range activeTasks {
-		// Task name (will be bolded by the macro)
+	for _, task := range activeTasks {
+		start := d.getTaskStartDate(task)
+		
+		// Only render visual task bar if task STARTS on this day
+		if !dayDate.Equal(start) {
+			// Task is continuing from earlier - reserve space but don't show bar
+			// Add invisible spacer with same height as TaskOverlayBox
+			pillContents = append(pillContents, `\TaskOverlayBoxSpacer{}`)
+			continue
+		}
+
+		// Task starts today - show the actual task bar
 		taskName := d.escapeLatexSpecialChars(task.Name)
 		if d.isMilestoneSpanningTask(task) {
 			taskName = "★ " + taskName
 		}
 
-		// Objective (will be smaller by the macro)
 		objective := ""
 		if task.Description != "" {
 			objective = d.escapeLatexSpecialChars(task.Description)
 		}
 
-		// Get the color for this specific task
 		taskColor := hexToRGB(task.Color)
 		if taskColor == "" {
 			taskColor = "224,50,212" // Default fallback
 		}
 
-		// Create a separate pill for this task
-		// Only the first task gets vertical offset, others touch
-		if i == 0 {
+		// First visible task uses regular macro, subsequent ones use no-offset version
+		if pillIndex == 0 {
 			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
 				taskColor,
 				taskName,
 				objective)
 			pillContents = append(pillContents, pillContent)
 		} else {
-			// For subsequent tasks, use a custom macro without vertical offset
 			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`,
 				taskColor,
 				taskName,
 				objective)
 			pillContents = append(pillContents, pillContent)
 		}
+		pillIndex++
 	}
 
 	// Stack the pills vertically without extra spacing
@@ -277,33 +286,61 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 	return overlayCols
 }
 
-// findActiveTasks finds tasks to display on this day
-// Only shows tasks that START on this day (not continuing tasks)
-// This ensures each task bar appears only once at its start position
+// findActiveTasks finds ALL tasks that should reserve vertical space on this day
+// This includes:
+// 1. Tasks that START on this day (will show task bar)
+// 2. Tasks that STARTED EARLIER but are still active (need space but don't show bar)
+// This ensures proper vertical stacking to prevent visual overlap
 func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	var activeTasks []*SpanningTask
 	var maxCols int
+	seen := make(map[*SpanningTask]bool)
 
 	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Only show tasks that START on this day
-		if dayDate.Equal(start) {
+		// Include task if it's active on this day (either starting or continuing)
+		if d.isTaskActiveOnDay(dayDate, start, end) && !seen[task] {
 			activeTasks = append(activeTasks, task)
+			seen[task] = true
 			
-			// Calculate how many columns this task spans from its start
-			cols := d.calculateTaskSpanColumns(dayDate, end)
+			// Calculate columns differently based on whether task starts today
+			var cols int
+			if dayDate.Equal(start) {
+				// Task starts today: span from today to end (or end of week)
+				cols = d.calculateTaskSpanColumns(dayDate, end)
+			} else {
+				// Task started earlier: calculate remaining span
+				cols = d.calculateRemainingSpanColumns(dayDate, end)
+			}
+			
 			if cols > maxCols {
 				maxCols = cols
 			}
 		}
 	}
 
-	// Sort tasks by start date (earlier tasks appear first/on top)
+	// Sort tasks by start date (earlier tasks appear first/on bottom)
 	activeTasks = d.sortTasksByStartDate(activeTasks)
 
 	return activeTasks, maxCols
+}
+
+// calculateRemainingSpanColumns calculates how many columns a continuing task spans
+// from the current day to its end (or end of week, whichever is sooner)
+func (d Day) calculateRemainingSpanColumns(dayDate, end time.Time) int {
+	idxMonFirst := (int(dayDate.Weekday()) + 6) % 7 // Monday=0
+	remainInRow := 7 - idxMonFirst
+	daysLeft := int(end.Sub(dayDate).Hours()/24) + 1
+	
+	if daysLeft < 1 {
+		return 1 // At least show on current day
+	}
+	if daysLeft > remainInRow {
+		return remainInRow
+	}
+	return daysLeft
 }
 
 // sortTasksByStartDate sorts tasks by their start date (earliest first)
