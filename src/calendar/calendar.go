@@ -190,18 +190,23 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
-	// Build rendering list: only tasks that START today, but know their position in the active stack
+	// Build rendering list: only tasks that START today
+	// However, we need to know the correct stack position based on ALL active tasks
 	var tasksToRender []struct {
 		task         *SpanningTask
 		stackPos     int
 		isBottomTask bool
 	}
 
+	// Find which tasks actually start today and need to be rendered
+	var firstRenderIndex int = -1
 	for stackPos, task := range activeTasks {
 		start := d.getTaskStartDate(task)
 		if dayDate.Equal(start) {
 			// This task starts today and should be rendered
-			isBottom := (stackPos == 0) // First in active list = bottom of stack
+			if firstRenderIndex == -1 {
+				firstRenderIndex = stackPos
+			}
 			tasksToRender = append(tasksToRender, struct {
 				task         *SpanningTask
 				stackPos     int
@@ -209,7 +214,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			}{
 				task:         task,
 				stackPos:     stackPos,
-				isBottomTask: isBottom,
+				isBottomTask: false, // Will be set below
 			})
 		}
 	}
@@ -217,6 +222,14 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	if len(tasksToRender) == 0 {
 		// No tasks start today (all are continuing)
 		return nil
+	}
+
+	// The bottom task is the one with the lowest stackPos among rendered tasks
+	// But for visual purposes, we use the first one we're rendering
+	for i := range tasksToRender {
+		if i == 0 {
+			tasksToRender[i].isBottomTask = true
+		}
 	}
 
 	// Render task pills
@@ -239,20 +252,17 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			taskColor = "224,50,212" // Default fallback
 		}
 
-		// Bottom task uses \vfill positioning, stacked tasks use NoOffset (no \vfill)
-		if tr.isBottomTask {
-			pillContent := fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
-				taskColor,
-				taskName,
-				objective)
-			pillContents = append(pillContents, pillContent)
-		} else {
-			pillContent := fmt.Sprintf(`\TaskOverlayBoxNoOffset{%s}{%s}{%s}`,
-				taskColor,
-				taskName,
-				objective)
-			pillContents = append(pillContents, pillContent)
-		}
+		// Use stackPos to determine vertical offset
+		// Each stack level needs a fixed vertical offset (starting from 0 for the bottom)
+		verticalOffset := fmt.Sprintf("%.1fem", float64(tr.stackPos)*2.0) // 2.0em per level
+		
+		// All tasks use offset-based positioning
+		pillContent := fmt.Sprintf(`\TaskOverlayBoxWithOffset{%s}{%s}{%s}{%s}`,
+			taskColor,
+			taskName,
+			objective,
+			verticalOffset)
+		pillContents = append(pillContents, pillContent)
 	}
 
 	// Stack the pills vertically
