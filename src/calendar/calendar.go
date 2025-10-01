@@ -275,28 +275,30 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 	return overlayCols
 }
 
-// findActiveTasks finds ALL tasks that are active on the given day (started on or before this day)
-// Returns tasks sorted by start date, and calculates max columns needed
+// findActiveTasks finds tasks to display on this day
+// Shows tasks that start on this day, PLUS tasks that started within the same week and are still active
+// This ensures proper stacking without showing every long-running task
 func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	var activeTasks []*SpanningTask
 	var maxCols int
+
+	// Calculate the start of this week (Monday)
+	weekStart := dayDate.AddDate(0, 0, -int((dayDate.Weekday()+6)%7))
 
 	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Show all tasks that are active on this day (not just those starting today)
-		if d.isTaskActiveOnDay(dayDate, start, end) {
+		// Show tasks that:
+		// 1. Start on this day, OR
+		// 2. Started this week (after weekStart) and are still active today
+		if dayDate.Equal(start) || (start.After(weekStart.AddDate(0, 0, -1)) && start.Before(dayDate) && d.isTaskActiveOnDay(dayDate, start, end)) {
 			activeTasks = append(activeTasks, task)
 			
-			// Calculate columns from TODAY's perspective (not from start date)
-			// But only if the task starts on or before today
-			if !dayDate.Before(start) {
-				// Calculate remaining span from this day forward
-				cols := d.calculateTaskSpanColumns(dayDate, end)
-				if cols > maxCols {
-					maxCols = cols
-				}
+			// Calculate columns from TODAY's perspective
+			cols := d.calculateTaskSpanColumns(dayDate, end)
+			if cols > maxCols {
+				maxCols = cols
 			}
 		}
 	}
