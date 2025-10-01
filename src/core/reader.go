@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -64,7 +63,7 @@ var supportedDateFormats = []string{
 // Reader handles reading and parsing CSV task data
 type Reader struct {
 	filePath string
-	logger   *log.Logger
+	logger   *Logger
 	// * Added: Configuration options
 	strictMode  bool // If true, fail on any parsing error
 	skipInvalid bool // If true, skip invalid rows instead of failing
@@ -78,7 +77,7 @@ type ReaderOptions struct {
 	StrictMode  bool
 	SkipInvalid bool
 	MaxMemoryMB int
-	Logger      *log.Logger
+	Logger      *Logger
 }
 
 // DefaultReaderOptions returns sensible defaults for the reader
@@ -87,17 +86,8 @@ func DefaultReaderOptions() *ReaderOptions {
 		StrictMode:  false,
 		SkipInvalid: true,
 		MaxMemoryMB: 100, // 100MB default limit
-		Logger:      newDefaultLogger(),
+		Logger:      NewDefaultLogger(),
 	}
-}
-
-// newDefaultLogger returns a logger that can be silenced via env flag.
-// Set PLANNER_SILENT=1 to suppress data-layer logs.
-func newDefaultLogger() *log.Logger {
-	if os.Getenv("PLANNER_SILENT") == "1" || strings.EqualFold(os.Getenv("PLANNER_LOG_LEVEL"), "silent") {
-		return log.New(io.Discard, "", 0)
-	}
-	return log.New(os.Stderr, "[data] ", log.LstdFlags|log.Lshortfile)
 }
 
 // NewReader creates a new CSV data reader with default options
@@ -203,7 +193,7 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 
 	fileSizeMB := fileInfo.Size() / (1024 * 1024)
 	if fileSizeMB > int64(r.maxMemoryMB) {
-		r.logger.Printf("Warning: File size %dMB exceeds limit %dMB, consider using streaming mode", fileSizeMB, r.maxMemoryMB)
+		r.logger.Warn("File size %dMB exceeds limit %dMB, consider using streaming mode", fileSizeMB, r.maxMemoryMB)
 	}
 
 	reader := csv.NewReader(file)
@@ -257,7 +247,7 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 			}
 
 			// Log error but continue processing other tasks
-			r.logger.Printf("Warning: failed to parse task at row %d: %v", rowNum, err)
+			r.logger.Warn("failed to parse task at row %d: %v", rowNum, err)
 			continue
 		}
 
@@ -266,14 +256,14 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 
 	// * Added: Log summary of parsing results
 	if len(parseErrors) > 0 {
-		r.logger.Printf("Parsed %d tasks successfully, %d errors encountered", len(tasks), len(parseErrors))
+		r.logger.Info("Parsed %d tasks successfully, %d errors encountered", len(tasks), len(parseErrors))
 	} else {
-		r.logger.Printf("Successfully parsed %d tasks", len(tasks))
+		r.logger.Info("Successfully parsed %d tasks", len(tasks))
 	}
 
 	// * Added: Log comprehensive error summary if there were any errors
 	if r.hasErrors() {
-		r.logger.Printf("Parsing completed with errors:\n%s", r.getErrorSummary())
+		r.logger.Warn("Parsing completed with errors:\n%s", r.getErrorSummary())
 	}
 
 	return tasks, nil

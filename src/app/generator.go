@@ -19,6 +19,25 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Constants for file operations and environment variables
+const (
+	// File extensions
+	texExtension = ".tex"
+
+	// Environment variables
+	envDevTemplate = "DEV_TEMPLATES"
+
+	// Directory paths
+	templateSubDir = "monthly"
+	templatePath   = "src/shared/templates/monthly"
+
+	// Template patterns
+	templatePattern = "*.tpl"
+	documentTpl     = "document.tpl"
+)
+
+var logger = core.NewDefaultLogger()
+
 func action(c *cli.Context) error {
 	var (
 		fn  core.Composer
@@ -43,9 +62,7 @@ func action(c *cli.Context) error {
 	if err := os.MkdirAll(cfg.OutputDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create output directory %q: %w", cfg.OutputDir, err)
 	}
-	if os.Getenv("PLANNER_SILENT") != "1" {
-		fmt.Fprintf(os.Stderr, "Output directory: %s\n", cfg.OutputDir)
-	}
+	logger.Info("Output directory: %s", cfg.OutputDir)
 
 	wr := &bytes.Buffer{}
 
@@ -59,9 +76,7 @@ func action(c *cli.Context) error {
 	if err = os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
 		return fmt.Errorf("failed to write LaTeX file to %q: %w", outputFile, err)
 	}
-	if os.Getenv("PLANNER_SILENT") != "1" {
-		fmt.Fprintf(os.Stderr, "Generated LaTeX file: %s\n", outputFile)
-	}
+	logger.Info("Generated LaTeX file: %s", outputFile)
 
 	for _, file := range cfg.Pages {
 		wr.Reset()
@@ -104,13 +119,11 @@ func action(c *cli.Context) error {
 			}
 		}
 
-		pageFile := cfg.OutputDir + "/" + file.Name + ".tex"
+		pageFile := cfg.OutputDir + "/" + file.Name + texExtension
 		if err = os.WriteFile(pageFile, wr.Bytes(), 0o600); err != nil {
 			return fmt.Errorf("failed to write page file %q: %w", pageFile, err)
 		}
-		if os.Getenv("PLANNER_SILENT") != "1" {
-			fmt.Fprintf(os.Stderr, "Generated page: %s\n", pageFile)
-		}
+		logger.Info("Generated page: %s", pageFile)
 	}
 
 	return nil
@@ -118,7 +131,7 @@ func action(c *cli.Context) error {
 
 func RootFilename(pathconfig string) string {
 	filename := filepath.Base(pathconfig)
-	return strings.TrimSuffix(filename, filepath.Ext(filename)) + ".tex"
+	return strings.TrimSuffix(filename, filepath.Ext(filename)) + texExtension
 }
 
 var tpl = func() *template.Template {
@@ -155,51 +168,6 @@ var tpl = func() *template.Template {
 
 			return i != nil
 		},
-
-		// Layout integration functions (commented out - not used)
-		// "hasLayoutData": func(data interface{}) bool {
-		// 	if data == nil {
-		// 		return false
-		// 	}
-		// 	// Check if data has layout-related fields
-		// 	if m, ok := data.(map[string]interface{}); ok {
-		// 		_, hasLayout := m["LayoutResult"]
-		// 		_, hasTaskBars := m["TaskBars"]
-		// 		return hasLayout || hasTaskBars
-		// 	}
-		// 	return false
-		// },
-
-		// "getTaskBars": func(data interface{}) []*cal.IntegratedTaskBar {
-		// 	if m, ok := data.(map[string]interface{}); ok {
-		// 		if bars, ok := m["TaskBars"].([]*cal.IntegratedTaskBar); ok {
-		// 			return bars
-		// 		}
-		// 	}
-		// 	return nil
-		// },
-
-		// "getLayoutStats": func(data interface{}) *cal.IntegratedLayoutStatistics {
-		// 	if m, ok := data.(map[string]interface{}); ok {
-		// 		if stats, ok := m["LayoutStats"].(*cal.IntegratedLayoutStatistics); ok {
-		// 			return stats
-		// 		}
-		// 	}
-		// 	return nil
-		// },
-
-		// "formatTaskBar": func(bar *cal.IntegratedTaskBar) string {
-		// 	if bar == nil {
-		// 		return ""
-		// 	}
-
-		// 	// Generate LaTeX for individual task bar using the visual design system
-		// 	return fmt.Sprintf("\\TaskOverlayBox{%s}{%s}{%s}",
-		// 		bar.Color,       // category color
-		// 		bar.TaskName,    // task name
-		// 		bar.Description, // description
-		// 	)
-		// },
 	})
 
 	// Choose source of templates: embedded by default, filesystem when DEV_TEMPLATES is set
@@ -208,14 +176,14 @@ var tpl = func() *template.Template {
 		useFS fs.FS
 	)
 
-	if os.Getenv("DEV_TEMPLATES") != "" {
+	if os.Getenv(envDevTemplate) != "" {
 		// Use on-disk templates for development override
-		useFS = os.DirFS(filepath.Join("src", "shared", "templates", "monthly"))
+		useFS = os.DirFS(filepath.Join("src", "shared", "templates", templateSubDir))
 	} else {
 		// Use embedded templates from templates.FS
 		// Narrow to monthly/ subdir
 		var sub fs.FS
-		sub, err = fs.Sub(tmplfs.FS, "monthly")
+		sub, err = fs.Sub(tmplfs.FS, templateSubDir)
 		if err != nil {
 			panic(fmt.Sprintf("failed to sub FS for monthly templates: %v", err))
 		}
@@ -223,7 +191,7 @@ var tpl = func() *template.Template {
 	}
 
 	// Parse all *.tpl templates from the selected FS
-	t, err = t.ParseFS(useFS, "*.tpl")
+	t, err = t.ParseFS(useFS, templatePattern)
 	if err != nil {
 		panic(fmt.Sprintf("failed to parse monthly templates: %v", err))
 	}
@@ -248,7 +216,7 @@ func (t Tpl) Document(wr io.Writer, cfg core.Config) error {
 	}
 
 	data := pack{Cfg: cfg, Pages: cfg.Pages}
-	if err := t.tpl.ExecuteTemplate(wr, "document.tpl", data); err != nil {
+	if err := t.tpl.ExecuteTemplate(wr, documentTpl, data); err != nil {
 		return fmt.Errorf("execute template: %w", err)
 	}
 

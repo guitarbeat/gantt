@@ -181,7 +181,7 @@ func (d Day) buildSimpleDayCell(leftCell string) string {
 // ============================================================================
 
 // renderSpanningTaskOverlay creates a task overlay with proper vertical stacking
-// Uses natural LaTeX flow positioning - tasks are stacked bottom-to-top with spacing
+// Uses track-based positioning to prevent visual overlap of multi-day tasks
 func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	dayDate := d.getDayDate()
 	activeTasks, maxCols := d.findActiveTasks(dayDate)
@@ -190,8 +190,11 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
+	// Assign tracks to ALL active tasks (including continuing ones)
+	// This ensures consistent track assignments across days
+	trackAssignments := d.assignTaskTracks(activeTasks, dayDate)
+
 	// Build rendering list: only tasks that START today
-	// We need to maintain the stack order based on ALL active tasks
 	var tasksToRender []*SpanningTask
 
 	// Find which tasks actually start today and need to be rendered
@@ -208,11 +211,23 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		return nil
 	}
 
-	// Render task pills in order (earliest tasks first, which will appear at bottom)
-	// Use simple vertical stacking with natural LaTeX flow
+	// Sort tasks by their assigned track (lowest track first, renders at bottom)
+	sortedTasks := make([]*SpanningTask, len(tasksToRender))
+	copy(sortedTasks, tasksToRender)
+	for i := 0; i < len(sortedTasks)-1; i++ {
+		for j := 0; j < len(sortedTasks)-i-1; j++ {
+			track1 := trackAssignments[sortedTasks[j].ID]
+			track2 := trackAssignments[sortedTasks[j+1].ID]
+			if track1 > track2 {
+				sortedTasks[j], sortedTasks[j+1] = sortedTasks[j+1], sortedTasks[j]
+			}
+		}
+	}
+
+	// Render task pills with vertical offsets based on track
 	var pillContents []string
 
-	for i, task := range tasksToRender {
+	for i, task := range sortedTasks {
 		taskName := d.escapeLatexSpecialChars(task.Name)
 		if d.isMilestoneSpanningTask(task) {
 			taskName = "★ " + taskName
@@ -228,13 +243,13 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			taskColor = "224,50,212" // Default fallback
 		}
 
-		// Use \vspace for spacing between tasks (except for the first task)
+		// Add spacing between stacked tasks (except for the first task)
 		var spacing string
 		if i > 0 {
 			spacing = `\vspace{1mm}` // Add 1mm spacing between stacked tasks
 		}
 
-		// Use simple TaskOverlayBox without offsets - let LaTeX stack naturally
+		// Use TaskOverlayBox - LaTeX will stack naturally with spacing
 		pillContent := spacing + fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
 			taskColor,
 			taskName,
@@ -329,6 +344,68 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	activeTasks = d.sortTasksByStartDate(activeTasks)
 
 	return activeTasks, maxCols
+}
+
+// assignTaskTracks assigns vertical tracks to tasks to prevent visual overlap
+// Returns a map of task ID to track number (0-based, 0 is bottom)
+func (d Day) assignTaskTracks(tasks []*SpanningTask, dayDate time.Time) map[string]int {
+	trackAssignments := make(map[string]int)
+	
+	// For each task, find the lowest available track
+	for _, task := range tasks {
+		track := d.findLowestAvailableTrackForTask(task, dayDate, trackAssignments)
+		trackAssignments[task.ID] = track
+	}
+	
+	return trackAssignments
+}
+
+// findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
+func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, dayDate time.Time, existing map[string]int) int {
+	taskStart := d.getTaskStartDate(task)
+	taskEnd := d.getTaskEndDate(task)
+	
+	// Check each track starting from 0
+	for track := 0; track < 100; track++ {
+		occupied := false
+		
+		// Check if any existing task on this track overlaps with our task
+		for otherTaskID, otherTrack := range existing {
+			if otherTrack != track {
+				continue // Different track, no conflict
+			}
+			
+			// Find the other task
+			for _, otherTask := range d.Tasks {
+				if otherTask.ID == otherTaskID {
+					otherStart := d.getTaskStartDate(otherTask)
+					otherEnd := d.getTaskEndDate(otherTask)
+					
+					// Check if date ranges overlap
+					if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
+						occupied = true
+						break
+					}
+				}
+			}
+			
+			if occupied {
+				break
+			}
+		}
+		
+		if !occupied {
+			return track
+		}
+	}
+	
+	return 0 // Fallback
+}
+
+// dateRangesOverlap checks if two date ranges overlap
+func (d Day) dateRangesOverlap(start1, end1, start2, end2 time.Time) bool {
+	// Two ranges overlap if: start1 <= end2 AND start2 <= end1
+	return !start1.After(end2) && !start2.After(end1)
 }
 
 // calculateRemainingSpanColumns calculates how many columns a continuing task spans
