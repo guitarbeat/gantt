@@ -1,3 +1,37 @@
+// Package core - Defaults provides centralized default values for all configuration.
+//
+// This module serves as the single source of truth for all default configuration
+// values used throughout the application. When no configuration is provided or
+// when values are missing, these defaults are used.
+//
+// Key functions:
+//   - DefaultConfig(): Complete configuration with all defaults
+//   - DefaultLayout(): Layout configuration defaults
+//   - DefaultLaTeX(): LaTeX-specific defaults
+//   - DefaultTypography(): Typography settings defaults
+//   - DefaultLayoutCalendarLayout(): Calendar layout defaults
+//
+// The Defaults struct provides easy access to commonly used default values
+// as constants, useful for fallback logic throughout the codebase.
+//
+// Example usage:
+//
+//	// Get a complete default configuration
+//	cfg := core.DefaultConfig()
+//
+//	// Override specific values
+//	cfg.Year = 2025
+//	cfg.OutputDir = "custom/output"
+//
+//	// Access default constants directly
+//	width := core.Defaults.DayNumberWidth  // "6mm"
+//	color := core.Defaults.DefaultTaskColor // "224,50,212"
+//
+// Design philosophy:
+//   - Sensible defaults that work for most use cases
+//   - Easy to understand and modify in one place
+//   - No magic numbers scattered throughout code
+//   - New users can see all options with defaults
 package core
 
 import "time"

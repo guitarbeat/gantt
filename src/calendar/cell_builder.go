@@ -77,19 +77,20 @@ func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, 
 		spacing = ""             // No offset - start at the beginning of the cell
 		contentWrapper = content // Use the content directly without additional wrapping
 	} else {
-		// Regular task: use full available width and better text flow
+		// Regular task: use full available width with fixed height container
 		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
 		spacing = `\hspace*{` + dayNumberWidth + `}`                  // Spacing to align with day number cell width
-		contentWrapper = fmt.Sprintf(`\vfill{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
-			hyphenPenalty, tolerance, emergencyStretch) + content + `}`
+		// Wrap in fixed-height minipage to prevent row expansion
+		contentWrapper = `\begin{minipage}[t][\myLenMonthlyCellHeight][t]{` + width + `}` +
+			fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
+				hyphenPenalty, tolerance, emergencyStretch) + content + `}` +
+			`\end{minipage}`
 	}
 
 	inner := `{\begingroup` +
 		`\makebox[0pt][l]{` + leftCell + `}` +
 		spacing +
-		`\begin{minipage}[b]{` + width + `}` +
 		contentWrapper +
-		`\end{minipage}` +
 		`\endgroup}`
 
 	// Wrap entire cell in hyperlink to the day's reference (restores link without visual borders via hypersetup)

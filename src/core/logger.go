@@ -1,3 +1,26 @@
+// Package core - Logger provides centralized logging with level-based control.
+//
+// The logging system supports three levels:
+//   - silent: No output
+//   - info: Informational messages (default)
+//   - debug: Detailed debugging information
+//
+// Control logging via environment variables:
+//   - PLANNER_SILENT=1: Suppress all output (backward compatible)
+//   - PLANNER_LOG_LEVEL=silent|info|debug: Explicit level control
+//
+// Example usage:
+//
+//	logger := core.NewDefaultLogger()
+//	logger.Info("Processing file: %s", filename)
+//	logger.Debug("Detailed state: %+v", state)
+//	logger.Warn("Potential issue: %s", warning)
+//	logger.Error("Operation failed: %v", err)
+//
+//	// Check if silent mode is active
+//	if core.IsSilent() {
+//	    // Skip expensive logging operations
+//	}
 package core
 
 import (

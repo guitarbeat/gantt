@@ -1,3 +1,47 @@
+// Package app provides the CLI application interface and document generation.
+//
+// This package contains:
+//   - CLI application setup and command handling
+//   - Template loading and rendering
+//   - Template helper functions
+//   - Document generation orchestration
+//
+// The package is the main entry point for the planner generation process:
+//
+// CLI Application:
+//   New() creates the CLI application with flags for configuration,
+//   output directory, and preview mode.
+//
+// Template System:
+//   Templates are loaded from embedded files or filesystem (for development).
+//   TemplateFuncs() provides custom template functions (dict, incr, dec, is).
+//
+// Generation Pipeline:
+//   1. Load configuration
+//   2. Setup output directory
+//   3. Generate root document
+//   4. Generate individual pages
+//
+// Example usage:
+//
+//	// Create and run the application
+//	app := app.New()
+//	err := app.Run([]string{
+//	    "plannergen",
+//	    "--config", "base.yaml",
+//	    "--outdir", "generated",
+//	})
+//
+// Template functions available in templates:
+//   - dict: Create maps from key-value pairs
+//   - incr: Increment integers
+//   - dec: Decrement integers
+//   - is: Check truthiness
+//
+// Environment variables:
+//   - DEV_TEMPLATES: Use filesystem templates instead of embedded
+//   - PLANNER_SILENT: Suppress log output
+//   - PLANNER_LOG_LEVEL: Set logging level (silent/info/debug)
 package app
 
 import (

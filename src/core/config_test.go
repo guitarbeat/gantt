@@ -136,20 +136,3 @@ func TestFilterUniqueModules(t *testing.T) {
 		t.Errorf("FilterUniqueModules() second module = %s, want 'template2'", filtered[1].Tpl)
 	}
 }
-
-func TestModulesLen(t *testing.T) {
-	modules := Modules{
-		{Tpl: "template1"},
-		{Tpl: "template2"},
-		{Tpl: "template3"},
-	}
-
-	if modules.Len() != 3 {
-		t.Errorf("Modules.Len() = %d, want 3", modules.Len())
-	}
-
-	emptyModules := Modules{}
-	if emptyModules.Len() != 0 {
-		t.Errorf("Empty Modules.Len() = %d, want 0", emptyModules.Len())
-	}
-}

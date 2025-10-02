@@ -1,3 +1,49 @@
+// Package core provides the fundamental types and utilities for the PhD dissertation planner.
+//
+// This package contains:
+//   - Configuration management (Config, defaults, validation)
+//   - Data structures (Task, Page, Module)
+//   - CSV data reading and parsing
+//   - Error types with rich context
+//   - Centralized logging system
+//
+// The package is organized into several key areas:
+//
+// Configuration:
+//   Config, DefaultConfig(), and helper methods provide a flexible configuration
+//   system with sensible defaults and YAML/environment variable support.
+//
+// Data Reading:
+//   Reader provides CSV parsing with robust error handling and field extraction.
+//
+// Error Handling:
+//   Custom error types (ConfigError, FileError, TemplateError, DataError) provide
+//   contextual information for debugging. ErrorAggregator collects multiple errors.
+//
+// Logging:
+//   Logger provides level-based logging (silent, info, debug) with environment
+//   variable control.
+//
+// Example usage:
+//
+//	// Load configuration
+//	cfg, err := core.NewConfig("base.yaml")
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//
+//	// Read tasks from CSV
+//	reader := core.NewReader(cfg.CSVFilePath)
+//	tasks, err := reader.ReadTasks()
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//
+//	// Use configuration helpers
+//	dayWidth := cfg.GetDayNumberWidth()
+//	if cfg.IsDebugMode() {
+//	    fmt.Println("Debug mode enabled")
+//	}
 package core
 
 import (

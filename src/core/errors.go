@@ -1,3 +1,43 @@
+// Package core - Errors provides custom error types with rich contextual information.
+//
+// This module defines structured error types for different failure scenarios:
+//
+// ConfigError: Configuration loading/validation failures
+//   - Includes file path, field name, and descriptive message
+//   - Use NewConfigError() to create with proper wrapping
+//
+// FileError: File operation failures
+//   - Includes file path, operation type, and underlying error
+//   - Use NewFileError() for consistent file error reporting
+//
+// TemplateError: Template processing failures
+//   - Includes template name, line number, and context
+//   - Use NewTemplateError() for template-specific errors
+//
+// DataError: Data processing failures
+//   - Includes source, row, column, and descriptive message
+//   - Use NewDataError() for CSV and data parsing errors
+//
+// ErrorAggregator: Collect and report multiple errors
+//   - Distinguishes between errors (fatal) and warnings (non-fatal)
+//   - Provides comprehensive summaries of all issues
+//   - Use NewErrorAggregator() to collect errors during batch operations
+//
+// All error types implement error interface and support error wrapping with Unwrap().
+//
+// Example usage:
+//
+//	// Configuration error
+//	err := core.NewConfigError("base.yaml", "weekstart", "invalid value", parseErr)
+//
+//	// File error
+//	err := core.NewFileError("/path/to/file", "read", ioErr)
+//
+//	// Aggregate multiple errors
+//	agg := core.NewErrorAggregator()
+//	agg.AddError(err1)
+//	agg.AddWarning(warn1)
+//	fmt.Println(agg.Summary())
 package core
 
 import (

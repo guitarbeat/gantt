@@ -19,7 +19,7 @@
         {{$cell}}
       {{ end }}
       {{ if eq $j 6 }}
-        \\ {{ if $.Body.Large }} \hline {{ end }}
+        \\[\myLenMonthlyCellHeight] {{ if $.Body.Large }} \hline {{ end }}
       {{ else }} & {{ end }}
     {{ end }}
   {{ end }}
