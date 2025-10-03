@@ -227,26 +227,41 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	// This ensures consistent track assignments across days
 	trackAssignments := d.assignTaskTracks(activeTasks, dayDate)
 
-	// Build rendering list: only tasks that START today
-	var tasksToRender []*SpanningTask
+	// Build rendering lists: tasks that START today vs. tasks that CONTINUE today
+	var startingTasks []*SpanningTask
+	var continuingTasks []*SpanningTask
 
-	// Find which tasks actually start today and need to be rendered
+	// Categorize active tasks
 	for _, task := range activeTasks {
 		start := d.getTaskStartDate(task)
 		if dayDate.Equal(start) {
-			// This task starts today and should be rendered
-			tasksToRender = append(tasksToRender, task)
+			// This task starts today
+			startingTasks = append(startingTasks, task)
+		} else {
+			// This task is continuing from a previous day
+			continuingTasks = append(continuingTasks, task)
 		}
 	}
 
-	if len(tasksToRender) == 0 {
-		// No tasks start today (all are continuing)
-		return nil
+	// Combine all tasks that need rendering (starting tasks get full rendering, continuing tasks get continuation indicators)
+	var allTasksToRender []*SpanningTask
+	renderingTypes := make(map[*SpanningTask]string) // "start" or "continue"
+
+	// Add starting tasks
+	for _, task := range startingTasks {
+		allTasksToRender = append(allTasksToRender, task)
+		renderingTypes[task] = "start"
+	}
+
+	// Add continuing tasks that should show visual indicators
+	for _, task := range continuingTasks {
+		allTasksToRender = append(allTasksToRender, task)
+		renderingTypes[task] = "continue"
 	}
 
 	// Sort tasks by their assigned track (lowest track first, renders at bottom)
-	sortedTasks := make([]*SpanningTask, len(tasksToRender))
-	copy(sortedTasks, tasksToRender)
+	sortedTasks := make([]*SpanningTask, len(allTasksToRender))
+	copy(sortedTasks, allTasksToRender)
 	for i := 0; i < len(sortedTasks)-1; i++ {
 		for j := 0; j < len(sortedTasks)-i-1; j++ {
 			track1 := trackAssignments[sortedTasks[j].ID]
@@ -261,19 +276,38 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	var pillContents []string
 
 	for i, task := range sortedTasks {
-		taskName := d.escapeLatexSpecialChars(task.Name)
-		if d.isMilestoneSpanningTask(task) {
-			taskName = "★ " + taskName
-		}
+		renderType := renderingTypes[task]
 
-		objective := ""
-		if task.Description != "" {
-			objective = d.escapeLatexSpecialChars(task.Description)
-		}
+		// Declare variables at function scope
+		var taskName, objective, taskColor string
 
-		taskColor := hexToRGB(task.Color)
-		if taskColor == "" {
-			taskColor = core.Defaults.DefaultTaskColor
+		if renderType == "continue" {
+			// Render continuation indicator
+			taskName = "→ " + d.escapeLatexSpecialChars(task.Name)
+			if d.isMilestoneSpanningTask(task) {
+				taskName = "→ ★ " + d.escapeLatexSpecialChars(task.Name)
+			}
+			objective = "" // Continuation tasks don't show objectives
+			taskColor = hexToRGB(task.Color)
+			if taskColor == "" {
+				taskColor = core.Defaults.DefaultTaskColor
+			}
+		} else {
+			// Render starting task (original logic)
+			taskName = d.escapeLatexSpecialChars(task.Name)
+			if d.isMilestoneSpanningTask(task) {
+				taskName = "★ " + taskName
+			}
+
+			objective = ""
+			if task.Description != "" {
+				objective = d.escapeLatexSpecialChars(task.Description)
+			}
+
+			taskColor = hexToRGB(task.Color)
+			if taskColor == "" {
+				taskColor = core.Defaults.DefaultTaskColor
+			}
 		}
 
 		// Add spacing between stacked tasks (except for the first task)
