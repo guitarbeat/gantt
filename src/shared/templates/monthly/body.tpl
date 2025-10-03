@@ -3,27 +3,24 @@
 
 {{- template "calendar.tpl" dict "Cfg" .Cfg "Body" .Body -}}
 
-% Legend at bottom of page - grouped by phase
+% Legend at bottom of page - just colors and categories
 \vfill
 {{- $phaseGroups := .Body.Month.GetTaskColorsByPhase -}}
 {{- if $phaseGroups -}}
-{\small
+\noindent{\small%
 {{- range $idx, $phase := $phaseGroups -}}
-{{- if $idx -}}\vspace{2pt}{{- end -}}
-\textbf{ {{- $phase.PhaseName -}} }\\
-{{- range $subPhase := $phase.SubPhases -}}
-\ColorCircle{ {{- $subPhase.Color -}} } \small{ {{- $subPhase.Name -}} }~%
+{{- range $subIdx, $subPhase := $phase.SubPhases -}}
+{{- if or $idx $subIdx -}}\quad{{- end -}}\ColorCircle{ {{- $subPhase.Color -}} }{ {{- $subPhase.Name -}} }%
 {{- end -}}
-\\
 {{- end -}}
-\par}
+}
 {{- else -}}
 % Fallback to simple legend if no phase data
 {{- $taskColors := .Body.Month.GetTaskColors -}}
 {{- if $taskColors -}}
-{\centering
-{{- range $color, $category := $taskColors -}}\ColorCircle{ {{- $color -}} } \small{ {{- $category -}} }\hspace{ {{$.Cfg.Layout.Spacing.ColorLegendSep}} }{{- end -}}
-\par}
+\noindent{\small%
+{{- range $color, $category := $taskColors -}}{{- if ne $color "" -}}\ColorCircle{ {{- $color -}} }{ {{- $category -}} }\quad{{- end -}}{{- end -}}
+}
 {{- else -}}
 \ColorLegend
 {{- end -}}
