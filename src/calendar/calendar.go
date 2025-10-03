@@ -386,7 +386,7 @@ func (d Day) assignTaskTracks(tasks []*SpanningTask, dayDate time.Time) map[stri
 	
 	// For each task, find the lowest available track
 	for _, task := range tasks {
-		track := d.findLowestAvailableTrackForTask(task, dayDate, trackAssignments)
+		track := d.findLowestAvailableTrackForTask(task, trackAssignments)
 		trackAssignments[task.ID] = track
 	}
 	
@@ -394,7 +394,7 @@ func (d Day) assignTaskTracks(tasks []*SpanningTask, dayDate time.Time) map[stri
 }
 
 // findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
-func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, dayDate time.Time, existing map[string]int) int {
+func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, existing map[string]int) int {
 	taskStart := d.getTaskStartDate(task)
 	taskEnd := d.getTaskEndDate(task)
 	
@@ -474,25 +474,6 @@ func (d Day) sortTasksByStartDate(tasks []*SpanningTask) []*SpanningTask {
 	return sorted
 }
 
-// sortTasksByDuration sorts tasks by duration for better visual organization
-func (d Day) sortTasksByDuration(tasks []*SpanningTask) []*SpanningTask {
-	sorted := make([]*SpanningTask, len(tasks))
-	copy(sorted, tasks)
-
-	// Sort by duration (shorter tasks first for better stacking)
-	for i := 0; i < len(sorted)-1; i++ {
-		for j := 0; j < len(sorted)-i-1; j++ {
-			duration1 := sorted[j].EndDate.Sub(sorted[j].StartDate)
-			duration2 := sorted[j+1].EndDate.Sub(sorted[j+1].StartDate)
-			if duration1 > duration2 {
-				sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
-			}
-		}
-	}
-
-	return sorted
-}
-
 // isMilestoneSpanningTask checks if a task is a milestone
 func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 	return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(task.Description)), "MILESTONE:")
@@ -516,14 +497,6 @@ func escapeLatexSpecialChars(text string) string {
 	text = strings.ReplaceAll(text, "_", "\\_")
 	text = strings.ReplaceAll(text, "~", "\\textasciitilde{}")
 
-	return text
-}
-
-// smartTruncateText intelligently truncates text at word boundaries when possible
-// NOTE: Currently disabled - returning full text to avoid aggressive truncation
-func (d Day) smartTruncateText(text string) string {
-	// For now, return full text to avoid unwanted truncation
-	// TODO: Implement better space utilization strategies
 	return text
 }
 

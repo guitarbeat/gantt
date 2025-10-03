@@ -123,9 +123,3 @@ func (cb *CellBuilder) BuildCellSeparator() string {
 	return `\\`
 }
 
-// Helper method to get configuration values with defaults
-func (cb *CellBuilder) getConfigValue(key string, defaultValue string) string {
-	// This would be implemented based on your configuration structure
-	// For now, returning the default value
-	return defaultValue
-}

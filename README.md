@@ -993,12 +993,81 @@ def get_category_color(category: str) -> str:
 - Mock external dependencies
 - Use table-driven tests
 
+#### Testing Strategy
+
+**Unit Tests:**
+- Test individual functions in isolation
+- Mock external dependencies
+- Focus on edge cases and error conditions
+- Table-driven tests for multiple scenarios
+
+**Integration Tests:**
+- Test complete workflows
+- Verify file I/O operations
+- Test configuration loading
+- Validate error handling paths
+
+**Coverage Goals:**
+- Critical paths: 80%+ coverage
+- Utility functions: 100% coverage
+- Error handling: All paths tested
+- Configuration: All helpers tested
+
 ### 5. **Documentation**
 
 - Clear function and type documentation
 - README with usage examples
 - Code comments for complex logic
 - Architecture documentation
+
+### 6. **Software Engineering Principles**
+
+- **Single Responsibility Principle**: Each function does one thing well
+- **Don't Repeat Yourself (DRY)**: Eliminated duplication through helper functions
+- **Keep It Simple (KISS)**: Small, focused functions
+- **You Aren't Gonna Need It (YAGNI)**: Removed unused code
+- **Separation of Concerns**: Clear module boundaries
+- **Fail Fast**: Early validation and error detection
+- **Test-Driven Quality**: Comprehensive test suite
+- **Documentation First**: Clear docs for all public APIs
+
+### 7. **Architectural Patterns**
+
+#### Error Handling Strategy
+```
+User Action
+    ↓
+Application (try)
+    ↓
+Core/App Logic (may fail)
+    ↓
+Custom Error Types (with context)
+    ↓
+Error Aggregator (collect multiple)
+    ↓
+Logger (format and display)
+    ↓
+User (clear, actionable message)
+```
+
+#### Configuration Flow
+```
+Defaults (baseline)
+    ↓
+YAML Files (overlay)
+    ↓
+Environment Variables (override)
+    ↓
+CLI Flags (final override)
+    ↓
+Config with Helpers (easy access)
+```
+
+#### Separation of Concerns
+- Configuration management isolated in dedicated modules
+- Error handling centralized with custom types
+- Logging abstracted with level-based control
+- Template functions extracted for testability
 
 ---
 
@@ -1416,6 +1485,21 @@ For offline builds:
 2. Look at examples for similar use cases
 3. Review developer guide for technical details
 4. Check lessons learned for common issues
+
+### Development Insights
+
+**Key Takeaways from Refactoring:**
+1. Small, frequent commits make rollback easy
+2. Tests provide confidence for aggressive refactoring
+3. Good documentation pays dividends immediately
+4. DRY principle reduces bugs significantly
+5. Helper functions improve readability dramatically
+
+**What Worked Well:**
+- Incremental approach with small, focused changes
+- Testing after each change for immediate feedback
+- Documentation alongside code development
+- Custom error types for better debugging experience
 
 To contribute to this project:
 
