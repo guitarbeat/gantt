@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2024-01-XX
 
-### Added
+### Features
 
 - Initial release of PhD Dissertation Planner
 - CSV-based timeline data processing
@@ -48,8 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - YAML configuration system
 - Template-based PDF generation
 - Command-line interface with CLI library
-
-### Features
 
 - Academic timeline visualization
 - Task stacking and layout management

@@ -5,6 +5,7 @@ This directory contains automation scripts for development, building, and deploy
 ## Available Scripts
 
 ### `build.sh`
+
 Enhanced build script with additional options beyond the basic `make` command.
 
 ```bash
@@ -28,6 +29,7 @@ Enhanced build script with additional options beyond the basic `make` command.
 ```
 
 ### `setup.sh`
+
 Development environment setup script that checks dependencies and verifies the build.
 
 ```bash

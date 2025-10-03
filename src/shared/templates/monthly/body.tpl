@@ -7,19 +7,17 @@
 \vfill
 {{- $phaseGroups := .Body.Month.GetTaskColorsByPhase -}}
 {{- if $phaseGroups -}}
-\noindent{\small%
-{{- range $idx, $phase := $phaseGroups -}}
-{{- range $subIdx, $subPhase := $phase.SubPhases -}}
-{{- if or $idx $subIdx -}}\quad{{- end -}}\ColorCircle{ {{- $subPhase.Color -}} }{ {{- $subPhase.Name -}} }%
-{{- end -}}
-{{- end -}}
+\noindent{\small{{- range $idx, $phase := $phaseGroups -}}
+\textbf{ {{- $phase.PhaseName -}} }\\
+{{- range $subIdx, $subPhase := $phase.SubPhases -}}\ColorCircle{ {{- $subPhase.Color -}} }{ {{- $subPhase.Name -}} }\quad{{- end -}}\\
+
+{{- end -}}}%
 }
 {{- else -}}
 % Fallback to simple legend if no phase data
 {{- $taskColors := .Body.Month.GetTaskColors -}}
 {{- if $taskColors -}}
-\noindent{\small%
-{{- range $color, $category := $taskColors -}}{{- if ne $color "" -}}\ColorCircle{ {{- $color -}} }{ {{- $category -}} }\quad{{- end -}}{{- end -}}
+\noindent{\small{{- range $color, $category := $taskColors -}}{{- if ne $color "" -}}\ColorCircle{ {{- $color -}} }{ {{- $category -}} }\quad{{- end -}}{{- end -}}}
 }
 {{- else -}}
 \ColorLegend
