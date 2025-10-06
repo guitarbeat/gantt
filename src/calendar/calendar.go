@@ -278,36 +278,27 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	for i, task := range sortedTasks {
 		renderType := renderingTypes[task]
 
-		// Declare variables at function scope
-		var taskName, objective, taskColor string
-
+		// Skip rendering text for continuing tasks - just show the colored bar
 		if renderType == "continue" {
-			// Render continuation indicator
-			taskName = "→ " + d.escapeLatexSpecialChars(task.Name)
-			if d.isMilestoneSpanningTask(task) {
-				taskName = "→ ★ " + d.escapeLatexSpecialChars(task.Name)
-			}
-			objective = "" // Continuation tasks don't show objectives
-			taskColor = hexToRGB(task.Color)
-			if taskColor == "" {
-				taskColor = core.Defaults.DefaultTaskColor
-			}
-		} else {
-			// Render starting task (original logic)
-			taskName = d.escapeLatexSpecialChars(task.Name)
-			if d.isMilestoneSpanningTask(task) {
-				taskName = "★ " + taskName
-			}
+			// Don't render anything for continuing tasks
+			// The visual bar will span automatically via the cols parameter
+			continue
+		}
 
-			objective = ""
-			if task.Description != "" {
-				objective = d.escapeLatexSpecialChars(task.Description)
-			}
+		// Render starting task (original logic)
+		taskName := d.escapeLatexSpecialChars(task.Name)
+		if d.isMilestoneSpanningTask(task) {
+			taskName = "★ " + taskName
+		}
 
-			taskColor = hexToRGB(task.Color)
-			if taskColor == "" {
-				taskColor = core.Defaults.DefaultTaskColor
-			}
+		objective := ""
+		if task.Description != "" {
+			objective = d.escapeLatexSpecialChars(task.Description)
+		}
+
+		taskColor := hexToRGB(task.Color)
+		if taskColor == "" {
+			taskColor = core.Defaults.DefaultTaskColor
 		}
 
 		// Add spacing between stacked tasks (except for the first task)

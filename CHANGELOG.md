@@ -5,6 +5,49 @@ All notable changes to the PhD Dissertation Planner will be documented in this f
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.0] - 2025-10-03
+
+### Added
+
+- Timestamped release system with organized directory structure
+- Per-release README.md and metadata.json files
+- Version-specific INDEX.md files for tracking releases
+- Automated release build script (`scripts/build_release.sh`)
+- `.build_temp/` directory for temporary build artifacts
+
+### Changed
+
+- **Task Distribution**: Improved v5.1 timeline with better measurability (89% → 96%)
+  - Removed 9 non-measurable/administrative tasks
+  - Split 4 long tasks into 12 smaller milestones
+  - Maintained 107 total tasks with better distribution
+- **Task Rendering**: Fixed multi-day task spanning
+  - Tasks now show text only on start day
+  - Continuing days show only colored bar (no text duplication)
+  - Much cleaner calendar appearance
+- **Release Structure**: Organized releases in `releases/VERSION/TIMESTAMP_NAME/` format
+  - Each release is self-contained
+  - Simplified filenames (planner.pdf, planner.tex, source.csv)
+  - Better navigation and comparison capabilities
+
+### Removed
+
+- `generated/` directory (replaced by release system)
+- Old flat release structure with long filenames
+- Non-measurable maintenance tasks from timeline:
+  - T2.36: Maintain Automated Backups (608 days)
+  - T2.37: Maintain Surgical Training (244 days)
+  - T4.18: Maintain Lab Responsibilities (721 days)
+- Administrative tasks without clear deliverables:
+  - T4.11-T4.14: Semester registration maintenance
+  - T4.17: SPIE Student Chapter Activities
+
+### Fixed
+
+- Task rendering duplication on multi-day spans
+- Release file organization and naming
+- Git configuration for new release structure
+
 ## [Unreleased]
 
 ### Added

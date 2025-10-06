@@ -40,20 +40,33 @@ The PhD Dissertation Planner is a Go-based application that transforms CSV data 
 
 ## 🚀 Quick Start
 
+### Creating Releases (Recommended)
+
 ```bash
-# Setup development environment (downloads dependencies locally for offline use)
-./scripts/setup.sh
+# Create a timestamped release
+./scripts/build_release.sh
 
-# Build the generator and produce the PDF
-make clean-build
+# Create a named release for important milestones
+./scripts/build_release.sh --name "Committee_Review"
 
-# Or run the generator manually
-go build -mod=vendor -o generated/plannergen ./cmd/planner && \
-  PLANNER_SILENT=1 PLANNER_CSV_FILE="input_data/Research Timeline v5 - Comprehensive.csv" \
-  ./generated/plannergen --config "src/core/base.yaml" --outdir generated
+# View the latest release
+open releases/v5.1/$(ls -t releases/v5.1/ | head -2 | tail -1)/planner.pdf
 ```
 
-**Note**: Dependencies are vendored locally, so the project works offline after initial setup.
+### Development Build (Testing)
+
+```bash
+# Setup development environment
+./scripts/setup.sh
+
+# Quick test build (creates files in .build_temp/)
+make clean-build
+```
+
+**Note**: 
+- Use **releases** for archiving and tracking progression
+- Use **development builds** for quick testing
+- All releases are organized in timestamped directories
 
 ---
 
@@ -171,10 +184,20 @@ go run ./src/cmd/planner --config custom_config.yaml
 
 [![CI](https://github.com/your-username/phd-dissertation-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/phd-dissertation-planner/actions)
 
-- ✅ **PDF Generation**: Working (generates ~116KB PDFs)
-- ✅ **CSV Processing**: 84 tasks parsed successfully
+### Latest Improvements (October 2025)
+
+**v5.1 Released:**
+- ✅ Improved task distribution (removed 9 non-measurable tasks, split 4 long tasks)
+- ✅ Fixed task rendering (multi-day tasks now span properly without text duplication)
+- ✅ New release system with timestamped directories
+- ✅ Enhanced measurability (89% → 96%)
+
+**Current Status:**
+- ✅ **PDF Generation**: Working (~155KB PDFs with clean spanning)
+- ✅ **CSV Processing**: 107 tasks parsed successfully
 - ✅ **LaTeX Compilation**: XeLaTeX integration working
 - ✅ **Template System**: Go templates rendering correctly
+- ✅ **Release System**: Organized timestamped releases
 
 ---
 
@@ -1513,3 +1536,64 @@ To contribute to this project:
 *This comprehensive guide serves as the complete reference for the PhD Dissertation Planner project, combining project overview, architectural lessons, and organizational planning into a single authoritative document.*
 
 Last updated: October 2025
+
+---
+
+## 📦 Release System
+
+### Creating Releases
+
+Releases are organized in timestamped directories for easy tracking:
+
+```bash
+# Simple release
+./scripts/build_release.sh
+
+# Named release for milestones
+./scripts/build_release.sh --name "Advisor_Meeting"
+./scripts/build_release.sh --name "Committee_Final"
+
+# Weekly releases
+./scripts/build_release.sh --name "Week_$(date +%U)"
+```
+
+### Release Structure
+
+```
+releases/
+├── INDEX.md                    # Master index
+└── v5.1/
+    ├── INDEX.md               # Version-specific index
+    └── YYYYMMDD_HHMMSS_name/  # Each release directory
+        ├── planner.pdf        # Compiled PDF (~150-450 KB)
+        ├── planner.tex        # LaTeX source
+        ├── source.csv         # Original CSV data
+        ├── metadata.json      # Build metadata
+        └── README.md          # Release documentation
+```
+
+### Viewing Releases
+
+```bash
+# List all v5.1 releases
+ls -la releases/v5.1/
+
+# View release index
+cat releases/v5.1/INDEX.md
+
+# Open latest release
+open releases/v5.1/$(ls -t releases/v5.1/ | head -2 | tail -1)/planner.pdf
+
+# Compare releases
+diff releases/v5.1/20251003_120000_*/source.csv \
+     releases/v5.1/20251003_130000_*/source.csv
+```
+
+### Benefits
+
+- ✅ Each release is self-contained
+- ✅ Easy to compare versions
+- ✅ Timestamped for progression tracking
+- ✅ Includes all source data for reproducibility
+- ✅ Per-release documentation
+

@@ -51,3 +51,13 @@ Thumbs.db
 
 # Go coverage files
 coverage.out
+
+# Generated directory - use releases/ for version tracking
+generated/
+
+# Build temp directory
+.build_temp/
+
+# Releases - keep structure and indexes only
+releases/*/*/
+!releases/*/INDEX.md
