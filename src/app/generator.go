@@ -9,18 +9,20 @@
 // The package is the main entry point for the planner generation process:
 //
 // CLI Application:
-//   New() creates the CLI application with flags for configuration,
-//   output directory, and preview mode.
+//
+//	New() creates the CLI application with flags for configuration,
+//	output directory, and preview mode.
 //
 // Template System:
-//   Templates are loaded from embedded files or filesystem (for development).
-//   TemplateFuncs() provides custom template functions (dict, incr, dec, is).
+//
+//	Templates are loaded from embedded files or filesystem (for development).
+//	TemplateFuncs() provides custom template functions (dict, incr, dec, is).
 //
 // Generation Pipeline:
-//   1. Load configuration
-//   2. Setup output directory
-//   3. Generate root document
-//   4. Generate individual pages
+//  1. Load configuration
+//  2. Setup output directory
+//  3. Generate root document
+//  4. Generate individual pages
 //
 // Example usage:
 //
@@ -423,6 +425,7 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 					"Year":         year,
 					"Quarter":      targetMonth.Quarter,
 					"Month":        targetMonth,
+					"MonthRef":     fmt.Sprintf("month-%d-%d", targetMonth.Year.Number, int(targetMonth.Month)),
 					"Breadcrumb":   targetMonth.Breadcrumb(),
 					"HeadingMOS":   targetMonth.HeadingMOS(),
 					"SideQuarters": year.SideQuarters(targetMonth.Quarter.Number),
@@ -450,19 +453,20 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 					modules = append(modules, core.Module{
 						Cfg: cfg,
 						Tpl: tpls[0],
-						Body: map[string]interface{}{
-							"Year":         year,
-							"Quarter":      quarter,
-							"Month":        month,
-							"Breadcrumb":   month.Breadcrumb(),
-							"HeadingMOS":   month.HeadingMOS(),
-							"SideQuarters": year.SideQuarters(quarter.Number),
-							"SideMonths":   year.SideMonths(month.Month),
-							"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner, cfg.Layout.Calendar.TaskKernSpacing),
-							"Large":        true,
-							"TableType":    "tabularx",
-							"Today":        cal.Day{Time: time.Now(), Cfg: &cfg},
-						},
+				Body: map[string]interface{}{
+					"Year":         year,
+					"Quarter":      quarter,
+					"Month":        month,
+					"MonthRef":     fmt.Sprintf("month-%d-%d", month.Year.Number, int(month.Month)),
+					"Breadcrumb":   month.Breadcrumb(),
+					"HeadingMOS":   month.HeadingMOS(),
+					"SideQuarters": year.SideQuarters(quarter.Number),
+					"SideMonths":   year.SideMonths(month.Month),
+					"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner, cfg.Layout.Calendar.TaskKernSpacing),
+					"Large":        true,
+					"TableType":    "tabularx",
+					"Today":        cal.Day{Time: time.Now(), Cfg: &cfg},
+				},
 					})
 				}
 			}

@@ -6,21 +6,25 @@
 // Available functions:
 //
 // dict: Create maps from key-value pairs
-//   Usage: {{ template "name" (dict "key1" value1 "key2" value2) }}
-//   Useful for passing multiple parameters to templates
+//
+//	Usage: {{ template "name" (dict "key1" value1 "key2" value2) }}
+//	Useful for passing multiple parameters to templates
 //
 // incr: Increment an integer by 1
-//   Usage: {{ incr .Index }}
-//   Common for loop counters and pagination
+//
+//	Usage: {{ incr .Index }}
+//	Common for loop counters and pagination
 //
 // dec: Decrement an integer by 1
-//   Usage: {{ dec .Index }}
-//   Useful for zero-based indexing
+//
+//	Usage: {{ dec .Index }}
+//	Useful for zero-based indexing
 //
 // is: Check if a value is truthy
-//   Usage: {{ if is .Value }}...{{ end }}
-//   Returns true for non-nil values and explicit true booleans
-//   Returns false for nil and explicit false booleans
+//
+//	Usage: {{ if is .Value }}...{{ end }}
+//	Returns true for non-nil values and explicit true booleans
+//	Returns false for nil and explicit false booleans
 //
 // All functions are thoroughly tested with 100% code coverage.
 // See template_funcs_test.go for comprehensive test cases.
@@ -44,16 +48,19 @@ package app
 import (
 	"errors"
 	"text/template"
+
+	"phd-dissertation-planner/src/shared/templates"
 )
 
 // TemplateFuncs returns a FuncMap with all custom template functions
 // These functions are available to all templates during rendering
 func TemplateFuncs() template.FuncMap {
 	return template.FuncMap{
-		"dict": dictFunc,
-		"incr": incrFunc,
-		"dec":  decFunc,
-		"is":   isFunc,
+		"dict":       dictFunc,
+		"incr":       incrFunc,
+		"dec":        decFunc,
+		"is":         isFunc,
+		"hypertarget": templates.Hypertarget,
 	}
 }
 
