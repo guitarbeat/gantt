@@ -7,8 +7,10 @@
 \vfill
 {{- $phaseGroups := .Body.Month.GetTaskColorsByPhase -}}
 {{- if $phaseGroups -}}
-\noindent{\small{{- range $idx, $phase := $phaseGroups -}}
-\textbf{ {{- $phase.PhaseName -}} }\\
+{\small{{- range $idx, $phase := $phaseGroups -}}
+% Phase header with subtle background
+{\colorbox[RGB]{245,245,245}{\makebox[\linewidth][l]{\textbf{ {{- $phase.PhaseName -}} }}}\\
+\vspace{1pt}
 {{- range $subIdx, $subPhase := $phase.SubPhases -}}\ColorCircle{ {{- $subPhase.Color -}} }{ {{- $subPhase.Name -}} }\quad{{- end -}}\\
 
 {{- end -}}}%
@@ -17,9 +19,17 @@
 % Fallback to simple legend if no phase data
 {{- $taskColors := .Body.Month.GetTaskColors -}}
 {{- if $taskColors -}}
-\noindent{\small{{- range $color, $category := $taskColors -}}{{- if ne $color "" -}}\ColorCircle{ {{- $color -}} }{ {{- $category -}} }\quad{{- end -}}{{- end -}}}
+\noindent{\small
+% Legend header
+{\colorbox[RGB]{250,250,250]{\makebox[\linewidth][l]{\textbf{Task Categories}}}}\\
+\vspace{1pt}
+{{- range $color, $category := $taskColors -}}{{- if ne $color "" -}}\ColorCircle{ {{- $color -}} }{ {{- $category -}} }\quad{{- end -}}{{- end -}}}
 }
 {{- else -}}
-\ColorLegend
+% Ultimate fallback to algorithmic legend
+\noindent{\small
+{\colorbox[RGB]{248,248,248]{\makebox[\linewidth][l]{\textbf{Default Categories}}}}\\
+\vspace{1pt}
+\ColorLegend}
 {{- end -}}
 {{- end -}}

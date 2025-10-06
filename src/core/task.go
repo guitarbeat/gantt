@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -47,70 +48,78 @@ var (
 	CategoryPROPOSAL = TaskCategory{
 		Name:        "PROPOSAL",
 		DisplayName: "Proposal",
-		Color:       generateCategoryColor("PROPOSAL"),
+		Color:       GenerateCategoryColor("PROPOSAL"),
 		Description: "PhD proposal related tasks",
 	}
 
 	CategoryLASER = TaskCategory{
 		Name:        "LASER",
 		DisplayName: "Laser System",
-		Color:       generateCategoryColor("LASER"),
+		Color:       GenerateCategoryColor("LASER"),
 		Description: "Laser system setup and maintenance",
 	}
 
 	CategoryIMAGING = TaskCategory{
 		Name:        "IMAGING",
 		DisplayName: "Imaging",
-		Color:       generateCategoryColor("IMAGING"),
+		Color:       GenerateCategoryColor("IMAGING"),
 		Description: "Imaging experiments and data collection",
 	}
 
 	CategoryADMIN = TaskCategory{
 		Name:        "ADMIN",
 		DisplayName: "Administrative",
-		Color:       generateCategoryColor("ADMIN"),
+		Color:       GenerateCategoryColor("ADMIN"),
 		Description: "Administrative tasks and paperwork",
 	}
 
 	CategoryDISSERTATION = TaskCategory{
 		Name:        "DISSERTATION",
 		DisplayName: "Dissertation",
-		Color:       generateCategoryColor("DISSERTATION"),
+		Color:       GenerateCategoryColor("DISSERTATION"),
 		Description: "Dissertation writing and defense",
 	}
 
 	CategoryRESEARCH = TaskCategory{
 		Name:        "RESEARCH",
 		DisplayName: "Research",
-		Color:       generateCategoryColor("RESEARCH"),
+		Color:       GenerateCategoryColor("RESEARCH"),
 		Description: "General research activities",
 	}
 
 	CategoryPUBLICATION = TaskCategory{
 		Name:        "PUBLICATION",
 		DisplayName: "Publication",
-		Color:       generateCategoryColor("PUBLICATION"),
+		Color:       GenerateCategoryColor("PUBLICATION"),
 		Description: "Publication and manuscript writing",
 	}
 )
 
-// generateCategoryColor creates a consistent, visually distinct color based on the category name
-func generateCategoryColor(category string) string {
-	// Use a better hash function to generate consistent colors
-	hash := 0
-	for i, char := range category {
-		hash = hash*31 + int(char) + i*7 // Add position to improve distribution
-	}
+// GenerateCategoryColor creates a consistent, visually distinct color based on the category name
+func GenerateCategoryColor(category string) string {
+	// Dynamic color assignment using golden angle for maximum visual distinction
+	// This ensures each unique category gets a unique, well-distributed color
 
-	// Convert hash to a positive number
+	// Normalize category name for consistency
+	normalizedCategory := strings.ToUpper(strings.TrimSpace(category))
+
+	// Create a hash of the category name for consistent color assignment
+	hash := 0
+	for i, char := range normalizedCategory {
+		hash = hash*31 + int(char) + i*7 // Improved hash distribution
+	}
 	if hash < 0 {
 		hash = -hash
 	}
 
-	// Generate HSL color with good saturation and lightness for readability
-	hue := float64(hash % 360)                 // 0-360 degrees
-	saturation := 0.7 + float64(hash%30)/100.0 // 0.7-1.0 for good saturation
-	lightness := 0.5 + float64(hash%20)/100.0  // 0.5-0.7 for good contrast
+	// Use golden angle approximation (137.5 degrees) for optimal color distribution
+	// This spreads colors evenly around the color wheel
+	hue := float64(hash%360) * 137.5
+	hue = hue - float64(int(hue/360.0)*360) // Keep hue in 0-360 range
+
+	// Optimized saturation and lightness for accessibility and visual appeal
+	saturation := 0.75 // High saturation for vibrancy
+	lightness := 0.65  // Balanced lightness for good contrast
 
 	// Convert HSL to RGB
 	r, g, b := hslToRgb(hue, saturation, lightness)

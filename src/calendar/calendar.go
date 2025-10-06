@@ -79,7 +79,6 @@ func (d Day) renderLargeDay(day string) string {
 	return d.buildSimpleDayCell(leftCell)
 }
 
-
 // ref generates a reference string for the day
 func (d Day) ref(prefix ...string) string {
 	p := ""
@@ -168,8 +167,8 @@ func (d Day) buildSpanningLayout(content string, cols int) cellLayout {
 func (d Day) buildVerticalStackLayout(content string) cellLayout {
 	return cellLayout{
 		width:          `\linewidth`, // Just use the cell width
-		spacing:        "",            // No offset
-		contentWrapper: content,       // Use content directly
+		spacing:        "",           // No offset
+		contentWrapper: content,      // Use content directly
 	}
 }
 
@@ -225,7 +224,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 	// Assign tracks to ALL active tasks (including continuing ones)
 	// This ensures consistent track assignments across days
-	trackAssignments := d.assignTaskTracks(activeTasks, dayDate)
+	trackAssignments := d.assignTaskTracks(activeTasks)
 
 	// Build rendering lists: tasks that START today vs. tasks that CONTINUE today
 	var startingTasks []*SpanningTask
@@ -307,8 +306,17 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			spacing = `\vspace{1mm}` // Add 1mm spacing between stacked tasks
 		}
 
-		// Use TaskOverlayBox - LaTeX will stack naturally with spacing
-		pillContent := spacing + fmt.Sprintf(`\TaskOverlayBox{%s}{%s}{%s}`,
+		// Choose appropriate macro based on whether task is a milestone
+		var macroName string
+		if task.IsMilestone {
+			macroName = `\MilestoneTaskOverlayBox`
+		} else {
+			macroName = `\TaskOverlayBox`
+		}
+
+		// Use appropriate macro - LaTeX will stack naturally with spacing
+		pillContent := spacing + fmt.Sprintf(`%s{%s}{%s}{%s}`,
+			macroName,
 			taskColor,
 			taskName,
 			objective)
@@ -381,7 +389,7 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 		if d.isTaskActiveOnDay(dayDate, start, end) && !seen[task] {
 			activeTasks = append(activeTasks, task)
 			seen[task] = true
-			
+
 			// Calculate columns differently based on whether task starts today
 			var cols int
 			if dayDate.Equal(start) {
@@ -391,7 +399,7 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 				// Task started earlier: calculate remaining span
 				cols = d.calculateRemainingSpanColumns(dayDate, end)
 			}
-			
+
 			if cols > maxCols {
 				maxCols = cols
 			}
@@ -406,15 +414,15 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 
 // assignTaskTracks assigns vertical tracks to tasks to prevent visual overlap
 // Returns a map of task ID to track number (0-based, 0 is bottom)
-func (d Day) assignTaskTracks(tasks []*SpanningTask, dayDate time.Time) map[string]int {
+func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 	trackAssignments := make(map[string]int)
-	
+
 	// For each task, find the lowest available track
 	for _, task := range tasks {
 		track := d.findLowestAvailableTrackForTask(task, trackAssignments)
 		trackAssignments[task.ID] = track
 	}
-	
+
 	return trackAssignments
 }
 
@@ -422,23 +430,23 @@ func (d Day) assignTaskTracks(tasks []*SpanningTask, dayDate time.Time) map[stri
 func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, existing map[string]int) int {
 	taskStart := d.getTaskStartDate(task)
 	taskEnd := d.getTaskEndDate(task)
-	
+
 	// Check each track starting from 0
 	for track := 0; track < 100; track++ {
 		occupied := false
-		
+
 		// Check if any existing task on this track overlaps with our task
 		for otherTaskID, otherTrack := range existing {
 			if otherTrack != track {
 				continue // Different track, no conflict
 			}
-			
+
 			// Find the other task
 			for _, otherTask := range d.Tasks {
 				if otherTask.ID == otherTaskID {
 					otherStart := d.getTaskStartDate(otherTask)
 					otherEnd := d.getTaskEndDate(otherTask)
-					
+
 					// Check if date ranges overlap
 					if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
 						occupied = true
@@ -446,17 +454,17 @@ func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, existing map[st
 					}
 				}
 			}
-			
+
 			if occupied {
 				break
 			}
 		}
-		
+
 		if !occupied {
 			return track
 		}
 	}
-	
+
 	return 0 // Fallback
 }
 
@@ -472,7 +480,7 @@ func (d Day) calculateRemainingSpanColumns(dayDate, end time.Time) int {
 	idxMonFirst := (int(dayDate.Weekday()) + 6) % 7 // Monday=0
 	remainInRow := 7 - idxMonFirst
 	daysLeft := int(end.Sub(dayDate).Hours()/24) + 1
-	
+
 	if daysLeft < 1 {
 		return 1 // At least show on current day
 	}
@@ -505,7 +513,7 @@ func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 }
 
 // ============================================================================
-// HELPER FUNCTIONS - LATEX UTILITIES  
+// HELPER FUNCTIONS - LATEX UTILITIES
 // ============================================================================
 
 // escapeLatexSpecialChars replaces special LaTeX characters with their escaped versions
@@ -965,7 +973,7 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 	// Map to track unique phase -> subphase -> color
 	phaseMap := make(map[string]map[string]string)
 	phaseNames := make(map[string]string) // phase number -> full phase description
-	
+
 	// Collect all unique phase/subphase combinations in this month
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
@@ -975,13 +983,13 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 					if phaseMap[task.Phase] == nil {
 						phaseMap[task.Phase] = make(map[string]string)
 					}
-					
+
 					// Get color for this subphase (category)
 					color := getColorForCategory(task.SubPhase)
 					if color != "" {
 						phaseMap[task.Phase][task.SubPhase] = hexToRGB(color)
 					}
-					
+
 					// Store phase name (use first non-empty one)
 					if phaseNames[task.Phase] == "" && task.SubPhase != "" {
 						phaseNames[task.Phase] = task.SubPhase
@@ -990,18 +998,18 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 			}
 		}
 	}
-	
+
 	// Convert to sorted structure
 	var phases []PhaseGroup
 	phaseOrder := []string{"1", "2", "3", "4"} // Typical phase numbering
-	
+
 	for _, phaseNum := range phaseOrder {
 		if subPhases, exists := phaseMap[phaseNum]; exists {
 			phase := PhaseGroup{
 				PhaseNumber: phaseNum,
 				PhaseName:   getPhaseDescription(phaseNum),
 			}
-			
+
 			// Add each subphase
 			for subPhaseName, color := range subPhases {
 				phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
@@ -1009,11 +1017,11 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 					Color: color,
 				})
 			}
-			
+
 			phases = append(phases, phase)
 		}
 	}
-	
+
 	return phases
 }
 
@@ -1025,7 +1033,7 @@ func getPhaseDescription(phaseNum string) string {
 		"3": "Phase 3: Publications",
 		"4": "Phase 4: Dissertation",
 	}
-	
+
 	if desc, exists := descriptions[phaseNum]; exists {
 		return desc
 	}
@@ -1139,6 +1147,7 @@ type SpanningTask struct {
 	Progress    int    // Progress percentage (0-100)
 	Status      string // Task status
 	Assignee    string // Task assignee
+	IsMilestone bool   // Whether this is a milestone task
 }
 
 // CreateSpanningTask creates a new spanning task from basic task data
@@ -1156,9 +1165,10 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 		StartDate:   startDate,
 		EndDate:     endDate,
 		Color:       color,
-		Progress:    0,             // Default progress
-		Status:      task.Status,   // * Fixed: Use actual Status field
-		Assignee:    task.Assignee, // * Fixed: Use actual Assignee field
+		Progress:    0,                // Default progress
+		Status:      task.Status,      // * Fixed: Use actual Status field
+		Assignee:    task.Assignee,    // * Fixed: Use actual Assignee field
+		IsMilestone: task.IsMilestone, // * Added: Pass milestone status
 	}
 }
 

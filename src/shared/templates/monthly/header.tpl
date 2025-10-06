@@ -1,5 +1,5 @@
 {{- hypertarget .Body.MonthRef "" -}}
-{\noindent\Large\renewcommand{\arraystretch}{\myNumArrayStretch}
+{\noindent\normalsize\renewcommand{\arraystretch}{1.0}
 {{- .Body.Breadcrumb -}}
 \hfill%
 {{ .Body.Extra.Table false -}}

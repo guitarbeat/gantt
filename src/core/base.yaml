@@ -39,22 +39,32 @@ layout:
 
   # LaTeX visual constants
   latex:
-    tabcolsep: 3.5pt
+    tabcolsep: 4pt  # Increased for better readability
     headersidemonthswidth: 14.5cm
-    arraystretch: 1.2
-    monthlycellheight: 75pt  # Reduced from 95pt for better display
+    arraystretch: 1.15  # Slightly reduced for better density
+    monthlycellheight: 72pt  # Optimized height
     headerresizebox: 6mm
-    linethicknessdefault: .4pt
-    linethicknessthick: .8pt
-    colsep: 5pt
+    linethicknessdefault: .35pt  # Finer lines for elegance
+    linethicknessthick: .7pt   # Proportional thick lines
+    colsep: 4pt  # Consistent spacing
 
     # Document settings
     document:
       fontsize: 9pt
       parindent: 0pt
 
-    # Typography settings
+    # Typography scale - systematic sizing
     typography:
+      # Base sizes using 1.2x scale ratio for harmony
+      scale:
+        xs: 7pt    # Extra small - fine details
+        sm: 8pt    # Small - secondary text
+        base: 9pt  # Base - body text
+        lg: 11pt   # Large - emphasis
+        xl: 13pt   # Extra large - headings
+        xxl: 16pt  # 2X large - major headings
+
+      # Typography settings
       hyphenpenalty: 10000  # Prevent word splitting
       tolerance: 1000
       emergencystretch: 2em
@@ -63,21 +73,34 @@ layout:
   # Task styling and spacing - centralized for easier maintenance
   task_styling:
     # Core task appearance
-    fontsize: \small
-    bar_height: 5mm
-    border_width: 0.6pt
+    fontsize: \footnotesize  # Smaller, more refined text
+    bar_height: 4.5mm       # Slightly reduced for elegance
+    border_width: 0.5pt     # Finer borders for sophistication
     show_objectives: false  # Set to true to show task descriptions/objectives
 
     # Visual styling
-    background_opacity: 20
-    border_opacity: 80
+    background_opacity: 15  # Reduced for subtlety
+    border_opacity: 75      # Slightly more transparent
 
-    # Task box spacing and padding
+    # Spacing system - systematic scale (4pt base unit)
     spacing:
       vertical_offset: 0pt          # Tasks positioned at bottom of cell using \vfill
-      content_vspace: "0.2ex"       # Space between task title and description
-      padding_horizontal: 1.5mm     # Horizontal padding inside task boxes
-      padding_vertical: 0.5mm       # Vertical padding inside task boxes
+      content_vspace: "0.15ex"      # Tighter line spacing
+      padding_horizontal: 1.2mm     # Reduced padding for cleaner look
+      padding_vertical: 0.4mm       # Optimized vertical padding
+
+    # Typography hierarchy for tasks
+    typography:
+      title_size: \footnotesize      # Task titles
+      body_size: \scriptsize         # Task descriptions
+      title_weight: \textbf         # Bold titles
+      body_weight: \normalfont      # Regular body text
+
+    # Milestone-specific styling
+    milestone:
+      border_width: 1.2pt           # Thicker border for milestones
+      border_opacity: 90            # More opaque border
+      background_opacity: 25        # Slightly more prominent background
 
     # TColorBox styling for task boxes
     tcolorbox:

@@ -413,9 +413,6 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	// Extract dependencies
 	task.Dependencies = extractor.getList("Dependencies")
 
-	// Determine if milestone
-	task.IsMilestone = r.isMilestoneTask(task.Name, task.Description)
-
 	// Parse dates
 	if err := r.extractDateFields(&task, extractor, rowNum); err != nil {
 		return task, err
@@ -429,7 +426,7 @@ func (r *Reader) parseTask(record []string, fieldIndex map[string]int, rowNum in
 	return task, nil
 }
 
-// extractBasicFields extracts ID, name, and description
+// extractBasicFields extracts ID, name, description, and milestone status
 func (r *Reader) extractBasicFields(task *Task, extractor *fieldExtractor) {
 	task.ID = extractor.get("Task ID")
 	if task.ID == "" {
@@ -437,6 +434,15 @@ func (r *Reader) extractBasicFields(task *Task, extractor *fieldExtractor) {
 	}
 	task.Name = extractor.get("Task")
 	task.Description = extractor.get("Objective")
+
+	// Extract milestone status from CSV column or detect from content
+	milestoneValue := extractor.get("Milestone")
+	if milestoneValue != "" && strings.ToLower(milestoneValue) != "false" {
+		task.IsMilestone = true
+	} else {
+		// Fallback to keyword detection
+		task.IsMilestone = r.isMilestoneTask(task.Name, task.Description)
+	}
 }
 
 // extractPhaseFields extracts phase and category information

@@ -9,9 +9,10 @@ import (
 )
 
 const (
-	fConfig = "config"
-	pConfig = "preview"
-	fOutDir = "outdir"
+	fConfig       = "config"
+	pConfig       = "preview"
+	fOutDir       = "outdir"
+	fTestCoverage = "test-coverage"
 )
 
 func New() *cli.App {
@@ -28,6 +29,7 @@ func New() *cli.App {
 			&cli.PathFlag{Name: fConfig, Required: false, Value: "src/core/base.yaml", Usage: "config file(s), comma-separated"},
 			&cli.BoolFlag{Name: pConfig, Required: false, Usage: "render only one page per unique module"},
 			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
+			&cli.BoolFlag{Name: "test-coverage", Required: false, Usage: "run tests with coverage analysis"},
 		},
 
 		Action: action,

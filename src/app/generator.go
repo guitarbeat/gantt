@@ -47,12 +47,15 @@
 package app
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"io"
 	"io/fs"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -83,8 +86,13 @@ const (
 
 var logger = core.NewDefaultLogger()
 
-// action is the main CLI action that orchestrates document generation
+// action is the main CLI action that orchestrates document generation or test coverage
 func action(c *cli.Context) error {
+	// Check if test coverage is requested
+	if c.Bool(fTestCoverage) {
+		return runTestCoverage()
+	}
+
 	// Load and prepare configuration
 	cfg, pathConfigs, err := loadConfiguration(c)
 	if err != nil {
@@ -110,9 +118,196 @@ func action(c *cli.Context) error {
 	return nil
 }
 
+// runTestCoverage executes tests with coverage analysis and provides formatted results
+func runTestCoverage() error {
+	fmt.Println("🧪 Running Test Coverage Analysis")
+	fmt.Println("═══════════════════════════════════════")
+
+	// Create coverage output file
+	coverageFile := "coverage.out"
+
+	// Run tests with coverage
+	cmd := exec.Command("go", "test", "-mod=vendor", "-coverprofile="+coverageFile, "-covermode=count", "./...")
+	output, err := cmd.CombinedOutput()
+
+	// Print test results
+	if len(output) > 0 {
+		fmt.Println("Test Results:")
+		fmt.Println(string(output))
+	}
+
+	if err != nil {
+		fmt.Printf("❌ Tests failed: %v\n", err)
+		return err
+	}
+
+	// Check if coverage file was created
+	if _, err := os.Stat(coverageFile); os.IsNotExist(err) {
+		fmt.Println("⚠️  No coverage data generated")
+		return nil
+	}
+
+	// Parse and display coverage report
+	if err := analyzeCoverage(coverageFile); err != nil {
+		fmt.Printf("⚠️  Coverage analysis failed: %v\n", err)
+		return err
+	}
+
+	return nil
+}
+
+// analyzeCoverage parses the coverage file and provides a formatted report
+func analyzeCoverage(coverageFile string) error {
+	file, err := os.Open(coverageFile)
+	if err != nil {
+		return fmt.Errorf("failed to open coverage file: %w", err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	// Maps to store coverage data
+	packageCoverage := make(map[string][]float64)
+	totalStatements := 0
+	totalCovered := 0
+
+	// Skip the first line (mode)
+	if scanner.Scan() {
+		// Skip mode line
+	}
+
+	// Parse coverage data
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+
+		parts := strings.Fields(line)
+		if len(parts) < 3 {
+			continue
+		}
+
+		// Extract package name from file path
+		filePath := parts[0]
+		pathParts := strings.Split(filePath, "/")
+		var packageName string
+		for i, part := range pathParts {
+			if strings.HasSuffix(part, ".go") {
+				if i > 0 {
+					packageName = pathParts[i-1]
+				}
+				break
+			}
+		}
+
+		if packageName == "" {
+			packageName = "main"
+		}
+
+		// Parse coverage percentage
+		coverageStr := parts[2]
+		if strings.HasSuffix(coverageStr, "%") {
+			coverageStr = coverageStr[:len(coverageStr)-1]
+		}
+
+		coverage, err := strconv.ParseFloat(coverageStr, 64)
+		if err != nil {
+			continue
+		}
+
+		packageCoverage[packageName] = append(packageCoverage[packageName], coverage)
+		totalStatements++
+		if coverage > 0 {
+			totalCovered++
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return fmt.Errorf("error reading coverage file: %w", err)
+	}
+
+	// Calculate and display results
+	fmt.Println("\n📊 Coverage Analysis Report")
+	fmt.Println("═══════════════════════════════════════")
+
+	// Package breakdown
+	fmt.Println("Package Coverage:")
+	for pkg, coverages := range packageCoverage {
+		if len(coverages) == 0 {
+			continue
+		}
+
+		// Calculate average coverage for package
+		sum := 0.0
+		for _, cov := range coverages {
+			sum += cov
+		}
+		avgCoverage := sum / float64(len(coverages))
+
+		status := "❌"
+		if avgCoverage >= 80 {
+			status = "✅"
+		} else if avgCoverage >= 60 {
+			status = "⚠️ "
+		}
+
+		fmt.Printf("  %s %-20s %.1f%% (%d files)\n", status, pkg, avgCoverage, len(coverages))
+	}
+
+	// Overall statistics
+	overallCoverage := 0.0
+	if totalStatements > 0 {
+		overallCoverage = float64(totalCovered) / float64(totalStatements) * 100
+	}
+
+	fmt.Printf("\nOverall Coverage: %.1f%%\n", overallCoverage)
+	fmt.Printf("Files Analyzed: %d\n", len(packageCoverage))
+
+	// Provide recommendations
+	fmt.Println("\n💡 Recommendations:")
+	if overallCoverage < 60 {
+		fmt.Println("  • Coverage is low - consider adding more tests")
+		fmt.Println("  • Focus on testing critical business logic")
+	}
+	if overallCoverage >= 80 {
+		fmt.Println("  • Excellent coverage! Keep up the good work")
+	} else {
+		fmt.Println("  • Aim for 80%+ coverage for better reliability")
+		fmt.Println("  • Add tests for error conditions and edge cases")
+	}
+
+	fmt.Println("═══════════════════════════════════════")
+
+	return nil
+}
+
 // loadConfiguration loads and validates the configuration from CLI context
 func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
-	pathConfigs := strings.Split(c.Path(fConfig), ",")
+	initialPathConfigs := strings.Split(c.Path(fConfig), ",")
+
+	// Auto-detect CSV and adjust configuration accordingly
+	csvPath := c.String("PLANNER_CSV_FILE")
+	if csvPath == "" {
+		autoPath, err := autoDetectCSV()
+		if err == nil {
+			csvPath = autoPath
+			// Set the CSV path for later use
+			os.Setenv("PLANNER_CSV_FILE", csvPath)
+			fmt.Printf("Auto-detected CSV file: %s\n", csvPath)
+		}
+	}
+
+	// Auto-detect configuration based on CSV
+	pathConfigs := initialPathConfigs
+	if csvPath != "" && len(initialPathConfigs) == 1 && initialPathConfigs[0] == "src/core/base.yaml" {
+		autoConfigs, err := autoDetectConfig(csvPath)
+		if err == nil && len(autoConfigs) > 0 {
+			pathConfigs = autoConfigs
+			fmt.Printf("Auto-detected configuration files: %v\n", autoConfigs)
+		}
+	}
+
 	cfg, err := core.NewConfig(pathConfigs...)
 	if err != nil {
 		return core.Config{}, nil, core.NewConfigError(
@@ -376,8 +571,10 @@ func Monthly(cfg core.Config, tpls []string) (core.Modules, error) {
 func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 	// Load tasks from CSV if available
 	var tasks []core.Task
-	if cfg.CSVFilePath != "" {
-		reader := core.NewReader(cfg.CSVFilePath)
+	csvPath := cfg.CSVFilePath
+
+	if csvPath != "" {
+		reader := core.NewReader(csvPath)
 		var err error
 		tasks, err = reader.ReadTasks()
 		if err != nil {
@@ -388,7 +585,13 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 
 	// If we have months with tasks from CSV, use only those
 	if len(cfg.MonthsWithTasks) > 0 {
-		modules := make(core.Modules, 0, len(cfg.MonthsWithTasks))
+		var modules core.Modules
+		if len(tasks) > 0 {
+			tocModule := createTableOfContentsModule(cfg, tasks, tpls[0])
+			modules = append(modules, tocModule)
+		}
+
+		monthModules := make(core.Modules, 0, len(cfg.MonthsWithTasks))
 
 		for _, monthYear := range cfg.MonthsWithTasks {
 			year := cal.NewYear(cfg.WeekStart, monthYear.Year, &cfg)
@@ -418,7 +621,7 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 			// Assign tasks to days in this month
 			assignTasksToMonth(targetMonth, tasks)
 
-			modules = append(modules, core.Module{
+			monthModules = append(monthModules, core.Module{
 				Cfg: cfg,
 				Tpl: tpls[0],
 				Body: map[string]interface{}{
@@ -438,6 +641,8 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 			})
 		}
 
+		// Combine TOC modules with month modules
+		modules = append(modules, monthModules...)
 		return modules, nil
 	} else {
 		// Fallback to original behavior if no CSV data
@@ -473,6 +678,258 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 		}
 
 		return modules, nil
+	}
+}
+
+// hexToRGBString converts a hex color string to RGB format for LaTeX
+func hexToRGBString(hex string) string {
+	if len(hex) < 7 || hex[0] != '#' {
+		return "0,0,0" // Default black
+	}
+
+	// Parse hex values
+	r, err1 := strconv.ParseInt(hex[1:3], 16, 64)
+	g, err2 := strconv.ParseInt(hex[3:5], 16, 64)
+	b, err3 := strconv.ParseInt(hex[5:7], 16, 64)
+
+	if err1 != nil || err2 != nil || err3 != nil {
+		return "0,0,0" // Default black on error
+	}
+
+	return fmt.Sprintf("%d,%d,%d", r, g, b)
+}
+
+// autoDetectCSV automatically finds the most appropriate CSV file in the input_data directory
+func autoDetectCSV() (string, error) {
+	inputDir := "input_data"
+
+	// Check if input_data directory exists
+	if _, err := os.Stat(inputDir); os.IsNotExist(err) {
+		return "", fmt.Errorf("input_data directory not found")
+	}
+
+	// Find all CSV files
+	files, err := os.ReadDir(inputDir)
+	if err != nil {
+		return "", fmt.Errorf("failed to read input_data directory: %w", err)
+	}
+
+	var csvFiles []os.DirEntry
+	for _, file := range files {
+		if !file.IsDir() && strings.HasSuffix(strings.ToLower(file.Name()), ".csv") {
+			csvFiles = append(csvFiles, file)
+		}
+	}
+
+	if len(csvFiles) == 0 {
+		return "", fmt.Errorf("no CSV files found in input_data directory")
+	}
+
+	// If only one CSV file, use it
+	if len(csvFiles) == 1 {
+		return filepath.Join(inputDir, csvFiles[0].Name()), nil
+	}
+
+	// Multiple CSV files - use priority selection
+	// Priority: comprehensive > numbered versions > others
+	var bestFile os.DirEntry
+	bestPriority := 0
+
+	for _, file := range csvFiles {
+		name := strings.ToLower(file.Name())
+		priority := 0
+
+		// Highest priority: comprehensive files
+		if strings.Contains(name, "comprehensive") {
+			priority = 10
+		}
+
+		// Versioned files get priority based on version number
+		if strings.Contains(name, "v") && strings.Contains(name, ".") {
+			// Extract version numbers (simple heuristic)
+			if strings.Contains(name, "v5.1") {
+				priority = 8
+			} else if strings.Contains(name, "v5") {
+				priority = 6
+			}
+		}
+
+		// Most recent modification time as tiebreaker
+		if priority > bestPriority ||
+		   (priority == bestPriority && bestFile == nil) {
+			bestPriority = priority
+			bestFile = file
+		} else if priority == bestPriority && bestFile != nil {
+			// Compare modification times
+			currentInfo, err1 := file.Info()
+			bestInfo, err2 := bestFile.Info()
+			if err1 == nil && err2 == nil && currentInfo.ModTime().After(bestInfo.ModTime()) {
+				bestFile = file
+			}
+		}
+	}
+
+	if bestFile != nil {
+		return filepath.Join(inputDir, bestFile.Name()), nil
+	}
+
+	// Fallback to first file
+	return filepath.Join(inputDir, csvFiles[0].Name()), nil
+}
+
+// autoDetectConfig automatically determines appropriate configuration files based on CSV content
+func autoDetectConfig(csvPath string) ([]string, error) {
+	// Read first few lines to detect version/format
+	file, err := os.Open(csvPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open CSV for config detection: %w", err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var lines []string
+	for i := 0; i < 5 && scanner.Scan(); i++ {
+		lines = append(lines, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to read CSV for config detection: %w", err)
+	}
+
+	// Default configuration
+	baseConfig := "src/core/base.yaml"
+
+	// Detect CSV version from filename or content
+	csvName := strings.ToLower(filepath.Base(csvPath))
+
+	if strings.Contains(csvName, "v5.1") {
+		// v5.1 format - use monthly calendar config
+		return []string{baseConfig, "src/core/monthly_calendar.yaml"}, nil
+	} else if strings.Contains(csvName, "v5") {
+		// v5 format - use basic calendar config
+		return []string{baseConfig, "src/core/calendar.yaml"}, nil
+	}
+
+	// Check content for version detection
+	if len(lines) > 0 {
+		header := strings.ToLower(lines[0])
+		if strings.Contains(header, "phase") && strings.Contains(header, "sub-phase") {
+			// Has phase and sub-phase columns - v5.1 format
+			return []string{baseConfig, "src/core/monthly_calendar.yaml"}, nil
+		}
+	}
+
+	// Default to basic configuration
+	return []string{baseConfig}, nil
+}
+
+// createTableOfContentsModule creates a table of contents module with links to all tasks
+func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateName string) core.Module {
+
+	// Generate LaTeX content directly for the TOC
+	var latexContent strings.Builder
+
+	latexContent.WriteString("% Table of Contents - Clickable Task Index\n")
+	latexContent.WriteString("{\\Large\\textbf{Task Index}}\n\n")
+	latexContent.WriteString("\\vspace{0.5cm}\n\n")
+
+	// Group tasks by phase
+	phaseTasks := make(map[string][]core.Task)
+	phaseNames := map[string]string{
+		"1": "Phase 1: Proposal \\& Setup",
+		"2": "Phase 2: Research \\& Data Collection",
+		"3": "Phase 3: Publications",
+		"4": "Phase 4: Dissertation",
+	}
+
+	for _, task := range tasks {
+		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
+	}
+
+		// Create phase-based sections
+		phases := []string{"1", "2", "3", "4"}
+		for _, phase := range phases {
+			if tasks, exists := phaseTasks[phase]; exists && len(tasks) > 0 {
+				// Phase header
+				latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{245,245,245}{\\makebox[\\linewidth][l]{\\textbf{%s}}}}\\\\\n", phaseNames[phase]))
+				latexContent.WriteString("\\vspace{0.1cm}\n\n")
+
+				// Create contextual color legend for this phase
+				phaseCategorySet := make(map[string]bool)
+				var phaseCategories []string
+				for _, task := range tasks {
+					if !phaseCategorySet[task.Category] {
+						phaseCategorySet[task.Category] = true
+						phaseCategories = append(phaseCategories, task.Category)
+					}
+				}
+
+				// Add phase-specific color legend
+				if len(phaseCategories) > 0 {
+					latexContent.WriteString("\\noindent{\\small\n")
+					for _, category := range phaseCategories {
+						color := core.GenerateCategoryColor(strings.ToUpper(category))
+						if len(color) >= 7 && color[0] == '#' {
+							rgbStr := hexToRGBString(color)
+							latexContent.WriteString(fmt.Sprintf("\\ColorCircle{%s}{%s}\\quad", rgbStr, category))
+						}
+					}
+					latexContent.WriteString("}\n\n")
+				}
+
+				latexContent.WriteString("\\vspace{0.2cm}\n\n")
+
+				// Simple list of tasks for this phase
+				for _, task := range tasks {
+					// Create hyperlink reference to first occurrence of task
+					dateRef := fmt.Sprintf("%d-%02d-%02dT00:00:00-06:00", task.StartDate.Year(), int(task.StartDate.Month()), task.StartDate.Day())
+
+					// Get color for the task category
+					taskColor := core.GenerateCategoryColor(strings.ToUpper(task.Category))
+					if len(taskColor) >= 7 && taskColor[0] == '#' {
+						rgbStr := hexToRGBString(taskColor)
+						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
+						taskName = strings.ReplaceAll(taskName, "%", "\\%")
+
+						// Bold the task name if it's a milestone
+						if task.IsMilestone {
+							taskName = fmt.Sprintf("\\textbf{%s}", taskName)
+						}
+
+						latexContent.WriteString(fmt.Sprintf("\\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}}", rgbStr, dateRef, taskName))
+					} else {
+						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
+						taskName = strings.ReplaceAll(taskName, "%", "\\%")
+
+						// Bold the task name if it's a milestone
+						if task.IsMilestone {
+							taskName = fmt.Sprintf("\\textbf{%s}", taskName)
+						}
+
+						latexContent.WriteString(fmt.Sprintf("\\hyperlink{%s}{%s}", dateRef, taskName))
+					}
+
+					latexContent.WriteString("\\\\\n")
+				}
+
+				latexContent.WriteString("\\vspace{0.5cm}\n\n")
+			}
+		}
+
+	latexContent.WriteString("% Usage Legend\n")
+	latexContent.WriteString("{\\small\n")
+	latexContent.WriteString("\\textbf{How to use this index:}\\\\\n")
+	latexContent.WriteString("\\textbullet\\ \\textbf{Bold task names} indicate milestones with enhanced borders in timeline\\\\\n")
+	latexContent.WriteString("\\textbullet\\ Click on any task name to jump to its location in the timeline\n")
+	latexContent.WriteString("}\n\n")
+	latexContent.WriteString("\\pagebreak\n")
+
+	return core.Module{
+		Cfg: cfg,
+		Tpl: templateName,
+		Body: map[string]interface{}{
+			"TOCContent": latexContent.String(),
+		},
 	}
 }
 

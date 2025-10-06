@@ -10,19 +10,23 @@
 // The package is organized into several key areas:
 //
 // Configuration:
-//   Config, DefaultConfig(), and helper methods provide a flexible configuration
-//   system with sensible defaults and YAML/environment variable support.
+//
+//	Config, DefaultConfig(), and helper methods provide a flexible configuration
+//	system with sensible defaults and YAML/environment variable support.
 //
 // Data Reading:
-//   Reader provides CSV parsing with robust error handling and field extraction.
+//
+//	Reader provides CSV parsing with robust error handling and field extraction.
 //
 // Error Handling:
-//   Custom error types (ConfigError, FileError, TemplateError, DataError) provide
-//   contextual information for debugging. ErrorAggregator collects multiple errors.
+//
+//	Custom error types (ConfigError, FileError, TemplateError, DataError) provide
+//	contextual information for debugging. ErrorAggregator collects multiple errors.
 //
 // Logging:
-//   Logger provides level-based logging (silent, info, debug) with environment
-//   variable control.
+//
+//	Logger provides level-based logging (silent, info, debug) with environment
+//	variable control.
 //
 // Example usage:
 //
@@ -162,6 +166,9 @@ type TaskStyling struct {
 
 	// TColorBox styling for task boxes
 	TColorBox TaskStylingTColorBox `yaml:"tcolorbox"`
+
+	// Milestone-specific styling
+	Milestone TaskStylingMilestone `yaml:"milestone"`
 }
 
 type TaskStylingSpacing struct {
@@ -174,6 +181,12 @@ type TaskStylingSpacing struct {
 type TaskStylingTColorBox struct {
 	// Main task overlay boxes (spanning tasks)
 	Overlay TColorBoxOverlay `yaml:"overlay"`
+}
+
+type TaskStylingMilestone struct {
+	BorderWidth       string `yaml:"border_width"`
+	BorderOpacity     int    `yaml:"border_opacity"`
+	BackgroundOpacity int    `yaml:"background_opacity"`
 }
 
 type TColorBoxOverlay struct {
@@ -548,13 +561,13 @@ func (cfg *Config) setDateRangeFromCSV() error {
 // setAlgorithmicColors sets the algorithmic colors for predefined categories
 func (cfg *Config) setAlgorithmicColors() {
 	cfg.Layout.AlgorithmicColors = AlgorithmicColors{
-		Proposal:     hexToRGBConfig(generateCategoryColor("PROPOSAL")),
-		Laser:        hexToRGBConfig(generateCategoryColor("LASER")),
-		Imaging:      hexToRGBConfig(generateCategoryColor("IMAGING")),
-		Admin:        hexToRGBConfig(generateCategoryColor("ADMIN")),
-		Dissertation: hexToRGBConfig(generateCategoryColor("DISSERTATION")),
-		Research:     hexToRGBConfig(generateCategoryColor("RESEARCH")),
-		Publication:  hexToRGBConfig(generateCategoryColor("PUBLICATION")),
+		Proposal:     hexToRGBConfig(GenerateCategoryColor("PROPOSAL")),
+		Laser:        hexToRGBConfig(GenerateCategoryColor("LASER")),
+		Imaging:      hexToRGBConfig(GenerateCategoryColor("IMAGING")),
+		Admin:        hexToRGBConfig(GenerateCategoryColor("ADMIN")),
+		Dissertation: hexToRGBConfig(GenerateCategoryColor("DISSERTATION")),
+		Research:     hexToRGBConfig(GenerateCategoryColor("RESEARCH")),
+		Publication:  hexToRGBConfig(GenerateCategoryColor("PUBLICATION")),
 	}
 }
 
