@@ -1,6 +1,8 @@
 % Simple macros template without problematic LaTeX commands
 \ExplSyntaxOn
-\cs_new_eq:NN \Repeat \prg_replicate:nn
+\cs_if_free:NF \Repeat {
+  \cs_new_eq:NN \Repeat \prg_replicate:nn
+}
 \ExplSyntaxOff
 
 {{- $numbers := .Cfg.Layout.Numbers -}}

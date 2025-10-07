@@ -222,3 +222,17 @@ sudo apt-get install texlive-xetex texlive-latex-extra
 - **CSV:** research_timeline_v5.1_comprehensive.csv
 - **Location:** `releases/20251006_195213_No_Color_Legend/`
 
+### 20251006_214730_release
+
+- **Date:** 2025-10-06 21:47:30
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_214730_release/`
+
+### 20251006_215248_release
+
+- **Date:** 2025-10-06 21:52:48
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_215248_release/`
+
