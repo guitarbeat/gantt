@@ -319,3 +319,38 @@ sudo apt-get install texlive-xetex texlive-latex-extra
 - **CSV:** research_timeline_v5.1_comprehensive.csv
 - **Location:** `releases/v5.1/20251006_172908_release/`
 
+### 20251006_175245_QuickWins_Evaluation
+
+- **Date:** 2025-10-06 17:52:45
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/v5.1/20251006_175245_QuickWins_Evaluation/`
+
+### 20251006_175252_QuickWins_Evaluation_v2
+
+- **Date:** 2025-10-06 17:52:52
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/v5.1/20251006_175252_QuickWins_Evaluation_v2/`
+
+### 20251006_184526_QuickWins_Implementation
+
+- **Date:** 2025-10-06 18:45:26
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/v5.1/20251006_184526_QuickWins_Implementation/`
+
+### 20251006_190052_Original_Test
+
+- **Date:** 2025-10-06 19:00:52
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/v5.1/20251006_190052_Original_Test/`
+
+### 20251006_190535_SubPhase_Headers_Test
+
+- **Date:** 2025-10-06 19:05:35
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/v5.1/20251006_190535_SubPhase_Headers_Test/`
+

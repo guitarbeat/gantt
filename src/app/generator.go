@@ -55,6 +55,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 	"text/template"
@@ -879,37 +880,65 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 
 				latexContent.WriteString("\\vspace{0.2cm}\n\n")
 
-				// Simple list of tasks for this phase
+				// Group tasks by sub-phase within this phase
+				subPhaseTasks := make(map[string][]core.Task)
 				for _, task := range tasks {
-					// Create hyperlink reference to first occurrence of task
-					dateRef := fmt.Sprintf("%d-%02d-%02dT00:00:00-06:00", task.StartDate.Year(), int(task.StartDate.Month()), task.StartDate.Day())
-
-					// Get color for the task category
-					taskColor := core.GenerateCategoryColor(strings.ToUpper(task.Category))
-					if len(taskColor) >= 7 && taskColor[0] == '#' {
-						rgbStr := hexToRGBString(taskColor)
-						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
-						taskName = strings.ReplaceAll(taskName, "%", "\\%")
-
-						// Bold the task name if it's a milestone
-						if task.IsMilestone {
-							taskName = fmt.Sprintf("\\textbf{%s}", taskName)
-						}
-
-						latexContent.WriteString(fmt.Sprintf("\\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}}", rgbStr, dateRef, taskName))
-					} else {
-						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
-						taskName = strings.ReplaceAll(taskName, "%", "\\%")
-
-						// Bold the task name if it's a milestone
-						if task.IsMilestone {
-							taskName = fmt.Sprintf("\\textbf{%s}", taskName)
-						}
-
-						latexContent.WriteString(fmt.Sprintf("\\hyperlink{%s}{%s}", dateRef, taskName))
+					subPhase := task.SubPhase
+					if subPhase == "" {
+						subPhase = "General" // Default for tasks without sub-phase
 					}
+					subPhaseTasks[subPhase] = append(subPhaseTasks[subPhase], task)
+				}
 
-					latexContent.WriteString("\\\\\n")
+				// Sort sub-phases alphabetically for consistent ordering
+				var subPhases []string
+				for subPhase := range subPhaseTasks {
+					subPhases = append(subPhases, subPhase)
+				}
+				sort.Strings(subPhases)
+
+				// Render each sub-phase
+				for _, subPhase := range subPhases {
+					subPhaseTaskList := subPhaseTasks[subPhase]
+					
+					// Sub-phase header (smaller than phase header)
+					latexContent.WriteString(fmt.Sprintf("\\vspace{0.2cm}\n"))
+					latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{250,250,250}{\\makebox[\\linewidth][l]{\\textbf{\\small %s}}}}\\\\\n", subPhase))
+					latexContent.WriteString("\\vspace{0.1cm}\n\n")
+
+					// Tasks for this sub-phase
+					for _, task := range subPhaseTaskList {
+						// Create hyperlink reference to first occurrence of task
+						dateRef := fmt.Sprintf("%d-%02d-%02dT00:00:00-06:00", task.StartDate.Year(), int(task.StartDate.Month()), task.StartDate.Day())
+
+						// Get color for the task category
+						taskColor := core.GenerateCategoryColor(strings.ToUpper(task.Category))
+						if len(taskColor) >= 7 && taskColor[0] == '#' {
+							rgbStr := hexToRGBString(taskColor)
+							taskName := strings.ReplaceAll(task.Name, "&", "\\&")
+							taskName = strings.ReplaceAll(taskName, "%", "\\%")
+
+							// Bold the task name if it's a milestone
+							if task.IsMilestone {
+								taskName = fmt.Sprintf("\\textbf{%s}", taskName)
+							}
+
+							latexContent.WriteString(fmt.Sprintf("\\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}}", rgbStr, dateRef, taskName))
+						} else {
+							taskName := strings.ReplaceAll(task.Name, "&", "\\&")
+							taskName = strings.ReplaceAll(taskName, "%", "\\%")
+
+							// Bold the task name if it's a milestone
+							if task.IsMilestone {
+								taskName = fmt.Sprintf("\\textbf{%s}", taskName)
+							}
+
+							latexContent.WriteString(fmt.Sprintf("\\hyperlink{%s}{%s}", dateRef, taskName))
+						}
+
+						latexContent.WriteString("\\\\\n")
+					}
+					latexContent.WriteString("\\vspace{0.3cm}\n\n")
 				}
 
 				latexContent.WriteString("\\vspace{0.5cm}\n\n")

@@ -11,34 +11,38 @@ This dataset contains a comprehensive PhD research timeline with 107 tasks organ
 ## Data Structure
 
 ### Expected Format
+
 ```
 Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Milestone,Status
 ```
 
 ### Task Distribution by Phase
 
-| Phase | Sub-Phases | Task Count | Description |
-|-------|-----------|------------|-------------|
-| 1 | 4 | 30 tasks | PhD Proposal, Committee Management, Laser System, Microscope Setup |
-| 2 | 4 | 39 tasks | Aim 1-3 Research, Data Management & Analysis |
-| 3 | 4 | 10 tasks | SLAVV-T Development, AR Platform, Publications |
-| 4 | 3 | 28 tasks | Dissertation Writing, Committee Review, Final Submission |
+| Phase | Sub-Phases | Task Count | Description                                                        |
+| ----- | ---------- | ---------- | ------------------------------------------------------------------ |
+| 1     | 4          | 30 tasks   | PhD Proposal, Committee Management, Laser System, Microscope Setup |
+| 2     | 4          | 39 tasks   | Aim 1-3 Research, Data Management & Analysis                       |
+| 3     | 4          | 10 tasks   | SLAVV-T Development, AR Platform, Publications                     |
+| 4     | 3          | 28 tasks   | Dissertation Writing, Committee Review, Final Submission           |
 
 ### Sub-Phase Breakdown
 
 #### Phase 1: PhD Proposal & Setup (30 tasks)
+
 - PhD Proposal: 19 tasks
 - Committee Management: 3 tasks
 - Laser System: 3 tasks
 - Microscope Setup: 5 tasks
 
 #### Phase 2: Research Execution (39 tasks)
+
 - Aim 1 - AAV-based Vascular Imaging: 8 tasks
 - Aim 2 - Dual-channel Imaging Platform: 7 tasks
 - Aim 3 - Stroke Study & Analysis: 11 tasks
 - Data Management & Analysis: 13 tasks
 
 #### Phase 3: Publications & Software (10 tasks)
+
 - SLAVV-T Development: 3 tasks
 - Methodology Paper: 2 tasks
 - Research Paper: 3 tasks
@@ -46,6 +50,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 - Manuscript Submissions: 1 task
 
 #### Phase 4: Dissertation & Graduation (28 tasks)
+
 - Dissertation Writing: 8 tasks
 - Committee Review & Defense: 6 tasks
 - Final Submission & Graduation: 14 tasks
@@ -64,11 +69,13 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 6. **Line 89** (12 fields): Has 2 extra fields
 
 **Impact:** These malformed rows will cause parsing errors and may result in:
+
 - Missing tasks in the calendar
 - Incorrect date assignments
 - Data corruption during import
 
 **Resolution Required:**
+
 - Review each line and properly escape commas in text fields
 - Enclose all text fields containing commas in double quotes
 - Verify the data is correctly split across the 10 expected columns
@@ -77,17 +84,18 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 
 **5 tasks have malformed or inconsistent end dates:**
 
-| Task ID | Task Name | Start Date | End Date | Issue |
-|---------|-----------|------------|----------|-------|
-| T1.14" | Complete Proposal Document | (missing) | 2025-12-01 | End date appears in wrong column |
-| T1.6a" | Email Proposal to Committee | (missing) | 2025-11-28 | End date appears in wrong column |
-| T1.22" | PhD Proposal Exam - Defend proposal | (missing) | 2025-12-19 | End date appears in wrong column |
-| T2.3 | Install Cranial Windows & Inject AAV | T1.12" | (missing) | Dependencies in date field |
-| T4.4 | Complete Dissertation Draft | T4.5" | (missing) | Dependencies in date field |
+| Task ID | Task Name                            | Start Date | End Date   | Issue                            |
+| ------- | ------------------------------------ | ---------- | ---------- | -------------------------------- |
+| T1.14"  | Complete Proposal Document           | (missing)  | 2025-12-01 | End date appears in wrong column |
+| T1.6a"  | Email Proposal to Committee          | (missing)  | 2025-11-28 | End date appears in wrong column |
+| T1.22"  | PhD Proposal Exam - Defend proposal  | (missing)  | 2025-12-19 | End date appears in wrong column |
+| T2.3    | Install Cranial Windows & Inject AAV | T1.12"     | (missing)  | Dependencies in date field       |
+| T4.4    | Complete Dissertation Draft          | T4.5"      | (missing)  | Dependencies in date field       |
 
 **Pattern:** Task IDs with trailing quotation marks (") indicate CSV escaping issues. The data is shifted, causing dates to appear in the wrong columns.
 
 **Impact:**
+
 - Tasks cannot be rendered on the calendar
 - Timeline calculations will fail
 - Task dependencies may be broken
@@ -95,6 +103,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 ### ⚠️ Data Quality Observations
 
 **Positive Findings:**
+
 - ✅ Consistent date format: YYYY-MM-DD
 - ✅ Logical phase progression
 - ✅ Reasonable task distribution
@@ -103,6 +112,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 - ✅ Comprehensive objectives for most tasks
 
 **Minor Issues:**
+
 - Some task objectives are very long (>100 characters) which may cause layout issues
 - Milestone field is always "false" - no milestones marked
 - Status field is always "Not Started" - no progress tracking
@@ -112,6 +122,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 ### Immediate Actions (Required)
 
 1. **Fix CSV Formatting**
+
    ```bash
    # Review lines: 15, 17, 31, 35, 56, 89
    # Properly escape commas in text fields
@@ -124,6 +135,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
    - Remove stray quotation marks from Task IDs
 
 3. **Validate Data**
+
    ```bash
    # After fixing, run validation:
    awk -F',' 'NR>1 {if(NF!=10) print "Line", NR, "has", NF, "fields"}' research_timeline_v5_comprehensive.csv
@@ -171,6 +183,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 ### Peak Activity Periods
 
 Based on task start dates:
+
 - **Sep-Dec 2025:** Proposal phase (highest density)
 - **Jan-Aug 2026:** Core research execution
 - **Sep-Dec 2026:** Writing and analysis
@@ -213,6 +226,7 @@ cut -d',' -f2 research_timeline_v5_comprehensive.csv | sort -u
 ## Contact
 
 If you need help fixing the CSV issues, I can:
+
 1. Provide specific fixes for each problematic line
 2. Generate a cleaned version of the CSV
 3. Add validation scripts to prevent future issues

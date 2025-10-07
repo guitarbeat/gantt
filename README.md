@@ -7,9 +7,9 @@
 3. [Project Status](#-project-status)
 4. [Task Stacking Implementation](#-task-stacking-implementation)
 5. [Directory Structure & Organization](#-directory-structure--organization)
-6. [Go Project Structure Guide](#-go-project-structure-guide)
+6. [Go Project Structure Guide](#️-go-project-structure-guide)
 7. [Lessons Learned from aarons-attempt](#-lessons-learned-from-aarons-attempt)
-8. [Architecture Patterns](#-architecture-patterns)
+8. [Architecture Patterns](#️-architecture-patterns)
 9. [Implementation Strategies](#-implementation-strategies)
 10. [Design Patterns](#-design-patterns)
 11. [Key Features to Adopt](#-key-features-to-adopt)
@@ -40,7 +40,24 @@ The PhD Dissertation Planner is a Go-based application that transforms CSV data 
 
 ## 🚀 Quick Start
 
-### Creating Releases (Recommended)
+### Quick Build (Recommended for Development)
+
+```bash
+# Quick build with auto-detected CSV
+./scripts/quick_build.sh
+
+# Build with different presets
+./scripts/quick_build.sh --preset compact --name "Compact_View"
+./scripts/quick_build.sh --preset presentation --name "Advisor_Meeting"
+
+# Validate CSV before building
+./scripts/quick_build.sh --validate
+
+# Skip PDF generation (LaTeX only)
+./scripts/quick_build.sh --skip-pdf
+```
+
+### Creating Releases (For Archiving)
 
 ```bash
 # Create a timestamped release
@@ -63,10 +80,60 @@ open releases/v5.1/$(ls -t releases/v5.1/ | head -2 | tail -1)/planner.pdf
 make clean-build
 ```
 
-**Note**: 
+**Note**:
+
 - Use **releases** for archiving and tracking progression
 - Use **development builds** for quick testing
 - All releases are organized in timestamped directories
+
+---
+
+## 🎨 New Features
+
+### Configuration Presets
+
+The planner now includes three built-in presets for different use cases:
+
+- **`academic`** (default): Detailed view optimized for academic planning
+- **`compact`**: Dense layout with more tasks per page
+- **`presentation`**: Larger text and spacing for presentations and meetings
+
+```bash
+# Use presets with quick build
+./scripts/quick_build.sh --preset compact
+./scripts/quick_build.sh --preset presentation
+
+# Use presets with releases
+./scripts/build_release.sh --preset compact --name "Compact_View"
+```
+
+### CSV Validation
+
+Quickly validate your CSV data without generating a full PDF:
+
+```bash
+# Validate CSV file
+./scripts/quick_build.sh --validate
+
+# Validate with specific preset
+go run ./cmd/planner --validate --preset compact
+```
+
+The validation provides detailed statistics including:
+
+- Total number of tasks
+- Task distribution by phase
+- Date range coverage
+- Error reporting for invalid data
+
+### Quick Build Script
+
+The new `quick_build.sh` script provides a streamlined workflow for development:
+
+- **Auto-detection**: Automatically finds the latest CSV file
+- **Preset support**: Easy switching between different layouts
+- **Validation**: Built-in CSV validation
+- **Flexible output**: Custom naming and directory options
 
 ---
 
@@ -187,12 +254,14 @@ go run ./src/cmd/planner --config custom_config.yaml
 ### Latest Improvements (October 2025)
 
 **v5.1 Released:**
+
 - ✅ Improved task distribution (removed 9 non-measurable tasks, split 4 long tasks)
 - ✅ Fixed task rendering (multi-day tasks now span properly without text duplication)
 - ✅ New release system with timestamped directories
 - ✅ Enhanced measurability (89% → 96%)
 
 **Current Status:**
+
 - ✅ **PDF Generation**: Working (~155KB PDFs with clean spanning)
 - ✅ **CSV Processing**: 107 tasks parsed successfully
 - ✅ **LaTeX Compilation**: XeLaTeX integration working
@@ -1019,18 +1088,21 @@ def get_category_color(category: str) -> str:
 #### Testing Strategy
 
 **Unit Tests:**
+
 - Test individual functions in isolation
 - Mock external dependencies
 - Focus on edge cases and error conditions
 - Table-driven tests for multiple scenarios
 
 **Integration Tests:**
+
 - Test complete workflows
 - Verify file I/O operations
 - Test configuration loading
 - Validate error handling paths
 
 **Coverage Goals:**
+
 - Critical paths: 80%+ coverage
 - Utility functions: 100% coverage
 - Error handling: All paths tested
@@ -1057,7 +1129,8 @@ def get_category_color(category: str) -> str:
 ### 7. **Architectural Patterns**
 
 #### Error Handling Strategy
-```
+
+```text
 User Action
     ↓
 Application (try)
@@ -1074,7 +1147,8 @@ User (clear, actionable message)
 ```
 
 #### Configuration Flow
-```
+
+```text
 Defaults (baseline)
     ↓
 YAML Files (overlay)
@@ -1087,6 +1161,7 @@ Config with Helpers (easy access)
 ```
 
 #### Separation of Concerns
+
 - Configuration management isolated in dedicated modules
 - Error handling centralized with custom types
 - Logging abstracted with level-based control
@@ -1512,6 +1587,7 @@ For offline builds:
 ### Development Insights
 
 **Key Takeaways from Refactoring:**
+
 1. Small, frequent commits make rollback easy
 2. Tests provide confidence for aggressive refactoring
 3. Good documentation pays dividends immediately
@@ -1519,6 +1595,7 @@ For offline builds:
 5. Helper functions improve readability dramatically
 
 **What Worked Well:**
+
 - Incremental approach with small, focused changes
 - Testing after each change for immediate feedback
 - Documentation alongside code development
@@ -1559,7 +1636,7 @@ Releases are organized in timestamped directories for easy tracking:
 
 ### Release Structure
 
-```
+```text
 releases/
 ├── INDEX.md                    # Master index
 └── v5.1/
@@ -1596,4 +1673,3 @@ diff releases/v5.1/20251003_120000_*/source.csv \
 - ✅ Timestamped for progression tracking
 - ✅ Includes all source data for reproducibility
 - ✅ Per-release documentation
-

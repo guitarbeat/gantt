@@ -30,6 +30,8 @@ func New() *cli.App {
 			&cli.BoolFlag{Name: pConfig, Required: false, Usage: "render only one page per unique module"},
 			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
 			&cli.BoolFlag{Name: "test-coverage", Required: false, Usage: "run tests with coverage analysis"},
+			&cli.BoolFlag{Name: "validate", Required: false, Usage: "validate CSV file without generating PDF"},
+			&cli.StringFlag{Name: "preset", Required: false, Usage: "Configuration preset: academic, compact, presentation", EnvVars: []string{"PLANNER_PRESET"}},
 		},
 
 		Action: action,

@@ -50,14 +50,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### New Features
 
 - `scripts/` directory with build and setup automation scripts
 - `assets/` directory for static resources (PDFs, documents)
 - `CONTRIBUTING.md` with development guidelines
 - Standard Go project structure following community best practices
 
-### Changed
+### Project Restructuring
 
 - Reorganized project structure:
   - `cmd/planner/` for main application entry point
@@ -69,13 +69,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced build system with condensed output and better error handling
 - Improved `.gitignore` with comprehensive build artifact exclusions
 
-### Removed
+### Cleanup
 
 - Build artifacts from version control
 - Backup files (`.backup`, `.bak`) from repository
 - Old `src/` directory structure
 
-### Fixed
+### Bug Fixes
 
 - Import paths updated to reflect new package structure
 - Makefile paths corrected for new directory layout

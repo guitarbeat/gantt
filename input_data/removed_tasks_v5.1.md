@@ -8,7 +8,8 @@
 
 This document lists tasks that were removed or modified during the v5.1 improvement process.
 
-### Removal Reasons:
+### Removal Reasons
+
 1. **Non-measurable tasks**: Ongoing activities without clear completion criteria
 2. **Administrative tasks**: Registration maintenance and similar bureaucratic tasks
 3. **Split tasks**: Very long tasks (>100 days) split into smaller, measurable milestones
@@ -103,4 +104,3 @@ These long-duration tasks were split into smaller, more measurable milestones to
   - **T4.10a**: TA Requirement - Fall 2025 (103 days)
   - **T4.10b**: TA Requirement - Spring 2026 (121 days)
   - **T4.10c**: TA Requirement - Summer 2026 (92 days)
-

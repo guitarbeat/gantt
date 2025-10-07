@@ -324,7 +324,7 @@ func (r *Reader) parseAllRecords(reader *csv.Reader, fieldIndex map[string]int) 
 }
 
 // logParsingSummary logs a summary of the parsing results
-func (r *Reader) logParsingSummary(tasks []Task, parseErrors []error) {
+func (r *Reader) logParsingSummary(tasks []Task, _ []error) {
 	errorCount := r.aggregator.ErrorCount()
 	warningCount := r.aggregator.WarningCount()
 
