@@ -127,7 +127,7 @@ else
 fi
 
 # Create timestamped release directory
-RELEASE_DIR="releases/${VERSION}/${TIMESTAMP}_${RELEASE_NAME}"
+RELEASE_DIR="releases/${TIMESTAMP}_${RELEASE_NAME}"
 mkdir -p "$RELEASE_DIR"
 
 # Also create a build directory for temporary files
@@ -297,7 +297,6 @@ log_success "README saved: $README_FILE"
 
 # Update releases index
 INDEX_FILE="releases/INDEX.md"
-VERSION_INDEX="releases/${VERSION}/INDEX.md"
 
 # Update main index
 if [ ! -f "$INDEX_FILE" ]; then
@@ -324,9 +323,7 @@ releases/
 
 ## Quick Access
 
-See version-specific INDEX.md files:
-- `v5.0/INDEX.md` - Version 5.0 releases
-- `v5.1/INDEX.md` - Version 5.1 releases
+See the main INDEX.md file for all releases.
 
 ## Release History
 
@@ -342,24 +339,6 @@ echo "- **CSV:** $(basename $CSV_FILE)" >> "$INDEX_FILE"
 echo "- **Location:** \`$RELEASE_DIR/\`" >> "$INDEX_FILE"
 echo "" >> "$INDEX_FILE"
 
-# Update version-specific index
-if [ ! -f "$VERSION_INDEX" ]; then
-    cat > "$VERSION_INDEX" << EOF
-# Version $VERSION Releases
-
-All releases for version $VERSION.
-
-## Releases
-
-EOF
-fi
-
-echo "### ${TIMESTAMP}_${RELEASE_NAME}" >> "$VERSION_INDEX"
-echo "" >> "$VERSION_INDEX"
-echo "- **Date:** $DATE_HUMAN" >> "$VERSION_INDEX"
-echo "- **CSV:** $(basename $CSV_FILE)" >> "$VERSION_INDEX"
-echo "- **Files:** \`${TIMESTAMP}_${RELEASE_NAME}/\`" >> "$VERSION_INDEX"
-echo "" >> "$VERSION_INDEX"
 
 log_success "Release indexes updated"
 
@@ -394,6 +373,5 @@ echo "    ${CYAN}open $RELEASE_DIR/planner.pdf${NC}"
 echo "    ${CYAN}cat $RELEASE_DIR/README.md${NC}"
 echo ""
 echo "  View all releases:"
-echo "    ${CYAN}cat releases/${VERSION}/INDEX.md${NC}"
 echo "    ${CYAN}cat releases/INDEX.md${NC}"
 echo ""

@@ -1,3 +1,5 @@
+{{ template "macros.tpl" . }}
+
 {{ if .Body.TOCContent }}
 % Table of Contents Page
 {{ .Body.TOCContent }}

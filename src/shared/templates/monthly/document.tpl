@@ -47,6 +47,7 @@
 \usepackage{multido}
 \usepackage{pgffor}
 \usepackage[most]{tcolorbox}
+\usepackage{enumitem}
 \usepackage{blindtext}
 % Hyperlink support
 \usepackage{hyperref}

@@ -75,7 +75,7 @@
     colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.BorderOpacity}},
     width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
      \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
@@ -91,7 +91,7 @@
     colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.Milestone.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.Milestone.BorderOpacity}},
     width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
      \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
@@ -108,7 +108,7 @@
       colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.BorderOpacity}},
       width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
       {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-       \TaskTitleSize\textbf{#2}\par
+       \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
        \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
        {\TaskFontSize\raggedright #3\par}}%
     \end{tcolorbox}%
@@ -124,7 +124,7 @@
     colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.BorderOpacity}},
     width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
      \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
@@ -141,7 +141,7 @@
       colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.Milestone.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.Milestone.BorderOpacity}},
       width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
       {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-       \TaskTitleSize\textbf{#2}\par
+       \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
        \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
        {\TaskFontSize\raggedright #3\par}}%
     \end{tcolorbox}%
@@ -157,7 +157,7 @@
     colback=taskbgcolor!{{.Cfg.Layout.TaskStyling.BackgroundOpacity}}, colframe=taskfgcolor!{{.Cfg.Layout.TaskStyling.BorderOpacity}},
     width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
     {\sloppy\hyphenpenalty={{.Cfg.Layout.LaTeX.Typography.HyphenPenalty}}\tolerance={{.Cfg.Layout.LaTeX.Typography.Tolerance}}\emergencystretch={{.Cfg.Layout.LaTeX.Typography.EmergencyStretch}}%
-     \TaskTitleSize\textbf{#2}\par
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
      \vspace{ {{.Cfg.Layout.TaskStyling.Spacing.ContentVspace}} }%
      {\TaskFontSize\raggedright #3\par}}%
   \end{tcolorbox}%
