@@ -1,67 +1,41 @@
-# Releases Directory
-
-This directory contains timestamped releases of your PhD dissertation planner for progression tracking.
+# PhD Dissertation Planner - Releases
 
 ## Quick Start
 
+**Recommended**: Use the latest enhanced version for the best experience.
+
 ```bash
-# Create a new release (auto-detects latest version)
-./scripts/build_release.sh
-
-# Create a named release for important milestones
-./scripts/build_release.sh --version v5.1 --name "Committee_Submission"
+# Open the latest release
+open releases/03-Latest-Enhanced/planner.pdf
 ```
 
-## Directory Structure
+## Available Versions
 
-```
-releases/
-├── README.md          # This file
-├── INDEX.md           # Complete release history (auto-updated)
-├── v5.0/             # Version 5.0 releases
-│   └── v5.0_YYYYMMDD_HHMMSS.*
-└── v5.1/             # Version 5.1 releases
-    └── v5.1_YYYYMMDD_HHMMSS.*
-```
+- **03-Latest-Enhanced** - Most feature-complete version with advanced task tracking
+- **02-Improved-UI** - Major UI improvements with better organization  
+- **01-Original** - Baseline working version
 
-## Each Release Contains
+## What's New in Latest Version
 
-- **PDF**: Compiled planner document (~430 KB)
-- **TEX**: LaTeX source file (~7.5 KB)  
-- **CSV**: Original data file (~17 KB)
-- **JSON**: Build metadata (<1 KB)
-- **MANIFEST.txt**: Human-readable summary
+- ✅ **Enhanced Task Index** with progress tracking
+- ✅ **Color-coded Status Indicators** (completed, in-progress, upcoming)
+- ✅ **Milestone Tracking** with visual indicators
+- ✅ **Phase Progress** showing completion percentages
+- ✅ **Comprehensive Legend** explaining all features
+- ✅ **Decoupled Phase Information** for better organization
 
-## Example Usage
+## File Structure
 
-### Track Weekly Progress
-```bash
-# Every Friday
-./scripts/build_release.sh --name "Week_$(date +%U)"
-```
+Each release contains:
+- `planner.pdf` - The main PDF output
+- `planner.tex` - LaTeX source file
+- `monthly.tex` - Included LaTeX file
+- `source.csv` - Input data
+- `metadata.json` - Release information
+- `README.md` - Release-specific documentation
 
-### Before Important Events
-```bash
-# Before advisor meeting
-./scripts/build_release.sh --name "Advisor_Meeting_2025-10-15"
+## Development
 
-# Committee submission
-./scripts/build_release.sh --name "Committee_Final"
-```
+This project has been simplified to focus on the most important releases. All intermediate development versions have been removed to maintain a clean, organized structure.
 
-### Compare Versions
-```bash
-# View what changed
-diff releases/v5.1/v5.1_20251003_100000_source.csv \
-     releases/v5.1/v5.1_20251003_150000_source.csv
-```
-
-## More Information
-
-- **Full Documentation**: See `../RELEASE_SYSTEM.md`
-- **Release History**: See `INDEX.md`
-- **Build Script**: See `../scripts/build_release.sh`
-
----
-
-**Tip**: Each release is self-contained and reproducible. Keep them for historical reference!
+For detailed feature comparison, see [INDEX.md](INDEX.md).

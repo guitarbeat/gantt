@@ -1,469 +1,57 @@
 # PhD Dissertation Planner - Releases
 
-This directory contains timestamped releases for version tracking and progression evaluation.
+## Current Releases
 
-## Directory Structure
+### 03-Latest-Enhanced (Latest)
+- **Date**: 2025-10-07 00:40:45
+- **Features**: Enhanced task index with progress tracking, color-coded status indicators, milestone tracking, and comprehensive legend
+- **Status**: ✅ **RECOMMENDED** - Most feature-complete version
+- **Files**: planner.pdf, planner.tex, monthly.tex, source.csv, metadata.json, README.md
 
-```
-releases/
-├── INDEX.md                           # This file - release history
-├── YYYYMMDD_HHMMSS_NAME/              # Individual release directories
-│   ├── planner.pdf                    # Final compiled planner document
-│   ├── planner.tex                    # Source LaTeX file
-│   ├── source.csv                     # Original CSV data used for generation
-│   ├── metadata.json                  # Build information (date, version, environment)
-│   └── README.md                      # Human-readable release summary
-└── ...
-```
+### 02-Improved-UI
+- **Date**: 2025-10-07 00:29:54
+- **Features**: Chronological sorting, visual separators, compact display, improved phase formatting
+- **Status**: ✅ Working - Good intermediate version
+- **Files**: planner.pdf, planner.tex, monthly.tex, source.csv, metadata.json, README.md
 
-## How to Use
+### 01-Original
+- **Date**: 2025-10-06 19:52:13
+- **Features**: Basic task index without color legend, foundational functionality
+- **Status**: ✅ Working - Baseline version
+- **Files**: planner.pdf, planner.tex, monthly.tex, source.csv, metadata.json, README.md
 
-### Building a Release
-
-```bash
-# Build latest version (auto-detected)
-./scripts/build_release.sh
-
-# Build with custom name
-./scripts/build_release.sh --name "Final_Review"
-
-# Build with custom CSV
-./scripts/build_release.sh --csv input_data/custom.csv --name "Custom_Data"
-
-# Build with preset
-./scripts/build_release.sh --preset compact --name "Compact_View"
-```
-
-### Release Files
-
-Each release includes:
-
-1. **PDF** (`planner.pdf`)
-   - Final compiled planner document
-   - Ready for printing or distribution
-
-2. **LaTeX** (`planner.tex`)
-   - Source LaTeX file
-   - Can be manually edited or recompiled
-
-3. **CSV** (`source.csv`)
-   - Original CSV data used for generation
-   - Allows exact reproduction of release
-
-4. **Metadata** (`metadata.json`)
-   - Build information (date, version, environment)
-   - Useful for troubleshooting and tracking
-
-5. **README** (`README.md`)
-   - Human-readable release summary
-   - Lists all files and their sizes
-
-## Comparing Releases
-
-### View Release History
-```bash
-cat releases/INDEX.md
-```
-
-### Compare Two Releases
-```bash
-# Compare PDFs visually
-open releases/20251006_190535_SubPhase_Headers_Test/planner.pdf
-open releases/20251006_184526_QuickWins_Implementation/planner.pdf
-
-# Compare CSV changes
-diff releases/20251006_190535_SubPhase_Headers_Test/source.csv \
-     releases/20251006_184526_QuickWins_Implementation/source.csv
-
-# Compare LaTeX output
-diff releases/20251006_190535_SubPhase_Headers_Test/planner.tex \
-     releases/20251006_184526_QuickWins_Implementation/planner.tex
-```
-
-### View Release Metadata
-```bash
-# Pretty-print JSON metadata
-cat releases/20251006_190535_SubPhase_Headers_Test/metadata.json | python3 -m json.tool
-
-# Or use jq (if installed)
-jq . releases/20251006_190535_SubPhase_Headers_Test/metadata.json
-```
-
-## Progression Tracking
-
-Use timestamped releases to:
-
-1. **Track improvements** over time
-2. **Compare different versions** side-by-side
-3. **Roll back** to previous versions if needed
-4. **Document evolution** of your timeline
-5. **Archive milestones** for historical reference
-
-### Example Workflow
+## Quick Access
 
 ```bash
-# Monday: Initial release
-./scripts/build_release.sh --name "Initial"
+# View latest release
+open releases/03-Latest-Enhanced/planner.pdf
 
-# Wednesday: After task adjustments
-./scripts/build_release.sh --name "Revised"
+# Compare with previous version
+open releases/02-Improved-UI/planner.pdf
 
-# Friday: Final version for committee
-./scripts/build_release.sh --name "Committee_Review"
-
-# Compare Wednesday vs Friday
-diff releases/*_Revised/source.csv \
-     releases/*_Committee_Review/source.csv
+# View original baseline
+open releases/01-Original/planner.pdf
 ```
 
-## Best Practices
-
-1. **Regular Builds**: Create releases regularly (weekly/monthly)
-2. **Meaningful Names**: Use custom names for important milestones
-3. **Keep Manifests**: Don't delete old releases - they document progression
-4. **Version Control**: Commit `INDEX.md` to track release history
-5. **Backup**: Periodically backup the entire `releases/` directory
-
-## Cleanup
-
-To remove old releases while keeping important ones:
-
-```bash
-# Keep only last 10 releases
-cd releases
-ls -t */planner.pdf | tail -n +11 | xargs -I {} rm -rf {}
-
-# Remove all releases older than 30 days
-find releases/ -name "planner.pdf" -mtime +30 -exec dirname {} \; | xargs rm -rf
-```
-
-## Troubleshooting
-
-### Release build fails
-```bash
-# Check build logs
-cat generated/monthly_calendar.log
-
-# Try manual build first
-make -f scripts/Makefile clean-build
-
-# Then create release
-./scripts/build_release.sh
-```
-
-### Missing XeLaTeX
-```bash
-# Install on macOS
-brew install --cask mactex
-
-# Install on Linux
-sudo apt-get install texlive-xetex texlive-latex-extra
-
-# Build without PDF
-./scripts/build_release.sh --skip-pdf
-```
-
-## Release History
-
-<!-- Releases are automatically appended below by build_release.sh -->
-
-### 20251006_190535_SubPhase_Headers_Test
-
-- **Date:** 2025-10-06 19:05:35
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_190535_SubPhase_Headers_Test/`
-### 20251006_194103_Flat_Structure_Test
-
-- **Date:** 2025-10-06 19:41:03
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_194103_Flat_Structure_Test/`
-
-### 20251006_194228_Compact_Task_Index
-
-- **Date:** 2025-10-06 19:42:28
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_194228_Compact_Task_Index/`
-
-### 20251006_194350_Compact_No_M_Indicator
-
-- **Date:** 2025-10-06 19:43:50
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_194350_Compact_No_M_Indicator/`
-
-### 20251006_194532_Bidirectional_Hyperlinks
-
-- **Date:** 2025-10-06 19:45:32
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_194532_Bidirectional_Hyperlinks/`
-
-### 20251006_194740_Fixed_Hyperlinks_Chronological
-
-- **Date:** 2025-10-06 19:47:40
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_194740_Fixed_Hyperlinks_Chronological/`
-
-### 20251006_195040_Fixed_Bidirectional_Hyperlinks
-
-- **Date:** 2025-10-06 19:50:40
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_195040_Fixed_Bidirectional_Hyperlinks/`
-
-### 20251006_195213_No_Color_Legend
-
-- **Date:** 2025-10-06 19:52:13
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_195213_No_Color_Legend/`
-
-### 20251006_214730_release
-
-- **Date:** 2025-10-06 21:47:30
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_214730_release/`
-
-### 20251006_215248_release
-
-- **Date:** 2025-10-06 21:52:48
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_215248_release/`
-
-### 20251006_233401_Fixed
-
-- **Date:** 2025-10-06 23:34:01
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_233401_Fixed/`
-
-### 20251006_233648_Reverted
-
-- **Date:** 2025-10-06 23:36:48
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_233648_Reverted/`
-
-### 20251006_233803_TaskCount
-
-- **Date:** 2025-10-06 23:38:03
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_233803_TaskCount/`
-
-### 20251006_233839_Enhanced
-
-- **Date:** 2025-10-06 23:38:39
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_233839_Enhanced/`
-
-### 20251006_234002_Incremental
-
-- **Date:** 2025-10-06 23:40:02
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_234002_Incremental/`
-
-### 20251006_234137_UI-UX
-
-- **Date:** 2025-10-06 23:41:37
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_234137_UI-UX/`
-
-### 20251006_234355_Enhanced-Plus
-
-- **Date:** 2025-10-06 23:43:55
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_234355_Enhanced-Plus/`
-
-### 20251006_234747_Compact-Plus
-
-- **Date:** 2025-10-06 23:47:47
-- **Version:** v5.2
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_234747_Compact-Plus/`
-
-### 20251006_234909_Enhanced-Dates
-
-- **Date:** 2025-10-06 23:49:09
-- **Version:** v5.3
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_234909_Enhanced-Dates/`
-
-### 20251006_235132_Table-Format
-
-- **Date:** 2025-10-06 23:51:32
-- **Version:** v5.4
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_235132_Table-Format/`
-
-### 20251006_235624_Fixed-Ampersand
-
-- **Date:** 2025-10-06 23:56:24
-- **Version:** v5.5
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251006_235624_Fixed-Ampersand/`
-
-### 20251007_000123_Restored-Enhanced-Dates
-
-- **Date:** 2025-10-07 00:01:23
-- **Version:** v5.6
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000123_Restored-Enhanced-Dates/`
-
-### 20251007_000347_True-Enhanced-Dates
-
-- **Date:** 2025-10-07 00:03:47
-- **Version:** v5.7
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000347_True-Enhanced-Dates/`
-
-### 20251007_000533_Baby-Step-1-Structured
-
-- **Date:** 2025-10-07 00:05:33
-- **Version:** v5.8
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000533_Baby-Step-1-Structured/`
-
-### 20251007_000704_Baby-Step-2-Separators
-
-- **Date:** 2025-10-07 00:07:04
-- **Version:** v5.9
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000704_Baby-Step-2-Separators/`
-
-### 20251007_000727_Removed-Fluff-Tasks
-
-- **Date:** 2025-10-07 00:07:27
-- **Version:** v5.10
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000727_Removed-Fluff-Tasks/`
-
-### 20251007_000843_Baby-Step-3-Column-Alignment
-
-- **Date:** 2025-10-07 00:08:43
-- **Version:** v5.11
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000843_Baby-Step-3-Column-Alignment/`
-
-### 20251007_000943_All-Fluff-Removed
-
-- **Date:** 2025-10-07 00:09:43
-- **Version:** v5.12
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_000943_All-Fluff-Removed/`
-
-### 20251007_001227_TA-Requirement-Updated
-
-- **Date:** 2025-10-07 00:12:27
-- **Version:** v5.13
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_001227_TA-Requirement-Updated/`
-
-### 20251007_001249_Removed-Visual-Separators
-
-- **Date:** 2025-10-07 00:12:49
-- **Version:** v5.14
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_001249_Removed-Visual-Separators/`
-
-### 20251007_001422_Enhanced-Date-Formatting
-
-- **Date:** 2025-10-07 00:14:22
-- **Version:** v5.15
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_001422_Enhanced-Date-Formatting/`
-
-### 20251007_001600_Optimized-Task-Names-Enhanced-Objectives
-
-- **Date:** 2025-10-07 00:16:00
-- **Version:** v5.16
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_001600_Optimized-Task-Names-Enhanced-Objectives/`
-
-### 20251007_001759_Cleaner-Date-Format
-
-- **Date:** 2025-10-07 00:17:59
-- **Version:** v5.17
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_001759_Cleaner-Date-Format/`
-
-### 20251007_001818_Final-Task-Name-Optimization
-
-- **Date:** 2025-10-07 00:18:18
-- **Version:** v5.18
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_001818_Final-Task-Name-Optimization/`
-
-### 20251007_002156_Enhanced-Phase-Category-Display
-
-- **Date:** 2025-10-07 00:21:56
-- **Version:** v5.19
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_002156_Enhanced-Phase-Category-Display/`
-
-### 20251007_002954_Chronological-Sorting-Visual-Separators-Compact-Display
-
-- **Date:** 2025-10-07 00:29:54
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_002954_Chronological-Sorting-Visual-Separators-Compact-Display/`
-
-### 20251007_003138_Improved-Phase-Number-Formatting
-
-- **Date:** 2025-10-07 00:31:38
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_003138_Improved-Phase-Number-Formatting/`
-
-### 20251007_003229_Removed-Bullet-Points
-
-- **Date:** 2025-10-07 00:32:29
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_003229_Removed-Bullet-Points/`
-
-### 20251007_003338_Consistent-Font-Sizing
-
-- **Date:** 2025-10-07 00:33:38
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_003338_Consistent-Font-Sizing/`
-
-### 20251007_003454_Improved-Phase-Display-Decoupled
-
-- **Date:** 2025-10-07 00:34:54
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_003454_Improved-Phase-Display-Decoupled/`
-
-### 20251007_003803_Enhanced-Task-Index-v2
-
-- **Date:** 2025-10-07 00:38:03
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_003803_Enhanced-Task-Index-v2/`
-
-### 20251007_003909_Enhanced-Task-Index-Final
-
-- **Date:** 2025-10-07 00:39:09
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_003909_Enhanced-Task-Index-Final/`
-
-### 20251007_004045_Enhanced-Task-Index-Fixed
-
-- **Date:** 2025-10-07 00:40:45
-- **Version:** v5.1
-- **CSV:** research_timeline_v5.1_comprehensive.csv
-- **Location:** `releases/20251007_004045_Enhanced-Task-Index-Fixed/`
-
+## Development History
+
+This simplified release structure contains only the most important milestones:
+
+1. **01-Original**: The foundational working version
+2. **02-Improved-UI**: Major UI/UX improvements with better organization
+3. **03-Latest-Enhanced**: Current best version with advanced features
+
+All intermediate development releases have been removed to keep the directory clean and focused.
+
+## Features Comparison
+
+| Feature | Original | Improved-UI | Latest-Enhanced |
+|---------|----------|-------------|-----------------|
+| Basic Task Index | ✅ | ✅ | ✅ |
+| Chronological Sorting | ❌ | ✅ | ✅ |
+| Visual Separators | ❌ | ✅ | ✅ |
+| Compact Display | ❌ | ✅ | ✅ |
+| Progress Tracking | ❌ | ❌ | ✅ |
+| Status Indicators | ❌ | ❌ | ✅ |
+| Milestone Tracking | ❌ | ❌ | ✅ |
+| Enhanced Legend | ❌ | ❌ | ✅ |
