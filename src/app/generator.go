@@ -833,66 +833,97 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 	latexContent.WriteString("% Table of Contents - Clickable Task Index\n")
 	latexContent.WriteString("\\hypertarget{task-index}{}\n")
 	latexContent.WriteString("{\\Large\\textbf{Task Index}}\n\n")
-	latexContent.WriteString("\\vspace{0.2cm}\n\n")
+	
+	// Add task count summary at the top
+	totalTasks := len(tasks)
+	milestoneCount := 0
+	completedCount := 0
+	now := time.Now()
+	
+	for _, task := range tasks {
+		if task.IsMilestone {
+			milestoneCount++
+		}
+		if task.EndDate.Before(now) {
+			completedCount++
+		}
+	}
+	
+	latexContent.WriteString(fmt.Sprintf("{\\small\\textit{Total: %d tasks", totalTasks))
+	if milestoneCount > 0 {
+		latexContent.WriteString(fmt.Sprintf(" (%d milestones)", milestoneCount))
+	}
+	if completedCount > 0 {
+		latexContent.WriteString(fmt.Sprintf(" | %d completed", completedCount))
+	}
+	latexContent.WriteString("}}\n\n")
+	latexContent.WriteString("\\vspace{0.1cm}\n\n")
 
 	// Group tasks by phase
 	phaseTasks := make(map[string][]core.Task)
 	phaseNames := map[string]string{
-		"1": "Phase 1: Proposal \\& Setup",
-		"2": "Phase 2: Research \\& Data Collection",
-		"3": "Phase 3: Publications",
-		"4": "Phase 4: Dissertation",
+		"1": "\\textbf{Phase 1:} Proposal \\& Setup",
+		"2": "\\textbf{Phase 2:} Research \\& Data Collection", 
+		"3": "\\textbf{Phase 3:} Publications",
+		"4": "\\textbf{Phase 4:} Dissertation",
 	}
 
 	for _, task := range tasks {
 		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
 	}
 
-		// Create phase-based sections
+		// Create phase-based sections with chronological sorting
 		phases := []string{"1", "2", "3", "4"}
-		for _, phase := range phases {
-			if tasks, exists := phaseTasks[phase]; exists && len(tasks) > 0 {
-				// Phase header
-				latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{245,245,245}{\\makebox[\\linewidth][l]{\\textbf{%s}}}}\\\\\n", phaseNames[phase]))
-				latexContent.WriteString("\\vspace{0.05cm}\n\n")
-
-
+		for phaseIndex, phase := range phases {
+			if phaseTasks, exists := phaseTasks[phase]; exists && len(phaseTasks) > 0 {
+				
+				// Add \hrule separator between phases (but not before first phase)
+				if phaseIndex > 0 {
+					latexContent.WriteString("\\vspace{0.2cm}\n")
+					latexContent.WriteString("\\hrule height 0.3pt\n")
+					latexContent.WriteString("\\vspace{0.1cm}\n\n")
+				}
+				
+				// Enhanced phase header with task counts and progress
+				phaseTaskCount := len(phaseTasks)
+				phaseCompletedCount := 0
+				phaseMilestoneCount := 0
+				
+				for _, task := range phaseTasks {
+					if task.EndDate.Before(now) {
+						phaseCompletedCount++
+					}
+					if task.IsMilestone {
+						phaseMilestoneCount++
+					}
+				}
+				
+				// Calculate progress percentage
+				progressPercent := 0
+				if phaseTaskCount > 0 {
+					progressPercent = int(float64(phaseCompletedCount) / float64(phaseTaskCount) * 100)
+				}
+				
+				latexContent.WriteString("\\vspace{0.2cm}\n")
+				latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{220,220,220}{\\makebox[\\linewidth][l]{\\Large\\textbf{%s} \\hfill \\small (%d tasks", phaseNames[phase], phaseTaskCount))
+				if phaseMilestoneCount > 0 {
+					latexContent.WriteString(fmt.Sprintf(", %d milestones", phaseMilestoneCount))
+				}
+				if phaseCompletedCount > 0 {
+					latexContent.WriteString(fmt.Sprintf(" | %d%% complete", progressPercent))
+				}
+				latexContent.WriteString(")}}}}\\\\\n")
 				latexContent.WriteString("\\vspace{0.1cm}\n\n")
 
-				// Group tasks by sub-phase within this phase
-				subPhaseTasks := make(map[string][]core.Task)
-				for _, task := range tasks {
-					subPhase := task.SubPhase
-					if subPhase == "" {
-						subPhase = "General" // Default for tasks without sub-phase
-					}
-					subPhaseTasks[subPhase] = append(subPhaseTasks[subPhase], task)
-				}
+				// Sort all tasks chronologically within this phase by start date
+				sort.Slice(phaseTasks, func(i, j int) bool {
+					return phaseTasks[i].StartDate.Before(phaseTasks[j].StartDate)
+				})
 
-				// Sort sub-phases alphabetically for consistent ordering
-				var subPhases []string
-				for subPhase := range subPhaseTasks {
-					subPhases = append(subPhases, subPhase)
-				}
-				sort.Strings(subPhases)
-
-				// Render each sub-phase
-				for _, subPhase := range subPhases {
-					subPhaseTaskList := subPhaseTasks[subPhase]
-					
-					// Sort tasks chronologically within this sub-phase
-					sort.Slice(subPhaseTaskList, func(i, j int) bool {
-						return subPhaseTaskList[i].StartDate.Before(subPhaseTaskList[j].StartDate)
-					})
-					
-					// Sub-phase header (smaller than phase header)
-					latexContent.WriteString(fmt.Sprintf("\\vspace{0.1cm}\n"))
-					latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{250,250,250}{\\makebox[\\linewidth][l]{\\textbf{\\small %s}}}}\\\\\n", subPhase))
-					latexContent.WriteString("\\vspace{0.03cm}\n\n")
-
-					// Tasks for this sub-phase - compact format
-					latexContent.WriteString("\\begin{itemize}[leftmargin=0.5cm,itemsep=0.1cm,parsep=0.05cm]\n")
-					for _, task := range subPhaseTaskList {
+				// Tasks for this phase - compact format without bullet points
+				latexContent.WriteString("{\\small\n")
+				latexContent.WriteString("\\begin{itemize}[leftmargin=0.4cm,itemsep=0.03cm,parsep=0.01cm,label={}]\n")
+				for _, task := range phaseTasks {
 						// Create hyperlink reference to first occurrence of task
 						// Use RFC3339 format to match calendar's d.ref() method
 						dateRef := task.StartDate.Format(time.RFC3339)
@@ -902,32 +933,93 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
 						taskName = strings.ReplaceAll(taskName, "%", "\\%")
 
-						// Bold the task name if it's a milestone
+						// Enhanced formatting for milestone tasks with better visual emphasis
 						if task.IsMilestone {
-							taskName = fmt.Sprintf("\\textbf{%s}", taskName)
+							taskName = fmt.Sprintf("\\textbf{\\textcolor{blue!70!black}{%s}} \\textcolor{blue!50!black}{\\textbf{★}}", taskName)
 						}
 
-						// Format task with color and hyperlink
-						if len(taskColor) >= 7 && taskColor[0] == '#' {
-							rgbStr := hexToRGBString(taskColor)
-							latexContent.WriteString(fmt.Sprintf("\\item \\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}}\n", rgbStr, dateRef, taskName))
+						// Calculate task duration
+						duration := task.EndDate.Sub(task.StartDate)
+						days := int(duration.Hours() / 24)
+						var durationText string
+						if days == 0 {
+							durationText = "1 day"
+						} else if days == 1 {
+							durationText = "2 days"
 						} else {
-							latexContent.WriteString(fmt.Sprintf("\\item \\hyperlink{%s}{%s}\n", dateRef, taskName))
+							durationText = fmt.Sprintf("%d days", days+1)
 						}
-					}
-					latexContent.WriteString("\\end{itemize}\n")
-					latexContent.WriteString("\\vspace{0.1cm}\n\n")
-				}
 
-				latexContent.WriteString("\\vspace{0.2cm}\n\n")
+					// Enhanced status indicator with better visual design
+					var statusIcon string
+					var statusColor string
+					if task.EndDate.Before(now) {
+						statusIcon = "\\checkmark"
+						statusColor = "green!70!black"
+					} else if task.StartDate.Before(now) && task.EndDate.After(now) {
+						statusIcon = "\\textbf{●}"
+						statusColor = "orange!70!black"
+					} else {
+						statusIcon = "○"
+						statusColor = "gray!70!black"
+					}
+					
+					// Add priority indicator for milestones
+					var priorityIndicator string
+					if task.IsMilestone {
+						priorityIndicator = "\\textcolor{blue!60!black}{\\textbf{★}} "
+					}
+
+					// Format dates for display with enhanced readability
+					startDate := task.StartDate.Format("Jan 2, 2006")
+					endDate := task.EndDate.Format("Jan 2, 2006")
+					
+					// Add day of week in parentheses for better context
+					startDay := task.StartDate.Format("Mon")
+					endDay := task.EndDate.Format("Mon")
+					
+					// Create more readable date range format
+					dateRange := fmt.Sprintf("%s %s - %s %s", startDate, startDay, endDate, endDay)
+
+						// Create category badge for all tasks
+						var categoryBadge string
+						if task.Category != "" {
+							categoryBadge = fmt.Sprintf("\\textcolor{gray!60!black}{[%s]}", strings.ToUpper(task.Category))
+						}
+
+					// Enhanced task formatting with better visual hierarchy
+					if len(taskColor) >= 7 && taskColor[0] == '#' {
+						rgbStr := hexToRGBString(taskColor)
+						latexContent.WriteString(fmt.Sprintf("\\item \\textcolor{%s}{%s} %s\\hspace{0.3cm} \\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}} \\hfill \\textit{(%s)} \\hspace{0.3cm} \\textcolor{gray!70!black}{[%s]} %s\n", statusColor, statusIcon, priorityIndicator, rgbStr, dateRef, taskName, durationText, dateRange, categoryBadge))
+					} else {
+						latexContent.WriteString(fmt.Sprintf("\\item \\textcolor{%s}{%s} %s\\hspace{0.3cm} \\hyperlink{%s}{%s} \\hfill \\textit{(%s)} \\hspace{0.3cm} \\textcolor{gray!70!black}{[%s]} %s\n", statusColor, statusIcon, priorityIndicator, dateRef, taskName, durationText, dateRange, categoryBadge))
+					}
+				}
+				latexContent.WriteString("\\end{itemize}\n")
+				latexContent.WriteString("}\n") // Close \small font group
+				latexContent.WriteString("\\vspace{0.1cm}\n\n")
 			}
 		}
 
-	latexContent.WriteString("% Usage Legend\n")
+	// Phase Information Section - Decoupled from legend
+	latexContent.WriteString("\\vspace{0.3cm}\n")
+	latexContent.WriteString("{\\Large\\textbf{Phase Overview}}\\\\\n")
+	latexContent.WriteString("\\vspace{0.1cm}\n")
+	latexContent.WriteString("{\\small\n")
+	latexContent.WriteString("\\textbf{Phase 1:} Proposal \\& Setup - Initial planning and system preparation\\\\\n")
+	latexContent.WriteString("\\textbf{Phase 2:} Research \\& Data Collection - Core experimental work and data gathering\\\\\n")
+	latexContent.WriteString("\\textbf{Phase 3:} Publications - Manuscript preparation and submission\\\\\n")
+	latexContent.WriteString("\\textbf{Phase 4:} Dissertation - Final writing, defense, and graduation\n")
+	latexContent.WriteString("}\n\n")
+
+	// Enhanced Usage Legend - Separate from phase information
+	latexContent.WriteString("\\vspace{0.2cm}\n")
 	latexContent.WriteString("{\\small\n")
 	latexContent.WriteString("\\textbf{How to use this index:}\\\\\n")
-	latexContent.WriteString("\\textbullet\\ \\textbf{Bold task names} indicate milestones with enhanced borders in timeline\\\\\n")
-	latexContent.WriteString("\\textbullet\\ Click on any task name to jump to its location in the timeline\n")
+	latexContent.WriteString("\\textbullet\\ \\textcolor{green!70!black}{\\checkmark} = Completed | \\textcolor{orange!70!black}{\\textbf{●}} = In Progress | \\textcolor{gray!70!black}{○} = Upcoming\\\\\n")
+	latexContent.WriteString("\\textbullet\\ \\textcolor{blue!60!black}{\\textbf{★}} = Milestone tasks with enhanced timeline borders\\\\\n")
+	latexContent.WriteString("\\textbullet\\ Click on any task name to jump to its location in the timeline\\\\\n")
+	latexContent.WriteString("\\textbullet\\ Phase headers show task counts, milestones, and completion percentage\n")
 	latexContent.WriteString("}\n\n")
 	latexContent.WriteString("\\pagebreak\n")
 

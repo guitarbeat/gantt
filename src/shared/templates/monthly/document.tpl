@@ -93,6 +93,6 @@
 {{template "macros.tpl" .}}
 
   {{range .Pages -}}
-    \include{ {{- .Name -}} }
+    \include{ {{- .Name -}} .tex}
   {{end}}
 \end{document}

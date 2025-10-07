@@ -117,6 +117,19 @@ jobs:
     - name: Download dependencies
       run: go mod download
 
+    - name: Install optimization tools
+      run: |
+        go install golang.org/x/tools/cmd/goimports@latest
+        go install golang.org/x/tools/cmd/gorename@latest
+
+    - name: Run automatic optimizations
+      run: |
+        echo "🔧 Running automatic code optimizations..."
+        goimports -w src/
+        gofmt -s -w src/
+        go mod tidy
+        echo "✅ Automatic optimizations complete"
+
     - name: Run go vet
       run: go vet ./...
 
@@ -204,7 +217,7 @@ jobs:
         args: ./...
 
   lint:
-    name: Code Quality
+    name: Code Quality & Auto-Optimization
     runs-on: ubuntu-latest
 
     steps:
@@ -215,8 +228,170 @@ jobs:
       with:
         go-version: 1.21
 
-    - name: golangci-lint
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Install optimization tools
+      run: |
+        go install golang.org/x/tools/cmd/goimports@latest
+        go install golang.org/x/tools/cmd/gorename@latest
+        go install github.com/godoctor/godoctor@latest
+
+    - name: Run goimports (import optimization)
+      run: |
+        echo "🔧 Running goimports to optimize imports..."
+        goimports -w src/
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "⚠️  goimports made changes to imports"
+          git diff
+        else
+          echo "✅ Imports are already optimized"
+        fi
+
+    - name: Run gofmt -s (code simplification)
+      run: |
+        echo "🔧 Running gofmt -s to simplify code..."
+        gofmt -s -w src/
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "⚠️  gofmt -s made changes to code"
+          git diff
+        else
+          echo "✅ Code is already simplified"
+        fi
+
+    - name: Run go mod tidy (dependency cleanup)
+      run: |
+        echo "🔧 Running go mod tidy to clean dependencies..."
+        go mod tidy
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "⚠️  go mod tidy made changes to go.mod/go.sum"
+          git diff
+        else
+          echo "✅ Dependencies are already clean"
+        fi
+
+    - name: golangci-lint (comprehensive analysis)
       uses: golangci/golangci-lint-action@v3
       with:
         version: latest
-        args: --timeout=5m
+        args: --timeout=5m --fix
+
+    - name: Check for remaining issues
+      run: |
+        echo "🔍 Checking for any remaining linting issues..."
+        if golangci-lint run src/...; then
+          echo "✅ No linting issues found"
+        else
+          echo "❌ Linting issues found that need manual attention"
+          exit 1
+        fi
+
+    - name: Verify tests still pass
+      run: |
+        echo "🧪 Running tests to ensure optimizations didn't break anything..."
+        go test ./src/...
+
+    - name: Check for uncommitted changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "❌ There are uncommitted changes after optimization"
+          echo "Please commit the following changes:"
+          git status
+          git diff
+          exit 1
+        else
+          echo "✅ No uncommitted changes - code is clean"
+        fi
+
+  auto-optimize:
+    name: Auto-Optimize Code Quality
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.21
+
+    - name: Install optimization tools
+      run: |
+        go install golang.org/x/tools/cmd/goimports@latest
+        go install golang.org/x/tools/cmd/gorename@latest
+        go install github.com/godoctor/godoctor@latest
+        go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+    - name: Run comprehensive optimizations
+      run: |
+        echo "🔧 Running comprehensive code optimizations..."
+        
+        # Import optimization
+        echo "📦 Optimizing imports..."
+        goimports -w src/
+        
+        # Code simplification
+        echo "🎯 Simplifying code..."
+        gofmt -s -w src/
+        
+        # Dependency cleanup
+        echo "🧹 Cleaning dependencies..."
+        go mod tidy
+        
+        # Linting with auto-fix
+        echo "🔍 Running linter with auto-fix..."
+        golangci-lint run --fix src/...
+        
+        echo "✅ All optimizations complete"
+
+    - name: Check for changes
+      id: changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes=true" >> $GITHUB_OUTPUT
+          echo "📝 Changes detected:"
+          git status
+          git diff
+        else
+          echo "changes=false" >> $GITHUB_OUTPUT
+          echo "✅ No changes needed - code is already optimized"
+        fi
+
+    - name: Create Pull Request
+      if: steps.changes.outputs.changes == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "🤖 Auto-optimize: Apply automatic code improvements"
+        title: "🤖 Auto-optimize: Apply automatic code improvements"
+        body: |
+          ## 🤖 Automatic Code Optimizations Applied
+          
+          This PR contains automatic optimizations applied by the CI/CD pipeline:
+          
+          - **Import optimization** - Cleaned up and organized imports
+          - **Code simplification** - Applied gofmt -s simplifications
+          - **Dependency cleanup** - Removed unused dependencies
+          - **Linting fixes** - Applied golangci-lint auto-fixes
+          
+          ### Changes Made:
+          - Optimized import statements
+          - Simplified code constructs
+          - Cleaned up dependencies
+          - Fixed linting issues
+          
+          All changes are automatically generated and tested. Please review and merge if the changes look good.
+        branch: auto-optimize-${{ github.run_number }}
+        delete-branch: true

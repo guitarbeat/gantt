@@ -86,7 +86,6 @@ func (p plainItem) Display() string {
 // ItemsGroup groups multiple items with a delimiter
 type ItemsGroup struct {
 	Items Items
-	delim string
 }
 
 // IntItem represents an integer item with optional reference
@@ -153,11 +152,10 @@ func NewMonthItem(mo time.Month) MonthItem {
 	return MonthItem{Val: mo}
 }
 
-// CellItem represents a cell item with text, reference, and selection state
+// CellItem represents a cell item with text and reference
 type CellItem struct {
-	Text     string
-	Ref      string
-	selected bool
+	Text string
+	Ref  string
 }
 
 // TextItem represents a text item with formatting and reference options

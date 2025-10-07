@@ -95,28 +95,28 @@ func IsSilent() bool {
 // Info logs an informational message
 func (l *Logger) Info(format string, v ...interface{}) {
 	if l.level != LogLevelSilent {
-		l.logger.Output(2, fmt.Sprintf("[INFO] "+format, v...))
+		_ = l.logger.Output(2, fmt.Sprintf("[INFO] "+format, v...))
 	}
 }
 
 // Debug logs a debug message (only when debug level is enabled)
 func (l *Logger) Debug(format string, v ...interface{}) {
 	if l.level == LogLevelDebug {
-		l.logger.Output(2, fmt.Sprintf("[DEBUG] "+format, v...))
+		_ = l.logger.Output(2, fmt.Sprintf("[DEBUG] "+format, v...))
 	}
 }
 
 // Error logs an error message
 func (l *Logger) Error(format string, v ...interface{}) {
 	if l.level != LogLevelSilent {
-		l.logger.Output(2, fmt.Sprintf("[ERROR] "+format, v...))
+		_ = l.logger.Output(2, fmt.Sprintf("[ERROR] "+format, v...))
 	}
 }
 
 // Warn logs a warning message
 func (l *Logger) Warn(format string, v ...interface{}) {
 	if l.level != LogLevelSilent {
-		l.logger.Output(2, fmt.Sprintf("[WARN] "+format, v...))
+		_ = l.logger.Output(2, fmt.Sprintf("[WARN] "+format, v...))
 	}
 }
 

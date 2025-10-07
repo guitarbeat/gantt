@@ -236,3 +236,234 @@ sudo apt-get install texlive-xetex texlive-latex-extra
 - **CSV:** research_timeline_v5.1_comprehensive.csv
 - **Location:** `releases/20251006_215248_release/`
 
+### 20251006_233401_Fixed
+
+- **Date:** 2025-10-06 23:34:01
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_233401_Fixed/`
+
+### 20251006_233648_Reverted
+
+- **Date:** 2025-10-06 23:36:48
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_233648_Reverted/`
+
+### 20251006_233803_TaskCount
+
+- **Date:** 2025-10-06 23:38:03
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_233803_TaskCount/`
+
+### 20251006_233839_Enhanced
+
+- **Date:** 2025-10-06 23:38:39
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_233839_Enhanced/`
+
+### 20251006_234002_Incremental
+
+- **Date:** 2025-10-06 23:40:02
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_234002_Incremental/`
+
+### 20251006_234137_UI-UX
+
+- **Date:** 2025-10-06 23:41:37
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_234137_UI-UX/`
+
+### 20251006_234355_Enhanced-Plus
+
+- **Date:** 2025-10-06 23:43:55
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_234355_Enhanced-Plus/`
+
+### 20251006_234747_Compact-Plus
+
+- **Date:** 2025-10-06 23:47:47
+- **Version:** v5.2
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_234747_Compact-Plus/`
+
+### 20251006_234909_Enhanced-Dates
+
+- **Date:** 2025-10-06 23:49:09
+- **Version:** v5.3
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_234909_Enhanced-Dates/`
+
+### 20251006_235132_Table-Format
+
+- **Date:** 2025-10-06 23:51:32
+- **Version:** v5.4
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_235132_Table-Format/`
+
+### 20251006_235624_Fixed-Ampersand
+
+- **Date:** 2025-10-06 23:56:24
+- **Version:** v5.5
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251006_235624_Fixed-Ampersand/`
+
+### 20251007_000123_Restored-Enhanced-Dates
+
+- **Date:** 2025-10-07 00:01:23
+- **Version:** v5.6
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000123_Restored-Enhanced-Dates/`
+
+### 20251007_000347_True-Enhanced-Dates
+
+- **Date:** 2025-10-07 00:03:47
+- **Version:** v5.7
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000347_True-Enhanced-Dates/`
+
+### 20251007_000533_Baby-Step-1-Structured
+
+- **Date:** 2025-10-07 00:05:33
+- **Version:** v5.8
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000533_Baby-Step-1-Structured/`
+
+### 20251007_000704_Baby-Step-2-Separators
+
+- **Date:** 2025-10-07 00:07:04
+- **Version:** v5.9
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000704_Baby-Step-2-Separators/`
+
+### 20251007_000727_Removed-Fluff-Tasks
+
+- **Date:** 2025-10-07 00:07:27
+- **Version:** v5.10
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000727_Removed-Fluff-Tasks/`
+
+### 20251007_000843_Baby-Step-3-Column-Alignment
+
+- **Date:** 2025-10-07 00:08:43
+- **Version:** v5.11
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000843_Baby-Step-3-Column-Alignment/`
+
+### 20251007_000943_All-Fluff-Removed
+
+- **Date:** 2025-10-07 00:09:43
+- **Version:** v5.12
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_000943_All-Fluff-Removed/`
+
+### 20251007_001227_TA-Requirement-Updated
+
+- **Date:** 2025-10-07 00:12:27
+- **Version:** v5.13
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_001227_TA-Requirement-Updated/`
+
+### 20251007_001249_Removed-Visual-Separators
+
+- **Date:** 2025-10-07 00:12:49
+- **Version:** v5.14
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_001249_Removed-Visual-Separators/`
+
+### 20251007_001422_Enhanced-Date-Formatting
+
+- **Date:** 2025-10-07 00:14:22
+- **Version:** v5.15
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_001422_Enhanced-Date-Formatting/`
+
+### 20251007_001600_Optimized-Task-Names-Enhanced-Objectives
+
+- **Date:** 2025-10-07 00:16:00
+- **Version:** v5.16
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_001600_Optimized-Task-Names-Enhanced-Objectives/`
+
+### 20251007_001759_Cleaner-Date-Format
+
+- **Date:** 2025-10-07 00:17:59
+- **Version:** v5.17
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_001759_Cleaner-Date-Format/`
+
+### 20251007_001818_Final-Task-Name-Optimization
+
+- **Date:** 2025-10-07 00:18:18
+- **Version:** v5.18
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_001818_Final-Task-Name-Optimization/`
+
+### 20251007_002156_Enhanced-Phase-Category-Display
+
+- **Date:** 2025-10-07 00:21:56
+- **Version:** v5.19
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_002156_Enhanced-Phase-Category-Display/`
+
+### 20251007_002954_Chronological-Sorting-Visual-Separators-Compact-Display
+
+- **Date:** 2025-10-07 00:29:54
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_002954_Chronological-Sorting-Visual-Separators-Compact-Display/`
+
+### 20251007_003138_Improved-Phase-Number-Formatting
+
+- **Date:** 2025-10-07 00:31:38
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_003138_Improved-Phase-Number-Formatting/`
+
+### 20251007_003229_Removed-Bullet-Points
+
+- **Date:** 2025-10-07 00:32:29
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_003229_Removed-Bullet-Points/`
+
+### 20251007_003338_Consistent-Font-Sizing
+
+- **Date:** 2025-10-07 00:33:38
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_003338_Consistent-Font-Sizing/`
+
+### 20251007_003454_Improved-Phase-Display-Decoupled
+
+- **Date:** 2025-10-07 00:34:54
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_003454_Improved-Phase-Display-Decoupled/`
+
+### 20251007_003803_Enhanced-Task-Index-v2
+
+- **Date:** 2025-10-07 00:38:03
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_003803_Enhanced-Task-Index-v2/`
+
+### 20251007_003909_Enhanced-Task-Index-Final
+
+- **Date:** 2025-10-07 00:39:09
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_003909_Enhanced-Task-Index-Final/`
+
+### 20251007_004045_Enhanced-Task-Index-Fixed
+
+- **Date:** 2025-10-07 00:40:45
+- **Version:** v5.1
+- **CSV:** research_timeline_v5.1_comprehensive.csv
+- **Location:** `releases/20251007_004045_Enhanced-Task-Index-Fixed/`
+

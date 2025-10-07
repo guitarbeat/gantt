@@ -1,0 +1,37 @@
+repos:
+  - repo: local
+    hooks:
+      - id: goimports
+        name: goimports
+        entry: goimports
+        language: system
+        args: [-w]
+        files: \.go$
+        
+      - id: gofmt
+        name: gofmt
+        entry: gofmt
+        language: system
+        args: [-s, -w]
+        files: \.go$
+        
+      - id: go-mod-tidy
+        name: go mod tidy
+        entry: go
+        language: system
+        args: [mod, tidy]
+        files: go\.(mod|sum)$
+        
+      - id: go-vet
+        name: go vet
+        entry: go
+        language: system
+        args: [vet, ./...]
+        files: \.go$
+        
+      - id: go-test
+        name: go test
+        entry: go
+        language: system
+        args: [test, ./src/...]
+        files: \.go$

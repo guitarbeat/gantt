@@ -19,6 +19,56 @@
 GO ?= go
 OUTDIR ?= src/build
 
+# Code quality and optimization targets
+.PHONY: optimize install-tools lint-fix format test-quality
+
+# Install optimization tools
+install-tools:
+	@echo "🔧 Installing code optimization tools..."
+	$(GO) install golang.org/x/tools/cmd/goimports@latest
+	$(GO) install golang.org/x/tools/cmd/gorename@latest
+	$(GO) install github.com/godoctor/godoctor@latest
+	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@echo "✅ Tools installed"
+
+# Run all automatic optimizations
+optimize: install-tools
+	@echo "🔧 Running comprehensive code optimizations..."
+	@echo "📦 Optimizing imports..."
+	goimports -w src/
+	@echo "🎯 Simplifying code..."
+	gofmt -s -w src/
+	@echo "🧹 Cleaning dependencies..."
+	$(GO) mod tidy
+	@echo "🔍 Running linter with auto-fix..."
+	golangci-lint run --fix src/...
+	@echo "🏗️ Building with optimizations..."
+	$(GO) build -ldflags="-s -w" -o plannergen cmd/planner/main.go
+	@echo "✅ All optimizations complete"
+
+# Fix linting issues
+lint-fix: install-tools
+	@echo "🔍 Running linter with auto-fix..."
+	golangci-lint run --fix src/...
+
+# Format code
+format: install-tools
+	@echo "📦 Optimizing imports..."
+	goimports -w src/
+	@echo "🎯 Simplifying code..."
+	gofmt -s -w src/
+
+# Run quality checks
+test-quality: install-tools
+	@echo "🧪 Running quality checks..."
+	@echo "🔍 Running linter..."
+	golangci-lint run src/...
+	@echo "🔍 Running go vet..."
+	$(GO) vet ./...
+	@echo "🧪 Running tests..."
+	$(GO) test ./src/...
+	@echo "✅ All quality checks passed"
+
 # Configurable paths with defaults
 CONFIG_BASE ?= src/core/base.yaml
 CONFIG_PAGE ?= src/core/monthly_calendar.yaml

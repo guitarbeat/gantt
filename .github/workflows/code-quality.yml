@@ -1,0 +1,159 @@
+name: Code Quality & Optimization
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_optimizations:
+        description: 'Run automatic optimizations'
+        required: true
+        default: true
+        type: boolean
+      create_pr:
+        description: 'Create PR with changes'
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  optimize:
+    name: Code Quality Optimization
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.21
+
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Install optimization tools
+      run: |
+        echo "🔧 Installing optimization tools..."
+        go install golang.org/x/tools/cmd/goimports@latest
+        go install golang.org/x/tools/cmd/gorename@latest
+        go install github.com/godoctor/godoctor@latest
+        go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+        echo "✅ Tools installed"
+
+    - name: Run comprehensive optimizations
+      if: ${{ inputs.run_optimizations }}
+      run: |
+        echo "🔧 Running comprehensive code optimizations..."
+        
+        # Import optimization
+        echo "📦 Optimizing imports..."
+        goimports -w src/
+        
+        # Code simplification
+        echo "🎯 Simplifying code..."
+        gofmt -s -w src/
+        
+        # Dependency cleanup
+        echo "🧹 Cleaning dependencies..."
+        go mod tidy
+        
+        # Linting with auto-fix
+        echo "🔍 Running linter with auto-fix..."
+        golangci-lint run --fix src/...
+        
+        # Build optimization
+        echo "🏗️ Building with optimizations..."
+        go build -ldflags="-s -w" -o plannergen cmd/planner/main.go
+        
+        echo "✅ All optimizations complete"
+
+    - name: Run tests
+      run: |
+        echo "🧪 Running tests to ensure optimizations work..."
+        go test ./src/...
+
+    - name: Check for changes
+      id: changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes=true" >> $GITHUB_OUTPUT
+          echo "📝 Changes detected:"
+          git status
+          git diff
+        else
+          echo "changes=false" >> $GITHUB_OUTPUT
+          echo "✅ No changes needed - code is already optimized"
+        fi
+
+    - name: Create Pull Request
+      if: steps.changes.outputs.changes == 'true' && inputs.create_pr == true
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "🤖 Auto-optimize: Apply automatic code improvements"
+        title: "🤖 Auto-optimize: Apply automatic code improvements"
+        body: |
+          ## 🤖 Automatic Code Optimizations Applied
+          
+          This PR contains automatic optimizations applied by the Code Quality workflow:
+          
+          ### Tools Used:
+          - **goimports** - Import optimization and cleanup
+          - **gofmt -s** - Code simplification
+          - **go mod tidy** - Dependency cleanup
+          - **golangci-lint** - Comprehensive linting with auto-fix
+          - **go build -ldflags="-s -w"** - Binary optimization
+          
+          ### Changes Made:
+          - ✅ Optimized import statements
+          - ✅ Simplified code constructs
+          - ✅ Cleaned up unused dependencies
+          - ✅ Fixed linting issues
+          - ✅ Optimized binary size
+          
+          ### Verification:
+          - ✅ All tests pass
+          - ✅ Code compiles successfully
+          - ✅ No linting errors
+          
+          All changes are automatically generated and tested. Please review and merge if the changes look good.
+        branch: auto-optimize-${{ github.run_number }}
+        delete-branch: true
+
+    - name: Summary
+      run: |
+        echo "## 📊 Code Quality Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ steps.changes.outputs.changes }}" == "true" ]; then
+          echo "✅ **Changes Applied:** Code has been optimized" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Changes Made:" >> $GITHUB_STEP_SUMMARY
+          echo "- Import optimization" >> $GITHUB_STEP_SUMMARY
+          echo "- Code simplification" >> $GITHUB_STEP_SUMMARY
+          echo "- Dependency cleanup" >> $GITHUB_STEP_SUMMARY
+          echo "- Linting fixes" >> $GITHUB_STEP_SUMMARY
+          echo "- Binary optimization" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.create_pr }}" == "true" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🔀 **Pull Request Created:** Changes are ready for review" >> $GITHUB_STEP_SUMMARY
+          fi
+        else
+          echo "✅ **No Changes Needed:** Code is already optimized" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Tools Used:" >> $GITHUB_STEP_SUMMARY
+        echo "- goimports" >> $GITHUB_STEP_SUMMARY
+        echo "- gofmt -s" >> $GITHUB_STEP_SUMMARY
+        echo "- go mod tidy" >> $GITHUB_STEP_SUMMARY
+        echo "- golangci-lint" >> $GITHUB_STEP_SUMMARY
+        echo "- go build -ldflags=\"-s -w\"" >> $GITHUB_STEP_SUMMARY

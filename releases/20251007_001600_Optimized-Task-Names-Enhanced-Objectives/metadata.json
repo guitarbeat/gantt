@@ -1,0 +1,18 @@
+{
+  "version": "v5.16",
+  "release_name": "Optimized-Task-Names-Enhanced-Objectives",
+  "timestamp": "20251007_001600",
+  "date": "2025-10-07 00:16:00",
+  "csv_file": "input_data/research_timeline_v5.1_comprehensive.csv",
+  "csv_basename": "research_timeline_v5.1_comprehensive.csv",
+  "files": {
+    "latex": "planner.tex",
+    "pdf": "planner.pdf",
+    "csv": "source.csv"
+  },
+  "build_info": {
+    "go_version": "go1.22.3",
+    "hostname": "wireless-10-150-65-81.public.utexas.edu",
+    "user": "aaron"
+  }
+}
