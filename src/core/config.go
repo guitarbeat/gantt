@@ -198,7 +198,6 @@ type TColorBoxOverlay struct {
 	BoxRule string
 }
 
-
 type Typography struct {
 	HyphenPenalty          int
 	Tolerance              int

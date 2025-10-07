@@ -27,13 +27,13 @@ func NewCellBuilder(cfg *core.Config) *CellBuilder {
 func (cb *CellBuilder) BuildDayNumberCell(day string, ref ...string) string {
 	dayNumberWidth := "6mm" // Default width
 	dayNumberCell := fmt.Sprintf(`\begin{minipage}[t]{%s}\centering{}%s\end{minipage}`, dayNumberWidth, day)
-	
+
 	// Add hypertarget if reference is provided
 	if len(ref) > 0 && ref[0] != "" {
 		hypertarget := fmt.Sprintf(`\hypertarget{%s}{}`, ref[0])
 		return hypertarget + dayNumberCell
 	}
-	
+
 	return dayNumberCell
 }
 
@@ -122,4 +122,3 @@ func (cb *CellBuilder) BuildEmptyCell() string {
 func (cb *CellBuilder) BuildCellSeparator() string {
 	return `\\`
 }
-

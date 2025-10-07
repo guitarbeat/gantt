@@ -8,7 +8,7 @@ import (
 
 func TestNewLogger(t *testing.T) {
 	logger := NewLogger("[test] ")
-	
+
 	if logger == nil {
 		t.Fatal("NewLogger() should not return nil")
 	}
@@ -20,7 +20,7 @@ func TestNewLogger(t *testing.T) {
 
 func TestNewDefaultLogger(t *testing.T) {
 	logger := NewDefaultLogger()
-	
+
 	if logger == nil {
 		t.Fatal("NewDefaultLogger() should not return nil")
 	}
@@ -63,11 +63,11 @@ func TestIsSilent(t *testing.T) {
 func TestLoggerLevels(t *testing.T) {
 	// Create a logger with a custom output buffer for testing
 	var buf bytes.Buffer
-	
+
 	// We can't easily test the actual logging since it goes through log.Logger
 	// But we can test that the methods don't panic
 	logger := NewLogger("[test] ")
-	
+
 	// These should not panic
 	t.Run("Info", func(t *testing.T) {
 		defer func() {
@@ -140,10 +140,10 @@ func TestLogLevelDetection(t *testing.T) {
 	}()
 
 	tests := []struct {
-		name       string
-		silentEnv  string
-		levelEnv   string
-		wantLevel  string
+		name      string
+		silentEnv string
+		levelEnv  string
+		wantLevel string
 	}{
 		{"default", "", "", "info"},
 		{"silent flag", "1", "", "silent"},
@@ -161,7 +161,7 @@ func TestLogLevelDetection(t *testing.T) {
 
 			// Create a new logger to pick up environment
 			logger := NewLogger("[test] ")
-			
+
 			if logger.level != tt.wantLevel {
 				t.Errorf("logger.level = %s, want %s", logger.level, tt.wantLevel)
 			}

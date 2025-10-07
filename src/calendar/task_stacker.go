@@ -295,12 +295,12 @@ func (tsr *TaskStackRenderer) GetRenderInfoForDay(date time.Time) *DayRenderInfo
 	startingTasks := tsr.stacker.GetTasksStartingOnDay(date)
 
 	return &DayRenderInfo{
-		Date:                date,
-		AllStacks:           stacks,
-		StartingTasks:       startingTasks,
-		MaxTracks:           tsr.stacker.GetMaxTracks(),
-		TasksVisibleOnDay:   len(stacks),
-		TasksStartingOnDay:  len(startingTasks),
+		Date:               date,
+		AllStacks:          stacks,
+		StartingTasks:      startingTasks,
+		MaxTracks:          tsr.stacker.GetMaxTracks(),
+		TasksVisibleOnDay:  len(stacks),
+		TasksStartingOnDay: len(startingTasks),
 	}
 }
 

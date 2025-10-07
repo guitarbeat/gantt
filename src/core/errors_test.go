@@ -36,7 +36,7 @@ func TestConfigError(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			err := NewConfigError(tt.file, tt.field, tt.message, tt.err)
-			
+
 			errStr := err.Error()
 			for _, want := range tt.wantContain {
 				if !strings.Contains(errStr, want) {
@@ -99,7 +99,7 @@ func TestTemplateError(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			err := NewTemplateError(tt.template, tt.line, tt.message, nil)
-			
+
 			errStr := err.Error()
 			for _, want := range tt.wantContain {
 				if !strings.Contains(errStr, want) {
@@ -148,7 +148,7 @@ func TestDataError(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			err := NewDataError(tt.source, tt.row, tt.column, tt.message, nil)
-			
+
 			errStr := err.Error()
 			for _, want := range tt.wantContain {
 				if !strings.Contains(errStr, want) {
@@ -162,7 +162,7 @@ func TestDataError(t *testing.T) {
 func TestErrorAggregator(t *testing.T) {
 	t.Run("empty aggregator", func(t *testing.T) {
 		agg := NewErrorAggregator()
-		
+
 		if agg.HasErrors() {
 			t.Error("Empty aggregator should not have errors")
 		}
@@ -179,13 +179,13 @@ func TestErrorAggregator(t *testing.T) {
 
 	t.Run("add errors", func(t *testing.T) {
 		agg := NewErrorAggregator()
-		
+
 		err1 := errors.New("error 1")
 		err2 := errors.New("error 2")
-		
+
 		agg.AddError(err1)
 		agg.AddError(err2)
-		
+
 		if !agg.HasErrors() {
 			t.Error("Aggregator should have errors")
 		}
@@ -196,13 +196,13 @@ func TestErrorAggregator(t *testing.T) {
 
 	t.Run("add warnings", func(t *testing.T) {
 		agg := NewErrorAggregator()
-		
+
 		warn1 := errors.New("warning 1")
 		warn2 := errors.New("warning 2")
-		
+
 		agg.AddWarning(warn1)
 		agg.AddWarning(warn2)
-		
+
 		if !agg.HasWarnings() {
 			t.Error("Aggregator should have warnings")
 		}
@@ -213,10 +213,10 @@ func TestErrorAggregator(t *testing.T) {
 
 	t.Run("summary", func(t *testing.T) {
 		agg := NewErrorAggregator()
-		
+
 		agg.AddError(errors.New("error 1"))
 		agg.AddWarning(errors.New("warning 1"))
-		
+
 		summary := agg.Summary()
 		if !strings.Contains(summary, "Errors") {
 			t.Error("Summary should contain 'Errors'")
@@ -228,12 +228,12 @@ func TestErrorAggregator(t *testing.T) {
 
 	t.Run("clear", func(t *testing.T) {
 		agg := NewErrorAggregator()
-		
+
 		agg.AddError(errors.New("error"))
 		agg.AddWarning(errors.New("warning"))
-		
+
 		agg.Clear()
-		
+
 		if agg.HasErrors() || agg.HasWarnings() {
 			t.Error("Clear() should remove all errors and warnings")
 		}
@@ -241,19 +241,19 @@ func TestErrorAggregator(t *testing.T) {
 
 	t.Run("error interface", func(t *testing.T) {
 		agg := NewErrorAggregator()
-		
+
 		// Empty aggregator
 		if agg.Error() != "no errors" {
 			t.Errorf("Empty aggregator Error() = %s, want 'no errors'", agg.Error())
 		}
-		
+
 		// Single error
 		agg.AddError(errors.New("test error"))
 		errStr := agg.Error()
 		if !strings.Contains(errStr, "test error") {
 			t.Errorf("Error() should contain the error message")
 		}
-		
+
 		// Multiple errors
 		agg.AddError(errors.New("another error"))
 		errStr = agg.Error()

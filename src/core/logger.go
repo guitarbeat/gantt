@@ -53,7 +53,7 @@ type Logger struct {
 // NewLogger creates a new logger with the specified prefix
 func NewLogger(prefix string) *Logger {
 	level := getLogLevel()
-	
+
 	var out io.Writer = os.Stderr
 	if level == LogLevelSilent {
 		out = io.Discard

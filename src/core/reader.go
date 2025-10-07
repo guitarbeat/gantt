@@ -138,7 +138,7 @@ func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 		}
 	}
 
-	return time.Time{}, NewParseError(0, "Date", dateStr, 
+	return time.Time{}, NewParseError(0, "Date", dateStr,
 		fmt.Sprintf("unable to parse with any supported format (tried: %v)", supportedDateFormats), nil)
 }
 
@@ -494,8 +494,8 @@ func (r *Reader) validateDates(task Task) error {
 			task.ID,
 			"Due Date",
 			task.EndDate.Format("2006-01-02"),
-			fmt.Sprintf("end date %s is before start date %s", 
-				task.EndDate.Format("2006-01-02"), 
+			fmt.Sprintf("end date %s is before start date %s",
+				task.EndDate.Format("2006-01-02"),
 				task.StartDate.Format("2006-01-02")),
 		)
 	}

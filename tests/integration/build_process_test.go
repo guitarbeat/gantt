@@ -69,7 +69,7 @@ func TestInvalidOutputDirectory(t *testing.T) {
 	// Test with a path that cannot be created (invalid characters, etc.)
 	// Note: This might be platform-specific, so we use a relatively safe invalid path
 	app := app.New()
-	
+
 	// Create a file where we want to create a directory (this should fail)
 	tmpFile := filepath.Join("generated", "test_invalid_dir_file")
 	os.MkdirAll("generated", 0755)
@@ -108,7 +108,7 @@ func TestEmptyConfig(t *testing.T) {
 func TestMultipleConfigFiles(t *testing.T) {
 	// Test loading multiple config files (overlay behavior)
 	app := app.New()
-	
+
 	// Base config plus monthly calendar config
 	args := []string{
 		"plannergen",

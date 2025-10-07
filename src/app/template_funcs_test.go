@@ -43,7 +43,7 @@ func TestDictFunc(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result, err := dictFunc(tt.input...)
-			
+
 			if (err != nil) != tt.wantErr {
 				t.Errorf("dictFunc() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -121,12 +121,12 @@ func TestIsFunc(t *testing.T) {
 		{"bool false", false, false},
 		{"nil", nil, false},
 		{"string", "hello", true},
-		{"empty string", "", true},         // Empty string is still non-nil
-		{"int zero", 0, true},              // Zero is still non-nil
+		{"empty string", "", true}, // Empty string is still non-nil
+		{"int zero", 0, true},      // Zero is still non-nil
 		{"int positive", 42, true},
 		{"pointer nil", (*int)(nil), true}, // Typed nil is still non-nil interface value
 		{"pointer non-nil", new(int), true},
-		{"slice nil", []int(nil), true},    // Typed nil slice is still non-nil interface value
+		{"slice nil", []int(nil), true}, // Typed nil slice is still non-nil interface value
 		{"slice empty", []int{}, true},
 	}
 

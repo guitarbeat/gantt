@@ -56,10 +56,10 @@ import (
 // These functions are available to all templates during rendering
 func TemplateFuncs() template.FuncMap {
 	return template.FuncMap{
-		"dict":       dictFunc,
-		"incr":       incrFunc,
-		"dec":        decFunc,
-		"is":         isFunc,
+		"dict":        dictFunc,
+		"incr":        incrFunc,
+		"dec":         decFunc,
+		"is":          isFunc,
 		"hypertarget": templates.Hypertarget,
 	}
 }

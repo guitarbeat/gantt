@@ -89,7 +89,7 @@ func TestTaskStackerOverlap(t *testing.T) {
 	// Day 7 should have all three tasks
 	day7 := time.Date(2025, 1, 7, 0, 0, 0, 0, time.UTC)
 	stacks7 := stacker.GetStacksForDay(day7)
-	
+
 	if len(stacks7) != 3 {
 		t.Errorf("Expected 3 tasks on day 7, got %d", len(stacks7))
 	}

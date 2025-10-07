@@ -58,6 +58,18 @@ generated/
 # Build temp directory
 .build_temp/
 
-# Releases - keep structure and indexes only
-releases/*/*/
-!releases/*/INDEX.md
+# Keep releases structure but ignore temp files in releases
+releases/*/*.aux
+releases/*/*.log
+releases/*/*.tmp
+releases/*/*.fdb_latexmk
+releases/*/*.fls
+releases/*/*.synctex.gz
+
+# Test artifacts
+tests/integration/generated/*.pdf
+tests/integration/generated/*.tex
+tests/output/*.tex
+
+# Debug directories
+test_debug/

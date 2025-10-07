@@ -226,7 +226,7 @@ func (ea *ErrorAggregator) Summary() string {
 	}
 
 	var summary strings.Builder
-	
+
 	if ea.HasErrors() {
 		summary.WriteString(fmt.Sprintf("Errors (%d):\n", len(ea.Errors)))
 		for i, err := range ea.Errors {
@@ -252,4 +252,3 @@ func (ea *ErrorAggregator) Clear() {
 	ea.Errors = make([]error, 0)
 	ea.Warnings = make([]error, 0)
 }
-
