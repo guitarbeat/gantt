@@ -659,20 +659,20 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 					modules = append(modules, core.Module{
 						Cfg: cfg,
 						Tpl: tpls[0],
-						Body: map[string]interface{}{
-							"Year":         year,
-							"Quarter":      quarter,
-							"Month":        month,
-							"MonthRef":     fmt.Sprintf("month-%d-%d", month.Year.Number, int(month.Month)),
-							"Breadcrumb":   month.Breadcrumb(),
-							"HeadingMOS":   month.HeadingMOS(),
-							"SideQuarters": year.SideQuarters(quarter.Number),
-							"SideMonths":   year.SideMonths(month.Month),
-							"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner, cfg.Layout.Calendar.TaskKernSpacing),
-							"Large":        true,
-							"TableType":    "tabularx",
-							"Today":        cal.Day{Time: time.Now(), Cfg: &cfg},
-						},
+				Body: map[string]interface{}{
+					"Year":         year,
+					"Quarter":      quarter,
+					"Month":        month,
+					"MonthRef":     fmt.Sprintf("month-%d-%d", month.Year.Number, int(month.Month)),
+					"Breadcrumb":   month.Breadcrumb(),
+					"HeadingMOS":   month.HeadingMOS(),
+					"SideQuarters": year.SideQuarters(quarter.Number),
+					"SideMonths":   year.SideMonths(month.Month),
+					"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner, cfg.Layout.Calendar.TaskKernSpacing),
+					"Large":        true,
+					"TableType":    "tabularx",
+					"Today":        cal.Day{Time: time.Now(), Cfg: &cfg},
+				},
 					})
 				}
 			}
@@ -757,7 +757,7 @@ func autoDetectCSV() (string, error) {
 
 		// Most recent modification time as tiebreaker
 		if priority > bestPriority ||
-			(priority == bestPriority && bestFile == nil) {
+		   (priority == bestPriority && bestFile == nil) {
 			bestPriority = priority
 			bestFile = file
 		} else if priority == bestPriority && bestFile != nil {
@@ -848,79 +848,80 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
 	}
 
-	// Create phase-based sections
-	phases := []string{"1", "2", "3", "4"}
-	for _, phase := range phases {
-		if tasks, exists := phaseTasks[phase]; exists && len(tasks) > 0 {
-			// Phase header
-			latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{245,245,245}{\\makebox[\\linewidth][l]{\\textbf{%s}}}}\\\\\n", phaseNames[phase]))
-			latexContent.WriteString("\\vspace{0.05cm}\n\n")
+		// Create phase-based sections
+		phases := []string{"1", "2", "3", "4"}
+		for _, phase := range phases {
+			if tasks, exists := phaseTasks[phase]; exists && len(tasks) > 0 {
+				// Phase header
+				latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{245,245,245}{\\makebox[\\linewidth][l]{\\textbf{%s}}}}\\\\\n", phaseNames[phase]))
+				latexContent.WriteString("\\vspace{0.05cm}\n\n")
 
-			latexContent.WriteString("\\vspace{0.1cm}\n\n")
 
-			// Group tasks by sub-phase within this phase
-			subPhaseTasks := make(map[string][]core.Task)
-			for _, task := range tasks {
-				subPhase := task.SubPhase
-				if subPhase == "" {
-					subPhase = "General" // Default for tasks without sub-phase
-				}
-				subPhaseTasks[subPhase] = append(subPhaseTasks[subPhase], task)
-			}
-
-			// Sort sub-phases alphabetically for consistent ordering
-			var subPhases []string
-			for subPhase := range subPhaseTasks {
-				subPhases = append(subPhases, subPhase)
-			}
-			sort.Strings(subPhases)
-
-			// Render each sub-phase
-			for _, subPhase := range subPhases {
-				subPhaseTaskList := subPhaseTasks[subPhase]
-
-				// Sort tasks chronologically within this sub-phase
-				sort.Slice(subPhaseTaskList, func(i, j int) bool {
-					return subPhaseTaskList[i].StartDate.Before(subPhaseTaskList[j].StartDate)
-				})
-
-				// Sub-phase header (smaller than phase header)
-				latexContent.WriteString(fmt.Sprintf("\\vspace{0.1cm}\n"))
-				latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{250,250,250}{\\makebox[\\linewidth][l]{\\textbf{\\small %s}}}}\\\\\n", subPhase))
-				latexContent.WriteString("\\vspace{0.03cm}\n\n")
-
-				// Tasks for this sub-phase - compact format
-				latexContent.WriteString("\\begin{itemize}[leftmargin=0.5cm,itemsep=0.1cm,parsep=0.05cm]\n")
-				for _, task := range subPhaseTaskList {
-					// Create hyperlink reference to first occurrence of task
-					// Use RFC3339 format to match calendar's d.ref() method
-					dateRef := task.StartDate.Format(time.RFC3339)
-
-					// Get color for the task category
-					taskColor := core.GenerateCategoryColor(strings.ToUpper(task.Category))
-					taskName := strings.ReplaceAll(task.Name, "&", "\\&")
-					taskName = strings.ReplaceAll(taskName, "%", "\\%")
-
-					// Bold the task name if it's a milestone
-					if task.IsMilestone {
-						taskName = fmt.Sprintf("\\textbf{%s}", taskName)
-					}
-
-					// Format task with color and hyperlink
-					if len(taskColor) >= 7 && taskColor[0] == '#' {
-						rgbStr := hexToRGBString(taskColor)
-						latexContent.WriteString(fmt.Sprintf("\\item \\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}}\n", rgbStr, dateRef, taskName))
-					} else {
-						latexContent.WriteString(fmt.Sprintf("\\item \\hyperlink{%s}{%s}\n", dateRef, taskName))
-					}
-				}
-				latexContent.WriteString("\\end{itemize}\n")
 				latexContent.WriteString("\\vspace{0.1cm}\n\n")
-			}
 
-			latexContent.WriteString("\\vspace{0.2cm}\n\n")
+				// Group tasks by sub-phase within this phase
+				subPhaseTasks := make(map[string][]core.Task)
+				for _, task := range tasks {
+					subPhase := task.SubPhase
+					if subPhase == "" {
+						subPhase = "General" // Default for tasks without sub-phase
+					}
+					subPhaseTasks[subPhase] = append(subPhaseTasks[subPhase], task)
+				}
+
+				// Sort sub-phases alphabetically for consistent ordering
+				var subPhases []string
+				for subPhase := range subPhaseTasks {
+					subPhases = append(subPhases, subPhase)
+				}
+				sort.Strings(subPhases)
+
+				// Render each sub-phase
+				for _, subPhase := range subPhases {
+					subPhaseTaskList := subPhaseTasks[subPhase]
+					
+					// Sort tasks chronologically within this sub-phase
+					sort.Slice(subPhaseTaskList, func(i, j int) bool {
+						return subPhaseTaskList[i].StartDate.Before(subPhaseTaskList[j].StartDate)
+					})
+					
+					// Sub-phase header (smaller than phase header)
+					latexContent.WriteString(fmt.Sprintf("\\vspace{0.1cm}\n"))
+					latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{250,250,250}{\\makebox[\\linewidth][l]{\\textbf{\\small %s}}}}\\\\\n", subPhase))
+					latexContent.WriteString("\\vspace{0.03cm}\n\n")
+
+					// Tasks for this sub-phase - compact format
+					latexContent.WriteString("\\begin{itemize}[leftmargin=0.5cm,itemsep=0.1cm,parsep=0.05cm]\n")
+					for _, task := range subPhaseTaskList {
+						// Create hyperlink reference to first occurrence of task
+						// Use RFC3339 format to match calendar's d.ref() method
+						dateRef := task.StartDate.Format(time.RFC3339)
+
+						// Get color for the task category
+						taskColor := core.GenerateCategoryColor(strings.ToUpper(task.Category))
+						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
+						taskName = strings.ReplaceAll(taskName, "%", "\\%")
+
+						// Bold the task name if it's a milestone
+						if task.IsMilestone {
+							taskName = fmt.Sprintf("\\textbf{%s}", taskName)
+						}
+
+						// Format task with color and hyperlink
+						if len(taskColor) >= 7 && taskColor[0] == '#' {
+							rgbStr := hexToRGBString(taskColor)
+							latexContent.WriteString(fmt.Sprintf("\\item \\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}}\n", rgbStr, dateRef, taskName))
+						} else {
+							latexContent.WriteString(fmt.Sprintf("\\item \\hyperlink{%s}{%s}\n", dateRef, taskName))
+						}
+					}
+					latexContent.WriteString("\\end{itemize}\n")
+					latexContent.WriteString("\\vspace{0.1cm}\n\n")
+				}
+
+				latexContent.WriteString("\\vspace{0.2cm}\n\n")
+			}
 		}
-	}
 
 	latexContent.WriteString("% Usage Legend\n")
 	latexContent.WriteString("{\\small\n")
