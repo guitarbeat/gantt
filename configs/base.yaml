@@ -42,7 +42,7 @@ layout:
     tabcolsep: 4pt  # Increased for better readability
     headersidemonthswidth: 14.5cm
     arraystretch: 1.15  # Slightly reduced for better density
-    monthlycellheight: 72pt  # Optimized height
+    monthlycellheight: 55pt  # Match reference repository for narrow week column
     headerresizebox: 6mm
     linethicknessdefault: .35pt  # Finer lines for elegance
     linethicknessthick: .7pt   # Proportional thick lines

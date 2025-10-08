@@ -587,10 +587,11 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 	// If we have months with tasks from CSV, use only those
 	if len(cfg.MonthsWithTasks) > 0 {
 		var modules core.Modules
-		if len(tasks) > 0 {
-			tocModule := createTableOfContentsModule(cfg, tasks, tpls[0])
-			modules = append(modules, tocModule)
-		}
+		// Temporarily disable task index to test monthly calendar compilation
+		// if len(tasks) > 0 {
+		// 	tocModule := createTableOfContentsModule(cfg, tasks, tpls[0])
+		// 	modules = append(modules, tocModule)
+		// }
 
 		monthModules := make(core.Modules, 0, len(cfg.MonthsWithTasks))
 
@@ -935,7 +936,7 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 
 						// Enhanced formatting for milestone tasks with better visual emphasis
 						if task.IsMilestone {
-							taskName = fmt.Sprintf("\\textbf{\\textcolor{blue!70!black}{%s}} \\textcolor{blue!50!black}{\\textbf{★}}", taskName)
+							taskName = fmt.Sprintf("\\textbf{\\textcolor{blue!70!black}{%s}} \\textcolor{blue!50!black}{\\textbf{$\\star$}}", taskName)
 						}
 
 						// Calculate task duration
@@ -954,20 +955,20 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 					var statusIcon string
 					var statusColor string
 					if task.EndDate.Before(now) {
-						statusIcon = "\\checkmark"
+						statusIcon = "$\\checkmark$"
 						statusColor = "green!70!black"
 					} else if task.StartDate.Before(now) && task.EndDate.After(now) {
-						statusIcon = "\\textbf{●}"
+						statusIcon = "$\\bullet$"
 						statusColor = "orange!70!black"
 					} else {
-						statusIcon = "○"
+						statusIcon = "$\\circ$"
 						statusColor = "gray!70!black"
 					}
 					
 					// Add priority indicator for milestones
 					var priorityIndicator string
 					if task.IsMilestone {
-						priorityIndicator = "\\textcolor{blue!60!black}{\\textbf{★}} "
+						priorityIndicator = "\\textcolor{blue!60!black}{\\textbf{$\\star$}} "
 					}
 
 					// Format dates for display with enhanced readability
@@ -1016,8 +1017,8 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 	latexContent.WriteString("\\vspace{0.2cm}\n")
 	latexContent.WriteString("{\\small\n")
 	latexContent.WriteString("\\textbf{How to use this index:}\\\\\n")
-	latexContent.WriteString("\\textbullet\\ \\textcolor{green!70!black}{\\checkmark} = Completed | \\textcolor{orange!70!black}{\\textbf{●}} = In Progress | \\textcolor{gray!70!black}{○} = Upcoming\\\\\n")
-	latexContent.WriteString("\\textbullet\\ \\textcolor{blue!60!black}{\\textbf{★}} = Milestone tasks with enhanced timeline borders\\\\\n")
+	latexContent.WriteString("\\textbullet\\ \\textcolor{green!70!black}{$\\checkmark$} = Completed | \\textcolor{orange!70!black}{\\textbf{$\\bullet$}} = In Progress | \\textcolor{gray!70!black}{$\\circ$} = Upcoming\\\\\n")
+	latexContent.WriteString("\\textbullet\\ \\textcolor{blue!60!black}{\\textbf{$\\star$}} = Milestone tasks with enhanced timeline borders\\\\\n")
 	latexContent.WriteString("\\textbullet\\ Click on any task name to jump to its location in the timeline\\\\\n")
 	latexContent.WriteString("\\textbullet\\ Phase headers show task counts, milestones, and completion percentage\n")
 	latexContent.WriteString("}\n\n")
