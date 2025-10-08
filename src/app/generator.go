@@ -94,27 +94,46 @@ func action(c *cli.Context) error {
 		return runTestCoverage()
 	}
 
+	fmt.Println("🚀 Starting Planner Generation")
+	fmt.Println("═══════════════════════════════════════")
+
 	// Load and prepare configuration
+	fmt.Print("📋 Loading configuration... ")
 	cfg, pathConfigs, err := loadConfiguration(c)
 	if err != nil {
+		fmt.Println("❌")
 		return err
 	}
+	fmt.Println("✅")
 
 	// Setup output directory
+	fmt.Print("📁 Setting up output directory... ")
 	if err := setupOutputDirectory(cfg); err != nil {
+		fmt.Println("❌")
 		return err
 	}
+	fmt.Println("✅")
 
 	// Generate root document
+	fmt.Print("📄 Generating root document... ")
 	if err := generateRootDocument(cfg, pathConfigs); err != nil {
+		fmt.Println("❌")
 		return err
 	}
+	fmt.Println("✅")
 
 	// Generate pages
+	fmt.Print("📅 Generating calendar pages... ")
 	preview := c.Bool(pConfig)
 	if err := generatePages(cfg, preview); err != nil {
+		fmt.Println("❌")
 		return err
 	}
+	fmt.Println("✅")
+
+	fmt.Println("═══════════════════════════════════════")
+	fmt.Println("✨ Generation complete!")
+	fmt.Printf("📂 Output: %s\n", cfg.OutputDir)
 
 	return nil
 }
@@ -357,11 +376,15 @@ func generateRootDocument(cfg core.Config, pathConfigs []string) error {
 func generatePages(cfg core.Config, preview bool) error {
 	t := NewTpl()
 
-	for _, file := range cfg.Pages {
+	totalPages := len(cfg.Pages)
+	for i, file := range cfg.Pages {
+		fmt.Printf("\r📅 Generating calendar pages... [%d/%d] %s", i+1, totalPages, file.Name)
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
+			fmt.Println() // New line before error
 			return err
 		}
 	}
+	fmt.Print("\r") // Clear the progress line
 
 	return nil
 }
