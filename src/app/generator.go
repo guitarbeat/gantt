@@ -87,6 +87,26 @@ const (
 
 var logger = core.NewDefaultLogger()
 
+// formatError creates a user-friendly error message with context and suggestions
+func formatError(stage, problem string, err error, suggestions ...string) error {
+	var msg strings.Builder
+	msg.WriteString(fmt.Sprintf("\n❌ %s Failed\n\n", stage))
+	msg.WriteString(fmt.Sprintf("Problem: %s\n", problem))
+	if err != nil {
+		msg.WriteString(fmt.Sprintf("Details: %v\n", err))
+	}
+	
+	if len(suggestions) > 0 {
+		msg.WriteString("\nSuggestions:\n")
+		for i, suggestion := range suggestions {
+			msg.WriteString(fmt.Sprintf("  %d. %s\n", i+1, suggestion))
+		}
+	}
+	
+	msg.WriteString("\nFor more help, see: docs/TROUBLESHOOTING.md\n")
+	return fmt.Errorf("%s", msg.String())
+}
+
 // action is the main CLI action that orchestrates document generation or test coverage
 func action(c *cli.Context) error {
 	// Check if test coverage is requested
@@ -102,7 +122,14 @@ func action(c *cli.Context) error {
 	cfg, pathConfigs, err := loadConfiguration(c)
 	if err != nil {
 		fmt.Println("❌")
-		return err
+		return formatError(
+			"Configuration Loading",
+			"Unable to load or parse configuration files",
+			err,
+			"Check that config files exist and are valid YAML",
+			"Verify the --config flag points to the correct file",
+			"Try using a preset: --preset academic",
+		)
 	}
 	fmt.Println("✅")
 
@@ -110,7 +137,14 @@ func action(c *cli.Context) error {
 	fmt.Print("📁 Setting up output directory... ")
 	if err := setupOutputDirectory(cfg); err != nil {
 		fmt.Println("❌")
-		return err
+		return formatError(
+			"Output Directory Setup",
+			"Cannot create or access output directory",
+			err,
+			"Check that you have write permissions",
+			"Verify the path is valid and not too long",
+			"Try a different output directory with --outdir flag",
+		)
 	}
 	fmt.Println("✅")
 
@@ -118,7 +152,14 @@ func action(c *cli.Context) error {
 	fmt.Print("📄 Generating root document... ")
 	if err := generateRootDocument(cfg, pathConfigs); err != nil {
 		fmt.Println("❌")
-		return err
+		return formatError(
+			"Root Document Generation",
+			"Failed to generate main LaTeX document",
+			err,
+			"Check that CSV file exists and is properly formatted",
+			"Verify dates are in YYYY-MM-DD format",
+			"Check for special LaTeX characters in task names (%, $, &, #, _, {, })",
+		)
 	}
 	fmt.Println("✅")
 
@@ -127,7 +168,14 @@ func action(c *cli.Context) error {
 	preview := c.Bool(pConfig)
 	if err := generatePages(cfg, preview); err != nil {
 		fmt.Println("❌")
-		return err
+		return formatError(
+			"Calendar Page Generation",
+			"Failed to generate calendar pages",
+			err,
+			"Check that all task dates are valid",
+			"Verify template files are not corrupted",
+			"Try running with --preview flag for debugging",
+		)
 	}
 	fmt.Println("✅")
 

@@ -223,7 +223,13 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 func (r *Reader) openAndValidateFile() (*os.File, os.FileInfo, error) {
 	file, err := os.Open(r.filePath)
 	if err != nil {
-		return nil, nil, fmt.Errorf("failed to open CSV file: %w", err)
+		if os.IsNotExist(err) {
+			return nil, nil, fmt.Errorf("CSV file not found: %s\n\nSuggestions:\n  1. Check the file path is correct\n  2. Verify the file exists in the input_data/ directory\n  3. Set PLANNER_CSV_FILE environment variable", r.filePath)
+		}
+		if os.IsPermission(err) {
+			return nil, nil, fmt.Errorf("permission denied accessing CSV file: %s\n\nSuggestions:\n  1. Check file permissions\n  2. Run with appropriate user privileges\n  3. Verify the file is not locked by another program", r.filePath)
+		}
+		return nil, nil, fmt.Errorf("failed to open CSV file %s: %w", r.filePath, err)
 	}
 
 	fileInfo, err := file.Stat()
