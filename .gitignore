@@ -51,9 +51,16 @@ Thumbs.db
 
 # Go coverage files
 coverage.out
+coverage.txt
+*.coverprofile
 
 # Generated directory - use releases/ for version tracking
 generated/
+generated/*.pdf
+generated/*.tex
+generated/*.log
+generated/*.aux
+generated/preview/
 
 # Build temp directory
 .build_temp/
@@ -73,3 +80,20 @@ tests/output/*.tex
 
 # Debug directories
 test_debug/
+
+# Release directories (keep structure, ignore content)
+releases/*/
+!releases/.gitkeep
+
+# Node modules (if adding web interface later)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Python cache (for scripts)
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
