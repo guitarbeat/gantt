@@ -4,53 +4,56 @@ Welcome to the PhD Dissertation Planner documentation!
 
 ## 📚 Documentation Structure
 
-### Getting Started
+### 📋 Tasks (How-To Guides)
+Actionable guides for getting things done:
+
+- **[Installation Guide](tasks/SETUP.md)** - Detailed installation instructions
+- **[User Guide](tasks/USER_GUIDE.md)** - How to use the planner
+- **[Developer Guide](tasks/DEVELOPER_GUIDE.md)** - Contributing and development setup
+- **[Troubleshooting](tasks/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Pre-commit Hooks](tasks/PRE_COMMIT_SETUP.md)** - Setting up development hooks
+
+### 📖 FYI (Reference Information)
+Background information and historical context:
+
+- **[Work Summary](fyi/WORK_SUMMARY.md)** - Historical development log
+- **[Improvements Completed](fyi/IMPROVEMENTS_COMPLETED.md)** - Recent enhancements
+- **[Preview System](fyi/PREVIEW_SYSTEM.md)** - PDF preview image generation
+- **[Deployment Summary](fyi/DEPLOYMENT_SUMMARY.md)** - Deployment notes and history
+- **[Code Quality](fyi/CODE_QUALITY.md)** - Code quality standards
+
+### 🔗 External Links
 - **[Main README](../README.md)** - Project overview and quick start
-- **[Installation Guide](SETUP.md)** - Detailed installation instructions
-- **[User Guide](USER_GUIDE.md)** - How to use the planner
-
-### Development
-- **[Developer Guide](DEVELOPER_GUIDE.md)** - Contributing and development setup
-- **[Pre-commit Hooks](PRE_COMMIT_SETUP.md)** - Setting up development hooks
-- **[Repository Improvements](REPOSITORY_IMPROVEMENTS.md)** - Roadmap and enhancement ideas
-
-### Features
-- **[Preview System](PREVIEW_SYSTEM.md)** - PDF preview image generation
-- **[Work Summary](WORK_SUMMARY.md)** - Historical development log
-
-### Reference
-- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
-- **[Deployment Summary](DEPLOYMENT_SUMMARY.md)** - Deployment notes and history
 - **[Changelog](../CHANGELOG.md)** - Version history
 
 ## 🚀 Quick Links
 
 ### For Users
 1. Start with the [Main README](../README.md)
-2. Follow the [Installation Guide](SETUP.md)
-3. Read the [User Guide](USER_GUIDE.md)
-4. Check [Troubleshooting](TROUBLESHOOTING.md) if you have issues
+2. Follow the [Installation Guide](tasks/SETUP.md)
+3. Read the [User Guide](tasks/USER_GUIDE.md)
+4. Check [Troubleshooting](tasks/TROUBLESHOOTING.md) if you have issues
 
 ### For Developers
-1. Read the [Developer Guide](DEVELOPER_GUIDE.md)
-2. Set up [Pre-commit Hooks](PRE_COMMIT_SETUP.md)
-3. Review [Repository Improvements](REPOSITORY_IMPROVEMENTS.md)
-4. Check the [Work Summary](WORK_SUMMARY.md) for context
+1. Read the [Developer Guide](tasks/DEVELOPER_GUIDE.md)
+2. Set up [Pre-commit Hooks](tasks/PRE_COMMIT_SETUP.md)
+3. Review [Improvements Completed](fyi/IMPROVEMENTS_COMPLETED.md)
+4. Check the [Work Summary](fyi/WORK_SUMMARY.md) for context
 
 ## 📝 Documentation Status
 
 | Document | Status | Last Updated |
 |----------|--------|--------------|
-| README.md | ✅ Complete | Current |
-| TROUBLESHOOTING.md | ✅ Complete | Oct 7, 2025 |
-| PRE_COMMIT_SETUP.md | ✅ Complete | Oct 7, 2025 |
-| PREVIEW_SYSTEM.md | ✅ Complete | Current |
-| WORK_SUMMARY.md | ✅ Complete | Current |
-| REPOSITORY_IMPROVEMENTS.md | ✅ Complete | Oct 7, 2025 |
-| DEPLOYMENT_SUMMARY.md | ✅ Complete | Current |
-| SETUP.md | 🚧 Planned | - |
-| USER_GUIDE.md | 🚧 Planned | - |
-| DEVELOPER_GUIDE.md | 🚧 Planned | - |
+| tasks/SETUP.md | ✅ Complete | Oct 7, 2025 |
+| tasks/USER_GUIDE.md | ✅ Complete | Oct 7, 2025 |
+| tasks/DEVELOPER_GUIDE.md | ✅ Complete | Oct 7, 2025 |
+| tasks/TROUBLESHOOTING.md | ✅ Complete | Oct 7, 2025 |
+| tasks/PRE_COMMIT_SETUP.md | ✅ Complete | Oct 7, 2025 |
+| fyi/WORK_SUMMARY.md | ✅ Complete | Current |
+| fyi/IMPROVEMENTS_COMPLETED.md | ✅ Complete | Oct 7, 2025 |
+| fyi/PREVIEW_SYSTEM.md | ✅ Complete | Current |
+| fyi/DEPLOYMENT_SUMMARY.md | ✅ Complete | Current |
+| fyi/CODE_QUALITY.md | ✅ Complete | Current |
 
 ## 🤝 Contributing to Documentation
 

@@ -44,10 +44,10 @@ We've completed a major round of improvements! See [IMPROVEMENTS_COMPLETED.md](d
 - ✅ **Troubleshooting Guide** - Solutions for common issues
 
 **New Documentation:**
-- 📖 [Setup Guide](docs/SETUP.md) - Complete installation instructions
-- 📖 [User Guide](docs/USER_GUIDE.md) - How to use the planner
-- 📖 [Developer Guide](docs/DEVELOPER_GUIDE.md) - Contributing guidelines
-- 📖 [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
+- 📖 [Setup Guide](docs/tasks/SETUP.md) - Complete installation instructions
+- 📖 [User Guide](docs/tasks/USER_GUIDE.md) - How to use the planner
+- 📖 [Developer Guide](docs/tasks/DEVELOPER_GUIDE.md) - Contributing guidelines
+- 📖 [Troubleshooting](docs/tasks/TROUBLESHOOTING.md) - Common issues and solutions
 
 ### 🔗 External Resources
 
@@ -109,11 +109,15 @@ make clean-build
 
 For detailed guides, see the [docs/](docs/) directory:
 
-- **[Setup Guide](docs/SETUP.md)** - Complete installation and configuration
-- **[User Guide](docs/USER_GUIDE.md)** - How to use the planner effectively
-- **[Developer Guide](docs/DEVELOPER_GUIDE.md)** - Contributing and development
-- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+**How-To Guides (Tasks):**
+- **[Setup Guide](docs/tasks/SETUP.md)** - Complete installation and configuration
+- **[User Guide](docs/tasks/USER_GUIDE.md)** - How to use the planner effectively
+- **[Developer Guide](docs/tasks/DEVELOPER_GUIDE.md)** - Contributing and development
+- **[Troubleshooting](docs/tasks/TROUBLESHOOTING.md)** - Common issues and solutions
+
+**Reference (FYI):**
 - **[Documentation Index](docs/README.md)** - Full documentation overview
+- **[Improvements Completed](docs/fyi/IMPROVEMENTS_COMPLETED.md)** - Recent enhancements
 
 ---
 
