@@ -1,0 +1,87 @@
+# golangci-lint configuration
+# See https://golangci-lint.run/usage/configuration/
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - gofmt          # Check code formatting
+    - govet          # Examine Go source code and report suspicious constructs
+    - errcheck       # Check for unchecked errors
+    - staticcheck    # Go static analysis
+    - unused         # Check for unused constants, variables, functions and types
+    - gosimple       # Simplify code
+    - ineffassign    # Detect ineffectual assignments
+    - typecheck      # Type-check Go code
+    - misspell       # Find commonly misspelled English words
+    - gocyclo        # Compute cyclomatic complexity
+    - dupl           # Find duplicate code
+    - gosec          # Inspect source code for security problems
+    - unconvert      # Remove unnecessary type conversions
+    - prealloc       # Find slice declarations that could potentially be preallocated
+    - exportloopref  # Check for pointers to enclosing loop variables
+    - nolintlint     # Ensure nolint directives are properly used
+
+  disable:
+    - structcheck    # Deprecated
+    - deadcode       # Deprecated
+    - varcheck       # Deprecated
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15  # Warn on functions with complexity > 15
+  
+  dupl:
+    threshold: 100  # Minimum token sequence for duplicate detection
+  
+  misspell:
+    locale: US
+  
+  errcheck:
+    check-type-assertions: true
+    check-blank: false
+  
+  govet:
+    check-shadowing: true
+  
+  staticcheck:
+    checks: ["all"]
+
+issues:
+  exclude-rules:
+    # Exclude some linters from running on tests files
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+    
+    # Exclude known issues in generated code
+    - path: ".*\\.pb\\.go"
+      linters:
+        - all
+    
+    # Exclude some staticcheck messages
+    - linters:
+        - staticcheck
+      text: "SA9003:"  # Empty branch
+    
+    # Exclude lll issues for long lines with go:generate
+    - linters:
+        - lll
+      source: "^//go:generate "
+
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  new: false
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true
+  sort-results: true

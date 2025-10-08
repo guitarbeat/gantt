@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Get version
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Build binaries
+        run: |
+          # Windows AMD64
+          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o dist/plannergen-windows-amd64.exe ./cmd/planner
+          
+          # Windows ARM64
+          GOOS=windows GOARCH=arm64 go build -ldflags="-s -w" -o dist/plannergen-windows-arm64.exe ./cmd/planner
+          
+          # macOS AMD64
+          GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o dist/plannergen-darwin-amd64 ./cmd/planner
+          
+          # macOS ARM64 (Apple Silicon)
+          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o dist/plannergen-darwin-arm64 ./cmd/planner
+          
+          # Linux AMD64
+          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/plannergen-linux-amd64 ./cmd/planner
+          
+          # Linux ARM64
+          GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/plannergen-linux-arm64 ./cmd/planner
+
+      - name: Create checksums
+        run: |
+          cd dist
+          sha256sum * > checksums.txt
+          cat checksums.txt
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          # Extract changelog for this version
+          VERSION=${{ steps.version.outputs.VERSION }}
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "## What's Changed" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details." >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "## Installation" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "Download the appropriate binary for your platform:" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "- **Windows (AMD64):** \`plannergen-windows-amd64.exe\`" >> $GITHUB_OUTPUT
+          echo "- **Windows (ARM64):** \`plannergen-windows-arm64.exe\`" >> $GITHUB_OUTPUT
+          echo "- **macOS (Intel):** \`plannergen-darwin-amd64\`" >> $GITHUB_OUTPUT
+          echo "- **macOS (Apple Silicon):** \`plannergen-darwin-arm64\`" >> $GITHUB_OUTPUT
+          echo "- **Linux (AMD64):** \`plannergen-linux-amd64\`" >> $GITHUB_OUTPUT
+          echo "- **Linux (ARM64):** \`plannergen-linux-arm64\`" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "Verify downloads with \`checksums.txt\`" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.version.outputs.VERSION }}
+          body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/plannergen-windows-amd64.exe
+            dist/plannergen-windows-arm64.exe
+            dist/plannergen-darwin-amd64
+            dist/plannergen-darwin-arm64
+            dist/plannergen-linux-amd64
+            dist/plannergen-linux-arm64
+            dist/checksums.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

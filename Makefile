@@ -54,9 +54,16 @@ install:
 # Run linters
 lint:
 	@echo "🔍 Running linters..."
+	@which golangci-lint > /dev/null || (echo "Installing golangci-lint..." && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
+	golangci-lint run ./...
+	@echo "✅ Lint complete!"
+
+# Run basic linters (without golangci-lint)
+lint-basic:
+	@echo "🔍 Running basic linters..."
 	go vet ./...
 	gofmt -l .
-	@echo "✅ Lint complete!"
+	@echo "✅ Basic lint complete!"
 
 # Format code
 fmt:

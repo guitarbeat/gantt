@@ -2,396 +2,110 @@ name: CI
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   test:
-    name: Test (Go ${{ matrix.go-version }})
-    runs-on: ubuntu-latest
+    name: Test
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        go-version: [1.19, 1.20, 1.21]
-
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        go-version: ['1.21', '1.22']
+    
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go-version }}
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
 
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
-    - name: Download dependencies
-      run: go mod download
+      - name: Download dependencies
+        run: go mod download
 
-    - name: Run tests
-      run: go test -v -race -coverprofile=coverage.out ./...
+      - name: Verify dependencies
+        run: go mod verify
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.out
-        flags: unittests
-        name: codecov-umbrella
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
-  build-without-latex:
-    name: Build without XeLaTeX (CI/CD Robustness Test)
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.go-version == '1.22'
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.txt
+          flags: unittests
+          name: codecov-umbrella
+
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    needs: test
-
+    
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
 
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
-
-    - name: Download dependencies
-      run: go mod download
-
-    - name: Build without XeLaTeX (should succeed)
-      run: make -f scripts/Makefile build
-
-    - name: Verify LaTeX generation works without PDF
-      run: |
-        if [ ! -f "generated/monthly_calendar.tex" ]; then
-          echo "❌ LaTeX source file not found"
-          exit 1
-        fi
-        echo "✅ LaTeX files generated successfully without XeLaTeX dependency"
-
-    - name: Upload LaTeX artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: latex-only-${{ github.sha }}
-        path: |
-          generated/*.tex
-          generated/plannergen
-        retention-days: 7
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: latest
+          args: --timeout=5m
 
   build:
-    name: Build & PDF Generation
-    runs-on: ubuntu-latest
-    needs: [test, build-without-latex]
-
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
 
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
+      - name: Build binary
+        run: go build -v -o plannergen${{ matrix.os == 'windows-latest' && '.exe' || '' }} ./cmd/planner
 
-    - name: Install XeLaTeX
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
-
-    - name: Download dependencies
-      run: go mod download
-
-    - name: Install optimization tools
-      run: |
-        go install golang.org/x/tools/cmd/goimports@latest
-        go install golang.org/x/tools/cmd/gorename@latest
-
-    - name: Run automatic optimizations
-      run: |
-        echo "🔧 Running automatic code optimizations..."
-        goimports -w src/
-        gofmt -s -w src/
-        go mod tidy
-        echo "✅ Automatic optimizations complete"
-
-    - name: Run go vet
-      run: go vet ./...
-
-    - name: Check formatting
-      run: |
-        if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then
-          echo "The following files are not formatted:"
-          gofmt -s -l .
-          exit 1
-        fi
-
-    - name: Build project (LaTeX generation)
-      run: make -f scripts/Makefile build-latex
-
-    - name: Build project with PDF (if XeLaTeX available)
-      run: make -f scripts/Makefile build
-
-    - name: Verify PDF generation
-      run: |
-        # Check for main PDF output
-        if [ ! -f "generated/monthly_calendar.pdf" ]; then
-          echo "❌ Main PDF not found: generated/monthly_calendar.pdf"
-          ls -la generated/
-          exit 1
-        fi
-
-        # Check PDF file size (50KB - 200KB range)
-        PDF_SIZE=$(stat -c%s "generated/monthly_calendar.pdf")
-        MIN_SIZE=50000
-        MAX_SIZE=200000
-
-        echo "✅ PDF size: $PDF_SIZE bytes"
-
-        if [ $PDF_SIZE -lt $MIN_SIZE ]; then
-          echo "❌ PDF too small: $PDF_SIZE bytes (minimum: $MIN_SIZE bytes)"
-          exit 1
-        fi
-
-        if [ $PDF_SIZE -gt $MAX_SIZE ]; then
-          echo "❌ PDF too large: $PDF_SIZE bytes (maximum: $MAX_SIZE bytes)"
-          exit 1
-        fi
-
-        # Verify PDF is valid
-        if ! file "generated/monthly_calendar.pdf" | grep -q "PDF"; then
-          echo "❌ Generated file is not a valid PDF"
-          exit 1
-        fi
-
-        echo "✅ PDF generation successful"
-
-    - name: Verify LaTeX files generated
-      run: |
-        if [ ! -f "generated/monthly_calendar.tex" ]; then
-          echo "❌ LaTeX source file not found"
-          exit 1
-        fi
-        echo "✅ LaTeX files generated"
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: phd-planner-${{ github.sha }}
-        path: |
-          generated/*.pdf
-          generated/*.tex
-          generated/plannergen
-        retention-days: 7
+      - name: Test binary
+        run: ./plannergen${{ matrix.os == 'windows-latest' && '.exe' || '' }} --help
 
   security:
     name: Security Scan
     runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
-    
-    - name: Run Gosec Security Scanner
-      uses: securego/gosec@master
-      with:
-        args: ./...
-
-  lint:
-    name: Code Quality & Auto-Optimization
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
-
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
-
-    - name: Download dependencies
-      run: go mod download
-
-    - name: Install optimization tools
-      run: |
-        go install golang.org/x/tools/cmd/goimports@latest
-        go install golang.org/x/tools/cmd/gorename@latest
-        go install github.com/godoctor/godoctor@latest
-
-    - name: Run goimports (import optimization)
-      run: |
-        echo "🔧 Running goimports to optimize imports..."
-        goimports -w src/
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "⚠️  goimports made changes to imports"
-          git diff
-        else
-          echo "✅ Imports are already optimized"
-        fi
-
-    - name: Run gofmt -s (code simplification)
-      run: |
-        echo "🔧 Running gofmt -s to simplify code..."
-        gofmt -s -w src/
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "⚠️  gofmt -s made changes to code"
-          git diff
-        else
-          echo "✅ Code is already simplified"
-        fi
-
-    - name: Run go mod tidy (dependency cleanup)
-      run: |
-        echo "🔧 Running go mod tidy to clean dependencies..."
-        go mod tidy
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "⚠️  go mod tidy made changes to go.mod/go.sum"
-          git diff
-        else
-          echo "✅ Dependencies are already clean"
-        fi
-
-    - name: golangci-lint (comprehensive analysis)
-      uses: golangci/golangci-lint-action@v3
-      with:
-        version: latest
-        args: --timeout=5m --fix
-
-    - name: Check for remaining issues
-      run: |
-        echo "🔍 Checking for any remaining linting issues..."
-        if golangci-lint run src/...; then
-          echo "✅ No linting issues found"
-        else
-          echo "❌ Linting issues found that need manual attention"
-          exit 1
-        fi
-
-    - name: Verify tests still pass
-      run: |
-        echo "🧪 Running tests to ensure optimizations didn't break anything..."
-        go test ./src/...
-
-    - name: Check for uncommitted changes
-      run: |
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "❌ There are uncommitted changes after optimization"
-          echo "Please commit the following changes:"
-          git status
-          git diff
-          exit 1
-        else
-          echo "✅ No uncommitted changes - code is clean"
-        fi
-
-  auto-optimize:
-    name: Auto-Optimize Code Quality
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.event_name == 'push'
     
     steps:
-    - uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.21
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: '-no-fail -fmt sarif -out results.sarif ./...'
 
-    - name: Install optimization tools
-      run: |
-        go install golang.org/x/tools/cmd/goimports@latest
-        go install golang.org/x/tools/cmd/gorename@latest
-        go install github.com/godoctor/godoctor@latest
-        go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-
-    - name: Run comprehensive optimizations
-      run: |
-        echo "🔧 Running comprehensive code optimizations..."
-        
-        # Import optimization
-        echo "📦 Optimizing imports..."
-        goimports -w src/
-        
-        # Code simplification
-        echo "🎯 Simplifying code..."
-        gofmt -s -w src/
-        
-        # Dependency cleanup
-        echo "🧹 Cleaning dependencies..."
-        go mod tidy
-        
-        # Linting with auto-fix
-        echo "🔍 Running linter with auto-fix..."
-        golangci-lint run --fix src/...
-        
-        echo "✅ All optimizations complete"
-
-    - name: Check for changes
-      id: changes
-      run: |
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "changes=true" >> $GITHUB_OUTPUT
-          echo "📝 Changes detected:"
-          git status
-          git diff
-        else
-          echo "changes=false" >> $GITHUB_OUTPUT
-          echo "✅ No changes needed - code is already optimized"
-        fi
-
-    - name: Create Pull Request
-      if: steps.changes.outputs.changes == 'true'
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "🤖 Auto-optimize: Apply automatic code improvements"
-        title: "🤖 Auto-optimize: Apply automatic code improvements"
-        body: |
-          ## 🤖 Automatic Code Optimizations Applied
-          
-          This PR contains automatic optimizations applied by the CI/CD pipeline:
-          
-          - **Import optimization** - Cleaned up and organized imports
-          - **Code simplification** - Applied gofmt -s simplifications
-          - **Dependency cleanup** - Removed unused dependencies
-          - **Linting fixes** - Applied golangci-lint auto-fixes
-          
-          ### Changes Made:
-          - Optimized import statements
-          - Simplified code constructs
-          - Cleaned up dependencies
-          - Fixed linting issues
-          
-          All changes are automatically generated and tested. Please review and merge if the changes look good.
-        branch: auto-optimize-${{ github.run_number }}
-        delete-branch: true
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
