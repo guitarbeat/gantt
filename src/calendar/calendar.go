@@ -833,13 +833,11 @@ func (m *Month) DefineTable(typ interface{}, large interface{}) string {
 
 	typStr, ok := typ.(string)
 	if !ok || typStr == "tabularx" {
-		// Use fixed width for week column to prevent it from expanding
-		weekAlign := "p{6mm}|"  // Fixed 6mm width for week numbers
+		weekAlign := "Y|"
 		days := "Y"
 		if full {
 			// Large mode: use zero-width paragraph column to force minimal width
-			// The rotated text will overflow the column but not expand it
-			weekAlign = `|@{}p{0pt}@{}!{\vrule width \myLenLineThicknessThick}`
+			weekAlign = `|l!{\vrule width \myLenLineThicknessThick}`
 			days = `@{}X@{}|`
 		}
 
@@ -876,8 +874,7 @@ func (m *Month) WeekHeader(large interface{}) string {
 	names := make([]string, 0, 8)
 
 	if full {
-		// Use a zero-width box to prevent the column from expanding
-		names = append(names, `\hspace{0pt}`)
+		names = append(names, "")
 	} else {
 		names = append(names, "W")
 	}
