@@ -3,6 +3,7 @@
 ## Table of Contents
 
 1. [Project Overview](#-project-overview)
+   - [Recent Improvements](#-recent-improvements-october-2025)
 2. [Quick Start](#-quick-start)
 3. [Project Status](#-project-status)
 4. [Task Stacking Implementation](#-task-stacking-implementation)
@@ -29,6 +30,24 @@ Welcome to the comprehensive reference documentation for the PhD Dissertation Pl
 ### 🎯 Project Mission
 
 The PhD Dissertation Planner is a Go-based application that transforms CSV data into professional LaTeX-generated PDF planners and Gantt charts for academic project management.
+
+### ✨ Recent Improvements (October 2025)
+
+We've completed a major round of improvements! See [IMPROVEMENTS_COMPLETED.md](docs/IMPROVEMENTS_COMPLETED.md) for full details.
+
+**Quick Wins Completed:**
+- ✅ **Enhanced Documentation** - Comprehensive guides for users and developers
+- ✅ **Progress Indicators** - Visual feedback during build process
+- ✅ **Better Error Messages** - Actionable suggestions and troubleshooting links
+- ✅ **Pre-commit Hooks** - Automated code quality checks
+- ✅ **Makefile** - Simplified development commands
+- ✅ **Troubleshooting Guide** - Solutions for common issues
+
+**New Documentation:**
+- 📖 [Setup Guide](docs/SETUP.md) - Complete installation instructions
+- 📖 [User Guide](docs/USER_GUIDE.md) - How to use the planner
+- 📖 [Developer Guide](docs/DEVELOPER_GUIDE.md) - Contributing guidelines
+- 📖 [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
 
 ### 🔗 External Resources
 
@@ -85,6 +104,16 @@ make clean-build
 - Use **releases** for archiving and tracking progression
 - Use **development builds** for quick testing
 - All releases are organized in timestamped directories
+
+### 📚 Documentation
+
+For detailed guides, see the [docs/](docs/) directory:
+
+- **[Setup Guide](docs/SETUP.md)** - Complete installation and configuration
+- **[User Guide](docs/USER_GUIDE.md)** - How to use the planner effectively
+- **[Developer Guide](docs/DEVELOPER_GUIDE.md)** - Contributing and development
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Documentation Index](docs/README.md)** - Full documentation overview
 
 ---
 
