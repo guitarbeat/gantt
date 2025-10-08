@@ -5,6 +5,30 @@ All notable changes to the PhD Dissertation Planner will be documented in this f
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.1] - 2025-10-08
+
+### Added
+
+- **Complete Professional Task Index**: Working PDF with clickable task index as the first page
+- **Task Index Features**:
+  - Tasks organized by research phases with clear headers
+  - Clickable hyperlinks to jump directly to task locations in the timeline
+  - Milestone highlighting with star symbols (★)
+  - Simple, stable LaTeX formatting that compiles reliably
+  - Phase-by-phase task organization
+
+### Fixed
+
+- **Week Label Positioning**: Restored original week label positioning as first table column
+- **Table Structure**: Fixed calendar table layout to use proper 8-column structure
+- **LaTeX Compilation**: Resolved complex LaTeX formatting issues that prevented PDF generation
+- **Task Index Stability**: Simplified LaTeX generation to ensure reliable compilation
+
+### Changed
+
+- **Release System**: Enhanced build_release.sh to properly handle multi-file LaTeX projects with working PDF output
+- **Task Index Generation**: Streamlined LaTeX formatting for stability and reliability
+
 ## [5.1.0] - 2025-10-03
 
 ### Added

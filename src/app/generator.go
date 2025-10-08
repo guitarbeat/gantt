@@ -658,11 +658,10 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 	// If we have months with tasks from CSV, use only those
 	if len(cfg.MonthsWithTasks) > 0 {
 		var modules core.Modules
-		// Temporarily disable task index to test monthly calendar compilation
-		// if len(tasks) > 0 {
-		// 	tocModule := createTableOfContentsModule(cfg, tasks, tpls[0])
-		// 	modules = append(modules, tocModule)
-		// }
+		if len(tasks) > 0 {
+			tocModule := createTableOfContentsModule(cfg, tasks, tpls[0])
+			modules = append(modules, tocModule)
+		}
 
 		monthModules := make(core.Modules, 0, len(cfg.MonthsWithTasks))
 
@@ -934,10 +933,10 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 	// Group tasks by phase
 	phaseTasks := make(map[string][]core.Task)
 	phaseNames := map[string]string{
-		"1": "\\textbf{Phase 1:} Proposal \\& Setup",
-		"2": "\\textbf{Phase 2:} Research \\& Data Collection", 
-		"3": "\\textbf{Phase 3:} Publications",
-		"4": "\\textbf{Phase 4:} Dissertation",
+		"1": "Phase 1: Proposal \\& Setup",
+		"2": "Phase 2: Research \\& Data Collection",
+		"3": "Phase 3: Publications",
+		"4": "Phase 4: Dissertation",
 	}
 
 	for _, task := range tasks {
@@ -947,7 +946,7 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 		// Create phase-based sections with chronological sorting
 		phases := []string{"1", "2", "3", "4"}
 		for phaseIndex, phase := range phases {
-			if phaseTasks, exists := phaseTasks[phase]; exists && len(phaseTasks) > 0 {
+			if tasksForPhase, exists := phaseTasks[phase]; exists && len(tasksForPhase) > 0 {
 				
 				// Add \hrule separator between phases (but not before first phase)
 				if phaseIndex > 0 {
@@ -957,11 +956,12 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 				}
 				
 				// Enhanced phase header with task counts and progress
-				phaseTaskCount := len(phaseTasks)
+				tasksInPhase := tasksForPhase
+				phaseTaskCount := len(tasksInPhase)
 				phaseCompletedCount := 0
 				phaseMilestoneCount := 0
-				
-				for _, task := range phaseTasks {
+
+				for _, task := range tasksInPhase {
 					if task.EndDate.Before(now) {
 						phaseCompletedCount++
 					}
@@ -977,99 +977,35 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 				}
 				
 				latexContent.WriteString("\\vspace{0.2cm}\n")
-				latexContent.WriteString(fmt.Sprintf("{\\colorbox[RGB]{220,220,220}{\\makebox[\\linewidth][l]{\\Large\\textbf{%s} \\hfill \\small (%d tasks", phaseNames[phase], phaseTaskCount))
+				latexContent.WriteString(fmt.Sprintf("\\textbf{\\large %s (%d tasks", phaseNames[phase], phaseTaskCount))
 				if phaseMilestoneCount > 0 {
 					latexContent.WriteString(fmt.Sprintf(", %d milestones", phaseMilestoneCount))
 				}
 				if phaseCompletedCount > 0 {
-					latexContent.WriteString(fmt.Sprintf(" | %d%% complete", progressPercent))
+					latexContent.WriteString(fmt.Sprintf(", %d\\%% complete", progressPercent))
 				}
-				latexContent.WriteString(")}}}}\\\\\n")
-				latexContent.WriteString("\\vspace{0.1cm}\n\n")
+				latexContent.WriteString(")}\\\\[0.2cm]\n")
 
-				// Sort all tasks chronologically within this phase by start date
-				sort.Slice(phaseTasks, func(i, j int) bool {
-					return phaseTasks[i].StartDate.Before(phaseTasks[j].StartDate)
-				})
+		// Sort tasks chronologically within this phase by start date
+		sort.Slice(tasksInPhase, func(i, j int) bool {
+			return tasksInPhase[i].StartDate.Before(tasksInPhase[j].StartDate)
+		})
 
-				// Tasks for this phase - compact format without bullet points
-				latexContent.WriteString("{\\small\n")
-				latexContent.WriteString("\\begin{itemize}[leftmargin=0.4cm,itemsep=0.03cm,parsep=0.01cm,label={}]\n")
-				for _, task := range phaseTasks {
-						// Create hyperlink reference to first occurrence of task
-						// Use RFC3339 format to match calendar's d.ref() method
-						dateRef := task.StartDate.Format(time.RFC3339)
+		// Simple task list for this phase
+		latexContent.WriteString("\\begin{itemize}\n")
+		for _, task := range tasksInPhase {
+					dateRef := task.StartDate.Format(time.RFC3339)
+					taskName := strings.ReplaceAll(task.Name, "&", "\\&")
+					taskName = strings.ReplaceAll(taskName, "%", "\\%")
 
-						// Get color for the task category
-						taskColor := core.GenerateCategoryColor(strings.ToUpper(task.Category))
-						taskName := strings.ReplaceAll(task.Name, "&", "\\&")
-						taskName = strings.ReplaceAll(taskName, "%", "\\%")
-
-						// Enhanced formatting for milestone tasks with better visual emphasis
-						if task.IsMilestone {
-							taskName = fmt.Sprintf("\\textbf{\\textcolor{blue!70!black}{%s}} \\textcolor{blue!50!black}{\\textbf{$\\star$}}", taskName)
-						}
-
-						// Calculate task duration
-						duration := task.EndDate.Sub(task.StartDate)
-						days := int(duration.Hours() / 24)
-						var durationText string
-						if days == 0 {
-							durationText = "1 day"
-						} else if days == 1 {
-							durationText = "2 days"
-						} else {
-							durationText = fmt.Sprintf("%d days", days+1)
-						}
-
-					// Enhanced status indicator with better visual design
-					var statusIcon string
-					var statusColor string
-					if task.EndDate.Before(now) {
-						statusIcon = "$\\checkmark$"
-						statusColor = "green!70!black"
-					} else if task.StartDate.Before(now) && task.EndDate.After(now) {
-						statusIcon = "$\\bullet$"
-						statusColor = "orange!70!black"
-					} else {
-						statusIcon = "$\\circ$"
-						statusColor = "gray!70!black"
-					}
-					
-					// Add priority indicator for milestones
-					var priorityIndicator string
+					// Simple format: just task name with hyperlink
 					if task.IsMilestone {
-						priorityIndicator = "\\textcolor{blue!60!black}{\\textbf{$\\star$}} "
+						taskName = "\\textbf{" + taskName + "} $\\star$"
 					}
-
-					// Format dates for display with enhanced readability
-					startDate := task.StartDate.Format("Jan 2, 2006")
-					endDate := task.EndDate.Format("Jan 2, 2006")
-					
-					// Add day of week in parentheses for better context
-					startDay := task.StartDate.Format("Mon")
-					endDay := task.EndDate.Format("Mon")
-					
-					// Create more readable date range format
-					dateRange := fmt.Sprintf("%s %s - %s %s", startDate, startDay, endDate, endDay)
-
-						// Create category badge for all tasks
-						var categoryBadge string
-						if task.Category != "" {
-							categoryBadge = fmt.Sprintf("\\textcolor{gray!60!black}{[%s]}", strings.ToUpper(task.Category))
-						}
-
-					// Enhanced task formatting with better visual hierarchy
-					if len(taskColor) >= 7 && taskColor[0] == '#' {
-						rgbStr := hexToRGBString(taskColor)
-						latexContent.WriteString(fmt.Sprintf("\\item \\textcolor{%s}{%s} %s\\hspace{0.3cm} \\textcolor[RGB]{%s}{\\hyperlink{%s}{%s}} \\hfill \\textit{(%s)} \\hspace{0.3cm} \\textcolor{gray!70!black}{[%s]} %s\n", statusColor, statusIcon, priorityIndicator, rgbStr, dateRef, taskName, durationText, dateRange, categoryBadge))
-					} else {
-						latexContent.WriteString(fmt.Sprintf("\\item \\textcolor{%s}{%s} %s\\hspace{0.3cm} \\hyperlink{%s}{%s} \\hfill \\textit{(%s)} \\hspace{0.3cm} \\textcolor{gray!70!black}{[%s]} %s\n", statusColor, statusIcon, priorityIndicator, dateRef, taskName, durationText, dateRange, categoryBadge))
-					}
+					latexContent.WriteString(fmt.Sprintf("\\item \\hyperlink{%s}{%s}\n", dateRef, taskName))
 				}
 				latexContent.WriteString("\\end{itemize}\n")
-				latexContent.WriteString("}\n") // Close \small font group
-				latexContent.WriteString("\\vspace{0.1cm}\n\n")
+				latexContent.WriteString("\\vspace{0.2cm}\n\n")
 			}
 		}
 

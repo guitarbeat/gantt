@@ -185,6 +185,12 @@ log_success "LaTeX validation passed ($TEX_SIZE bytes)"
 cp "$BUILD_DIR/monthly_calendar.tex" "$RELEASE_DIR/planner.tex"
 log_success "LaTeX saved: ${RELEASE_DIR}/planner.tex"
 
+# Copy monthly content file if it exists
+if [ -f "$BUILD_DIR/monthly.tex" ]; then
+    cp "$BUILD_DIR/monthly.tex" "$RELEASE_DIR/monthly.tex"
+    log_success "Monthly content saved: ${RELEASE_DIR}/monthly.tex"
+fi
+
 # Generate PDF if not skipped
 if [ "$SKIP_PDF" = false ]; then
     if command -v xelatex >/dev/null 2>&1; then
@@ -239,6 +245,7 @@ cat > "$METADATA_FILE" << EOF
   "csv_basename": "$(basename $CSV_FILE)",
   "files": {
     "latex": "planner.tex",
+    "monthly_latex": "monthly.tex",
     "pdf": "planner.pdf",
     "csv": "source.csv"
   },
@@ -263,7 +270,8 @@ cat > "$README_FILE" << EOF
 ## Files
 
 - **planner.pdf** - Compiled PDF planner
-- **planner.tex** - LaTeX source
+- **planner.tex** - LaTeX source (main document)
+- **monthly.tex** - LaTeX source (calendar content)
 - **source.csv** - Original CSV data
 - **metadata.json** - Build metadata
 
@@ -363,6 +371,11 @@ if [ -f "$RELEASE_DIR/planner.tex" ]; then
     TEX_SIZE=$(stat -f%z "$RELEASE_DIR/planner.tex" 2>/dev/null || stat -c%s "$RELEASE_DIR/planner.tex")
     TEX_SIZE_KB=$((TEX_SIZE / 1024))
     echo -e "    ${GREEN}✓${NC} planner.tex (${TEX_SIZE_KB} KB)"
+fi
+if [ -f "$RELEASE_DIR/monthly.tex" ]; then
+    MONTHLY_SIZE=$(stat -f%z "$RELEASE_DIR/monthly.tex" 2>/dev/null || stat -c%s "$RELEASE_DIR/monthly.tex")
+    MONTHLY_SIZE_KB=$((MONTHLY_SIZE / 1024))
+    echo -e "    ${GREEN}✓${NC} monthly.tex (${MONTHLY_SIZE_KB} KB)"
 fi
 echo -e "    ${GREEN}✓${NC} source.csv"
 echo -e "    ${GREEN}✓${NC} metadata.json"
