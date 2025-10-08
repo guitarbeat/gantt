@@ -109,13 +109,16 @@ make clean-build
 
 For detailed guides, see the [docs/](docs/) directory:
 
-**How-To Guides (Tasks):**
+**🚀 Getting Started (Consumable - Delete After Completion):**
+- **[Initial Setup Checklist](docs/consumable/INITIAL_SETUP_CHECKLIST.md)** - First-time setup ⚠️ Delete when done
+
+**📋 How-To Guides (Tasks - Keep as Reference):**
 - **[Setup Guide](docs/tasks/SETUP.md)** - Complete installation and configuration
 - **[User Guide](docs/tasks/USER_GUIDE.md)** - How to use the planner effectively
 - **[Developer Guide](docs/tasks/DEVELOPER_GUIDE.md)** - Contributing and development
 - **[Troubleshooting](docs/tasks/TROUBLESHOOTING.md)** - Common issues and solutions
 
-**Reference (FYI):**
+**📖 Reference (FYI - Historical Context):**
 - **[Documentation Index](docs/README.md)** - Full documentation overview
 - **[Improvements Completed](docs/fyi/IMPROVEMENTS_COMPLETED.md)** - Recent enhancements
 
