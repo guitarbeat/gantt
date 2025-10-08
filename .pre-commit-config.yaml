@@ -1,37 +1,43 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+      - id: end-of-file-fixer
+        name: Fix end of files
+      - id: check-yaml
+        name: Check YAML syntax
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+      - id: mixed-line-ending
+        name: Check line endings
+
   - repo: local
     hooks:
-      - id: goimports
-        name: goimports
-        entry: goimports
-        language: system
-        args: [-w]
-        files: \.go$
-        
-      - id: gofmt
-        name: gofmt
+      - id: go-fmt
+        name: go fmt
         entry: gofmt
+        args: ['-w']
         language: system
-        args: [-s, -w]
-        files: \.go$
-        
-      - id: go-mod-tidy
-        name: go mod tidy
-        entry: go
-        language: system
-        args: [mod, tidy]
-        files: go\.(mod|sum)$
-        
+        types: [go]
+        pass_filenames: true
+
       - id: go-vet
         name: go vet
-        entry: go
+        entry: go vet
         language: system
-        args: [vet, ./...]
-        files: \.go$
-        
+        types: [go]
+        pass_filenames: false
+
       - id: go-test
         name: go test
-        entry: go
+        entry: go test
+        args: ['./...']
         language: system
-        args: [test, ./src/...]
-        files: \.go$
+        types: [go]
+        pass_filenames: false
+        stages: [push]  # Only run on push, not every commit
