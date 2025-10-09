@@ -36,7 +36,7 @@ Guide for contributing to and developing the PhD Dissertation Planner.
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/gantt.git
+git clone <repository-url>
 cd gantt
 
 # Install dependencies
@@ -560,9 +560,9 @@ Follow [Semantic Versioning](https://semver.org/):
 - [TeX Stack Exchange](https://tex.stackexchange.com/)
 
 ### Project Resources
-- [GitHub Repository](https://github.com/yourusername/gantt)
-- [Issue Tracker](https://github.com/yourusername/gantt/issues)
-- [Discussions](https://github.com/yourusername/gantt/discussions)
+- [GitHub Repository](<repository-url>)
+- [Issue Tracker](<repository-url>/issues)
+- [Discussions](<repository-url>/discussions)
 
 ---
 

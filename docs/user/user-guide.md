@@ -459,7 +459,7 @@ A: Open the PDF and print. Use compact preset for better printing.
 
 - 🔧 [Troubleshooting Guide](troubleshooting.md)
 - 📖 [Setup Guide](setup.md)
-- 💬 [GitHub Issues](https://github.com/yourusername/gantt/issues)
+- 💬 [Issue Tracker](<repository-url>/issues)
 - 📧 Email support
 
 ---

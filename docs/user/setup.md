@@ -100,7 +100,7 @@ pdflatex --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/gantt.git
+git clone <repository-url>
 cd gantt
 
 # Or download ZIP from GitHub and extract
@@ -392,5 +392,5 @@ rm -rf gantt
 
 - 📖 [User Guide](user-guide.md)
 - 🔧 [Troubleshooting](troubleshooting.md)
-- 💬 [GitHub Issues](https://github.com/yourusername/gantt/issues)
-- 📧 Email: your-email@example.com
+- 💬 [Issue Tracker](<repository-url>/issues)
+- 📧 Email: <contact-email>
