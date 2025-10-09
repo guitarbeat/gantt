@@ -274,10 +274,7 @@ func analyzeCoverage(coverageFile string) error {
 		}
 
 		// Parse coverage percentage
-		coverageStr := parts[2]
-		if strings.HasSuffix(coverageStr, "%") {
-			coverageStr = coverageStr[:len(coverageStr)-1]
-		}
+		coverageStr := strings.TrimSuffix(parts[2], "%")
 
 		coverage, err := strconv.ParseFloat(coverageStr, 64)
 		if err != nil {
@@ -355,7 +352,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 	initialPathConfigs := strings.Split(c.Path(fConfig), ",")
 
 	// Auto-detect CSV and adjust configuration accordingly
-	csvPath := c.String("PLANNER_CSV_FILE")
+	csvPath := os.Getenv("PLANNER_CSV_FILE")
 	if csvPath == "" {
 		autoPath, err := autoDetectCSV()
 		if err == nil {
@@ -465,7 +462,7 @@ func generateSinglePage(cfg core.Config, file core.Page, t Tpl, preview bool) er
 
 // composePageModules composes all modules for a page by calling composer functions
 func composePageModules(cfg core.Config, file core.Page, preview bool) ([]core.Modules, error) {
-	var modules []core.Modules
+	var modules = make([]core.Modules, 0, len(file.RenderBlocks))
 
 	for _, block := range file.RenderBlocks {
 		fn, ok := core.ComposerMap[block.FuncName]
@@ -557,8 +554,6 @@ func escapeLatex(s string) string {
 	s = strings.ReplaceAll(s, "}", "\\}")
 	return s
 }
-
-
 
 var tpl = func() *template.Template {
 	// Create template with custom functions
@@ -972,7 +967,6 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 			phases = append(phases, phaseStr)
 		}
 	}
-
 
 	return core.Module{
 		Cfg: cfg,

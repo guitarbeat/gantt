@@ -238,7 +238,7 @@ type Constraints struct {
 }
 
 type Layout struct {
-	Paper Paper
+	Paper Paper `yaml:"paper"`
 
 	Numbers Numbers
 	Lengths Lengths

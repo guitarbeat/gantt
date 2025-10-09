@@ -59,6 +59,19 @@ func DefaultConfig() Config {
 // DefaultLayout returns a Layout with sensible defaults
 func DefaultLayout() Layout {
 	return Layout{
+		Paper: Paper{
+			Width:  "8.5in",
+			Height: "11in",
+			Margin: Margin{
+				Top:    "1in",
+				Bottom: "1in",
+				Left:   "1in",
+				Right:  "1in",
+			},
+			MarginParWidth: "1in",
+			MarginParSep:   "0.2in",
+			ReverseMargins: false,
+		},
 		LaTeX:        DefaultLaTeX(),
 		LayoutEngine: DefaultLayoutEngine(),
 	}

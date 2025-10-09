@@ -243,7 +243,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	}
 
 	// Combine all tasks that need rendering (starting tasks get full rendering, continuing tasks get continuation indicators)
-	var allTasksToRender []*SpanningTask
+	var allTasksToRender = make([]*SpanningTask, 0, len(activeTasks))
 	renderingTypes := make(map[*SpanningTask]string) // "start" or "continue"
 
 	// Add starting tasks
@@ -272,7 +272,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	}
 
 	// Render task pills with vertical offsets based on track
-	var pillContents []string
+	var pillContents = make([]string, 0, len(sortedTasks))
 
 	for i, task := range sortedTasks {
 		renderType := renderingTypes[task]
@@ -892,14 +892,6 @@ func (m *Month) WeekHeader(large interface{}) string {
 	return strings.Join(names, " & ")
 }
 
-// stripHashPrefix removes the # prefix from hex colors for LaTeX compatibility (HTML colors work with both cases)
-func stripHashPrefix(color string) string {
-	if len(color) > 0 && color[0] == '#' {
-		return color[1:]
-	}
-	return color
-}
-
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
 
@@ -1167,51 +1159,4 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 			current = current.AddDate(0, 0, 1)
 		}
 	}
-}
-
-// hslToRgb converts HSL color values to RGB
-func hslToRgb(h, s, l float64) (int, int, int) {
-	// Normalize values
-	h = h / 360.0
-
-	var r, g, b float64
-
-	if s == 0 {
-		// Grayscale
-		r, g, b = l, l, l
-	} else {
-		var q, p float64
-		if l < 0.5 {
-			q = l * (1 + s)
-		} else {
-			q = l + s - l*s
-		}
-		p = 2*l - q
-
-		r = hueToRgb(p, q, h+1.0/3.0)
-		g = hueToRgb(p, q, h)
-		b = hueToRgb(p, q, h-1.0/3.0)
-	}
-
-	return int(r * 255), int(g * 255), int(b * 255)
-}
-
-// hueToRgb helper function for HSL to RGB conversion
-func hueToRgb(p, q, t float64) float64 {
-	if t < 0 {
-		t += 1
-	}
-	if t > 1 {
-		t -= 1
-	}
-	if t < 1.0/6.0 {
-		return p + (q-p)*6*t
-	}
-	if t < 1.0/2.0 {
-		return q
-	}
-	if t < 2.0/3.0 {
-		return p + (q-p)*(2.0/3.0-t)*6
-	}
-	return p
 }

@@ -13,3 +13,9 @@
 
 # The actual page configuration is inherited from base.yaml
 # This file exists primarily to control the output filename (monthly_calendar.tex)
+
+# Minimal YAML structure to make this a valid config file
+# (empty config that doesn't override base.yaml settings)
+---
+# Empty layout section to prevent overriding paper settings
+layout: {}
