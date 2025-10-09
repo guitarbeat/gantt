@@ -1,0 +1,216 @@
+weekstart: 1
+ampmtime: false
+dotted: true
+calafterschedule: false
+addlasthalfhour: true
+cleartoprightcorner: false
+
+debug:
+  showframe: false
+  showlinks: false  # Disable hyperlink borders (red boxes) but keep links functional
+
+layout:
+  paper:
+    width: 15.6cm
+    height: 21.5cm
+
+    marginparwidth: 1cm
+    marginparsep: 0cm
+    reversemargins: true
+
+    margin:
+      top: 0.2cm
+      bottom: 0.5cm
+      left: 0.5cm
+      right: 0.5cm
+
+  numbers:
+    arraystretch: 1.1
+
+  lengths:
+    lineheightbutline: \dimexpr5mm-.4pt
+
+  colors:
+    gray: gray
+    lightgray: gray!50
+
+  # Task category colors are now generated algorithmically
+  # Colors are consistent and visually distinct based on category name hash
+
+  # LaTeX visual constants
+  latex:
+    tabcolsep: 4pt  # Increased for better readability
+    headersidemonthswidth: 14.5cm
+    arraystretch: 1.15  # Slightly reduced for better density
+    monthlycellheight: 55pt  # Match reference repository for narrow week column
+    headerresizebox: 6mm
+    linethicknessdefault: .35pt  # Finer lines for elegance
+    linethicknessthick: .7pt   # Proportional thick lines
+    colsep: 4pt  # Consistent spacing
+
+    # Document settings
+    document:
+      fontsize: 9pt
+      parindent: 0pt
+
+    # Typography scale - systematic sizing
+    typography:
+      # Base sizes using 1.2x scale ratio for harmony
+      scale:
+        xs: 7pt    # Extra small - fine details
+        sm: 8pt    # Small - secondary text
+        base: 9pt  # Base - body text
+        lg: 11pt   # Large - emphasis
+        xl: 13pt   # Extra large - headings
+        xxl: 16pt  # 2X large - major headings
+
+      # Typography settings
+      hyphenpenalty: 10000  # Prevent word splitting
+      tolerance: 1000
+      emergencystretch: 2em
+      sloppyemergencystretch: 3em
+
+  # Task styling and spacing - centralized for easier maintenance
+  task_styling:
+    # Core task appearance
+    fontsize: \footnotesize  # Smaller, more refined text
+    bar_height: 4.5mm       # Slightly reduced for elegance
+    border_width: 0.5pt     # Finer borders for sophistication
+    show_objectives: false  # Set to true to show task descriptions/objectives
+
+    # Visual styling
+    background_opacity: 15  # Reduced for subtlety
+    border_opacity: 75      # Slightly more transparent
+
+    # Spacing system - systematic scale (4pt base unit)
+    spacing:
+      vertical_offset: 0pt          # Tasks positioned at bottom of cell using \vfill
+      content_vspace: "0.15ex"      # Tighter line spacing
+      padding_horizontal: 1.2mm     # Reduced padding for cleaner look
+      padding_vertical: 0.4mm       # Optimized vertical padding
+
+    # Typography hierarchy for tasks
+    typography:
+      title_size: \footnotesize      # Task titles
+      body_size: \scriptsize         # Task descriptions
+      title_weight: \textbf         # Bold titles
+      body_weight: \normalfont      # Regular body text
+
+    # Milestone-specific styling
+    milestone:
+      border_width: 1.2pt           # Thicker border for milestones
+      border_opacity: 90            # More opaque border
+      background_opacity: 25        # Slightly more prominent background
+
+    # TColorBox styling for task boxes
+    tcolorbox:
+      # Main task overlay boxes (spanning tasks)
+      overlay:
+        arc: 9pt
+        left: 1.5mm
+        right: 1.5mm
+        top: 0pt          # No top padding for perfect grid alignment
+        bottom: 1.0mm
+        boxrule: 0.9pt
+
+
+  # Spacing and layout constants
+  spacing:
+    table_colsep: 0.5em
+    color_legend_sep: 0.5em
+    col: "5pt"
+    task_overlay_arc: "2pt"
+
+  # Layout constraints for task positioning
+  constraints:
+    maxstackheight: 100.0
+    mintaskheight: 20.0
+    maxtaskheight: 40.0
+    mintaskwidth: 50.0
+    maxtaskwidth: 200.0
+    collisionthreshold: 0.1
+    overflowthreshold: 0.8
+    expansionthreshold: 0.6
+
+    # Task sizing constraints
+    max_task_width_days: 7.0  # Maximum task width in days
+
+    # Visual styling (inherited from layout_engine)
+
+    # Algorithm thresholds (inherited from layout_engine)
+
+    # Task positioning (hardcoded in layout_manager.go)
+
+  # Calendar rendering parameters
+  calendar:
+    taskkernspacing: 5mm
+    # Other parameters hardcoded in calendar.go
+
+  # Stacking algorithm parameters
+  stacking:
+    base_height: 20.0
+    min_height: 15.0
+    max_height: 60.0
+
+    # Visual quality thresholds
+    overflow_vertical: 0.8
+    collision_threshold: 0.1
+    # Other thresholds hardcoded in stacking.go
+
+  # Layout engine specific parameters
+  layout_engine:
+    # Task positioning multipliers (relative to day dimensions)
+    initial_y_position_multiplier: 0.1  # 10% from top of day
+    task_height_multiplier: 0.6         # 60% of day height
+    max_task_width_days: 7.0            # Maximum task width in days
+    
+    # Visual weight calculation multipliers
+    duration_long_multiplier: 1.2       # For tasks > 7 days
+    duration_short_multiplier: 0.8      # For tasks < 1 day
+    milestone_weight_multiplier: 1.5    # For milestone tasks
+    category_weight_multiplier: 1.0     # Base category weight
+    
+    
+    # Task rendering configuration
+    task_rendering:
+      default_spacing: "0.8ex"
+      first_task_spacing: "0.5ex"
+      default_height: "3.0ex"
+      first_task_height: "3.5ex"
+      vertical_spacing: "0.1ex"
+    
+    # Typography settings for task text (inherited from main typography)
+    
+    # Grid constraints
+    grid_constraints:
+      min_task_spacing: 1.0
+      max_task_spacing: 10.0
+      min_row_height: 8.0
+      max_row_height: 20.0
+      min_column_width: 5.0
+      max_column_width: 50.0
+      grid_resolution: 1.0
+      alignment_tolerance: 0.5
+      collision_buffer: 2.0
+      transition_buffer: 2.0
+    
+    # Visual styling (hardcoded in layout_manager.go)
+    
+    # Calendar layout constants
+    calendar_layout:
+      day_number_width: "6mm"
+      day_content_margin: "8mm"
+      task_cell_margin: "8mm"
+      task_cell_spacing: "6mm"
+      day_cell_minipage_width: "6mm"
+      header_angle_size_offset: "0.86pt"
+    
+    # Task density calculation removed - not used in code
+
+pages:
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - page.tpl
+

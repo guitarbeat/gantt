@@ -1,7 +1,7 @@
 # PhD Dissertation Planner - Makefile
 # Common development tasks
 
-.PHONY: help build test clean install lint fmt run
+.PHONY: help build test clean install lint fmt run organize status
 
 # Default target
 help:
@@ -15,6 +15,8 @@ help:
 	@echo "  make fmt         - Format code"
 	@echo "  make run         - Build and run with default config"
 	@echo "  make hooks       - Install pre-commit hooks"
+	@echo "  make organize    - Clean up and organize project files"
+	@echo "  make status      - Show project organization status"
 	@echo ""
 
 # Build the binary
@@ -86,3 +88,17 @@ hooks:
 check:
 	@echo "✅ Running pre-commit checks..."
 	pre-commit run --all-files
+
+# Organize project files
+organize:
+	@echo "🧹 Organizing project files..."
+	./scripts/cleanup_and_organize.sh
+	@echo "✅ Organization complete!"
+
+# Show project status
+status:
+	@echo "📊 Project Status:"
+	./scripts/cleanup_and_organize.sh --status
+
+# Include build configuration
+-include .config/build/makefile.conf

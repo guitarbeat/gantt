@@ -1,0 +1,127 @@
+# Git Configuration for PhD Dissertation Planner
+# This file contains project-specific git settings
+
+[core]
+    # Use LF line endings for consistency across platforms
+    autocrlf = input
+    # Ensure files are handled as text
+    safecrlf = true
+    # Ignore case for file names (useful for cross-platform development)
+    ignorecase = true
+    # Exclude files from git status when they're only whitespace changes
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+[push]
+    # Push only the current branch by default
+    default = simple
+    # Automatically set upstream for new branches
+    autoSetupRemote = true
+
+[pull]
+    # Use rebase instead of merge for cleaner history
+    rebase = true
+
+[merge]
+    # Use patience algorithm for better merge resolution
+    strategy = patience
+    # Show conflict resolution in editor
+    conflictstyle = diff3
+
+[rebase]
+    # Use interactive rebase for better control
+    autoStash = true
+
+[alias]
+    # Useful aliases for this project
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    visual = !gitk
+    graph = log --graph --pretty=oneline --abbrev-commit
+    cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d"
+    
+    # Project-specific aliases
+    build = "!./scripts/quick_build.sh"
+    release = "!./scripts/build_release.sh"
+    organize = "!./scripts/cleanup_and_organize.sh"
+    status-full = "!./scripts/cleanup_and_organize.sh --status"
+    
+    # LaTeX/PDF specific
+    pdf-diff = "!git diff --no-index --word-diff=color --word-diff-regex='[^[:space:]]'"
+    tex-diff = "!git diff --no-index --word-diff=color"
+
+[color]
+    # Enable colored output
+    ui = auto
+    # Customize diff colors
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    pager = true
+
+[color "diff"]
+    # Customize diff colors for better readability
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+    commit = yellow bold
+    whitespace = red reverse
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+    deleted = red
+
+[init]
+    # Default branch name
+    defaultBranch = main
+
+[fetch]
+    # Prune remote-tracking branches that no longer exist
+    prune = true
+
+[log]
+    # Show one line per commit
+    decorate = short
+    abbrevCommit = true
+    date = short
+
+[diff]
+    # Show function names in diff output
+    funcname = ^[a-zA-Z_][a-zA-Z0-9_]*$
+    # Use patience algorithm for better diffs
+    algorithm = patience
+
+[rerere]
+    # Enable rerere for automatic conflict resolution
+    enabled = true
+
+[help]
+    # Use web browser for help
+    format = web
+
+[web]
+    # Browser to use for git help
+    browser = open
+
+[credential]
+    # Use credential helper
+    helper = osxkeychain
+
+[filter "lfs"]
+    # Git LFS configuration
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true

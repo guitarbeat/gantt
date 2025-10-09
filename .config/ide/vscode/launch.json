@@ -1,0 +1,75 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Planner",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/planner",
+      "args": [],
+      "env": {
+        "PLANNER_CSV_FILE": "input_data/research_timeline_v5.1_comprehensive.csv",
+        "PLANNER_SILENT": "0"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Launch Planner (Silent)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/planner",
+      "args": [],
+      "env": {
+        "PLANNER_CSV_FILE": "input_data/research_timeline_v5.1_comprehensive.csv",
+        "PLANNER_SILENT": "1"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Launch Planner (Validate)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/planner",
+      "args": ["--validate"],
+      "env": {
+        "PLANNER_CSV_FILE": "input_data/research_timeline_v5.1_comprehensive.csv",
+        "PLANNER_SILENT": "0"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Launch Planner (Preview)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/planner",
+      "args": ["--preview"],
+      "env": {
+        "PLANNER_CSV_FILE": "input_data/research_timeline_v5.1_comprehensive.csv",
+        "PLANNER_SILENT": "0"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Launch Planner (Custom Config)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/planner",
+      "args": ["--config", "configs/custom.yaml"],
+      "env": {
+        "PLANNER_CSV_FILE": "input_data/research_timeline_v5.1_comprehensive.csv",
+        "PLANNER_SILENT": "0"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}
