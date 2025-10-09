@@ -21,8 +21,8 @@ Milestone,2024-01-25,2024-01-25,Test,Milestone task`
 	}
 	defer os.Remove(tmpFile.Name())
 
-	if _, err := tmpFile.WriteString(csvData); err != nil {
-		t.Fatalf("Failed to write test data: %v", err)
+	if _, writeErr := tmpFile.WriteString(csvData); writeErr != nil {
+		t.Fatalf("Failed to write test data: %v", writeErr)
 	}
 	tmpFile.Close()
 
@@ -70,8 +70,8 @@ Task 2,2024-02-01,2024-02-10,Test`
 	}
 	defer os.Remove(tmpFile.Name())
 
-	if _, err := tmpFile.WriteString(csvData); err != nil {
-		t.Fatalf("Failed to write test data: %v", err)
+	if _, writeErr := tmpFile.WriteString(csvData); writeErr != nil {
+		t.Fatalf("Failed to write test data: %v", writeErr)
 	}
 	tmpFile.Close()
 
@@ -116,8 +116,8 @@ Task 1,2024-01-15,2024-01-20,Test`
 	}
 	defer os.Remove(tmpFile.Name())
 
-	if _, err := tmpFile.WriteString(csvData); err != nil {
-		t.Fatalf("Failed to write test data: %v", err)
+	if _, writeErr1 := tmpFile.WriteString(csvData); writeErr1 != nil {
+		t.Fatalf("Failed to write test data: %v", writeErr1)
 	}
 	tmpFile.Close()
 
@@ -137,14 +137,14 @@ Task 1,2024-01-15,2024-01-20,Test`
 	invalidCsvData := `Task Name,Start Date
 Task 1,2024-01-15`
 
-	tmpFile2, err := os.CreateTemp("", "test_invalid_*.csv")
-	if err != nil {
-		t.Fatalf("Failed to create temp file: %v", err)
+	tmpFile2, err2 := os.CreateTemp("", "test_invalid_*.csv")
+	if err2 != nil {
+		t.Fatalf("Failed to create temp file: %v", err2)
 	}
 	defer os.Remove(tmpFile2.Name())
 
-	if _, err := tmpFile2.WriteString(invalidCsvData); err != nil {
-		t.Fatalf("Failed to write test data: %v", err)
+	if _, writeErr2 := tmpFile2.WriteString(invalidCsvData); writeErr2 != nil {
+		t.Fatalf("Failed to write test data: %v", writeErr2)
 	}
 	tmpFile2.Close()
 
