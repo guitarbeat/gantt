@@ -57,7 +57,7 @@ import (
 	"time"
 
 	"github.com/caarlos0/env/v6"
-	"gopkg.in/yaml.v3"
+	"github.com/goccy/go-yaml"
 )
 
 type Config struct {

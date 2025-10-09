@@ -34,19 +34,17 @@
   >{\RaggedRight}X
 }
     {{- range $i, $task := index $.Body.TaskIndex $phase}}
-        {{- if mod $i 2 | eq 0}}
-{{- $taskName := $task.Name }}
-            {{- if $task.IsMilestone}}{{- $taskName = printf "\\textbf{%s} $\\star$" $taskName}}{{- end}}
-            {{- if eq ($task.Status | lower) "completed"}}{{- $taskName = printf "$\\checkmark$ \\textcolor{gray}{%s}" $taskName}}{{- end}}
+        {{- $taskName := $task.Name }}
+        {{- if $task.IsMilestone}}{{- $taskName = printf "\\textbf{%s} $\\star$" $taskName}}{{- end}}
+        {{- if eq ($task.Status | lower) "completed"}}{{- $taskName = printf "$\\checkmark$ \\textcolor{gray}{%s}" $taskName}}{{- end}}
 \hyperlink{ {{- $task.StartDate.Format "2006-01-02T15:04:05Z07:00" -}} }{ {{- $taskName -}} }
-            {{- if eq (plus $i 1) (len (index $.Body.TaskIndex $phase)) }} & \ {{end}}
+        {{- if mod (plus $i 1) 2 | eq 0}}
+            {{- if not (eq (plus $i 1) (len (index $.Body.TaskIndex $phase))) }} &{{- end}}
         {{- else}}
- &          {{- $taskName := $task.Name }}
-            {{- if $task.IsMilestone}}{{- $taskName = printf "\\textbf{%s} $\\star$" $taskName}}{{- end}}
-            {{- if eq ($task.Status | lower) "completed"}}{{- $taskName = printf "$\\checkmark$ \\textcolor{gray}{%s}" $taskName}}{{- end}}
-\hyperlink{ {{- $task.StartDate.Format "2006-01-02T15:04:05Z07:00" -}} }{ {{- $taskName -}} } \
+            \\
         {{- end}}
     {{- end}}
+    {{- if mod (len (index $.Body.TaskIndex $phase)) 2 | eq 1 }}\\{{- end}}
 \end{tabularx}
 \vspace{0.2cm}
 

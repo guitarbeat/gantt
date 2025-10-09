@@ -51,7 +51,7 @@ func TestGetWeekNumber(t *testing.T) {
 		{
 			name:     "End of year",
 			date:     time.Date(2025, 12, 31, 0, 0, 0, 0, time.UTC),
-			expected: 53,
+			expected: 1,
 		},
 	}
 

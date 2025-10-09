@@ -850,9 +850,7 @@ func (m *Month) DefineTable(typ interface{}, large interface{}) string {
 func (m *Month) EndTable(typ interface{}) string {
 	typStr, ok := typ.(string)
 	if !ok || typStr == "tabularx" {
-		// Check if we're in a tcolorbox (large calendar)
-		// This is a simple check - in practice, we'd need to track state
-		return `\end{tabularx}\end{tcolorbox}`
+		return `\end{tabularx}`
 	}
 
 	return `\end{tabular}`
