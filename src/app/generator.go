@@ -95,14 +95,14 @@ func formatError(stage, problem string, err error, suggestions ...string) error 
 	if err != nil {
 		msg.WriteString(fmt.Sprintf("Details: %v\n", err))
 	}
-	
+
 	if len(suggestions) > 0 {
 		msg.WriteString("\nSuggestions:\n")
 		for i, suggestion := range suggestions {
 			msg.WriteString(fmt.Sprintf("  %d. %s\n", i+1, suggestion))
 		}
 	}
-	
+
 	msg.WriteString("\nFor more help, see: docs/TROUBLESHOOTING.md\n")
 	return fmt.Errorf("%s", msg.String())
 }
@@ -412,6 +412,8 @@ func generateRootDocument(cfg core.Config, pathConfigs []string) error {
 		return core.NewTemplateError(documentTpl, 0, "failed to generate LaTeX document", err)
 	}
 
+	logger.Debug("Root document content:\n%s", wr.String())
+
 	outputFile := filepath.Join(cfg.OutputDir, RootFilename(pathConfigs[len(pathConfigs)-1]))
 	if err := os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
 		return core.NewFileError(outputFile, "write", err)
@@ -545,6 +547,19 @@ func RootFilename(pathconfig string) string {
 	return strings.TrimSuffix(filename, filepath.Ext(filename)) + texExtension
 }
 
+func escapeLatex(s string) string {
+	s = strings.ReplaceAll(s, "&", "\\&")
+	s = strings.ReplaceAll(s, "%", "\\%")
+	s = strings.ReplaceAll(s, "$", "\\$")
+	s = strings.ReplaceAll(s, "#", "\\#")
+	s = strings.ReplaceAll(s, "_", "\\_")
+	s = strings.ReplaceAll(s, "{", "\\{")
+	s = strings.ReplaceAll(s, "}", "\\}")
+	return s
+}
+
+
+
 var tpl = func() *template.Template {
 	// Create template with custom functions
 	t := template.New("").Funcs(TemplateFuncs())
@@ -659,7 +674,7 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 	if len(cfg.MonthsWithTasks) > 0 {
 		var modules core.Modules
 		if len(tasks) > 0 {
-			tocModule := createTableOfContentsModule(cfg, tasks, tpls[0])
+			tocModule := createTableOfContentsModule(cfg, tasks, "toc.tpl")
 			modules = append(modules, tocModule)
 		}
 
@@ -730,20 +745,20 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 					modules = append(modules, core.Module{
 						Cfg: cfg,
 						Tpl: tpls[0],
-				Body: map[string]interface{}{
-					"Year":         year,
-					"Quarter":      quarter,
-					"Month":        month,
-					"MonthRef":     fmt.Sprintf("month-%d-%d", month.Year.Number, int(month.Month)),
-					"Breadcrumb":   month.Breadcrumb(),
-					"HeadingMOS":   month.HeadingMOS(),
-					"SideQuarters": year.SideQuarters(quarter.Number),
-					"SideMonths":   year.SideMonths(month.Month),
-					"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner, cfg.Layout.Calendar.TaskKernSpacing),
-					"Large":        true,
-					"TableType":    "tabularx",
-					"Today":        cal.Day{Time: time.Now(), Cfg: &cfg},
-				},
+						Body: map[string]interface{}{
+							"Year":         year,
+							"Quarter":      quarter,
+							"Month":        month,
+							"MonthRef":     fmt.Sprintf("month-%d-%d", month.Year.Number, int(month.Month)),
+							"Breadcrumb":   month.Breadcrumb(),
+							"HeadingMOS":   month.HeadingMOS(),
+							"SideQuarters": year.SideQuarters(quarter.Number),
+							"SideMonths":   year.SideMonths(month.Month),
+							"Extra":        month.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner, cfg.Layout.Calendar.TaskKernSpacing),
+							"Large":        true,
+							"TableType":    "tabularx",
+							"Today":        cal.Day{Time: time.Now(), Cfg: &cfg},
+						},
 					})
 				}
 			}
@@ -751,24 +766,6 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 
 		return modules, nil
 	}
-}
-
-// hexToRGBString converts a hex color string to RGB format for LaTeX
-func hexToRGBString(hex string) string {
-	if len(hex) < 7 || hex[0] != '#' {
-		return "0,0,0" // Default black
-	}
-
-	// Parse hex values
-	r, err1 := strconv.ParseInt(hex[1:3], 16, 64)
-	g, err2 := strconv.ParseInt(hex[3:5], 16, 64)
-	b, err3 := strconv.ParseInt(hex[5:7], 16, 64)
-
-	if err1 != nil || err2 != nil || err3 != nil {
-		return "0,0,0" // Default black on error
-	}
-
-	return fmt.Sprintf("%d,%d,%d", r, g, b)
 }
 
 // autoDetectCSV automatically finds the most appropriate CSV file in the input_data directory
@@ -828,7 +825,7 @@ func autoDetectCSV() (string, error) {
 
 		// Most recent modification time as tiebreaker
 		if priority > bestPriority ||
-		   (priority == bestPriority && bestFile == nil) {
+			(priority == bestPriority && bestFile == nil) {
 			bestPriority = priority
 			bestFile = file
 		} else if priority == bestPriority && bestFile != nil {
@@ -897,145 +894,97 @@ func autoDetectConfig(csvPath string) ([]string, error) {
 
 // createTableOfContentsModule creates a table of contents module with links to all tasks
 func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateName string) core.Module {
+	// Group tasks by phase
+	phaseTasks := make(map[string][]core.Task)
+	for _, task := range tasks {
+		task.Name = escapeLatex(task.Name)
+		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
+	}
 
-	// Generate LaTeX content directly for the TOC
-	var latexContent strings.Builder
+	// Sort tasks within each phase
+	for _, tasksInPhase := range phaseTasks {
+		sort.Slice(tasksInPhase, func(i, j int) bool {
+			return tasksInPhase[i].StartDate.Before(tasksInPhase[j].StartDate)
+		})
+	}
 
-	latexContent.WriteString("% Table of Contents - Clickable Task Index\n")
-	latexContent.WriteString("\\hypertarget{task-index}{}\n")
-	latexContent.WriteString("{\\Large\\textbf{Task Index}}\n\n")
-	
-	// Add task count summary at the top
+	// Overall stats
 	totalTasks := len(tasks)
 	milestoneCount := 0
 	completedCount := 0
-	now := time.Now()
-	
 	for _, task := range tasks {
 		if task.IsMilestone {
 			milestoneCount++
 		}
-		if task.EndDate.Before(now) {
+		if strings.ToLower(task.Status) == "completed" {
 			completedCount++
 		}
 	}
-	
-	latexContent.WriteString(fmt.Sprintf("{\\small\\textit{Total: %d tasks", totalTasks))
-	if milestoneCount > 0 {
-		latexContent.WriteString(fmt.Sprintf(" (%d milestones)", milestoneCount))
-	}
-	if completedCount > 0 {
-		latexContent.WriteString(fmt.Sprintf(" | %d completed", completedCount))
-	}
-	latexContent.WriteString("}}\n\n")
-	latexContent.WriteString("\\vspace{0.1cm}\n\n")
 
-	// Group tasks by phase
-	phaseTasks := make(map[string][]core.Task)
-	phaseNames := map[string]string{
-		"1": "Phase 1: Proposal \\& Setup",
-		"2": "Phase 2: Research \\& Data Collection",
-		"3": "Phase 3: Publications",
-		"4": "Phase 4: Dissertation",
-	}
-
-	for _, task := range tasks {
-		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
-	}
-
-		// Create phase-based sections with chronological sorting
-		phases := []string{"1", "2", "3", "4"}
-		for phaseIndex, phase := range phases {
-			if tasksForPhase, exists := phaseTasks[phase]; exists && len(tasksForPhase) > 0 {
-				
-				// Add \hrule separator between phases (but not before first phase)
-				if phaseIndex > 0 {
-					latexContent.WriteString("\\vspace{0.2cm}\n")
-					latexContent.WriteString("\\hrule height 0.3pt\n")
-					latexContent.WriteString("\\vspace{0.1cm}\n\n")
-				}
-				
-				// Enhanced phase header with task counts and progress
-				tasksInPhase := tasksForPhase
-				phaseTaskCount := len(tasksInPhase)
-				phaseCompletedCount := 0
-				phaseMilestoneCount := 0
-
-				for _, task := range tasksInPhase {
-					if task.EndDate.Before(now) {
-						phaseCompletedCount++
-					}
-					if task.IsMilestone {
-						phaseMilestoneCount++
-					}
-				}
-				
-				// Calculate progress percentage
-				progressPercent := 0
-				if phaseTaskCount > 0 {
-					progressPercent = int(float64(phaseCompletedCount) / float64(phaseTaskCount) * 100)
-				}
-				
-				latexContent.WriteString("\\vspace{0.2cm}\n")
-				latexContent.WriteString(fmt.Sprintf("\\textbf{\\large %s (%d tasks", phaseNames[phase], phaseTaskCount))
-				if phaseMilestoneCount > 0 {
-					latexContent.WriteString(fmt.Sprintf(", %d milestones", phaseMilestoneCount))
-				}
-				if phaseCompletedCount > 0 {
-					latexContent.WriteString(fmt.Sprintf(", %d\\%% complete", progressPercent))
-				}
-				latexContent.WriteString(")}\\\\[0.2cm]\n")
-
-		// Sort tasks chronologically within this phase by start date
-		sort.Slice(tasksInPhase, func(i, j int) bool {
-			return tasksInPhase[i].StartDate.Before(tasksInPhase[j].StartDate)
-		})
-
-		// Simple task list for this phase
-		latexContent.WriteString("\\begin{itemize}\n")
+	// Phase stats
+	phaseStats := make(map[string]map[string]int)
+	for phase, tasksInPhase := range phaseTasks {
+		stats := make(map[string]int)
+		stats["total"] = len(tasksInPhase)
+		completed := 0
+		milestones := 0
 		for _, task := range tasksInPhase {
-					dateRef := task.StartDate.Format(time.RFC3339)
-					taskName := strings.ReplaceAll(task.Name, "&", "\\&")
-					taskName = strings.ReplaceAll(taskName, "%", "\\%")
-
-					// Simple format: just task name with hyperlink
-					if task.IsMilestone {
-						taskName = "\\textbf{" + taskName + "} $\\star$"
-					}
-					latexContent.WriteString(fmt.Sprintf("\\item \\hyperlink{%s}{%s}\n", dateRef, taskName))
-				}
-				latexContent.WriteString("\\end{itemize}\n")
-				latexContent.WriteString("\\vspace{0.2cm}\n\n")
+			if strings.ToLower(task.Status) == "completed" {
+				completed++
+			}
+			if task.IsMilestone {
+				milestones++
 			}
 		}
+		stats["completed"] = completed
+		stats["milestones"] = milestones
+		if stats["total"] > 0 {
+			stats["progress"] = int(float64(completed) / float64(stats["total"]) * 100)
+		} else {
+			stats["progress"] = 0
+		}
+		phaseStats[phase] = stats
+	}
 
-	// Phase Information Section - Decoupled from legend
-	latexContent.WriteString("\\vspace{0.3cm}\n")
-	latexContent.WriteString("{\\Large\\textbf{Phase Overview}}\\\\\n")
-	latexContent.WriteString("\\vspace{0.1cm}\n")
-	latexContent.WriteString("{\\small\n")
-	latexContent.WriteString("\\textbf{Phase 1:} Proposal \\& Setup - Initial planning and system preparation\\\\\n")
-	latexContent.WriteString("\\textbf{Phase 2:} Research \\& Data Collection - Core experimental work and data gathering\\\\\n")
-	latexContent.WriteString("\\textbf{Phase 3:} Publications - Manuscript preparation and submission\\\\\n")
-	latexContent.WriteString("\\textbf{Phase 4:} Dissertation - Final writing, defense, and graduation\n")
-	latexContent.WriteString("}\n\n")
+	// Extract unique phase names from the CSV data
+	phaseNames := make(map[string]string)
+	phases := make([]string, 0)
 
-	// Enhanced Usage Legend - Separate from phase information
-	latexContent.WriteString("\\vspace{0.2cm}\n")
-	latexContent.WriteString("{\\small\n")
-	latexContent.WriteString("\\textbf{How to use this index:}\\\\\n")
-	latexContent.WriteString("\\textbullet\\ \\textcolor{green!70!black}{$\\checkmark$} = Completed | \\textcolor{orange!70!black}{\\textbf{$\\bullet$}} = In Progress | \\textcolor{gray!70!black}{$\\circ$} = Upcoming\\\\\n")
-	latexContent.WriteString("\\textbullet\\ \\textcolor{blue!60!black}{\\textbf{$\\star$}} = Milestone tasks with enhanced timeline borders\\\\\n")
-	latexContent.WriteString("\\textbullet\\ Click on any task name to jump to its location in the timeline\\\\\n")
-	latexContent.WriteString("\\textbullet\\ Phase headers show task counts, milestones, and completion percentage\n")
-	latexContent.WriteString("}\n\n")
-	latexContent.WriteString("\\pagebreak\n")
+	// Collect unique phases and their names
+	phaseMap := make(map[string]string)
+	for phase, tasksInPhase := range phaseTasks {
+		if len(tasksInPhase) > 0 {
+			// Use the SubPhase from the first task as the phase name
+			phaseName := tasksInPhase[0].SubPhase
+			if phaseName != "" {
+				phaseMap[phase] = fmt.Sprintf("Phase %s: %s", phase, escapeLatex(phaseName))
+			} else {
+				phaseMap[phase] = fmt.Sprintf("Phase %s", phase)
+			}
+		}
+	}
+
+	// Sort phases numerically and create the final maps/slices
+	for i := 1; i <= 10; i++ { // Support up to 10 phases
+		phaseStr := strconv.Itoa(i)
+		if phaseName, exists := phaseMap[phaseStr]; exists {
+			phaseNames[phaseStr] = phaseName
+			phases = append(phases, phaseStr)
+		}
+	}
+
 
 	return core.Module{
 		Cfg: cfg,
 		Tpl: templateName,
 		Body: map[string]interface{}{
-			"TOCContent": latexContent.String(),
+			"TaskIndex":      phaseTasks,
+			"PhaseOrder":     phases,
+			"PhaseNames":     phaseNames,
+			"TotalTasks":     totalTasks,
+			"MilestoneCount": milestoneCount,
+			"CompletedCount": completedCount,
+			"PhaseStats":     phaseStats,
 		},
 	}
 }

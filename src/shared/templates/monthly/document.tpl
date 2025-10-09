@@ -29,6 +29,7 @@
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{makecell}
+\usepackage{ragged2e}
 
 % Layout and spacing
 \usepackage{setspace}

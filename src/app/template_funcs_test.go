@@ -143,7 +143,7 @@ func TestTemplateFuncs(t *testing.T) {
 	funcs := TemplateFuncs()
 
 	// Check that all expected functions are present
-	expectedFuncs := []string{"dict", "incr", "dec", "is", "hypertarget"}
+	expectedFuncs := []string{"dict", "incr", "dec", "is", "hypertarget", "lower", "plus", "mod", "replace"}
 	for _, name := range expectedFuncs {
 		if _, exists := funcs[name]; !exists {
 			t.Errorf("TemplateFuncs() missing function %q", name)

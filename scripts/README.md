@@ -4,28 +4,19 @@ This directory contains automation scripts for development, building, and deploy
 
 ## Available Scripts
 
-### `build.sh`
+### `build_release.sh`
 
-Enhanced build script with additional options beyond the basic `make` command.
+Creates timestamped releases with full provenance tracking.
 
 ```bash
-# Simple build (same as make)
-./scripts/build.sh
+# Create a timestamped release
+./scripts/build_release.sh
 
-# Clean and build
-./scripts/build.sh --clean
+# Create a named release for milestones
+./scripts/build_release.sh --name "Committee_Review"
 
-# Clean, build, and run tests
-./scripts/build.sh --clean --test
-
-# Run code quality checks only
-./scripts/build.sh --lint
-
-# Verbose output
-./scripts/build.sh --verbose
-
-# Show help
-./scripts/build.sh --help
+# Create weekly releases
+./scripts/build_release.sh --name "Week_$(date +%U)"
 ```
 
 ### `setup.sh`
@@ -35,6 +26,24 @@ Development environment setup script that checks dependencies and verifies the b
 ```bash
 # Run setup (checks Go, tools, installs deps, verifies build)
 ./scripts/setup.sh
+```
+
+### `build_and_preview.ps1`
+
+PowerShell script for building PDFs and generating preview images (Windows).
+
+```powershell
+# Build PDF and generate 3 preview images
+.\scripts\build_and_preview.ps1 -Pages 3
+```
+
+### `dev.sh`
+
+Quick development script for common tasks during development.
+
+```bash
+# Run development setup
+./scripts/dev.sh
 ```
 
 ## Adding New Scripts

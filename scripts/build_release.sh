@@ -100,10 +100,10 @@ done
 # Auto-detect version from CSV file if not specified
 if [ -z "$CSV_FILE" ]; then
     if [ -f "input_data/research_timeline_v5.1_comprehensive.csv" ]; then
-        CSV_FILE="input_data/research_timeline_v5.1_comprehensive.csv"
+        CSV_FILE="research_timeline_v5.1_comprehensive.csv"
         [ -z "$VERSION" ] && VERSION="v5.1"
     else
-        CSV_FILE="input_data/research_timeline_v5_comprehensive.csv"
+        CSV_FILE="research_timeline_v5_comprehensive.csv"
         [ -z "$VERSION" ] && VERSION="v5.0"
     fi
 else
@@ -117,7 +117,6 @@ fi
 # Generate timestamp
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 DATE_HUMAN=$(date +"%Y-%m-%d %H:%M:%S")
-DATE_ONLY=$(date +"%Y%m%d")
 
 # Build release name
 if [ -n "$CUSTOM_NAME" ]; then
@@ -130,10 +129,6 @@ fi
 RELEASE_DIR="releases/${TIMESTAMP}_${RELEASE_NAME}"
 mkdir -p "$RELEASE_DIR"
 
-# Also create a build directory for temporary files
-BUILD_DIR=".build_temp"
-mkdir -p "$BUILD_DIR"
-
 log_header "PhD Dissertation Planner - Release Build"
 echo ""
 log_info "Configuration:"
@@ -144,94 +139,21 @@ echo "  • Name:       ${YELLOW}${RELEASE_NAME}${NC}"
 echo "  • Output:     ${YELLOW}${RELEASE_DIR}/${NC}"
 echo ""
 
-# Ensure build directory exists
-mkdir -p "$BUILD_DIR"
-
-# Clean previous builds
-log_info "Cleaning previous build artifacts..."
-rm -rf "$BUILD_DIR"/*
-
-# Build the binary
-log_info "Building planner binary..."
-if ! go build -mod=vendor -o "$BUILD_DIR/plannergen" ./cmd/planner; then
-    log_error "Failed to build binary"
-    exit 1
-fi
-log_success "Binary built successfully"
-
-# Generate LaTeX
-log_info "Generating LaTeX from CSV data..."
-if ! PLANNER_SILENT=1 PLANNER_CSV_FILE="$CSV_FILE" \
-    "$BUILD_DIR/plannergen" --config "src/core/base.yaml,src/core/monthly_calendar.yaml" --outdir "$BUILD_DIR"; then
-    log_error "Failed to generate LaTeX"
-    exit 1
-fi
-log_success "LaTeX generated successfully"
-
-# Check LaTeX file
-if [ ! -f "$BUILD_DIR/monthly_calendar.tex" ]; then
-    log_error "LaTeX file not found"
-    exit 1
-fi
-
-TEX_SIZE=$(stat -f%z "$BUILD_DIR/monthly_calendar.tex" 2>/dev/null || stat -c%s "$BUILD_DIR/monthly_calendar.tex")
-if [ "$TEX_SIZE" -lt 1000 ]; then
-    log_error "LaTeX file too small ($TEX_SIZE bytes) - possible generation failure"
-    exit 1
-fi
-log_success "LaTeX validation passed ($TEX_SIZE bytes)"
-
-# Copy LaTeX to release directory
-cp "$BUILD_DIR/monthly_calendar.tex" "$RELEASE_DIR/planner.tex"
-log_success "LaTeX saved: ${RELEASE_DIR}/planner.tex"
-
-# Copy monthly content file if it exists
-if [ -f "$BUILD_DIR/monthly.tex" ]; then
-    cp "$BUILD_DIR/monthly.tex" "$RELEASE_DIR/monthly.tex"
-    log_success "Monthly content saved: ${RELEASE_DIR}/monthly.tex"
-fi
-
-# Generate PDF if not skipped
-if [ "$SKIP_PDF" = false ]; then
-    if command -v xelatex >/dev/null 2>&1; then
-        log_info "Compiling PDF with XeLaTeX..."
-        
-        cd "$BUILD_DIR"
-        # Run xelatex (allow warnings, just check if PDF is created)
-        xelatex -file-line-error -interaction=nonstopmode monthly_calendar.tex > monthly_calendar.tmp 2>&1 || true
-        
-        if [ -f "monthly_calendar.pdf" ]; then
-            PDF_SIZE=$(stat -f%z "monthly_calendar.pdf" 2>/dev/null || stat -c%s "monthly_calendar.pdf")
-            
-            # Check if PDF is valid (>10KB)
-            if [ "$PDF_SIZE" -gt 10000 ]; then
-                log_success "PDF compiled successfully ($PDF_SIZE bytes)"
-                
-                # Copy PDF to release directory
-                cp "monthly_calendar.pdf" "$PROJECT_DIR/$RELEASE_DIR/planner.pdf"
-                cd "$PROJECT_DIR"
-                log_success "PDF saved: ${RELEASE_DIR}/planner.pdf"
-            else
-                log_warning "PDF created but unusually small ($PDF_SIZE bytes)"
-                cp "monthly_calendar.pdf" "$PROJECT_DIR/$RELEASE_DIR/planner.pdf"
-                cd "$PROJECT_DIR"
-            fi
-        else
-            cd "$PROJECT_DIR"
-            log_warning "PDF not created - check LaTeX errors in build log"
-            log_info "LaTeX source saved successfully, continuing..."
-        fi
-    else
-        log_warning "XeLaTeX not found - skipping PDF generation"
-        log_info "To install: brew install --cask mactex (macOS)"
-    fi
+# Build using the main Makefile
+log_info "Building project using Makefile..."
+make clean
+if [ "$SKIP_PDF" = true ]; then
+    make build-latex CSV_FILE="$CSV_FILE"
 else
-    log_info "PDF generation skipped (--skip-pdf flag)"
+    make build CSV_FILE="$CSV_FILE"
 fi
 
-# Copy CSV file to release directory
-cp "$CSV_FILE" "$RELEASE_DIR/source.csv"
-log_success "Source CSV saved: ${RELEASE_DIR}/source.csv"
+# Copy artifacts to release directory
+log_info "Copying artifacts to release directory..."
+cp "generated/monthly_calendar.pdf" "$RELEASE_DIR/planner.pdf" 2>/dev/null || true
+cp "generated/monthly_calendar.tex" "$RELEASE_DIR/planner.tex" 2>/dev/null || true
+cp "generated/monthly_calendar.log" "$RELEASE_DIR/xelatex.log" 2>/dev/null || true
+cp "input_data/$CSV_FILE" "$RELEASE_DIR/source.csv" 2>/dev/null || true
 
 # Create release metadata
 METADATA_FILE="$RELEASE_DIR/metadata.json"
@@ -245,8 +167,8 @@ cat > "$METADATA_FILE" << EOF
   "csv_basename": "$(basename $CSV_FILE)",
   "files": {
     "latex": "planner.tex",
-    "monthly_latex": "monthly.tex",
     "pdf": "planner.pdf",
+    "log": "xelatex.log",
     "csv": "source.csv"
   },
   "build_info": {
@@ -271,7 +193,7 @@ cat > "$README_FILE" << EOF
 
 - **planner.pdf** - Compiled PDF planner
 - **planner.tex** - LaTeX source (main document)
-- **monthly.tex** - LaTeX source (calendar content)
+- **xelatex.log** - LaTeX compilation log
 - **source.csv** - Original CSV data
 - **metadata.json** - Build metadata
 
@@ -313,22 +235,6 @@ if [ ! -f "$INDEX_FILE" ]; then
 
 This directory contains timestamped releases organized by version and timestamp.
 
-## Structure
-
-```
-releases/
-├── v5.0/
-│   └── YYYYMMDD_HHMMSS_name/
-│       ├── planner.pdf
-│       ├── planner.tex
-│       ├── source.csv
-│       ├── metadata.json
-│       └── README.md
-└── v5.1/
-    └── YYYYMMDD_HHMMSS_name/
-        └── ...
-```
-
 ## Quick Access
 
 See the main INDEX.md file for all releases.
@@ -350,9 +256,6 @@ echo "" >> "$INDEX_FILE"
 
 log_success "Release indexes updated"
 
-# Clean up build directory
-rm -rf "$BUILD_DIR"
-
 # Summary
 echo ""
 log_header "Release Build Complete"
@@ -372,10 +275,10 @@ if [ -f "$RELEASE_DIR/planner.tex" ]; then
     TEX_SIZE_KB=$((TEX_SIZE / 1024))
     echo -e "    ${GREEN}✓${NC} planner.tex (${TEX_SIZE_KB} KB)"
 fi
-if [ -f "$RELEASE_DIR/monthly.tex" ]; then
-    MONTHLY_SIZE=$(stat -f%z "$RELEASE_DIR/monthly.tex" 2>/dev/null || stat -c%s "$RELEASE_DIR/monthly.tex")
-    MONTHLY_SIZE_KB=$((MONTHLY_SIZE / 1024))
-    echo -e "    ${GREEN}✓${NC} monthly.tex (${MONTHLY_SIZE_KB} KB)"
+if [ -f "$RELEASE_DIR/xelatex.log" ]; then
+    LOG_SIZE=$(stat -f%z "$RELEASE_DIR/xelatex.log" 2>/dev/null || stat -c%s "$RELEASE_DIR/xelatex.log")
+    LOG_SIZE_KB=$((LOG_SIZE / 1024))
+    echo -e "    ${GREEN}✓${NC} xelatex.log (${LOG_SIZE_KB} KB)"
 fi
 echo -e "    ${GREEN}✓${NC} source.csv"
 echo -e "    ${GREEN}✓${NC} metadata.json"

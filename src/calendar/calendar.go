@@ -295,7 +295,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 			objective = d.escapeLatexSpecialChars(task.Description)
 		}
 
-		taskColor := hexToRGB(task.Color)
+		taskColor := core.HexToRGB(task.Color)
 		if taskColor == "" {
 			taskColor = core.Defaults.DefaultTaskColor
 		}
@@ -902,51 +902,20 @@ func stripHashPrefix(color string) string {
 	return color
 }
 
-// hexToRGB converts hex color to RGB format for LaTeX
-func hexToRGB(hex string) string {
-	// Remove # prefix if present
-	hex = stripHashPrefix(hex)
-
-	// Convert hex to RGB
-	if len(hex) == 6 {
-		// Parse hex values
-		r, _ := strconv.ParseInt(hex[0:2], 16, 64)
-		g, _ := strconv.ParseInt(hex[2:4], 16, 64)
-		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
-		return fmt.Sprintf("%d,%d,%d", r, g, b)
-	}
-
-	// Fallback for invalid hex
-	return "128,128,128"
-}
-
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
 
 	// Only add colors for task categories that are actually present in this month
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
-			// Check spanning tasks
 			for _, task := range day.Tasks {
 				if task.Category != "" {
-					color := getColorForCategory(task.Category)
+					color := core.GenerateCategoryColor(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
 						// Escape LaTeX special characters in category name
 						escapedCategory := escapeLatexSpecialChars(task.Category)
-						colorMap[hexToRGB(color)] = escapedCategory
-					}
-				}
-			}
-			// Check regular tasks
-			for _, task := range day.Tasks {
-				if task.Category != "" {
-					color := getColorForCategory(task.Category)
-					if color != "" {
-						// Convert to RGB for LaTeX compatibility
-						// Escape LaTeX special characters in category name
-						escapedCategory := escapeLatexSpecialChars(task.Category)
-						colorMap[hexToRGB(color)] = escapedCategory
+						colorMap[core.HexToRGB(color)] = escapedCategory
 					}
 				}
 			}
@@ -986,9 +955,9 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 					}
 
 					// Get color for this subphase (category)
-					color := getColorForCategory(task.SubPhase)
+					color := core.GenerateCategoryColor(task.SubPhase)
 					if color != "" {
-						phaseMap[task.Phase][task.SubPhase] = hexToRGB(color)
+						phaseMap[task.Phase][task.SubPhase] = core.HexToRGB(color)
 					}
 
 					// Store phase name (use first non-empty one)
@@ -1154,7 +1123,7 @@ type SpanningTask struct {
 // CreateSpanningTask creates a new spanning task from basic task data
 func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTask {
 	// * Use Sub-Phase as category for better granularity
-	color := getColorForCategory(task.Category)
+	color := core.GenerateCategoryColor(task.Category)
 
 	return SpanningTask{
 		ID:          task.ID,
@@ -1200,37 +1169,6 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 			current = current.AddDate(0, 0, 1)
 		}
 	}
-}
-
-// getColorForCategory returns a color for the given category using algorithmic generation
-func getColorForCategory(category string) string {
-	// Generate a consistent, visually distinct color algorithmically
-	return generateDynamicColor(category)
-}
-
-// generateDynamicColor creates a consistent, visually distinct color based on the category name
-func generateDynamicColor(category string) string {
-	// Use a better hash function to generate consistent colors
-	hash := 0
-	for i, char := range category {
-		hash = hash*31 + int(char) + i*7 // Add position to improve distribution
-	}
-
-	// Convert hash to a positive number
-	if hash < 0 {
-		hash = -hash
-	}
-
-	// Generate HSL color with good saturation and lightness for readability
-	hue := float64(hash % 360)                 // 0-360 degrees
-	saturation := 0.7 + float64(hash%30)/100.0 // 0.7-1.0 for good saturation
-	lightness := 0.5 + float64(hash%20)/100.0  // 0.5-0.7 for good contrast
-
-	// Convert HSL to RGB
-	r, g, b := hslToRgb(hue, saturation, lightness)
-
-	// Convert to hex
-	return fmt.Sprintf("#%02X%02X%02X", r, g, b)
 }
 
 // hslToRgb converts HSL color values to RGB

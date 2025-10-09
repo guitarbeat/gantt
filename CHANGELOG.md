@@ -115,7 +115,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - YAML configuration system
 - Template-based PDF generation
 - Command-line interface with CLI library
-
 - Academic timeline visualization
 - Task stacking and layout management
 - Configurable calendar rendering

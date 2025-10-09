@@ -21,7 +21,7 @@ func TestGetMonthName(t *testing.T) {
 		{time.March, "March"},
 		{time.December, "December"},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.expected, func(t *testing.T) {
 			result := getMonthName(tt.month)
@@ -54,7 +54,7 @@ func TestGetWeekNumber(t *testing.T) {
 			expected: 53,
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			_, week := tt.date.ISOWeek()
@@ -93,7 +93,7 @@ func TestIsWeekend(t *testing.T) {
 			expected: true,
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := isWeekend(tt.date)
@@ -116,12 +116,12 @@ func TestDaysInMonth(t *testing.T) {
 		{2025, time.April, 30},
 		{2025, time.December, 31},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.month.String(), func(t *testing.T) {
 			result := daysInMonth(tt.year, tt.month)
 			if result != tt.expected {
-				t.Errorf("daysInMonth(%d, %v) = %d, expected %d", 
+				t.Errorf("daysInMonth(%d, %v) = %d, expected %d",
 					tt.year, tt.month, result, tt.expected)
 			}
 		})
@@ -137,11 +137,11 @@ func TestFirstDayOfMonth(t *testing.T) {
 		{2025, time.June},
 		{2025, time.December},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.month.String(), func(t *testing.T) {
 			result := firstDayOfMonth(tt.year, tt.month)
-			
+
 			if result.Year() != tt.year {
 				t.Errorf("Expected year %d, got %d", tt.year, result.Year())
 			}
@@ -157,20 +157,20 @@ func TestFirstDayOfMonth(t *testing.T) {
 
 func TestLastDayOfMonth(t *testing.T) {
 	tests := []struct {
-		year         int
-		month        time.Month
-		expectedDay  int
+		year        int
+		month       time.Month
+		expectedDay int
 	}{
 		{2025, time.January, 31},
 		{2025, time.February, 28},
 		{2024, time.February, 29},
 		{2025, time.April, 30},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.month.String(), func(t *testing.T) {
 			result := lastDayOfMonth(tt.year, tt.month)
-			
+
 			if result.Day() != tt.expectedDay {
 				t.Errorf("Expected day %d, got %d", tt.expectedDay, result.Day())
 			}
@@ -182,13 +182,13 @@ func TestGetWeeksInMonth(t *testing.T) {
 	year := 2025
 	month := time.January
 	weekStart := time.Monday
-	
+
 	weeks := getWeeksInMonth(year, month, weekStart)
-	
+
 	if len(weeks) == 0 {
 		t.Error("Expected at least one week, got 0")
 	}
-	
+
 	// January 2025 should have 5 weeks (starting Monday)
 	if len(weeks) < 4 || len(weeks) > 6 {
 		t.Errorf("Expected 4-6 weeks for January 2025, got %d", len(weeks))
@@ -198,14 +198,14 @@ func TestGetWeeksInMonth(t *testing.T) {
 func TestDateRange(t *testing.T) {
 	start := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2025, 1, 5, 0, 0, 0, 0, time.UTC)
-	
+
 	dates := dateRange(start, end)
-	
+
 	expectedDays := 5
 	if len(dates) != expectedDays {
 		t.Errorf("Expected %d dates, got %d", expectedDays, len(dates))
 	}
-	
+
 	// Verify first and last dates
 	if !dates[0].Equal(start) {
 		t.Errorf("First date should be %v, got %v", start, dates[0])
@@ -226,7 +226,7 @@ func TestIsLeapYear(t *testing.T) {
 		{1900, false}, // Divisible by 100 but not 400
 		{2100, false}, // Divisible by 100 but not 400
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(string(rune(tt.year)), func(t *testing.T) {
 			result := isLeapYear(tt.year)
@@ -241,7 +241,7 @@ func BenchmarkGetWeeksInMonth(b *testing.B) {
 	year := 2025
 	month := time.January
 	weekStart := time.Monday
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		getWeeksInMonth(year, month, weekStart)
@@ -251,7 +251,7 @@ func BenchmarkGetWeeksInMonth(b *testing.B) {
 func BenchmarkDateRange(b *testing.B) {
 	start := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	end := time.Date(2025, 12, 31, 0, 0, 0, 0, time.UTC)
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		dateRange(start, end)
@@ -282,7 +282,7 @@ func getWeeksInMonth(year int, month time.Month, weekStart time.Weekday) [][]tim
 	var weeks [][]time.Time
 	firstDay := firstDayOfMonth(year, month)
 	lastDay := lastDayOfMonth(year, month)
-	
+
 	current := firstDay
 	for current.Before(lastDay) || current.Equal(lastDay) {
 		week := []time.Time{}
@@ -295,19 +295,19 @@ func getWeeksInMonth(year int, month time.Month, weekStart time.Weekday) [][]tim
 		}
 		weeks = append(weeks, week)
 	}
-	
+
 	return weeks
 }
 
 func dateRange(start, end time.Time) []time.Time {
 	var dates []time.Time
 	current := start
-	
+
 	for current.Before(end) || current.Equal(end) {
 		dates = append(dates, current)
 		current = current.AddDate(0, 0, 1)
 	}
-	
+
 	return dates
 }
 

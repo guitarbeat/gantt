@@ -47,6 +47,7 @@ package app
 
 import (
 	"errors"
+	"strings"
 	"text/template"
 
 	"phd-dissertation-planner/src/shared/templates"
@@ -61,6 +62,10 @@ func TemplateFuncs() template.FuncMap {
 		"dec":         decFunc,
 		"is":          isFunc,
 		"hypertarget": templates.Hypertarget,
+		"lower":       lowerFunc,
+		"plus":        plusFunc,
+		"mod":         modFunc,
+		"replace":     replaceFunc,
 	}
 }
 
@@ -111,6 +116,30 @@ func isFunc(i interface{}) bool {
 
 	// All other non-nil values are truthy
 	return i != nil
+}
+
+// lowerFunc converts a string to lowercase
+// Usage: {{ .Value | lower }}
+func lowerFunc(s string) string {
+	return strings.ToLower(s)
+}
+
+// plusFunc adds two integers
+// Usage: {{ plus .A .B }}
+func plusFunc(a, b int) int {
+	return a + b
+}
+
+// modFunc returns the modulo of two integers
+// Usage: {{ mod .A .B }}
+func modFunc(a, b int) int {
+	return a % b
+}
+
+// replaceFunc replaces all occurrences of a substring
+// Usage: {{ .Value | replace "from" "to" }}
+func replaceFunc(input, from, to string) string {
+	return strings.ReplaceAll(input, from, to)
 }
 
 // Additional template helper functions can be added here

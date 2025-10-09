@@ -53,7 +53,6 @@ package core
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -560,34 +559,38 @@ func (cfg *Config) setDateRangeFromCSV() error {
 // setAlgorithmicColors sets the algorithmic colors for predefined categories
 func (cfg *Config) setAlgorithmicColors() {
 	cfg.Layout.AlgorithmicColors = AlgorithmicColors{
-		Proposal:     hexToRGBConfig(GenerateCategoryColor("PROPOSAL")),
-		Laser:        hexToRGBConfig(GenerateCategoryColor("LASER")),
-		Imaging:      hexToRGBConfig(GenerateCategoryColor("IMAGING")),
-		Admin:        hexToRGBConfig(GenerateCategoryColor("ADMIN")),
-		Dissertation: hexToRGBConfig(GenerateCategoryColor("DISSERTATION")),
-		Research:     hexToRGBConfig(GenerateCategoryColor("RESEARCH")),
-		Publication:  hexToRGBConfig(GenerateCategoryColor("PUBLICATION")),
+		Proposal:     HexToRGB(GenerateCategoryColor("PROPOSAL")),
+		Laser:        HexToRGB(GenerateCategoryColor("LASER")),
+		Imaging:      HexToRGB(GenerateCategoryColor("IMAGING")),
+		Admin:        HexToRGB(GenerateCategoryColor("ADMIN")),
+		Dissertation: HexToRGB(GenerateCategoryColor("DISSERTATION")),
+		Research:     HexToRGB(GenerateCategoryColor("RESEARCH")),
+		Publication:  HexToRGB(GenerateCategoryColor("PUBLICATION")),
 	}
 }
 
-// hexToRGBConfig converts hex color to RGB format for LaTeX (config version)
-func hexToRGBConfig(hex string) string {
-	// Remove # prefix if present
-	if len(hex) > 0 && hex[0] == '#' {
-		hex = hex[1:]
+// getStringWithDefault returns the config value if it's not empty, otherwise the default
+func (c *Config) getStringWithDefault(value, defaultValue string) string {
+	if value != "" {
+		return value
 	}
+	return defaultValue
+}
 
-	// Convert hex to RGB
-	if len(hex) == 6 {
-		// Parse hex values
-		r, _ := strconv.ParseInt(hex[0:2], 16, 64)
-		g, _ := strconv.ParseInt(hex[2:4], 16, 64)
-		b, _ := strconv.ParseInt(hex[4:6], 16, 64)
-		return fmt.Sprintf("%d,%d,%d", r, g, b)
+// getIntWithDefault returns the config value if it's greater than 0, otherwise the default
+func (c *Config) getIntWithDefault(value, defaultValue int) int {
+	if value > 0 {
+		return value
 	}
+	return defaultValue
+}
 
-	// Fallback for invalid hex
-	return "128,128,128"
+// getTrimmedStringWithDefault returns the trimmed config value if it's not empty, otherwise the default
+func (c *Config) getTrimmedStringWithDefault(value, defaultValue string) string {
+	if strings.TrimSpace(value) != "" {
+		return value
+	}
+	return defaultValue
 }
 
 // GetYears returns a slice of years to generate planners for
@@ -776,58 +779,37 @@ func (cfg *Config) validateLayoutEngineConfig() error {
 
 // GetDayNumberWidth returns the day number width with fallback to default
 func (c *Config) GetDayNumberWidth() string {
-	if c.Layout.LayoutEngine.CalendarLayout.DayNumberWidth != "" {
-		return c.Layout.LayoutEngine.CalendarLayout.DayNumberWidth
-	}
-	return Defaults.DayNumberWidth
+	return c.getStringWithDefault(c.Layout.LayoutEngine.CalendarLayout.DayNumberWidth, Defaults.DayNumberWidth)
 }
 
 // GetDayContentMargin returns the day content margin with fallback to default
 func (c *Config) GetDayContentMargin() string {
-	if c.Layout.LayoutEngine.CalendarLayout.DayContentMargin != "" {
-		return c.Layout.LayoutEngine.CalendarLayout.DayContentMargin
-	}
-	return Defaults.DayContentMargin
+	return c.getStringWithDefault(c.Layout.LayoutEngine.CalendarLayout.DayContentMargin, Defaults.DayContentMargin)
 }
 
 // GetTaskCellMargin returns the task cell margin with fallback to default
 func (c *Config) GetTaskCellMargin() string {
-	if c.Layout.LayoutEngine.CalendarLayout.TaskCellMargin != "" {
-		return c.Layout.LayoutEngine.CalendarLayout.TaskCellMargin
-	}
-	return Defaults.TaskCellMargin
+	return c.getStringWithDefault(c.Layout.LayoutEngine.CalendarLayout.TaskCellMargin, Defaults.TaskCellMargin)
 }
 
 // GetTaskCellSpacing returns the task cell spacing with fallback to default
 func (c *Config) GetTaskCellSpacing() string {
-	if c.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing != "" {
-		return c.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing
-	}
-	return Defaults.TaskCellSpacing
+	return c.getStringWithDefault(c.Layout.LayoutEngine.CalendarLayout.TaskCellSpacing, Defaults.TaskCellSpacing)
 }
 
 // GetHeaderAngleSizeOffset returns the header angle size offset with fallback
 func (c *Config) GetHeaderAngleSizeOffset() string {
-	if c.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset != "" {
-		return c.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset
-	}
-	return Defaults.HeaderAngleSizeOffset
+	return c.getStringWithDefault(c.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset, Defaults.HeaderAngleSizeOffset)
 }
 
 // GetHyphenPenalty returns the hyphen penalty with fallback to default
 func (c *Config) GetHyphenPenalty() int {
-	if c.Layout.LaTeX.Typography.HyphenPenalty > 0 {
-		return c.Layout.LaTeX.Typography.HyphenPenalty
-	}
-	return Defaults.HyphenPenalty
+	return c.getIntWithDefault(c.Layout.LaTeX.Typography.HyphenPenalty, Defaults.HyphenPenalty)
 }
 
 // GetTolerance returns the tolerance with fallback to default
 func (c *Config) GetTolerance() int {
-	if c.Layout.LaTeX.Typography.Tolerance > 0 {
-		return c.Layout.LaTeX.Typography.Tolerance
-	}
-	return Defaults.Tolerance
+	return c.getIntWithDefault(c.Layout.LaTeX.Typography.Tolerance, Defaults.Tolerance)
 }
 
 // GetEmergencyStretch returns the emergency stretch with fallback to default
@@ -843,10 +825,7 @@ func (c *Config) GetEmergencyStretch() string {
 
 // GetOutputDir returns the output directory with fallback to default
 func (c *Config) GetOutputDir() string {
-	if strings.TrimSpace(c.OutputDir) != "" {
-		return c.OutputDir
-	}
-	return Defaults.DefaultOutputDir
+	return c.getTrimmedStringWithDefault(c.OutputDir, Defaults.DefaultOutputDir)
 }
 
 // IsDebugMode returns true if any debug flag is enabled
