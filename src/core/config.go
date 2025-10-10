@@ -610,6 +610,15 @@ func (cfg *Config) GetYears() []int {
 
 // setLayoutEngineDefaults sets default values for layout engine configuration
 func (cfg *Config) setLayoutEngineDefaults() {
+	cfg.setLayoutEngineMultipliersDefaults()
+	cfg.setTaskRenderingDefaults()
+	cfg.setTypographyDefaults()
+	cfg.setGridConstraintsDefaults()
+	cfg.setCalendarLayoutDefaults()
+}
+
+// setLayoutEngineMultipliersDefaults sets default values for layout engine multipliers
+func (cfg *Config) setLayoutEngineMultipliersDefaults() {
 	// * Set defaults for layout engine if not already set
 	if cfg.Layout.LayoutEngine.InitialYPositionMultiplier == 0 {
 		cfg.Layout.LayoutEngine.InitialYPositionMultiplier = 0.1
@@ -632,11 +641,10 @@ func (cfg *Config) setLayoutEngineDefaults() {
 	if cfg.Layout.LayoutEngine.CategoryWeightMultiplier == 0 {
 		cfg.Layout.LayoutEngine.CategoryWeightMultiplier = 1.0
 	}
+}
 
-	// Urgency multiplier defaults removed - using simplified prominence calculation
-
-	// Quality threshold defaults removed - using hardcoded constants
-
+// setTaskRenderingDefaults sets default values for task rendering configuration
+func (cfg *Config) setTaskRenderingDefaults() {
 	// * Set task rendering defaults
 	if cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing == "" {
 		cfg.Layout.LayoutEngine.TaskRendering.DefaultSpacing = "0.8ex"
@@ -653,7 +661,10 @@ func (cfg *Config) setLayoutEngineDefaults() {
 	if cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing == "" {
 		cfg.Layout.LayoutEngine.TaskRendering.VerticalSpacing = "0.1ex"
 	}
+}
 
+// setTypographyDefaults sets default values for typography settings
+func (cfg *Config) setTypographyDefaults() {
 	// * Set typography defaults (using main typography settings)
 	if cfg.Layout.LaTeX.Typography.HyphenPenalty == 0 {
 		cfg.Layout.LaTeX.Typography.HyphenPenalty = 50
@@ -667,7 +678,10 @@ func (cfg *Config) setLayoutEngineDefaults() {
 	if cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch == "" {
 		cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch = "3em"
 	}
+}
 
+// setGridConstraintsDefaults sets default values for grid constraints
+func (cfg *Config) setGridConstraintsDefaults() {
 	// * Set grid constraints defaults
 	if cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing == 0 {
 		cfg.Layout.LayoutEngine.GridConstraints.MinTaskSpacing = 1.0
@@ -699,9 +713,10 @@ func (cfg *Config) setLayoutEngineDefaults() {
 	if cfg.Layout.LayoutEngine.GridConstraints.TransitionBuffer == 0 {
 		cfg.Layout.LayoutEngine.GridConstraints.TransitionBuffer = 2.0
 	}
+}
 
-	// Visual styling defaults removed - values are hardcoded in layout_manager.go
-
+// setCalendarLayoutDefaults sets default values for calendar layout constants
+func (cfg *Config) setCalendarLayoutDefaults() {
 	// * Set calendar layout defaults
 	if cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth == "" {
 		cfg.Layout.LayoutEngine.CalendarLayout.DayNumberWidth = "6mm"
@@ -721,8 +736,6 @@ func (cfg *Config) setLayoutEngineDefaults() {
 	if cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset == "" {
 		cfg.Layout.LayoutEngine.CalendarLayout.HeaderAngleSizeOffset = "0.86pt"
 	}
-
-	// Density calculation defaults removed - not used in code
 }
 
 // validateLayoutEngineConfig validates the layout engine configuration
