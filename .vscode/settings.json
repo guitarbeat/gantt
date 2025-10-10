@@ -140,5 +140,6 @@
     "redhat.vscode-yaml",
     "ms-vscode.powershell",
     "ms-vscode.makefile-tools"
-  ]
+],
+"editor.defaultFormatter": null
 }
