@@ -22,13 +22,8 @@ linters:
     - gosec          # Inspect source code for security problems
     - unconvert      # Remove unnecessary type conversions
     - prealloc       # Find slice declarations that could potentially be preallocated
-    - exportloopref  # Check for pointers to enclosing loop variables
+    - copyloopvar    # Check for pointers to enclosing loop variables (replacement for exportloopref)
     - nolintlint     # Ensure nolint directives are properly used
-
-  disable:
-    - structcheck    # Deprecated
-    - deadcode       # Deprecated
-    - varcheck       # Deprecated
 
 linters-settings:
   gocyclo:
@@ -44,8 +39,6 @@ linters-settings:
     check-type-assertions: true
     check-blank: false
   
-  govet:
-    check-shadowing: true
   
   staticcheck:
     checks: ["all"]
@@ -59,17 +52,17 @@ issues:
         - errcheck
         - dupl
         - gosec
-    
+
     # Exclude known issues in generated code
     - path: ".*\\.pb\\.go"
       linters:
         - all
-    
+
     # Exclude some staticcheck messages
     - linters:
         - staticcheck
       text: "SA9003:"  # Empty branch
-    
+
     # Exclude lll issues for long lines with go:generate
     - linters:
         - lll
@@ -78,10 +71,11 @@ issues:
   max-issues-per-linter: 0
   max-same-issues: 0
   new: false
+  uniq-by-line: true
 
 output:
-  format: colored-line-number
+  formats:
+    - format: colored-line-number
   print-issued-lines: true
   print-linter-name: true
-  uniq-by-line: true
   sort-results: true

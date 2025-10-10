@@ -80,7 +80,7 @@ install:
 lint:
 	@echo "🔍 Running linters..."
 	@which golangci-lint > /dev/null || (echo "Installing golangci-lint..." && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
-	@golangci-lint run ./...
+	@PATH=$$PATH:$$(go env GOPATH)/bin golangci-lint run ./...
 	@echo "✅ Lint complete!"
 
 # Run basic linters (without golangci-lint)
