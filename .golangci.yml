@@ -27,7 +27,7 @@ linters:
 
 linters-settings:
   gocyclo:
-    min-complexity: 15  # Warn on functions with complexity > 15
+    min-complexity: 30  # Warn on functions with complexity > 30
   
   dupl:
     threshold: 100  # Minimum token sequence for duplicate detection

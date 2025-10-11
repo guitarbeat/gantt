@@ -22,37 +22,50 @@ FINAL_BASE_NAME ?= monthly_calendar
 # Use the most comprehensive CSV file
 CSV_FILE := research_timeline_v5_comprehensive.csv
 
-.PHONY: help build test clean install lint fmt run organize status test-coverage lint-basic hooks check build-latex build-pdf troubleshoot
+.PHONY: help setup quality ci dev build clean install lint fmt run organize status test-coverage hooks build-latex build-pdf troubleshoot
 
 # Default target
 help:
 	@echo "PhD Dissertation Planner - Available Commands:"
 	@echo ""
-	@echo "  make build          - Build the planner binary and generate PDF"
-	@echo "  make test           - Run all tests"
-	@echo "  make clean          - Clean build artifacts"
-	@echo "  make install        - Install dependencies"
-	@echo "  make lint           - Run linters"
-	@echo "  make fmt            - Format code"
+	@echo "🚀 Main Commands:"
+	@echo "  make setup          - Initialize project (deps, hooks, organize)"
+	@echo "  make quality        - Code quality checks (fmt, lint, test + coverage)"
+	@echo "  make build          - Build binary and generate PDF"
 	@echo "  make run            - Build and run with default config"
-	@echo "  make hooks          - Install pre-commit hooks"
-	@echo "  make organize       - Clean up and organize project files"
+	@echo "  make clean          - Clean all build artifacts"
+	@echo ""
+	@echo "🔧 Advanced Commands:"
+	@echo "  make ci             - Full CI pipeline (clean + quality + build)"
+	@echo "  make dev            - Development workflow (clean + quality + build + run)"
 	@echo "  make status         - Show project organization status"
-	@echo "  make build-latex    - Build LaTeX only"
-	@echo "  make build-pdf      - Build PDF from LaTeX"
 	@echo "  make troubleshoot   - Run build system diagnostics"
 	@echo ""
+
+# ==================== Consolidated Commands ====================
+
+# Initialize project - install dependencies, setup hooks, organize files
+setup: install hooks organize
+	@echo "🎯 Project setup complete! Ready for development."
+
+# Run code quality checks - format, lint, test, and coverage
+quality: fmt lint test-coverage
+	@echo "✅ Code quality checks passed!"
+
+# Full CI pipeline - clean, quality checks, and build
+ci: clean quality build
+	@echo "🚀 CI pipeline completed successfully!"
+
+# Development workflow - clean, quality, build, and run
+dev: clean quality build run
+	@echo "💻 Development workflow complete!"
+
+# ==================== Individual Commands ====================
 
 # Build planner with optional PDF compilation and enhanced error handling
 build: build-pdf
 
-# Run tests
-test:
-	@echo "🧪 Running tests..."
-	@go test -v ./...
-	@echo "✅ Tests complete!"
-
-# Run tests with coverage
+# Run tests with coverage (used by quality command)
 test-coverage:
 	@echo "🧪 Running tests with coverage..."
 	@go test -v -race -coverprofile=coverage.txt ./...
@@ -83,18 +96,11 @@ lint:
 	@PATH=$$PATH:$$(go env GOPATH)/bin golangci-lint run ./...
 	@echo "✅ Lint complete!"
 
-# Run basic linters (without golangci-lint)
-lint-basic:
-	@echo "🔍 Running basic linters..."
-	@go vet ./...
-	@gofmt -l .
-	@echo "✅ Basic lint complete!"
-
 # Format code
 fmt:
 	@echo "✨ Formatting code..."
 	@gofmt -w .
-	@goimports -w src/
+	@PATH=$$PATH:$$(go env GOPATH)/bin goimports -w src/
 	@echo "✅ Format complete!"
 
 # Build and run with default config
@@ -105,13 +111,8 @@ run: build
 # Install pre-commit hooks
 hooks:
 	@echo "🪝 Installing pre-commit hooks..."
-	@pre-commit install
+	@PATH=$$PATH:/Users/aaron/Library/Python/3.12/bin pre-commit install
 	@echo "✅ Hooks installed!"
-
-# Run pre-commit on all files
-check:
-	@echo "✅ Running pre-commit checks..."
-	@pre-commit run --all-files
 
 # Organize project files
 organize:

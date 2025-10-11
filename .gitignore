@@ -96,3 +96,37 @@ venv/
 # Go modules
 vendor/
 go.work
+
+# Organization cleanup
+.temp/
+.build_artifacts/
+docs/archive/*.pdf
+generated/logs/
+generated/tex/
+generated/pdfs/
+
+# Temporary files
+*.aux
+*.log
+*.tmp
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+
+# Organization cleanup
+.temp/
+.build_artifacts/
+docs/archive/*.pdf
+generated/logs/
+generated/tex/
+generated/pdfs/
+
+# Temporary files
+*.aux
+*.log
+*.tmp
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
