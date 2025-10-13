@@ -162,20 +162,19 @@ func calculateCSVPriority(filename string) int {
 // formatError creates a user-friendly error message with context and suggestions
 func formatError(stage, problem string, err error, suggestions ...string) error {
 	var msg strings.Builder
-	msg.WriteString(fmt.Sprintf("\n❌ %s Failed\n\n", stage))
-	msg.WriteString(fmt.Sprintf("Problem: %s\n", problem))
+	msg.WriteString(fmt.Sprintf("%s %s: %s\n", core.Error("❌"), core.BoldText(stage), problem))
 	if err != nil {
-		msg.WriteString(fmt.Sprintf("Details: %v\n", err))
+		msg.WriteString(fmt.Sprintf("   %s\n", core.DimText(err.Error())))
 	}
 
 	if len(suggestions) > 0 {
-		msg.WriteString("\nSuggestions:\n")
+		msg.WriteString(fmt.Sprintf("\n%s Try:\n", core.Warning("💡")))
 		for i, suggestion := range suggestions {
-			msg.WriteString(fmt.Sprintf("  %d. %s\n", i+1, suggestion))
+			msg.WriteString(fmt.Sprintf("   %d. %s\n", i+1, suggestion))
 		}
 	}
 
-	msg.WriteString("\nFor more help, see: docs/TROUBLESHOOTING.md\n")
+	msg.WriteString(fmt.Sprintf("\n%s More help: docs/TROUBLESHOOTING.md\n", core.Info("📖")))
 	return fmt.Errorf("%s", msg.String())
 }
 
@@ -186,14 +185,23 @@ func action(c *cli.Context) error {
 		return runTestCoverage()
 	}
 
-	fmt.Println("🚀 Starting Planner Generation")
-	fmt.Println("═══════════════════════════════════════")
+	// * Check if we're in silent mode to reduce output verbosity
+	silent := core.IsSilent()
+	
+	if !silent {
+		fmt.Println(core.BoldText("🚀 Starting Planner Generation"))
+		fmt.Println(core.DimText("═══════════════════════════════════════"))
+	}
 
 	// Load and prepare configuration
-	fmt.Print("📋 Loading configuration... ")
+	if !silent {
+		fmt.Print(core.Info("📋 Loading configuration... "))
+	}
 	cfg, pathConfigs, err := loadConfiguration(c)
 	if err != nil {
-		fmt.Println("❌")
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
 		return formatError(
 			"Configuration Loading",
 			"Unable to load or parse configuration files",
@@ -203,12 +211,18 @@ func action(c *cli.Context) error {
 			"Try using a preset: --preset academic",
 		)
 	}
-	fmt.Println("✅")
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
 
 	// Setup output directory
-	fmt.Print("📁 Setting up output directory... ")
+	if !silent {
+		fmt.Print(core.Info("📁 Setting up output directory... "))
+	}
 	if err := setupOutputDirectory(cfg); err != nil {
-		fmt.Println("❌")
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
 		return formatError(
 			"Output Directory Setup",
 			"Cannot create or access output directory",
@@ -218,12 +232,18 @@ func action(c *cli.Context) error {
 			"Try a different output directory with --outdir flag",
 		)
 	}
-	fmt.Println("✅")
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
 
 	// Generate root document
-	fmt.Print("📄 Generating root document... ")
+	if !silent {
+		fmt.Print(core.Info("📄 Generating root document... "))
+	}
 	if err := generateRootDocument(cfg, pathConfigs); err != nil {
-		fmt.Println("❌")
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
 		return formatError(
 			"Root Document Generation",
 			"Failed to generate main LaTeX document",
@@ -233,13 +253,19 @@ func action(c *cli.Context) error {
 			"Check for special LaTeX characters in task names (%, $, &, #, _, {, })",
 		)
 	}
-	fmt.Println("✅")
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
 
 	// Generate pages
-	fmt.Print("📅 Generating calendar pages... ")
+	if !silent {
+		fmt.Print(core.Info("📅 Generating calendar pages... "))
+	}
 	preview := c.Bool(pConfig)
 	if err := generatePages(cfg, preview); err != nil {
-		fmt.Println("❌")
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
 		return formatError(
 			"Calendar Page Generation",
 			"Failed to generate calendar pages",
@@ -249,11 +275,15 @@ func action(c *cli.Context) error {
 			"Try running with --preview flag for debugging",
 		)
 	}
-	fmt.Println("✅")
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
 
-	fmt.Println("═══════════════════════════════════════")
-	fmt.Println("✨ Generation complete!")
-	fmt.Printf("📂 Output: %s\n", cfg.OutputDir)
+	if !silent {
+		fmt.Println(core.DimText("═══════════════════════════════════════"))
+		fmt.Println(core.Success("✨ Generation complete!"))
+		fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
+	}
 
 	return nil
 }
@@ -486,14 +516,22 @@ func generatePages(cfg core.Config, preview bool) error {
 	t := NewTpl()
 
 	totalPages := len(cfg.Pages)
+	silent := core.IsSilent()
+	
 	for i, file := range cfg.Pages {
-		fmt.Printf("\r📅 Generating calendar pages... [%d/%d] %s", i+1, totalPages, file.Name)
+		if !silent {
+			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
+		}
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
-			fmt.Println() // New line before error
+			if !silent {
+				fmt.Println() // New line before error
+			}
 			return err
 		}
 	}
-	fmt.Print("\r") // Clear the progress line
+	if !silent {
+		fmt.Print("\r") // Clear the progress line
+	}
 
 	return nil
 }

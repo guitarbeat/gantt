@@ -32,12 +32,14 @@ help:
 	@echo "  make setup          - Initialize project (deps, hooks, organize)"
 	@echo "  make quality        - Code quality checks (fmt, lint, test + coverage)"
 	@echo "  make build          - Build binary and generate PDF"
-	@echo "  make run            - Build and run with default config"
+	@echo "  make run            - Build and run with default config (quiet)"
+	@echo "  make run-verbose    - Build and run with verbose output"
 	@echo "  make clean          - Clean all build artifacts"
 	@echo ""
 	@echo "🔧 Advanced Commands:"
 	@echo "  make ci             - Full CI pipeline (clean + quality + build)"
 	@echo "  make dev            - Development workflow (clean + quality + build + run)"
+	@echo "  make dev-verbose    - Development workflow with verbose output"
 	@echo "  make status         - Show project organization status"
 	@echo "  make troubleshoot   - Run build system diagnostics"
 	@echo ""
@@ -56,8 +58,12 @@ quality: fmt lint test-coverage
 ci: clean quality build
 	@echo "🚀 CI pipeline completed successfully!"
 
-# Development workflow - clean, quality, build, and run
+# Development workflow - clean, quality, build, and run (quiet)
 dev: clean quality build run
+	@echo "💻 Development workflow complete!"
+
+# Development workflow with verbose output
+dev-verbose: clean quality build run-verbose
 	@echo "💻 Development workflow complete!"
 
 # ==================== Individual Commands ====================
@@ -68,8 +74,8 @@ build: build-pdf
 # Run tests with coverage (used by quality command)
 test-coverage:
 	@echo "🧪 Running tests with coverage..."
-	@go test -v -race -coverprofile=coverage.txt ./...
-	@go tool cover -html=coverage.txt -o coverage.html
+	@go test -race -coverprofile=coverage.txt ./... | grep -E "(PASS|FAIL|RUN|coverage:)" || true
+	@go tool cover -html=coverage.txt -o coverage.html > /dev/null 2>&1
 	@echo "✅ Coverage report generated: coverage.html"
 
 # Clean build artifacts
@@ -92,8 +98,11 @@ install:
 # Run linters
 lint:
 	@echo "🔍 Running linters..."
-	@which golangci-lint > /dev/null || (echo "Installing golangci-lint..." && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
-	@PATH=$$PATH:$$(go env GOPATH)/bin golangci-lint run ./...
+	@if ! which golangci-lint > /dev/null 2>&1; then \
+		echo "📦 Installing golangci-lint..."; \
+		go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest > /dev/null 2>&1; \
+	fi
+	@PATH=$$PATH:$$(go env GOPATH)/bin golangci-lint run ./... --color=always
 	@echo "✅ Lint complete!"
 
 # Format code
@@ -103,9 +112,14 @@ fmt:
 	@PATH=$$PATH:$$(go env GOPATH)/bin goimports -w src/
 	@echo "✅ Format complete!"
 
-# Build and run with default config
+# Build and run with default config (quiet)
 run: build
 	@echo "🚀 Running planner..."
+	@PLANNER_SILENT=1 ./$(BINARY_PATH)
+
+# Build and run with verbose output
+run-verbose: build
+	@echo "🚀 Running planner (verbose)..."
 	@./$(BINARY_PATH)
 
 # Install pre-commit hooks
