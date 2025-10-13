@@ -55,9 +55,11 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 	"text/template"
 	"time"
 
@@ -93,9 +95,124 @@ const (
 	priorityComprehensive = 10
 	priorityV51           = 8
 	priorityV5            = 6
+
+	// Memory management constants
+	initialBufferSize = 64 * 1024 // 64KB initial buffer size
+	maxBufferSize     = 10 * 1024 * 1024 // 10MB max buffer size
 )
 
 var logger = core.NewDefaultLogger()
+
+// MemoryManager handles memory profiling and cleanup
+type MemoryManager struct {
+	memoryProfile *os.File
+	heapProfile   *os.File
+}
+
+// StartMemoryProfiling starts memory and heap profiling
+func (mm *MemoryManager) StartMemoryProfiling(profileDir string) error {
+	// Create profile directory if it doesn't exist
+	if err := os.MkdirAll(profileDir, 0o755); err != nil {
+		return fmt.Errorf("failed to create profile directory: %w", err)
+	}
+
+	// Start memory profiling
+	memProfilePath := filepath.Join(profileDir, "memory.prof")
+	memFile, err := os.Create(memProfilePath)
+	if err != nil {
+		return fmt.Errorf("failed to create memory profile file: %w", err)
+	}
+	mm.memoryProfile = memFile
+
+	// Start heap profiling
+	heapProfilePath := filepath.Join(profileDir, "heap.prof")
+	heapFile, err := os.Create(heapProfilePath)
+	if err != nil {
+		mm.memoryProfile.Close()
+		return fmt.Errorf("failed to create heap profile file: %w", err)
+	}
+	mm.heapProfile = heapFile
+
+	// Start profiling
+	if err := pprof.StartCPUProfile(mm.memoryProfile); err != nil {
+		mm.cleanup()
+		return fmt.Errorf("failed to start CPU profiling: %w", err)
+	}
+
+	logger.Info("Memory profiling started - profiles will be saved to %s", profileDir)
+	return nil
+}
+
+// StopMemoryProfiling stops profiling and writes heap profile
+func (mm *MemoryManager) StopMemoryProfiling() error {
+	if mm.memoryProfile != nil {
+		pprof.StopCPUProfile()
+		mm.memoryProfile.Close()
+		logger.Info("CPU profiling stopped")
+	}
+
+	if mm.heapProfile != nil {
+		if err := pprof.WriteHeapProfile(mm.heapProfile); err != nil {
+			mm.heapProfile.Close()
+			return fmt.Errorf("failed to write heap profile: %w", err)
+		}
+		mm.heapProfile.Close()
+		logger.Info("Heap profile written")
+	}
+
+	return nil
+}
+
+// cleanup closes any open profile files
+func (mm *MemoryManager) cleanup() {
+	if mm.memoryProfile != nil {
+		mm.memoryProfile.Close()
+	}
+	if mm.heapProfile != nil {
+		mm.heapProfile.Close()
+	}
+}
+
+// Buffer pool for template rendering to reduce memory allocations
+var bufferPool = sync.Pool{
+	New: func() interface{} {
+		return &bytes.Buffer{}
+	},
+}
+
+// GetReusableBuffer gets a reusable buffer from the pool
+func GetReusableBuffer() *bytes.Buffer {
+	buf := bufferPool.Get().(*bytes.Buffer)
+	buf.Reset() // Clear any existing content
+	return buf
+}
+
+// ReturnBuffer returns a buffer to the pool for reuse
+func ReturnBuffer(buf *bytes.Buffer) {
+	// Only return buffers that aren't too large to prevent memory bloat
+	if buf.Cap() <= maxBufferSize {
+		bufferPool.Put(buf)
+	}
+}
+
+// LogMemoryStats logs current memory statistics
+func LogMemoryStats(operation string) {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+
+	logger.Debug("%s - Memory Stats: Alloc=%dKB, TotalAlloc=%dKB, Sys=%dKB, NumGC=%d",
+		operation,
+		m.Alloc/1024,
+		m.TotalAlloc/1024,
+		m.Sys/1024,
+		m.NumGC)
+}
+
+// ForceGC forces garbage collection and logs memory stats
+func ForceGC() {
+	runtime.GC()
+	LogMemoryStats("Post-GC")
+}
 
 // calculatePackageAverage computes the average coverage for a package
 func calculatePackageAverage(coverages []float64) float64 {
@@ -183,6 +300,29 @@ func action(c *cli.Context) error {
 	// Check if test coverage is requested
 	if c.Bool(fTestCoverage) {
 		return runTestCoverage()
+	}
+
+	// Check if memory profiling is enabled via environment variable
+	memProfile := os.Getenv("PLANNER_MEMORY_PROFILE") == "true"
+	var memManager *MemoryManager
+	if memProfile {
+		memManager = &MemoryManager{}
+		profileDir := os.Getenv("PLANNER_PROFILE_DIR")
+		if profileDir == "" {
+			profileDir = "profiles"
+		}
+		if err := memManager.StartMemoryProfiling(profileDir); err != nil {
+			logger.Warn("Failed to start memory profiling: %v", err)
+		}
+	}
+
+	// Ensure profiling is stopped even if there's an error
+	if memManager != nil {
+		defer func() {
+			if err := memManager.StopMemoryProfiling(); err != nil {
+				logger.Warn("Failed to stop memory profiling: %v", err)
+			}
+		}()
 	}
 
 	// * Check if we're in silent mode to reduce output verbosity
@@ -416,8 +556,8 @@ func analyzeCoverage(coverageFile string) error {
 		}
 
 		// Calculate average coverage for package
-		avgCoverage := calculatePackageAverage(coverages)
-		status := getCoverageStatus(avgCoverage)
+		avgCoverage := CalculatePackageAverage(coverages)
+		status := GetCoverageStatus(avgCoverage)
 
 		fmt.Printf("  %s %-20s %.1f%% (%d files)\n", status, pkg, avgCoverage, len(coverages))
 	}
@@ -494,12 +634,19 @@ func setupOutputDirectory(cfg core.Config) error {
 
 // generateRootDocument creates the main LaTeX document file
 func generateRootDocument(cfg core.Config, pathConfigs []string) error {
-	wr := &bytes.Buffer{}
+	// Get reusable buffer from pool
+	wr := GetReusableBuffer()
+	defer ReturnBuffer(wr)
+
 	t := NewTpl()
+
+	LogMemoryStats("Before document generation")
 
 	if err := t.Document(wr, cfg); err != nil {
 		return core.NewTemplateError(documentTpl, 0, "failed to generate LaTeX document", err)
 	}
+
+	LogMemoryStats("After document generation")
 
 	logger.Debug("Root document content:\n%s", wr.String())
 
@@ -508,6 +655,12 @@ func generateRootDocument(cfg core.Config, pathConfigs []string) error {
 		return core.NewFileError(outputFile, "write", err)
 	}
 	logger.Info("Generated LaTeX file: %s", outputFile)
+
+	// Force GC after large document generation to prevent memory buildup
+	if wr.Len() > 1024*1024 { // > 1MB
+		ForceGC()
+	}
+
 	return nil
 }
 
@@ -769,7 +922,7 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 	if len(cfg.MonthsWithTasks) > 0 {
 		var modules core.Modules
 		if len(tasks) > 0 {
-			tocModule := createTableOfContentsModule(cfg, tasks, "toc.tpl")
+			tocModule := CreateTableOfContentsModule(cfg, tasks, "toc.tpl")
 			modules = append(modules, tocModule)
 		}
 

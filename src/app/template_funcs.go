@@ -76,6 +76,7 @@ func dictFunc(values ...interface{}) (map[string]interface{}, error) {
 		return nil, errors.New("dict requires an even number of arguments (key-value pairs)")
 	}
 
+	// Pre-allocate with exact capacity to avoid reallocation
 	dict := make(map[string]interface{}, len(values)/2)
 	for i := 0; i < len(values); i += 2 {
 		key, ok := values[i].(string)

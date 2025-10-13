@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	fConfig       = "config"
-	pConfig       = "preview"
-	fOutDir       = "outdir"
-	fTestCoverage = "test-coverage"
+	fConfig           = "config"
+	pConfig           = "preview"
+	fOutDir           = "outdir"
+	fTestCoverage     = "test-coverage"
 )
 
 func New() *cli.App {
@@ -20,7 +20,8 @@ func New() *cli.App {
 	core.ComposerMap["monthly"] = Monthly
 
 	return &cli.App{
-		Name: "plannergen",
+		Name:  "plannergen",
+		Usage: "Generate LaTeX-based calendar PDFs from CSV timeline data",
 
 		Writer:    os.Stdout,
 		ErrWriter: os.Stderr,
@@ -31,9 +32,12 @@ func New() *cli.App {
 			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
 			&cli.BoolFlag{Name: "test-coverage", Required: false, Usage: "run tests with coverage analysis"},
 			&cli.BoolFlag{Name: "validate", Required: false, Usage: "validate CSV file without generating PDF"},
+			&cli.BoolFlag{Name: "validate-config", Required: false, Usage: "validate configuration files and environment variables"},
 			&cli.StringFlag{Name: "preset", Required: false, Usage: "Configuration preset: academic, compact, presentation", EnvVars: []string{"PLANNER_PRESET"}},
 		},
 
 		Action: action,
+
+		Commands: []*cli.Command{},
 	}
 }

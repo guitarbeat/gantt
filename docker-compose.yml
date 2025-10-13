@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: phd-planner-dev
+    volumes:
+      - .:/app
+      - go-mod-cache:/go/pkg/mod
+    working_dir: /app
+    ports:
+      - "8080:8080"  # For any future web interface
+    environment:
+      - GO111MODULE=on
+      - CGO_ENABLED=0
+    command: air -c .air.toml
+    # Keep container running for development
+    stdin_open: true
+    tty: true
+
+  # Optional: Separate service for building releases
+  release:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: phd-planner-release
+    volumes:
+      - .:/app
+      - go-mod-cache:/go/pkg/mod
+    working_dir: /app
+    environment:
+      - GO111MODULE=on
+      - CGO_ENABLED=0
+    command: sleep infinity
+    profiles:
+      - release
+
+volumes:
+  go-mod-cache:

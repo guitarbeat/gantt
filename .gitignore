@@ -38,6 +38,11 @@
 *.test
 *.out
 
+# Air hot-reloading
+tmp/
+air.log
+.air.toml
+
 # Coverage files
 coverage.out
 coverage.txt
@@ -80,6 +85,15 @@ test_debug/
 releases/*/
 !releases/.gitkeep
 
+# Goreleaser artifacts
+dist/
+
+# Shell completion scripts
+*.bash
+*.zsh
+*.fish
+*.ps1
+
 # Node modules (if adding web interface)
 node_modules/
 package-lock.json
@@ -92,6 +106,9 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+
+# Docker
+.dockerignore
 
 # Go modules
 vendor/

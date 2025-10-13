@@ -53,6 +53,33 @@ make build
 go build -o plannergen.exe ./cmd/planner
 ```
 
+### Docker Development (Alternative)
+
+For isolated development environments or CI/CD, use Docker:
+
+```bash
+# Start development environment with hot reloading
+make docker-dev
+
+# Or manually:
+docker-compose up dev
+
+# Build the Docker image
+make docker-build
+
+# Run commands in container
+make docker-run CMD="make test"
+
+# Clean up
+make docker-clean
+```
+
+**Docker Benefits:**
+- Consistent environment across machines
+- No need to install Go or LaTeX locally
+- Isolated dependencies
+- Easy CI/CD integration
+
 ### Development Tools
 
 **Recommended:**

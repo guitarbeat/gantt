@@ -22,7 +22,7 @@ FINAL_BASE_NAME ?= monthly_calendar
 # Use the most comprehensive CSV file
 CSV_FILE := research_timeline_v5_comprehensive.csv
 
-.PHONY: help setup quality ci dev build clean install lint fmt run organize status test-coverage hooks build-latex build-pdf troubleshoot
+.PHONY: help setup quality ci dev dev-air build clean install lint fmt run organize status test-coverage bench hooks build-latex build-pdf troubleshoot release release-dry release-snapshot completion completion-bash completion-zsh completion-fish completion-powershell docker-dev docker-build docker-run docker-clean
 
 # Default target
 help:
@@ -39,9 +39,28 @@ help:
 	@echo "🔧 Advanced Commands:"
 	@echo "  make ci             - Full CI pipeline (clean + quality + build)"
 	@echo "  make dev            - Development workflow (clean + quality + build + run)"
+	@echo "  make dev-air        - Start hot-reloading development server with air"
 	@echo "  make dev-verbose    - Development workflow with verbose output"
+	@echo "  make bench          - Run performance benchmarks"
 	@echo "  make status         - Show project organization status"
 	@echo "  make troubleshoot   - Run build system diagnostics"
+	@echo ""
+	@echo "🚀 Release Commands:"
+	@echo "  make release        - Create and publish a new release with goreleaser"
+	@echo "  make release-dry    - Test release process without publishing"
+	@echo "  make release-snapshot - Create snapshot release for testing"
+	@echo ""
+	@echo "🔧 Shell Completion:"
+	@echo "  make completion     - Show available completion options"
+	@echo "  make completion-bash - Generate and install bash completion"
+	@echo "  make completion-zsh  - Generate and install zsh completion"
+	@echo "  make completion-fish - Generate and install fish completion"
+	@echo ""
+	@echo "🐳 Docker Development:"
+	@echo "  make docker-dev     - Start development environment with Docker"
+	@echo "  make docker-build   - Build Docker development image"
+	@echo "  make docker-run     - Run commands in Docker container"
+	@echo "  make docker-clean   - Clean Docker containers and images"
 	@echo ""
 
 # ==================== Consolidated Commands ====================
@@ -66,6 +85,15 @@ dev: clean quality build run
 dev-verbose: clean quality build run-verbose
 	@echo "💻 Development workflow complete!"
 
+# Start hot-reloading development server with air
+dev-air:
+	@echo "🔥 Starting hot-reloading development server..."
+	@if ! which air > /dev/null 2>&1; then \
+		echo "📦 Installing air for hot reloading..."; \
+		go install github.com/cosmtrek/air@latest; \
+	fi
+	@air
+
 # ==================== Individual Commands ====================
 
 # Build planner with optional PDF compilation and enhanced error handling
@@ -77,6 +105,12 @@ test-coverage:
 	@go test -race -coverprofile=coverage.txt ./... | grep -E "(PASS|FAIL|RUN|coverage:)" || true
 	@go tool cover -html=coverage.txt -o coverage.html > /dev/null 2>&1
 	@echo "✅ Coverage report generated: coverage.html"
+
+# Run benchmarks
+bench:
+	@echo "📊 Running benchmarks..."
+	@go test -bench=. -benchmem ./...
+	@echo "✅ Benchmarks completed"
 
 # Clean build artifacts
 clean:
@@ -216,3 +250,106 @@ troubleshoot:
 	@if [ -f "$(BINARY_DIR)/$(OUTPUT_BASE_NAME).log" ]; then \
 		echo "  - View build log: cat $(BINARY_DIR)/$(OUTPUT_BASE_NAME).log"; \
 	fi
+
+# ==================== Release Commands ====================
+
+# Create and publish a new release with goreleaser
+release:
+	@echo "🚀 Creating and publishing release..."
+	@if ! which goreleaser > /dev/null 2>&1; then \
+		echo "📦 Installing goreleaser..."; \
+		go install github.com/goreleaser/goreleaser@latest; \
+	fi
+	@goreleaser release --clean
+
+# Test release process without publishing
+release-dry:
+	@echo "🧪 Testing release process (dry run)..."
+	@if ! which goreleaser > /dev/null 2>&1; then \
+		echo "📦 Installing goreleaser..."; \
+		go install github.com/goreleaser/goreleaser@latest; \
+	fi
+	@goreleaser release --clean --skip-publish
+
+# Create snapshot release for testing
+release-snapshot:
+	@echo "📸 Creating snapshot release..."
+	@if ! which goreleaser > /dev/null 2>&1; then \
+		echo "📦 Installing goreleaser..."; \
+		go install github.com/goreleaser/goreleaser@latest; \
+	fi
+	@goreleaser release --clean --snapshot
+
+# ==================== Shell Completion Commands ====================
+
+# Show available completion options
+completion:
+	@echo "🔧 Shell Completion Setup Instructions:"
+	@echo ""
+	@echo "Available shells: bash, zsh, fish, powershell"
+	@echo ""
+	@echo "To generate completion scripts:"
+	@echo "  make completion-bash    # Generate bash completion"
+	@echo "  make completion-zsh     # Generate zsh completion"
+	@echo "  make completion-fish    # Generate fish completion"
+	@echo "  make completion-powershell # Generate PowerShell completion"
+	@echo ""
+	@echo "Manual installation:"
+	@echo "  ./plannergen completion <shell> > completion.<shell>"
+	@echo "  Source the generated file in your shell profile"
+
+# Generate and install bash completion
+completion-bash:
+	@echo "🐚 Generating bash completion..."
+	@go build -o plannergen ./cmd/planner
+	@./plannergen completion bash > plannergen.bash
+	@echo "✅ Generated plannergen.bash"
+	@echo "To install: source plannergen.bash >> ~/.bashrc"
+
+# Generate and install zsh completion
+completion-zsh:
+	@echo "🐚 Generating zsh completion..."
+	@go build -o plannergen ./cmd/planner
+	@./plannergen completion zsh > plannergen.zsh
+	@echo "✅ Generated plannergen.zsh"
+	@echo "To install: source plannergen.zsh >> ~/.zshrc"
+
+# Generate and install fish completion
+completion-fish:
+	@echo "🐚 Generating fish completion..."
+	@go build -o plannergen ./cmd/planner
+	@./plannergen completion fish > plannergen.fish
+	@echo "✅ Generated plannergen.fish"
+	@echo "To install: cp plannergen.fish ~/.config/fish/completions/"
+
+# Generate PowerShell completion
+completion-powershell:
+	@echo "🐚 Generating PowerShell completion..."
+	@go build -o plannergen ./cmd/planner
+	@./plannergen completion powershell > plannergen.ps1
+	@echo "✅ Generated plannergen.ps1"
+	@echo "To install: Add to PowerShell profile"
+
+# ==================== Docker Development Commands ====================
+
+# Start development environment with Docker
+docker-dev:
+	@echo "🐳 Starting Docker development environment..."
+	@docker-compose up dev
+
+# Build Docker development image
+docker-build:
+	@echo "🔨 Building Docker development image..."
+	@docker-compose build dev
+
+# Run commands in Docker container
+docker-run:
+	@echo "🐳 Running command in Docker container..."
+	@docker-compose run --rm dev $(CMD)
+
+# Clean Docker containers and images
+docker-clean:
+	@echo "🧹 Cleaning Docker containers and images..."
+	@docker-compose down --volumes --remove-orphans
+	@docker system prune -f
+	@docker image prune -f

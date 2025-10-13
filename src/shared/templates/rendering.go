@@ -224,7 +224,11 @@ func (i Items) WithTopRightCorner(flag bool, kernSpacing string) Items {
 		return i
 	}
 
-	return append(i, plainItem(`\kern `+kernSpacing))
+	// Use strings.Builder for efficient string concatenation
+	var sb strings.Builder
+	sb.WriteString(`\kern `)
+	sb.WriteString(kernSpacing)
+	return append(i, plainItem(sb.String()))
 }
 
 func (i Items) Length() int {
