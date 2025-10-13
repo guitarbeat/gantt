@@ -69,8 +69,8 @@ changelog:
 release:
   name_template: "{{.Tag}}"
   github:
-    owner: aaronang
-    name: phd-dissertation-planner
+    owner: guitarbeat
+    name: gantt
   prerelease: auto
   mode: append
   header: |
@@ -97,9 +97,9 @@ release:
 # Docker images
 dockers:
   - image_templates:
-      - "ghcr.io/aaronang/phd-dissertation-planner:{{ .Tag }}-amd64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:v{{ .Major }}-amd64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:latest-amd64"
+      - "ghcr.io/guitarbeat/gantt:{{ .Tag }}-amd64"
+      - "ghcr.io/guitarbeat/gantt:v{{ .Major }}-amd64"
+      - "ghcr.io/guitarbeat/gantt:latest-amd64"
     dockerfile: Dockerfile.dev
     use: buildx
     build_flag_templates:
@@ -113,9 +113,9 @@ dockers:
       - "--label=org.opencontainers.image.licenses=MIT"
 
   - image_templates:
-      - "ghcr.io/aaronang/phd-dissertation-planner:{{ .Tag }}-arm64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:v{{ .Major }}-arm64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:latest-arm64"
+      - "ghcr.io/guitarbeat/gantt:{{ .Tag }}-arm64"
+      - "ghcr.io/guitarbeat/gantt:v{{ .Major }}-arm64"
+      - "ghcr.io/guitarbeat/gantt:latest-arm64"
     dockerfile: Dockerfile.dev
     use: buildx
     build_flag_templates:
@@ -131,20 +131,20 @@ dockers:
 
 # Multi-arch Docker manifest
 docker_manifests:
-  - name_template: "ghcr.io/aaronang/phd-dissertation-planner:{{ .Tag }}"
+  - name_template: "ghcr.io/guitarbeat/gantt:{{ .Tag }}"
     image_templates:
-      - "ghcr.io/aaronang/phd-dissertation-planner:{{ .Tag }}-amd64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:{{ .Tag }}-arm64"
+      - "ghcr.io/guitarbeat/gantt:{{ .Tag }}-amd64"
+      - "ghcr.io/guitarbeat/gantt:{{ .Tag }}-arm64"
 
-  - name_template: "ghcr.io/aaronang/phd-dissertation-planner:v{{ .Major }}"
+  - name_template: "ghcr.io/guitarbeat/gantt:v{{ .Major }}"
     image_templates:
-      - "ghcr.io/aaronang/phd-dissertation-planner:v{{ .Major }}-amd64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:v{{ .Major }}-arm64"
+      - "ghcr.io/guitarbeat/gantt:v{{ .Major }}-amd64"
+      - "ghcr.io/guitarbeat/gantt:v{{ .Major }}-arm64"
 
-  - name_template: "ghcr.io/aaronang/phd-dissertation-planner:latest"
+  - name_template: "ghcr.io/guitarbeat/gantt:latest"
     image_templates:
-      - "ghcr.io/aaronang/phd-dissertation-planner:latest-amd64"
-      - "ghcr.io/aaronang/phd-dissertation-planner:latest-arm64"
+      - "ghcr.io/guitarbeat/gantt:latest-amd64"
+      - "ghcr.io/guitarbeat/gantt:latest-arm64"
 
 # Snapshot customization
 snapshot:
