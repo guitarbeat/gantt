@@ -14,10 +14,11 @@ import (
 
 // CSVValidator handles comprehensive validation of CSV task data
 type CSVValidator struct {
-	requiredFields []string
-	validStatuses  map[string]bool
-	validPhases    map[string]bool
-	logger         *Logger
+	requiredFields     []string
+	validStatuses      map[string]bool
+	validPhases        map[string]bool
+	validMilestoneValues map[string]bool
+	logger             *Logger
 }
 
 // NewCSVValidator creates a new CSV validator with default validation rules
@@ -37,6 +38,14 @@ func NewCSVValidator() *CSVValidator {
 		validPhases: map[string]bool{
 			"1": true, "2": true, "3": true, "4": true, "5": true,
 			"6": true, "7": true, "8": true, "9": true, "10": true,
+		},
+		validMilestoneValues: map[string]bool{
+			"true":    true,
+			"false":  true,
+			"critical": true,
+			"high":    true,
+			"medium":  true,
+			"low":     true,
 		},
 		logger: NewDefaultLogger(),
 	}
@@ -208,17 +217,83 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 		}
 	}
 
+	// Validate Task ID format
+	if task.ID != "" {
+		if matched, _ := regexp.MatchString(`^T\d+\.[A-Za-z0-9]+$`, task.ID); !matched {
+			errors = append(errors, ValidationIssue{
+				Type:    "invalid_format",
+				Field:   "Task ID",
+				Row:     rowNum,
+				Value:   task.ID,
+				Message: "Task ID must follow format T{phase}.{identifier} (e.g., T1.1, T2.M1, T3.4a)",
+			})
+		} else {
+			// Validate that task ID phase matches the Phase column
+			if task.Phase != "" {
+				taskIDPhase := strings.TrimPrefix(strings.Split(task.ID, ".")[0], "T")
+				if taskIDPhase != task.Phase {
+					errors = append(errors, ValidationIssue{
+						Type:    "phase_mismatch",
+						Field:   "Task ID",
+						Row:     rowNum,
+						Value:   task.ID,
+						Message: fmt.Sprintf("Task ID phase (%s) does not match Phase column (%s)", taskIDPhase, task.Phase),
+					})
+				}
+			}
+		}
+	}
+
+	// Note: Milestone field validation happens during CSV parsing, not here
+
 	// Validate dependencies format (comma-separated task IDs)
 	if task.Dependencies != nil {
 		for _, dep := range task.Dependencies {
-			if strings.TrimSpace(dep) == "" {
+			dep = strings.TrimSpace(dep)
+			if dep == "" {
 				errors = append(errors, ValidationIssue{
 					Type:    "invalid_format",
 					Field:   "Dependencies",
 					Row:     rowNum,
 					Message: "Dependency entries cannot be empty",
 				})
+			} else {
+				// Validate dependency task ID format
+				if matched, _ := regexp.MatchString(`^T\d+\.[A-Za-z0-9]+$`, dep); !matched {
+					errors = append(errors, ValidationIssue{
+						Type:    "invalid_format",
+						Field:   "Dependencies",
+						Row:     rowNum,
+						Value:   dep,
+						Message: "Dependency must reference valid task ID format T{phase}.{identifier}",
+					})
+				}
 			}
+		}
+	}
+
+	// Validate reasonable date ranges for PhD timeline (2025-2027)
+	if !task.StartDate.IsZero() {
+		if task.StartDate.Year() < 2025 || task.StartDate.Year() > 2027 {
+			errors = append(errors, ValidationIssue{
+				Type:    "date_range",
+				Field:   "Start Date",
+				Row:     rowNum,
+				Value:   task.StartDate.Format("2006-01-02"),
+				Message: "Start date should be within PhD timeline range (2025-2027)",
+			})
+		}
+	}
+
+	if !task.EndDate.IsZero() {
+		if task.EndDate.Year() < 2025 || task.EndDate.Year() > 2027 {
+			errors = append(errors, ValidationIssue{
+				Type:    "date_range",
+				Field:   "End Date",
+				Row:     rowNum,
+				Value:   task.EndDate.Format("2006-01-02"),
+				Message: "End date should be within PhD timeline range (2025-2027)",
+			})
 		}
 	}
 
@@ -252,15 +327,7 @@ func (v *CSVValidator) validateTaskWarnings(task Task, rowNum int) []ValidationI
 		}
 	}
 
-	// Warn about tasks without assignees
-	if strings.TrimSpace(task.Assignee) == "" {
-		warnings = append(warnings, ValidationIssue{
-			Type:    "missing_assignee",
-			Field:   "Assignee",
-			Row:     rowNum,
-			Message: "Task has no assignee assigned",
-		})
-	}
+	// Note: Assignee validation removed - acceptable for single-person projects
 
 	return warnings
 }
@@ -288,11 +355,13 @@ func (v *CSVValidator) validateDataConsistency(tasks []Task) []ValidationIssue {
 		}
 	}
 
-	// Validate dependency references exist
+	// Validate dependency references exist and check for cycles
 	taskIDSet := make(map[string]bool)
-	for _, task := range tasks {
+	taskIndex := make(map[string]int)
+	for i, task := range tasks {
 		if task.ID != "" {
 			taskIDSet[task.ID] = true
+			taskIndex[task.ID] = i
 		}
 	}
 
@@ -309,6 +378,116 @@ func (v *CSVValidator) validateDataConsistency(tasks []Task) []ValidationIssue {
 					})
 				}
 			}
+		}
+	}
+
+	// Check for dependency cycles
+	if cycleErrs := v.detectDependencyCycles(tasks, taskIndex); len(cycleErrs) > 0 {
+		errors = append(errors, cycleErrs...)
+	}
+
+	// Validate milestone task consistency
+	if milestoneErrs := v.validateMilestoneConsistency(tasks); len(milestoneErrs) > 0 {
+		errors = append(errors, milestoneErrs...)
+	}
+
+	return errors
+}
+
+// detectDependencyCycles detects circular dependencies in the task graph
+func (v *CSVValidator) detectDependencyCycles(tasks []Task, taskIndex map[string]int) []ValidationIssue {
+	var errors []ValidationIssue
+	visited := make(map[string]bool)
+	recursionStack := make(map[string]bool)
+
+	var visit func(taskID string, path []string) bool
+	visit = func(taskID string, path []string) bool {
+		// Check if we're already processing this node (cycle detected)
+		if recursionStack[taskID] {
+			// Find where the cycle starts
+			cycleStart := -1
+			for i, id := range path {
+				if id == taskID {
+					cycleStart = i
+					break
+				}
+			}
+			if cycleStart >= 0 {
+				cycle := append(path[cycleStart:], taskID)
+				row := taskIndex[taskID] + 2 // +2 for header + 0-indexing
+				errors = append(errors, ValidationIssue{
+					Type:    "dependency_cycle",
+					Field:   "Dependencies",
+					Row:     row,
+					Value:   strings.Join(cycle, " → "),
+					Message: fmt.Sprintf("Circular dependency detected: %s", strings.Join(cycle, " → ")),
+				})
+			}
+			return true
+		}
+
+		// Check if already fully visited
+		if visited[taskID] {
+			return false
+		}
+
+		// Mark as visiting
+		recursionStack[taskID] = true
+		visited[taskID] = true
+
+		// Visit dependencies
+		taskIdx, exists := taskIndex[taskID]
+		if exists && tasks[taskIdx].Dependencies != nil {
+			newPath := append(path, taskID)
+			for _, dep := range tasks[taskIdx].Dependencies {
+				if visit(dep, newPath) {
+					return true // Cycle found
+				}
+			}
+		}
+
+		// Remove from recursion stack
+		recursionStack[taskID] = false
+		return false
+	}
+
+	// Check all tasks for cycles
+	for _, task := range tasks {
+		if task.ID != "" && !visited[task.ID] {
+			visit(task.ID, []string{})
+		}
+	}
+
+	return errors
+}
+
+// isMilestoneTask determines if a task is a milestone based on its name or description
+func (v *CSVValidator) isMilestoneTask(name, description string) bool {
+	text := strings.ToLower(name + " " + description)
+	milestoneKeywords := []string{"milestone", "deadline", "due", "complete", "finish", "submit", "deliver", "defense", "exam", "oral", "final", "critical"}
+
+	for _, keyword := range milestoneKeywords {
+		if strings.Contains(text, keyword) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// validateMilestoneConsistency validates that milestone tasks are properly identified
+func (v *CSVValidator) validateMilestoneConsistency(tasks []Task) []ValidationIssue {
+	var errors []ValidationIssue
+
+	for i, task := range tasks {
+		// Check if task is marked as milestone but not identified as such by keywords
+		if task.IsMilestone && !v.isMilestoneTask(task.Name, task.Description) {
+			errors = append(errors, ValidationIssue{
+				Type:    "milestone_inconsistency",
+				Field:   "Milestone",
+				Row:     i + 2, // +2 for header + 0-indexing
+				Message: "Task is marked as milestone but name/description doesn't indicate milestone characteristics",
+			})
 		}
 	}
 

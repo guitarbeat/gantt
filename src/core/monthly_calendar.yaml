@@ -11,11 +11,26 @@
 # - Hyperlinked navigation
 # - Professional typography
 
-# The actual page configuration is inherited from base.yaml
-# This file exists primarily to control the output filename (monthly_calendar.tex)
-
-# Minimal YAML structure to make this a valid config file
-# (empty config that doesn't override base.yaml settings)
 ---
-# Empty layout section to prevent overriding paper settings
-layout: {}
+# Layout configuration (required for validation)
+layout:
+  paper:
+    width: 15.6cm
+    height: 21.5cm
+
+  layout_engine:
+    initial_y_position_multiplier: 0.1
+    task_height_multiplier: 0.6
+    max_task_width_days: 7.0
+
+    grid_constraints:
+      min_task_spacing: 1.0
+      max_task_spacing: 10.0
+
+# Page configuration (required for validation)
+pages:
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - page.tpl

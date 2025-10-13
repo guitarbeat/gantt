@@ -29,8 +29,8 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 1,Committee Management,T1.21,,Submit Annual Progress Report,2025-09-03,2025-09-07,Submit annual progress review report to department,false,Not Started
 1,Committee Management,T1.22,,Update Committee Membership,2025-09-13,2025-09-23,Update committee membership and file necessary change forms if required,false,Not Started
 1,Committee Management,T1.23,,Confirm Doctoral Candidacy,2025-09-06,2025-09-30,Verify and confirm doctoral candidacy status,false,Not Started
-2,Data Management & Analysis,T2.M1,T2.12,Dual-Color Platform Operational,2026-07-15,2026-07-19,Achieve operational status of the dual-color imaging platform with validated performance metrics,true,Not Started
-2,Data Management & Analysis,T2.M2,T2.26,Data Acquisition Complete,2026-12-06,2026-12-13,Complete all planned imaging studies and data collection for comprehensive analysis,true,Not Started
+2,Data Management & Analysis,T2.M1,T2.12,Dual-Color Platform Operational,2026-07-15,2026-07-19,Achieve operational status and complete validation of the dual-color imaging platform,Critical,Not Started
+2,Data Management & Analysis,T2.M2,T2.26,Data Acquisition Complete,2026-12-06,2026-12-13,Complete all planned imaging studies and data collection for comprehensive analysis,Critical,Not Started
 2,Aim 1 - AAV-based Vascular Imaging,T2.1,T1.5,Plan Pilot Mice Cohort,2025-10-14,2025-10-18,Plan pilot mouse cohort with IACUC protocol confirmation and surgery scheduling,false,Not Started
 2,Aim 1 - AAV-based Vascular Imaging,T2.2,T2.1,Design & Order AAV Vectors,2025-10-21,2025-11-04,Design and order AAV vectors for vascular and neuronal labeling,false,Not Started
 2,Aim 1 - AAV-based Vascular Imaging,T2.3,T2.2,Receive AAV Vectors,2025-12-20,2026-01-17,Receive AAV vectors and prepare for in vivo injections,false,Not Started
@@ -58,7 +58,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 2,Aim 3 - Stroke Study & Analysis,T2.25,"T2.18,T2.19,T2.20,T2.21",Integrate LSCI Data,2026-09-26,2026-10-25,Integrate Laser Speckle Contrast Imaging flow data with two-photon data,false,Not Started
 2,Aim 3 - Stroke Study & Analysis,T2.26,T2.25,Analyze Stroke Data,2026-10-26,2026-12-09,Analyze neurovascular coupling and microvascular changes post-stroke,false,Not Started
 2,Data Management & Analysis,T2.35,,Implement Automated Backups,2025-10-01,2025-12-31,Implement automated data backup and quality control system,false,Not Started
-3,Manuscript Submissions,T3.M1,T3.8,Manuscript Submissions Complete,2026-12-20,2026-12-27,Complete all planned manuscript submissions to appropriate journals,true,Not Started
+3,Manuscript Submissions,T3.M1,T3.8,Manuscript Submissions Complete,2026-12-20,2026-12-27,Complete all planned manuscript submissions to appropriate journals,Critical,Not Started
 3,Methodology Paper,T3.1,T2.7,Write Methodology Manuscript,2026-04-19,2026-07-15,Write comprehensive methodology manuscript covering AAV-based vascular imaging approach,false,Not Started
 3,Methodology Paper,T3.2,T3.1,Submit Methodology Paper,2026-07-18,2026-07-22,Submit methodology manuscript to appropriate journal,false,Not Started
 3,SLAVV-T Development,T3.3,T2.6,Develop SLAVV-T Codebase,2026-08-11,2026-11-10,Develop improved codebase for temporal analysis,false,Not Started
@@ -71,10 +71,10 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 3,AR Platform Development,T3.9b,T3.9a,AR Platform - Core Development,2026-11-01,2027-03-31,Develop core AR platform features and vascular visualization capabilities,false,Not Started
 3,AR Platform Development,T3.9c,T3.9b,AR Platform - Testing & Refinement,2027-04-01,2027-06-30,Test AR platform with real data and refine user interface,false,Not Started
 3,AR Platform Development,T3.9d,T3.9c,AR Platform - Methods Paper Draft,2027-07-01,2027-09-30,Draft methods paper documenting AR platform development and applications,false,Not Started
-4,Committee Review & Defense,T4.M1a,T4.5,Complete Dissertation Draft,2027-05-13,2027-05-19,Complete dissertation draft for committee review,true,Not Started
-4,Final Submission & Graduation,T4.M1,T4.6,Dissertation Complete,2027-06-27,2027-07-03,Complete dissertation draft for committee review and final approval,true,Not Started
-4,Final Submission & Graduation,T4.M2,T4.7,PhD Defense,2027-07-14,2027-07-20,Successfully defend PhD dissertation in oral examination before committee,true,Not Started
-4,Final Submission & Graduation,T4.M3,T4.9,Graduation,2027-08-08,2027-08-14,Complete PhD program and graduate with all requirements fulfilled,true,Not Started
+4,Committee Review & Defense,T4.M1a,T4.5,Complete Dissertation Draft,2027-05-13,2027-05-19,Complete dissertation draft for committee review,Critical,Not Started
+4,Final Submission & Graduation,T4.M1,T4.6,Dissertation Complete,2027-06-27,2027-07-03,Complete dissertation draft for committee review and final approval,Critical,Not Started
+4,Final Submission & Graduation,T4.M2,T4.7,PhD Defense,2027-07-14,2027-07-20,Successfully defend PhD dissertation in oral examination before committee,Critical,Not Started
+4,Final Submission & Graduation,T4.M3,T4.9,Graduation,2027-08-08,2027-08-14,Complete PhD program and graduate with all requirements fulfilled,Critical,Not Started
 4,Dissertation Writing,T4.1,T1.12,Complete Progress Review,2026-09-01,2026-09-07,Complete annual progress review for 2026,false,Not Started
 4,Dissertation Writing,T4.2,T2.26,Draft Introduction & Methods,2027-01-01,2027-02-15,Complete the draft of the dissertation introduction and methods,false,Not Started
 4,Dissertation Writing,T4.2a,T3.2,Draft Aim 1 Chapter,2027-02-16,2027-03-15,Draft Aim 1 Chapter utilizing the completed manuscript,false,Not Started
@@ -87,7 +87,7 @@ Phase,Sub-Phase,Task ID,Dependencies,Task,Start Date,End Date,Objective,Mileston
 4,Dissertation Writing,T4.5a1,T1.12,Write Discussion Chapter,2027-04-16,2027-05-31,Write comprehensive Discussion chapter interpreting research findings,false,Not Started
 4,Dissertation Writing,T4.5a2,T4.5a1,Write Conclusions & Future Work,2027-06-01,2027-06-15,Write Conclusions chapter with future research directions,false,Not Started
 4,Committee Review & Defense,T4.5b,T4.M1a,Final Committee Meeting,2027-05-17,2027-05-29,Final Committee Meeting,false,Not Started
-4,Committee Review & Defense,T4.6,"T4.3,T4.4,T4.5",Complete Dissertation Draft,2027-06-19,2027-06-30,false,,
+4,Committee Review & Defense,T4.6,"T4.3,T4.4c,T4.5",Complete Dissertation Draft,2027-06-19,2027-06-30,false,,
 4,Committee Review & Defense,T4.6a,T4.5b,Final Revisions,2027-05-30,2027-06-30,Incorporate Final Revisions,false,Not Started
 4,Committee Review & Defense,T4.7,T4.6a,Defend Dissertation,2027-07-17,2027-07-20,Successfully defend PhD dissertation in oral examination,false,Not Started
 4,Final Submission & Graduation,T4.7a,T4.M2,Final Submission,2027-07-16,2027-07-31,Submit final dissertation,false,Not Started
