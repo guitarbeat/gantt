@@ -25,11 +25,13 @@ func NewCSVValidator() *CSVValidator {
 	return &CSVValidator{
 		requiredFields: []string{"Task ID", "Task", "Start Date", "End Date"},
 		validStatuses: map[string]bool{
+			"not started": true,
 			"planned":     true,
 			"in progress": true,
 			"completed":   true,
 			"on hold":     true,
 			"cancelled":  true,
+			"canceled":   true,
 			"blocked":    true,
 		},
 		validPhases: map[string]bool{
@@ -43,11 +45,11 @@ func NewCSVValidator() *CSVValidator {
 // ValidateCSVFile validates a CSV file and returns detailed validation results
 func (v *CSVValidator) ValidateCSVFile(filePath string) (*ValidationResult, error) {
 	result := &ValidationResult{
-		IsValid:     true,
-		Errors:      make([]ValidationIssue, 0),
-		Warnings:    make([]ValidationIssue, 0),
-		RowCount:    0,
-		FieldCount:  0,
+		IsValid:    true,
+		Errors:     make([]ValidationIssue, 0),
+		Warnings:   make([]ValidationIssue, 0),
+		RowCount:   0,
+		FieldCount: 0,
 	}
 
 	// Check file exists and is readable
@@ -159,9 +161,9 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 	if !task.StartDate.IsZero() && !task.EndDate.IsZero() {
 		if task.EndDate.Before(task.StartDate) {
 			errors = append(errors, ValidationIssue{
-				Type:    "date_logic",
-				Field:   "End Date",
-				Row:     rowNum,
+				Type:  "date_logic",
+				Field: "End Date",
+				Row:   rowNum,
 				Message: fmt.Sprintf("End Date (%s) cannot be before Start Date (%s)",
 					task.EndDate.Format("2006-01-02"), task.StartDate.Format("2006-01-02")),
 			})
@@ -183,10 +185,10 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 		status := strings.ToLower(strings.TrimSpace(task.Status))
 		if !v.validStatuses[status] {
 			errors = append(errors, ValidationIssue{
-				Type:    "invalid_value",
-				Field:   "Status",
-				Row:     rowNum,
-				Value:   task.Status,
+				Type:  "invalid_value",
+				Field: "Status",
+				Row:   rowNum,
+				Value: task.Status,
 				Message: fmt.Sprintf("Invalid status '%s', must be one of: %s",
 					task.Status, v.getValidStatusesString()),
 			})
@@ -278,9 +280,9 @@ func (v *CSVValidator) validateDataConsistency(tasks []Task) []ValidationIssue {
 	for id, rows := range idMap {
 		if len(rows) > 1 {
 			errors = append(errors, ValidationIssue{
-				Type:  "duplicate_id",
-				Field: "Task ID",
-				Value: id,
+				Type:    "duplicate_id",
+				Field:   "Task ID",
+				Value:   id,
 				Message: fmt.Sprintf("Task ID '%s' appears in multiple rows: %v", id, rows),
 			})
 		}
@@ -299,10 +301,10 @@ func (v *CSVValidator) validateDataConsistency(tasks []Task) []ValidationIssue {
 			for _, dep := range task.Dependencies {
 				if !taskIDSet[dep] {
 					errors = append(errors, ValidationIssue{
-						Type:  "invalid_dependency",
-						Field: "Dependencies",
-						Row:   i + 2, // +2 for header + 0-indexing
-						Value: dep,
+						Type:    "invalid_dependency",
+						Field:   "Dependencies",
+						Row:     i + 2, // +2 for header + 0-indexing
+						Value:   dep,
 						Message: fmt.Sprintf("Dependency '%s' references non-existent task ID", dep),
 					})
 				}
@@ -447,8 +449,8 @@ func (cv *ConfigValidator) validateConfigStructure(config Config) []ValidationIs
 	// Validate spacing relationships
 	if config.Layout.LayoutEngine.GridConstraints.MinTaskSpacing > config.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing {
 		errors = append(errors, ValidationIssue{
-			Type:  "invalid_relationship",
-			Field: "layout.layout_engine.grid_constraints",
+			Type:    "invalid_relationship",
+			Field:   "layout.layout_engine.grid_constraints",
 			Message: "min_task_spacing cannot be greater than max_task_spacing",
 		})
 	}
@@ -740,11 +742,11 @@ func (vm *ValidationMiddleware) validateConfigSave(config *Config) []ValidationI
 
 // ValidationIssue represents a single validation error or warning
 type ValidationIssue struct {
-	Type    string `json:"type"`              // Error type (required_field, invalid_value, etc.)
-	Field   string `json:"field,omitempty"`   // Field name that caused the error
-	Row     int    `json:"row,omitempty"`     // Row number (for CSV validation)
-	Value   string `json:"value,omitempty"`   // Invalid value that caused the error
-	Message string `json:"message"`           // Human-readable error message
+	Type    string `json:"type"`            // Error type (required_field, invalid_value, etc.)
+	Field   string `json:"field,omitempty"` // Field name that caused the error
+	Row     int    `json:"row,omitempty"`   // Row number (for CSV validation)
+	Value   string `json:"value,omitempty"` // Invalid value that caused the error
+	Message string `json:"message"`         // Human-readable error message
 }
 
 func (ve ValidationIssue) Error() string {
@@ -772,12 +774,12 @@ func (ve ValidationIssue) Error() string {
 
 // ValidationResult contains the complete results of a validation operation
 type ValidationResult struct {
-	IsValid     bool              `json:"is_valid"`
-	Errors      []ValidationIssue `json:"errors,omitempty"`
-	Warnings    []ValidationIssue `json:"warnings,omitempty"`
-	RowCount    int               `json:"row_count,omitempty"`   // For CSV validation
-	FieldCount  int               `json:"field_count,omitempty"` // For CSV validation
-	Summary     string            `json:"summary,omitempty"`     // Human-readable summary
+	IsValid    bool              `json:"is_valid"`
+	Errors     []ValidationIssue `json:"errors,omitempty"`
+	Warnings   []ValidationIssue `json:"warnings,omitempty"`
+	RowCount   int               `json:"row_count,omitempty"`   // For CSV validation
+	FieldCount int               `json:"field_count,omitempty"` // For CSV validation
+	Summary    string            `json:"summary,omitempty"`     // Human-readable summary
 }
 
 // Summary generates a human-readable summary of the validation results

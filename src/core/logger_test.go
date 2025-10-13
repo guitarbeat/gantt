@@ -13,8 +13,12 @@ func TestNewLogger(t *testing.T) {
 		t.Fatal("NewLogger() should not return nil")
 	}
 
-	if logger.logger == nil {
-		t.Error("NewLogger() should initialize internal logger")
+	if logger.writer == nil {
+		t.Error("NewLogger() should initialize writer")
+	}
+
+	if logger.level < 0 {
+		t.Error("NewLogger() should set valid log level")
 	}
 }
 
@@ -143,15 +147,15 @@ func TestLogLevelDetection(t *testing.T) {
 		name      string
 		silentEnv string
 		levelEnv  string
-		wantLevel string
+		wantLevel int
 	}{
-		{"default", "", "", "info"},
-		{"silent flag", "1", "", "silent"},
-		{"explicit silent", "", "silent", "silent"},
-		{"explicit info", "", "info", "info"},
-		{"explicit debug", "", "debug", "debug"},
-		{"invalid level", "", "invalid", "info"}, // Should default to info
-		{"case insensitive", "", "SILENT", "silent"},
+		{"default", "", "", LogLevelInfo},
+		{"silent flag", "1", "", LogLevelSilent},
+		{"explicit silent", "", "silent", LogLevelSilent},
+		{"explicit info", "", "info", LogLevelInfo},
+		{"explicit debug", "", "debug", LogLevelDebug},
+		{"invalid level", "", "invalid", LogLevelInfo}, // Should default to info
+		{"case insensitive", "", "SILENT", LogLevelSilent},
 	}
 
 	for _, tt := range tests {
@@ -163,7 +167,7 @@ func TestLogLevelDetection(t *testing.T) {
 			logger := NewLogger("[test] ")
 
 			if logger.level != tt.wantLevel {
-				t.Errorf("logger.level = %s, want %s", logger.level, tt.wantLevel)
+				t.Errorf("logger.level = %d, want %d", logger.level, tt.wantLevel)
 			}
 		})
 	}

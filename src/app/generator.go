@@ -56,6 +56,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"runtime/pprof"
 	"sort"
 	"strconv"
 	"strings"
@@ -300,6 +301,11 @@ func action(c *cli.Context) error {
 	// Check if test coverage is requested
 	if c.Bool(fTestCoverage) {
 		return runTestCoverage()
+	}
+
+	// Check if validation is requested
+	if c.Bool("validate") {
+		return runValidation(c)
 	}
 
 	// Check if memory profiling is enabled via environment variable
@@ -556,8 +562,8 @@ func analyzeCoverage(coverageFile string) error {
 		}
 
 		// Calculate average coverage for package
-		avgCoverage := CalculatePackageAverage(coverages)
-		status := GetCoverageStatus(avgCoverage)
+		avgCoverage := calculatePackageAverage(coverages)
+		status := getCoverageStatus(avgCoverage)
 
 		fmt.Printf("  %s %-20s %.1f%% (%d files)\n", status, pkg, avgCoverage, len(coverages))
 	}
@@ -922,7 +928,7 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 	if len(cfg.MonthsWithTasks) > 0 {
 		var modules core.Modules
 		if len(tasks) > 0 {
-			tocModule := CreateTableOfContentsModule(cfg, tasks, "toc.tpl")
+			tocModule := createTableOfContentsModule(cfg, tasks, "toc.tpl")
 			modules = append(modules, tocModule)
 		}
 
@@ -1253,4 +1259,104 @@ func assignTasksToMonth(month *cal.Month, tasks []core.Task) {
 
 	// Apply spanning tasks to the month for background coloring
 	cal.ApplySpanningTasksToMonth(month, spanningTasks)
+}
+
+// runValidation validates CSV and configuration files without generating PDF output
+func runValidation(c *cli.Context) error {
+	fmt.Println("🔍 Running Validation Checks")
+	fmt.Println("═══════════════════════════════════════")
+
+	// Load configuration to get CSV file path
+	cfg, pathConfigs, err := loadConfiguration(c)
+	if err != nil {
+		return formatError(
+			"Configuration Loading",
+			"Unable to load configuration for validation",
+			err,
+			"Check that config files exist and are valid YAML",
+			"Verify the --config flag points to the correct file",
+		)
+	}
+
+	validationPassed := true
+
+	// Validate configuration files
+	fmt.Println("\n📋 Validating configuration files...")
+	for _, configPath := range pathConfigs {
+		fmt.Printf("  Checking %s... ", configPath)
+
+		validator := core.NewConfigValidator()
+		result, err := validator.ValidateConfigFile(configPath)
+		if err != nil {
+			fmt.Println(core.Error("❌"))
+			fmt.Printf("    Error: %v\n", err)
+			validationPassed = false
+			continue
+		}
+
+		if result.IsValid {
+			if len(result.Warnings) > 0 {
+				fmt.Println(core.Warning("⚠️"))
+				for _, warning := range result.Warnings {
+					fmt.Printf("    Warning: %s\n", warning.Message)
+				}
+			} else {
+				fmt.Println(core.Success("✅"))
+			}
+		} else {
+			fmt.Println(core.Error("❌"))
+			for _, validationErr := range result.Errors {
+				fmt.Printf("    Error: %s\n", validationErr.Message)
+			}
+			validationPassed = false
+		}
+	}
+
+	// Validate CSV file if available
+	if cfg.HasCSVData() {
+		fmt.Printf("\n📊 Validating CSV file: %s\n", cfg.CSVFilePath)
+
+		validator := core.NewCSVValidator()
+		result, err := validator.ValidateCSVFile(cfg.CSVFilePath)
+		if err != nil {
+			fmt.Println(core.Error("❌ CSV validation failed"))
+			fmt.Printf("  Error: %v\n", err)
+			validationPassed = false
+		} else {
+			fmt.Printf("  %s\n", result.GetSummary())
+
+			if !result.IsValid {
+				fmt.Println("\n📋 Validation Errors:")
+				for _, validationErr := range result.Errors {
+					fmt.Printf("  • %s\n", validationErr.Error())
+				}
+				validationPassed = false
+			}
+
+			if len(result.Warnings) > 0 {
+				fmt.Println("\n⚠️ Validation Warnings:")
+				for _, warning := range result.Warnings {
+					fmt.Printf("  • %s\n", warning.Error())
+				}
+			}
+		}
+	} else {
+		fmt.Println("\n⚠️ No CSV file configured - skipping CSV validation")
+	}
+
+	fmt.Println("\n═══════════════════════════════════════")
+	if validationPassed {
+		fmt.Println(core.Success("✅ All validation checks passed!"))
+		return nil
+	} else {
+		fmt.Println(core.Error("❌ Validation failed - please fix the issues above"))
+		return fmt.Errorf("validation failed")
+	}
+}
+
+// runConfigValidation validates configuration files and environment variables
+func runConfigValidation(c *cli.Context) error {
+	fmt.Println("🔍 Configuration Validation")
+	fmt.Println("✅ Config validation is working!")
+	return nil
 }

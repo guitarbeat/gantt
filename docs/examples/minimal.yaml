@@ -1,0 +1,72 @@
+# Minimal Configuration
+# Bare-bones setup for quick testing and development
+
+# Essential settings only
+year: 2025
+weekstart: 1
+ampmtime: false
+dotted: true
+calafterschedule: false
+addlasthalfhour: true
+cleartoprightcorner: false
+
+# Minimal debug settings
+debug:
+  showframe: false
+  showlinks: false
+
+# Basic layout with defaults
+layout:
+  paper:
+    width: 15.6cm
+    height: 21.5cm
+    margin:
+      top: 0.2cm
+      bottom: 0.5cm
+      left: 0.5cm
+      right: 0.5cm
+
+  # Standard LaTeX settings
+  latex:
+    tabcolsep: 4pt
+    headersidemonthswidth: 14.5cm
+    arraystretch: 1.15
+    monthlycellheight: 55pt
+    headerresizebox: 6mm
+    linethicknessdefault: .35pt
+    linethicknessthick: .7pt
+    colsep: 4pt
+
+    document:
+      fontsize: 9pt
+
+  # Basic task styling
+  task_styling:
+    fontsize: \footnotesize
+    bar_height: 4.5mm
+    border_width: 0.5pt
+    show_objectives: false
+
+    background_opacity: 15
+    border_opacity: 75
+
+  # Standard calendar layout
+  calendar_layout:
+    day_number_width: "6mm"
+    day_content_margin: "8mm"
+    task_cell_margin: "8mm"
+    task_cell_spacing: "6mm"
+    day_cell_minipage_width: "6mm"
+    header_angle_size_offset: "0.86pt"
+
+# Single page
+pages:
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - page.tpl
+
+# Data and output
+csv_file_path: input_data/research_timeline_v5.1_comprehensive.csv
+output_dir: generated

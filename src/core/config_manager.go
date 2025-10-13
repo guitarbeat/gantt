@@ -6,7 +6,6 @@
 //   - Configuration hot-reloading for development
 //   - Preset system integration
 //   - Comprehensive error reporting and validation
-//
 package core
 
 import (
@@ -30,11 +29,11 @@ type ConfigManager struct {
 	logger     *Logger
 
 	// Hot-reloading
-	watcher       *fsnotify.Watcher
-	reloadChan    chan struct{}
-	stopChan      chan struct{}
-	reloadMutex   sync.RWMutex
-	isReloading   bool
+	watcher     *fsnotify.Watcher
+	reloadChan  chan struct{}
+	stopChan    chan struct{}
+	reloadMutex sync.RWMutex
+	isReloading bool
 
 	// Environment variables registry
 	envVars map[string]EnvVarDefinition
@@ -61,11 +60,11 @@ type ConfigReloadEvent struct {
 // NewConfigManager creates a new configuration manager
 func NewConfigManager() *ConfigManager {
 	cm := &ConfigManager{
-		config:    Config{},
-		logger:    NewDefaultLogger(),
+		config:     Config{},
+		logger:     NewDefaultLogger(),
 		reloadChan: make(chan struct{}, 1),
 		stopChan:   make(chan struct{}),
-		envVars:   make(map[string]EnvVarDefinition),
+		envVars:    make(map[string]EnvVarDefinition),
 	}
 
 	cm.registerEnvironmentVariables()
@@ -221,10 +220,10 @@ func (cm *ConfigManager) registerEnvironmentVariables() {
 			Validator:   validateFilePath,
 		},
 		"PLANNER_OUTPUT_DIR": {
-			Key:         "PLANNER_OUTPUT_DIR",
-			Description: "Output directory for generated files",
+			Key:          "PLANNER_OUTPUT_DIR",
+			Description:  "Output directory for generated files",
 			DefaultValue: "build",
-			Validator:   validateOutputDir,
+			Validator:    validateOutputDir,
 		},
 		"PLANNER_LAYOUT_PAPER_WIDTH": {
 			Key:         "PLANNER_LAYOUT_PAPER_WIDTH",
@@ -267,10 +266,10 @@ func (cm *ConfigManager) registerEnvironmentVariables() {
 			Validator:   validateBoolean,
 		},
 		"PLANNER_LOG_LEVEL": {
-			Key:         "PLANNER_LOG_LEVEL",
-			Description: "Logging level (silent/info/debug)",
+			Key:          "PLANNER_LOG_LEVEL",
+			Description:  "Logging level (silent/info/debug)",
 			DefaultValue: "info",
-			Validator:   validateLogLevel,
+			Validator:    validateLogLevel,
 		},
 		"DEV_TEMPLATES": {
 			Key:         "DEV_TEMPLATES",
