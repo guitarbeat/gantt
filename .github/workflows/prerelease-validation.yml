@@ -250,7 +250,7 @@ jobs:
           echo "✅ Release branch created: $branch_name"
 
       - name: Create release PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: release/${{ env.VERSION }}
