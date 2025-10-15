@@ -615,7 +615,7 @@ func (w *Week) WeekNumber(large interface{}) string {
 		return templates.Link(ref, itoa)
 	}
 
-	text := `\rotatebox[origin=tr]{90}{\makebox[\myLenMonthlyCellHeight][c]{Week ` + itoa + `}}`
+	text := `\rotatebox[origin=tr]{90}{\makebox[70pt][c]{Week ` + itoa + `}}`
 
 	return templates.Link(ref, text)
 }
