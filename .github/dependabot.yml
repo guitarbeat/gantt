@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Enable version updates for Go modules
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "{{ .Env.GITHUB_REPOSITORY_OWNER }}"
+    assignees:
+      - "{{ .Env.GITHUB_REPOSITORY_OWNER }}"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "{{ .Env.GITHUB_REPOSITORY_OWNER }}"
+    assignees:
+      - "{{ .Env.GITHUB_REPOSITORY_OWNER }}"
+    commit-message:
+      prefix: "ci"
+      include: "scope"

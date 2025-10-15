@@ -82,7 +82,7 @@ latex:
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, err := core.LoadConfig(configFile)
+		_, err := core.NewConfig(configFile)
 		if err != nil {
 			b.Fatal(err)
 		}

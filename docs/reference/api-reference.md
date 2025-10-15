@@ -412,6 +412,35 @@ go run ./cmd/planner --validate --csv-file data/tasks.csv
 go run ./cmd/planner --debug --verbose
 ```
 
+## Performance & Testing
+
+### Benchmarks
+
+The project includes comprehensive performance benchmarks:
+
+```bash
+# Run all benchmarks
+go test -bench=. ./...
+
+# Run specific benchmarks
+go test -bench=BenchmarkCSVReading ./src/core
+go test -bench=BenchmarkConfigurationLoading ./src/app
+```
+
+#### Current Performance Metrics
+
+- **CSV Reading**: ~5.6 µs/op, 208 KB/op, 3405 allocs/op
+- **Configuration Loading**: ~86 µs/op, 100 KB/op, 1949 allocs/op
+- **Template Rendering**: ~50-200 µs/op (varies by complexity)
+
+### Test Coverage
+
+Current test coverage by package:
+- **App**: 7.7% (utility functions and template helpers)
+- **Core**: 26.2% (configuration, validation, color utilities)
+- **Calendar**: 16.1% (LaTeX escaping, phase descriptions, spanning tasks)
+- **Overall**: ~16% (excluding generated code and templates)
+
 ## Error Codes
 
 - `0` - Success

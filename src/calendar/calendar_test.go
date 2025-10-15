@@ -3,6 +3,8 @@ package calendar
 import (
 	"testing"
 	"time"
+
+	"phd-dissertation-planner/src/core"
 )
 
 // TestCalendarPackage verifies the calendar package is importable
@@ -317,4 +319,178 @@ func isLeapYear(year int) bool {
 
 func getMonthName(month time.Month) string {
 	return month.String()
+}
+
+func TestEscapeLatexSpecialChars(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "backslash",
+			input:    `path\to\file`,
+			expected: `path\textbackslash\{\}to\textbackslash\{\}file`,
+		},
+		{
+			name:     "curly braces",
+			input:    "{bold} text",
+			expected: `\{bold\} text`,
+		},
+		{
+			name:     "dollar and ampersand",
+			input:    "$100 & 50%",
+			expected: `\$100 \& 50\%`,
+		},
+		{
+			name:     "hash and caret",
+			input:    "#1 ^ superscript",
+			expected: `\#1 \textasciicircum{} superscript`,
+		},
+		{
+			name:     "underscore and tilde",
+			input:    "file_name ~ approx",
+			expected: `file\_name \textasciitilde{} approx`,
+		},
+		{
+			name:     "multiple special chars",
+			input:    `a{b}$c&d%e#f^g_h~i\j`,
+			expected: `a\{b\}\$c\&d\%e\#f\textasciicircum{}g\_h\textasciitilde{}i\textbackslash\{\}j`,
+		},
+		{
+			name:     "empty string",
+			input:    "",
+			expected: "",
+		},
+		{
+			name:     "no special chars",
+			input:    "Normal text",
+			expected: "Normal text",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := escapeLatexSpecialChars(tt.input)
+			if result != tt.expected {
+				t.Errorf("escapeLatexSpecialChars(%q) = %q, want %q", tt.input, result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestGetPhaseDescription(t *testing.T) {
+	tests := []struct {
+		name     string
+		phaseNum string
+		expected string
+	}{
+		{
+			name:     "phase 1",
+			phaseNum: "1",
+			expected: "Phase 1: Proposal \\& Setup",
+		},
+		{
+			name:     "phase 2",
+			phaseNum: "2",
+			expected: "Phase 2: Research \\& Data Collection",
+		},
+		{
+			name:     "phase 3",
+			phaseNum: "3",
+			expected: "Phase 3: Publications",
+		},
+		{
+			name:     "phase 4",
+			phaseNum: "4",
+			expected: "Phase 4: Dissertation",
+		},
+		{
+			name:     "unknown phase",
+			phaseNum: "5",
+			expected: "Phase 5",
+		},
+		{
+			name:     "empty phase",
+			phaseNum: "",
+			expected: "Phase ",
+		},
+		{
+			name:     "non-numeric phase",
+			phaseNum: "abc",
+			expected: "Phase abc",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := getPhaseDescription(tt.phaseNum)
+			if result != tt.expected {
+				t.Errorf("getPhaseDescription(%q) = %q, want %q", tt.phaseNum, result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestCreateSpanningTask(t *testing.T) {
+	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	endDate := time.Date(2025, 1, 5, 0, 0, 0, 0, time.UTC)
+
+	task := core.Task{
+		ID:          "T1",
+		Name:        "Test Task",
+		Description: "A test task",
+		Phase:       "1",
+		SubPhase:    "Planning",
+		Category:    "Research",
+		Status:      "In Progress",
+		Assignee:    "John Doe",
+		IsMilestone: true,
+	}
+
+	result := CreateSpanningTask(task, startDate, endDate)
+
+	// Check that all fields are copied correctly
+	if result.ID != task.ID {
+		t.Errorf("ID = %q, want %q", result.ID, task.ID)
+	}
+	if result.Name != task.Name {
+		t.Errorf("Name = %q, want %q", result.Name, task.Name)
+	}
+	if result.Description != task.Description {
+		t.Errorf("Description = %q, want %q", result.Description, task.Description)
+	}
+	if result.Phase != task.Phase {
+		t.Errorf("Phase = %q, want %q", result.Phase, task.Phase)
+	}
+	if result.SubPhase != task.SubPhase {
+		t.Errorf("SubPhase = %q, want %q", result.SubPhase, task.SubPhase)
+	}
+	if result.Category != task.Category {
+		t.Errorf("Category = %q, want %q", result.Category, task.Category)
+	}
+	if !result.StartDate.Equal(startDate) {
+		t.Errorf("StartDate = %v, want %v", result.StartDate, startDate)
+	}
+	if !result.EndDate.Equal(endDate) {
+		t.Errorf("EndDate = %v, want %v", result.EndDate, endDate)
+	}
+	if result.Progress != 0 {
+		t.Errorf("Progress = %d, want 0", result.Progress)
+	}
+	if result.Status != task.Status {
+		t.Errorf("Status = %q, want %q", result.Status, task.Status)
+	}
+	if result.Assignee != task.Assignee {
+		t.Errorf("Assignee = %q, want %q", result.Assignee, task.Assignee)
+	}
+	if result.IsMilestone != task.IsMilestone {
+		t.Errorf("IsMilestone = %v, want %v", result.IsMilestone, task.IsMilestone)
+	}
+
+	// Check that color is generated from category
+	expectedColor := core.GenerateCategoryColor(task.Category)
+	if result.Color != expectedColor {
+		t.Errorf("Color = %q, want %q", result.Color, expectedColor)
+	}
 }
