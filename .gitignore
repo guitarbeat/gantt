@@ -1,7 +1,9 @@
-# Project-specific gitignore patterns
-# This supplements the main .gitignore file
+# PhD Dissertation Planner - Git Ignore Patterns
+# Comprehensive ignore rules for Go, LaTeX, Python, and development artifacts
 
-# LaTeX auxiliary files
+# =============================================================================
+# LaTeX Build Artifacts
+# =============================================================================
 *.aux
 *.log
 *.out
@@ -29,7 +31,9 @@
 *.snm
 *.vrb
 
-# Go build artifacts
+# =============================================================================
+# Go Build Artifacts
+# =============================================================================
 *.exe
 *.exe~
 *.dll
@@ -37,7 +41,12 @@
 *.dylib
 *.test
 *.out
+plannergen
+plannergen.exe
 
+# =============================================================================
+# Development Tools
+# =============================================================================
 # Air hot-reloading
 tmp/
 air.log
@@ -46,104 +55,154 @@ air.log
 # Coverage files
 coverage.out
 coverage.txt
+coverage.html
 *.coverprofile
 
-# IDE files
+# Pre-commit hooks
+.pre-commit-config.yaml.backup
+
+# =============================================================================
+# IDE and Editor Files
+# =============================================================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+*.sublime-project
+*.sublime-workspace
 
-# OS files
+# =============================================================================
+# Operating System Files
+# =============================================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Temporary files
+# =============================================================================
+# Temporary and Backup Files
+# =============================================================================
 *.tmp
 *.temp
 *.bak
+*.backup
+*~
 
-# Build directories
+# =============================================================================
+# Build and Distribution Directories
+# =============================================================================
 build/
 dist/
 output/
 .build_temp/
+target/
 
-# Generated files
+# =============================================================================
+# Generated Content (organized)
+# =============================================================================
 generated/
 .temp/
 .build_artifacts/
 
-# Test artifacts
+# Specific generated subdirectories
+generated/logs/
+generated/tex/
+generated/pdfs/
+generated/preview/
+
+# Archived documentation
+docs/archive/*.pdf
+
+# =============================================================================
+# Test Artifacts
+# =============================================================================
 test_output/
 test_single_output/
 test_triple_output/
 test_debug/
+tests/output/
+tests/integration/generated/
 
+# =============================================================================
+# Release Management
+# =============================================================================
 # Release artifacts (keep structure, ignore content)
 releases/*/
 !releases/.gitkeep
+!releases/INDEX.md
 
 # Goreleaser artifacts
 dist/
 
-# Shell completion scripts
+# =============================================================================
+# Shell Completion Scripts
+# =============================================================================
 *.bash
 *.zsh
 *.fish
 *.ps1
 
-# Node modules (if adding web interface)
+# =============================================================================
+# Web Development (future use)
+# =============================================================================
 node_modules/
 package-lock.json
 yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Python cache
+# =============================================================================
+# Python Development
+# =============================================================================
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+.Python
 .pytest_cache/
+.coverage
+.tox/
 .venv/
 venv/
+ENV/
+env/
 
+# =============================================================================
 # Docker
+# =============================================================================
 .dockerignore
+docker-compose.override.yml
 
-# Go modules
+# =============================================================================
+# Go Modules and Dependencies
+# =============================================================================
 vendor/
 go.work
+go.work.sum
 
-# Organization cleanup
-.temp/
-.build_artifacts/
-docs/archive/*.pdf
-generated/logs/
-generated/tex/
-generated/pdfs/
+# =============================================================================
+# Security and Sensitive Files
+# =============================================================================
+.env
+.env.local
+.env.*.local
+secrets/
+*.key
+*.pem
+*.crt
 
-# Temporary files
-*.aux
+# =============================================================================
+# Logs and Debug Files
+# =============================================================================
+logs/
 *.log
-*.tmp
-*.out
-*.fdb_latexmk
-*.fls
-*.synctex.gz
-
-# Organization cleanup
-.temp/
-.build_artifacts/
-docs/archive/*.pdf
-generated/logs/
-generated/tex/
-generated/pdfs/
-
-# Temporary files
-*.aux
-*.log
-*.tmp
-*.out
-*.fdb_latexmk
-*.fls
-*.synctex.gz
+debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

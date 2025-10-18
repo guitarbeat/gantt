@@ -24,6 +24,11 @@ CSV_FILE := research_timeline_v5_comprehensive.csv
 
 .PHONY: help setup quality ci dev dev-air build clean install lint fmt run organize status test-coverage bench hooks build-latex build-pdf troubleshoot release release-dry release-snapshot completion completion-bash completion-zsh completion-fish completion-powershell docker-dev docker-build docker-run docker-clean
 
+# Cross-platform file size function
+define get_file_size
+$(shell stat -c%s $(1) 2>/dev/null || stat -f%z $(1) 2>/dev/null || echo "0")
+endef
+
 # Default target
 help:
 	@echo "PhD Dissertation Planner - Available Commands:"
@@ -159,19 +164,46 @@ run-verbose: build
 # Install pre-commit hooks
 hooks:
 	@echo "🪝 Installing pre-commit hooks..."
-	@PATH=$$PATH:/Users/aaron/Library/Python/3.12/bin pre-commit install
+	@if command -v pre-commit >/dev/null 2>&1; then \
+		pre-commit install; \
+	else \
+		echo "📦 Installing pre-commit..."; \
+		if command -v pip >/dev/null 2>&1; then \
+			pip install pre-commit; \
+		elif command -v pip3 >/dev/null 2>&1; then \
+			pip3 install pre-commit; \
+		else \
+			echo "❌ pip not found. Please install pre-commit manually."; \
+			exit 1; \
+		fi; \
+		pre-commit install; \
+	fi
 	@echo "✅ Hooks installed!"
 
 # Organize project files
 organize:
 	@echo "🧹 Organizing project files..."
-	@./scripts/cleanup_and_organize.sh
+	@if [ -f "./scripts/maintenance/cleanup_and_organize.sh" ]; then \
+		./scripts/maintenance/cleanup_and_organize.sh; \
+	elif [ -f "./scripts/maintenance/cleanup_and_organize.ps1" ]; then \
+		powershell -ExecutionPolicy Bypass -File ./scripts/maintenance/cleanup_and_organize.ps1; \
+	else \
+		echo "❌ No cleanup script found"; \
+		exit 1; \
+	fi
 	@echo "✅ Organization complete!"
 
 # Show project status
 status:
 	@echo "📊 Project Status:"
-	@./scripts/cleanup_and_organize.sh --status
+	@if [ -f "./scripts/maintenance/cleanup_and_organize.sh" ]; then \
+		./scripts/maintenance/cleanup_and_organize.sh --status; \
+	elif [ -f "./scripts/maintenance/cleanup_and_organize.ps1" ]; then \
+		powershell -ExecutionPolicy Bypass -File ./scripts/maintenance/cleanup_and_organize.ps1 -Status; \
+	else \
+		echo "❌ No cleanup script found"; \
+		exit 1; \
+	fi
 
 # Build LaTeX only (without PDF compilation)
 build-latex:
@@ -194,7 +226,7 @@ build-pdf: build-latex
 				exit 1; \
 			else \
 				echo "✅ PDF compiled successfully"; \
-				PDF_SIZE=$$(stat -c%s "$(OUTPUT_BASE_NAME).pdf" 2>/dev/null || echo "0"); \
+				PDF_SIZE=$$(call get_file_size,"$(OUTPUT_BASE_NAME).pdf"); \
 				echo "✅ Created: $(BINARY_DIR)/$(FINAL_BASE_NAME).pdf ($$PDF_SIZE bytes)"; \
 			fi; \
 		else \
@@ -226,18 +258,19 @@ troubleshoot:
 	@echo ""
 	@echo "🔧 Build Status:"
 	@if [ -f "$(BINARY_PATH)" ]; then \
-		echo "  - Binary: ✅ $(BINARY_PATH) ($$(stat -c%s $(BINARY_PATH) 2>/dev/null || echo '0') bytes)"; \
+		BINARY_SIZE=$$(call get_file_size,"$(BINARY_PATH)"); \
+		echo "  - Binary: ✅ $(BINARY_PATH) ($$BINARY_SIZE bytes)"; \
 	else \
 		echo "  - Binary: ❌ Not found at $(BINARY_PATH)"; \
 	fi
 	@if [ -f "$(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex" ]; then \
-		TEX_SIZE=$$(stat -c%s "$(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex" 2>/dev/null || echo "0"); \
+		TEX_SIZE=$$(call get_file_size,"$(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex"); \
 		echo "  - LaTeX: ✅ $(BINARY_DIR)/$(OUTPUT_BASE_NAME).tex ($$TEX_SIZE bytes)"; \
 	else \
 		echo "  - LaTeX: ❌ Not found"; \
 	fi
 	@if [ -f "$(BINARY_DIR)/$(OUTPUT_BASE_NAME).pdf" ]; then \
-		PDF_SIZE=$$(stat -c%s "$(BINARY_DIR)/$(OUTPUT_BASE_NAME).pdf" 2>/dev/null || echo "0"); \
+		PDF_SIZE=$$(call get_file_size,"$(BINARY_DIR)/$(OUTPUT_BASE_NAME).pdf"); \
 		echo "  - PDF: ✅ $(BINARY_DIR)/$(OUTPUT_BASE_NAME).pdf ($$PDF_SIZE bytes)"; \
 	else \
 		echo "  - PDF: ❌ Not found"; \
