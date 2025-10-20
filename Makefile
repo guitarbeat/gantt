@@ -67,6 +67,12 @@ help:
 	@echo "  make docker-run     - Run commands in Docker container"
 	@echo "  make docker-clean   - Clean Docker containers and images"
 	@echo ""
+	@echo "🤖 Cursor CLI Hooks:"
+	@echo "  make install-cursor-hooks   - Install Cursor CLI pre-commit hooks"
+	@echo "  make test-cursor-hooks      - Test Cursor CLI hooks without committing"
+	@echo "  make uninstall-cursor-hooks - Remove Cursor CLI hooks and restore previous"
+	@echo "  make cursor-precommit       - Run Cursor CLI pre-commit checks manually"
+	@echo ""
 
 # ==================== Consolidated Commands ====================
 
@@ -386,3 +392,29 @@ docker-clean:
 	@docker-compose down --volumes --remove-orphans
 	@docker system prune -f
 	@docker image prune -f
+
+# ==================== Cursor CLI Hooks Commands ====================
+
+# Install Cursor CLI pre-commit hooks
+install-cursor-hooks:
+	@echo "🤖 Installing Cursor CLI pre-commit hooks..."
+	@./scripts/dev/install-cursor-hooks.sh install
+	@echo "✅ Cursor CLI hooks installed!"
+
+# Test Cursor CLI hooks without committing
+test-cursor-hooks:
+	@echo "🧪 Testing Cursor CLI hooks..."
+	@./scripts/dev/install-cursor-hooks.sh test
+	@echo "✅ Cursor CLI hooks test complete!"
+
+# Uninstall Cursor CLI hooks and restore previous
+uninstall-cursor-hooks:
+	@echo "🗑️ Uninstalling Cursor CLI hooks..."
+	@./scripts/dev/install-cursor-hooks.sh uninstall
+	@echo "✅ Cursor CLI hooks uninstalled!"
+
+# Run Cursor CLI pre-commit checks manually
+cursor-precommit:
+	@echo "🔍 Running Cursor CLI pre-commit checks..."
+	@./scripts/dev/cursor-precommit.sh
+	@echo "✅ Cursor CLI pre-commit checks complete!"
