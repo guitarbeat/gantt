@@ -1,0 +1,224 @@
+# Consolidated Configuration for PhD Dissertation Planner
+# This file combines all configuration options with presets for different use cases
+
+# ==================== CORE SETTINGS ====================
+weekstart: 1
+ampmtime: false
+dotted: true
+calafterschedule: false
+addlasthalfhour: true
+cleartoprightcorner: false
+
+# ==================== DEBUG SETTINGS ====================
+debug:
+  showframe: false
+  showlinks: false
+
+# ==================== LAYOUT CONFIGURATION ====================
+layout:
+  paper:
+    width: 15.6cm
+    height: 21.5cm
+    marginparwidth: 1cm
+    marginparsep: 0cm
+    reversemargins: true
+    margin:
+      top: 0.2cm
+      bottom: 0.5cm
+      left: 0.5cm
+      right: 0.5cm
+
+  # Typography scale - systematic sizing
+  typography:
+    scale:
+      xs: 7pt    # Extra small - fine details
+      sm: 8pt    # Small - secondary text
+      base: 9pt  # Base - body text
+      lg: 11pt   # Large - emphasis
+      xl: 13pt   # Extra large - headings
+      xxl: 16pt  # 2X large - major headings
+    hyphenpenalty: 10000
+    tolerance: 1000
+    emergencystretch: 2em
+    sloppyemergencystretch: 3em
+
+  # LaTeX visual constants
+  latex:
+    tabcolsep: 4pt
+    headersidemonthswidth: 14.5cm
+    arraystretch: 1.15
+    monthlycellheight: 55pt
+    headerresizebox: 6mm
+    linethicknessdefault: .35pt
+    linethicknessthick: .7pt
+    colsep: 4pt
+    document:
+      fontsize: 9pt
+      parindent: 0pt
+
+  # Task styling - centralized for easier maintenance
+  task_styling:
+    fontsize: \footnotesize
+    bar_height: 4.5mm
+    border_width: 0.5pt
+    show_objectives: false
+    background_opacity: 15
+    border_opacity: 75
+    spacing:
+      vertical_offset: 0pt
+      content_vspace: "0.15ex"
+      padding_horizontal: 1.2mm
+      padding_vertical: 0.4mm
+    typography:
+      title_size: \footnotesize
+      body_size: \scriptsize
+      title_weight: \textbf
+      body_weight: \normalfont
+    milestone:
+      border_width: 1.2pt
+      border_opacity: 90
+      background_opacity: 25
+    tcolorbox:
+      overlay:
+        arc: 9pt
+        left: 1.5mm
+        right: 1.5mm
+        top: 0pt
+        bottom: 1.0mm
+        boxrule: 0.9pt
+
+  # Spacing and layout constants
+  spacing:
+    table_colsep: 0.5em
+    color_legend_sep: 0.5em
+    col: "5pt"
+    task_overlay_arc: "2pt"
+
+  # Layout constraints
+  constraints:
+    maxstackheight: 100.0
+    mintaskheight: 20.0
+    maxtaskheight: 40.0
+    mintaskwidth: 50.0
+    maxtaskwidth: 200.0
+    collisionthreshold: 0.1
+    overflowthreshold: 0.8
+    expansionthreshold: 0.6
+    max_task_width_days: 7.0
+
+  # Calendar rendering parameters
+  calendar:
+    taskkernspacing: 5mm
+
+  # Stacking algorithm parameters
+  stacking:
+    base_height: 20.0
+    min_height: 15.0
+    max_height: 60.0
+    overflow_vertical: 0.8
+    collision_threshold: 0.1
+
+  # Layout engine parameters
+  layout_engine:
+    initial_y_position_multiplier: 0.1
+    task_height_multiplier: 0.6
+    max_task_width_days: 7.0
+    duration_long_multiplier: 1.2
+    duration_short_multiplier: 0.8
+    milestone_weight_multiplier: 1.5
+    category_weight_multiplier: 1.0
+    task_rendering:
+      default_spacing: "0.8ex"
+      first_task_spacing: "0.5ex"
+      default_height: "3.0ex"
+      first_task_height: "3.5ex"
+      vertical_spacing: "0.1ex"
+    grid_constraints:
+      min_task_spacing: 1.0
+      max_task_spacing: 10.0
+      min_row_height: 8.0
+      max_row_height: 20.0
+      min_column_width: 5.0
+      max_column_width: 50.0
+      grid_resolution: 1.0
+      alignment_tolerance: 0.5
+      collision_buffer: 2.0
+      transition_buffer: 2.0
+    calendar_layout:
+      day_number_width: "6mm"
+      day_content_margin: "8mm"
+      task_cell_margin: "8mm"
+      task_cell_spacing: "6mm"
+      day_cell_minipage_width: "6mm"
+      header_angle_size_offset: "0.86pt"
+
+# ==================== PRESETS ====================
+presets:
+  academic:
+    layout:
+      task_styling:
+        show_objectives: true
+        monthlycellheight: 72pt
+      latex:
+        document:
+          fontsize: 9pt
+        typography:
+          scale:
+            base: 9pt
+            sm: 8pt
+            xs: 7pt
+            lg: 11pt
+            xl: 13pt
+            xxl: 16pt
+
+  compact:
+    layout:
+      task_styling:
+        fontsize: \scriptsize
+        bar_height: 3.5mm
+        show_objectives: false
+        spacing:
+          padding_vertical: 0.2mm
+          content_vspace: "0.1ex"
+      latex:
+        monthlycellheight: 45pt
+        document:
+          fontsize: 8pt
+        typography:
+          scale:
+            base: 8pt
+            sm: 7pt
+            xs: 6pt
+            lg: 10pt
+            xl: 12pt
+            xxl: 14pt
+
+  presentation:
+    layout:
+      task_styling:
+        fontsize: \small
+        bar_height: 5.5mm
+        show_objectives: true
+        spacing:
+          padding_vertical: 0.6mm
+          content_vspace: "0.2ex"
+      latex:
+        monthlycellheight: 85pt
+        document:
+          fontsize: 10pt
+        typography:
+          scale:
+            base: 10pt
+            sm: 9pt
+            xs: 8pt
+            lg: 12pt
+            xl: 14pt
+            xxl: 18pt
+
+# ==================== PAGE CONFIGURATION ====================
+pages:
+  - name: monthly
+    renderblocks:
+      - funcname: monthly
+        tpls:
+          - page.tpl

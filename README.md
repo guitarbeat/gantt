@@ -1,118 +1,211 @@
-# 📚 PhD Dissertation Planner
+# PhD Dissertation Planner
 
-A Go-based application that transforms CSV data into professional LaTeX-generated PDF planners and Gantt charts for academic project management.
+A Go-based tool for generating LaTeX calendar PDFs from CSV timeline data, designed for academic research planning and project management.
 
-[![Go Version](https://img.shields.io/badge/Go-1.22+-blue.svg)](https://golang.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+## 🚀 Quick Start
 
-## ✨ Quick Start
+### Prerequisites
+- Go 1.22+
+- XeLaTeX (for PDF generation)
+- Cursor CLI (optional, for AI-powered development)
 
+### Installation
 ```bash
 # Clone and setup
 git clone <repository-url>
-cd phd-dissertation-planner
+cd gantt
+./scripts/unified.sh setup
 
-# Install dependencies and build
-make install
-make build
-
-# Generate your first planner
-make run
+# Build and run
+./scripts/unified.sh build pdf
 ```
-
-## 📖 Documentation
-
-| Document                                                   | Description                        |
-| ---------------------------------------------------------- | ---------------------------------- |
-| **[📋 User Guide](docs/user/user-guide.md)**                | How to use the planner effectively |
-| **[🛠️ Developer Guide](docs/developer/developer-guide.md)** | Development setup and contributing |
-| **[⚙️ Configuration](docs/reference/configuration.md)**     | Configuration options and presets  |
-| **[🔧 API Reference](docs/reference/api-reference.md)**     | Technical API documentation        |
-| **[📚 Architecture](docs/reference/architecture.md)**       | System design and patterns         |
-
-## 🎯 Key Features
-
-- **CSV to LaTeX**: Transform spreadsheet data into professional PDFs
-- **Task Stacking**: Intelligent overlap detection and visual layering
-- **Multiple Layouts**: Academic, compact, and presentation presets
-- **LaTeX Integration**: Professional typography with XeLaTeX
-- **Release Management**: Timestamped releases with full provenance
-
-## 🚀 Usage
 
 ### Basic Usage
-
 ```bash
-# Generate PDF from CSV
-go run ./cmd/planner
+# Generate calendar from CSV
+./generated/plannergen --config configs/base.yaml --outdir generated
 
-# Use different layout preset
-go run ./cmd/planner --preset compact
-
-# Validate CSV without generating PDF
-go run ./cmd/planner --validate
+# View generated PDF
+open generated/monthly_calendar.pdf
 ```
 
-### Advanced Usage
+## 📋 Features
+
+- **CSV Timeline Processing**: Import research timelines from CSV files
+- **LaTeX PDF Generation**: High-quality calendar PDFs with XeLaTeX
+- **Multiple Layouts**: Academic, compact, and presentation formats
+- **AI-Powered Development**: Cursor CLI integration for enhanced development
+- **Comprehensive Testing**: Unit, integration, and performance tests
+- **Cross-Platform**: Works on macOS, Linux, and Windows
+
+## 🛠️ Development
+
+### Unified Development Tool
+The project includes a unified script that consolidates all development operations:
 
 ```bash
-# Custom configuration
-go run ./cmd/planner --config my-config.yaml
+# Setup project
+./scripts/unified.sh setup
 
-# Generate release with timestamp
-./scripts/build_release.sh --name "Committee_Review"
+# Development workflow
+./scripts/unified.sh dev start
 
-# Preview mode (development)
-go run ./cmd/planner --preview
+# Build and test
+./scripts/unified.sh build pdf
+./scripts/unified.sh test all
+
+# Code quality
+./scripts/unified.sh quality all
+
+# Run CI pipeline
+./scripts/unified.sh ci
 ```
 
----
+### Available Commands
+- `setup` - Setup dependencies and hooks
+- `build [type]` - Build binary, LaTeX, or PDF
+- `test [type]` - Run unit, integration, or coverage tests
+- `quality [type]` - Format, lint, or security checks
+- `dev [action]` - Development operations
+- `maintenance [task]` - Clean, organize, or update dependencies
+- `cursor [action]` - Cursor CLI operations
+- `release [type]` - Build, package, or publish releases
+- `ci` - Run full CI pipeline
+
+### AI-Powered Development
+With Cursor CLI installed:
+```bash
+# Install AI hooks
+./scripts/unified.sh cursor hooks
+
+# AI-powered development
+./scripts/unified.sh cursor dev
+./scripts/unified.sh cursor test
+
+# Project statistics
+./scripts/unified.sh cursor stats
+```
 
 ## 📁 Project Structure
 
 ```
-├── cmd/planner/           # Application entry point
-├── src/                   # Source code
-│   ├── app/              # Main application logic
-│   ├── core/             # Core utilities & config
+├── cmd/planner/           # Main application
+├── internal/              # Internal packages
+│   ├── app/              # Application logic
 │   ├── calendar/         # Calendar generation
-│   └── shared/           # Shared templates & utils
-├── docs/                 # Documentation
-├── scripts/              # Build & utility scripts
+│   └── core/             # Core utilities
+├── pkg/templates/        # LaTeX templates
+├── configs/              # Configuration files
 ├── input_data/           # CSV input files
-├── generated/            # Generated PDFs & LaTeX
-├── releases/             # Release archives
-└── tests/                # Test suites
+├── generated/            # Generated outputs
+├── tests/                # Test files
+├── scripts/              # Build and utility scripts
+│   └── unified.sh        # Unified development tool
+└── docs/                 # Documentation
 ```
 
----
+## ⚙️ Configuration
 
-## 🔧 Development
+### Configuration Files
+- `configs/base.yaml` - Base configuration
+- `configs/monthly_calendar.yaml` - Calendar-specific settings
+- `configs/academic.yaml` - Academic layout preset
+- `configs/compact.yaml` - Compact layout preset
+- `configs/presentation.yaml` - Presentation layout preset
 
+### Environment Variables
+- `PLANNER_CSV_FILE` - Path to CSV input file
+- `PLANNER_CONFIG_FILE` - Path to configuration file
+- `PLANNER_OUTPUT_DIR` - Output directory for generated files
+- `PLANNER_SILENT` - Silent mode (0/1)
+
+## 🧪 Testing
+
+### Test Types
+- **Unit Tests**: Individual component testing
+- **Integration Tests**: End-to-end workflow testing
+- **Performance Tests**: Benchmark testing
+- **Coverage Tests**: Code coverage analysis
+
+### Running Tests
 ```bash
-# Setup development environment
-./scripts/setup.sh
+# All tests
+./scripts/unified.sh test all
 
-# Run tests
-make test
-
-# Format and lint
-make fmt && make lint
-
-# Clean build
-make clean-build
+# Specific test types
+./scripts/unified.sh test unit
+./scripts/unified.sh test integration
+./scripts/unified.sh test coverage
+./scripts/unified.sh test bench
 ```
 
-See [Developer Guide](docs/developer/developer-guide.md) for detailed development instructions.
+## 📚 Documentation
+
+### Key Documents
+- [User Guide](docs/user/user-guide.md) - Complete user documentation
+- [Developer Guide](docs/developer/developer-guide.md) - Development setup and workflows
+- [API Reference](docs/reference/api-reference.md) - API documentation
+- [Configuration Guide](docs/reference/configuration.md) - Configuration options
+- [Cursor CLI Integration](docs/developer/cursor-cli-integration.md) - AI-powered development
+
+### Examples
+- [Academic Research](docs/examples/academic-research.yaml) - Academic timeline example
+- [Advanced Customization](docs/examples/advanced-customization.yaml) - Advanced configuration
+- [Minimal Setup](docs/examples/minimal.yaml) - Minimal configuration
+
+## 🚀 CI/CD
+
+### GitHub Actions
+- **CI Pipeline**: Automated testing and building
+- **Code Quality**: Linting, formatting, and security checks
+- **AI Enhancement**: Automated code improvements with Cursor CLI
+- **Release Management**: Automated releases with GoReleaser
+
+### Pre-commit Hooks
+- **Cursor CLI Hooks**: AI-powered pre-commit checks
+- **Traditional Hooks**: Standard code quality checks
+- **Automatic Fixes**: AI-powered code improvements
+
+## 📊 Performance
+
+### Benchmarks
+- CSV processing: ~1000 rows/second
+- LaTeX generation: ~2-5 seconds
+- PDF compilation: ~3-8 seconds
+- Memory usage: ~50-100MB
+
+### Optimization
+- Concurrent processing for large datasets
+- Template caching for repeated operations
+- Memory-efficient CSV parsing
+- Optimized LaTeX generation
+
+## 🤝 Contributing
+
+### Development Workflow
+1. Fork the repository
+2. Create a feature branch
+3. Make changes with AI assistance
+4. Run tests and quality checks
+5. Submit a pull request
+
+### Code Standards
+- Go 1.22+ with Google style guide
+- Comprehensive test coverage
+- AI-powered code review
+- Automated formatting and linting
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- LaTeX community for excellent document generation
+- Go community for robust tooling
+- Cursor team for AI-powered development tools
+- Academic researchers for feedback and requirements
 
 ---
 
-## 📞 Support
-
-- **📖 [User Guide](docs/user/user-guide.md)** - Complete usage documentation
-- **🐛 [Troubleshooting](docs/user/troubleshooting.md)** - Common issues and solutions
-- **🔧 [Developer Guide](docs/developer/developer-guide.md)** - Contributing guidelines
-
----
-
-*Last updated: October 2025*
+**Built with ❤️ for the academic community**

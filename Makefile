@@ -125,6 +125,33 @@ dev-air:
 	fi
 	@air
 
+# ==================== Unified Development Commands ====================
+
+# Use the unified development script for all operations
+unified:
+	@echo "🛠️ Using unified development script..."
+	@./scripts/unified.sh $(CMD)
+
+# Quick development commands using unified script
+dev-unified:
+	@echo "🚀 Starting unified development environment..."
+	@./scripts/unified.sh dev start
+
+# Unified testing
+test-unified:
+	@echo "🧪 Running unified test suite..."
+	@./scripts/test-runner.sh all
+
+# Unified build
+build-unified:
+	@echo "🔨 Building with unified script..."
+	@./scripts/unified.sh build full
+
+# Unified CI pipeline
+ci-unified:
+	@echo "🚀 Running unified CI pipeline..."
+	@./scripts/unified.sh ci
+
 # ==================== Individual Commands ====================
 
 # Build planner with optional PDF compilation and enhanced error handling
