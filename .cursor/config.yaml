@@ -1,0 +1,208 @@
+# Cursor CLI Configuration for PhD Dissertation Planner
+# This file configures Cursor CLI behavior for consistent AI-powered development
+
+# Project context and preferences
+project:
+  name: "PhD Dissertation Planner"
+  language: "go"
+  framework: "cli"
+  description: "A Go-based tool for generating LaTeX calendar PDFs from CSV timeline data"
+
+# Code generation preferences
+code_generation:
+  # Go-specific settings
+  go:
+    style: "google"
+    use_pointers: true
+    error_handling: "explicit"
+    testing: "table_driven"
+    documentation: "godoc"
+    
+  # General code preferences
+  formatting:
+    line_length: 100
+    indent_size: 4
+    use_tabs: false
+    
+  # Code quality preferences
+  quality:
+    prefer_explicit_over_implicit: true
+    use_meaningful_names: true
+    prefer_composition_over_inheritance: true
+    write_self_documenting_code: true
+
+# Testing preferences
+testing:
+  # Test generation preferences
+  generation:
+    coverage_target: 80
+    include_edge_cases: true
+    include_negative_tests: true
+    use_table_driven_tests: true
+    mock_external_dependencies: true
+    
+  # Test enhancement preferences
+  enhancement:
+    add_benchmarks: true
+    improve_readability: true
+    add_documentation: true
+    optimize_performance: true
+
+# AI behavior preferences
+ai_behavior:
+  # Code analysis preferences
+  analysis:
+    depth: "comprehensive"
+    include_security_analysis: true
+    include_performance_analysis: true
+    include_maintainability_analysis: true
+    
+  # Suggestion preferences
+  suggestions:
+    style: "practical"
+    include_explanations: true
+    provide_examples: true
+    prioritize_readability: true
+    
+  # Refactoring preferences
+  refactoring:
+    preserve_functionality: true
+    improve_performance: true
+    enhance_readability: true
+    add_error_handling: true
+
+# Project-specific rules
+project_rules:
+  # File organization
+  file_organization:
+    source_dir: "src/"
+    test_dir: "tests/"
+    config_dir: "configs/"
+    docs_dir: "docs/"
+    
+  # Naming conventions
+  naming:
+    packages: "lowercase"
+    functions: "camelCase"
+    variables: "camelCase"
+    constants: "UPPER_CASE"
+    types: "PascalCase"
+    
+  # Documentation requirements
+  documentation:
+    require_package_comments: true
+    require_exported_function_comments: true
+    require_type_comments: true
+    use_examples_in_comments: true
+
+# Integration preferences
+integrations:
+  # Git integration
+  git:
+    auto_stage_fixes: true
+    create_meaningful_commits: true
+    include_ai_suggestions_in_commits: false
+    
+  # CI/CD integration
+  ci_cd:
+    run_on_push: true
+    run_on_pr: true
+    fail_on_ai_suggestions: false
+    
+  # IDE integration
+  ide:
+    provide_inline_suggestions: true
+    show_ai_analysis: true
+    auto_format_on_save: true
+
+# Performance preferences
+performance:
+  # Analysis preferences
+  analysis:
+    include_memory_usage: true
+    include_cpu_usage: true
+    include_io_analysis: true
+    suggest_optimizations: true
+    
+  # Optimization preferences
+  optimization:
+    prefer_efficiency: true
+    suggest_caching: true
+    recommend_parallel_processing: true
+    optimize_memory_allocation: true
+
+# Security preferences
+security:
+  # Analysis preferences
+  analysis:
+    check_input_validation: true
+    check_error_handling: true
+    check_dependency_vulnerabilities: true
+    check_secrets_exposure: true
+    
+  # Recommendations
+  recommendations:
+    suggest_secure_practices: true
+    recommend_validation: true
+    suggest_encryption: true
+    recommend_audit_logging: true
+
+# Logging and output preferences
+logging:
+  # Output format
+  format:
+    use_colors: true
+    include_timestamps: true
+    include_context: true
+    verbose_by_default: false
+    
+  # Log levels
+  levels:
+    default: "info"
+    debug: "debug"
+    verbose: "verbose"
+    quiet: "error"
+
+# Context and examples
+context:
+  # Project context
+  project_context: |
+    This is a PhD Dissertation Planner tool written in Go that:
+    - Reads CSV timeline data
+    - Generates LaTeX calendar PDFs
+    - Supports multiple calendar layouts
+    - Has comprehensive testing and CI/CD
+    - Uses modern Go practices and patterns
+    
+  # Code examples
+  code_examples:
+    error_handling: |
+      if err != nil {
+          return fmt.Errorf("operation failed: %w", err)
+      }
+      
+    testing: |
+      func TestFunction(t *testing.T) {
+          tests := []struct {
+              name     string
+              input    string
+              expected string
+              wantErr  bool
+          }{
+              {"valid input", "test", "TEST", false},
+              {"empty input", "", "", true},
+          }
+          
+          for _, tt := range tests {
+              t.Run(tt.name, func(t *testing.T) {
+                  got, err := Function(tt.input)
+                  if (err != nil) != tt.wantErr {
+                      t.Errorf("Function() error = %v, wantErr %v", err, tt.wantErr)
+                      return
+                  }
+                  if got != tt.expected {
+                      t.Errorf("Function() = %v, want %v", got, tt.expected)
+                  }
+              })
+          }
+      }

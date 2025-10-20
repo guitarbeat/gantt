@@ -73,6 +73,26 @@ help:
 	@echo "  make uninstall-cursor-hooks - Remove Cursor CLI hooks and restore previous"
 	@echo "  make cursor-precommit       - Run Cursor CLI pre-commit checks manually"
 	@echo ""
+	@echo "🧪 Cursor CLI Testing:"
+	@echo "  make cursor-test-enhance    - Run AI-powered test enhancement"
+	@echo ""
+	@echo "🛠️ Cursor CLI Development:"
+	@echo "  make cursor-dev-tools       - Run all Cursor CLI development tools"
+	@echo "  make cursor-dev-refactor    - Refactor code with AI"
+	@echo "  make cursor-dev-review      - AI-powered code review"
+	@echo "  make cursor-dev-optimize    - Optimize code performance with AI"
+	@echo "  make cursor-dev-docs        - Generate documentation with AI"
+	@echo "  make cursor-dev-fix         - Fix code issues with AI"
+	@echo "  make cursor-dev-complexity  - Analyze code complexity with AI"
+	@echo "  make cursor-dev-security    - Security analysis with AI"
+	@echo "  make cursor-dev-api-docs    - Generate API documentation with AI"
+	@echo ""
+	@echo "🚀 Cursor CLI Simple:"
+	@echo "  make cursor-open            - Open entire project in Cursor"
+	@echo "  make cursor-file FILE=path  - Open specific file in Cursor"
+	@echo "  make cursor-structure       - Show project structure"
+	@echo "  make cursor-stats           - Show project statistics"
+	@echo ""
 
 # ==================== Consolidated Commands ====================
 
@@ -418,3 +438,45 @@ cursor-precommit:
 	@echo "🔍 Running Cursor CLI pre-commit checks..."
 	@./scripts/dev/cursor-precommit.sh
 	@echo "✅ Cursor CLI pre-commit checks complete!"
+
+# Run Cursor CLI test enhancement
+cursor-test-enhance:
+	@echo "🧪 Running Cursor CLI test enhancement..."
+	@./scripts/dev/cursor-test-enhancer.sh all
+	@echo "✅ Cursor CLI test enhancement complete!"
+
+# Run Cursor CLI development tools
+cursor-dev-tools:
+	@echo "🛠️ Running Cursor CLI development tools..."
+	@./scripts/dev/cursor-dev-tools.sh all
+	@echo "✅ Cursor CLI development tools complete!"
+
+# Run specific Cursor CLI development tool
+cursor-dev-%:
+	@echo "🛠️ Running Cursor CLI development tool: $*"
+	@./scripts/dev/cursor-dev-tools.sh $*
+	@echo "✅ Cursor CLI development tool complete!"
+
+# Simple Cursor CLI integration
+cursor-open:
+	@echo "🚀 Opening project in Cursor..."
+	@./scripts/dev/cursor-simple.sh open
+	@echo "✅ Project opened in Cursor!"
+
+# Open specific file in Cursor
+cursor-file:
+	@echo "📁 Opening file in Cursor..."
+	@./scripts/dev/cursor-simple.sh file $(FILE)
+	@echo "✅ File opened in Cursor!"
+
+# Show project structure
+cursor-structure:
+	@echo "📊 Showing project structure..."
+	@./scripts/dev/cursor-simple.sh structure
+	@echo "✅ Project structure displayed!"
+
+# Show project statistics
+cursor-stats:
+	@echo "📈 Showing project statistics..."
+	@./scripts/dev/cursor-simple.sh stats
+	@echo "✅ Project statistics displayed!"
