@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
-	"phd-dissertation-planner/src/app"
+	"phd-dissertation-planner/internal/app"
 	"testing"
 )
 

@@ -1,0 +1,23 @@
+# Academic Preset - Default detailed view
+# This is the baseline configuration for academic planning with balanced readability and density
+
+layout:
+  task_styling:
+    fontsize: \footnotesize      # Standard academic font size
+    bar_height: 4.5mm           # Balanced task bar height
+    show_objectives: true       # Show task descriptions for academic planning
+    spacing:
+      padding_vertical: 0.4mm    # Standard padding
+      content_vspace: "0.15ex"   # Balanced line spacing
+  latex:
+    monthlycellheight: 72pt     # Standard cell height for academic use
+    typography:
+      scale:
+        base: 9pt                # Standard academic base size
+        sm: 8pt                  # Small text for details
+        xs: 7pt                  # Extra small for fine details
+        lg: 11pt                 # Large for emphasis
+        xl: 13pt                 # Extra large for headings
+        xxl: 16pt                # 2X large for major headings
+    document:
+      fontsize: 9pt             # Standard academic document size

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"phd-dissertation-planner/src/app"
+	"phd-dissertation-planner/internal/app"
 )
 
 func main() {

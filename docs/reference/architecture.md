@@ -1,431 +1,180 @@
-# 📚 Architecture Overview
+# PhD Dissertation Planner - Clean Architecture
 
-System design and architectural patterns for the PhD Dissertation Planner.
+This document explains the clean architecture implementation of the PhD Dissertation Planner system.
 
-## 📖 Quick Links
+## Overview
 
-- **[API Reference](api-reference.md)** - Technical API documentation
-- **[Configuration Reference](configuration.md)** - Configuration options
-- **[Developer Guide](../developer/developer-guide.md)** - Development setup
-- **[Code Quality](CODE_QUALITY.md)** - Code quality standards
-- **[Main README](../../README.md)** - Project overview
+The system has been reorganized to follow clean architecture principles with clear separation of concerns. This makes the codebase more maintainable, testable, and easier to understand.
 
-## System Architecture
+## Architecture Layers
 
-### High-Level Architecture
+### 1. Domain Layer (`src/internal/domain/`)
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   CLI Interface │    │   Application   │    │  LaTeX Engine   │
-│                 │    │    Logic        │    │                 │
-│ • Command line  │◄──►│ • Task processing│◄──►│ • PDF generation│
-│ • Configuration │    │ • Template       │    │ • XeLaTeX       │
-│ • Validation    │    │   rendering      │    │ • Font handling │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   CSV Input     │    │  Core Business  │    │   Templates     │
-│                 │    │    Logic        │    │                 │
-│ • Data parsing  │    │ • Calendar gen  │    │ • LaTeX macros  │
-│ • Validation    │    │ • Task stacking │    │ • Styling       │
-│ • Error handling│    │ • Color mapping │    │ • Layouts       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+The core business logic and entities. This layer contains no dependencies on external frameworks or infrastructure.
 
-## Package Structure
+**Files:**
+- `task.go` - Task entity and business rules
+- `calendar.go` - Calendar domain logic and entities
+- `config.go` - Configuration domain models
 
-### Core Package (`src/core`)
+**Key Entities:**
+- `Task` - Represents a single task with business logic
+- `Calendar` - Represents a calendar with months, weeks, and days
+- `Config` - Application configuration
+- `TaskCollection` - Collection of tasks with efficient access patterns
 
-**Purpose**: Core business logic, configuration, and shared utilities
+### 2. Use Cases Layer (`src/internal/usecases/`)
 
-**Responsibilities**:
-- Configuration management and validation
-- Data models (Task, Category, etc.)
-- CSV parsing and validation
-- Error handling and logging
-- Color generation algorithms
-- Default value management
+Contains application-specific business logic that orchestrates the domain entities.
 
-**Key Files**:
-- `config.go` - Configuration structs and loading
-- `task.go` - Data models and business logic
-- `reader.go` - CSV processing and validation
-- `errors.go` - Error types and handling
-- `logger.go` - Logging utilities
-- `defaults.go` - Default configuration values
-- `color_utils.go` - Color conversion utilities
+**Directories:**
+- `calendar/` - Calendar-related use cases
+- `task/` - Task-related use cases  
+- `rendering/` - Rendering and template use cases
 
-### App Package (`src/app`)
+**Key Use Cases:**
+- `CalendarUseCase` - Handles calendar generation and task assignment
+- `RenderingUseCase` - Handles LaTeX document generation
 
-**Purpose**: Main application logic and CLI interface
+### 3. Interface Adapters Layer (`src/internal/adapters/`)
 
-**Responsibilities**:
-- Command-line argument parsing
-- Application orchestration
-- Template rendering coordination
-- File I/O operations
-- Progress reporting
+Implements the interfaces defined in the interfaces layer.
 
-**Key Files**:
-- `cli.go` - Command-line interface
-- `generator.go` - Main PDF generation logic
-- `template_funcs.go` - Template helper functions
+**Directories:**
+- `repositories/` - Repository implementations (CSV, database, etc.)
+- `services/` - Service implementations
 
-### Calendar Package (`src/calendar`)
+**Key Adapters:**
+- `CSVTaskRepository` - Implements task data access from CSV files
+- `CalendarServiceImpl` - Implements calendar service operations
 
-**Purpose**: Calendar layout and task positioning
+### 4. Interface Definitions (`src/internal/interfaces/`)
 
-**Responsibilities**:
-- Calendar grid generation
-- Task stacking and overlap detection
-- Visual layout calculations
-- LaTeX-compatible output formatting
+Defines the contracts that external layers must implement.
 
-**Key Files**:
-- `calendar.go` - Calendar generation and rendering
-- `task_stacker.go` - Task overlap detection and positioning
-- `cell_builder.go` - Individual cell rendering
+**Directories:**
+- `repositories/` - Repository interfaces
+- `services/` - Service interfaces
 
-### Shared Package (`src/shared`)
+**Key Interfaces:**
+- `TaskRepository` - Contract for task data access
+- `CalendarService` - Contract for calendar operations
 
-**Purpose**: Reusable components and templates
+### 5. Infrastructure Layer (`src/internal/infrastructure/`)
 
-**Responsibilities**:
-- Embedded LaTeX templates
-- Template rendering utilities
-- Shared rendering functions
+Handles external concerns like file I/O, logging, and external services.
 
-**Key Files**:
-- `templates/embed.go` - Embedded template assets
-- `templates/rendering.go` - Template rendering logic
+**Directories:**
+- `csv/` - CSV file handling utilities
+- `filesystem/` - File system operations
+- `latex/` - LaTeX generation utilities
+- `logging/` - Logging infrastructure
+
+### 6. Application Layer (`src/internal/app/`)
+
+Orchestrates the use cases and coordinates the overall application flow.
+
+**Files:**
+- `planner_app.go` - Main application orchestrator
+
+### 7. Entry Points (`src/cmd/` and `src/app/`)
+
+**Directories:**
+- `cmd/planner/` - Command-line entry point
+- `app/cli/` - CLI interface implementation
+
+### 8. Public Packages (`src/pkg/`)
+
+Reusable libraries that can be used by other projects.
+
+**Directories:**
+- `calendar/` - Calendar utilities (public)
+- `templates/` - Template system (public)
+- `utils/` - Utility functions (public)
+
+### 9. Shared Resources (`src/shared/`)
+
+**Directories:**
+- `constants/` - Application constants
+- `templates/` - Template files
+
+## Key Benefits
+
+### 1. **Separation of Concerns**
+- Each layer has a single responsibility
+- Business logic is isolated from infrastructure concerns
+- Easy to understand what each component does
+
+### 2. **Testability**
+- Domain logic can be tested without external dependencies
+- Use cases can be tested with mock repositories and services
+- Clear interfaces make mocking straightforward
+
+### 3. **Maintainability**
+- Changes to one layer don't affect others
+- Easy to swap implementations (e.g., CSV to database)
+- Clear boundaries make refactoring safer
+
+### 4. **Extensibility**
+- New features can be added without changing existing code
+- New data sources can be added by implementing interfaces
+- New rendering formats can be added as new use cases
 
 ## Data Flow
 
-### 1. Input Processing
-
 ```
-CSV File → Reader → Validation → Task Models → Business Logic
-```
-
-1. **CSV Reading**: Raw CSV data parsed into Task structs
-2. **Validation**: Data quality checks and error aggregation
-3. **Transformation**: Tasks converted to calendar-compatible format
-4. **Processing**: Business rules applied (colors, dates, categories)
-
-### 2. Calendar Generation
-
-```
-Tasks → Calendar Generator → Layout Engine → Task Stacker → LaTeX Output
+CLI → App → Use Cases → Domain Entities
+  ↓      ↓       ↓
+Infrastructure ← Interfaces ← Repositories
 ```
 
-1. **Month Creation**: Calendar grid generated for target period
-2. **Task Assignment**: Tasks assigned to appropriate days
-3. **Layout Calculation**: Visual positioning and sizing
-4. **Overlap Resolution**: Stacking algorithm prevents overlaps
-5. **LaTeX Rendering**: Calendar converted to LaTeX markup
+1. **CLI** receives user input and parses configuration
+2. **App** orchestrates the use cases
+3. **Use Cases** contain business logic and coordinate domain entities
+4. **Domain** contains pure business logic
+5. **Repositories** handle data persistence
+6. **Infrastructure** handles external concerns
 
-### 3. PDF Generation
-
-```
-LaTeX Templates + Data → Template Engine → XeLaTeX → PDF Output
-```
-
-1. **Template Loading**: Embedded LaTeX templates retrieved
-2. **Data Binding**: Calendar data injected into templates
-3. **LaTeX Compilation**: XeLaTeX processes markup to PDF
-4. **Font Rendering**: System fonts embedded in output
-
-## Key Design Patterns
-
-### 1. **Configuration as Code**
-
-Configuration managed through structured Go structs with YAML binding:
+## Example Usage
 
 ```go
-type Config struct {
-    Layout LayoutConfig `yaml:"layout"`
-    LayoutEngine LayoutEngine `yaml:"layout_engine"`
-}
+// Create configuration
+config, err := domain.NewConfig("config.yaml")
 
-// With getter methods for defaults
-func (c *Config) GetDayNumberWidth() string {
-    return getStringWithDefault(c.Layout.DayNumberWidth, Defaults.DayNumberWidth)
-}
+// Create application
+app := app.NewPlannerApp(config)
+
+// Generate calendar
+err = app.GenerateCalendar()
 ```
 
-**Benefits**:
-- Type safety
-- IDE support
-- Validation at compile time
-- Clear default handling
+## Migration from Old Architecture
 
-### 2. **Embedded Templates**
+The old architecture had mixed concerns:
+- Business logic mixed with CLI logic
+- Calendar logic mixed with LaTeX rendering
+- Tight coupling between components
 
-LaTeX templates embedded in binary using Go's `embed` package:
+The new architecture:
+- Separates concerns into distinct layers
+- Uses dependency injection for loose coupling
+- Makes testing and maintenance much easier
 
-```go
-//go:embed templates/*.tpl
-var templateFiles embed.FS
+## Future Enhancements
 
-func GetEmbeddedTemplates() map[string]string {
-    // Return map of template name → content
-}
-```
-
-**Benefits**:
-- Single binary deployment
-- No external template dependencies
-- Version consistency
-- Fast loading
-
-### 3. **Error Aggregation**
-
-Custom error types with context accumulation:
-
-```go
-type ErrorAggregator struct {
-    Errors   []error
-    Warnings []string
-}
-
-func (ea *ErrorAggregator) AddError(err error) {
-    ea.Errors = append(ea.Errors, err)
-}
-```
-
-**Benefits**:
-- Comprehensive error reporting
-- Warning vs error distinction
-- Context preservation
-- User-friendly messages
-
-### 4. **Task Stacking Algorithm**
-
-Intelligent overlap detection using vertical tracks:
-
-```go
-type TaskStacker struct {
-    tasks []*SpanningTask
-    dayStacks map[string]*DayTaskStack
-}
-
-func (ts *TaskStacker) findAvailableTrack(task *SpanningTask) int {
-    // Find lowest available vertical position
-}
-```
-
-**Benefits**:
-- Automatic layout optimization
-- Visual clarity maintenance
-- Scalable to large task sets
-- Deterministic results
-
-## Component Interactions
-
-### Dependency Injection
-
-Components receive dependencies through constructors:
-
-```go
-func NewReader(config *Config) *Reader {
-    return &Reader{config: config}
-}
-
-func NewGenerator(config *Config) *Generator {
-    return &Generator{
-        config: config,
-        templateDir: "templates",
-    }
-}
-```
-
-### Interface Segregation
-
-Small, focused interfaces:
-
-```go
-type Reader interface {
-    ReadTasks(filename string) ([]Task, error)
-}
-
-type Generator interface {
-    Generate(tasks []Task) error
-}
-```
-
-### Single Responsibility
-
-Each package has one primary concern:
-- `core`: Business logic and data
-- `app`: Application coordination
-- `calendar`: Layout and positioning
-- `shared`: Common utilities
-
-## Performance Considerations
-
-### 1. **Memory Management**
-
-- **Streaming CSV processing**: Large files processed in chunks
-- **Template caching**: Compiled templates reused
-- **Lazy evaluation**: Calculations performed only when needed
-
-### 2. **Algorithm Complexity**
-
-- **Task stacking**: O(n²) acceptable for typical workloads (< 100 tasks/month)
-- **Color generation**: O(1) hash-based consistent coloring
-- **Calendar generation**: O(days × tasks) linear scaling
-
-### 3. **I/O Optimization**
-
-- **Buffered writing**: LaTeX output written in chunks
-- **Embedded assets**: No filesystem access for templates
-- **Parallel processing**: Independent operations can run concurrently
+With this clean architecture, it's easy to add:
+- Database support (implement TaskRepository interface)
+- Web interface (new CLI implementation)
+- Different output formats (new rendering use cases)
+- Caching layer (new service implementations)
+- API endpoints (new application layer)
 
 ## Testing Strategy
 
-### Unit Tests
+Each layer can be tested independently:
+- **Domain**: Unit tests with no dependencies
+- **Use Cases**: Unit tests with mock repositories/services
+- **Adapters**: Integration tests with real data sources
+- **App**: End-to-end tests with full system
 
-- **Pure functions**: Color generation, date validation
-- **Data transformation**: CSV parsing, task conversion
-- **Error handling**: Invalid input, edge cases
-
-### Integration Tests
-
-- **End-to-end workflows**: CSV → PDF generation
-- **Configuration loading**: YAML parsing and validation
-- **Template rendering**: Data binding and output
-
-### Test Coverage Goals
-
-- **Core utilities**: 100% coverage
-- **Business logic**: 80%+ coverage
-- **Error paths**: All major error conditions tested
-- **Integration paths**: Key user workflows tested
-
-## Error Handling Strategy
-
-### 1. **Error Types**
-
-Custom error types for different failure modes:
-
-```go
-type ConfigError struct {
-    Field   string
-    Message string
-    Value   interface{}
-}
-
-type DataError struct {
-    Row     int
-    Column  string
-    Value   string
-    Message string
-}
-```
-
-### 2. **Error Propagation**
-
-Errors wrapped with context:
-
-```go
-return fmt.Errorf("failed to parse CSV: %w", err)
-```
-
-### 3. **User-Friendly Messages**
-
-Errors translated to actionable advice:
-
-```go
-if errors.Is(err, ErrMissingColumn) {
-    return fmt.Errorf("CSV file missing required column. Add %s column with task data", missingCol)
-}
-```
-
-## Configuration Management
-
-### Hierarchical Overrides
-
-Configuration loaded with precedence:
-
-```
-Defaults ← YAML File ← Environment Variables ← CLI Flags
-```
-
-### Validation
-
-Configuration validated at startup:
-
-- **Required fields**: Essential settings present
-- **Value ranges**: Numeric values within bounds
-- **File paths**: Referenced files exist
-- **Cross-references**: Related settings consistent
-
-## Extensibility Points
-
-### 1. **Template System**
-
-New output formats via additional templates:
-
-```go
-// Add HTML template alongside LaTeX
-func renderHTML(tasks []Task) (string, error) {
-    return RenderTemplate("calendar.html.tpl", data)
-}
-```
-
-### 2. **Color Schemes**
-
-Custom color algorithms:
-
-```go
-func CustomColorScheme(category string) string {
-    // Implement custom color mapping
-    return generateCustomColor(category)
-}
-```
-
-### 3. **Layout Engines**
-
-Alternative positioning algorithms:
-
-```go
-type LayoutEngine interface {
-    PositionTasks(tasks []Task, calendar *Calendar) error
-}
-```
-
-## Deployment Considerations
-
-### Single Binary
-
-Go compilation produces standalone executable:
-
-```bash
-# Build for current platform
-go build -o planner ./cmd/planner
-
-# Cross-compilation
-GOOS=linux GOARCH=amd64 go build -o planner-linux ./cmd/planner
-```
-
-### Embedded Assets
-
-Templates and defaults bundled in binary:
-
-```go
-//go:embed templates/*
-//go:embed defaults.yaml
-var embeddedFiles embed.FS
-```
-
-### Minimal Dependencies
-
-Only requires:
-- Go runtime (statically linked)
-- XeLaTeX (system dependency)
-- Input CSV file
-
----
-
-*Architecture documentation last updated: October 2025*
+This architecture provides a solid foundation for a maintainable and extensible PhD dissertation planning system.
