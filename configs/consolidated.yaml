@@ -55,6 +55,11 @@ layout:
     document:
       fontsize: 9pt
       parindent: 0pt
+    typography:
+      hyphenpenalty: 10000
+      tolerance: 1000
+      emergencystretch: 2em
+      sloppyemergencystretch: 3em
 
   # Task styling - centralized for easier maintenance
   task_styling:

@@ -25,7 +25,7 @@
 \setlength{\myLenLineThicknessThick}{ {{.Cfg.Layout.LaTeX.LineThicknessThick}} }
 \setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
 \setlength{\myLenColSep}{ {{.Cfg.Layout.LaTeX.ColSep}} }
-\setlength{\myLenCol}{ {{.Cfg.Layout.Spacing.Col}} }
+\setlength{\myLenCol}{ {{.Cfg.Layout.LaTeX.ColSep}} }
 \setlength{\myLenMonthlyCellHeight}{ {{.Cfg.Layout.LaTeX.MonthlyCellHeight}} }
 
 \setlength{\myLenHeaderResizeBox}{ {{.Cfg.Layout.LaTeX.HeaderResizeBox}} }

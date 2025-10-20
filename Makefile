@@ -11,9 +11,7 @@ BINARY_NAME ?= plannergen
 BINARY_PATH ?= $(BINARY_DIR)/$(BINARY_NAME)
 
 # Configurable paths with defaults
-CONFIG_BASE ?= src/core/base.yaml
-CONFIG_PAGE ?= src/core/monthly_calendar.yaml
-CONFIG_FILES ?= $(CONFIG_BASE),$(CONFIG_PAGE)
+CONFIG_FILES ?= configs/consolidated.yaml
 
 # Configurable output file names with defaults
 OUTPUT_BASE_NAME ?= monthly_calendar

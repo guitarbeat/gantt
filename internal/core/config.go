@@ -133,14 +133,14 @@ type AlgorithmicColors struct {
 }
 
 type LaTeX struct {
-	TabColSep             string
-	HeaderSideMonthsWidth string
-	ArrayStretch          float64
-	MonthlyCellHeight     string
-	HeaderResizeBox       string
-	LineThicknessDefault  string
-	LineThicknessThick    string
-	ColSep                string
+	TabColSep             string  `yaml:"tabcolsep"`
+	HeaderSideMonthsWidth string  `yaml:"headersidemonthswidth"`
+	ArrayStretch          float64 `yaml:"arraystretch"`
+	MonthlyCellHeight     string  `yaml:"monthlycellheight"`
+	HeaderResizeBox       string  `yaml:"headerresizebox"`
+	LineThicknessDefault  string  `yaml:"linethicknessdefault"`
+	LineThicknessThick    string  `yaml:"linethicknessthick"`
+	ColSep                string  `yaml:"colsep"`
 
 	// Document settings
 	Document Document `yaml:"document"`
