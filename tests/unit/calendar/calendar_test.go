@@ -433,7 +433,7 @@ func TestGetPhaseDescription(t *testing.T) {
 	}
 }
 
-func TestCreatecalendar.SpanningTask(t *testing.T) {
+func TestCreateCalendarSpanningTask(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 5, 0, 0, 0, 0, time.UTC)
 

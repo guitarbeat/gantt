@@ -14,11 +14,11 @@ import (
 
 // CSVValidator handles comprehensive validation of CSV task data
 type CSVValidator struct {
-	requiredFields     []string
-	validStatuses      map[string]bool
-	validPhases        map[string]bool
+	requiredFields       []string
+	validStatuses        map[string]bool
+	validPhases          map[string]bool
 	validMilestoneValues map[string]bool
-	logger             *Logger
+	logger               *Logger
 }
 
 // NewCSVValidator creates a new CSV validator with default validation rules
@@ -31,21 +31,21 @@ func NewCSVValidator() *CSVValidator {
 			"in progress": true,
 			"completed":   true,
 			"on hold":     true,
-			"cancelled":  true,
-			"canceled":   true,
-			"blocked":    true,
+			"cancelled":   true,
+			"canceled":    true,
+			"blocked":     true,
 		},
 		validPhases: map[string]bool{
 			"1": true, "2": true, "3": true, "4": true, "5": true,
 			"6": true, "7": true, "8": true, "9": true, "10": true,
 		},
 		validMilestoneValues: map[string]bool{
-			"true":    true,
-			"false":  true,
+			"true":     true,
+			"false":    true,
 			"critical": true,
-			"high":    true,
-			"medium":  true,
-			"low":     true,
+			"high":     true,
+			"medium":   true,
+			"low":      true,
 		},
 		logger: NewDefaultLogger(),
 	}

@@ -6,26 +6,26 @@ import (
 	"phd-dissertation-planner/internal/core"
 )
 
-func TestDefaultcore.Config(t *testing.T) {
-	cfg := core.Defaultcore.Config()
+func TestDefaultConfig(t *testing.T) {
+	cfg := core.DefaultConfig()
 
 	// Test that defaults are set
 	if cfg.OutputDir == "" {
-		t.Error("core.Defaultcore.Config() OutputDir should not be empty")
+		t.Error("core.DefaultConfig() OutputDir should not be empty")
 	}
 
 	if cfg.OutputDir != "generated" {
-		t.Errorf("core.Defaultcore.Config() OutputDir = %s, want 'generated'", cfg.OutputDir)
+		t.Errorf("core.DefaultConfig() OutputDir = %s, want 'generated'", cfg.OutputDir)
 	}
 
 	// Test that Layout is initialized
 	if cfg.Layout.LaTeX.Typography.HyphenPenalty == 0 {
-		t.Error("core.Defaultcore.Config() should initialize Typography.HyphenPenalty")
+		t.Error("core.DefaultConfig() should initialize Typography.HyphenPenalty")
 	}
 }
 
 func TestConfigHelperMethods(t *testing.T) {
-	cfg := core.Defaultcore.Config()
+	cfg := core.DefaultConfig()
 
 	t.Run("GetDayNumberWidth", func(t *testing.T) {
 		width := cfg.GetDayNumberWidth()

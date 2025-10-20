@@ -98,7 +98,7 @@ const (
 	priorityV5            = 6
 
 	// Memory management constants
-	initialBufferSize = 64 * 1024 // 64KB initial buffer size
+	initialBufferSize = 64 * 1024        // 64KB initial buffer size
 	maxBufferSize     = 10 * 1024 * 1024 // 10MB max buffer size
 )
 
@@ -333,7 +333,7 @@ func action(c *cli.Context) error {
 
 	// * Check if we're in silent mode to reduce output verbosity
 	silent := core.IsSilent()
-	
+
 	if !silent {
 		fmt.Println(core.BoldText("🚀 Starting Planner Generation"))
 		fmt.Println(core.DimText("═══════════════════════════════════════"))
@@ -676,7 +676,7 @@ func generatePages(cfg core.Config, preview bool) error {
 
 	totalPages := len(cfg.Pages)
 	silent := core.IsSilent()
-	
+
 	for i, file := range cfg.Pages {
 		if !silent {
 			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)

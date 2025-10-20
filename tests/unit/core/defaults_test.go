@@ -6,40 +6,40 @@ import (
 	"phd-dissertation-planner/internal/core"
 )
 
-func Testcore.Defaults(t *testing.T) {
+func TestDefaults(t *testing.T) {
 	t.Run("DayNumberWidth", func(t *testing.T) {
-		if Defaults.DayNumberWidth == "" {
-			t.Error("Defaults.DayNumberWidth should not be empty")
+		if core.Defaults.DayNumberWidth == "" {
+			t.Error("core.Defaults.DayNumberWidth should not be empty")
 		}
 	})
 
 	t.Run("DayContentMargin", func(t *testing.T) {
-		if Defaults.DayContentMargin == "" {
-			t.Error("Defaults.DayContentMargin should not be empty")
+		if core.Defaults.DayContentMargin == "" {
+			t.Error("core.Defaults.DayContentMargin should not be empty")
 		}
 	})
 
 	t.Run("HyphenPenalty", func(t *testing.T) {
-		if Defaults.HyphenPenalty <= 0 {
-			t.Error("Defaults.HyphenPenalty should be positive")
+		if core.Defaults.HyphenPenalty <= 0 {
+			t.Error("core.Defaults.HyphenPenalty should be positive")
 		}
 	})
 
 	t.Run("Tolerance", func(t *testing.T) {
-		if Defaults.Tolerance <= 0 {
-			t.Error("Defaults.Tolerance should be positive")
+		if core.Defaults.Tolerance <= 0 {
+			t.Error("core.Defaults.Tolerance should be positive")
 		}
 	})
 
 	t.Run("DefaultOutputDir", func(t *testing.T) {
-		if Defaults.DefaultOutputDir == "" {
-			t.Error("Defaults.DefaultOutputDir should not be empty")
+		if core.Defaults.DefaultOutputDir == "" {
+			t.Error("core.Defaults.DefaultOutputDir should not be empty")
 		}
 	})
 
 	t.Run("DefaultTaskColor", func(t *testing.T) {
-		if Defaults.DefaultTaskColor == "" {
-			t.Error("Defaults.DefaultTaskColor should not be empty")
+		if core.Defaults.DefaultTaskColor == "" {
+			t.Error("core.Defaults.DefaultTaskColor should not be empty")
 		}
 	})
 }

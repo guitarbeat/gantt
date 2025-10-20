@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	fConfig           = "config"
-	pConfig           = "preview"
-	fOutDir           = "outdir"
-	fTestCoverage     = "test-coverage"
+	fConfig       = "config"
+	pConfig       = "preview"
+	fOutDir       = "outdir"
+	fTestCoverage = "test-coverage"
 )
 
 func New() *cli.App {

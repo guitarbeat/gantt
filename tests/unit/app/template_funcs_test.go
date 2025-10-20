@@ -42,12 +42,15 @@ func TestDictFunc(t *testing.T) {
 		},
 	}
 
+	funcMap := app.TemplateFuncs()
+	dictFunc := funcMap["dict"].(func(...interface{}) (map[string]interface{}, error))
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := app.dictFunc(tt.input...)
+			result, err := dictFunc(tt.input...)
 
 			if (err != nil) != tt.wantErr {
-				t.Errorf("app.dictFunc() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("dictFunc() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 
@@ -56,15 +59,15 @@ func TestDictFunc(t *testing.T) {
 			}
 
 			if len(result) != tt.wantLen {
-				t.Errorf("app.dictFunc() returned map of length %d, want %d", len(result), tt.wantLen)
+				t.Errorf("dictFunc() returned map of length %d, want %d", len(result), tt.wantLen)
 			}
 
 			// Check specific key-value pairs
 			for key, expectedValue := range tt.checkKeys {
 				if actualValue, exists := result[key]; !exists {
-					t.Errorf("app.dictFunc() missing key %q", key)
+					t.Errorf("dictFunc() missing key %q", key)
 				} else if actualValue != expectedValue {
-					t.Errorf("app.dictFunc() key %q = %v, want %v", key, actualValue, expectedValue)
+					t.Errorf("dictFunc() key %q = %v, want %v", key, actualValue, expectedValue)
 				}
 			}
 		})
@@ -83,10 +86,13 @@ func TestIncrFunc(t *testing.T) {
 		{"large", 999, 1000},
 	}
 
+	funcMap := app.TemplateFuncs()
+	incrFunc := funcMap["incr"].(func(int) int)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := app.incrFunc(tt.input); got != tt.want {
-				t.Errorf("app.incrFunc(%d) = %d, want %d", tt.input, got, tt.want)
+			if got := incrFunc(tt.input); got != tt.want {
+				t.Errorf("incrFunc(%d) = %d, want %d", tt.input, got, tt.want)
 			}
 		})
 	}
@@ -104,10 +110,13 @@ func TestDecFunc(t *testing.T) {
 		{"large", 1000, 999},
 	}
 
+	funcMap := app.TemplateFuncs()
+	decFunc := funcMap["dec"].(func(int) int)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := app.decFunc(tt.input); got != tt.want {
-				t.Errorf("app.decFunc(%d) = %d, want %d", tt.input, got, tt.want)
+			if got := decFunc(tt.input); got != tt.want {
+				t.Errorf("decFunc(%d) = %d, want %d", tt.input, got, tt.want)
 			}
 		})
 	}
@@ -132,10 +141,13 @@ func TestIsFunc(t *testing.T) {
 		{"slice empty", []int{}, true},
 	}
 
+	funcMap := app.TemplateFuncs()
+	isFunc := funcMap["is"].(func(interface{}) bool)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := app.isFunc(tt.input); got != tt.want {
-				t.Errorf("app.isFunc(%v) = %v, want %v", tt.input, got, tt.want)
+			if got := isFunc(tt.input); got != tt.want {
+				t.Errorf("isFunc(%v) = %v, want %v", tt.input, got, tt.want)
 			}
 		})
 	}
