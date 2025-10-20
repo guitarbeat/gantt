@@ -430,6 +430,21 @@ func action(c *cli.Context) error {
 			fmt.Println(core.Success("✅"))
 		}
 
+		// Compile LaTeX to PDF
+		if !silent {
+			fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
+		}
+		if err := compileLaTeXToPDF(cfg); err != nil {
+			if !silent {
+				fmt.Println(core.Error("❌"))
+			}
+			fmt.Printf(core.Warning("⚠️  Skipping PDF compilation for %s due to error: %v\n"), filepath.Base(csvFile), err)
+		} else {
+			if !silent {
+				fmt.Println(core.Success("✅"))
+			}
+		}
+
 		if !silent {
 			fmt.Printf(core.Success("✨ Completed processing: %s\n"), filepath.Base(csvFile))
 			fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
@@ -1454,5 +1469,72 @@ func runValidation(c *cli.Context) error {
 func runConfigValidation(c *cli.Context) error {
 	fmt.Println("🔍 Configuration Validation")
 	fmt.Println("✅ Config validation is working!")
+	return nil
+}
+
+// compileLaTeXToPDF compiles LaTeX files to PDF using XeLaTeX
+func compileLaTeXToPDF(cfg core.Config) error {
+	latexDir := filepath.Join(cfg.OutputDir, "latex")
+	pdfDir := filepath.Join(cfg.OutputDir, "pdfs")
+	auxDir := filepath.Join(cfg.OutputDir, "auxiliary")
+
+	// Find the main LaTeX file (usually the first .tex file)
+	files, err := os.ReadDir(latexDir)
+	if err != nil {
+		return fmt.Errorf("failed to read latex directory: %w", err)
+	}
+
+	var mainTexFile string
+	for _, file := range files {
+		if !file.IsDir() && strings.HasSuffix(file.Name(), ".tex") {
+			mainTexFile = filepath.Join(latexDir, file.Name())
+			break
+		}
+	}
+
+	if mainTexFile == "" {
+		return fmt.Errorf("no LaTeX file found in %s", latexDir)
+	}
+
+	// Change to latex directory for compilation
+	originalDir, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("failed to get current directory: %w", err)
+	}
+	defer os.Chdir(originalDir)
+
+	if err := os.Chdir(latexDir); err != nil {
+		return fmt.Errorf("failed to change to latex directory: %w", err)
+	}
+
+	// Run XeLaTeX compilation
+	cmd := exec.Command("xelatex", "-interaction=nonstopmode", filepath.Base(mainTexFile))
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("xelatex compilation failed: %w\nOutput: %s", err, string(output))
+	}
+
+	// Move generated files to appropriate directories
+	baseName := strings.TrimSuffix(filepath.Base(mainTexFile), ".tex")
+	
+	// Move PDF to pdfs directory
+	pdfFile := baseName + ".pdf"
+	if _, err := os.Stat(pdfFile); err == nil {
+		if err := os.Rename(pdfFile, filepath.Join(originalDir, pdfDir, pdfFile)); err != nil {
+			logger.Warn("Failed to move PDF file: %v", err)
+		}
+	}
+
+	// Move auxiliary files to auxiliary directory
+	auxFiles := []string{".aux", ".log", ".fdb_latexmk", ".fls", ".synctex.gz", ".tmp"}
+	for _, ext := range auxFiles {
+		auxFile := baseName + ext
+		if _, err := os.Stat(auxFile); err == nil {
+			if err := os.Rename(auxFile, filepath.Join(originalDir, auxDir, auxFile)); err != nil {
+				logger.Warn("Failed to move auxiliary file %s: %v", auxFile, err)
+			}
+		}
+	}
+
 	return nil
 }
