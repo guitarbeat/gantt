@@ -283,7 +283,7 @@ func TestEscapeLatex(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := app.escapeLatex(tt.input)
+			result := app.EscapeLatex(tt.input)
 			if result != tt.expected {
 				t.Errorf("app.escapeLatex(%q) = %q, want %q", tt.input, result, tt.expected)
 			}
@@ -351,7 +351,7 @@ func TestCalculateCSVPriority(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := calculateCSVPriority(tt.filename)
+			result := app.CalculateCSVPriority(tt.filename)
 			if result != tt.expected {
 				t.Errorf("calculateCSVPriority(%q) = %v, want %v", tt.filename, result, tt.expected)
 			}
@@ -391,6 +391,9 @@ func TestLowerFunc(t *testing.T) {
 			expected: "hello@world#123",
 		},
 	}
+
+	funcMap := app.TemplateFuncs()
+	lowerFunc := funcMap["lower"].(func(string) string)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -440,6 +443,9 @@ func TestPlusFunc(t *testing.T) {
 		},
 	}
 
+	funcMap := app.TemplateFuncs()
+	plusFunc := funcMap["plus"].(func(int, int) int)
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := plusFunc(tt.a, tt.b)
@@ -487,6 +493,9 @@ func TestModFunc(t *testing.T) {
 			expected: -2,
 		},
 	}
+
+	funcMap := app.TemplateFuncs()
+	modFunc := funcMap["mod"].(func(int, int) int)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -556,6 +565,9 @@ func TestReplaceFunc(t *testing.T) {
 			expected: "aANDb%c$d",
 		},
 	}
+
+	funcMap := app.TemplateFuncs()
+	replaceFunc := funcMap["replace"].(func(string, string, string) string)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -10,12 +10,12 @@ import (
 )
 
 func TestNewReader(t *testing.T) {
-	reader := core.core.NewReader("test.csv")
+	reader := core.NewReader("test.csv")
 	if reader == nil {
 		t.Fatal("NewReader returned nil")
 	}
-	if reader.filePath != "test.csv" {
-		t.Errorf("Expected filePath 'test.csv', got '%s'", reader.filePath)
+	if reader.FilePath != "test.csv" {
+		t.Errorf("Expected FilePath 'test.csv', got '%s'", reader.FilePath)
 	}
 }
 

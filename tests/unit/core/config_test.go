@@ -32,8 +32,8 @@ func TestConfigHelperMethods(t *testing.T) {
 		if width == "" {
 			t.Error("GetDayNumberWidth() should return a non-empty value")
 		}
-		if width != Defaults.DayNumberWidth {
-			t.Errorf("GetDayNumberWidth() = %s, want %s", width, Defaults.DayNumberWidth)
+		if width != core.Defaults.DayNumberWidth {
+			t.Errorf("GetDayNumberWidth() = %s, want %s", width, core.Defaults.DayNumberWidth)
 		}
 	})
 
@@ -42,8 +42,8 @@ func TestConfigHelperMethods(t *testing.T) {
 		if margin == "" {
 			t.Error("GetDayContentMargin() should return a non-empty value")
 		}
-		if margin != Defaults.DayContentMargin {
-			t.Errorf("GetDayContentMargin() = %s, want %s", margin, Defaults.DayContentMargin)
+		if margin != core.Defaults.DayContentMargin {
+			t.Errorf("GetDayContentMargin() = %s, want %s", margin, core.Defaults.DayContentMargin)
 		}
 	})
 
@@ -52,8 +52,8 @@ func TestConfigHelperMethods(t *testing.T) {
 		if penalty <= 0 {
 			t.Error("GetHyphenPenalty() should return a positive value")
 		}
-		if penalty != Defaults.HyphenPenalty {
-			t.Errorf("GetHyphenPenalty() = %d, want %d", penalty, Defaults.HyphenPenalty)
+		if penalty != core.Defaults.HyphenPenalty {
+			t.Errorf("GetHyphenPenalty() = %d, want %d", penalty, core.Defaults.HyphenPenalty)
 		}
 	})
 
@@ -62,8 +62,8 @@ func TestConfigHelperMethods(t *testing.T) {
 		if tolerance <= 0 {
 			t.Error("GetTolerance() should return a positive value")
 		}
-		if tolerance != Defaults.Tolerance {
-			t.Errorf("GetTolerance() = %d, want %d", tolerance, Defaults.Tolerance)
+		if tolerance != core.Defaults.Tolerance {
+			t.Errorf("GetTolerance() = %d, want %d", tolerance, core.Defaults.Tolerance)
 		}
 	})
 
@@ -102,7 +102,7 @@ func TestConfigHelperMethods(t *testing.T) {
 }
 
 func TestConfigGetYear(t *testing.T) {
-	cfg := Config{}
+	cfg := core.Config{}
 
 	// Without year set, should return current year
 	year := cfg.GetYear()
@@ -117,24 +117,24 @@ func TestConfigGetYear(t *testing.T) {
 	}
 }
 
-func TestFilterUniquecore.Modules(t *testing.T) {
-	modules := Modules{
+func TestFilterUniqueModules(t *testing.T) {
+	modules := core.Modules{
 		{Tpl: "template1", Body: "body1"},
 		{Tpl: "template2", Body: "body2"},
 		{Tpl: "template1", Body: "body3"}, // Duplicate template
 	}
 
-	filtered := FilterUniquecore.Modules(modules)
+	filtered := core.FilterUniqueModules(modules)
 
 	if len(filtered) != 2 {
-		t.Errorf("FilterUniquecore.Modules() returned %d modules, want 2", len(filtered))
+		t.Errorf("core.FilterUniqueModules() returned %d modules, want 2", len(filtered))
 	}
 
 	// Check that we kept the first occurrence
 	if filtered[0].Tpl != "template1" {
-		t.Errorf("FilterUniquecore.Modules() first module = %s, want 'template1'", filtered[0].Tpl)
+		t.Errorf("core.FilterUniqueModules() first module = %s, want 'template1'", filtered[0].Tpl)
 	}
 	if filtered[1].Tpl != "template2" {
-		t.Errorf("FilterUniquecore.Modules() second module = %s, want 'template2'", filtered[1].Tpl)
+		t.Errorf("core.FilterUniqueModules() second module = %s, want 'template2'", filtered[1].Tpl)
 	}
 }

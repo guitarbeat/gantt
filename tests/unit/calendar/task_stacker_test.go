@@ -10,7 +10,7 @@ import (
 // TestTaskStackerBasic tests basic stacking functionality
 func TestTaskStackerBasic(t *testing.T) {
 	// Create test tasks
-	task1 := &SpanningTask{
+	task1 := &calendar.SpanningTask{
 		ID:        "T1",
 		Name:      "Task 1",
 		StartDate: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -18,7 +18,7 @@ func TestTaskStackerBasic(t *testing.T) {
 		Color:     "#FF0000",
 	}
 
-	task2 := &SpanningTask{
+	task2 := &calendar.SpanningTask{
 		ID:        "T2",
 		Name:      "Task 2",
 		StartDate: time.Date(2025, 1, 3, 0, 0, 0, 0, time.UTC),
@@ -26,7 +26,7 @@ func TestTaskStackerBasic(t *testing.T) {
 		Color:     "#00FF00",
 	}
 
-	tasks := []*SpanningTask{task1, task2}
+	tasks := []*calendar.SpanningTask{task1, task2}
 	stacker := calendar.NewTaskStacker(tasks, time.Monday)
 	stacker.ComputeStacks()
 
@@ -60,7 +60,7 @@ func TestTaskStackerBasic(t *testing.T) {
 // TestTaskStackerOverlap tests overlap detection
 func TestTaskStackerOverlap(t *testing.T) {
 	// Create three overlapping tasks that all start on different days
-	task1 := &SpanningTask{
+	task1 := &calendar.SpanningTask{
 		ID:        "T1",
 		Name:      "Task 1",
 		StartDate: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -68,7 +68,7 @@ func TestTaskStackerOverlap(t *testing.T) {
 		Color:     "#FF0000",
 	}
 
-	task2 := &SpanningTask{
+	task2 := &calendar.SpanningTask{
 		ID:        "T2",
 		Name:      "Task 2",
 		StartDate: time.Date(2025, 1, 3, 0, 0, 0, 0, time.UTC),
@@ -76,7 +76,7 @@ func TestTaskStackerOverlap(t *testing.T) {
 		Color:     "#00FF00",
 	}
 
-	task3 := &SpanningTask{
+	task3 := &calendar.SpanningTask{
 		ID:        "T3",
 		Name:      "Task 3",
 		StartDate: time.Date(2025, 1, 5, 0, 0, 0, 0, time.UTC),
@@ -84,7 +84,7 @@ func TestTaskStackerOverlap(t *testing.T) {
 		Color:     "#0000FF",
 	}
 
-	tasks := []*SpanningTask{task1, task2, task3}
+	tasks := []*calendar.SpanningTask{task1, task2, task3}
 	stacker := calendar.NewTaskStacker(tasks, time.Monday)
 	stacker.ComputeStacks()
 
@@ -113,7 +113,7 @@ func TestTaskStackerOverlap(t *testing.T) {
 
 // TestTaskStackerStartingTasks tests filtering for tasks starting on a specific day
 func TestTaskStackerStartingTasks(t *testing.T) {
-	task1 := &SpanningTask{
+	task1 := &calendar.SpanningTask{
 		ID:        "T1",
 		Name:      "Task 1",
 		StartDate: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -121,7 +121,7 @@ func TestTaskStackerStartingTasks(t *testing.T) {
 		Color:     "#FF0000",
 	}
 
-	task2 := &SpanningTask{
+	task2 := &calendar.SpanningTask{
 		ID:        "T2",
 		Name:      "Task 2",
 		StartDate: time.Date(2025, 1, 3, 0, 0, 0, 0, time.UTC),
@@ -129,7 +129,7 @@ func TestTaskStackerStartingTasks(t *testing.T) {
 		Color:     "#00FF00",
 	}
 
-	tasks := []*SpanningTask{task1, task2}
+	tasks := []*calendar.SpanningTask{task1, task2}
 	stacker := calendar.NewTaskStacker(tasks, time.Monday)
 	stacker.ComputeStacks()
 
@@ -162,7 +162,7 @@ func TestTaskStackerStartingTasks(t *testing.T) {
 
 // TestTaskStackerNoOverlap tests tasks that don't overlap
 func TestTaskStackerNoOverlap(t *testing.T) {
-	task1 := &SpanningTask{
+	task1 := &calendar.SpanningTask{
 		ID:        "T1",
 		Name:      "Task 1",
 		StartDate: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -170,7 +170,7 @@ func TestTaskStackerNoOverlap(t *testing.T) {
 		Color:     "#FF0000",
 	}
 
-	task2 := &SpanningTask{
+	task2 := &calendar.SpanningTask{
 		ID:        "T2",
 		Name:      "Task 2",
 		StartDate: time.Date(2025, 1, 5, 0, 0, 0, 0, time.UTC),
@@ -178,7 +178,7 @@ func TestTaskStackerNoOverlap(t *testing.T) {
 		Color:     "#00FF00",
 	}
 
-	tasks := []*SpanningTask{task1, task2}
+	tasks := []*calendar.SpanningTask{task1, task2}
 	stacker := calendar.NewTaskStacker(tasks, time.Monday)
 	stacker.ComputeStacks()
 
@@ -203,7 +203,7 @@ func TestTaskStackerNoOverlap(t *testing.T) {
 
 // TestTaskStackerSingleDay tests single-day tasks
 func TestTaskStackerSingleDay(t *testing.T) {
-	task := &SpanningTask{
+	task := &calendar.SpanningTask{
 		ID:        "T1",
 		Name:      "Task 1",
 		StartDate: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -211,7 +211,7 @@ func TestTaskStackerSingleDay(t *testing.T) {
 		Color:     "#FF0000",
 	}
 
-	tasks := []*SpanningTask{task}
+	tasks := []*calendar.SpanningTask{task}
 	stacker := calendar.NewTaskStacker(tasks, time.Monday)
 	stacker.ComputeStacks()
 

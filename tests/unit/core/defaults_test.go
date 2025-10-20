@@ -45,7 +45,7 @@ func TestDefaults(t *testing.T) {
 }
 
 func TestDefaultTypography(t *testing.T) {
-	typo := DefaultTypography()
+	typo := core.DefaultTypography()
 
 	if typo.HyphenPenalty <= 0 {
 		t.Error("DefaultTypography() HyphenPenalty should be positive")
@@ -65,7 +65,7 @@ func TestDefaultTypography(t *testing.T) {
 }
 
 func TestDefaultLayoutCalendarLayout(t *testing.T) {
-	layout := DefaultLayoutCalendarLayout()
+	layout := core.DefaultLayoutCalendarLayout()
 
 	fields := []struct {
 		name  string
@@ -89,7 +89,7 @@ func TestDefaultLayoutCalendarLayout(t *testing.T) {
 }
 
 func TestDefaultDocument(t *testing.T) {
-	doc := DefaultDocument()
+	doc := core.DefaultDocument()
 
 	if doc.FontSize == "" {
 		t.Error("DefaultDocument() FontSize should not be empty")
@@ -101,7 +101,7 @@ func TestDefaultDocument(t *testing.T) {
 }
 
 func TestDefaultLaTeX(t *testing.T) {
-	latex := DefaultLaTeX()
+	latex := core.DefaultLaTeX()
 
 	// Check that numeric values are set
 	if latex.ArrayStretch == 0 {
@@ -141,7 +141,7 @@ func TestDefaultLaTeX(t *testing.T) {
 }
 
 func TestDefaultLayout(t *testing.T) {
-	layout := DefaultLayout()
+	layout := core.DefaultLayout()
 
 	// Check that LaTeX is initialized
 	if layout.LaTeX.TabColSep == "" {
@@ -155,7 +155,7 @@ func TestDefaultLayout(t *testing.T) {
 }
 
 func TestDefaultConfigCompleteness(t *testing.T) {
-	cfg := core.Defaultcore.Config()
+	cfg := core.DefaultConfig()
 
 	// Test all major sections are initialized
 	tests := []struct {
@@ -172,7 +172,7 @@ func TestDefaultConfigCompleteness(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if !tt.check() {
-				t.Errorf("core.Defaultcore.Config() %s check failed", tt.name)
+				t.Errorf("core.DefaultConfig() %s check failed", tt.name)
 			}
 		})
 	}

@@ -102,8 +102,8 @@ type LogEntry struct {
 // Logger provides structured logging with context support
 type Logger struct {
 	mu     sync.RWMutex
-	writer io.Writer
-	level  int
+	Writer io.Writer
+	Level  int
 	format LogFormat
 	prefix string
 	fields map[string]interface{}
@@ -123,8 +123,8 @@ func NewLogger(prefix string) *Logger {
 	writer := getLogWriter()
 
 	return &Logger{
-		writer: writer,
-		level:  level,
+		Writer: writer,
+		Level:  level,
 		format: format,
 		prefix: strings.TrimSpace(prefix),
 		fields: make(map[string]interface{}),
@@ -212,8 +212,8 @@ func (l *Logger) WithField(key string, value interface{}) *Logger {
 	l.mu.RUnlock()
 
 	return &Logger{
-		writer: l.writer,
-		level:  l.level,
+		Writer: l.Writer,
+		Level:  l.Level,
 		format: l.format,
 		prefix: l.prefix,
 		fields: newFields,
@@ -233,8 +233,8 @@ func (l *Logger) WithFields(fields map[string]interface{}) *Logger {
 	l.mu.RUnlock()
 
 	return &Logger{
-		writer: l.writer,
-		level:  l.level,
+		Writer: l.Writer,
+		Level:  l.Level,
 		format: l.format,
 		prefix: l.prefix,
 		fields: newFields,
@@ -257,7 +257,7 @@ func FromContext(ctx context.Context) *Logger {
 
 // log sends a log entry to the output
 func (l *Logger) log(level int, levelStr string, message string, args ...interface{}) {
-	if level < l.level {
+	if level < l.Level {
 		return
 	}
 
@@ -302,10 +302,10 @@ func (l *Logger) log(level int, levelStr string, message string, args ...interfa
 	}
 
 	if level == LogLevelFatal {
-		fmt.Fprintln(l.writer, output)
+		fmt.Fprintln(l.Writer, output)
 		os.Exit(1)
 	} else {
-		fmt.Fprintln(l.writer, output)
+		fmt.Fprintln(l.Writer, output)
 	}
 }
 
@@ -338,7 +338,7 @@ func (l *Logger) formatTextEntry(entry LogEntry) string {
 	}
 
 	// Add caller if in debug/trace mode
-	if l.level <= LogLevelDebug && entry.Caller != "" {
+	if l.Level <= LogLevelDebug && entry.Caller != "" {
 		parts = append(parts, fmt.Sprintf("(%s)", entry.Caller))
 	}
 

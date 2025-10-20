@@ -285,14 +285,14 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		}
 
 		// Render starting task (original logic)
-		taskName := d.escapeLatexSpecialChars(task.Name)
+		taskName := d.EscapeLatexSpecialChars(task.Name)
 		if d.isMilestoneSpanningTask(task) {
 			taskName = "★ " + taskName
 		}
 
 		objective := ""
 		if task.Description != "" {
-			objective = d.escapeLatexSpecialChars(task.Description)
+			objective = d.EscapeLatexSpecialChars(task.Description)
 		}
 
 		taskColor := core.HexToRGB(task.Color)
@@ -516,8 +516,8 @@ func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 // HELPER FUNCTIONS - LATEX UTILITIES
 // ============================================================================
 
-// escapeLatexSpecialChars replaces special LaTeX characters with their escaped versions
-func escapeLatexSpecialChars(text string) string {
+// EscapeLatexSpecialChars replaces special LaTeX characters with their escaped versions
+func EscapeLatexSpecialChars(text string) string {
 	// Replace special LaTeX characters with their escaped versions
 	text = strings.ReplaceAll(text, "\\", "\\textbackslash{}")
 	text = strings.ReplaceAll(text, "{", "\\{")
@@ -533,8 +533,8 @@ func escapeLatexSpecialChars(text string) string {
 	return text
 }
 
-// escapeLatexSpecialChars escapes special LaTeX characters in text
-func (d Day) escapeLatexSpecialChars(text string) string {
+// EscapeLatexSpecialChars escapes special LaTeX characters in text
+func (d Day) EscapeLatexSpecialChars(text string) string {
 	// Replace special LaTeX characters with their escaped versions
 	text = strings.ReplaceAll(text, "\\", "\\textbackslash{}")
 	text = strings.ReplaceAll(text, "{", "\\{")
@@ -904,7 +904,7 @@ func (m *Month) GetTaskColors() map[string]string {
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
 						// Escape LaTeX special characters in category name
-						escapedCategory := escapeLatexSpecialChars(task.Category)
+						escapedCategory := EscapeLatexSpecialChars(task.Category)
 						colorMap[core.HexToRGB(color)] = escapedCategory
 					}
 				}
@@ -967,13 +967,13 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 		if subPhases, exists := phaseMap[phaseNum]; exists {
 			phase := PhaseGroup{
 				PhaseNumber: phaseNum,
-				PhaseName:   getPhaseDescription(phaseNum),
+				PhaseName:   GetPhaseDescription(phaseNum),
 			}
 
 			// Add each subphase
 			for subPhaseName, color := range subPhases {
 				phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
-					Name:  escapeLatexSpecialChars(subPhaseName),
+					Name:  EscapeLatexSpecialChars(subPhaseName),
 					Color: color,
 				})
 			}
@@ -985,8 +985,8 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 	return phases
 }
 
-// getPhaseDescription returns a human-readable phase description
-func getPhaseDescription(phaseNum string) string {
+// GetPhaseDescription returns a human-readable phase description
+func GetPhaseDescription(phaseNum string) string {
 	descriptions := map[string]string{
 		"1": "Phase 1: Proposal \\& Setup",
 		"2": "Phase 2: Research \\& Data Collection",

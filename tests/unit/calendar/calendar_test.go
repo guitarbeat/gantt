@@ -372,9 +372,9 @@ func TestEscapeLatexSpecialChars(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := calendar.escapeLatexSpecialChars(tt.input)
+			result := calendar.EscapeLatexSpecialChars(tt.input)
 			if result != tt.expected {
-				t.Errorf("calendar.escapeLatexSpecialChars(%q) = %q, want %q", tt.input, result, tt.expected)
+				t.Errorf("calendar.EscapeLatexSpecialChars(%q) = %q, want %q", tt.input, result, tt.expected)
 			}
 		})
 	}
@@ -425,9 +425,9 @@ func TestGetPhaseDescription(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := calendar.getPhaseDescription(tt.phaseNum)
+			result := calendar.GetPhaseDescription(tt.phaseNum)
 			if result != tt.expected {
-				t.Errorf("calendar.getPhaseDescription(%q) = %q, want %q", tt.phaseNum, result, tt.expected)
+				t.Errorf("calendar.GetPhaseDescription(%q) = %q, want %q", tt.phaseNum, result, tt.expected)
 			}
 		})
 	}
@@ -449,7 +449,7 @@ func TestCreateCalendarSpanningTask(t *testing.T) {
 		IsMilestone: true,
 	}
 
-	result := calendar.Createcalendar.SpanningTask(task, startDate, endDate)
+	result := calendar.CreateSpanningTask(task, startDate, endDate)
 
 	// Check that all fields are copied correctly
 	if result.ID != task.ID {

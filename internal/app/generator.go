@@ -259,7 +259,7 @@ func printCoverageRecommendations(overallCoverage float64) {
 }
 
 // calculateCSVPriority determines the priority of a CSV file based on its name
-func calculateCSVPriority(filename string) int {
+func CalculateCSVPriority(filename string) int {
 	name := strings.ToLower(filename)
 
 	// Highest priority: comprehensive files
@@ -803,7 +803,7 @@ func RootFilename(pathconfig string) string {
 	return strings.TrimSuffix(filename, filepath.Ext(filename)) + texExtension
 }
 
-func escapeLatex(s string) string {
+func EscapeLatex(s string) string {
 	s = strings.ReplaceAll(s, "&", "\\&")
 	s = strings.ReplaceAll(s, "%", "\\%")
 	s = strings.ReplaceAll(s, "$", "\\$")
@@ -1069,7 +1069,7 @@ func autoDetectCSV() (string, error) {
 	bestPriority := 0
 
 	for _, file := range csvFiles {
-		priority := calculateCSVPriority(file.Name())
+		priority := CalculateCSVPriority(file.Name())
 
 		// Most recent modification time as tiebreaker
 		if priority > bestPriority ||
@@ -1145,7 +1145,7 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 	// Group tasks by phase
 	phaseTasks := make(map[string][]core.Task)
 	for _, task := range tasks {
-		task.Name = escapeLatex(task.Name)
+		task.Name = EscapeLatex(task.Name)
 		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
 	}
 
@@ -1205,7 +1205,7 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 			// Use the SubPhase from the first task as the phase name
 			phaseName := tasksInPhase[0].SubPhase
 			if phaseName != "" {
-				phaseMap[phase] = fmt.Sprintf("Phase %s: %s", phase, escapeLatex(phaseName))
+				phaseMap[phase] = fmt.Sprintf("Phase %s: %s", phase, EscapeLatex(phaseName))
 			} else {
 				phaseMap[phase] = fmt.Sprintf("Phase %s", phase)
 			}

@@ -107,21 +107,31 @@ run_go_vet() {
 
     log_info "Running Go vet..."
     
-    # Run vet on staged files
-    local vet_output
-    if ! vet_output=$(echo "$staged_files" | xargs go vet 2>&1); then
-        log_error "Go vet found issues:"
-        echo "$vet_output" | sed 's/^/  /'
-        
-        # Use Cursor CLI to analyze and suggest fixes
-        log_info "Using Cursor CLI to analyze vet issues..."
-        echo "$staged_files" | while read -r file; do
-            if [ -n "$file" ]; then
-                log_info "Analyzing vet issues in: $file"
-                "$CURSOR_CLI" --headless --analyze-issues "$file" --context "go vet issues"
+    # Get unique packages from staged files
+    local packages
+    packages=$(echo "$staged_files" | grep '\.go$' | sed 's|/[^/]*\.go$||' | sort -u || true)
+    
+    if [ -z "$packages" ]; then
+        log_info "No Go packages to vet"
+        return 0
+    fi
+    
+    local vet_errors=0
+    echo "$packages" | while read -r pkg; do
+        if [ -n "$pkg" ]; then
+            log_info "Vetting package: $pkg"
+            if ! go vet "./$pkg" 2>/dev/null; then
+                log_error "Go vet found issues in package: $pkg"
+                vet_errors=1
+                
+                # Use Cursor CLI to analyze and suggest fixes
+                log_info "Using Cursor CLI to analyze vet issues in: $pkg"
+                "$CURSOR_CLI" --headless --analyze-issues "$pkg" --context "go vet issues" 2>/dev/null || true
             fi
-        done
-        
+        fi
+    done
+    
+    if [ $vet_errors -eq 1 ]; then
         return 1
     else
         log_success "Go vet passed"

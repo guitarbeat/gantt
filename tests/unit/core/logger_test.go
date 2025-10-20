@@ -15,17 +15,17 @@ func TestNewLogger(t *testing.T) {
 		t.Fatal("core.NewLogger() should not return nil")
 	}
 
-	if logger.writer == nil {
+	if logger.Writer == nil {
 		t.Error("core.NewLogger() should initialize writer")
 	}
 
-	if logger.level < 0 {
+	if logger.Level < 0 {
 		t.Error("core.NewLogger() should set valid log level")
 	}
 }
 
 func TestNewDefaultLogger(t *testing.T) {
-	logger := NewDefaultLogger()
+	logger := core.NewDefaultLogger()
 
 	if logger == nil {
 		t.Fatal("NewDefaultLogger() should not return nil")
@@ -59,7 +59,7 @@ func TestIsSilent(t *testing.T) {
 			os.Setenv("PLANNER_SILENT", tt.silentEnv)
 			os.Setenv("PLANNER_LOG_LEVEL", tt.levelEnv)
 
-			if got := IsSilent(); got != tt.wantSilent {
+			if got := core.IsSilent(); got != tt.wantSilent {
 				t.Errorf("IsSilent() = %v, want %v", got, tt.wantSilent)
 			}
 		})
@@ -151,13 +151,13 @@ func TestLogLevelDetection(t *testing.T) {
 		levelEnv  string
 		wantLevel int
 	}{
-		{"default", "", "", LogLevelInfo},
-		{"silent flag", "1", "", LogLevelSilent},
-		{"explicit silent", "", "silent", LogLevelSilent},
-		{"explicit info", "", "info", LogLevelInfo},
-		{"explicit debug", "", "debug", LogLevelDebug},
-		{"invalid level", "", "invalid", LogLevelInfo}, // Should default to info
-		{"case insensitive", "", "SILENT", LogLevelSilent},
+		{"default", "", "", core.LogLevelInfo},
+		{"silent flag", "1", "", core.LogLevelSilent},
+		{"explicit silent", "", "silent", core.LogLevelSilent},
+		{"explicit info", "", "info", core.LogLevelInfo},
+		{"explicit debug", "", "debug", core.LogLevelDebug},
+		{"invalid level", "", "invalid", core.LogLevelInfo}, // Should default to info
+		{"case insensitive", "", "SILENT", core.LogLevelSilent},
 	}
 
 	for _, tt := range tests {
@@ -168,8 +168,8 @@ func TestLogLevelDetection(t *testing.T) {
 			// Create a new logger to pick up environment
 			logger := core.NewLogger("[test] ")
 
-			if logger.level != tt.wantLevel {
-				t.Errorf("logger.level = %d, want %d", logger.level, tt.wantLevel)
+			if logger.Level != tt.wantLevel {
+				t.Errorf("logger.Level = %d, want %d", logger.Level, tt.wantLevel)
 			}
 		})
 	}

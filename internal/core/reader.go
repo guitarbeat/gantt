@@ -83,7 +83,7 @@ var supportedDateFormats = []string{
 
 // Reader handles reading and parsing CSV task data
 type Reader struct {
-	filePath    string
+	FilePath    string
 	logger      *Logger
 	aggregator  *ErrorAggregator // Error aggregator for collecting multiple errors
 	strictMode  bool             // If true, fail on any parsing error
@@ -113,7 +113,7 @@ func DefaultReaderOptions() *ReaderOptions {
 func NewReader(filePath string) *Reader {
 	opts := DefaultReaderOptions()
 	return &Reader{
-		filePath:    filePath,
+		FilePath:    filePath,
 		logger:      opts.Logger,
 		aggregator:  NewErrorAggregator(),
 		strictMode:  opts.StrictMode,
@@ -221,15 +221,15 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 
 // openAndValidateFile opens the CSV file and returns file info
 func (r *Reader) openAndValidateFile() (*os.File, os.FileInfo, error) {
-	file, err := os.Open(r.filePath)
+	file, err := os.Open(r.FilePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil, nil, fmt.Errorf("CSV file not found: %s\n\nSuggestions:\n  1. Check the file path is correct\n  2. Verify the file exists in the input_data/ directory\n  3. Set PLANNER_CSV_FILE environment variable", r.filePath)
+			return nil, nil, fmt.Errorf("CSV file not found: %s\n\nSuggestions:\n  1. Check the file path is correct\n  2. Verify the file exists in the input_data/ directory\n  3. Set PLANNER_CSV_FILE environment variable", r.FilePath)
 		}
 		if os.IsPermission(err) {
-			return nil, nil, fmt.Errorf("permission denied accessing CSV file: %s\n\nSuggestions:\n  1. Check file permissions\n  2. Run with appropriate user privileges\n  3. Verify the file is not locked by another program", r.filePath)
+			return nil, nil, fmt.Errorf("permission denied accessing CSV file: %s\n\nSuggestions:\n  1. Check file permissions\n  2. Run with appropriate user privileges\n  3. Verify the file is not locked by another program", r.FilePath)
 		}
-		return nil, nil, fmt.Errorf("failed to open CSV file %s: %w", r.filePath, err)
+		return nil, nil, fmt.Errorf("failed to open CSV file %s: %w", r.FilePath, err)
 	}
 
 	fileInfo, err := file.Stat()

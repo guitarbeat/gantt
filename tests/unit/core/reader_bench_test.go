@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 	"time"
+
+	"phd-dissertation-planner/internal/core"
 )
 
 // Benchmark data for consistent benchmarking
@@ -47,7 +49,7 @@ func BenchmarkCSVReading(b *testing.B) {
 	file := createBenchmarkCSV(b, benchmarkCSVContent)
 	defer os.Remove(file)
 
-	reader := NewReader(file)
+	reader := core.NewReader(file)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -64,7 +66,7 @@ func BenchmarkCSVReadingLarge(b *testing.B) {
 	file := createBenchmarkCSV(b, benchmarkLargeCSVContent)
 	defer os.Remove(file)
 
-	reader := NewReader(file)
+	reader := core.NewReader(file)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -98,7 +100,7 @@ func BenchmarkDateParsing(b *testing.B) {
 
 // BenchmarkTaskValidation benchmarks task validation performance
 func BenchmarkTaskValidation(b *testing.B) {
-	tasks := []*Task{
+	tasks := []*core.Task{
 		{
 			Name:      "Test Task 1",
 			StartDate: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -137,9 +139,9 @@ func BenchmarkTaskValidation(b *testing.B) {
 func BenchmarkMemoryAllocation(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		tasks := make([]*Task, 0, 100)
+		tasks := make([]*core.Task, 0, 100)
 		for j := 0; j < 100; j++ {
-			task := &Task{
+			task := &core.Task{
 				Name:      "Benchmark Task",
 				StartDate: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
 				EndDate:   time.Date(2024, 1, 31, 0, 0, 0, 0, time.UTC),
