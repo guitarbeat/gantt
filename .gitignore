@@ -110,10 +110,10 @@ generated/
 .build_artifacts/
 
 # Specific generated subdirectories
-generated/logs/
-generated/tex/
+generated/latex/
 generated/pdfs/
-generated/preview/
+generated/auxiliary/
+generated/binaries/
 
 # Archived documentation
 docs/archive/*.pdf

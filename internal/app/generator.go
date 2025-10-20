@@ -339,96 +339,106 @@ func action(c *cli.Context) error {
 		fmt.Println(core.DimText("═══════════════════════════════════════"))
 	}
 
-	// Load and prepare configuration
-	if !silent {
-		fmt.Print(core.Info("📋 Loading configuration... "))
-	}
-	cfg, pathConfigs, err := loadConfiguration(c)
+	// Get all CSV files to process
+	csvFiles, err := getAllCSVFiles()
 	if err != nil {
 		if !silent {
 			fmt.Println(core.Error("❌"))
 		}
 		return formatError(
-			"Configuration Loading",
-			"Unable to load or parse configuration files",
+			"CSV File Detection",
+			"Unable to find CSV files to process",
 			err,
-			"Check that config files exist and are valid YAML",
-			"Verify the --config flag points to the correct file",
-			"Try using a preset: --preset academic",
+			"Check that input_data directory exists",
+			"Verify there are CSV files in the input_data directory",
+			"Ensure CSV files have .csv extension",
 		)
-	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
 	}
 
-	// Setup output directory
 	if !silent {
-		fmt.Print(core.Info("📁 Setting up output directory... "))
-	}
-	if err := setupOutputDirectory(cfg); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
-		return formatError(
-			"Output Directory Setup",
-			"Cannot create or access output directory",
-			err,
-			"Check that you have write permissions",
-			"Verify the path is valid and not too long",
-			"Try a different output directory with --outdir flag",
-		)
-	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
+		fmt.Printf(core.Info("📋 Found %d CSV file(s) to process\n"), len(csvFiles))
 	}
 
-	// Generate root document
-	if !silent {
-		fmt.Print(core.Info("📄 Generating root document... "))
-	}
-	if err := generateRootDocument(cfg, pathConfigs); err != nil {
+	// Process each CSV file
+	for i, csvFile := range csvFiles {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Printf(core.Info("📄 Processing file %d/%d: %s\n"), i+1, len(csvFiles), filepath.Base(csvFile))
 		}
-		return formatError(
-			"Root Document Generation",
-			"Failed to generate main LaTeX document",
-			err,
-			"Check that CSV file exists and is properly formatted",
-			"Verify dates are in YYYY-MM-DD format",
-			"Check for special LaTeX characters in task names (%, $, &, #, _, {, })",
-		)
-	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
-	}
 
-	// Generate pages
-	if !silent {
-		fmt.Print(core.Info("📅 Generating calendar pages... "))
-	}
-	preview := c.Bool(pConfig)
-	if err := generatePages(cfg, preview); err != nil {
+		// Set the CSV file for this processing run
+		os.Setenv("PLANNER_CSV_FILE", csvFile)
+
+		// Load and prepare configuration for this CSV file
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Print(core.Info("📋 Loading configuration... "))
 		}
-		return formatError(
-			"Calendar Page Generation",
-			"Failed to generate calendar pages",
-			err,
-			"Check that all task dates are valid",
-			"Verify template files are not corrupted",
-			"Try running with --preview flag for debugging",
-		)
-	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
+		cfg, pathConfigs, err := loadConfiguration(c)
+		if err != nil {
+			if !silent {
+				fmt.Println(core.Error("❌"))
+			}
+			fmt.Printf(core.Warning("⚠️  Skipping %s due to configuration error: %v\n"), filepath.Base(csvFile), err)
+			continue
+		}
+		if !silent {
+			fmt.Println(core.Success("✅"))
+		}
+
+		// Setup output directory for this CSV file
+		if !silent {
+			fmt.Print(core.Info("📁 Setting up output directory... "))
+		}
+		if err := setupOutputDirectory(cfg); err != nil {
+			if !silent {
+				fmt.Println(core.Error("❌"))
+			}
+			fmt.Printf(core.Warning("⚠️  Skipping %s due to output directory error: %v\n"), filepath.Base(csvFile), err)
+			continue
+		}
+		if !silent {
+			fmt.Println(core.Success("✅"))
+		}
+
+		// Generate root document for this CSV file
+		if !silent {
+			fmt.Print(core.Info("📄 Generating root document... "))
+		}
+		if err := generateRootDocument(cfg, pathConfigs); err != nil {
+			if !silent {
+				fmt.Println(core.Error("❌"))
+			}
+			fmt.Printf(core.Warning("⚠️  Skipping %s due to document generation error: %v\n"), filepath.Base(csvFile), err)
+			continue
+		}
+		if !silent {
+			fmt.Println(core.Success("✅"))
+		}
+
+		// Generate pages for this CSV file
+		if !silent {
+			fmt.Print(core.Info("📅 Generating calendar pages... "))
+		}
+		preview := c.Bool(pConfig)
+		if err := generatePages(cfg, preview); err != nil {
+			if !silent {
+				fmt.Println(core.Error("❌"))
+			}
+			fmt.Printf(core.Warning("⚠️  Skipping %s due to page generation error: %v\n"), filepath.Base(csvFile), err)
+			continue
+		}
+		if !silent {
+			fmt.Println(core.Success("✅"))
+		}
+
+		if !silent {
+			fmt.Printf(core.Success("✨ Completed processing: %s\n"), filepath.Base(csvFile))
+			fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
+		}
 	}
 
 	if !silent {
 		fmt.Println(core.DimText("═══════════════════════════════════════"))
-		fmt.Println(core.Success("✨ Generation complete!"))
-		fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
+		fmt.Println(core.Success("✨ All files processed!"))
 	}
 
 	return nil
@@ -603,7 +613,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 
 	// Auto-detect configuration based on CSV
 	pathConfigs := initialPathConfigs
-	if csvPath != "" && len(initialPathConfigs) == 1 && initialPathConfigs[0] == "src/core/base.yaml" {
+	if csvPath != "" && len(initialPathConfigs) == 1 && initialPathConfigs[0] == "configs/config.yaml" {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
@@ -631,9 +641,25 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 
 // setupOutputDirectory ensures the output directory exists and logs its location
 func setupOutputDirectory(cfg core.Config) error {
+	// Create main output directory
 	if err := os.MkdirAll(cfg.OutputDir, 0o755); err != nil {
 		return core.NewFileError(cfg.OutputDir, "create directory", err)
 	}
+	
+	// Create organized subdirectories
+	subdirs := []string{
+		filepath.Join(cfg.OutputDir, "pdfs"),
+		filepath.Join(cfg.OutputDir, "latex"),
+		filepath.Join(cfg.OutputDir, "auxiliary"),
+		filepath.Join(cfg.OutputDir, "binaries"),
+	}
+	
+	for _, subdir := range subdirs {
+		if err := os.MkdirAll(subdir, 0o755); err != nil {
+			return core.NewFileError(subdir, "create subdirectory", err)
+		}
+	}
+	
 	logger.Info("Output directory: %s", cfg.OutputDir)
 	return nil
 }
@@ -656,7 +682,7 @@ func generateRootDocument(cfg core.Config, pathConfigs []string) error {
 
 	logger.Debug("Root document content:\n%s", wr.String())
 
-	outputFile := filepath.Join(cfg.OutputDir, RootFilename(pathConfigs[len(pathConfigs)-1]))
+	outputFile := filepath.Join(cfg.OutputDir, "latex", RootFilename(pathConfigs[len(pathConfigs)-1]))
 	if err := os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
 		return core.NewFileError(outputFile, "write", err)
 	}
@@ -790,7 +816,7 @@ func (t Tpl) renderModules(wr io.Writer, modules []core.Modules, file core.Page)
 
 // writePageFile writes the page content to a file
 func writePageFile(cfg core.Config, pageName string, content []byte) error {
-	pageFile := filepath.Join(cfg.OutputDir, pageName+texExtension)
+	pageFile := filepath.Join(cfg.OutputDir, "latex", pageName+texExtension)
 	if err := os.WriteFile(pageFile, content, 0o600); err != nil {
 		return core.NewFileError(pageFile, "write", err)
 	}
@@ -1094,6 +1120,57 @@ func autoDetectCSV() (string, error) {
 	return filepath.Join(inputDir, csvFiles[0].Name()), nil
 }
 
+// getAllCSVFiles returns all CSV files in the input_data directory
+func getAllCSVFiles() ([]string, error) {
+	inputDir := inputDataDir
+
+	// Check if input_data directory exists
+	if _, err := os.Stat(inputDir); os.IsNotExist(err) {
+		return nil, fmt.Errorf("input_data directory not found")
+	}
+
+	// Find all CSV files
+	files, err := os.ReadDir(inputDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read input_data directory: %w", err)
+	}
+
+	var csvFiles []string
+	for _, file := range files {
+		if !file.IsDir() && strings.HasSuffix(strings.ToLower(file.Name()), ".csv") {
+			csvFiles = append(csvFiles, filepath.Join(inputDir, file.Name()))
+		}
+	}
+
+	if len(csvFiles) == 0 {
+		return nil, fmt.Errorf("no CSV files found in input_data directory")
+	}
+
+	// Sort by priority and modification time
+	sort.Slice(csvFiles, func(i, j int) bool {
+		fileI := filepath.Base(csvFiles[i])
+		fileJ := filepath.Base(csvFiles[j])
+		
+		priorityI := CalculateCSVPriority(fileI)
+		priorityJ := CalculateCSVPriority(fileJ)
+		
+		if priorityI != priorityJ {
+			return priorityI > priorityJ
+		}
+		
+		// If same priority, use modification time
+		infoI, errI := os.Stat(csvFiles[i])
+		infoJ, errJ := os.Stat(csvFiles[j])
+		if errI == nil && errJ == nil {
+			return infoI.ModTime().After(infoJ.ModTime())
+		}
+		
+		return fileI < fileJ
+	})
+
+	return csvFiles, nil
+}
+
 // autoDetectConfig automatically determines appropriate configuration files based on CSV content
 func autoDetectConfig(csvPath string) ([]string, error) {
 	// Read first few lines to detect version/format
@@ -1114,17 +1191,17 @@ func autoDetectConfig(csvPath string) ([]string, error) {
 	}
 
 	// Default configuration
-	baseConfig := "src/core/base.yaml"
+	baseConfig := "configs/config.yaml"
 
 	// Detect CSV version from filename or content
 	csvName := strings.ToLower(filepath.Base(csvPath))
 
 	if strings.Contains(csvName, "v5.1") {
-		// v5.1 format - use monthly calendar config
-		return []string{baseConfig, "src/core/monthly_calendar.yaml"}, nil
+		// v5.1 format - use main config only
+		return []string{baseConfig}, nil
 	} else if strings.Contains(csvName, "v5") {
-		// v5 format - use basic calendar config
-		return []string{baseConfig, "src/core/calendar.yaml"}, nil
+		// v5 format - use main config only
+		return []string{baseConfig}, nil
 	}
 
 	// Check content for version detection
@@ -1132,7 +1209,7 @@ func autoDetectConfig(csvPath string) ([]string, error) {
 		header := strings.ToLower(lines[0])
 		if strings.Contains(header, "phase") && strings.Contains(header, "sub-phase") {
 			// Has phase and sub-phase columns - v5.1 format
-			return []string{baseConfig, "src/core/monthly_calendar.yaml"}, nil
+			return []string{baseConfig}, nil
 		}
 	}
 
@@ -1266,82 +1343,101 @@ func runValidation(c *cli.Context) error {
 	fmt.Println("🔍 Running Validation Checks")
 	fmt.Println("═══════════════════════════════════════")
 
-	// Load configuration to get CSV file path
-	cfg, pathConfigs, err := loadConfiguration(c)
+	// Get all CSV files to validate
+	csvFiles, err := getAllCSVFiles()
 	if err != nil {
 		return formatError(
-			"Configuration Loading",
-			"Unable to load configuration for validation",
+			"CSV File Detection",
+			"Unable to find CSV files to validate",
 			err,
-			"Check that config files exist and are valid YAML",
-			"Verify the --config flag points to the correct file",
+			"Check that input_data directory exists",
+			"Verify there are CSV files in the input_data directory",
+			"Ensure CSV files have .csv extension",
 		)
 	}
 
+	fmt.Printf("📋 Found %d CSV file(s) to validate\n", len(csvFiles))
+
 	validationPassed := true
 
-	// Validate configuration files
-	fmt.Println("\n📋 Validating configuration files...")
-	for _, configPath := range pathConfigs {
-		fmt.Printf("  Checking %s... ", configPath)
+	// Process each CSV file
+	for i, csvFile := range csvFiles {
+		fmt.Printf("\n📄 Validating file %d/%d: %s\n", i+1, len(csvFiles), filepath.Base(csvFile))
 
-		validator := core.NewConfigValidator()
-		result, err := validator.ValidateConfigFile(configPath)
+		// Set the CSV file for this validation run
+		os.Setenv("PLANNER_CSV_FILE", csvFile)
+
+		// Load configuration to get CSV file path
+		cfg, pathConfigs, err := loadConfiguration(c)
 		if err != nil {
-			fmt.Println(core.Error("❌"))
-			fmt.Printf("    Error: %v\n", err)
+			fmt.Printf("❌ Configuration error for %s: %v\n", filepath.Base(csvFile), err)
 			validationPassed = false
 			continue
 		}
 
-		if result.IsValid {
-			if len(result.Warnings) > 0 {
-				fmt.Println(core.Warning("⚠️"))
-				for _, warning := range result.Warnings {
-					fmt.Printf("    Warning: %s\n", warning.Message)
+		// Validate configuration files
+		fmt.Println("📋 Validating configuration files...")
+		for _, configPath := range pathConfigs {
+			fmt.Printf("  Checking %s... ", configPath)
+
+			validator := core.NewConfigValidator()
+			result, err := validator.ValidateConfigFile(configPath)
+			if err != nil {
+				fmt.Println(core.Error("❌"))
+				fmt.Printf("    Error: %v\n", err)
+				validationPassed = false
+				continue
+			}
+
+			if result.IsValid {
+				if len(result.Warnings) > 0 {
+					fmt.Println(core.Warning("⚠️"))
+					for _, warning := range result.Warnings {
+						fmt.Printf("    Warning: %s\n", warning.Message)
+					}
+				} else {
+					fmt.Println(core.Success("✅"))
 				}
 			} else {
-				fmt.Println(core.Success("✅"))
-			}
-		} else {
-			fmt.Println(core.Error("❌"))
-			for _, validationErr := range result.Errors {
-				fmt.Printf("    Error: %s\n", validationErr.Message)
-			}
-			validationPassed = false
-		}
-	}
-
-	// Validate CSV file if available
-	if cfg.HasCSVData() {
-		fmt.Printf("\n📊 Validating CSV file: %s\n", cfg.CSVFilePath)
-
-		validator := core.NewCSVValidator()
-		result, err := validator.ValidateCSVFile(cfg.CSVFilePath)
-		if err != nil {
-			fmt.Println(core.Error("❌ CSV validation failed"))
-			fmt.Printf("  Error: %v\n", err)
-			validationPassed = false
-		} else {
-			fmt.Printf("  %s\n", result.GetSummary())
-
-			if !result.IsValid {
-				fmt.Println("\n📋 Validation Errors:")
+				fmt.Println(core.Error("❌"))
 				for _, validationErr := range result.Errors {
-					fmt.Printf("  • %s\n", validationErr.Error())
+					fmt.Printf("    Error: %s\n", validationErr.Message)
 				}
 				validationPassed = false
 			}
+		}
 
-			if len(result.Warnings) > 0 {
-				fmt.Println("\n⚠️ Validation Warnings:")
-				for _, warning := range result.Warnings {
-					fmt.Printf("  • %s\n", warning.Error())
+		// Validate CSV file if available
+		if cfg.HasCSVData() {
+			fmt.Printf("\n📊 Validating CSV file: %s\n", cfg.CSVFilePath)
+
+			validator := core.NewCSVValidator()
+			result, err := validator.ValidateCSVFile(cfg.CSVFilePath)
+			if err != nil {
+				fmt.Println(core.Error("❌ CSV validation failed"))
+				fmt.Printf("  Error: %v\n", err)
+				validationPassed = false
+			} else {
+				fmt.Printf("  %s\n", result.GetSummary())
+
+				if !result.IsValid {
+					fmt.Println("\n📋 Validation Errors:")
+					for _, validationErr := range result.Errors {
+						fmt.Printf("  • %s\n", validationErr.Error())
+					}
+					validationPassed = false
+				}
+
+				if len(result.Warnings) > 0 {
+					fmt.Println("\n⚠️ Validation Warnings:")
+					for _, warning := range result.Warnings {
+						fmt.Printf("  • %s\n", warning.Error())
+					}
 				}
 			}
+		} else {
+			fmt.Println("\n⚠️ No CSV file configured - skipping CSV validation")
 		}
-	} else {
-		fmt.Println("\n⚠️ No CSV file configured - skipping CSV validation")
 	}
 
 	fmt.Println("\n═══════════════════════════════════════")

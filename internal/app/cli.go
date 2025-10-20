@@ -27,7 +27,7 @@ func New() *cli.App {
 		ErrWriter: os.Stderr,
 
 		Flags: []cli.Flag{
-			&cli.PathFlag{Name: fConfig, Required: false, Value: "src/core/base.yaml", Usage: "config file(s), comma-separated"},
+			&cli.PathFlag{Name: fConfig, Required: false, Value: "configs/config.yaml", Usage: "config file(s), comma-separated"},
 			&cli.BoolFlag{Name: pConfig, Required: false, Usage: "render only one page per unique module"},
 			&cli.PathFlag{Name: fOutDir, Required: false, Value: "", Usage: "output directory for generated files (overrides config)"},
 			&cli.BoolFlag{Name: "test-coverage", Required: false, Usage: "run tests with coverage analysis"},
