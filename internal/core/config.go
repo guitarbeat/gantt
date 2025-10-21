@@ -76,6 +76,12 @@ type Config struct {
 	StartYear   int    `env:"PLANNER_START_YEAR"`
 	EndYear     int    `env:"PLANNER_END_YEAR"`
 
+	// Tasks loaded from CSV files (populated when merging multiple files)
+	Tasks []Task
+
+	// CSV source files (for reference in TOC)
+	CSVSourceFiles []string
+
 	// Months with tasks (populated from CSV)
 	MonthsWithTasks []MonthYear
 

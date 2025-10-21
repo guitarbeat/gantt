@@ -1,4 +1,4 @@
-# Consolidated Configuration for PhD Dissertation Planner
+y# Consolidated Configuration for PhD Dissertation Planner
 # This file combines all configuration options with presets for different use cases
 
 # ==================== CORE SETTINGS ====================
@@ -8,6 +8,7 @@ dotted: true
 calafterschedule: false
 addlasthalfhour: true
 cleartoprightcorner: false
+outputdir: output_data
 
 # ==================== DEBUG SETTINGS ====================
 debug:

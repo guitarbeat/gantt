@@ -99,6 +99,7 @@ desktop.ini
 build/
 dist/
 output/
+output_data/
 .build_temp/
 target/
 

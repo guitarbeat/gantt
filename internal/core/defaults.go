@@ -212,7 +212,7 @@ var Defaults = ConfigDefaults{
 	EmergencyStretch: "3em",
 
 	// Output
-	DefaultOutputDir: "generated",
+	DefaultOutputDir: "output_data",
 
 	// Task colors
 	DefaultTaskColor: "224,50,212", // Magenta fallback

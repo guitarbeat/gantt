@@ -204,17 +204,10 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 		}
 	}
 
-	// Validate phase
+	// Validate phase (accepts any non-empty string)
 	if task.Phase != "" {
-		if !v.validPhases[task.Phase] {
-			errors = append(errors, ValidationIssue{
-				Type:    "invalid_value",
-				Field:   "Phase",
-				Row:     rowNum,
-				Value:   task.Phase,
-				Message: "Phase must be a number between 1-10",
-			})
-		}
+		// Phase can be any descriptive text now
+		// No specific format required
 	}
 
 	// Validate Task ID format
@@ -227,21 +220,9 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 				Value:   task.ID,
 				Message: "Task ID must follow format T{phase}.{identifier} (e.g., T1.1, T2.M1, T3.4a)",
 			})
-		} else {
-			// Validate that task ID phase matches the Phase column
-			if task.Phase != "" {
-				taskIDPhase := strings.TrimPrefix(strings.Split(task.ID, ".")[0], "T")
-				if taskIDPhase != task.Phase {
-					errors = append(errors, ValidationIssue{
-						Type:    "phase_mismatch",
-						Field:   "Task ID",
-						Row:     rowNum,
-						Value:   task.ID,
-						Message: fmt.Sprintf("Task ID phase (%s) does not match Phase column (%s)", taskIDPhase, task.Phase),
-					})
-				}
-			}
 		}
+		// Note: Task ID phase matching is no longer enforced since Phase column
+		// now contains descriptive text instead of numbers
 	}
 
 	// Note: Milestone field validation happens during CSV parsing, not here

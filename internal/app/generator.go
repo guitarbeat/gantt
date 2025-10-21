@@ -66,7 +66,7 @@ import (
 
 	cal "phd-dissertation-planner/internal/calendar"
 	"phd-dissertation-planner/internal/core"
-	tmplfs "phd-dissertation-planner/pkg/templates"
+	tmplfs "phd-dissertation-planner/internal/templates"
 
 	"github.com/urfave/cli/v2"
 )
@@ -356,99 +356,135 @@ func action(c *cli.Context) error {
 	}
 
 	if !silent {
-		fmt.Printf(core.Info("📋 Found %d CSV file(s) to process\n"), len(csvFiles))
+		fmt.Printf(core.Info("📋 Found %d CSV file(s) to merge and process\n"), len(csvFiles))
+		for i, csvFile := range csvFiles {
+			fmt.Printf(core.Info("   %d. %s\n"), i+1, filepath.Base(csvFile))
+		}
 	}
 
-	// Process each CSV file
-	for i, csvFile := range csvFiles {
+	// Merge all CSV files in memory
+	if !silent {
+		fmt.Print(core.Info("🔄 Merging CSV files in memory... "))
+	}
+	allTasks, err := core.ReadTasksFromMultipleFiles(csvFiles)
+	if err != nil {
 		if !silent {
-			fmt.Printf(core.Info("📄 Processing file %d/%d: %s\n"), i+1, len(csvFiles), filepath.Base(csvFile))
+			fmt.Println(core.Error("❌"))
 		}
+		return formatError(
+			"CSV Merging",
+			"Unable to merge CSV files",
+			err,
+			"Check that all CSV files have the same header structure",
+			"Verify there are no duplicate task IDs across files",
+			"Ensure all CSV files are valid",
+		)
+	}
+	if !silent {
+		fmt.Printf(core.Success("✅ (%d tasks total)\n"), len(allTasks))
+	}
 
-		// Set the CSV file for this processing run
-		os.Setenv("PLANNER_CSV_FILE", csvFile)
-
-		// Load and prepare configuration for this CSV file
+	// Load and prepare configuration with merged tasks
+	if !silent {
+		fmt.Print(core.Info("📋 Loading configuration... "))
+	}
+	cfg, pathConfigs, err := loadConfigurationWithTasks(c, allTasks)
+	if err != nil {
 		if !silent {
-			fmt.Print(core.Info("📋 Loading configuration... "))
+			fmt.Println(core.Error("❌"))
 		}
-		cfg, pathConfigs, err := loadConfiguration(c)
-		if err != nil {
-			if !silent {
-				fmt.Println(core.Error("❌"))
-			}
-			fmt.Printf(core.Warning("⚠️  Skipping %s due to configuration error: %v\n"), filepath.Base(csvFile), err)
-			continue
+		return formatError(
+			"Configuration",
+			"Unable to load configuration",
+			err,
+			"Check that input_data/config.yaml exists",
+			"Verify configuration file syntax",
+		)
+	}
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
+
+	// Setup output directory
+	if !silent {
+		fmt.Print(core.Info("📁 Setting up output directory... "))
+	}
+	if err := setupOutputDirectory(cfg); err != nil {
+		if !silent {
+			fmt.Println(core.Error("❌"))
 		}
+		return formatError(
+			"Output Directory",
+			"Unable to create output directory",
+			err,
+			"Check directory permissions",
+			"Verify disk space",
+		)
+	}
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
+
+	// Generate root document
+	if !silent {
+		fmt.Print(core.Info("📄 Generating root document... "))
+	}
+	if err := generateRootDocument(cfg, pathConfigs); err != nil {
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
+		return formatError(
+			"Document Generation",
+			"Unable to generate root document",
+			err,
+			"Check template files",
+			"Verify configuration",
+		)
+	}
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
+
+	// Generate pages
+	if !silent {
+		fmt.Print(core.Info("📅 Generating calendar pages... "))
+	}
+	preview := c.Bool(pConfig)
+	if err := generatePages(cfg, preview); err != nil {
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
+		return formatError(
+			"Page Generation",
+			"Unable to generate calendar pages",
+			err,
+			"Check template files",
+			"Verify task data",
+		)
+	}
+	if !silent {
+		fmt.Println(core.Success("✅"))
+	}
+
+	// Compile LaTeX to PDF
+	if !silent {
+		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
+	}
+	if err := compileLaTeXToPDF(cfg); err != nil {
+		if !silent {
+			fmt.Println(core.Error("❌"))
+		}
+		logger.Warn("PDF compilation failed: %v", err)
+	} else {
 		if !silent {
 			fmt.Println(core.Success("✅"))
 		}
+	}
 
-		// Setup output directory for this CSV file
-		if !silent {
-			fmt.Print(core.Info("📁 Setting up output directory... "))
-		}
-		if err := setupOutputDirectory(cfg); err != nil {
-			if !silent {
-				fmt.Println(core.Error("❌"))
-			}
-			fmt.Printf(core.Warning("⚠️  Skipping %s due to output directory error: %v\n"), filepath.Base(csvFile), err)
-			continue
-		}
-		if !silent {
-			fmt.Println(core.Success("✅"))
-		}
-
-		// Generate root document for this CSV file
-		if !silent {
-			fmt.Print(core.Info("📄 Generating root document... "))
-		}
-		if err := generateRootDocument(cfg, pathConfigs); err != nil {
-			if !silent {
-				fmt.Println(core.Error("❌"))
-			}
-			fmt.Printf(core.Warning("⚠️  Skipping %s due to document generation error: %v\n"), filepath.Base(csvFile), err)
-			continue
-		}
-		if !silent {
-			fmt.Println(core.Success("✅"))
-		}
-
-		// Generate pages for this CSV file
-		if !silent {
-			fmt.Print(core.Info("📅 Generating calendar pages... "))
-		}
-		preview := c.Bool(pConfig)
-		if err := generatePages(cfg, preview); err != nil {
-			if !silent {
-				fmt.Println(core.Error("❌"))
-			}
-			fmt.Printf(core.Warning("⚠️  Skipping %s due to page generation error: %v\n"), filepath.Base(csvFile), err)
-			continue
-		}
-		if !silent {
-			fmt.Println(core.Success("✅"))
-		}
-
-		// Compile LaTeX to PDF
-		if !silent {
-			fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
-		}
-		if err := compileLaTeXToPDF(cfg); err != nil {
-			if !silent {
-				fmt.Println(core.Error("❌"))
-			}
-			fmt.Printf(core.Warning("⚠️  Skipping PDF compilation for %s due to error: %v\n"), filepath.Base(csvFile), err)
-		} else {
-			if !silent {
-				fmt.Println(core.Success("✅"))
-			}
-		}
-
-		if !silent {
-			fmt.Printf(core.Success("✨ Completed processing: %s\n"), filepath.Base(csvFile))
-			fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
-		}
+	if !silent {
+		fmt.Println(core.DimText("═══════════════════════════════════════"))
+		fmt.Printf(core.Success("✨ Successfully generated calendar from %d CSV files!\n"), len(csvFiles))
+		fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
 	}
 
 	if !silent {
@@ -628,7 +664,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 
 	// Auto-detect configuration based on CSV
 	pathConfigs := initialPathConfigs
-	if csvPath != "" && len(initialPathConfigs) == 1 && initialPathConfigs[0] == "configs/config.yaml" {
+	if csvPath != "" && len(initialPathConfigs) == 1 && initialPathConfigs[0] == "input_data/config.yaml" {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
@@ -652,6 +688,37 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 	}
 
 	return cfg, pathConfigs, nil
+}
+
+// loadConfigurationWithTasks loads configuration and injects pre-loaded tasks
+func loadConfigurationWithTasks(c *cli.Context, tasks []core.Task) (core.Config, []string, error) {
+	initialPathConfigs := strings.Split(c.Path(fConfig), ",")
+
+	cfg, err := core.NewConfig(initialPathConfigs...)
+	if err != nil {
+		return core.Config{}, nil, core.NewConfigError(
+			strings.Join(initialPathConfigs, ","),
+			"",
+			"failed to load configuration",
+			err,
+		)
+	}
+
+	// Override output directory from CLI flag if provided
+	if od := strings.TrimSpace(c.Path(fOutDir)); od != "" {
+		cfg.OutputDir = od
+	}
+
+	// Inject the pre-loaded tasks into the configuration
+	cfg.Tasks = tasks
+	
+	// Calculate date range and months with tasks from the merged data
+	if len(tasks) > 0 {
+		dateRange := core.CalculateDateRange(tasks)
+		cfg.MonthsWithTasks = core.GetMonthsWithTasks(tasks, dateRange)
+	}
+
+	return cfg, initialPathConfigs, nil
 }
 
 // setupOutputDirectory ensures the output directory exists and logs its location
@@ -951,25 +1018,16 @@ func Monthly(cfg core.Config, tpls []string) (core.Modules, error) {
 
 // MonthlyLegacy provides the original monthly generation without layout integration
 func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
-	// Load tasks from CSV if available
-	var tasks []core.Task
-	csvPath := cfg.CSVFilePath
-
-	if csvPath != "" {
-		reader := core.NewReader(csvPath)
-		var err error
-		tasks, err = reader.ReadTasks()
-		if err != nil {
-			// Log error but continue without tasks
-			return nil, fmt.Errorf("error reading tasks: %w", err)
-		}
-	}
+	// Use tasks from config (already loaded and merged)
+	tasks := cfg.Tasks
 
 	// If we have months with tasks from CSV, use only those
 	if len(cfg.MonthsWithTasks) > 0 {
 		var modules core.Modules
 		if len(tasks) > 0 {
-			tocModule := createTableOfContentsModule(cfg, tasks, "toc.tpl")
+			// Get CSV file list for TOC display
+			csvFiles, _ := getAllCSVFiles()
+			tocModule := createTableOfContentsModule(cfg, tasks, "toc.tpl", csvFiles)
 			modules = append(modules, tocModule)
 		}
 
@@ -1151,9 +1209,13 @@ func getAllCSVFiles() ([]string, error) {
 	}
 
 	var csvFiles []string
+	
 	for _, file := range files {
 		if !file.IsDir() && strings.HasSuffix(strings.ToLower(file.Name()), ".csv") {
-			csvFiles = append(csvFiles, filepath.Join(inputDir, file.Name()))
+			// Skip hidden files and temporary files
+			if !strings.HasPrefix(file.Name(), ".") {
+				csvFiles = append(csvFiles, filepath.Join(inputDir, file.Name()))
+			}
 		}
 	}
 
@@ -1161,27 +1223,8 @@ func getAllCSVFiles() ([]string, error) {
 		return nil, fmt.Errorf("no CSV files found in input_data directory")
 	}
 
-	// Sort by priority and modification time
-	sort.Slice(csvFiles, func(i, j int) bool {
-		fileI := filepath.Base(csvFiles[i])
-		fileJ := filepath.Base(csvFiles[j])
-		
-		priorityI := CalculateCSVPriority(fileI)
-		priorityJ := CalculateCSVPriority(fileJ)
-		
-		if priorityI != priorityJ {
-			return priorityI > priorityJ
-		}
-		
-		// If same priority, use modification time
-		infoI, errI := os.Stat(csvFiles[i])
-		infoJ, errJ := os.Stat(csvFiles[j])
-		if errI == nil && errJ == nil {
-			return infoI.ModTime().After(infoJ.ModTime())
-		}
-		
-		return fileI < fileJ
-	})
+	// Sort files alphabetically (phase_1, phase_2, etc. will be in order)
+	sort.Strings(csvFiles)
 
 	return csvFiles, nil
 }
@@ -1206,7 +1249,7 @@ func autoDetectConfig(csvPath string) ([]string, error) {
 	}
 
 	// Default configuration
-	baseConfig := "configs/config.yaml"
+	baseConfig := "input_data/config.yaml"
 
 	// Detect CSV version from filename or content
 	csvName := strings.ToLower(filepath.Base(csvPath))
@@ -1233,7 +1276,7 @@ func autoDetectConfig(csvPath string) ([]string, error) {
 }
 
 // createTableOfContentsModule creates a table of contents module with links to all tasks
-func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateName string) core.Module {
+func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateName string, csvFiles []string) core.Module {
 	// Group tasks by phase
 	phaseTasks := make(map[string][]core.Task)
 	for _, task := range tasks {
@@ -1241,7 +1284,7 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 		phaseTasks[task.Phase] = append(phaseTasks[task.Phase], task)
 	}
 
-	// Sort tasks within each phase
+	// Sort tasks within each phase by start date
 	for _, tasksInPhase := range phaseTasks {
 		sort.Slice(tasksInPhase, func(i, j int) bool {
 			return tasksInPhase[i].StartDate.Before(tasksInPhase[j].StartDate)
@@ -1286,31 +1329,75 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 		phaseStats[phase] = stats
 	}
 
-	// Extract unique phase names from the CSV data
-	phaseNames := make(map[string]string)
-	phases := make([]string, 0)
+	// Define logical phase ordering (PhD timeline order)
+	phaseOrder := []string{
+		"Project Metadata",
+		"PhD Proposal",
+		"Committee Management",
+		"Microscope Setup",
+		"Laser System",
+		"Aim 1 - AAV-based Vascular Imaging",
+		"Aim 2 - Dual-channel Imaging Platform",
+		"Aim 3 - Stroke Study & Analysis",
+		"Data Management & Analysis",
+		"SLAVV-T Development",
+		"AR Platform Development",
+		"Research Paper",
+		"Methodology Paper",
+		"Manuscript Submissions",
+		"Dissertation Writing",
+		"Committee Review & Defense",
+		"Final Submission & Graduation",
+	}
 
-	// Collect unique phases and their names
-	phaseMap := make(map[string]string)
-	for phase, tasksInPhase := range phaseTasks {
-		if len(tasksInPhase) > 0 {
-			// Use the SubPhase from the first task as the phase name
-			phaseName := tasksInPhase[0].SubPhase
-			if phaseName != "" {
-				phaseMap[phase] = fmt.Sprintf("Phase %s: %s", phase, EscapeLatex(phaseName))
-			} else {
-				phaseMap[phase] = fmt.Sprintf("Phase %s", phase)
-			}
+	// Get unique phases that exist in the data, ordered by phaseOrder
+	phases := make([]string, 0, len(phaseTasks))
+	phaseSet := make(map[string]bool)
+	for phase := range phaseTasks {
+		phaseSet[phase] = true
+	}
+
+	// Add phases in the defined order
+	for _, phase := range phaseOrder {
+		if phaseSet[phase] {
+			phases = append(phases, phase)
+			delete(phaseSet, phase)
 		}
 	}
 
-	// Sort phases numerically and create the final maps/slices
-	for i := 1; i <= 10; i++ { // Support up to 10 phases
-		phaseStr := strconv.Itoa(i)
-		if phaseName, exists := phaseMap[phaseStr]; exists {
-			phaseNames[phaseStr] = phaseName
-			phases = append(phases, phaseStr)
+	// Add any remaining phases not in the defined order (alphabetically)
+	remainingPhases := make([]string, 0)
+	for phase := range phaseSet {
+		remainingPhases = append(remainingPhases, phase)
+	}
+	sort.Strings(remainingPhases)
+	phases = append(phases, remainingPhases...)
+
+	// Create phase names map (escaped for LaTeX) and phase colors
+	phaseNames := make(map[string]string)
+	phaseColors := make(map[string]string)
+	for _, phase := range phases {
+		phaseNames[phase] = EscapeLatex(phase)
+		// Generate color for this phase using the same algorithm as the calendar
+		color := core.GenerateCategoryColor(phase)
+		phaseColors[phase] = core.HexToRGB(color)
+	}
+
+	// Calculate task durations in days
+	taskDurations := make(map[string]string)
+	for _, task := range tasks {
+		duration := task.EndDate.Sub(task.StartDate)
+		days := int(duration.Hours() / 24)
+		if days < 1 {
+			days = 1
 		}
+		taskDurations[task.ID] = fmt.Sprintf("%d", days)
+	}
+
+	// Prepare CSV file info for display
+	csvFileNames := make([]string, len(csvFiles))
+	for i, csvFile := range csvFiles {
+		csvFileNames[i] = EscapeLatex(filepath.Base(csvFile))
 	}
 
 	return core.Module{
@@ -1320,10 +1407,14 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 			"TaskIndex":      phaseTasks,
 			"PhaseOrder":     phases,
 			"PhaseNames":     phaseNames,
+			"PhaseColors":    phaseColors,
+			"TaskDurations":  taskDurations,
 			"TotalTasks":     totalTasks,
 			"MilestoneCount": milestoneCount,
 			"CompletedCount": completedCount,
 			"PhaseStats":     phaseStats,
+			"CSVFiles":       csvFileNames,
+			"CSVFileCount":   len(csvFiles),
 		},
 	}
 }

@@ -12,8 +12,7 @@ type Task struct {
 	Name         string
 	StartDate    time.Time
 	EndDate      time.Time
-	Phase        string // * Added: Phase (1, 2, 3, 4)
-	SubPhase     string // * Added: Sub-Phase (detailed phase description)
+	Phase        string // * Combined: Phase with description (e.g., "1: Project Metadata")
 	Category     string // * Fixed: Use Category instead of Priority for clarity
 	Description  string
 	Status       string   // * Added: Task status (Planned, In Progress, Completed, etc.)
@@ -191,3 +190,68 @@ type TaskRenderer struct {
 }
 
 // Enhanced Task methods for calendar layout and rendering
+
+// CalculateDateRange calculates the earliest and latest dates from a list of tasks
+func CalculateDateRange(tasks []Task) DateRange {
+	if len(tasks) == 0 {
+		return DateRange{
+			Earliest: time.Now(),
+			Latest:   time.Now(),
+		}
+	}
+
+	earliest := tasks[0].StartDate
+	latest := tasks[0].EndDate
+
+	for _, task := range tasks {
+		if task.StartDate.Before(earliest) {
+			earliest = task.StartDate
+		}
+		if task.EndDate.After(latest) {
+			latest = task.EndDate
+		}
+	}
+
+	return DateRange{
+		Earliest: earliest,
+		Latest:   latest,
+	}
+}
+
+// GetMonthsWithTasks returns a list of unique months that have tasks
+func GetMonthsWithTasks(tasks []Task, dateRange DateRange) []MonthYear {
+	monthMap := make(map[string]MonthYear)
+
+	for _, task := range tasks {
+		// Add all months between start and end date
+		current := time.Date(task.StartDate.Year(), task.StartDate.Month(), 1, 0, 0, 0, 0, time.UTC)
+		end := time.Date(task.EndDate.Year(), task.EndDate.Month(), 1, 0, 0, 0, 0, time.UTC)
+
+		for !current.After(end) {
+			key := fmt.Sprintf("%d-%02d", current.Year(), current.Month())
+			monthMap[key] = MonthYear{
+				Year:  current.Year(),
+				Month: current.Month(),
+			}
+			current = current.AddDate(0, 1, 0)
+		}
+	}
+
+	// Convert map to sorted slice
+	var months []MonthYear
+	for _, month := range monthMap {
+		months = append(months, month)
+	}
+
+	// Sort by year and month
+	for i := 0; i < len(months)-1; i++ {
+		for j := i + 1; j < len(months); j++ {
+			if months[i].Year > months[j].Year ||
+				(months[i].Year == months[j].Year && months[i].Month > months[j].Month) {
+				months[i], months[j] = months[j], months[i]
+			}
+		}
+	}
+
+	return months
+}

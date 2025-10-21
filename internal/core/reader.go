@@ -122,6 +122,38 @@ func NewReader(filePath string) *Reader {
 	}
 }
 
+// ReadTasksFromMultipleFiles reads and merges tasks from multiple CSV files
+func ReadTasksFromMultipleFiles(filePaths []string) ([]Task, error) {
+	if len(filePaths) == 0 {
+		return nil, fmt.Errorf("no CSV files provided")
+	}
+
+	var allTasks []Task
+	taskIDMap := make(map[string]bool) // Track task IDs to detect duplicates
+
+	for _, filePath := range filePaths {
+		reader := NewReader(filePath)
+		tasks, err := reader.ReadTasks()
+		if err != nil {
+			return nil, fmt.Errorf("error reading %s: %w", filePath, err)
+		}
+
+		// Check for duplicate task IDs across files
+		for _, task := range tasks {
+			if task.ID != "" {
+				if taskIDMap[task.ID] {
+					return nil, fmt.Errorf("duplicate task ID '%s' found in %s", task.ID, filePath)
+				}
+				taskIDMap[task.ID] = true
+			}
+		}
+
+		allTasks = append(allTasks, tasks...)
+	}
+
+	return allTasks, nil
+}
+
 // parseDate attempts to parse a date string using multiple supported formats
 func (r *Reader) parseDate(dateStr string) (time.Time, error) {
 	if dateStr == "" {
@@ -453,14 +485,11 @@ func (r *Reader) extractBasicFields(task *Task, extractor *fieldExtractor) {
 
 // extractPhaseFields extracts phase and category information
 func (r *Reader) extractPhaseFields(task *Task, extractor *fieldExtractor) {
+	// Phase now contains the combined format directly from CSV
 	task.Phase = extractor.get("Phase")
-	task.SubPhase = extractor.get("Sub-Phase")
 
-	// Use Sub-Phase as primary category for better granularity
-	task.Category = task.SubPhase
-	if task.Category == "" {
-		task.Category = task.Phase // Fallback to Phase if Sub-Phase is empty
-	}
+	// Use phase as category for better granularity
+	task.Category = task.Phase
 }
 
 // extractStatusFields extracts status and assignee

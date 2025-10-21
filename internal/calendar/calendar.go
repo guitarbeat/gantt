@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"phd-dissertation-planner/internal/core"
-	"phd-dissertation-planner/pkg/templates"
+	"phd-dissertation-planner/internal/templates"
 )
 
 // ============================================================================
@@ -930,29 +930,25 @@ type SubPhaseLegendItem struct {
 
 // GetTaskColorsByPhase returns tasks grouped by phase for a structured legend
 func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
-	// Map to track unique phase -> subphase -> color
-	phaseMap := make(map[string]map[string]string)
-	phaseNames := make(map[string]string) // phase number -> full phase description
+	// Map to track unique phases and their colors
+	phaseMap := make(map[string]string) // phase name -> color
+	phaseOrder := make([]string, 0)     // track order of phases
 
-	// Collect all unique phase/subphase combinations in this month
+	// Collect all unique phases in this month
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
 			for _, task := range day.Tasks {
-				if task.Phase != "" && task.SubPhase != "" {
-					// Initialize phase map if needed
-					if phaseMap[task.Phase] == nil {
-						phaseMap[task.Phase] = make(map[string]string)
-					}
-
-					// Get color for this subphase (category)
-					color := core.GenerateCategoryColor(task.SubPhase)
-					if color != "" {
-						phaseMap[task.Phase][task.SubPhase] = core.HexToRGB(color)
-					}
-
-					// Store phase name (use first non-empty one)
-					if phaseNames[task.Phase] == "" && task.SubPhase != "" {
-						phaseNames[task.Phase] = task.SubPhase
+				if task.Phase != "" {
+					// Use the phase name directly (no number extraction needed)
+					phaseName := task.Phase
+					
+					// Get color for this phase
+					if _, exists := phaseMap[phaseName]; !exists {
+						color := core.GenerateCategoryColor(phaseName)
+						if color != "" {
+							phaseMap[phaseName] = core.HexToRGB(color)
+							phaseOrder = append(phaseOrder, phaseName)
+						}
 					}
 				}
 			}
@@ -961,22 +957,19 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 
 	// Convert to sorted structure
 	var phases []PhaseGroup
-	phaseOrder := []string{"1", "2", "3", "4"} // Typical phase numbering
 
-	for _, phaseNum := range phaseOrder {
-		if subPhases, exists := phaseMap[phaseNum]; exists {
+	for _, phaseName := range phaseOrder {
+		if color, exists := phaseMap[phaseName]; exists {
 			phase := PhaseGroup{
-				PhaseNumber: phaseNum,
-				PhaseName:   GetPhaseDescription(phaseNum),
+				PhaseNumber: "",  // No longer using phase numbers
+				PhaseName:   EscapeLatexSpecialChars(phaseName),
 			}
 
-			// Add each subphase
-			for subPhaseName, color := range subPhases {
-				phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
-					Name:  EscapeLatexSpecialChars(subPhaseName),
-					Color: color,
-				})
-			}
+			// Add the phase as a "subphase" for consistency with template
+			phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
+				Name:  EscapeLatexSpecialChars(phaseName),
+				Color: color,
+			})
 
 			phases = append(phases, phase)
 		}
@@ -1098,8 +1091,7 @@ type SpanningTask struct {
 	ID          string
 	Name        string
 	Description string
-	Phase       string // Added: Phase number
-	SubPhase    string // Added: Sub-Phase description
+	Phase       string // Combined: Phase with description
 	Category    string
 	StartDate   time.Time
 	EndDate     time.Time
@@ -1119,8 +1111,7 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
-		Phase:       task.Phase,    // * Added: Include Phase
-		SubPhase:    task.SubPhase, // * Added: Include SubPhase
+		Phase:       task.Phase,    // Combined: Phase with description
 		Category:    task.Category, // * Fixed: Use Category field
 		StartDate:   startDate,
 		EndDate:     endDate,

@@ -50,7 +50,7 @@ import (
 	"strings"
 	"text/template"
 
-	"phd-dissertation-planner/pkg/templates"
+	"phd-dissertation-planner/internal/templates"
 )
 
 // TemplateFuncs returns a FuncMap with all custom template functions
