@@ -13,15 +13,29 @@
 
 \vspace{0.4cm}
 
+{{- $currentSection := ""}}
 {{- range .Body.PhaseOrder}}
     {{- $phase := .}}
     {{- if index $.Body.TaskIndex $phase}}
 {{- $stats := index $.Body.PhaseStats $phase }}
 {{- $phaseName := index $.Body.PhaseNames $phase }}
 {{- $phaseColor := index $.Body.PhaseColors $phase }}
+{{- $section := index $.Body.PhaseToSection $phase }}
+
+{{- if ne $section $currentSection}}
+{{- $currentSection = $section}}
+
+% Section: {{$section}}
+\vspace{0.5cm}
+{\LARGE\textbf{ {{- $section -}} }}
+\vspace{0.2cm}
+
+\noindent\rule{\linewidth}{0.8pt}
+\vspace{0.3cm}
+{{- end}}
 
 % Phase: {{$phaseName}}
-\vspace{0.3cm}
+\vspace{0.25cm}
 \noindent\colorbox[RGB]{ {{- $phaseColor -}} }{\parbox{0.98\linewidth}{\vspace{2pt}\textbf{\large {{$phaseName}}}\hfill{\small {{$stats.total}} tasks{{if $stats.milestones}}, {{$stats.milestones}} milestones{{end}}{{if $stats.completed}}, {{$stats.progress}}\% complete{{end}}}\vspace{2pt}}}
 
 \vspace{0.15cm}

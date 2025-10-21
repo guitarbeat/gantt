@@ -1329,25 +1329,56 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 		phaseStats[phase] = stats
 	}
 
-	// Define logical phase ordering (PhD timeline order)
-	phaseOrder := []string{
-		"Project Metadata",
-		"PhD Proposal",
-		"Committee Management",
-		"Microscope Setup",
-		"Laser System",
-		"Aim 1 - AAV-based Vascular Imaging",
-		"Aim 2 - Dual-channel Imaging Platform",
-		"Aim 3 - Stroke Study & Analysis",
-		"Data Management & Analysis",
-		"SLAVV-T Development",
-		"AR Platform Development",
-		"Research Paper",
-		"Methodology Paper",
-		"Manuscript Submissions",
-		"Dissertation Writing",
-		"Committee Review & Defense",
-		"Final Submission & Graduation",
+	// Define hierarchical structure with sections and phases
+	type PhaseSection struct {
+		Name   string
+		Phases []string
+	}
+
+	sections := []PhaseSection{
+		{
+			Name: "Setup \\& Proposal",
+			Phases: []string{
+				"Project Metadata",
+				"PhD Proposal",
+				"Committee Management",
+				"Microscope Setup",
+				"Laser System",
+			},
+		},
+		{
+			Name: "Research Aims",
+			Phases: []string{
+				"Aim 1 - AAV-based Vascular Imaging",
+				"Aim 2 - Dual-channel Imaging Platform",
+				"Aim 3 - Stroke Study & Analysis",
+				"Data Management & Analysis",
+			},
+		},
+		{
+			Name: "Publications \\& Tools",
+			Phases: []string{
+				"SLAVV-T Development",
+				"AR Platform Development",
+				"Research Paper",
+				"Methodology Paper",
+				"Manuscript Submissions",
+			},
+		},
+		{
+			Name: "Dissertation \\& Defense",
+			Phases: []string{
+				"Dissertation Writing",
+				"Committee Review & Defense",
+				"Final Submission & Graduation",
+			},
+		},
+	}
+
+	// Build phase order from sections
+	phaseOrder := make([]string, 0)
+	for _, section := range sections {
+		phaseOrder = append(phaseOrder, section.Phases...)
 	}
 
 	// Get unique phases that exist in the data, ordered by phaseOrder
@@ -1394,6 +1425,14 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 		taskDurations[task.ID] = fmt.Sprintf("%d", days)
 	}
 
+	// Create phase-to-section mapping
+	phaseToSection := make(map[string]string)
+	for _, section := range sections {
+		for _, phase := range section.Phases {
+			phaseToSection[phase] = section.Name
+		}
+	}
+
 	// Prepare CSV file info for display
 	csvFileNames := make([]string, len(csvFiles))
 	for i, csvFile := range csvFiles {
@@ -1408,6 +1447,7 @@ func createTableOfContentsModule(cfg core.Config, tasks []core.Task, templateNam
 			"PhaseOrder":     phases,
 			"PhaseNames":     phaseNames,
 			"PhaseColors":    phaseColors,
+			"PhaseToSection": phaseToSection,
 			"TaskDurations":  taskDurations,
 			"TotalTasks":     totalTasks,
 			"MilestoneCount": milestoneCount,
