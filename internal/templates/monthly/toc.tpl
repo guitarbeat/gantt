@@ -26,33 +26,30 @@
 {{- $currentSection = $section}}
 
 % Section: {{$section}}
-\vspace{0.5cm}
-{\LARGE\textbf{ {{- $section -}} }}
-\vspace{0.2cm}
-
-\noindent\rule{\linewidth}{0.8pt}
-\vspace{0.3cm}
+\vspace{0.4cm}
+\noindent\colorbox[gray]{0.95}{\parbox{\linewidth}{\vspace{0.15cm}\hspace{0.2cm}{\LARGE\textbf{ {{- $section -}} }}\vspace{0.15cm}}}
+\vspace{0.15cm}
 {{- end}}
 
 % Phase: {{$phaseName}}
-\vspace{0.25cm}
+\vspace{0.2cm}
 \noindent\colorbox[RGB]{ {{- $phaseColor -}} }{\parbox{0.98\linewidth}{\vspace{2pt}\textbf{\large {{$phaseName}}}\hfill{\small {{$stats.total}} tasks{{if $stats.milestones}}, {{$stats.milestones}} milestones{{end}}{{if $stats.completed}}, {{$stats.progress}}\% complete{{end}}}\vspace{2pt}}}
 
-\vspace{0.15cm}
+\vspace{0.1cm}
 
 \noindent\begin{tabularx}{\linewidth}{@{\hspace{0.5em}}c@{\hspace{0.8em}}>{\RaggedRight}X@{\hspace{0.8em}}l@{\hspace{0.8em}}l@{\hspace{0.5em}}}
-\hline
-\textbf{\#} & \textbf{Task} & \textbf{Start} & \textbf{End} \\
 \hline
     {{- range $i, $task := index $.Body.TaskIndex $phase}}
         {{- $taskName := $task.Name }}
         {{- $taskIcon := "" }}
         {{- if $task.IsMilestone}}{{- $taskIcon = "$\\star$" }}{{- $taskName = printf "\\textbf{%s}" $taskName}}{{- end}}
         {{- if eq ($task.Status | lower) "completed"}}{{- $taskIcon = "$\\checkmark$" }}{{- $taskName = printf "\\textcolor{gray}{%s}" $taskName}}{{- end}}
-{{plus $i 1}} & \hyperlink{ {{- $task.StartDate.Format "2006-01-02T15:04:05Z07:00" -}} }{ {{- $taskName -}} } {{$taskIcon}} & {\footnotesize {{$task.StartDate.Format "Jan 02"}}} & {\footnotesize {{$task.EndDate.Format "Jan 02"}}} \\
+{{plus $i 1}} & \hyperlink{ {{- $task.StartDate.Local.Format "2006-01-02T15:04:05-07:00" -}} }{ {{- $taskName -}} } {{$taskIcon}} & {\footnotesize {{$task.StartDate.Format "Jan 02"}}} & {\footnotesize {{$task.EndDate.Format "Jan 02"}}} \\
     {{- end}}
 \hline
 \end{tabularx}
+
+\vspace{0.1cm}
 
     {{- end}}
 {{- end}}
