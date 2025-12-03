@@ -223,6 +223,9 @@ func (r *Reader) ReadTasks() ([]Task, error) {
 	if err != nil {
 		return nil, err
 	}
+	if file == nil {
+		return nil, fmt.Errorf("file is nil after openAndValidateFile")
+	}
 	defer file.Close()
 
 	// Check file size for memory management

@@ -1133,7 +1133,11 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 			// Check if this day is in the current month
 			if current.Month() == month.Month && current.Year() == month.Year.Number {
 				// Find the day in the month and set the spanning task
+				dayFound := false
 				for _, week := range month.Weeks {
+					if dayFound {
+						break
+					}
 					for i := range week.Days {
 						if week.Days[i].Time.Day() == current.Day() &&
 							week.Days[i].Time.Month() == current.Month() &&
@@ -1142,6 +1146,7 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 							taskCopy := tasks[taskIndex]
 							// Add the spanning task to this day
 							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
+							dayFound = true
 							break
 						}
 					}

@@ -183,7 +183,11 @@ var bufferPool = sync.Pool{
 
 // GetReusableBuffer gets a reusable buffer from the pool
 func GetReusableBuffer() *bytes.Buffer {
-	buf := bufferPool.Get().(*bytes.Buffer)
+	buf, ok := bufferPool.Get().(*bytes.Buffer)
+	if !ok {
+		// Fallback: create new buffer if pool returns unexpected type
+		buf = &bytes.Buffer{}
+	}
 	buf.Reset() // Clear any existing content
 	return buf
 }
@@ -1648,10 +1652,21 @@ func compileLaTeXToPDF(cfg core.Config) error {
 	// Move generated files to appropriate directories
 	baseName := strings.TrimSuffix(filepath.Base(mainTexFile), ".tex")
 	
+	// Ensure paths are absolute to avoid issues after chdir
+	absPdfDir, err := filepath.Abs(pdfDir)
+	if err != nil {
+		absPdfDir = pdfDir // Fallback to relative if Abs fails
+	}
+	absAuxDir, err := filepath.Abs(auxDir)
+	if err != nil {
+		absAuxDir = auxDir // Fallback to relative if Abs fails
+	}
+	
 	// Move PDF to pdfs directory
 	pdfFile := baseName + ".pdf"
 	if _, err := os.Stat(pdfFile); err == nil {
-		if err := os.Rename(pdfFile, filepath.Join(originalDir, pdfDir, pdfFile)); err != nil {
+		destPath := filepath.Join(absPdfDir, pdfFile)
+		if err := os.Rename(pdfFile, destPath); err != nil {
 			logger.Warn("Failed to move PDF file: %v", err)
 		}
 	}
@@ -1661,7 +1676,8 @@ func compileLaTeXToPDF(cfg core.Config) error {
 	for _, ext := range auxFiles {
 		auxFile := baseName + ext
 		if _, err := os.Stat(auxFile); err == nil {
-			if err := os.Rename(auxFile, filepath.Join(originalDir, auxDir, auxFile)); err != nil {
+			destPath := filepath.Join(absAuxDir, auxFile)
+			if err := os.Rename(auxFile, destPath); err != nil {
 				logger.Warn("Failed to move auxiliary file %s: %v", auxFile, err)
 			}
 		}
