@@ -1125,33 +1125,72 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month
 func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
-	// Apply spanning tasks to the appropriate days in the month
-	for taskIndex, task := range tasks {
-		// Find all days in the month that this task spans
-		current := task.StartDate
-		for !current.After(task.EndDate) {
-			// Check if this day is in the current month
-			if current.Month() == month.Month && current.Year() == month.Year.Number {
-				// Find the day in the month and set the spanning task
-				dayFound := false
-				for _, week := range month.Weeks {
-					if dayFound {
-						break
-					}
-					for i := range week.Days {
-						if week.Days[i].Time.Day() == current.Day() &&
-							week.Days[i].Time.Month() == current.Month() &&
-							week.Days[i].Time.Year() == current.Year() {
-							// Create a copy of the task to avoid pointer issues
-							taskCopy := tasks[taskIndex]
-							// Add the spanning task to this day
-							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
-							dayFound = true
-							break
-						}
-					}
-				}
+	// Pre-build a map of day number -> *Day for O(1) access
+	dayMap := make(map[int]*Day, 31)
+	for _, week := range month.Weeks {
+		for i := range week.Days {
+			if week.Days[i].Time.Month() == month.Month {
+				dayMap[week.Days[i].Time.Day()] = &week.Days[i]
 			}
+		}
+	}
+
+	// Calculate first day of month to handle tasks starting before month
+	// Use arbitrary location, logic is relative
+	monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.UTC)
+
+	// Apply spanning tasks to the appropriate days in the month
+	for taskIndex := range tasks {
+		task := &tasks[taskIndex]
+
+		// 1. Determine intersection of task duration and month
+		current := task.StartDate
+
+		// If task starts before month, jump to start of month
+		// We need to compare Year/Month properly.
+		// Construct comparable dates (midnight UTC)
+		taskStartUTC := time.Date(current.Year(), current.Month(), current.Day(), 0, 0, 0, 0, time.UTC)
+
+		if taskStartUTC.Before(monthStart) {
+			// If task starts before the month, start iteration at day 1 of month
+			// But we need to keep 'current' aligned with actual date for logic
+			// The simplest way:
+			// Just use the days of the month and check if they are in task range?
+			// No, iterating days of month (31) is better than iterating task duration (1000).
+			// So: iterate days of MONTH, check if in task.
+
+			// Even better: Calculate start and end day indices within the month.
+			// Start day: max(1, task.StartDate.Day() if same month/year)
+			// End day: min(lastDay, task.EndDate.Day() if same month/year)
+
+			// But `dayMap` allows us to just look up days.
+			// Let's stick to iterating the intersection.
+
+			// Intersection Start:
+			// If task starts before month, start at Day 1.
+			// If task starts in month, start at task.StartDate.
+			// If task starts after month, no overlap.
+
+			current = time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, task.StartDate.Location())
+		}
+
+		// Iterate until task ends or month ends
+		// We already clipped start.
+		// Now iterate until `current` > task.EndDate OR current leaves month.
+		for !current.After(task.EndDate) {
+			if current.Month() != month.Month {
+				// If we started in the month (or at 1st), and moved past it, we are done.
+				break
+			}
+
+			// Add task to day
+			if dayPtr, ok := dayMap[current.Day()]; ok {
+				// We store pointer to the task in the slice.
+				// This is safe because tasks slice backing array is pinned by these pointers
+				// as long as 'month' lives.
+				dayPtr.Tasks = append(dayPtr.Tasks, task)
+			}
+
 			current = current.AddDate(0, 0, 1)
 		}
 	}
