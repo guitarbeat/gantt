@@ -49,6 +49,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/muesli/termenv"
 )
 
 // Log levels in order of increasing severity
@@ -312,17 +314,38 @@ func (l *Logger) log(level int, levelStr string, message string, args ...interfa
 // formatTextEntry formats a log entry as text
 func (l *Logger) formatTextEntry(entry LogEntry) string {
 	var parts []string
+	p := termenv.ColorProfile()
 
 	// Add timestamp
-	parts = append(parts, entry.Time.Format("2006/01/02 15:04:05"))
+	timestamp := entry.Time.Format("2006/01/02 15:04:05")
+	parts = append(parts, termenv.String(timestamp).Foreground(p.Color("240")).String())
 
 	// Add level
 	levelStr := strings.ToUpper(entry.Level)
-	parts = append(parts, fmt.Sprintf("[%s]", levelStr))
+	var coloredLevel string
+
+	switch entry.Level {
+	case LogLevelInfoString:
+		coloredLevel = termenv.String(levelStr).Foreground(p.Color("76")).Bold().String() // Green
+	case LogLevelWarnString:
+		coloredLevel = termenv.String(levelStr).Foreground(p.Color("220")).Bold().String() // Yellow
+	case LogLevelErrorString:
+		coloredLevel = termenv.String(levelStr).Foreground(p.Color("196")).Bold().String() // Red
+	case LogLevelFatalString:
+		coloredLevel = termenv.String(levelStr).Foreground(p.Color("196")).Bold().Blink().String() // Red Blink
+	case LogLevelDebugString:
+		coloredLevel = termenv.String(levelStr).Foreground(p.Color("245")).String() // Grey
+	case LogLevelTraceString:
+		coloredLevel = termenv.String(levelStr).Foreground(p.Color("240")).String() // Dark Grey
+	default:
+		coloredLevel = termenv.String(levelStr).String()
+	}
+
+	parts = append(parts, fmt.Sprintf("[%s]", coloredLevel))
 
 	// Add prefix if present
 	if entry.Prefix != "" {
-		parts = append(parts, entry.Prefix)
+		parts = append(parts, termenv.String(entry.Prefix).Foreground(p.Color("39")).String()) // Blue
 	}
 
 	// Add message
@@ -332,14 +355,16 @@ func (l *Logger) formatTextEntry(entry LogEntry) string {
 	if len(entry.Fields) > 0 {
 		var fieldParts []string
 		for k, v := range entry.Fields {
-			fieldParts = append(fieldParts, fmt.Sprintf("%s=%v", k, v))
+			fieldParts = append(fieldParts, fmt.Sprintf("%s=%v",
+				termenv.String(k).Foreground(p.Color("245")).String(),
+				termenv.String(fmt.Sprintf("%v", v)).Foreground(p.Color("250")).String()))
 		}
 		parts = append(parts, fmt.Sprintf("{%s}", strings.Join(fieldParts, " ")))
 	}
 
 	// Add caller if in debug/trace mode
 	if l.Level <= LogLevelDebug && entry.Caller != "" {
-		parts = append(parts, fmt.Sprintf("(%s)", entry.Caller))
+		parts = append(parts, termenv.String(fmt.Sprintf("(%s)", entry.Caller)).Foreground(p.Color("240")).String())
 	}
 
 	return strings.Join(parts, " ")
