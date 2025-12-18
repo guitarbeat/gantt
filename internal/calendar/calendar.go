@@ -1125,33 +1125,97 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month
 func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
-	// Apply spanning tasks to the appropriate days in the month
-	for taskIndex, task := range tasks {
-		// Find all days in the month that this task spans
-		current := task.StartDate
-		for !current.After(task.EndDate) {
-			// Check if this day is in the current month
-			if current.Month() == month.Month && current.Year() == month.Year.Number {
-				// Find the day in the month and set the spanning task
-				dayFound := false
-				for _, week := range month.Weeks {
-					if dayFound {
-						break
-					}
-					for i := range week.Days {
-						if week.Days[i].Time.Day() == current.Day() &&
-							week.Days[i].Time.Month() == current.Month() &&
-							week.Days[i].Time.Year() == current.Year() {
-							// Create a copy of the task to avoid pointer issues
-							taskCopy := tasks[taskIndex]
-							// Add the spanning task to this day
-							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
-							dayFound = true
-							break
-						}
-					}
-				}
+	// 1. Build a lookup map for days in this month to avoid nested loops
+	// Key: Day of month (1-31)
+	dayMap := make(map[int]*Day)
+
+	for _, week := range month.Weeks {
+		for i := range week.Days {
+			d := &week.Days[i]
+			// Only index days that actually belong to this month
+			if d.Time.Month() == month.Month && d.Time.Year() == month.Year.Number {
+				dayMap[d.Time.Day()] = d
 			}
+		}
+	}
+
+	if len(dayMap) == 0 {
+		return
+	}
+
+	// Determine the month's start and end for efficient intersection
+	// We use the first day found in the map as a reference for location/timezone
+	// but we construct dates carefully.
+	monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.UTC)
+	// Calculate first day of next month to use as upper bound
+	monthNext := monthStart.AddDate(0, 1, 0)
+
+	// Apply spanning tasks
+	for taskIndex := range tasks {
+		task := &tasks[taskIndex]
+
+		// Skip tasks that don't overlap with this month
+		if task.EndDate.Before(monthStart) || !task.StartDate.Before(monthNext) {
+			continue
+		}
+
+		// Calculate intersection of task range and month range
+		start := task.StartDate
+		if start.Before(monthStart) {
+			// If task starts before month, advance to start of month
+			// BUT preserve the time component from task.StartDate to maintain consistent
+			// end-of-range checks relative to task.EndDate.
+
+			// Calculate how many days to advance
+			// We can use the difference in days.
+			// But simpler is to construct a new date with monthStart's year/month/day
+			// and start's hour/min/sec.
+
+			// Actually, if we just advance to the 1st of the month, but keep the time?
+			// monthStart is 00:00:00 UTC.
+			// If task.StartDate is 15:00:00 UTC.
+			// If we set start = monthStart, start becomes 00:00:00.
+			// If task.EndDate is 10:00:00 on some day.
+			// The original loop would check 15:00:00 vs 10:00:00 (End).
+			// If we change to 00:00:00, it checks 00:00:00 vs 10:00:00.
+			// 00:00:00 IS NOT after 10:00:00. So it includes the day.
+			// 15:00:00 IS after 10:00:00. So it excludes the day.
+			// So resetting to midnight causes us to INCLUDE a day that should be EXCLUDED.
+
+			// So we must preserve the time.
+			daysToAdvance := int(monthStart.Sub(time.Date(start.Year(), start.Month(), start.Day(), 0, 0, 0, 0, time.UTC)).Hours() / 24)
+			if daysToAdvance > 0 {
+				start = start.AddDate(0, 0, daysToAdvance)
+			} else {
+				// Fallback if calculation is weird (shouldn't happen given the Before check)
+				// We need start to be at least on the 1st of the month.
+				// Let's explicitly construct it.
+				start = time.Date(month.Year.Number, month.Month, 1, start.Hour(), start.Minute(), start.Second(), start.Nanosecond(), start.Location())
+			}
+		}
+
+		end := task.EndDate
+		// We iterate until end, but we can stop if we go beyond the month.
+		// Since we clipped start, we know start is >= monthStart.
+		// We just need to make sure we don't go past monthNext.
+
+		current := start
+
+		// Optimization: iterate using AddDate but check month validity
+		for !current.After(end) {
+			// If we've moved to the next month, stop processing this task for this month
+			if current.Month() != month.Month {
+				break
+			}
+
+			// O(1) Lookup
+			if dayPtr, ok := dayMap[current.Day()]; ok {
+				// Create a copy of the task to avoid pointer issues
+				taskCopy := tasks[taskIndex]
+				// Add the spanning task to this day
+				dayPtr.Tasks = append(dayPtr.Tasks, &taskCopy)
+			}
+
 			current = current.AddDate(0, 0, 1)
 		}
 	}

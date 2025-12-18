@@ -1,0 +1,7 @@
+goos: linux
+goarch: amd64
+pkg: phd-dissertation-planner/internal/calendar
+cpu: Intel(R) Xeon(R) Processor @ 2.30GHz
+BenchmarkApplySpanningTasksToMonth-4   	     134	   8886668 ns/op
+PASS
+ok  	phd-dissertation-planner/internal/calendar	1.815s
