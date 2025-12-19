@@ -80,21 +80,30 @@ func (ts *TaskStacker) sortTasksByPriority() []*SpanningTask {
 // findLowestAvailableTrack finds the lowest track number that's free for all days of the task
 func (ts *TaskStacker) findLowestAvailableTrack(task *SpanningTask) int {
 	// Get all dates this task spans
-	dates := ts.getDateRange(task.StartDate, task.EndDate)
+	// Note: We use iteration logic inside to avoid unnecessary slice allocation
+	start := ts.normalizeDate(task.StartDate)
+	end := ts.normalizeDate(task.EndDate)
 
-	// Check each track starting from 0
-	for track := 0; track < 100; track++ { // Reasonable upper limit
-		available := true
+	// Max reasonable track limit
+	const maxTrackLimit = 100
+	occupied := make([]bool, maxTrackLimit)
 
-		// Check if this track is available for ALL days the task spans
-		for _, date := range dates {
-			if ts.isTrackOccupied(date, track) {
-				available = false
-				break
+	current := start
+	for !current.After(end) {
+		dateKey := ts.dateKey(current)
+		if dayStack, exists := ts.dayStacks[dateKey]; exists {
+			for _, stack := range dayStack.Stacks {
+				if stack.Track < maxTrackLimit {
+					occupied[stack.Track] = true
+				}
 			}
 		}
+		current = current.AddDate(0, 0, 1)
+	}
 
-		if available {
+	// Find the first track that is not occupied
+	for track := 0; track < maxTrackLimit; track++ {
+		if !occupied[track] {
 			return track
 		}
 	}
