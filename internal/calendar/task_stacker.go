@@ -29,16 +29,16 @@ type DayTaskStack struct {
 // TaskStacker manages task overlap detection and track assignment
 type TaskStacker struct {
 	tasks        []*SpanningTask
-	dayStacks    map[string]*DayTaskStack // Key: date string (YYYY-MM-DD)
-	maxTracks    int                      // Maximum number of tracks needed for any day
-	weekStartDay time.Weekday             // First day of week (Monday = 1)
+	dayStacks    map[int]*DayTaskStack // Key: integer YYYYMMDD
+	maxTracks    int                   // Maximum number of tracks needed for any day
+	weekStartDay time.Weekday          // First day of week (Monday = 1)
 }
 
 // NewTaskStacker creates a new task stacker
 func NewTaskStacker(tasks []*SpanningTask, weekStartDay time.Weekday) *TaskStacker {
 	return &TaskStacker{
 		tasks:        tasks,
-		dayStacks:    make(map[string]*DayTaskStack),
+		dayStacks:    make(map[int]*DayTaskStack),
 		weekStartDay: weekStartDay,
 	}
 }
@@ -79,19 +79,21 @@ func (ts *TaskStacker) sortTasksByPriority() []*SpanningTask {
 
 // findLowestAvailableTrack finds the lowest track number that's free for all days of the task
 func (ts *TaskStacker) findLowestAvailableTrack(task *SpanningTask) int {
-	// Get all dates this task spans
-	dates := ts.getDateRange(task.StartDate, task.EndDate)
+	start := ts.normalizeDate(task.StartDate)
+	end := ts.normalizeDate(task.EndDate)
 
 	// Check each track starting from 0
 	for track := 0; track < 100; track++ { // Reasonable upper limit
 		available := true
 
 		// Check if this track is available for ALL days the task spans
-		for _, date := range dates {
-			if ts.isTrackOccupied(date, track) {
+		current := start
+		for !current.After(end) {
+			if ts.isTrackOccupied(current, track) {
 				available = false
 				break
 			}
+			current = current.AddDate(0, 0, 1)
 		}
 
 		if available {
@@ -124,23 +126,25 @@ func (ts *TaskStacker) isTrackOccupied(date time.Time, track int) bool {
 
 // assignTaskToTrack assigns a task to a specific track for all its days
 func (ts *TaskStacker) assignTaskToTrack(task *SpanningTask, track int) {
-	dates := ts.getDateRange(task.StartDate, task.EndDate)
+	start := ts.normalizeDate(task.StartDate)
+	end := ts.normalizeDate(task.EndDate)
 
-	for _, date := range dates {
-		dateKey := ts.dateKey(date)
+	current := start
+	for !current.After(end) {
+		dateKey := ts.dateKey(current)
 
 		// Get or create day stack
 		dayStack, exists := ts.dayStacks[dateKey]
 		if !exists {
 			dayStack = &DayTaskStack{
-				Date:   date,
+				Date:   current,
 				Stacks: []TaskStack{},
 			}
 			ts.dayStacks[dateKey] = dayStack
 		}
 
 		// Calculate column positions for this specific week
-		startCol, endCol := ts.calculateWeekColumns(task, date)
+		startCol, endCol := ts.calculateWeekColumns(task, current)
 
 		// Add task to this day's stack
 		dayStack.Stacks = append(dayStack.Stacks, TaskStack{
@@ -154,6 +158,8 @@ func (ts *TaskStacker) assignTaskToTrack(task *SpanningTask, track int) {
 		if track+1 > ts.maxTracks {
 			ts.maxTracks = track + 1
 		}
+
+		current = current.AddDate(0, 0, 1)
 	}
 }
 
@@ -248,9 +254,9 @@ func (ts *TaskStacker) GetMaxTracks() int {
 
 // Helper methods
 
-// dateKey creates a unique key for a date (YYYY-MM-DD format)
-func (ts *TaskStacker) dateKey(date time.Time) string {
-	return date.Format("2006-01-02")
+// dateKey creates a unique key for a date (YYYYMMDD integer format)
+func (ts *TaskStacker) dateKey(date time.Time) int {
+	return date.Year()*10000 + int(date.Month())*100 + date.Day()
 }
 
 // normalizeDate normalizes a date to midnight UTC
@@ -259,6 +265,7 @@ func (ts *TaskStacker) normalizeDate(date time.Time) time.Time {
 }
 
 // getDateRange returns all dates between start and end (inclusive)
+// Deprecated: Internal logic now iterates directly
 func (ts *TaskStacker) getDateRange(start, end time.Time) []time.Time {
 	start = ts.normalizeDate(start)
 	end = ts.normalizeDate(end)
