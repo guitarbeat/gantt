@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/goccy/go-yaml"
@@ -193,13 +194,26 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 	if task.Status != "" {
 		status := strings.ToLower(strings.TrimSpace(task.Status))
 		if !v.validStatuses[status] {
+			message := fmt.Sprintf("Invalid status '%s', must be one of: %s",
+				task.Status, v.getValidStatusesString())
+
+			// Suggest correction if a close match exists
+			validStatusList := make([]string, 0, len(v.validStatuses))
+			for s := range v.validStatuses {
+				validStatusList = append(validStatusList, s)
+			}
+			sort.Strings(validStatusList) // Ensure deterministic suggestion
+
+			if suggestion := SuggestCorrection(status, validStatusList); suggestion != "" {
+				message += fmt.Sprintf(". Did you mean '%s'?", suggestion)
+			}
+
 			errors = append(errors, ValidationIssue{
-				Type:  "invalid_value",
-				Field: "Status",
-				Row:   rowNum,
-				Value: task.Status,
-				Message: fmt.Sprintf("Invalid status '%s', must be one of: %s",
-					task.Status, v.getValidStatusesString()),
+				Type:    "invalid_value",
+				Field:   "Status",
+				Row:     rowNum,
+				Value:   task.Status,
+				Message: message,
 			})
 		}
 	}
