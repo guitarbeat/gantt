@@ -474,12 +474,24 @@ func action(c *cli.Context) error {
 	if !silent {
 		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
 	}
+
+	var stopSpinner func()
+	if !silent {
+		stopSpinner = startSpinner()
+	}
+
 	if err := compileLaTeXToPDF(cfg); err != nil {
+		if stopSpinner != nil {
+			stopSpinner()
+		}
 		if !silent {
 			fmt.Println(core.Error("❌"))
 		}
 		logger.Warn("PDF compilation failed: %v", err)
 	} else {
+		if stopSpinner != nil {
+			stopSpinner()
+		}
 		if !silent {
 			fmt.Println(core.Success("✅"))
 		}
@@ -924,6 +936,38 @@ func EscapeLatex(s string) string {
 	s = strings.ReplaceAll(s, "{", "\\{")
 	s = strings.ReplaceAll(s, "}", "\\}")
 	return s
+}
+
+// startSpinner displays a loading animation until the returned stop function is called
+func startSpinner() func() {
+	stop := make(chan struct{})
+	done := make(chan struct{})
+
+	go func() {
+		chars := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
+		i := 0
+		// Initial space
+		fmt.Print(" ")
+
+		for {
+			select {
+			case <-stop:
+				// Clear the spinner
+				fmt.Print("\b \b")
+				close(done)
+				return
+			default:
+				fmt.Printf("\b%s", core.Info(chars[i%len(chars)]))
+				i++
+				time.Sleep(100 * time.Millisecond)
+			}
+		}
+	}()
+
+	return func() {
+		close(stop)
+		<-done
+	}
 }
 
 var tpl = func() *template.Template {
