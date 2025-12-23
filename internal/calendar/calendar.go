@@ -941,7 +941,7 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 				if task.Phase != "" {
 					// Use the phase name directly (no number extraction needed)
 					phaseName := task.Phase
-					
+
 					// Get color for this phase
 					if _, exists := phaseMap[phaseName]; !exists {
 						color := core.GenerateCategoryColor(phaseName)
@@ -961,7 +961,7 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 	for _, phaseName := range phaseOrder {
 		if color, exists := phaseMap[phaseName]; exists {
 			phase := PhaseGroup{
-				PhaseNumber: "",  // No longer using phase numbers
+				PhaseNumber: "", // No longer using phase numbers
 				PhaseName:   EscapeLatexSpecialChars(phaseName),
 			}
 
@@ -1125,34 +1125,63 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month
 func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
+	if len(tasks) == 0 {
+		return
+	}
+
+	// Build a map of day number to Day pointer for O(1) lookup
+	dayMap := make(map[int]*Day, 32)
+	for _, week := range month.Weeks {
+		for i := range week.Days {
+			d := &week.Days[i]
+			// Only map days that belong to the current month
+			if d.Time.Month() == month.Month && d.Time.Year() == month.Year.Number {
+				dayMap[d.Time.Day()] = d
+			}
+		}
+	}
+
+	// Get the last day number of the month
+	lastDay := time.Date(month.Year.Number, month.Month+1, 0, 0, 0, 0, 0, time.UTC).Day()
+
 	// Apply spanning tasks to the appropriate days in the month
-	for taskIndex, task := range tasks {
-		// Find all days in the month that this task spans
-		current := task.StartDate
-		for !current.After(task.EndDate) {
-			// Check if this day is in the current month
-			if current.Month() == month.Month && current.Year() == month.Year.Number {
-				// Find the day in the month and set the spanning task
-				dayFound := false
-				for _, week := range month.Weeks {
-					if dayFound {
-						break
-					}
-					for i := range week.Days {
-						if week.Days[i].Time.Day() == current.Day() &&
-							week.Days[i].Time.Month() == current.Month() &&
-							week.Days[i].Time.Year() == current.Year() {
-							// Create a copy of the task to avoid pointer issues
-							taskCopy := tasks[taskIndex]
-							// Add the spanning task to this day
-							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
-							dayFound = true
-							break
-						}
-					}
+	for taskIndex := range tasks {
+		task := tasks[taskIndex]
+
+		// Determine the day range of the task within this month
+		startD := 1
+		if task.StartDate.Year() > month.Year.Number || (task.StartDate.Year() == month.Year.Number && task.StartDate.Month() > month.Month) {
+			continue // Task starts after this month
+		}
+		if task.StartDate.Year() == month.Year.Number && task.StartDate.Month() == month.Month {
+			startD = task.StartDate.Day()
+		}
+
+		endD := lastDay
+		if task.EndDate.Year() < month.Year.Number || (task.EndDate.Year() == month.Year.Number && task.EndDate.Month() < month.Month) {
+			continue // Task ends before this month
+		}
+		if task.EndDate.Year() == month.Year.Number && task.EndDate.Month() == month.Month {
+			endD = task.EndDate.Day()
+		}
+
+		// Iterate only through the relevant days
+		for d := startD; d <= endD; d++ {
+			// Construct date for exact time comparison using task's time components and location
+			current := time.Date(
+				month.Year.Number, month.Month, d,
+				task.StartDate.Hour(), task.StartDate.Minute(), task.StartDate.Second(), task.StartDate.Nanosecond(),
+				task.StartDate.Location(),
+			)
+
+			// verify validity (handles edge cases where day range is approximate)
+			if !current.Before(task.StartDate) && !current.After(task.EndDate) {
+				if dayPtr, exists := dayMap[d]; exists {
+					// Create a copy of the task to avoid pointer issues (one per day, as per original logic)
+					taskCopy := tasks[taskIndex]
+					dayPtr.Tasks = append(dayPtr.Tasks, &taskCopy)
 				}
 			}
-			current = current.AddDate(0, 0, 1)
 		}
 	}
 }
