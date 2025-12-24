@@ -29,16 +29,16 @@ type DayTaskStack struct {
 // TaskStacker manages task overlap detection and track assignment
 type TaskStacker struct {
 	tasks        []*SpanningTask
-	dayStacks    map[string]*DayTaskStack // Key: date string (YYYY-MM-DD)
-	maxTracks    int                      // Maximum number of tracks needed for any day
-	weekStartDay time.Weekday             // First day of week (Monday = 1)
+	dayStacks    map[int]*DayTaskStack // Key: date int (YYYYMMDD)
+	maxTracks    int                   // Maximum number of tracks needed for any day
+	weekStartDay time.Weekday          // First day of week (Monday = 1)
 }
 
 // NewTaskStacker creates a new task stacker
 func NewTaskStacker(tasks []*SpanningTask, weekStartDay time.Weekday) *TaskStacker {
 	return &TaskStacker{
 		tasks:        tasks,
-		dayStacks:    make(map[string]*DayTaskStack),
+		dayStacks:    make(map[int]*DayTaskStack),
 		weekStartDay: weekStartDay,
 	}
 }
@@ -248,9 +248,9 @@ func (ts *TaskStacker) GetMaxTracks() int {
 
 // Helper methods
 
-// dateKey creates a unique key for a date (YYYY-MM-DD format)
-func (ts *TaskStacker) dateKey(date time.Time) string {
-	return date.Format("2006-01-02")
+// dateKey creates a unique key for a date (YYYYMMDD format) as an integer
+func (ts *TaskStacker) dateKey(date time.Time) int {
+	return date.Year()*10000 + int(date.Month())*100 + date.Day()
 }
 
 // normalizeDate normalizes a date to midnight UTC
