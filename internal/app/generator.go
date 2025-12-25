@@ -789,19 +789,19 @@ func generatePages(cfg core.Config, preview bool) error {
 	totalPages := len(cfg.Pages)
 	silent := core.IsSilent()
 
+	// Initialize spinner
+	sp := core.NewSpinner(fmt.Sprintf("%s [0/%d]", core.Info("📅 Generating calendar pages..."), totalPages), silent)
+	sp.Start()
+	defer sp.Stop("")
+
 	for i, file := range cfg.Pages {
 		if !silent {
-			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
+			sp.Update(fmt.Sprintf("%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name))
 		}
+
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
-			if !silent {
-				fmt.Println() // New line before error
-			}
 			return err
 		}
-	}
-	if !silent {
-		fmt.Print("\r") // Clear the progress line
 	}
 
 	return nil
