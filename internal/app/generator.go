@@ -367,14 +367,11 @@ func action(c *cli.Context) error {
 	}
 
 	// Merge all CSV files in memory
-	if !silent {
-		fmt.Print(core.Info("🔄 Merging CSV files in memory... "))
-	}
+	spinner := core.NewSpinner("Merging CSV files in memory...", silent)
+	spinner.Start()
 	allTasks, err := core.ReadTasksFromMultipleFiles(csvFiles)
 	if err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail(err)
 		return formatError(
 			"CSV Merging",
 			"Unable to merge CSV files",
@@ -384,19 +381,17 @@ func action(c *cli.Context) error {
 			"Ensure all CSV files are valid",
 		)
 	}
+	spinner.Stop()
 	if !silent {
-		fmt.Printf(core.Success("✅ (%d tasks total)\n"), len(allTasks))
+		fmt.Printf(core.Info("   (%d tasks total)\n"), len(allTasks))
 	}
 
 	// Load and prepare configuration with merged tasks
-	if !silent {
-		fmt.Print(core.Info("📋 Loading configuration... "))
-	}
+	spinner = core.NewSpinner("Loading configuration...", silent)
+	spinner.Start()
 	cfg, pathConfigs, err := loadConfigurationWithTasks(c, allTasks)
 	if err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail(err)
 		return formatError(
 			"Configuration",
 			"Unable to load configuration",
@@ -405,9 +400,7 @@ func action(c *cli.Context) error {
 			"Verify configuration file syntax",
 		)
 	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
-	}
+	spinner.Stop()
 
 	// Setup output directory
 	if !silent {
@@ -430,13 +423,10 @@ func action(c *cli.Context) error {
 	}
 
 	// Generate root document
-	if !silent {
-		fmt.Print(core.Info("📄 Generating root document... "))
-	}
+	spinner = core.NewSpinner("Generating root document...", silent)
+	spinner.Start()
 	if err := generateRootDocument(cfg, pathConfigs); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail(err)
 		return formatError(
 			"Document Generation",
 			"Unable to generate root document",
@@ -445,9 +435,7 @@ func action(c *cli.Context) error {
 			"Verify configuration",
 		)
 	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
-	}
+	spinner.Stop()
 
 	// Generate pages
 	if !silent {
@@ -471,18 +459,13 @@ func action(c *cli.Context) error {
 	}
 
 	// Compile LaTeX to PDF
-	if !silent {
-		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
-	}
+	spinner = core.NewSpinner("Compiling LaTeX to PDF...", silent)
+	spinner.Start()
 	if err := compileLaTeXToPDF(cfg); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail(err)
 		logger.Warn("PDF compilation failed: %v", err)
 	} else {
-		if !silent {
-			fmt.Println(core.Success("✅"))
-		}
+		spinner.Stop()
 	}
 
 	if !silent {
