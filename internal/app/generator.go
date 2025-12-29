@@ -367,14 +367,11 @@ func action(c *cli.Context) error {
 	}
 
 	// Merge all CSV files in memory
-	if !silent {
-		fmt.Print(core.Info("🔄 Merging CSV files in memory... "))
-	}
+	spinner := core.NewSpinner("Merging CSV files in memory...", silent)
+	spinner.Start()
 	allTasks, err := core.ReadTasksFromMultipleFiles(csvFiles)
 	if err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail()
 		return formatError(
 			"CSV Merging",
 			"Unable to merge CSV files",
@@ -384,19 +381,14 @@ func action(c *cli.Context) error {
 			"Ensure all CSV files are valid",
 		)
 	}
-	if !silent {
-		fmt.Printf(core.Success("✅ (%d tasks total)\n"), len(allTasks))
-	}
+	spinner.Success(fmt.Sprintf("Merging CSV files in memory... (%d tasks total)", len(allTasks)))
 
 	// Load and prepare configuration with merged tasks
-	if !silent {
-		fmt.Print(core.Info("📋 Loading configuration... "))
-	}
+	spinner = core.NewSpinner("Loading configuration...", silent)
+	spinner.Start()
 	cfg, pathConfigs, err := loadConfigurationWithTasks(c, allTasks)
 	if err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail()
 		return formatError(
 			"Configuration",
 			"Unable to load configuration",
@@ -405,18 +397,13 @@ func action(c *cli.Context) error {
 			"Verify configuration file syntax",
 		)
 	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
-	}
+	spinner.Success()
 
 	// Setup output directory
-	if !silent {
-		fmt.Print(core.Info("📁 Setting up output directory... "))
-	}
+	spinner = core.NewSpinner("Setting up output directory...", silent)
+	spinner.Start()
 	if err := setupOutputDirectory(cfg); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail()
 		return formatError(
 			"Output Directory",
 			"Unable to create output directory",
@@ -425,18 +412,13 @@ func action(c *cli.Context) error {
 			"Verify disk space",
 		)
 	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
-	}
+	spinner.Success()
 
 	// Generate root document
-	if !silent {
-		fmt.Print(core.Info("📄 Generating root document... "))
-	}
+	spinner = core.NewSpinner("Generating root document...", silent)
+	spinner.Start()
 	if err := generateRootDocument(cfg, pathConfigs); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail()
 		return formatError(
 			"Document Generation",
 			"Unable to generate root document",
@@ -445,11 +427,10 @@ func action(c *cli.Context) error {
 			"Verify configuration",
 		)
 	}
-	if !silent {
-		fmt.Println(core.Success("✅"))
-	}
+	spinner.Success()
 
 	// Generate pages
+	// Note: generatePages has its own progress reporting
 	if !silent {
 		fmt.Print(core.Info("📅 Generating calendar pages... "))
 	}
@@ -471,18 +452,13 @@ func action(c *cli.Context) error {
 	}
 
 	// Compile LaTeX to PDF
-	if !silent {
-		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
-	}
+	spinner = core.NewSpinner("Compiling LaTeX to PDF...", silent)
+	spinner.Start()
 	if err := compileLaTeXToPDF(cfg); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
-		}
+		spinner.Fail()
 		logger.Warn("PDF compilation failed: %v", err)
 	} else {
-		if !silent {
-			fmt.Println(core.Success("✅"))
-		}
+		spinner.Success()
 	}
 
 	if !silent {
