@@ -29,16 +29,16 @@ type DayTaskStack struct {
 // TaskStacker manages task overlap detection and track assignment
 type TaskStacker struct {
 	tasks        []*SpanningTask
-	dayStacks    map[string]*DayTaskStack // Key: date string (YYYY-MM-DD)
-	maxTracks    int                      // Maximum number of tracks needed for any day
-	weekStartDay time.Weekday             // First day of week (Monday = 1)
+	dayStacks    map[int]*DayTaskStack // Key: date int (YYYYMMDD)
+	maxTracks    int                   // Maximum number of tracks needed for any day
+	weekStartDay time.Weekday          // First day of week (Monday = 1)
 }
 
 // NewTaskStacker creates a new task stacker
 func NewTaskStacker(tasks []*SpanningTask, weekStartDay time.Weekday) *TaskStacker {
 	return &TaskStacker{
 		tasks:        tasks,
-		dayStacks:    make(map[string]*DayTaskStack),
+		dayStacks:    make(map[int]*DayTaskStack),
 		weekStartDay: weekStartDay,
 	}
 }
@@ -81,14 +81,19 @@ func (ts *TaskStacker) sortTasksByPriority() []*SpanningTask {
 func (ts *TaskStacker) findLowestAvailableTrack(task *SpanningTask) int {
 	// Get all dates this task spans
 	dates := ts.getDateRange(task.StartDate, task.EndDate)
+	// Pre-calculate keys to avoid re-calculation in the inner loop
+	keys := make([]int, len(dates))
+	for i, date := range dates {
+		keys[i] = ts.dateKey(date)
+	}
 
 	// Check each track starting from 0
 	for track := 0; track < 100; track++ { // Reasonable upper limit
 		available := true
 
 		// Check if this track is available for ALL days the task spans
-		for _, date := range dates {
-			if ts.isTrackOccupied(date, track) {
+		for _, key := range keys {
+			if ts.isTrackOccupiedByKey(key, track) {
 				available = false
 				break
 			}
@@ -105,7 +110,11 @@ func (ts *TaskStacker) findLowestAvailableTrack(task *SpanningTask) int {
 
 // isTrackOccupied checks if a track is occupied on a specific date
 func (ts *TaskStacker) isTrackOccupied(date time.Time, track int) bool {
-	dateKey := ts.dateKey(date)
+	return ts.isTrackOccupiedByKey(ts.dateKey(date), track)
+}
+
+// isTrackOccupiedByKey checks if a track is occupied on a specific date key
+func (ts *TaskStacker) isTrackOccupiedByKey(dateKey int, track int) bool {
 	dayStack, exists := ts.dayStacks[dateKey]
 
 	if !exists {
@@ -248,9 +257,9 @@ func (ts *TaskStacker) GetMaxTracks() int {
 
 // Helper methods
 
-// dateKey creates a unique key for a date (YYYY-MM-DD format)
-func (ts *TaskStacker) dateKey(date time.Time) string {
-	return date.Format("2006-01-02")
+// dateKey creates a unique key for a date (YYYYMMDD format)
+func (ts *TaskStacker) dateKey(date time.Time) int {
+	return date.Year()*10000 + int(date.Month())*100 + date.Day()
 }
 
 // normalizeDate normalizes a date to midnight UTC
