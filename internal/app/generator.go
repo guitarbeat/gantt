@@ -472,16 +472,17 @@ func action(c *cli.Context) error {
 
 	// Compile LaTeX to PDF
 	if !silent {
-		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
-	}
-	if err := compileLaTeXToPDF(cfg); err != nil {
-		if !silent {
-			fmt.Println(core.Error("❌"))
+		s := core.NewSpinner("Compiling LaTeX to PDF...")
+		s.Start()
+		if err := compileLaTeXToPDF(cfg); err != nil {
+			s.Fail("PDF compilation failed")
+			logger.Warn("PDF compilation failed: %v", err)
+		} else {
+			s.Success("Compiling LaTeX to PDF... Done!")
 		}
-		logger.Warn("PDF compilation failed: %v", err)
 	} else {
-		if !silent {
-			fmt.Println(core.Success("✅"))
+		if err := compileLaTeXToPDF(cfg); err != nil {
+			logger.Warn("PDF compilation failed: %v", err)
 		}
 	}
 
