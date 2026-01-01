@@ -7,8 +7,8 @@
 package calendar
 
 import (
-	"fmt"
 	"strconv"
+	"strings"
 
 	"phd-dissertation-planner/internal/core"
 )
@@ -26,20 +26,31 @@ func NewCellBuilder(cfg *core.Config) *CellBuilder {
 // BuildDayNumberCell creates the basic day number cell with minimal padding and hypertarget
 func (cb *CellBuilder) BuildDayNumberCell(day string, ref ...string) string {
 	dayNumberWidth := "6mm" // Default width
-	dayNumberCell := fmt.Sprintf(`\begin{minipage}[t]{%s}\centering{}%s\end{minipage}`, dayNumberWidth, day)
+	var sb strings.Builder
 
 	// Add hypertarget if reference is provided
 	if len(ref) > 0 && ref[0] != "" {
-		hypertarget := fmt.Sprintf(`\hypertarget{%s}{}`, ref[0])
-		return hypertarget + dayNumberCell
+		sb.WriteString(`\hypertarget{`)
+		sb.WriteString(ref[0])
+		sb.WriteString(`}{}`)
 	}
 
-	return dayNumberCell
+	sb.WriteString(`\begin{minipage}[t]{`)
+	sb.WriteString(dayNumberWidth)
+	sb.WriteString(`}\centering{}`)
+	sb.WriteString(day)
+	sb.WriteString(`\end{minipage}`)
+
+	return sb.String()
 }
 
 // BuildSimpleDayCell creates a simple day cell with just the day number
 func (cb *CellBuilder) BuildSimpleDayCell(leftCell string) string {
-	return fmt.Sprintf(`\hyperlink{%s}{%s}`, "", leftCell)
+	var sb strings.Builder
+	sb.WriteString(`\hyperlink{}{`)
+	sb.WriteString(leftCell)
+	sb.WriteString(`}`)
+	return sb.String()
 }
 
 // BuildTaskCell constructs a task cell with proper spacing and alignment
@@ -47,7 +58,11 @@ func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, 
 	dayNumberWidth := "6mm"   // Default width
 	dayContentMargin := "1mm" // Default margin
 
-	var width, spacing, contentWrapper string
+	var sb strings.Builder
+
+	// Pre-allocate buffer to avoid reallocations
+	// Estimated size: headers + leftCell + content + wrapper overhead
+	sb.Grow(512 + len(leftCell) + len(content))
 
 	// Get typography settings
 	hyphenPenalty := 10000    // Default value
@@ -64,52 +79,78 @@ func (cb *CellBuilder) BuildTaskCell(leftCell, content string, isSpanning bool, 
 		emergencyStretch = cb.cfg.Layout.LaTeX.Typography.SloppyEmergencyStretch
 	}
 
+	// Start with outer hyperlink wrapper
+	sb.WriteString(`\hyperlink{}{`)
+
+	// Inner group
+	sb.WriteString(`{\begingroup\makebox[0pt][l]{`)
+	sb.WriteString(leftCell)
+	sb.WriteString(`}`)
+
 	if isSpanning {
 		// Spanning task: use tikzpicture overlay with calculated width (z-dimension stacking)
-		width = `\dimexpr ` + strconv.Itoa(cols) + `\linewidth\relax`
-		spacing = `\makebox[0pt][l]{` + `\begin{tikzpicture}[overlay]` +
-			`\node[anchor=north west, inner sep=0pt] at (0,0) {` + `\begin{minipage}[t]{` + width + `}` + content + `\end{minipage}` + `};` +
-			`\end{tikzpicture}` + `}`
-		contentWrapper = "" // Don't add content twice for spanning tasks
+		sb.WriteString(`\makebox[0pt][l]{\begin{tikzpicture}[overlay]\node[anchor=north west, inner sep=0pt] at (0,0) {\begin{minipage}[t]{\dimexpr `)
+		sb.WriteString(strconv.Itoa(cols))
+		sb.WriteString(`\linewidth\relax}`)
+		sb.WriteString(content)
+		sb.WriteString(`\end{minipage}};\end{tikzpicture}}`)
 	} else if cols > 0 {
 		// Spanning task but rendered as regular content (vertical stacking)
-		spacing = ""             // No offset - start at the beginning of the cell
-		contentWrapper = content // Use the content directly without additional wrapping
+		// No offset - start at the beginning of the cell
+		sb.WriteString(content)
 	} else {
 		// Regular task: use full available width with fixed height container
-		width = `\dimexpr\linewidth - ` + dayContentMargin + `\relax` // Leave space for day number + margins
-		spacing = `\hspace*{` + dayNumberWidth + `}`                  // Spacing to align with day number cell width
-		// Wrap in fixed-height minipage to prevent row expansion
-		contentWrapper = `\begin{minipage}[t][\myLenMonthlyCellHeight][t]{` + width + `}` +
-			fmt.Sprintf(`{\sloppy\hyphenpenalty=%d\tolerance=%d\emergencystretch=%s\footnotesize\raggedright `,
-				hyphenPenalty, tolerance, emergencyStretch) + content + `}` +
-			`\end{minipage}`
+		sb.WriteString(`\hspace*{`)
+		sb.WriteString(dayNumberWidth)
+		sb.WriteString(`}\begin{minipage}[t][\myLenMonthlyCellHeight][t]{\dimexpr\linewidth - `)
+		sb.WriteString(dayContentMargin)
+		sb.WriteString(`\relax}{\sloppy\hyphenpenalty=`)
+		sb.WriteString(strconv.Itoa(hyphenPenalty))
+		sb.WriteString(`\tolerance=`)
+		sb.WriteString(strconv.Itoa(tolerance))
+		sb.WriteString(`\emergencystretch=`)
+		sb.WriteString(emergencyStretch)
+		sb.WriteString(`\footnotesize\raggedright `)
+		sb.WriteString(content)
+		sb.WriteString(`}\end{minipage}`)
 	}
 
-	inner := `{\begingroup` +
-		`\makebox[0pt][l]{` + leftCell + `}` +
-		spacing +
-		contentWrapper +
-		`\endgroup}`
+	sb.WriteString(`\endgroup}}`)
 
-	// Wrap entire cell in hyperlink to the day's reference (restores link without visual borders via hypersetup)
-	return fmt.Sprintf(`\hyperlink{%s}{%s}`, "", inner)
+	return sb.String()
 }
 
 // BuildWeekHeaderCell creates a week header cell
 func (cb *CellBuilder) BuildWeekHeaderCell(weekNum int) string {
 	weekHeaderHeight := "\\myLenMonthlyCellHeight" // Default height
 
-	return fmt.Sprintf(`\hyperlink{week-%d}{\rotatebox[origin=tr]{90}{\makebox[%s][c]{Week %d}}}`,
-		weekNum, weekHeaderHeight, weekNum)
+	var sb strings.Builder
+	sb.WriteString(`\hyperlink{week-`)
+	weekStr := strconv.Itoa(weekNum)
+	sb.WriteString(weekStr)
+	sb.WriteString(`}{\rotatebox[origin=tr]{90}{\makebox[`)
+	sb.WriteString(weekHeaderHeight)
+	sb.WriteString(`][c]{Week `)
+	sb.WriteString(weekStr)
+	sb.WriteString(`}}}`)
+
+	return sb.String()
 }
 
 // BuildMonthHeaderCell creates a month header cell
 func (cb *CellBuilder) BuildMonthHeaderCell(monthName string, monthNum int) string {
 	monthHeaderHeight := "\\myLenMonthlyCellHeight" // Default height
 
-	return fmt.Sprintf(`\hyperlink{month-%d}{\rotatebox[origin=tr]{90}{\makebox[%s][c]{%s}}}`,
-		monthNum, monthHeaderHeight, monthName)
+	var sb strings.Builder
+	sb.WriteString(`\hyperlink{month-`)
+	sb.WriteString(strconv.Itoa(monthNum))
+	sb.WriteString(`}{\rotatebox[origin=tr]{90}{\makebox[`)
+	sb.WriteString(monthHeaderHeight)
+	sb.WriteString(`][c]{`)
+	sb.WriteString(monthName)
+	sb.WriteString(`}}}`)
+
+	return sb.String()
 }
 
 // BuildEmptyCell creates an empty cell
