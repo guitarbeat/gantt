@@ -54,6 +54,9 @@
 \usepackage{hyperref}
 \usepackage{bookmark}
 
+% Accessibility support
+\usepackage{accsupp}
+
 {{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 
 {{- if not .Cfg.Debug.ShowLinks}}
