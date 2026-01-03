@@ -1125,32 +1125,59 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month
 func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
-	// Apply spanning tasks to the appropriate days in the month
-	for taskIndex, task := range tasks {
-		// Find all days in the month that this task spans
-		current := task.StartDate
-		for !current.After(task.EndDate) {
-			// Check if this day is in the current month
-			if current.Month() == month.Month && current.Year() == month.Year.Number {
-				// Find the day in the month and set the spanning task
-				dayFound := false
-				for _, week := range month.Weeks {
-					if dayFound {
-						break
-					}
-					for i := range week.Days {
-						if week.Days[i].Time.Day() == current.Day() &&
-							week.Days[i].Time.Month() == current.Month() &&
-							week.Days[i].Time.Year() == current.Year() {
-							// Create a copy of the task to avoid pointer issues
-							taskCopy := tasks[taskIndex]
-							// Add the spanning task to this day
-							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
-							dayFound = true
-							break
-						}
-					}
-				}
+	if len(tasks) == 0 || len(month.Weeks) == 0 {
+		return
+	}
+
+	// Calculate month bounds once
+	firstDayOfMonth := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.UTC)
+	lastDayOfMonth := firstDayOfMonth.AddDate(0, 1, -1)
+
+	// Pre-build map of days in month for O(1) lookup
+	// Map key is the day of the month (1-31)
+	dayMap := make(map[int]*Day, 31)
+	for _, week := range month.Weeks {
+		for i := range week.Days {
+			// week.Days[i] is a Day value, but we need to modify it.
+			// However, since we need to append to the Tasks slice which is a pointer (slice header),
+			// getting a pointer to the element in the array works.
+			d := &week.Days[i]
+			if d.Time.Month() == month.Month && d.Time.Year() == month.Year.Number {
+				dayMap[d.Time.Day()] = d
+			}
+		}
+	}
+
+	// Apply spanning tasks
+	for taskIndex := range tasks {
+		task := &tasks[taskIndex] // Use pointer to avoid copying
+
+		// Check for intersection between task range and month range
+		// Task: [StartDate, EndDate]
+		// Month: [firstDayOfMonth, lastDayOfMonth]
+
+		// Calculate intersection start
+		start := task.StartDate
+		if start.Before(firstDayOfMonth) {
+			start = firstDayOfMonth
+		}
+
+		// Calculate intersection end
+		end := task.EndDate
+		if end.After(lastDayOfMonth) {
+			end = lastDayOfMonth
+		}
+
+		// If no overlap, start will be after end
+		if start.After(end) {
+			continue
+		}
+
+		// Iterate only through the intersection days
+		current := start
+		for !current.After(end) {
+			if day, ok := dayMap[current.Day()]; ok {
+				day.Tasks = append(day.Tasks, task)
 			}
 			current = current.AddDate(0, 0, 1)
 		}
