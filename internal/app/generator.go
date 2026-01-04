@@ -368,12 +368,12 @@ func action(c *cli.Context) error {
 
 	// Merge all CSV files in memory
 	if !silent {
-		fmt.Print(core.Info("🔄 Merging CSV files in memory... "))
+		fmt.Print(core.Info("Merging CSV files in memory... "))
 	}
 	allTasks, err := core.ReadTasksFromMultipleFiles(csvFiles)
 	if err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Println(core.ActionStatus("FAIL", ""))
 		}
 		return formatError(
 			"CSV Merging",
@@ -385,17 +385,17 @@ func action(c *cli.Context) error {
 		)
 	}
 	if !silent {
-		fmt.Printf(core.Success("✅ (%d tasks total)\n"), len(allTasks))
+		fmt.Print(core.ActionStatus("OK", fmt.Sprintf("(%d tasks total)\n", len(allTasks))))
 	}
 
 	// Load and prepare configuration with merged tasks
 	if !silent {
-		fmt.Print(core.Info("📋 Loading configuration... "))
+		fmt.Print(core.Info("Loading configuration... "))
 	}
 	cfg, pathConfigs, err := loadConfigurationWithTasks(c, allTasks)
 	if err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Println(core.ActionStatus("FAIL", ""))
 		}
 		return formatError(
 			"Configuration",
@@ -406,16 +406,16 @@ func action(c *cli.Context) error {
 		)
 	}
 	if !silent {
-		fmt.Println(core.Success("✅"))
+		fmt.Println(core.ActionStatus("OK", ""))
 	}
 
 	// Setup output directory
 	if !silent {
-		fmt.Print(core.Info("📁 Setting up output directory... "))
+		fmt.Print(core.Info("Setting up output directory... "))
 	}
 	if err := setupOutputDirectory(cfg); err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Println(core.ActionStatus("FAIL", ""))
 		}
 		return formatError(
 			"Output Directory",
@@ -426,16 +426,16 @@ func action(c *cli.Context) error {
 		)
 	}
 	if !silent {
-		fmt.Println(core.Success("✅"))
+		fmt.Println(core.ActionStatus("OK", ""))
 	}
 
 	// Generate root document
 	if !silent {
-		fmt.Print(core.Info("📄 Generating root document... "))
+		fmt.Print(core.Info("Generating root document... "))
 	}
 	if err := generateRootDocument(cfg, pathConfigs); err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Println(core.ActionStatus("FAIL", ""))
 		}
 		return formatError(
 			"Document Generation",
@@ -446,17 +446,17 @@ func action(c *cli.Context) error {
 		)
 	}
 	if !silent {
-		fmt.Println(core.Success("✅"))
+		fmt.Println(core.ActionStatus("OK", ""))
 	}
 
 	// Generate pages
 	if !silent {
-		fmt.Print(core.Info("📅 Generating calendar pages... "))
+		fmt.Print(core.Info("Generating calendar pages... "))
 	}
 	preview := c.Bool(pConfig)
 	if err := generatePages(cfg, preview); err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Println(core.ActionStatus("FAIL", ""))
 		}
 		return formatError(
 			"Page Generation",
@@ -467,21 +467,21 @@ func action(c *cli.Context) error {
 		)
 	}
 	if !silent {
-		fmt.Println(core.Success("✅"))
+		fmt.Println(core.ActionStatus("OK", ""))
 	}
 
 	// Compile LaTeX to PDF
 	if !silent {
-		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
+		fmt.Print(core.Info("Compiling LaTeX to PDF... "))
 	}
 	if err := compileLaTeXToPDF(cfg); err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			fmt.Println(core.ActionStatus("FAIL", ""))
 		}
 		logger.Warn("PDF compilation failed: %v", err)
 	} else {
 		if !silent {
-			fmt.Println(core.Success("✅"))
+			fmt.Println(core.ActionStatus("OK", ""))
 		}
 	}
 
@@ -791,7 +791,8 @@ func generatePages(cfg core.Config, preview bool) error {
 
 	for i, file := range cfg.Pages {
 		if !silent {
-			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
+			// Print progress with clear line sequence to handle variable length filenames
+			fmt.Printf("\r\033[K%s [%d/%d] %s", core.Info("Generating calendar pages..."), i+1, totalPages, file.Name)
 		}
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
 			if !silent {
@@ -801,7 +802,9 @@ func generatePages(cfg core.Config, preview bool) error {
 		}
 	}
 	if !silent {
-		fmt.Print("\r") // Clear the progress line
+		// Clear line and restore prefix so the success checkmark aligns correctly
+		fmt.Print("\r\033[K")
+		fmt.Print(core.Info("Generating calendar pages... "))
 	}
 
 	return nil

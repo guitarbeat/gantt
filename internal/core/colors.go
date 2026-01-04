@@ -138,6 +138,44 @@ func MagentaText(text string) string {
 	return colorize(Magenta, text)
 }
 
+// ActionStatus returns a formatted status string [ STATUS ]
+func ActionStatus(status, text string) string {
+	if !colorEnabled() {
+		return fmt.Sprintf("[%s] %s", status, text)
+	}
+
+	var color string
+	switch status {
+	case "OK":
+		color = Green
+		status = "✔"
+	case "FAIL":
+		color = Red
+		status = "✘"
+	case "WARN":
+		color = Yellow
+		status = "!"
+	case "INFO":
+		color = Blue
+		status = "i"
+	}
+
+	if text == "" {
+		return fmt.Sprintf("%s%s", colorize(color, status), Reset)
+	}
+
+	// Handle trailing newlines to ensure Reset is applied before the newline
+	hasNewline := strings.HasSuffix(text, "\n")
+	cleanText := strings.TrimSuffix(text, "\n")
+
+	result := fmt.Sprintf("%s %s%s", colorize(color, status), cleanText, Reset)
+
+	if hasNewline {
+		result += "\n"
+	}
+	return result
+}
+
 // HexToRGB converts a hex color string to RGB format for LaTeX compatibility.
 // Accepts hex colors with or without the # prefix.
 // Returns "128,128,128" (gray) for invalid hex strings.
