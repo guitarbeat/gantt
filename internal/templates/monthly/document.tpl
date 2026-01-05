@@ -50,6 +50,9 @@
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
 \usepackage{blindtext}
+% Accessibility
+\usepackage{accsupp}
+
 % Hyperlink support
 \usepackage{hyperref}
 \usepackage{bookmark}
@@ -58,6 +61,8 @@
 
 {{- if not .Cfg.Debug.ShowLinks}}
 \hypersetup{
+    pdftitle={PhD Dissertation Planner {{.Cfg.Year}}},
+    pdfauthor={PlannerGen},
     hidelinks,
     colorlinks=false,
     linkbordercolor={1 1 1},

@@ -205,7 +205,9 @@
 % Colored circle macro for legend - handles hex colors  
 \newcommand{\ColorCircle}[2]{%
   \definecolor{circlecolor}{RGB}{#1}%
-  \textcolor{circlecolor}{\Large$\bullet$}~#2%
+  \BeginAccSupp{ActualText={}}%
+  \textcolor{circlecolor}{\Large$\bullet$}%
+  \EndAccSupp{}~#2%
 }
 
 
@@ -213,12 +215,12 @@
 % Color legend macro for task categories - uses algorithmic colors
 \newcommand{\ColorLegend}{%
   {\small
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\Large$\bullet$}~\small{Proposal}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\Large$\bullet$}~\small{Laser}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\Large$\bullet$}~\small{Imaging}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\Large$\bullet$}~\small{Admin}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\Large$\bullet$}~\small{Dissertation}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\Large$\bullet$}~\small{Research}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\Large$\bullet$}~\small{Publication}%
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{Proposal}\quad
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{Laser}\quad
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{Imaging}\quad
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{Admin}\quad
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{Dissertation}\quad
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{Research}\quad
+    \ColorCircle{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{Publication}%
   \par}
 }
