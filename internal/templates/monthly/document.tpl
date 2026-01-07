@@ -56,8 +56,13 @@
 
 {{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 
-{{- if not .Cfg.Debug.ShowLinks}}
 \hypersetup{
+    pdftitle={PhD Dissertation Planner {{.Cfg.GetYear}}},
+    pdfauthor={PlannerGen},
+    pdfsubject={PhD Dissertation Timeline},
+    pdfkeywords={PhD, Dissertation, Planner, Timeline, {{.Cfg.GetYear}}},
+    pdfcreator={PlannerGen},
+{{- if not .Cfg.Debug.ShowLinks}}
     hidelinks,
     colorlinks=false,
     linkbordercolor={1 1 1},
@@ -66,8 +71,8 @@
     urlbordercolor={1 1 1},
     pdfborderstyle={/S/U/W 0},
     pdfborder={0 0 0}
-}
 {{- end}}
+}
 
 \geometry{verbose=false,paperwidth={{.Cfg.Layout.Paper.Width}}, paperheight={{.Cfg.Layout.Paper.Height}}}
 \geometry{
