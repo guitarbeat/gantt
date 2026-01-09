@@ -264,22 +264,6 @@ func (ts *TaskStacker) normalizeDate(date time.Time) time.Time {
 	return time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC)
 }
 
-// getDateRange returns all dates between start and end (inclusive)
-func (ts *TaskStacker) getDateRange(start, end time.Time) []time.Time {
-	start = ts.normalizeDate(start)
-	end = ts.normalizeDate(end)
-
-	var dates []time.Time
-	current := start
-
-	for !current.After(end) {
-		dates = append(dates, current)
-		current = current.AddDate(0, 0, 1)
-	}
-
-	return dates
-}
-
 // TaskStackRenderer provides rendering information for stacked tasks
 type TaskStackRenderer struct {
 	stacker *TaskStacker
