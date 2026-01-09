@@ -951,23 +951,31 @@ func (vr *ValidationResult) GetSummary() string {
 	var summary strings.Builder
 
 	if vr.IsValid && len(vr.Warnings) == 0 {
-		summary.WriteString("✅ Validation successful")
+		summary.WriteString(Success("✅ Validation successful"))
 		if vr.RowCount > 0 {
-			summary.WriteString(fmt.Sprintf(" - %d rows validated", vr.RowCount))
+			summary.WriteString(Success(fmt.Sprintf(" - %d rows validated", vr.RowCount)))
 		}
 	} else {
 		if !vr.IsValid {
-			summary.WriteString(fmt.Sprintf("❌ Validation failed with %d errors", len(vr.Errors)))
+			summary.WriteString(Error(fmt.Sprintf("❌ Validation failed with %d errors", len(vr.Errors))))
 		} else {
-			summary.WriteString("⚠️  Validation passed with warnings")
+			summary.WriteString(Warning("⚠️  Validation passed with warnings"))
 		}
 
 		if vr.RowCount > 0 {
-			summary.WriteString(fmt.Sprintf(" - %d rows validated", vr.RowCount))
+			if !vr.IsValid {
+				summary.WriteString(Error(fmt.Sprintf(" - %d rows validated", vr.RowCount)))
+			} else {
+				summary.WriteString(Warning(fmt.Sprintf(" - %d rows validated", vr.RowCount)))
+			}
 		}
 
 		if len(vr.Warnings) > 0 {
-			summary.WriteString(fmt.Sprintf(", %d warnings", len(vr.Warnings)))
+			if !vr.IsValid {
+				summary.WriteString(Error(fmt.Sprintf(", %d warnings", len(vr.Warnings))))
+			} else {
+				summary.WriteString(Warning(fmt.Sprintf(", %d warnings", len(vr.Warnings))))
+			}
 		}
 	}
 

@@ -662,7 +662,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 			csvPath = autoPath
 			// Set the CSV path for later use
 			os.Setenv("PLANNER_CSV_FILE", csvPath)
-			fmt.Printf("Auto-detected CSV file: %s\n", csvPath)
+			fmt.Printf(core.Info("🔎 Auto-detected CSV file: %s\n"), csvPath)
 		}
 	}
 
@@ -672,7 +672,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
-			fmt.Printf("Auto-detected configuration files: %v\n", autoConfigs)
+			fmt.Printf(core.Info("🔎 Auto-detected configuration files: %v\n"), autoConfigs)
 		}
 	}
 
@@ -1568,6 +1568,7 @@ func runValidation(c *cli.Context) error {
 				fmt.Printf("  Error: %v\n", err)
 				validationPassed = false
 			} else {
+				// Summary already contains color codes from core.validation
 				fmt.Printf("  %s\n", result.GetSummary())
 
 				if !result.IsValid {
