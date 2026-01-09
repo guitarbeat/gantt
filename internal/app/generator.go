@@ -450,9 +450,6 @@ func action(c *cli.Context) error {
 	}
 
 	// Generate pages
-	if !silent {
-		fmt.Print(core.Info("📅 Generating calendar pages... "))
-	}
 	preview := c.Bool(pConfig)
 	if err := generatePages(cfg, preview); err != nil {
 		if !silent {
@@ -474,6 +471,7 @@ func action(c *cli.Context) error {
 	if !silent {
 		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
 	}
+	pdfCompiled := false
 	if err := compileLaTeXToPDF(cfg); err != nil {
 		if !silent {
 			fmt.Println(core.Error("❌"))
@@ -491,6 +489,7 @@ func action(c *cli.Context) error {
 			logger.Warn("PDF compilation failed: %v", err)
 		}
 	} else {
+		pdfCompiled = true
 		if !silent {
 			fmt.Println(core.Success("✅"))
 		}
@@ -498,13 +497,21 @@ func action(c *cli.Context) error {
 
 	if !silent {
 		fmt.Println(core.DimText("═══════════════════════════════════════"))
-		fmt.Printf(core.Success("✨ Successfully generated calendar from %d CSV files!\n"), len(csvFiles))
+		if pdfCompiled {
+			fmt.Printf(core.Success("✨ Successfully generated calendar from %d CSV files!\n"), len(csvFiles))
+		} else {
+			fmt.Printf(core.Warning("⚠️  Generated LaTeX files, but PDF compilation failed (check xelatex installation)\n"))
+		}
 		fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
 	}
 
 	if !silent {
 		fmt.Println(core.DimText("═══════════════════════════════════════"))
-		fmt.Println(core.Success("✨ All files processed!"))
+		if pdfCompiled {
+			fmt.Println(core.Success("✨ All files processed!"))
+		} else {
+			fmt.Println(core.Warning("✨ Done (with warnings)"))
+		}
 	}
 
 	return nil
@@ -812,7 +819,8 @@ func generatePages(cfg core.Config, preview bool) error {
 		}
 	}
 	if !silent {
-		fmt.Print("\r") // Clear the progress line
+		// Add a space so the checkmark printed by the caller appears next to the progress
+		fmt.Print(" ")
 	}
 
 	return nil
