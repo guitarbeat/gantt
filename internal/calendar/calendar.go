@@ -1125,34 +1125,58 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 
 // ApplySpanningTasksToMonth applies spanning tasks to a month
 func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
-	// Apply spanning tasks to the appropriate days in the month
-	for taskIndex, task := range tasks {
-		// Find all days in the month that this task spans
-		current := task.StartDate
-		for !current.After(task.EndDate) {
-			// Check if this day is in the current month
-			if current.Month() == month.Month && current.Year() == month.Year.Number {
-				// Find the day in the month and set the spanning task
-				dayFound := false
-				for _, week := range month.Weeks {
-					if dayFound {
-						break
-					}
-					for i := range week.Days {
-						if week.Days[i].Time.Day() == current.Day() &&
-							week.Days[i].Time.Month() == current.Month() &&
-							week.Days[i].Time.Year() == current.Year() {
-							// Create a copy of the task to avoid pointer issues
-							taskCopy := tasks[taskIndex]
-							// Add the spanning task to this day
-							week.Days[i].Tasks = append(week.Days[i].Tasks, &taskCopy)
-							dayFound = true
-							break
-						}
-					}
-				}
+	// Optimization: Create a map of day numbers to Day pointers for O(1) lookup
+	// This avoids nested loops searching for the correct day cell
+	dayMap := make(map[int]*Day, 31)
+	for _, week := range month.Weeks {
+		for i := range week.Days {
+			// Only map days that belong to the current month
+			if week.Days[i].Time.Month() == month.Month &&
+				week.Days[i].Time.Year() == month.Year.Number {
+				dayMap[week.Days[i].Time.Day()] = &week.Days[i]
 			}
-			current = current.AddDate(0, 0, 1)
+		}
+	}
+
+	monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.UTC)
+	monthEnd := monthStart.AddDate(0, 1, -1) // Last day of month
+
+	// Apply spanning tasks to the appropriate days in the month
+	for taskIndex := range tasks {
+		task := tasks[taskIndex]
+
+		// Normalize task dates to UTC midnight for comparison
+		tStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
+		tEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
+
+		// Quick check if task overlaps with this month
+		if tEndDate.Before(monthStart) || tStartDate.After(monthEnd) {
+			continue
+		}
+
+		// Calculate intersection range
+		start := tStartDate
+		if start.Before(monthStart) {
+			start = monthStart
+		}
+
+		end := tEndDate
+		if end.After(monthEnd) {
+			end = monthEnd
+		}
+
+		// Create a single copy of the task to share across all days in this month
+		// This reduces allocations compared to creating a copy for every single day
+		taskPtr := &task
+
+		// Iterate directly through the days in the range
+		startDay := start.Day()
+		endDay := end.Day()
+
+		for d := startDay; d <= endDay; d++ {
+			if dayCell, exists := dayMap[d]; exists {
+				dayCell.Tasks = append(dayCell.Tasks, taskPtr)
+			}
 		}
 	}
 }
