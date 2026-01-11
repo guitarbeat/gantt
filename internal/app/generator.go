@@ -1528,6 +1528,7 @@ func runValidation(c *cli.Context) error {
 	fmt.Printf("📋 Found %d CSV file(s) to validate\n", len(csvFiles))
 
 	validationPassed := true
+	validatedConfigs := make(map[string]bool)
 
 	// Process each CSV file
 	for i, csvFile := range csvFiles {
@@ -1544,35 +1545,46 @@ func runValidation(c *cli.Context) error {
 			continue
 		}
 
-		// Validate configuration files
-		fmt.Println("📋 Validating configuration files...")
+		// Filter out already validated configurations
+		configsToValidate := make([]string, 0)
 		for _, configPath := range pathConfigs {
-			fmt.Printf("  Checking %s... ", configPath)
-
-			validator := core.NewConfigValidator()
-			result, err := validator.ValidateConfigFile(configPath)
-			if err != nil {
-				fmt.Println(core.Error("❌"))
-				fmt.Printf("    Error: %v\n", err)
-				validationPassed = false
-				continue
+			if !validatedConfigs[configPath] {
+				configsToValidate = append(configsToValidate, configPath)
 			}
+		}
 
-			if result.IsValid {
-				if len(result.Warnings) > 0 {
-					fmt.Println(core.Warning("⚠️"))
-					for _, warning := range result.Warnings {
-						fmt.Printf("    Warning: %s\n", warning.Message)
+		// Validate configuration files
+		if len(configsToValidate) > 0 {
+			fmt.Println("📋 Validating configuration files...")
+			for _, configPath := range configsToValidate {
+				fmt.Printf("  Checking %s... ", configPath)
+
+				validator := core.NewConfigValidator()
+				result, err := validator.ValidateConfigFile(configPath)
+				if err != nil {
+					fmt.Println(core.Error("❌"))
+					fmt.Printf("    Error: %v\n", err)
+					validationPassed = false
+					continue
+				}
+
+				if result.IsValid {
+					if len(result.Warnings) > 0 {
+						fmt.Println(core.Warning("⚠️"))
+						for _, warning := range result.Warnings {
+							fmt.Printf("    Warning: %s\n", warning.Message)
+						}
+					} else {
+						fmt.Println(core.Success("✅"))
 					}
+					validatedConfigs[configPath] = true
 				} else {
-					fmt.Println(core.Success("✅"))
+					fmt.Println(core.Error("❌"))
+					for _, validationErr := range result.Errors {
+						fmt.Printf("    Error: %s\n", validationErr.Message)
+					}
+					validationPassed = false
 				}
-			} else {
-				fmt.Println(core.Error("❌"))
-				for _, validationErr := range result.Errors {
-					fmt.Printf("    Error: %s\n", validationErr.Message)
-				}
-				validationPassed = false
 			}
 		}
 
