@@ -516,37 +516,28 @@ func (d Day) isMilestoneSpanningTask(task *SpanningTask) bool {
 // HELPER FUNCTIONS - LATEX UTILITIES
 // ============================================================================
 
+// latexSpecialCharsReplacer is a pre-compiled replacer for LaTeX special characters
+var latexSpecialCharsReplacer = strings.NewReplacer(
+	"\\", "\\textbackslash{}",
+	"{", "\\{",
+	"}", "\\}",
+	"$", "\\$",
+	"&", "\\&",
+	"%", "\\%",
+	"#", "\\#",
+	"^", "\\textasciicircum{}",
+	"_", "\\_",
+	"~", "\\textasciitilde{}",
+)
+
 // EscapeLatexSpecialChars replaces special LaTeX characters with their escaped versions
 func EscapeLatexSpecialChars(text string) string {
-	// Replace special LaTeX characters with their escaped versions
-	text = strings.ReplaceAll(text, "\\", "\\textbackslash{}")
-	text = strings.ReplaceAll(text, "{", "\\{")
-	text = strings.ReplaceAll(text, "}", "\\}")
-	text = strings.ReplaceAll(text, "$", "\\$")
-	text = strings.ReplaceAll(text, "&", "\\&")
-	text = strings.ReplaceAll(text, "%", "\\%")
-	text = strings.ReplaceAll(text, "#", "\\#")
-	text = strings.ReplaceAll(text, "^", "\\textasciicircum{}")
-	text = strings.ReplaceAll(text, "_", "\\_")
-	text = strings.ReplaceAll(text, "~", "\\textasciitilde{}")
-
-	return text
+	return latexSpecialCharsReplacer.Replace(text)
 }
 
 // EscapeLatexSpecialChars escapes special LaTeX characters in text
 func (d Day) EscapeLatexSpecialChars(text string) string {
-	// Replace special LaTeX characters with their escaped versions
-	text = strings.ReplaceAll(text, "\\", "\\textbackslash{}")
-	text = strings.ReplaceAll(text, "{", "\\{")
-	text = strings.ReplaceAll(text, "}", "\\}")
-	text = strings.ReplaceAll(text, "$", "\\$")
-	text = strings.ReplaceAll(text, "&", "\\&")
-	text = strings.ReplaceAll(text, "%", "\\%")
-	text = strings.ReplaceAll(text, "#", "\\#")
-	text = strings.ReplaceAll(text, "^", "\\textasciicircum{}")
-	text = strings.ReplaceAll(text, "_", "\\_")
-	text = strings.ReplaceAll(text, "~", "\\textasciitilde{}")
-	return text
+	return EscapeLatexSpecialChars(text)
 }
 
 // ============================================================================
