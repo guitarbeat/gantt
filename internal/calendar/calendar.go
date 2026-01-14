@@ -10,6 +10,7 @@ package calendar
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -261,15 +262,11 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	// Sort tasks by their assigned track (lowest track first, renders at bottom)
 	sortedTasks := make([]*SpanningTask, len(allTasksToRender))
 	copy(sortedTasks, allTasksToRender)
-	for i := 0; i < len(sortedTasks)-1; i++ {
-		for j := 0; j < len(sortedTasks)-i-1; j++ {
-			track1 := trackAssignments[sortedTasks[j].ID]
-			track2 := trackAssignments[sortedTasks[j+1].ID]
-			if track1 > track2 {
-				sortedTasks[j], sortedTasks[j+1] = sortedTasks[j+1], sortedTasks[j]
-			}
-		}
-	}
+	sort.Slice(sortedTasks, func(i, j int) bool {
+		track1 := trackAssignments[sortedTasks[i].ID]
+		track2 := trackAssignments[sortedTasks[j].ID]
+		return track1 < track2
+	})
 
 	// Render task pills with vertical offsets based on track
 	var pillContents = make([]string, 0, len(sortedTasks))
@@ -495,14 +492,9 @@ func (d Day) sortTasksByStartDate(tasks []*SpanningTask) []*SpanningTask {
 	sorted := make([]*SpanningTask, len(tasks))
 	copy(sorted, tasks)
 
-	// Sort by start date (earliest first)
-	for i := 0; i < len(sorted)-1; i++ {
-		for j := 0; j < len(sorted)-i-1; j++ {
-			if sorted[j].StartDate.After(sorted[j+1].StartDate) {
-				sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
-			}
-		}
-	}
+	sort.Slice(sorted, func(i, j int) bool {
+		return sorted[i].StartDate.Before(sorted[j].StartDate)
+	})
 
 	return sorted
 }
