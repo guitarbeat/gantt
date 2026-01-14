@@ -10,6 +10,7 @@ package calendar
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -261,15 +262,13 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	// Sort tasks by their assigned track (lowest track first, renders at bottom)
 	sortedTasks := make([]*SpanningTask, len(allTasksToRender))
 	copy(sortedTasks, allTasksToRender)
-	for i := 0; i < len(sortedTasks)-1; i++ {
-		for j := 0; j < len(sortedTasks)-i-1; j++ {
-			track1 := trackAssignments[sortedTasks[j].ID]
-			track2 := trackAssignments[sortedTasks[j+1].ID]
-			if track1 > track2 {
-				sortedTasks[j], sortedTasks[j+1] = sortedTasks[j+1], sortedTasks[j]
-			}
-		}
-	}
+
+	// Use sort.Slice for O(n log n) performance instead of O(n^2) Bubble Sort
+	sort.Slice(sortedTasks, func(i, j int) bool {
+		track1 := trackAssignments[sortedTasks[i].ID]
+		track2 := trackAssignments[sortedTasks[j].ID]
+		return track1 < track2
+	})
 
 	// Render task pills with vertical offsets based on track
 	var pillContents = make([]string, 0, len(sortedTasks))
@@ -416,18 +415,20 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 // Returns a map of task ID to track number (0-based, 0 is bottom)
 func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 	trackAssignments := make(map[string]int)
+	tracksUsage := make(map[int][]*SpanningTask)
 
 	// For each task, find the lowest available track
 	for _, task := range tasks {
-		track := d.findLowestAvailableTrackForTask(task, trackAssignments)
+		track := d.findLowestAvailableTrackForTask(task, tracksUsage)
 		trackAssignments[task.ID] = track
+		tracksUsage[track] = append(tracksUsage[track], task)
 	}
 
 	return trackAssignments
 }
 
 // findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
-func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, existing map[string]int) int {
+func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map[int][]*SpanningTask) int {
 	taskStart := d.getTaskStartDate(task)
 	taskEnd := d.getTaskEndDate(task)
 
@@ -435,27 +436,14 @@ func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, existing map[st
 	for track := 0; track < 100; track++ {
 		occupied := false
 
-		// Check if any existing task on this track overlaps with our task
-		for otherTaskID, otherTrack := range existing {
-			if otherTrack != track {
-				continue // Different track, no conflict
-			}
+		// Check tasks already assigned to this track
+		for _, otherTask := range tracksUsage[track] {
+			otherStart := d.getTaskStartDate(otherTask)
+			otherEnd := d.getTaskEndDate(otherTask)
 
-			// Find the other task
-			for _, otherTask := range d.Tasks {
-				if otherTask.ID == otherTaskID {
-					otherStart := d.getTaskStartDate(otherTask)
-					otherEnd := d.getTaskEndDate(otherTask)
-
-					// Check if date ranges overlap
-					if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
-						occupied = true
-						break
-					}
-				}
-			}
-
-			if occupied {
+			// Check if date ranges overlap
+			if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
+				occupied = true
 				break
 			}
 		}
@@ -496,13 +484,10 @@ func (d Day) sortTasksByStartDate(tasks []*SpanningTask) []*SpanningTask {
 	copy(sorted, tasks)
 
 	// Sort by start date (earliest first)
-	for i := 0; i < len(sorted)-1; i++ {
-		for j := 0; j < len(sorted)-i-1; j++ {
-			if sorted[j].StartDate.After(sorted[j+1].StartDate) {
-				sorted[j], sorted[j+1] = sorted[j+1], sorted[j]
-			}
-		}
-	}
+	// Use sort.Slice for O(n log n) performance instead of O(n^2) Bubble Sort
+	sort.Slice(sorted, func(i, j int) bool {
+		return sorted[i].StartDate.Before(sorted[j].StartDate)
+	})
 
 	return sorted
 }
