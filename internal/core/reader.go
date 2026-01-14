@@ -370,7 +370,7 @@ func (r *Reader) logParsingSummary(tasks []Task, _ []error) {
 	warningCount := r.aggregator.WarningCount()
 
 	if errorCount == 0 && warningCount == 0 {
-		r.logger.Info("Successfully parsed %d tasks with no issues", len(tasks))
+		r.logger.Debug("Successfully parsed %d tasks with no issues", len(tasks))
 		return
 	}
 

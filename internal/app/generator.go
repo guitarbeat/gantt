@@ -764,7 +764,7 @@ func setupOutputDirectory(cfg core.Config) error {
 		}
 	}
 	
-	logger.Info("Output directory: %s", cfg.OutputDir)
+	logger.Debug("Output directory: %s", cfg.OutputDir)
 	return nil
 }
 
@@ -790,7 +790,7 @@ func generateRootDocument(cfg core.Config, pathConfigs []string) error {
 	if err := os.WriteFile(outputFile, wr.Bytes(), 0o600); err != nil {
 		return core.NewFileError(outputFile, "write", err)
 	}
-	logger.Info("Generated LaTeX file: %s", outputFile)
+	logger.Debug("Generated LaTeX file: %s", outputFile)
 
 	// Force GC after large document generation to prevent memory buildup
 	if wr.Len() > 1024*1024 { // > 1MB
@@ -925,7 +925,7 @@ func writePageFile(cfg core.Config, pageName string, content []byte) error {
 	if err := os.WriteFile(pageFile, content, 0o600); err != nil {
 		return core.NewFileError(pageFile, "write", err)
 	}
-	logger.Info("Generated page: %s", pageFile)
+	logger.Debug("Generated page: %s", pageFile)
 	return nil
 }
 
