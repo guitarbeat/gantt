@@ -243,8 +243,8 @@ func getCoverageStatus(coverage float64) string {
 
 // printCoverageHeader prints the coverage report header
 func printCoverageHeader() {
-	fmt.Println("\n📊 Coverage Analysis Report")
-	fmt.Println("═══════════════════════════════════════")
+	fmt.Println(core.BoldText("\n📊 Coverage Analysis Report"))
+	fmt.Println(core.DimText("═══════════════════════════════════════"))
 }
 
 // printCoverageRecommendations prints recommendations based on overall coverage
@@ -519,8 +519,8 @@ func action(c *cli.Context) error {
 
 // runTestCoverage executes tests with coverage analysis and provides formatted results
 func runTestCoverage() error {
-	fmt.Println("🧪 Running Test Coverage Analysis")
-	fmt.Println("═══════════════════════════════════════")
+	fmt.Println(core.BoldText("🧪 Running Test Coverage Analysis"))
+	fmt.Println(core.DimText("═══════════════════════════════════════"))
 
 	// Create coverage output file
 	coverageFile := "coverage.out"
@@ -663,7 +663,7 @@ func analyzeCoverage(coverageFile string) error {
 	// Provide recommendations
 	printCoverageRecommendations(overallCoverage)
 
-	fmt.Println("═══════════════════════════════════════")
+	fmt.Println(core.DimText("═══════════════════════════════════════"))
 
 	return nil
 }
@@ -680,7 +680,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 			csvPath = autoPath
 			// Set the CSV path for later use
 			os.Setenv("PLANNER_CSV_FILE", csvPath)
-			fmt.Printf("Auto-detected CSV file: %s\n", csvPath)
+			fmt.Printf("%s Auto-detected CSV file: %s\n", core.Info("🔍"), core.BoldText(csvPath))
 		}
 	}
 
@@ -690,7 +690,8 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
-			fmt.Printf("Auto-detected configuration files: %v\n", autoConfigs)
+			configList := strings.Join(autoConfigs, ", ")
+			fmt.Printf("%s Auto-detected configuration files: %s\n", core.Info("🔍"), core.BoldText(configList))
 		}
 	}
 
@@ -1509,8 +1510,8 @@ func assignTasksToMonth(month *cal.Month, tasks []core.Task) {
 
 // runValidation validates CSV and configuration files without generating PDF output
 func runValidation(c *cli.Context) error {
-	fmt.Println("🔍 Running Validation Checks")
-	fmt.Println("═══════════════════════════════════════")
+	fmt.Println(core.BoldText("🔍 Running Validation Checks"))
+	fmt.Println(core.DimText("═══════════════════════════════════════"))
 
 	// Get all CSV files to validate
 	csvFiles, err := getAllCSVFiles()
@@ -1599,7 +1600,13 @@ func runValidation(c *cli.Context) error {
 				fmt.Printf("  Error: %v\n", err)
 				validationPassed = false
 			} else {
-				fmt.Printf("  %s\n", result.GetSummary())
+				if result.IsValid && len(result.Warnings) == 0 {
+					fmt.Printf("  %s\n", core.Success(result.GetSummary()))
+				} else if !result.IsValid {
+					fmt.Printf("  %s\n", core.Error(result.GetSummary()))
+				} else {
+					fmt.Printf("  %s\n", core.Warning(result.GetSummary()))
+				}
 
 				if !result.IsValid {
 					fmt.Println("\n📋 Validation Errors:")
