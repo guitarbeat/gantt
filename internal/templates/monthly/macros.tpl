@@ -202,23 +202,25 @@
   \underline{\textbf{#1}}%
 }
 
-% Colored circle macro for legend - handles hex colors  
+% Colored circle macro for legend - handles hex colors
 \newcommand{\ColorCircle}[2]{%
   \definecolor{circlecolor}{RGB}{#1}%
-  \textcolor{circlecolor}{\Large$\bullet$}~#2%
+  \BeginAccSupp{ActualText={}}\textcolor{circlecolor}{\Large$\bullet$}\EndAccSupp{}~#2%
 }
 
-
+% Accessible icons
+\newcommand{\MilestoneStar}{\BeginAccSupp{ActualText={Milestone }}$\star$\EndAccSupp{}}
+\newcommand{\CompletedCheck}{\BeginAccSupp{ActualText={Completed }}$\checkmark$\EndAccSupp{}}
 
 % Color legend macro for task categories - uses algorithmic colors
 \newcommand{\ColorLegend}{%
   {\small
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\Large$\bullet$}~\small{Proposal}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\Large$\bullet$}~\small{Laser}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\Large$\bullet$}~\small{Imaging}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\Large$\bullet$}~\small{Admin}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\Large$\bullet$}~\small{Dissertation}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\Large$\bullet$}~\small{Research}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\Large$\bullet$}~\small{Publication}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Proposal}\quad
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Laser}\quad
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Imaging}\quad
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Admin}\quad
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Dissertation}\quad
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Research}\quad
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\BeginAccSupp{ActualText={}}\Large$\bullet$\EndAccSupp{}}~\small{Publication}%
   \par}
 }
