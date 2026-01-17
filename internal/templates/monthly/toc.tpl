@@ -42,8 +42,8 @@
     {{- range $i, $task := index $.Body.TaskIndex $phase}}
         {{- $taskName := $task.Name }}
         {{- $taskIcon := "" }}
-        {{- if $task.IsMilestone}}{{- $taskIcon = "$\\star$" }}{{- $taskName = printf "\\textbf{%s}" $taskName}}{{- end}}
-        {{- if eq ($task.Status | lower) "completed"}}{{- $taskIcon = "$\\checkmark$" }}{{- $taskName = printf "\\textcolor{gray}{%s}" $taskName}}{{- end}}
+        {{- if $task.IsMilestone}}{{- $taskIcon = "\\MilestoneStar" }}{{- $taskName = printf "\\textbf{%s}" $taskName}}{{- end}}
+        {{- if eq ($task.Status | lower) "completed"}}{{- $taskIcon = "\\CompletedCheck" }}{{- $taskName = printf "\\textcolor{gray}{%s}" $taskName}}{{- end}}
 {{plus $i 1}} & \hyperlink{ {{- $task.StartDate.Local.Format "2006-01-02T15:04:05-07:00" -}} }{ {{- $taskName -}} } {{$taskIcon}} & {\footnotesize {{$task.StartDate.Format "Jan 02"}}} & {\footnotesize {{$task.EndDate.Format "Jan 02"}}} \\
     {{- end}}
 \hline
