@@ -205,7 +205,10 @@
 % Colored circle macro for legend - handles hex colors  
 \newcommand{\ColorCircle}[2]{%
   \definecolor{circlecolor}{RGB}{#1}%
-  \textcolor{circlecolor}{\Large$\bullet$}~#2%
+  \BeginAccSupp{ActualText={}}%
+  \textcolor{circlecolor}{\Large$\bullet$}%
+  \EndAccSupp{}%
+  ~#2%
 }
 
 

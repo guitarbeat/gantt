@@ -107,10 +107,14 @@ type TemplateError struct {
 }
 
 func (e *TemplateError) Error() string {
-	if e.Line > 0 {
-		return fmt.Sprintf("template error in %s at line %d: %s", e.Template, e.Line, e.Message)
+	msg := e.Message
+	if e.Err != nil {
+		msg = fmt.Sprintf("%s (cause: %v)", e.Message, e.Err)
 	}
-	return fmt.Sprintf("template error in %s: %s", e.Template, e.Message)
+	if e.Line > 0 {
+		return fmt.Sprintf("template error in %s at line %d: %s", e.Template, e.Line, msg)
+	}
+	return fmt.Sprintf("template error in %s: %s", e.Template, msg)
 }
 
 func (e *TemplateError) Unwrap() error {
