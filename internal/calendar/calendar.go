@@ -416,56 +416,43 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 // Returns a map of task ID to track number (0-based, 0 is bottom)
 func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 	trackAssignments := make(map[string]int)
+	// tracksUsage maps track number to list of tasks assigned to it
+	// This optimization replaces O(N³) lookups with O(N²), significantly speeding up rendering
+	tracksUsage := make(map[int][]*SpanningTask)
 
-	// For each task, find the lowest available track
 	for _, task := range tasks {
-		track := d.findLowestAvailableTrackForTask(task, trackAssignments)
-		trackAssignments[task.ID] = track
-	}
+		taskStart := d.getTaskStartDate(task)
+		taskEnd := d.getTaskEndDate(task)
 
-	return trackAssignments
-}
+		assignedTrack := 0
 
-// findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
-func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, existing map[string]int) int {
-	taskStart := d.getTaskStartDate(task)
-	taskEnd := d.getTaskEndDate(task)
+		// Check each track starting from 0
+		for track := 0; track < 100; track++ { // 100 is a safe upper bound
+			conflict := false
 
-	// Check each track starting from 0
-	for track := 0; track < 100; track++ {
-		occupied := false
+			// Check against tasks already on this track
+			// Since we store task pointers directly, we avoid expensive ID lookups in d.Tasks
+			for _, existingTask := range tracksUsage[track] {
+				existingStart := d.getTaskStartDate(existingTask)
+				existingEnd := d.getTaskEndDate(existingTask)
 
-		// Check if any existing task on this track overlaps with our task
-		for otherTaskID, otherTrack := range existing {
-			if otherTrack != track {
-				continue // Different track, no conflict
-			}
-
-			// Find the other task
-			for _, otherTask := range d.Tasks {
-				if otherTask.ID == otherTaskID {
-					otherStart := d.getTaskStartDate(otherTask)
-					otherEnd := d.getTaskEndDate(otherTask)
-
-					// Check if date ranges overlap
-					if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
-						occupied = true
-						break
-					}
+				if d.dateRangesOverlap(taskStart, taskEnd, existingStart, existingEnd) {
+					conflict = true
+					break
 				}
 			}
 
-			if occupied {
+			if !conflict {
+				assignedTrack = track
 				break
 			}
 		}
 
-		if !occupied {
-			return track
-		}
+		trackAssignments[task.ID] = assignedTrack
+		tracksUsage[assignedTrack] = append(tracksUsage[assignedTrack], task)
 	}
 
-	return 0 // Fallback
+	return trackAssignments
 }
 
 // dateRangesOverlap checks if two date ranges overlap
