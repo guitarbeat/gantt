@@ -161,3 +161,11 @@ func HexToRGB(hex string) string {
 
 	return fmt.Sprintf("%d,%d,%d", r, g, b)
 }
+
+// ClearLine returns the ANSI escape code to clear the current line if colors are enabled
+func ClearLine() string {
+	if !colorEnabled() {
+		return ""
+	}
+	return "\033[K"
+}
