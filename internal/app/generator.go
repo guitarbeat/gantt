@@ -680,7 +680,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 			csvPath = autoPath
 			// Set the CSV path for later use
 			os.Setenv("PLANNER_CSV_FILE", csvPath)
-			fmt.Printf("Auto-detected CSV file: %s\n", csvPath)
+			fmt.Print(core.Info(fmt.Sprintf("🔍 Auto-detected CSV file: %s\n", core.BoldText(csvPath))))
 		}
 	}
 
@@ -690,7 +690,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
-			fmt.Printf("Auto-detected configuration files: %v\n", autoConfigs)
+			fmt.Print(core.Info(fmt.Sprintf("🔍 Auto-detected configuration files: %s\n", core.BoldText(strings.Join(autoConfigs, ", ")))))
 		}
 	}
 
