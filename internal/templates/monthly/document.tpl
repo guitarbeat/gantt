@@ -50,6 +50,9 @@
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
 \usepackage{blindtext}
+% Accessibility support
+\usepackage{accsupp}
+
 % Hyperlink support
 \usepackage{hyperref}
 \usepackage{bookmark}
@@ -57,10 +60,10 @@
 {{if $.Cfg.Debug.ShowFrame}}\usepackage{showframe}{{end}}
 
 \hypersetup{
-    pdftitle={PhD Dissertation Planner {{.Cfg.GetYear}}},
+    pdftitle={PhD Dissertation Planner {{.Cfg.Year}}},
     pdfauthor={PlannerGen},
     pdfsubject={PhD Dissertation Timeline},
-    pdfkeywords={PhD, Dissertation, Planner, Timeline, {{.Cfg.GetYear}}},
+    pdfkeywords={PhD, Dissertation, Planner, Timeline, {{.Cfg.Year}}},
     pdfcreator={PlannerGen},
 {{- if not .Cfg.Debug.ShowLinks}}
     hidelinks,
