@@ -733,7 +733,7 @@ func loadConfigurationWithTasks(c *cli.Context, tasks []core.Task) (core.Config,
 
 	// Inject the pre-loaded tasks into the configuration
 	cfg.Tasks = tasks
-	
+
 	// Calculate date range and months with tasks from the merged data
 	if len(tasks) > 0 {
 		dateRange := core.CalculateDateRange(tasks)
@@ -749,7 +749,7 @@ func setupOutputDirectory(cfg core.Config) error {
 	if err := os.MkdirAll(cfg.OutputDir, 0o755); err != nil {
 		return core.NewFileError(cfg.OutputDir, "create directory", err)
 	}
-	
+
 	// Create organized subdirectories
 	subdirs := []string{
 		filepath.Join(cfg.OutputDir, "pdfs"),
@@ -757,13 +757,13 @@ func setupOutputDirectory(cfg core.Config) error {
 		filepath.Join(cfg.OutputDir, "auxiliary"),
 		filepath.Join(cfg.OutputDir, "binaries"),
 	}
-	
+
 	for _, subdir := range subdirs {
 		if err := os.MkdirAll(subdir, 0o755); err != nil {
 			return core.NewFileError(subdir, "create subdirectory", err)
 		}
 	}
-	
+
 	logger.Debug("Output directory: %s", cfg.OutputDir)
 	return nil
 }
@@ -809,7 +809,7 @@ func generatePages(cfg core.Config, preview bool) error {
 
 	for i, file := range cfg.Pages {
 		if !silent {
-			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
+			fmt.Printf("\r%s [%d/%d] %s%s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name, core.ClearLine)
 		}
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
 			if !silent {
@@ -1232,7 +1232,7 @@ func getAllCSVFiles() ([]string, error) {
 	}
 
 	var csvFiles []string
-	
+
 	for _, file := range files {
 		if !file.IsDir() && strings.HasSuffix(strings.ToLower(file.Name()), ".csv") {
 			// Skip hidden files and temporary files
@@ -1682,7 +1682,7 @@ func compileLaTeXToPDF(cfg core.Config) error {
 
 	// Move generated files to appropriate directories
 	baseName := strings.TrimSuffix(filepath.Base(mainTexFile), ".tex")
-	
+
 	// Ensure paths are absolute to avoid issues after chdir
 	absPdfDir, err := filepath.Abs(pdfDir)
 	if err != nil {
@@ -1692,7 +1692,7 @@ func compileLaTeXToPDF(cfg core.Config) error {
 	if err != nil {
 		absAuxDir = auxDir // Fallback to relative if Abs fails
 	}
-	
+
 	// Move PDF to pdfs directory
 	pdfFile := baseName + ".pdf"
 	if _, err := os.Stat(pdfFile); err == nil {

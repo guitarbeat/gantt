@@ -61,6 +61,9 @@ const (
 	Blink     = "\033[5m"
 	Reverse   = "\033[7m"
 	Strike    = "\033[9m"
+
+	// Cursor controls
+	ClearLine = "\033[K"
 )
 
 // colorEnabled checks if colors should be used based on environment and terminal support

@@ -926,7 +926,7 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 				if task.Phase != "" {
 					// Use the phase name directly (no number extraction needed)
 					phaseName := task.Phase
-					
+
 					// Get color for this phase
 					if _, exists := phaseMap[phaseName]; !exists {
 						color := core.GenerateCategoryColor(phaseName)
@@ -946,7 +946,7 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 	for _, phaseName := range phaseOrder {
 		if color, exists := phaseMap[phaseName]; exists {
 			phase := PhaseGroup{
-				PhaseNumber: "",  // No longer using phase numbers
+				PhaseNumber: "", // No longer using phase numbers
 				PhaseName:   EscapeLatexSpecialChars(phaseName),
 			}
 
