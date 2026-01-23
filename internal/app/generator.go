@@ -473,16 +473,24 @@ func action(c *cli.Context) error {
 	}
 	pdfCompiled := false
 	if err := compileLaTeXToPDF(cfg); err != nil {
+		isMissingTool := strings.Contains(err.Error(), "executable file not found")
+
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			if isMissingTool {
+				fmt.Println(core.Warning("⚠️ "))
+			} else {
+				fmt.Println(core.Error("❌"))
+			}
 		}
 
-		if strings.Contains(err.Error(), "executable file not found") {
+		if isMissingTool {
 			if !silent {
 				fmt.Println(core.Warning("\n⚠️  PDF generation skipped: 'xelatex' not found"))
 				fmt.Println(core.DimText("   LaTeX files have been generated in: " + filepath.Join(cfg.OutputDir, "latex")))
 				fmt.Println(core.DimText("   To generate PDF manually, install TeX Live/MacTeX and run:"))
-				fmt.Println(core.DimText(fmt.Sprintf("   cd %s && xelatex %s", filepath.Join(cfg.OutputDir, "latex"), RootFilename(pathConfigs[len(pathConfigs)-1]))))
+				fmt.Println()
+				fmt.Println(core.CyanText(fmt.Sprintf("   cd %s && xelatex %s", filepath.Join(cfg.OutputDir, "latex"), RootFilename(pathConfigs[len(pathConfigs)-1]))))
+				fmt.Println()
 			}
 			logger.Warn("PDF compilation skipped (xelatex missing)")
 		} else {
