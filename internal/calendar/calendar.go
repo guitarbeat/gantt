@@ -233,8 +233,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 	// Categorize active tasks
 	for _, task := range activeTasks {
-		start := d.getTaskStartDate(task)
-		if dayDate.Equal(start) {
+		if dayDate.Equal(task.StartDate) {
 			// This task starts today
 			startingTasks = append(startingTasks, task)
 		} else {
@@ -338,15 +337,6 @@ func (d Day) getDayDate() time.Time {
 	return time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
 }
 
-// getTaskStartDate returns the task start date normalized to UTC midnight
-func (d Day) getTaskStartDate(task *SpanningTask) time.Time {
-	return time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
-}
-
-// getTaskEndDate returns the task end date normalized to UTC midnight
-func (d Day) getTaskEndDate(task *SpanningTask) time.Time {
-	return time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
-}
 
 // isTaskActiveOnDay checks if a task is active on the given day
 func (d Day) isTaskActiveOnDay(dayDate, start, end time.Time) bool {
@@ -379,22 +369,19 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	seen := make(map[*SpanningTask]bool)
 
 	for _, task := range d.Tasks {
-		start := d.getTaskStartDate(task)
-		end := d.getTaskEndDate(task)
-
-		// Include task if it's active on this day (either starting or continuing)
-		if d.isTaskActiveOnDay(dayDate, start, end) && !seen[task] {
+		// Tasks in d.Tasks are guaranteed to be active on this day by ApplySpanningTasksToMonth
+		if !seen[task] {
 			activeTasks = append(activeTasks, task)
 			seen[task] = true
 
 			// Calculate columns differently based on whether task starts today
 			var cols int
-			if dayDate.Equal(start) {
+			if dayDate.Equal(task.StartDate) {
 				// Task starts today: span from today to end (or end of week)
-				cols = d.calculateTaskSpanColumns(dayDate, end)
+				cols = d.calculateTaskSpanColumns(dayDate, task.EndDate)
 			} else {
 				// Task started earlier: calculate remaining span
-				cols = d.calculateRemainingSpanColumns(dayDate, end)
+				cols = d.calculateRemainingSpanColumns(dayDate, task.EndDate)
 			}
 
 			if cols > maxCols {
@@ -427,9 +414,6 @@ func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 
 // findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
 func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map[int][]*SpanningTask) int {
-	taskStart := d.getTaskStartDate(task)
-	taskEnd := d.getTaskEndDate(task)
-
 	// Check each track starting from 0
 	for track := 0; track < 100; track++ {
 		occupied := false
@@ -438,11 +422,8 @@ func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map
 		// This avoids iterating through all assigned tasks and searching d.Tasks (reducing O(N^3) to roughly O(N^2))
 		if tasksOnTrack, ok := tracksUsage[track]; ok {
 			for _, otherTask := range tasksOnTrack {
-				otherStart := d.getTaskStartDate(otherTask)
-				otherEnd := d.getTaskEndDate(otherTask)
-
 				// Check if date ranges overlap
-				if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
+				if d.dateRangesOverlap(task.StartDate, task.EndDate, otherTask.StartDate, otherTask.EndDate) {
 					occupied = true
 					break
 				}
@@ -1084,14 +1065,18 @@ func CreateSpanningTask(task core.Task, startDate, endDate time.Time) SpanningTa
 	// * Use Sub-Phase as category for better granularity
 	color := core.GenerateCategoryColor(task.Category)
 
+	// Normalize dates to UTC midnight to avoid repeated normalization during rendering
+	s := time.Date(startDate.Year(), startDate.Month(), startDate.Day(), 0, 0, 0, 0, time.UTC)
+	e := time.Date(endDate.Year(), endDate.Month(), endDate.Day(), 0, 0, 0, 0, time.UTC)
+
 	return SpanningTask{
 		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
 		Phase:       task.Phase,    // Combined: Phase with description
 		Category:    task.Category, // * Fixed: Use Category field
-		StartDate:   startDate,
-		EndDate:     endDate,
+		StartDate:   s,
+		EndDate:     e,
 		Color:       color,
 		Progress:    0,                // Default progress
 		Status:      task.Status,      // * Fixed: Use actual Status field
