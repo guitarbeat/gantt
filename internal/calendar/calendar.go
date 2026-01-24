@@ -29,7 +29,7 @@ type Days []*Day
 // Day represents a single calendar day with its tasks
 type Day struct {
 	Time  time.Time
-	Tasks []*SpanningTask // All tasks (even 1-day tasks are "spanning")
+	Tasks []*SpanningTask // All tasks (even 1-day tasks are "spanning"). Tasks MUST be normalized to UTC midnight.
 	Cfg   *core.Config
 }
 
@@ -233,7 +233,7 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 
 	// Categorize active tasks
 	for _, task := range activeTasks {
-		start := d.getTaskStartDate(task)
+		start := task.StartDate
 		if dayDate.Equal(start) {
 			// This task starts today
 			startingTasks = append(startingTasks, task)
@@ -338,16 +338,6 @@ func (d Day) getDayDate() time.Time {
 	return time.Date(d.Time.Year(), d.Time.Month(), d.Time.Day(), 0, 0, 0, 0, time.UTC)
 }
 
-// getTaskStartDate returns the task start date normalized to UTC midnight
-func (d Day) getTaskStartDate(task *SpanningTask) time.Time {
-	return time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
-}
-
-// getTaskEndDate returns the task end date normalized to UTC midnight
-func (d Day) getTaskEndDate(task *SpanningTask) time.Time {
-	return time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
-}
-
 // isTaskActiveOnDay checks if a task is active on the given day
 func (d Day) isTaskActiveOnDay(dayDate, start, end time.Time) bool {
 	return !dayDate.Before(start) && !dayDate.After(end)
@@ -379,8 +369,8 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	seen := make(map[*SpanningTask]bool)
 
 	for _, task := range d.Tasks {
-		start := d.getTaskStartDate(task)
-		end := d.getTaskEndDate(task)
+		start := task.StartDate
+		end := task.EndDate
 
 		// Include task if it's active on this day (either starting or continuing)
 		if d.isTaskActiveOnDay(dayDate, start, end) && !seen[task] {
@@ -427,8 +417,8 @@ func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 
 // findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
 func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map[int][]*SpanningTask) int {
-	taskStart := d.getTaskStartDate(task)
-	taskEnd := d.getTaskEndDate(task)
+	taskStart := task.StartDate
+	taskEnd := task.EndDate
 
 	// Check each track starting from 0
 	for track := 0; track < 100; track++ {
@@ -438,8 +428,8 @@ func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map
 		// This avoids iterating through all assigned tasks and searching d.Tasks (reducing O(N^3) to roughly O(N^2))
 		if tasksOnTrack, ok := tracksUsage[track]; ok {
 			for _, otherTask := range tasksOnTrack {
-				otherStart := d.getTaskStartDate(otherTask)
-				otherEnd := d.getTaskEndDate(otherTask)
+				otherStart := otherTask.StartDate
+				otherEnd := otherTask.EndDate
 
 				// Check if date ranges overlap
 				if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
@@ -1125,6 +1115,11 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 		// Normalize task dates to UTC midnight for comparison
 		tStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
 		tEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
+
+		// Optimization: Update the local task copy with normalized dates
+		// This ensures subsequent access (e.g. in findLowestAvailableTrackForTask) can use direct field access safely
+		task.StartDate = tStartDate
+		task.EndDate = tEndDate
 
 		// Quick check if task overlaps with this month
 		if tEndDate.Before(monthStart) || tStartDate.After(monthEnd) {
