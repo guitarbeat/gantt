@@ -484,7 +484,7 @@ func action(c *cli.Context) error {
 				fmt.Println(core.DimText("   To generate PDF manually, install TeX Live/MacTeX and run:"))
 				fmt.Println(core.DimText(fmt.Sprintf("   cd %s && xelatex %s", filepath.Join(cfg.OutputDir, "latex"), RootFilename(pathConfigs[len(pathConfigs)-1]))))
 			}
-			logger.Warn("PDF compilation skipped (xelatex missing)")
+			logger.Debug("PDF compilation skipped (xelatex missing)")
 		} else {
 			logger.Warn("PDF compilation failed: %v", err)
 		}
@@ -809,7 +809,7 @@ func generatePages(cfg core.Config, preview bool) error {
 
 	for i, file := range cfg.Pages {
 		if !silent {
-			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
+			fmt.Printf("\r%s%s [%d/%d] %s", core.ClearLine(), core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
 		}
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
 			if !silent {
