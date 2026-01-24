@@ -1507,6 +1507,29 @@ func assignTasksToMonth(month *cal.Month, tasks []core.Task) {
 	cal.ApplySpanningTasksToMonth(month, spanningTasks)
 }
 
+// formatValidationIssue formats a validation issue with colors for better readability
+func formatValidationIssue(issue core.ValidationIssue) string {
+	var parts []string
+
+	if issue.Row > 0 {
+		parts = append(parts, core.DimText(fmt.Sprintf("Row %d", issue.Row)))
+	}
+	if issue.Field != "" {
+		parts = append(parts, core.CyanText(issue.Field))
+	}
+
+	location := strings.Join(parts, " │ ")
+	message := issue.Message
+	if issue.Value != "" {
+		message = fmt.Sprintf("%s (Value: %s)", message, core.DimText(issue.Value))
+	}
+
+	if location != "" {
+		return fmt.Sprintf("%s: %s", location, message)
+	}
+	return message
+}
+
 // runValidation validates CSV and configuration files without generating PDF output
 func runValidation(c *cli.Context) error {
 	fmt.Println("🔍 Running Validation Checks")
@@ -1604,7 +1627,7 @@ func runValidation(c *cli.Context) error {
 				if !result.IsValid {
 					fmt.Println("\n📋 Validation Errors:")
 					for _, validationErr := range result.Errors {
-						fmt.Printf("  • %s\n", validationErr.Error())
+						fmt.Printf("  • %s\n", formatValidationIssue(validationErr))
 					}
 					validationPassed = false
 				}
@@ -1612,7 +1635,7 @@ func runValidation(c *cli.Context) error {
 				if len(result.Warnings) > 0 {
 					fmt.Println("\n⚠️ Validation Warnings:")
 					for _, warning := range result.Warnings {
-						fmt.Printf("  • %s\n", warning.Error())
+						fmt.Printf("  • %s\n", formatValidationIssue(warning))
 					}
 				}
 			}
