@@ -50,6 +50,9 @@
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
 \usepackage{blindtext}
+% Accessibility support
+\usepackage{accsupp}
+
 % Hyperlink support
 \usepackage{hyperref}
 \usepackage{bookmark}
