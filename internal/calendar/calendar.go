@@ -871,12 +871,14 @@ func (m *Month) WeekHeader(large interface{}) string {
 
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
+	seen := make(map[string]bool)
 
 	// Only add colors for task categories that are actually present in this month
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
 			for _, task := range day.Tasks {
-				if task.Category != "" {
+				if task.Category != "" && !seen[task.Category] {
+					seen[task.Category] = true
 					color := core.GenerateCategoryColor(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
