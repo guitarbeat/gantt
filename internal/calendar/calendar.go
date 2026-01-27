@@ -340,12 +340,12 @@ func (d Day) getDayDate() time.Time {
 
 // getTaskStartDate returns the task start date normalized to UTC midnight
 func (d Day) getTaskStartDate(task *SpanningTask) time.Time {
-	return time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
+	return task.StartDate
 }
 
 // getTaskEndDate returns the task end date normalized to UTC midnight
 func (d Day) getTaskEndDate(task *SpanningTask) time.Time {
-	return time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
+	return task.EndDate
 }
 
 // isTaskActiveOnDay checks if a task is active on the given day
@@ -871,12 +871,18 @@ func (m *Month) WeekHeader(large interface{}) string {
 
 func (m *Month) GetTaskColors() map[string]string {
 	colorMap := make(map[string]string)
+	seen := make(map[string]struct{})
 
 	// Only add colors for task categories that are actually present in this month
 	for _, week := range m.Weeks {
 		for _, day := range week.Days {
 			for _, task := range day.Tasks {
 				if task.Category != "" {
+					if _, ok := seen[task.Category]; ok {
+						continue
+					}
+					seen[task.Category] = struct{}{}
+
 					color := core.GenerateCategoryColor(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
@@ -1125,6 +1131,10 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 		// Normalize task dates to UTC midnight for comparison
 		tStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
 		tEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
+
+		// Bolt optimization: store normalized dates back to task to avoid re-calculation later
+		task.StartDate = tStartDate
+		task.EndDate = tEndDate
 
 		// Quick check if task overlaps with this month
 		if tEndDate.Before(monthStart) || tStartDate.After(monthEnd) {
