@@ -468,13 +468,34 @@ func action(c *cli.Context) error {
 	}
 
 	// Compile LaTeX to PDF
+	stopSpinner := make(chan bool)
 	if !silent {
-		fmt.Print(core.Info("📄 Compiling LaTeX to PDF... "))
+		go func() {
+			chars := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
+			i := 0
+			for {
+				select {
+				case <-stopSpinner:
+					return
+				default:
+					fmt.Printf("\r%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
+					time.Sleep(100 * time.Millisecond)
+					i = (i + 1) % len(chars)
+				}
+			}
+		}()
 	}
+
 	pdfCompiled := false
-	if err := compileLaTeXToPDF(cfg); err != nil {
+	err = compileLaTeXToPDF(cfg)
+	if !silent {
+		stopSpinner <- true
+	}
+
+	if err != nil {
 		if !silent {
-			fmt.Println(core.Error("❌"))
+			// Clear line and print error status
+			fmt.Printf("\r%s %s\n", core.Error("❌"), core.Info("Compiling LaTeX to PDF..."))
 		}
 
 		if strings.Contains(err.Error(), "executable file not found") {
@@ -491,7 +512,8 @@ func action(c *cli.Context) error {
 	} else {
 		pdfCompiled = true
 		if !silent {
-			fmt.Println(core.Success("✅"))
+			// Clear line and print success status
+			fmt.Printf("\r%s %s\n", core.Success("✅"), core.Info("Compiling LaTeX to PDF..."))
 		}
 	}
 
@@ -680,7 +702,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 			csvPath = autoPath
 			// Set the CSV path for later use
 			os.Setenv("PLANNER_CSV_FILE", csvPath)
-			fmt.Printf("Auto-detected CSV file: %s\n", csvPath)
+			fmt.Printf(core.Info("🔍 Auto-detected CSV file: %s\n"), csvPath)
 		}
 	}
 
@@ -690,7 +712,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
-			fmt.Printf("Auto-detected configuration files: %v\n", autoConfigs)
+			fmt.Printf(core.Info("🔍 Auto-detected configuration files: %v\n"), autoConfigs)
 		}
 	}
 
