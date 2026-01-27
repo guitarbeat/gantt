@@ -1604,7 +1604,7 @@ func runValidation(c *cli.Context) error {
 				if !result.IsValid {
 					fmt.Println("\n📋 Validation Errors:")
 					for _, validationErr := range result.Errors {
-						fmt.Printf("  • %s\n", validationErr.Error())
+						fmt.Println(formatValidationIssue(validationErr))
 					}
 					validationPassed = false
 				}
@@ -1612,7 +1612,7 @@ func runValidation(c *cli.Context) error {
 				if len(result.Warnings) > 0 {
 					fmt.Println("\n⚠️ Validation Warnings:")
 					for _, warning := range result.Warnings {
-						fmt.Printf("  • %s\n", warning.Error())
+						fmt.Println(formatValidationIssue(warning))
 					}
 				}
 			}
@@ -1629,6 +1629,33 @@ func runValidation(c *cli.Context) error {
 		fmt.Println(core.Error("❌ Validation failed - please fix the issues above"))
 		return fmt.Errorf("validation failed")
 	}
+}
+
+// formatValidationIssue creates a visually structured string for a validation issue
+func formatValidationIssue(issue core.ValidationIssue) string {
+	var parts []string
+
+	// Row info (Dim)
+	if issue.Row > 0 {
+		parts = append(parts, core.DimText(fmt.Sprintf("Row %d", issue.Row)))
+	}
+
+	// Field info (Cyan)
+	if issue.Field != "" {
+		parts = append(parts, core.CyanText(issue.Field))
+	}
+
+	// Value info (Dim)
+	if issue.Value != "" {
+		parts = append(parts, core.DimText(fmt.Sprintf("'%s'", issue.Value)))
+	}
+
+	prefix := ""
+	if len(parts) > 0 {
+		prefix = strings.Join(parts, " • ") + ": "
+	}
+
+	return fmt.Sprintf("  • %s%s", prefix, issue.Message)
 }
 
 // runConfigValidation validates configuration files and environment variables

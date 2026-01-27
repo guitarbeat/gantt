@@ -5,3 +5,7 @@
 ## 2026-01-14 - Go Template Receiver Types
 **Learning:** `text/template` fails to call methods defined on pointer receivers if the data passed is a value type.
 **Action:** Ensure data passed to templates is a pointer, or access struct fields directly if public, to avoid runtime template execution errors.
+
+## 2026-01-14 - Structured CLI Error Messages
+**Learning:** Plain text error lists (like "Row 5, Field 'Status', Value 'X': Error") are hard to scan.
+**Action:** Structure CLI validation errors visually using dim/bold/color (e.g., `Row 5` • **Field** • 'Value': Message) to separate metadata from the message content.
