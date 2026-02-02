@@ -205,7 +205,9 @@
 % Colored circle macro for legend - handles hex colors  
 \newcommand{\ColorCircle}[2]{%
   \definecolor{circlecolor}{RGB}{#1}%
-  \textcolor{circlecolor}{\Large$\bullet$}~#2%
+  \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+  \textcolor{circlecolor}{\Large$\bullet$}%
+  \EndAccSupp{}~#2%
 }
 
 
@@ -213,12 +215,26 @@
 % Color legend macro for task categories - uses algorithmic colors
 \newcommand{\ColorLegend}{%
   {\small
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\Large$\bullet$}~\small{Proposal}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\Large$\bullet$}~\small{Laser}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\Large$\bullet$}~\small{Imaging}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\Large$\bullet$}~\small{Admin}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\Large$\bullet$}~\small{Dissertation}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\Large$\bullet$}~\small{Research}\quad
-    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\Large$\bullet$}~\small{Publication}%
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Proposal -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Proposal}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Laser -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Laser}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Imaging -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Imaging}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Admin -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Admin}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Dissertation -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Dissertation}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Research -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Research}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{ {{- .Cfg.Layout.AlgorithmicColors.Publication -}} }{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Publication}%
   \par}
 }

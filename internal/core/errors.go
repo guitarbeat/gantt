@@ -54,10 +54,15 @@ type ConfigError struct {
 }
 
 func (e *ConfigError) Error() string {
+	msg := fmt.Sprintf("config error in %s", e.File)
 	if e.Field != "" {
-		return fmt.Sprintf("config error in %s, field '%s': %s", e.File, e.Field, e.Message)
+		msg += fmt.Sprintf(", field '%s'", e.Field)
 	}
-	return fmt.Sprintf("config error in %s: %s", e.File, e.Message)
+	msg += fmt.Sprintf(": %s", e.Message)
+	if e.Err != nil {
+		msg += fmt.Sprintf(" (%v)", e.Err)
+	}
+	return msg
 }
 
 func (e *ConfigError) Unwrap() error {
@@ -107,10 +112,17 @@ type TemplateError struct {
 }
 
 func (e *TemplateError) Error() string {
+	var msg string
 	if e.Line > 0 {
-		return fmt.Sprintf("template error in %s at line %d: %s", e.Template, e.Line, e.Message)
+		msg = fmt.Sprintf("template error in %s at line %d: %s", e.Template, e.Line, e.Message)
+	} else {
+		msg = fmt.Sprintf("template error in %s: %s", e.Template, e.Message)
 	}
-	return fmt.Sprintf("template error in %s: %s", e.Template, e.Message)
+
+	if e.Err != nil {
+		msg += fmt.Sprintf("\n  Cause: %v", e.Err)
+	}
+	return msg
 }
 
 func (e *TemplateError) Unwrap() error {
@@ -137,12 +149,19 @@ type DataError struct {
 }
 
 func (e *DataError) Error() string {
+	msg := ""
 	if e.Row > 0 && e.Column != "" {
-		return fmt.Sprintf("data error in %s at row %d, column '%s': %s", e.Source, e.Row, e.Column, e.Message)
+		msg = fmt.Sprintf("data error in %s at row %d, column '%s': %s", e.Source, e.Row, e.Column, e.Message)
 	} else if e.Row > 0 {
-		return fmt.Sprintf("data error in %s at row %d: %s", e.Source, e.Row, e.Message)
+		msg = fmt.Sprintf("data error in %s at row %d: %s", e.Source, e.Row, e.Message)
+	} else {
+		msg = fmt.Sprintf("data error in %s: %s", e.Source, e.Message)
 	}
-	return fmt.Sprintf("data error in %s: %s", e.Source, e.Message)
+
+	if e.Err != nil {
+		msg += fmt.Sprintf(" (%v)", e.Err)
+	}
+	return msg
 }
 
 func (e *DataError) Unwrap() error {
