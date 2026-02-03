@@ -468,35 +468,13 @@ func action(c *cli.Context) error {
 	}
 
 	// Compile LaTeX to PDF
-	stopSpinner := make(chan bool)
-	if !silent {
-		go func() {
-			chars := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
-			i := 0
-			for {
-				select {
-				case <-stopSpinner:
-					return
-				default:
-					fmt.Printf("\r%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
-					time.Sleep(100 * time.Millisecond)
-					i = (i + 1) % len(chars)
-				}
-			}
-		}()
-	}
-
 	pdfCompiled := false
-	err = compileLaTeXToPDF(cfg)
-	if !silent {
-		stopSpinner <- true
-	}
+	spinner := core.NewSpinner("Compiling LaTeX to PDF", silent)
+	spinner.Start()
 
+	err = compileLaTeXToPDF(cfg)
 	if err != nil {
-		if !silent {
-			// Clear line and print error status
-			fmt.Printf("\r%s %s\n", core.Error("❌"), core.Info("Compiling LaTeX to PDF..."))
-		}
+		spinner.Stop(false)
 
 		if strings.Contains(err.Error(), "executable file not found") {
 			if !silent {
@@ -510,11 +488,8 @@ func action(c *cli.Context) error {
 			logger.Warn("PDF compilation failed: %v", err)
 		}
 	} else {
+		spinner.Stop(true)
 		pdfCompiled = true
-		if !silent {
-			// Clear line and print success status
-			fmt.Printf("\r%s %s\n", core.Success("✅"), core.Info("Compiling LaTeX to PDF..."))
-		}
 	}
 
 	if !silent {
