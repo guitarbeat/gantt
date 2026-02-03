@@ -374,18 +374,17 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 // 2. Tasks that STARTED EARLIER but are still active (need space but don't show bar)
 // This ensures proper vertical stacking to prevent visual overlap
 func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
-	var activeTasks []*SpanningTask
+	// Pre-allocate slice with capacity of d.Tasks to avoid resize allocations
+	activeTasks := make([]*SpanningTask, 0, len(d.Tasks))
 	var maxCols int
-	seen := make(map[*SpanningTask]bool)
 
 	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
 		// Include task if it's active on this day (either starting or continuing)
-		if d.isTaskActiveOnDay(dayDate, start, end) && !seen[task] {
+		if d.isTaskActiveOnDay(dayDate, start, end) {
 			activeTasks = append(activeTasks, task)
-			seen[task] = true
 
 			// Calculate columns differently based on whether task starts today
 			var cols int
@@ -404,7 +403,7 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	}
 
 	// Sort tasks by start date (earlier tasks appear first/on bottom)
-	activeTasks = d.sortTasksByStartDate(activeTasks)
+	d.sortTasksInPlace(activeTasks)
 
 	return activeTasks, maxCols
 }
@@ -479,16 +478,12 @@ func (d Day) calculateRemainingSpanColumns(dayDate, end time.Time) int {
 	return daysLeft
 }
 
-// sortTasksByStartDate sorts tasks by their start date (earliest first)
-func (d Day) sortTasksByStartDate(tasks []*SpanningTask) []*SpanningTask {
-	sorted := make([]*SpanningTask, len(tasks))
-	copy(sorted, tasks)
-
-	sort.Slice(sorted, func(i, j int) bool {
-		return sorted[i].StartDate.Before(sorted[j].StartDate)
+// sortTasksInPlace sorts tasks by their start date (earliest first)
+// Optimization: Sorts in-place to avoid allocation
+func (d Day) sortTasksInPlace(tasks []*SpanningTask) {
+	sort.Slice(tasks, func(i, j int) bool {
+		return tasks[i].StartDate.Before(tasks[j].StartDate)
 	})
-
-	return sorted
 }
 
 // isMilestoneSpanningTask checks if a task is a milestone
