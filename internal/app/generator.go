@@ -956,15 +956,20 @@ func RootFilename(pathconfig string) string {
 	return strings.TrimSuffix(filename, filepath.Ext(filename)) + texExtension
 }
 
+// latexReplacer is a reusable replacer for escaping LaTeX special characters.
+// It is initialized once and used by EscapeLatex for better performance.
+var latexReplacer = strings.NewReplacer(
+	"&", "\\&",
+	"%", "\\%",
+	"$", "\\$",
+	"#", "\\#",
+	"_", "\\_",
+	"{", "\\{",
+	"}", "\\}",
+)
+
 func EscapeLatex(s string) string {
-	s = strings.ReplaceAll(s, "&", "\\&")
-	s = strings.ReplaceAll(s, "%", "\\%")
-	s = strings.ReplaceAll(s, "$", "\\$")
-	s = strings.ReplaceAll(s, "#", "\\#")
-	s = strings.ReplaceAll(s, "_", "\\_")
-	s = strings.ReplaceAll(s, "{", "\\{")
-	s = strings.ReplaceAll(s, "}", "\\}")
-	return s
+	return latexReplacer.Replace(s)
 }
 
 var tpl = func() *template.Template {
