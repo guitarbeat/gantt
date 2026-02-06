@@ -368,55 +368,53 @@ func (d Day) calculateTaskSpanColumns(dayDate, end time.Time) int {
 	return overlayCols
 }
 
+const MaxTaskTracks = 100
+
 // findActiveTasks finds ALL tasks that should reserve vertical space on this day
 // This includes:
 // 1. Tasks that START on this day (will show task bar)
 // 2. Tasks that STARTED EARLIER but are still active (need space but don't show bar)
 // This ensures proper vertical stacking to prevent visual overlap
 func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
-	// Pre-allocate slice with capacity of d.Tasks to avoid resize allocations
-	activeTasks := make([]*SpanningTask, 0, len(d.Tasks))
+	// Bolt optimization: d.Tasks already contains only active tasks (populated by ApplySpanningTasksToMonth).
+	// We sort in-place and iterate directly to avoid unnecessary allocations and checks.
+	d.sortTasksInPlace(d.Tasks)
+
 	var maxCols int
 
 	for _, task := range d.Tasks {
 		start := d.getTaskStartDate(task)
 		end := d.getTaskEndDate(task)
 
-		// Include task if it's active on this day (either starting or continuing)
-		if d.isTaskActiveOnDay(dayDate, start, end) {
-			activeTasks = append(activeTasks, task)
+		// Calculate columns differently based on whether task starts today
+		var cols int
+		if dayDate.Equal(start) {
+			// Task starts today: span from today to end (or end of week)
+			cols = d.calculateTaskSpanColumns(dayDate, end)
+		} else {
+			// Task started earlier: calculate remaining span
+			cols = d.calculateRemainingSpanColumns(dayDate, end)
+		}
 
-			// Calculate columns differently based on whether task starts today
-			var cols int
-			if dayDate.Equal(start) {
-				// Task starts today: span from today to end (or end of week)
-				cols = d.calculateTaskSpanColumns(dayDate, end)
-			} else {
-				// Task started earlier: calculate remaining span
-				cols = d.calculateRemainingSpanColumns(dayDate, end)
-			}
-
-			if cols > maxCols {
-				maxCols = cols
-			}
+		if cols > maxCols {
+			maxCols = cols
 		}
 	}
 
-	// Sort tasks by start date (earlier tasks appear first/on bottom)
-	d.sortTasksInPlace(activeTasks)
-
-	return activeTasks, maxCols
+	return d.Tasks, maxCols
 }
 
 // assignTaskTracks assigns vertical tracks to tasks to prevent visual overlap
 // Returns a map of task ID to track number (0-based, 0 is bottom)
 func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 	trackAssignments := make(map[string]int)
-	tracksUsage := make(map[int][]*SpanningTask) // Optimization: Index tasks by track
+	// Bolt Optimization: Use fixed-size array instead of map.
+	// MaxTaskTracks limits the number of concurrent tasks we can stack visually.
+	var tracksUsage [MaxTaskTracks][]*SpanningTask
 
 	// For each task, find the lowest available track
 	for _, task := range tasks {
-		track := d.findLowestAvailableTrackForTask(task, tracksUsage)
+		track := d.findLowestAvailableTrackForTask(task, &tracksUsage)
 		trackAssignments[task.ID] = track
 		tracksUsage[track] = append(tracksUsage[track], task)
 	}
@@ -425,26 +423,25 @@ func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
 }
 
 // findLowestAvailableTrackForTask finds the lowest track that doesn't conflict with already-assigned tasks
-func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map[int][]*SpanningTask) int {
+func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage *[MaxTaskTracks][]*SpanningTask) int {
 	taskStart := d.getTaskStartDate(task)
 	taskEnd := d.getTaskEndDate(task)
 
-	// Check each track starting from 0
-	for track := 0; track < 100; track++ {
+	// Check each track starting from 0 up to MaxTaskTracks
+	for track := 0; track < MaxTaskTracks; track++ {
 		occupied := false
 
 		// Optimization: Only check tasks already assigned to this specific track
-		// This avoids iterating through all assigned tasks and searching d.Tasks (reducing O(N^3) to roughly O(N^2))
-		if tasksOnTrack, ok := tracksUsage[track]; ok {
-			for _, otherTask := range tasksOnTrack {
-				otherStart := d.getTaskStartDate(otherTask)
-				otherEnd := d.getTaskEndDate(otherTask)
+		// Bolt Optimization: Direct array access (via pointer) avoids map lookup overhead
+		tasksOnTrack := tracksUsage[track]
+		for _, otherTask := range tasksOnTrack {
+			otherStart := d.getTaskStartDate(otherTask)
+			otherEnd := d.getTaskEndDate(otherTask)
 
-				// Check if date ranges overlap
-				if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
-					occupied = true
-					break
-				}
+			// Check if date ranges overlap
+			if d.dateRangesOverlap(taskStart, taskEnd, otherStart, otherEnd) {
+				occupied = true
+				break
 			}
 		}
 
@@ -453,7 +450,7 @@ func (d Day) findLowestAvailableTrackForTask(task *SpanningTask, tracksUsage map
 		}
 	}
 
-	return 0 // Fallback
+	return 0 // Fallback: if all tracks occupied, default to 0 (overlap will occur)
 }
 
 // dateRangesOverlap checks if two date ranges overlap
