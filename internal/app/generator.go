@@ -503,7 +503,7 @@ func action(c *cli.Context) error {
 				fmt.Println(core.Warning("\n⚠️  PDF generation skipped: 'xelatex' not found"))
 				fmt.Println(core.DimText("   LaTeX files have been generated in: " + filepath.Join(cfg.OutputDir, "latex")))
 				fmt.Println(core.DimText("   To generate PDF manually, install TeX Live/MacTeX and run:"))
-				fmt.Println(core.DimText(fmt.Sprintf("   cd %s && xelatex %s", filepath.Join(cfg.OutputDir, "latex"), RootFilename(pathConfigs[len(pathConfigs)-1]))))
+				fmt.Printf("   %s\n", core.CyanText(fmt.Sprintf("cd %s && xelatex %s", filepath.Join(cfg.OutputDir, "latex"), RootFilename(pathConfigs[len(pathConfigs)-1]))))
 			}
 			logger.Warn("PDF compilation skipped (xelatex missing)")
 		} else {
