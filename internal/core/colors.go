@@ -63,6 +63,14 @@ const (
 	Strike    = "\033[9m"
 )
 
+// ClearLine returns the ANSI sequence to clear the line if colors are enabled
+func ClearLine() string {
+	if !colorEnabled() {
+		return ""
+	}
+	return "\033[K"
+}
+
 // colorEnabled checks if colors should be used based on environment and terminal support
 func colorEnabled() bool {
 	// Check if NO_COLOR environment variable is set
