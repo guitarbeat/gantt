@@ -377,8 +377,8 @@ const MaxTaskTracks = 100
 // This ensures proper vertical stacking to prevent visual overlap
 func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 	// Bolt optimization: d.Tasks already contains only active tasks (populated by ApplySpanningTasksToMonth).
-	// We sort in-place and iterate directly to avoid unnecessary allocations and checks.
-	d.sortTasksInPlace(d.Tasks)
+	// Since tasks are pre-sorted in ApplySpanningTasksToMonth, d.Tasks is already sorted by StartDate.
+	// We iterate directly to avoid unnecessary allocations and checks.
 
 	var maxCols int
 
@@ -1113,40 +1113,55 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 		}
 	}
 
+	// Clone tasks to avoid mutating the input slice and to ensure memory ownership
+	localTasks := make([]SpanningTask, len(tasks))
+	copy(localTasks, tasks)
+
+	// 1. Normalize dates for all tasks first
+	// This ensures consistent comparison logic and avoids re-normalization
+	for i := range localTasks {
+		localTasks[i].StartDate = time.Date(localTasks[i].StartDate.Year(), localTasks[i].StartDate.Month(), localTasks[i].StartDate.Day(), 0, 0, 0, 0, time.UTC)
+		localTasks[i].EndDate = time.Date(localTasks[i].EndDate.Year(), localTasks[i].EndDate.Month(), localTasks[i].EndDate.Day(), 0, 0, 0, 0, time.UTC)
+	}
+
+	// 2. Sort tasks by StartDate
+	// This ensures that when we append tasks to days, they are already sorted by start date.
+	// This eliminates the need to sort tasks in the hot loop (findActiveTasks) for every day.
+	sort.Slice(localTasks, func(i, j int) bool {
+		return localTasks[i].StartDate.Before(localTasks[j].StartDate)
+	})
+
 	monthStart := time.Date(month.Year.Number, month.Month, 1, 0, 0, 0, 0, time.UTC)
 	monthEnd := monthStart.AddDate(0, 1, -1) // Last day of month
 
-	// Apply spanning tasks to the appropriate days in the month
-	for taskIndex := range tasks {
-		task := tasks[taskIndex]
-
-		// Normalize task dates to UTC midnight for comparison
-		tStartDate := time.Date(task.StartDate.Year(), task.StartDate.Month(), task.StartDate.Day(), 0, 0, 0, 0, time.UTC)
-		tEndDate := time.Date(task.EndDate.Year(), task.EndDate.Month(), task.EndDate.Day(), 0, 0, 0, 0, time.UTC)
-
-		// Bolt optimization: store normalized dates back to task to avoid re-calculation later
-		task.StartDate = tStartDate
-		task.EndDate = tEndDate
+	// 3. Apply sorted tasks to the appropriate days in the month
+	for i := range localTasks {
+		// Optimization: Since tasks are sorted by StartDate, if current task starts after month end,
+		// all subsequent tasks will also start after month end.
+		if localTasks[i].StartDate.After(monthEnd) {
+			break
+		}
 
 		// Quick check if task overlaps with this month
-		if tEndDate.Before(monthStart) || tStartDate.After(monthEnd) {
+		// Use direct array access to avoid copying
+		if localTasks[i].EndDate.Before(monthStart) {
 			continue
 		}
 
 		// Calculate intersection range
-		start := tStartDate
+		start := localTasks[i].StartDate
 		if start.Before(monthStart) {
 			start = monthStart
 		}
 
-		end := tEndDate
+		end := localTasks[i].EndDate
 		if end.After(monthEnd) {
 			end = monthEnd
 		}
 
-		// Create a single copy of the task to share across all days in this month
-		// This reduces allocations compared to creating a copy for every single day
-		taskPtr := &task
+		// Use pointer to the task in the local slice.
+		// The local slice persists because it is referenced by the Month pointers.
+		taskPtr := &localTasks[i]
 
 		// Iterate directly through the days in the range
 		startDay := start.Day()

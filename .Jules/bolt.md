@@ -11,3 +11,7 @@
 ## 2024-05-23 - Safety in Fixed-Size Array Optimizations
 **Learning:** When replacing dynamic maps with fixed-size arrays for performance, it's critical to define the array size as a named constant (e.g., `MaxTaskTracks`) and ensure that index access is bounded. Even if logically "it shouldn't happen", explicit bounds or constants prevent panic risks and improve maintainability.
 **Action:** Always define named constants for array sizes and verify index bounds when optimizing with stack-allocated arrays.
+
+## 2024-05-24 - Pre-sorting Tasks for O(1) Rendering Access
+**Learning:** Sorting tasks repeatedly in the hot rendering loop (e.g., inside `findActiveTasks` called for every day) is expensive. By sorting tasks once during the ingestion phase (`ApplySpanningTasksToMonth`) and ensuring they remain sorted when distributed to days, we eliminate the need for sorting during rendering.
+**Action:** Identify invariant properties (like sort order) that can be established once upstream to avoid repeated work in hot loops. When distributing sorted items to buckets (days), the order is naturally preserved if processed sequentially.
