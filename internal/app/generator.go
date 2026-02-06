@@ -362,7 +362,7 @@ func action(c *cli.Context) error {
 	if !silent {
 		fmt.Printf(core.Info("📋 Found %d CSV file(s) to merge and process\n"), len(csvFiles))
 		for i, csvFile := range csvFiles {
-			fmt.Printf(core.Info("   %d. %s\n"), i+1, filepath.Base(csvFile))
+			fmt.Printf("   %s %s\n", core.DimText(fmt.Sprintf("%d.", i+1)), core.CyanText(filepath.Base(csvFile)))
 		}
 	}
 
@@ -478,7 +478,7 @@ func action(c *cli.Context) error {
 				case <-stopSpinner:
 					return
 				default:
-					fmt.Printf("\r%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
+					fmt.Printf("\r%s %s%s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."), core.ClearLine())
 					time.Sleep(100 * time.Millisecond)
 					i = (i + 1) % len(chars)
 				}
@@ -495,7 +495,7 @@ func action(c *cli.Context) error {
 	if err != nil {
 		if !silent {
 			// Clear line and print error status
-			fmt.Printf("\r%s %s\n", core.Error("❌"), core.Info("Compiling LaTeX to PDF..."))
+			fmt.Printf("\r%s %s%s\n", core.Error("❌"), core.Info("Compiling LaTeX to PDF..."), core.ClearLine())
 		}
 
 		if strings.Contains(err.Error(), "executable file not found") {
@@ -513,7 +513,7 @@ func action(c *cli.Context) error {
 		pdfCompiled = true
 		if !silent {
 			// Clear line and print success status
-			fmt.Printf("\r%s %s\n", core.Success("✅"), core.Info("Compiling LaTeX to PDF..."))
+			fmt.Printf("\r%s %s%s\n", core.Success("✅"), core.Info("Compiling LaTeX to PDF..."), core.ClearLine())
 		}
 	}
 
@@ -1103,8 +1103,8 @@ func MonthlyLegacy(cfg core.Config, tpls []string) (core.Modules, error) {
 			// * Check if targetMonth was found, log warning if not
 			if targetMonth == nil {
 				// Log warning but continue processing other months
-				fmt.Printf("Warning: Month %s %d not found in calendar, skipping\n",
-					monthYear.Month.String(), monthYear.Year)
+				fmt.Printf("%s\n", core.Warning(fmt.Sprintf("⚠️  Warning: Month %s %d not found in calendar, skipping",
+					monthYear.Month.String(), monthYear.Year)))
 				continue
 			}
 
