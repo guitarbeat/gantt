@@ -386,6 +386,25 @@ func action(c *cli.Context) error {
 	}
 	if !silent {
 		fmt.Printf(core.Success("✅ (%d tasks total)\n"), len(allTasks))
+
+		// Group tasks by phase for summary
+		phaseCounts := make(map[string]int)
+		for _, task := range allTasks {
+			phaseCounts[task.Phase] = phaseCounts[task.Phase] + 1
+		}
+
+		// Sort phases for consistent display
+		var phases []string
+		for phase := range phaseCounts {
+			phases = append(phases, phase)
+		}
+		sort.Strings(phases)
+
+		// Print summary
+		for _, phase := range phases {
+			count := phaseCounts[phase]
+			fmt.Printf("   • %s: %s\n", core.CyanText(phase), core.DimText(fmt.Sprintf("%d tasks", count)))
+		}
 	}
 
 	// Load and prepare configuration with merged tasks
