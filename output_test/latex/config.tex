@@ -1,0 +1,340 @@
+% moved from templates/document.tpl
+
+\documentclass[9pt]{extarticle}
+
+% Core packages (load early)
+\usepackage{expl3}
+\usepackage{xparse}
+\usepackage{calc}
+\usepackage{geometry}
+
+% Font configuration - use modern sans-serif font with Unicode support
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Unicode character support
+\usepackage{textcomp}
+\usepackage{gensymb}
+
+% Color and graphics
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{adjustbox}
+
+% Table and array packages
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{ragged2e}
+
+% Layout and spacing
+\usepackage{setspace}
+\usepackage{leading}
+\usepackage{dashrule}
+\usepackage{varwidth}
+\usepackage{wrapfig}
+\usepackage{marginnote}
+\usepackage{fancyhdr}
+
+% Math and symbols
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+% Special features
+\usepackage{multido}
+\usepackage{pgffor}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{blindtext}
+% Accessibility support
+\usepackage{accsupp}
+
+% Hyperlink support
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+
+
+\hypersetup{
+    pdftitle={PhD Dissertation Planner 2026},
+    pdfauthor={PlannerGen},
+    pdfsubject={PhD Dissertation Timeline},
+    pdfkeywords={PhD, Dissertation, Planner, Timeline, 2026},
+    pdfcreator={PlannerGen},
+    hidelinks,
+    colorlinks=false,
+    linkbordercolor={1 1 1},
+    citebordercolor={1 1 1},
+    filebordercolor={1 1 1},
+    urlbordercolor={1 1 1},
+    pdfborderstyle={/S/U/W 0},
+    pdfborder={0 0 0}
+}
+
+\geometry{verbose=false,paperwidth=15.6cm, paperheight=21.5cm}
+\geometry{
+  top=0.2cm,
+  bottom=0.5cm,
+  left=0.5cm,
+  right=0.5cm,
+  marginparwidth=1cm,
+  marginparsep=0cm
+}
+
+\pagestyle{empty}
+\reversemarginpar
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\parindent=0pt
+\fboxsep0pt
+
+% Suppress verbose output
+\hoffset=0pt
+\voffset=0pt
+
+\begin{document}
+
+% Simple macros template without problematic LaTeX commands
+\ExplSyntaxOn
+\cs_if_free:NF \Repeat {
+  \cs_new_eq:NN \Repeat \prg_replicate:nn
+}
+\ExplSyntaxOff% Task colors are now generated algorithmically - no need for predefined colors
+
+\newlength{\myLenTabColSep}
+\newlength{\myLenLineThicknessDefault}
+\newlength{\myLenLineThicknessThick}
+\newlength{\myLenLineHeightButLine}
+\newlength{\myLenColSep}
+\newlength{\myLenCol}
+\newlength{\myLenMonthlyCellHeight}
+
+\newlength{\myLenHeaderResizeBox}
+\newlength{\myLenHeaderSideMonthsWidth}
+
+\setlength{\myLenTabColSep}{ 4pt }
+\setlength{\myLenLineThicknessDefault}{ .35pt }
+\setlength{\myLenLineThicknessThick}{ .7pt }
+\setlength{\myLenLineHeightButLine}{\dimexpr5mm-.4pt}
+\setlength{\myLenColSep}{ 4pt }
+\setlength{\myLenCol}{ 4pt }
+\setlength{\myLenMonthlyCellHeight}{ 55pt }
+
+\setlength{\myLenHeaderResizeBox}{ 6mm }
+\setlength{\myLenHeaderSideMonthsWidth}{ 14.5cm }
+
+% Simple task bar definitions
+% * Define fixed font size macros for task title and body
+\newcommand{\TaskTitleSize}{ \footnotesize }
+\newcommand{\TaskFontSize}{\footnotesize}
+\newlength{\TaskBarHeight}
+\setlength{\TaskBarHeight}{ 4.5mm }
+\newlength{\TaskBorderWidth}
+\setlength{\TaskBorderWidth}{ 0.5pt }
+\newlength{\TaskPaddingH}
+\setlength{\TaskPaddingH}{ 1.2mm }
+\newlength{\TaskPaddingV}
+\setlength{\TaskPaddingV}{ 0.4mm }
+% * Global vertical nudge for task elements (push tasks slightly lower)
+\newlength{\TaskVerticalOffset}
+\setlength{\TaskVerticalOffset}{ 0pt }
+
+% Array stretch macro
+\newcommand{\myNumArrayStretch}{ 1.15 }
+
+% Line thickness macro
+\newcommand{\myLineThick}{\rule{\linewidth}{\myLenLineThicknessThick}}
+
+% Category palette setup macro
+\newcommand{\SetupDefaultCategoryPalette}[1]{#1}
+
+% Simple task rendering
+\newcommand{\SimpleTaskBar}[4]{%
+  \vspace*{\TaskVerticalOffset}%
+  \fbox{\parbox{\dimexpr#3-2\TaskPaddingH\relax}{%
+    \vspace{\TaskPaddingV}%
+    {\TaskTitleSize\raggedright\textbf{#1}\par}%
+    \vspace{\TaskPaddingV}%
+  }}%
+}
+
+% Task overlay box macros - pill shaped with rounded corners
+% Uses TikZ overlay to draw on top of table gridlines
+\newcommand{\TaskOverlayBox}[3]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \vfill
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=0pt, bottom=1.0mm,
+    colback=taskbgcolor!15, colframe=taskfgcolor!75,
+    width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+    {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
+     \vspace{ 0.15ex }%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Milestone task overlay box - thicker borders for emphasis
+\newcommand{\MilestoneTaskOverlayBox}[3]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \vfill
+  \begin{tcolorbox}[enhanced, boxrule=1.2pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=0pt, bottom=1.0mm,
+    colback=taskbgcolor!25, colframe=taskfgcolor!90,
+    width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+    {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
+     \vspace{ 0.15ex }%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Task overlay box with Y-offset for stacking on top of other tasks
+% Args: 1=RGB color, 2=title, 3=description, 4=Y offset in pt
+\newcommand{\TaskOverlayBoxWithOffset}[4]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \raisebox{#4}{%
+    \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
+      left=1.5mm, right=1.5mm, top=0pt, bottom=1.0mm,
+      colback=taskbgcolor!15, colframe=taskfgcolor!75,
+      width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+      {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+       \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
+       \vspace{ 0.15ex }%
+       {\TaskFontSize\raggedright #3\par}}%
+    \end{tcolorbox}%
+  }%
+}
+
+% Task overlay box without vertical offset - for stacked tasks that should touch
+\newcommand{\TaskOverlayBoxNoOffset}[3]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=0pt, bottom=0pt,
+    colback=taskbgcolor!15, colframe=taskfgcolor!75,
+    width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+    {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
+     \vspace{ 0.15ex }%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Milestone task overlay box with Y-offset for stacking on top of other tasks
+% Args: 1=RGB color, 2=title, 3=description, 4=Y offset in pt
+\newcommand{\MilestoneTaskOverlayBoxWithOffset}[4]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \raisebox{#4}{%
+    \begin{tcolorbox}[enhanced, boxrule=1.2pt, arc=9pt,
+      left=1.5mm, right=1.5mm, top=0pt, bottom=1.0mm,
+      colback=taskbgcolor!25, colframe=taskfgcolor!90,
+      width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+      {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+       \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
+       \vspace{ 0.15ex }%
+       {\TaskFontSize\raggedright #3\par}}%
+    \end{tcolorbox}%
+  }%
+}
+
+% Milestone task overlay box without vertical offset - for stacked tasks that should touch
+\newcommand{\MilestoneTaskOverlayBoxNoOffset}[3]{%
+  \definecolor{taskbgcolor}{RGB}{#1}%
+  \definecolor{taskfgcolor}{RGB}{#1}%
+  \begin{tcolorbox}[enhanced, boxrule=1.2pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=0pt, bottom=0pt,
+    colback=taskbgcolor!15, colframe=taskfgcolor!75,
+    width=\linewidth, halign=left, before skip=0pt, after skip=0pt]
+    {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{\hyperlink{task-index}{#2}}\par
+     \vspace{ 0.15ex }%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Multi-day task bar drawing macro to centralize styling
+% Args: 1=x(pt), 2=y(pt), 3=width(pt), 4=height(pt), 5=color, 6=label
+\newcommand{\DrawTaskBar}[6]{%
+  \definecolor{taskbarcolor}{RGB}{#5}%
+  \begin{tikzpicture}[overlay]
+    \node[anchor=north west, inner sep=0pt] at (#1,#2) {
+      \begin{tcolorbox}[enhanced, boxrule=0pt, arc={ 2pt },
+        left=1.5mm, right=1.5mm, top=0pt, bottom=1.0mm,
+        width=#3pt, height=#4pt,
+        colback=taskbarcolor]
+        {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+         \footnotesize \raggedright #6}
+      \end{tcolorbox}
+    };
+  \end{tikzpicture}%
+}
+
+\newcommand{\TaskOverlayBoxP}[3]{%
+  \definecolor{taskoverlaypbgcolor}{RGB}{#2}%
+  \definecolor{taskoverlaypfgcolor}{RGB}{#2}%
+  \vspace*{\TaskVerticalOffset}%
+  \begin{tcolorbox}[enhanced, boxrule=0.9pt, arc=9pt,
+    left=1.5mm, right=1.5mm, top=0pt, bottom=1.0mm,
+    colback=taskoverlaypbgcolor!15, colframe=taskoverlaypfgcolor!75,
+    width=\linewidth, halign=left]
+    {\sloppy\hyphenpenalty=10000\tolerance=1000\emergencystretch=2em%
+     \TaskTitleSize\textbf{#1}\par
+     \vspace{ 0.15ex }%
+     {\TaskFontSize\raggedright #3\par}}%
+  \end{tcolorbox}%
+}
+
+% Underline macro
+\newcommand{\myUnderline}[1]{%
+  \underline{\textbf{#1}}%
+}
+
+% Colored circle macro for legend - handles hex colors
+\newcommand{\ColorCircle}[2]{%
+  \definecolor{circlecolor}{RGB}{#1}%
+  \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+  \textcolor{circlecolor}{\Large$\bullet$}%
+  \EndAccSupp{}~#2%
+}
+
+
+
+% Color legend macro for task categories - uses algorithmic colors
+\newcommand{\ColorLegend}{%
+  {\small
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{154,98,232}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Proposal}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{193,232,98}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Laser}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{232,204,98}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Imaging}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{98,232,160}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Admin}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{98,232,115}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Dissertation}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{137,232,98}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Research}\quad
+    \BeginAccSupp{method=pdfstringdef,unicode,ActualText=*}%
+    \textcolor[RGB]{232,193,98}{\Large$\bullet$}%
+    \EndAccSupp{}~\small{Publication}%
+  \par}
+}
+
+
+  \include{monthly.tex}
+
+\end{document}
