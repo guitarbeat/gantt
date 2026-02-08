@@ -9,3 +9,7 @@
 ## 2026-01-14 - Structured CLI Error Messages
 **Learning:** Plain text error lists (like "Row 5, Field 'Status', Value 'X': Error") are hard to scan.
 **Action:** Structure CLI validation errors visually using dim/bold/color (e.g., `Row 5` • **Field** • 'Value': Message) to separate metadata from the message content.
+
+## 2026-02-08 - Accessible LaTeX Icons
+**Learning:** Purely visual LaTeX symbols (like `$\star$` or `$\checkmark$`) are read literally by screen readers. The `accsupp` package provides a way to substitute them with semantic text.
+**Action:** Wrap decorative icons with `\BeginAccSupp{method=pdfstringdef,unicode,ActualText={Semantic Text} } ... \EndAccSupp{}`. Use braces `{}` around the text to preserve spaces.
