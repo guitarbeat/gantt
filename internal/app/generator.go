@@ -478,7 +478,8 @@ func action(c *cli.Context) error {
 				case <-stopSpinner:
 					return
 				default:
-					fmt.Printf("\r%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
+					fmt.Print(core.ClearLine())
+					fmt.Printf("%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
 					time.Sleep(100 * time.Millisecond)
 					i = (i + 1) % len(chars)
 				}
@@ -495,7 +496,8 @@ func action(c *cli.Context) error {
 	if err != nil {
 		if !silent {
 			// Clear line and print error status
-			fmt.Printf("\r%s %s\n", core.Error("❌"), core.Info("Compiling LaTeX to PDF..."))
+			fmt.Print(core.ClearLine())
+			fmt.Printf("%s %s\n", core.Error("❌"), core.Info("Compiling LaTeX to PDF..."))
 		}
 
 		if strings.Contains(err.Error(), "executable file not found") {
@@ -513,7 +515,8 @@ func action(c *cli.Context) error {
 		pdfCompiled = true
 		if !silent {
 			// Clear line and print success status
-			fmt.Printf("\r%s %s\n", core.Success("✅"), core.Info("Compiling LaTeX to PDF..."))
+			fmt.Print(core.ClearLine())
+			fmt.Printf("%s %s\n", core.Success("✅"), core.Info("Compiling LaTeX to PDF..."))
 		}
 	}
 
@@ -532,7 +535,7 @@ func action(c *cli.Context) error {
 		if pdfCompiled {
 			fmt.Println(core.Success("✨ All files processed!"))
 		} else {
-			fmt.Println(core.Warning("✨ Done (with warnings)"))
+			fmt.Println(core.Warning("⚠️  Done (with warnings)"))
 		}
 	}
 
@@ -831,7 +834,8 @@ func generatePages(cfg core.Config, preview bool) error {
 
 	for i, file := range cfg.Pages {
 		if !silent {
-			fmt.Printf("\r%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
+			fmt.Print(core.ClearLine())
+			fmt.Printf("%s [%d/%d] %s", core.Info("📅 Generating calendar pages..."), i+1, totalPages, file.Name)
 		}
 		if err := generateSinglePage(cfg, file, t, preview); err != nil {
 			if !silent {
