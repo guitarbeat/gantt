@@ -93,6 +93,15 @@ func colorize(color, text string) string {
 	return color + text + Reset
 }
 
+// ClearLine returns the escape sequence to clear the current line and reset cursor
+// if colors/tty is enabled.
+func ClearLine() string {
+	if !colorEnabled() {
+		return "\r"
+	}
+	return "\033[2K\r"
+}
+
 // Success returns green colored text for success messages
 func Success(text string) string {
 	return colorize(Green, text)
