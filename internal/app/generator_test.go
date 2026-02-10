@@ -16,6 +16,11 @@ func TestEscapeLatex(t *testing.T) {
 		{"_underscore", "\\_underscore"},
 		{"Nested { braces { inside } }", "Nested \\{ braces \\{ inside \\} \\}"},
 		{"$$%%&&##__", "\\$\\$\\%\\%\\&\\&\\#\\#\\_\\_"},
+		{"\\backslash", "\\textbackslash{}backslash"},
+		{"^caret", "\\textasciicircum{}caret"},
+		{"~tilde", "\\textasciitilde{}tilde"},
+		{"[brackets]", "{[}brackets{]}"},
+		{"\\input{/etc/passwd}", "\\textbackslash{}input\\{/etc/passwd\\}"},
 	}
 
 	for _, tt := range tests {
