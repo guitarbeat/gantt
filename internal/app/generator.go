@@ -1681,6 +1681,40 @@ func runValidation(c *cli.Context) error {
 	}
 }
 
+// getValidationIcon returns a relevant emoji icon for a validation issue type
+func getValidationIcon(issueType string) string {
+	switch {
+	case strings.Contains(issueType, "file") || strings.Contains(issueType, "csv"):
+		return "📄"
+	case strings.Contains(issueType, "required"):
+		return "📝"
+	case strings.Contains(issueType, "date"):
+		return "📅"
+	case strings.Contains(issueType, "invalid_value") || strings.Contains(issueType, "invalid_format"):
+		return "🚫"
+	case strings.Contains(issueType, "dependency"):
+		return "🔗"
+	case strings.Contains(issueType, "cycle"):
+		return "🔄"
+	case strings.Contains(issueType, "description"):
+		return "ℹ️"
+	case strings.Contains(issueType, "duration"):
+		return "⏱️"
+	case strings.Contains(issueType, "milestone"):
+		return "🚩"
+	case strings.Contains(issueType, "performance"):
+		return "🐢"
+	case strings.Contains(issueType, "security"):
+		return "🔒"
+	case strings.Contains(issueType, "range"):
+		return "📏"
+	case strings.Contains(issueType, "id") || strings.Contains(issueType, "duplicate"):
+		return "🆔"
+	default:
+		return "•"
+	}
+}
+
 // formatValidationIssue creates a visually structured string for a validation issue
 func formatValidationIssue(issue core.ValidationIssue) string {
 	var parts []string
@@ -1705,7 +1739,8 @@ func formatValidationIssue(issue core.ValidationIssue) string {
 		prefix = strings.Join(parts, " • ") + ": "
 	}
 
-	return fmt.Sprintf("  • %s%s", prefix, issue.Message)
+	icon := getValidationIcon(issue.Type)
+	return fmt.Sprintf("  %s %s%s", icon, prefix, issue.Message)
 }
 
 // runConfigValidation validates configuration files and environment variables

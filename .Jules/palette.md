@@ -13,3 +13,7 @@
 ## 2026-02-08 - Accessible LaTeX Icons
 **Learning:** Purely visual LaTeX symbols (like `$\star$` or `$\checkmark$`) are read literally by screen readers. The `accsupp` package provides a way to substitute them with semantic text.
 **Action:** Wrap decorative icons with `\BeginAccSupp{method=pdfstringdef,unicode,ActualText={Semantic Text} } ... \EndAccSupp{}`. Use braces `{}` around the text to preserve spaces.
+
+## 2026-02-10 - Semantic Icons for Validation
+**Learning:** Grouping validation errors by type (e.g., format vs logic) using semantic icons (🚫, 🔗, 📅) significantly improves scanability compared to bullets.
+**Action:** Use a mapping function to assign emojis based on error types/keywords and prepend them to validation messages in CLI output.
