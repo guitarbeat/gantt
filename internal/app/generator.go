@@ -488,27 +488,32 @@ func action(c *cli.Context) error {
 
 	// Compile LaTeX to PDF
 	stopSpinner := make(chan bool)
+	isInteractive := core.IsInteractive()
 	if !silent {
-		go func() {
-			chars := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
-			i := 0
-			for {
-				select {
-				case <-stopSpinner:
-					return
-				default:
-					fmt.Print(core.ClearLine())
-					fmt.Printf("%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
-					time.Sleep(100 * time.Millisecond)
-					i = (i + 1) % len(chars)
+		if isInteractive {
+			go func() {
+				chars := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
+				i := 0
+				for {
+					select {
+					case <-stopSpinner:
+						return
+					default:
+						fmt.Print(core.ClearLine())
+						fmt.Printf("%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
+						time.Sleep(100 * time.Millisecond)
+						i = (i + 1) % len(chars)
+					}
 				}
-			}
-		}()
+			}()
+		} else {
+			fmt.Printf("%s %s\n", core.CyanText("•"), core.Info("Compiling LaTeX to PDF..."))
+		}
 	}
 
 	pdfCompiled := false
 	err = compileLaTeXToPDF(cfg)
-	if !silent {
+	if !silent && isInteractive {
 		stopSpinner <- true
 	}
 

@@ -1,6 +1,8 @@
 % Table of Contents - Clickable Task Index
 \hypertarget{task-index}{}
-{\Large\textbf{Task Index}}
+\phantomsection
+\addcontentsline{toc}{section}{Task Index}
+\section*{Task Index}
 
 \vspace{0.4cm}
 

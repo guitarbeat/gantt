@@ -72,6 +72,11 @@ func EmphCell(text string) string {
 	return CellColor("black", TextColor("white", text))
 }
 
+// AccSupp creates an accessible support string with ActualText
+func AccSupp(text, content string) string {
+	return fmt.Sprintf(`\BeginAccSupp{method=pdfstringdef,unicode,ActualText={%s}}%s\EndAccSupp{}`, text, content)
+}
+
 // Header Items
 
 // Item interface defines the contract for all header items

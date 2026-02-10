@@ -85,6 +85,27 @@ func colorEnabled() bool {
 	return false
 }
 
+// IsInteractive checks if the output is an interactive terminal
+// Returns true only if stdout is a TTY and NO_COLOR is not set
+func IsInteractive() bool {
+	// Check if NO_COLOR environment variable is set
+	if os.Getenv("NO_COLOR") != "" {
+		return false
+	}
+
+	// Check if CI environment variable is set
+	if os.Getenv("CI") != "" {
+		return false
+	}
+
+	// Check if we're in a TTY
+	if fileInfo, err := os.Stdout.Stat(); err == nil {
+		return (fileInfo.Mode() & os.ModeCharDevice) != 0
+	}
+
+	return false
+}
+
 // colorize applies color to text if colors are enabled
 func colorize(color, text string) string {
 	if !colorEnabled() {

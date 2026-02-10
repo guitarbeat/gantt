@@ -733,6 +733,7 @@ func (m Month) HeadingMOS(prefix ...string) string {
 	if m.PrevExists() {
 		ll = "l"
 		leftNavBox := templates.ResizeBoxW(anglesize, `$\langle$`)
+		leftNavBox = templates.AccSupp("Previous Month", leftNavBox)
 		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(m.Prev().ref(p), leftNavBox)))
 		r2 = append(r2, "")
 	}
@@ -743,6 +744,7 @@ func (m Month) HeadingMOS(prefix ...string) string {
 	if m.NextExists() {
 		rl = "l"
 		rightNavBox := templates.ResizeBoxW(anglesize, `$\rangle$`)
+		rightNavBox = templates.AccSupp("Next Month", rightNavBox)
 		r1 = append(r1, templates.Multirow(2, templates.Hyperlink(m.Next().ref(p), rightNavBox)))
 		r2 = append(r2, "")
 	}
