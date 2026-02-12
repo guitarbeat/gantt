@@ -227,69 +227,60 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 	// This ensures consistent track assignments across days
 	trackAssignments := d.assignTaskTracks(activeTasks)
 
-	// Build rendering lists: tasks that START today vs. tasks that CONTINUE today
-	var startingTasks []*SpanningTask
-	var continuingTasks []*SpanningTask
+	// Combine all tasks that need rendering (starting tasks get full rendering, continuing tasks get continuation indicators)
+	// Use a struct to avoid map lookups
+	type RenderedTask struct {
+		Task  *SpanningTask
+		Track int
+		Type  string // "start" or "continue"
+	}
+	var allTasksToRender = make([]RenderedTask, 0, len(activeTasks))
 
 	// Categorize active tasks
-	for _, task := range activeTasks {
+	for i, task := range activeTasks {
+		track := trackAssignments[i]
 		start := d.getTaskStartDate(task)
 		if dayDate.Equal(start) {
 			// This task starts today
-			startingTasks = append(startingTasks, task)
+			allTasksToRender = append(allTasksToRender, RenderedTask{task, track, "start"})
 		} else {
 			// This task is continuing from a previous day
-			continuingTasks = append(continuingTasks, task)
+			allTasksToRender = append(allTasksToRender, RenderedTask{task, track, "continue"})
 		}
 	}
 
-	// Combine all tasks that need rendering (starting tasks get full rendering, continuing tasks get continuation indicators)
-	var allTasksToRender = make([]*SpanningTask, 0, len(activeTasks))
-	renderingTypes := make(map[*SpanningTask]string) // "start" or "continue"
-
-	// Add starting tasks
-	for _, task := range startingTasks {
-		allTasksToRender = append(allTasksToRender, task)
-		renderingTypes[task] = "start"
-	}
-
-	// Add continuing tasks that should show visual indicators
-	for _, task := range continuingTasks {
-		allTasksToRender = append(allTasksToRender, task)
-		renderingTypes[task] = "continue"
-	}
-
 	// Sort tasks by their assigned track (lowest track first, renders at bottom)
-	sortedTasks := make([]*SpanningTask, len(allTasksToRender))
-	copy(sortedTasks, allTasksToRender)
-	sort.Slice(sortedTasks, func(i, j int) bool {
-		track1 := trackAssignments[sortedTasks[i].ID]
-		track2 := trackAssignments[sortedTasks[j].ID]
-		return track1 < track2
+	sort.Slice(allTasksToRender, func(i, j int) bool {
+		return allTasksToRender[i].Track < allTasksToRender[j].Track
 	})
 
 	// Render task pills with vertical offsets based on track
-	var pillContents = make([]string, 0, len(sortedTasks))
+	// Use strings.Builder for efficient string concatenation
+	var sb strings.Builder
+	// Pre-allocate buffer if possible, but exact size is unknown.
+	// Average pill is maybe 100-200 bytes.
 
-	for i, task := range sortedTasks {
-		renderType := renderingTypes[task]
+	for i, rt := range allTasksToRender {
+		task := rt.Task
 
 		// Skip rendering text for continuing tasks - just show the colored bar
-		if renderType == "continue" {
+		if rt.Type == "continue" {
 			// Don't render anything for continuing tasks
 			// The visual bar will span automatically via the cols parameter
 			continue
 		}
 
 		// Render starting task (original logic)
-		taskName := d.EscapeLatexSpecialChars(task.Name)
+		// Optimization: Use pre-calculated escaped name
+		taskName := task.EscapedName
 		if d.isMilestoneSpanningTask(task) {
 			taskName = "★ " + taskName
 		}
 
 		objective := ""
 		if task.Description != "" {
-			objective = d.EscapeLatexSpecialChars(task.Description)
+			// Optimization: Use pre-calculated escaped description
+			objective = task.EscapedDescription
 		}
 
 		taskColor := core.HexToRGB(task.Color)
@@ -298,9 +289,8 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		}
 
 		// Add spacing between stacked tasks (except for the first task)
-		var spacing string
 		if i > 0 {
-			spacing = `\vspace{1mm}` // Add 1mm spacing between stacked tasks
+			sb.WriteString(`\vspace{1mm}`) // Add 1mm spacing between stacked tasks
 		}
 
 		// Choose appropriate macro based on whether task is a milestone
@@ -312,19 +302,16 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		}
 
 		// Use appropriate macro - LaTeX will stack naturally with spacing
-		pillContent := spacing + fmt.Sprintf(`%s{%s}{%s}{%s}`,
+		// Optimization: Write directly to builder
+		fmt.Fprintf(&sb, `%s{%s}{%s}{%s}`,
 			macroName,
 			taskColor,
 			taskName,
 			objective)
-		pillContents = append(pillContents, pillContent)
 	}
 
-	// Join the pills - they will stack naturally bottom-to-top
-	content := strings.Join(pillContents, "")
-
 	return &TaskOverlay{
-		content: content,
+		content: sb.String(),
 		cols:    maxCols,
 	}
 }
@@ -405,17 +392,17 @@ func (d Day) findActiveTasks(dayDate time.Time) ([]*SpanningTask, int) {
 }
 
 // assignTaskTracks assigns vertical tracks to tasks to prevent visual overlap
-// Returns a map of task ID to track number (0-based, 0 is bottom)
-func (d Day) assignTaskTracks(tasks []*SpanningTask) map[string]int {
-	trackAssignments := make(map[string]int)
+// Returns a slice of track numbers corresponding to the input tasks indices (0-based, 0 is bottom)
+func (d Day) assignTaskTracks(tasks []*SpanningTask) []int {
+	trackAssignments := make([]int, len(tasks))
 	// Bolt Optimization: Use fixed-size array instead of map.
 	// MaxTaskTracks limits the number of concurrent tasks we can stack visually.
 	var tracksUsage [MaxTaskTracks][]*SpanningTask
 
 	// For each task, find the lowest available track
-	for _, task := range tasks {
+	for i, task := range tasks {
 		track := d.findLowestAvailableTrackForTask(task, &tracksUsage)
-		trackAssignments[task.ID] = track
+		trackAssignments[i] = track
 		tracksUsage[track] = append(tracksUsage[track], task)
 	}
 
@@ -878,9 +865,8 @@ func (m *Month) GetTaskColors() map[string]string {
 					color := core.GenerateCategoryColor(task.Category)
 					if color != "" {
 						// Convert to RGB for LaTeX compatibility
-						// Escape LaTeX special characters in category name
-						escapedCategory := EscapeLatexSpecialChars(task.Category)
-						colorMap[core.HexToRGB(color)] = escapedCategory
+						// Optimization: Use pre-calculated escaped category
+						colorMap[core.HexToRGB(color)] = task.EscapedCategory
 					}
 				}
 			}
@@ -942,6 +928,10 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 
 			// Add the phase as a "subphase" for consistency with template
 			phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
+				// Optimization: We could use task.EscapedPhase here, but we are iterating unique phases.
+				// Since we don't have the task object here (we are iterating phaseOrder), we must escape again.
+				// However, we can optimize by storing escaped name in the map or just doing it here.
+				// Given the low cardinality of phases, this is not a hot path.
 				Name:  EscapeLatexSpecialChars(phaseName),
 				Color: color,
 			})
@@ -1075,6 +1065,12 @@ type SpanningTask struct {
 	Status      string // Task status
 	Assignee    string // Task assignee
 	IsMilestone bool   // Whether this is a milestone task
+
+	// Memoized escaped strings for LaTeX rendering
+	EscapedName        string
+	EscapedDescription string
+	EscapedCategory    string
+	EscapedPhase       string
 }
 
 // CreateSpanningTask creates a new spanning task from basic task data
@@ -1122,6 +1118,12 @@ func ApplySpanningTasksToMonth(month *Month, tasks []SpanningTask) {
 	for i := range localTasks {
 		localTasks[i].StartDate = time.Date(localTasks[i].StartDate.Year(), localTasks[i].StartDate.Month(), localTasks[i].StartDate.Day(), 0, 0, 0, 0, time.UTC)
 		localTasks[i].EndDate = time.Date(localTasks[i].EndDate.Year(), localTasks[i].EndDate.Month(), localTasks[i].EndDate.Day(), 0, 0, 0, 0, time.UTC)
+
+		// Pre-calculate escaped strings to avoid repeated work during rendering
+		localTasks[i].EscapedName = EscapeLatexSpecialChars(localTasks[i].Name)
+		localTasks[i].EscapedDescription = EscapeLatexSpecialChars(localTasks[i].Description)
+		localTasks[i].EscapedCategory = EscapeLatexSpecialChars(localTasks[i].Category)
+		localTasks[i].EscapedPhase = EscapeLatexSpecialChars(localTasks[i].Phase)
 	}
 
 	// 2. Sort tasks by StartDate
