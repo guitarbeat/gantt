@@ -360,9 +360,9 @@ func action(c *cli.Context) error {
 	}
 
 	if !silent {
-		fmt.Printf(core.Info("📋 Found %d CSV file(s) to merge and process\n"), len(csvFiles))
+		fmt.Printf("%s", core.Info(fmt.Sprintf("📋 Found %d CSV file(s) to merge and process\n", len(csvFiles))))
 		for i, csvFile := range csvFiles {
-			fmt.Printf(core.Info("   %d. %s\n"), i+1, filepath.Base(csvFile))
+			fmt.Printf("%s", core.Info(fmt.Sprintf("   %d. %s\n", i+1, filepath.Base(csvFile))))
 		}
 	}
 
@@ -385,7 +385,7 @@ func action(c *cli.Context) error {
 		)
 	}
 	if !silent {
-		fmt.Printf(core.Success("✅ (%d tasks total)\n"), len(allTasks))
+		fmt.Printf("%s", core.Success(fmt.Sprintf("✅ (%d tasks total)\n", len(allTasks))))
 
 		// Group tasks by phase for summary
 		phaseCounts := make(map[string]int)
@@ -524,11 +524,11 @@ func action(c *cli.Context) error {
 	if !silent {
 		fmt.Println(core.DimText("═══════════════════════════════════════"))
 		if pdfCompiled {
-			fmt.Printf(core.Success("✨ Successfully generated calendar from %d CSV files!\n"), len(csvFiles))
+			fmt.Printf("%s", core.Success(fmt.Sprintf("✨ Successfully generated calendar from %d CSV files!\n", len(csvFiles))))
 		} else {
-			fmt.Printf(core.Warning("⚠️  Generated LaTeX files, but PDF compilation failed (check xelatex installation)\n"))
+			fmt.Printf("%s", core.Warning("⚠️  Generated LaTeX files, but PDF compilation failed (check xelatex installation)\n"))
 		}
-		fmt.Printf(core.Info("📂 Output: %s\n"), cfg.OutputDir)
+		fmt.Printf("%s", core.Info(fmt.Sprintf("📂 Output: %s\n", cfg.OutputDir)))
 	}
 
 	if !silent {
@@ -706,7 +706,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 			csvPath = autoPath
 			// Set the CSV path for later use
 			os.Setenv("PLANNER_CSV_FILE", csvPath)
-			fmt.Printf(core.Info("🔍 Auto-detected CSV file: %s\n"), csvPath)
+			fmt.Printf("%s", core.Info(fmt.Sprintf("🔍 Auto-detected CSV file: %s\n", csvPath)))
 		}
 	}
 
@@ -716,7 +716,7 @@ func loadConfiguration(c *cli.Context) (core.Config, []string, error) {
 		autoConfigs, err := autoDetectConfig(csvPath)
 		if err == nil && len(autoConfigs) > 0 {
 			pathConfigs = autoConfigs
-			fmt.Printf(core.Info("🔍 Auto-detected configuration files: %v\n"), autoConfigs)
+			fmt.Printf("%s", core.Info(fmt.Sprintf("🔍 Auto-detected configuration files: %v\n", autoConfigs)))
 		}
 	}
 
@@ -971,6 +971,11 @@ var latexReplacer = strings.NewReplacer(
 	"_", "\\_",
 	"{", "\\{",
 	"}", "\\}",
+	"\\", "\\textbackslash{}",
+	"^", "\\textasciicircum{}",
+	"~", "\\textasciitilde{}",
+	"[", "{[}",
+	"]", "{]}",
 )
 
 func EscapeLatex(s string) string {
