@@ -13,3 +13,7 @@
 ## 2026-02-08 - Accessible LaTeX Icons
 **Learning:** Purely visual LaTeX symbols (like `$\star$` or `$\checkmark$`) are read literally by screen readers. The `accsupp` package provides a way to substitute them with semantic text.
 **Action:** Wrap decorative icons with `\BeginAccSupp{method=pdfstringdef,unicode,ActualText={Semantic Text} } ... \EndAccSupp{}`. Use braces `{}` around the text to preserve spaces.
+
+## 2026-02-11 - Silencing Decorative LaTeX Elements
+**Learning:** Decorative symbols like bullets in legends are read by screen readers if not explicitly silenced, adding noise to the audio stream.
+**Action:** Use `ActualText={}` (empty braces) in the `accsupp` package to render the element visually but hide it from assistive technologies.
