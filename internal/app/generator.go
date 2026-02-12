@@ -487,30 +487,12 @@ func action(c *cli.Context) error {
 	}
 
 	// Compile LaTeX to PDF
-	stopSpinner := make(chan bool)
-	if !silent {
-		go func() {
-			chars := []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
-			i := 0
-			for {
-				select {
-				case <-stopSpinner:
-					return
-				default:
-					fmt.Print(core.ClearLine())
-					fmt.Printf("%s %s", core.CyanText(chars[i]), core.Info("Compiling LaTeX to PDF..."))
-					time.Sleep(100 * time.Millisecond)
-					i = (i + 1) % len(chars)
-				}
-			}
-		}()
-	}
+	spinner := core.NewSpinner("Compiling LaTeX to PDF...")
+	spinner.Start()
 
 	pdfCompiled := false
 	err = compileLaTeXToPDF(cfg)
-	if !silent {
-		stopSpinner <- true
-	}
+	spinner.Stop()
 
 	if err != nil {
 		if !silent {
