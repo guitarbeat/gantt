@@ -63,6 +63,14 @@ const (
 	Strike    = "\033[9m"
 )
 
+// IsInteractive checks if the output is a TTY
+func IsInteractive() bool {
+	if fileInfo, err := os.Stdout.Stat(); err == nil {
+		return (fileInfo.Mode() & os.ModeCharDevice) != 0
+	}
+	return false
+}
+
 // colorEnabled checks if colors should be used based on environment and terminal support
 func colorEnabled() bool {
 	// Check if NO_COLOR environment variable is set
@@ -77,12 +85,7 @@ func colorEnabled() bool {
 		}
 	}
 
-	// Check if we're in a TTY
-	if fileInfo, err := os.Stdout.Stat(); err == nil {
-		return (fileInfo.Mode() & os.ModeCharDevice) != 0
-	}
-
-	return false
+	return IsInteractive()
 }
 
 // colorize applies color to text if colors are enabled
