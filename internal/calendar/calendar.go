@@ -51,7 +51,7 @@ func (d Day) Day(today, large interface{}) string {
 
 	day := strconv.Itoa(d.Time.Day())
 
-	if larg, _ := large.(bool); larg {
+	if isLarge, _ := large.(bool); isLarge {
 		return d.renderLargeDay(day)
 	}
 
@@ -82,13 +82,13 @@ func (d Day) renderLargeDay(day string) string {
 
 // ref generates a reference string for the day
 func (d Day) ref(prefix ...string) string {
-	p := ""
+	dayPrefix := ""
 
 	if len(prefix) > 0 {
-		p = prefix[0]
+		dayPrefix = prefix[0]
 	}
 
-	return p + d.Time.Format(time.RFC3339)
+	return dayPrefix + d.Time.Format(time.RFC3339)
 }
 
 // ============================================================================

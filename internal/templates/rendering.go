@@ -96,15 +96,15 @@ type ItemsGroup struct {
 
 // IntItem represents an integer item with optional reference
 type IntItem struct {
-	Val int
-	ref bool
+	Val         int
+	isReference bool
 }
 
 func (i IntItem) Display() string {
 	var out string
 	s := strconv.Itoa(i.Val)
 
-	if i.ref {
+	if i.isReference {
 		out = Target(s, s)
 	} else {
 		out = Link(s, s)
@@ -114,7 +114,7 @@ func (i IntItem) Display() string {
 }
 
 func (i IntItem) Ref() IntItem {
-	i.ref = true
+	i.isReference = true
 	return i
 }
 
@@ -124,9 +124,9 @@ func NewIntItem(val int) IntItem {
 
 // MonthItem represents a month item with optional reference and shortening
 type MonthItem struct {
-	Val     time.Month
-	ref     bool
-	shorten bool
+	Val         time.Month
+	isReference bool
+	shorten     bool
 }
 
 func (m MonthItem) Display() string {
@@ -137,7 +137,7 @@ func (m MonthItem) Display() string {
 		text = text[:3]
 	}
 
-	if m.ref {
+	if m.isReference {
 		return Target(ref, text)
 	}
 
@@ -145,7 +145,7 @@ func (m MonthItem) Display() string {
 }
 
 func (m MonthItem) Ref() MonthItem {
-	m.ref = true
+	m.isReference = true
 	return m
 }
 
@@ -166,11 +166,11 @@ type CellItem struct {
 
 // TextItem represents a text item with formatting and reference options
 type TextItem struct {
-	Name      string
-	bold      bool
-	ref       bool
-	refPrefix string
-	refText   string
+	Name        string
+	isBold      bool
+	isReference bool
+	refPrefix   string
+	refText     string
 }
 
 func NewTextItem(name string) TextItem {
@@ -184,7 +184,7 @@ func (t TextItem) Display() string {
 		out string
 		ref string
 	)
-	if t.bold {
+	if t.isBold {
 		out = "\\textbf{" + t.Name + "}"
 	} else {
 		out = t.Name
@@ -196,7 +196,7 @@ func (t TextItem) Display() string {
 		ref = t.refPrefix + t.Name
 	}
 
-	if t.ref {
+	if t.isReference {
 		return Target(ref, out)
 	}
 
@@ -204,12 +204,12 @@ func (t TextItem) Display() string {
 }
 
 func (t TextItem) Ref(ref bool) TextItem {
-	t.ref = ref
+	t.isReference = ref
 	return t
 }
 
 func (t TextItem) Bold(f bool) TextItem {
-	t.bold = f
+	t.isBold = f
 	return t
 }
 
