@@ -32,14 +32,18 @@ type TaskStacker struct {
 	dayStacks    map[int]*DayTaskStack // Key: date int (YYYYMMDD)
 	maxTracks    int                   // Maximum number of tracks needed for any day
 	weekStartDay time.Weekday          // First day of week (Monday = 1)
+	// Optimization: Cache for tracking which track+date combinations are occupied
+	// Key: dateKey (YYYYMMDD) * 1000 + track number, Value: true if occupied
+	occupiedCache map[int]bool
 }
 
 // NewTaskStacker creates a new task stacker
 func NewTaskStacker(tasks []*SpanningTask, weekStartDay time.Weekday) *TaskStacker {
 	return &TaskStacker{
-		tasks:        tasks,
-		dayStacks:    make(map[int]*DayTaskStack),
-		weekStartDay: weekStartDay,
+		tasks:         tasks,
+		dayStacks:     make(map[int]*DayTaskStack),
+		weekStartDay:  weekStartDay,
+		occupiedCache: make(map[int]bool),
 	}
 }
 
@@ -78,18 +82,22 @@ func (ts *TaskStacker) sortTasksByPriority() []*SpanningTask {
 }
 
 // findLowestAvailableTrack finds the lowest track number that's free for all days of the task
+// Optimized to use a cache for O(n*m) instead of O(n²*m) complexity
 func (ts *TaskStacker) findLowestAvailableTrack(task *SpanningTask) int {
 	start := ts.normalizeDate(task.StartDate)
 	end := ts.normalizeDate(task.EndDate)
+
+	// Calculate the number of days this task spans
+	dayCount := int(end.Sub(start).Hours()/24) + 1
 
 	// Check each track starting from 0
 	for track := 0; track < 100; track++ { // Reasonable upper limit
 		available := true
 
-		// Check if this track is available for ALL days the task spans
+		// Optimization: Use cached lookups instead of iterating through dayStacks
 		current := start
-		for !current.After(end) {
-			if ts.isTrackOccupied(current, track) {
+		for i := 0; i < dayCount; i++ {
+			if ts.isTrackOccupiedCached(current, track) {
 				available = false
 				break
 			}
@@ -103,6 +111,16 @@ func (ts *TaskStacker) findLowestAvailableTrack(task *SpanningTask) int {
 
 	// Fallback: return a high track number
 	return 99
+}
+
+// isTrackOccupiedCached checks if a track is occupied on a specific date using the cache
+// This is much faster than iterating through stacks
+func (ts *TaskStacker) isTrackOccupiedCached(date time.Time, track int) bool {
+	dateKey := ts.dateKey(date)
+	// Combine dateKey and track into a single cache key
+	// Since tracks are 0-99, multiply dateKey by 1000 to avoid collisions
+	cacheKey := dateKey*1000 + track
+	return ts.occupiedCache[cacheKey]
 }
 
 // isTrackOccupied checks if a track is occupied on a specific date
@@ -133,12 +151,16 @@ func (ts *TaskStacker) assignTaskToTrack(task *SpanningTask, track int) {
 	for !current.After(end) {
 		dateKey := ts.dateKey(current)
 
+		// Optimization: Populate the occupied cache
+		cacheKey := dateKey*1000 + track
+		ts.occupiedCache[cacheKey] = true
+
 		// Get or create day stack
 		dayStack, exists := ts.dayStacks[dateKey]
 		if !exists {
 			dayStack = &DayTaskStack{
 				Date:   current,
-				Stacks: []TaskStack{},
+				Stacks: make([]TaskStack, 0, 10), // Pre-allocate for typical case
 			}
 			ts.dayStacks[dateKey] = dayStack
 		}
@@ -228,8 +250,8 @@ func (ts *TaskStacker) GetTasksStartingOnDay(date time.Time) []TaskStack {
 		return []TaskStack{}
 	}
 
-	// Filter to only tasks that start on this day
-	var startingTasks []TaskStack
+	// Pre-allocate with estimated capacity to avoid reallocations
+	startingTasks := make([]TaskStack, 0, len(dayStack.Stacks))
 	normalizedDate := ts.normalizeDate(date)
 
 	for _, stack := range dayStack.Stacks {
