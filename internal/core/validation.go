@@ -5,6 +5,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/goccy/go-yaml"
 )
@@ -124,68 +125,54 @@ func (v *CSVValidator) validateFileAccess(filePath string) error {
 	return nil
 }
 
+// Helper function to create and append a validation issue
+func addValidationIssue(issues []ValidationIssue, issueType, field string, row int, message string, value ...string) []ValidationIssue {
+	issue := ValidationIssue{
+		Type:    issueType,
+		Field:   field,
+		Row:     row,
+		Message: message,
+	}
+	if len(value) > 0 {
+		issue.Value = value[0]
+	}
+	return append(issues, issue)
+}
+
 // validateTask validates a single task and returns validation errors
 func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 	var errors []ValidationIssue
 
 	// Validate required fields
 	if strings.TrimSpace(task.ID) == "" {
-		errors = append(errors, ValidationIssue{
-			Type:    "required_field",
-			Field:   "Task ID",
-			Row:     rowNum,
-			Message: "Task ID is required",
-		})
+		errors = addValidationIssue(errors, "required_field", "Task ID", rowNum, "Task ID is required")
 	}
 
 	if strings.TrimSpace(task.Name) == "" {
-		errors = append(errors, ValidationIssue{
-			Type:    "required_field",
-			Field:   "Task",
-			Row:     rowNum,
-			Message: "Task name is required",
-		})
+		errors = addValidationIssue(errors, "required_field", "Task", rowNum, "Task name is required")
 	}
 
 	// Validate dates
 	if task.StartDate.IsZero() {
-		errors = append(errors, ValidationIssue{
-			Type:    "required_field",
-			Field:   "Start Date",
-			Row:     rowNum,
-			Message: "Start Date is required and must be a valid date",
-		})
+		errors = addValidationIssue(errors, "required_field", "Start Date", rowNum, "Start Date is required and must be a valid date")
 	}
 
 	if task.EndDate.IsZero() {
-		errors = append(errors, ValidationIssue{
-			Type:    "required_field",
-			Field:   "End Date",
-			Row:     rowNum,
-			Message: "End Date is required and must be a valid date",
-		})
+		errors = addValidationIssue(errors, "required_field", "End Date", rowNum, "End Date is required and must be a valid date")
 	}
 
 	// Validate date logic
 	if !task.StartDate.IsZero() && !task.EndDate.IsZero() {
 		if task.EndDate.Before(task.StartDate) {
-			errors = append(errors, ValidationIssue{
-				Type:  "date_logic",
-				Field: "End Date",
-				Row:   rowNum,
-				Message: fmt.Sprintf("End Date (%s) cannot be before Start Date (%s)",
-					task.EndDate.Format("2006-01-02"), task.StartDate.Format("2006-01-02")),
-			})
+			errors = addValidationIssue(errors, "date_logic", "End Date", rowNum,
+				fmt.Sprintf("End Date (%s) cannot be before Start Date (%s)",
+					task.EndDate.Format("2006-01-02"), task.StartDate.Format("2006-01-02")))
 		}
 
 		// Check for unreasonably long tasks (more than 2 years)
 		if task.EndDate.Sub(task.StartDate).Hours() > 24*365*2 {
-			errors = append(errors, ValidationIssue{
-				Type:    "date_range",
-				Field:   "End Date",
-				Row:     rowNum,
-				Message: "Task duration exceeds 2 years, please verify dates",
-			})
+			errors = addValidationIssue(errors, "date_range", "End Date", rowNum,
+				"Task duration exceeds 2 years, please verify dates")
 		}
 	}
 
@@ -193,14 +180,9 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 	if task.Status != "" {
 		status := strings.ToLower(strings.TrimSpace(task.Status))
 		if !v.validStatuses[status] {
-			errors = append(errors, ValidationIssue{
-				Type:  "invalid_value",
-				Field: "Status",
-				Row:   rowNum,
-				Value: task.Status,
-				Message: fmt.Sprintf("Invalid status '%s', must be one of: %s",
-					task.Status, v.getValidStatusesString()),
-			})
+			errors = addValidationIssue(errors, "invalid_value", "Status", rowNum,
+				fmt.Sprintf("Invalid status '%s', must be one of: %s",
+					task.Status, v.getValidStatusesString()), task.Status)
 		}
 	}
 
@@ -213,13 +195,8 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 	// Validate Task ID format
 	if task.ID != "" {
 		if matched, _ := regexp.MatchString(`^T\d+\.[A-Za-z0-9]+$`, task.ID); !matched {
-			errors = append(errors, ValidationIssue{
-				Type:    "invalid_format",
-				Field:   "Task ID",
-				Row:     rowNum,
-				Value:   task.ID,
-				Message: "Task ID must follow format T{phase}.{identifier} (e.g., T1.1, T2.M1, T3.4a)",
-			})
+			errors = addValidationIssue(errors, "invalid_format", "Task ID", rowNum,
+				"Task ID must follow format T{phase}.{identifier} (e.g., T1.1, T2.M1, T3.4a)", task.ID)
 		}
 		// Note: Task ID phase matching is no longer enforced since Phase column
 		// now contains descriptive text instead of numbers
@@ -232,52 +209,34 @@ func (v *CSVValidator) validateTask(task Task, rowNum int) []ValidationIssue {
 		for _, dep := range task.Dependencies {
 			dep = strings.TrimSpace(dep)
 			if dep == "" {
-				errors = append(errors, ValidationIssue{
-					Type:    "invalid_format",
-					Field:   "Dependencies",
-					Row:     rowNum,
-					Message: "Dependency entries cannot be empty",
-				})
+				errors = addValidationIssue(errors, "invalid_format", "Dependencies", rowNum,
+					"Dependency entries cannot be empty")
 			} else {
 				// Validate dependency task ID format
 				if matched, _ := regexp.MatchString(`^T\d+\.[A-Za-z0-9]+$`, dep); !matched {
-					errors = append(errors, ValidationIssue{
-						Type:    "invalid_format",
-						Field:   "Dependencies",
-						Row:     rowNum,
-						Value:   dep,
-						Message: "Dependency must reference valid task ID format T{phase}.{identifier}",
-					})
+					errors = addValidationIssue(errors, "invalid_format", "Dependencies", rowNum,
+						"Dependency must reference valid task ID format T{phase}.{identifier}", dep)
 				}
 			}
 		}
 	}
 
 	// Validate reasonable date ranges for PhD timeline (2025-2027)
-	if !task.StartDate.IsZero() {
-		if task.StartDate.Year() < 2025 || task.StartDate.Year() > 2027 {
-			errors = append(errors, ValidationIssue{
-				Type:    "date_range",
-				Field:   "Start Date",
-				Row:     rowNum,
-				Value:   task.StartDate.Format("2006-01-02"),
-				Message: "Start date should be within PhD timeline range (2025-2027)",
-			})
+	errors = v.validateYearRange(errors, task.StartDate, "Start Date", rowNum)
+	errors = v.validateYearRange(errors, task.EndDate, "End Date", rowNum)
+
+	return errors
+}
+
+// validateYearRange validates that a date falls within the PhD timeline range
+func (v *CSVValidator) validateYearRange(errors []ValidationIssue, date time.Time, fieldName string, rowNum int) []ValidationIssue {
+	if !date.IsZero() {
+		if date.Year() < 2025 || date.Year() > 2027 {
+			errors = addValidationIssue(errors, "date_range", fieldName, rowNum,
+				fmt.Sprintf("%s should be within PhD timeline range (2025-2027)", fieldName),
+				date.Format("2006-01-02"))
 		}
 	}
-
-	if !task.EndDate.IsZero() {
-		if task.EndDate.Year() < 2025 || task.EndDate.Year() > 2027 {
-			errors = append(errors, ValidationIssue{
-				Type:    "date_range",
-				Field:   "End Date",
-				Row:     rowNum,
-				Value:   task.EndDate.Format("2006-01-02"),
-				Message: "End date should be within PhD timeline range (2025-2027)",
-			})
-		}
-	}
-
 	return errors
 }
 
@@ -287,24 +246,16 @@ func (v *CSVValidator) validateTaskWarnings(task Task, rowNum int) []ValidationI
 
 	// Warn about tasks without descriptions
 	if strings.TrimSpace(task.Description) == "" {
-		warnings = append(warnings, ValidationIssue{
-			Type:    "missing_description",
-			Field:   "Objective",
-			Row:     rowNum,
-			Message: "Task has no description/objective",
-		})
+		warnings = addValidationIssue(warnings, "missing_description", "Objective", rowNum,
+			"Task has no description/objective")
 	}
 
 	// Warn about very short tasks (less than 1 day)
 	if !task.StartDate.IsZero() && !task.EndDate.IsZero() {
 		duration := task.EndDate.Sub(task.StartDate)
 		if duration.Hours() < 24 && !task.IsMilestone {
-			warnings = append(warnings, ValidationIssue{
-				Type:    "short_duration",
-				Field:   "End Date",
-				Row:     rowNum,
-				Message: "Task duration is less than 1 day, consider if this should be a milestone",
-			})
+			warnings = addValidationIssue(warnings, "short_duration", "End Date", rowNum,
+				"Task duration is less than 1 day, consider if this should be a milestone")
 		}
 	}
 
@@ -327,12 +278,8 @@ func (v *CSVValidator) validateDataConsistency(tasks []Task) []ValidationIssue {
 
 	for id, rows := range idMap {
 		if len(rows) > 1 {
-			errors = append(errors, ValidationIssue{
-				Type:    "duplicate_id",
-				Field:   "Task ID",
-				Value:   id,
-				Message: fmt.Sprintf("Task ID '%s' appears in multiple rows: %v", id, rows),
-			})
+			errors = addValidationIssue(errors, "duplicate_id", "Task ID", 0,
+				fmt.Sprintf("Task ID '%s' appears in multiple rows: %v", id, rows), id)
 		}
 	}
 
@@ -350,13 +297,8 @@ func (v *CSVValidator) validateDataConsistency(tasks []Task) []ValidationIssue {
 		if task.Dependencies != nil {
 			for _, dep := range task.Dependencies {
 				if !taskIDSet[dep] {
-					errors = append(errors, ValidationIssue{
-						Type:    "invalid_dependency",
-						Field:   "Dependencies",
-						Row:     i + 2, // +2 for header + 0-indexing
-						Value:   dep,
-						Message: fmt.Sprintf("Dependency '%s' references non-existent task ID", dep),
-					})
+					errors = addValidationIssue(errors, "invalid_dependency", "Dependencies", i+2,
+						fmt.Sprintf("Dependency '%s' references non-existent task ID", dep), dep)
 				}
 			}
 		}
@@ -396,13 +338,9 @@ func (v *CSVValidator) detectDependencyCycles(tasks []Task, taskIndex map[string
 			if cycleStart >= 0 {
 				cycle := append(path[cycleStart:], taskID)
 				row := taskIndex[taskID] + 2 // +2 for header + 0-indexing
-				errors = append(errors, ValidationIssue{
-					Type:    "dependency_cycle",
-					Field:   "Dependencies",
-					Row:     row,
-					Value:   strings.Join(cycle, " → "),
-					Message: fmt.Sprintf("Circular dependency detected: %s", strings.Join(cycle, " → ")),
-				})
+				errors = addValidationIssue(errors, "dependency_cycle", "Dependencies", row,
+					fmt.Sprintf("Circular dependency detected: %s", strings.Join(cycle, " → ")),
+					strings.Join(cycle, " → "))
 			}
 			return true
 		}
@@ -463,12 +401,8 @@ func (v *CSVValidator) validateMilestoneConsistency(tasks []Task) []ValidationIs
 	for i, task := range tasks {
 		// Check if task is marked as milestone but not identified as such by keywords
 		if task.IsMilestone && !v.isMilestoneTask(task.Name, task.Description) {
-			errors = append(errors, ValidationIssue{
-				Type:    "milestone_inconsistency",
-				Field:   "Milestone",
-				Row:     i + 2, // +2 for header + 0-indexing
-				Message: "Task is marked as milestone but name/description doesn't indicate milestone characteristics",
-			})
+			errors = addValidationIssue(errors, "milestone_inconsistency", "Milestone", i+2,
+				"Task is marked as milestone but name/description doesn't indicate milestone characteristics")
 		}
 	}
 
@@ -569,19 +503,13 @@ func (cv *ConfigValidator) validateConfigStructure(config Config) []ValidationIs
 
 	// Validate required layout fields
 	if config.Layout.Paper.Width == "" {
-		errors = append(errors, ValidationIssue{
-			Type:    "missing_required",
-			Field:   "layout.paper.width",
-			Message: "Paper width is required",
-		})
+		errors = addValidationIssue(errors, "missing_required", "layout.paper.width", 0,
+			"Paper width is required")
 	}
 
 	if config.Layout.Paper.Height == "" {
-		errors = append(errors, ValidationIssue{
-			Type:    "missing_required",
-			Field:   "layout.paper.height",
-			Message: "Paper height is required",
-		})
+		errors = addValidationIssue(errors, "missing_required", "layout.paper.height", 0,
+			"Paper height is required")
 	}
 
 	// Validate numeric fields
@@ -608,54 +536,39 @@ func (cv *ConfigValidator) validateConfigStructure(config Config) []ValidationIs
 
 	// Validate spacing relationships
 	if config.Layout.LayoutEngine.GridConstraints.MinTaskSpacing > config.Layout.LayoutEngine.GridConstraints.MaxTaskSpacing {
-		errors = append(errors, ValidationIssue{
-			Type:    "invalid_relationship",
-			Field:   "layout.layout_engine.grid_constraints",
-			Message: "min_task_spacing cannot be greater than max_task_spacing",
-		})
+		errors = addValidationIssue(errors, "invalid_relationship", "layout.layout_engine.grid_constraints", 0,
+			"min_task_spacing cannot be greater than max_task_spacing")
 	}
 
 	// Validate pages configuration
 	if len(config.Pages) == 0 {
-		errors = append(errors, ValidationIssue{
-			Type:    "missing_required",
-			Field:   "pages",
-			Message: "At least one page must be defined",
-		})
+		errors = addValidationIssue(errors, "missing_required", "pages", 0,
+			"At least one page must be defined")
 	}
 
 	for i, page := range config.Pages {
 		if strings.TrimSpace(page.Name) == "" {
-			errors = append(errors, ValidationIssue{
-				Type:    "missing_required",
-				Field:   fmt.Sprintf("pages[%d].name", i),
-				Message: "Page name is required",
-			})
+			errors = addValidationIssue(errors, "missing_required",
+				fmt.Sprintf("pages[%d].name", i), 0, "Page name is required")
 		}
 
 		if len(page.RenderBlocks) == 0 {
-			errors = append(errors, ValidationIssue{
-				Type:    "missing_required",
-				Field:   fmt.Sprintf("pages[%d].renderblocks", i),
-				Message: "At least one render block must be defined per page",
-			})
+			errors = addValidationIssue(errors, "missing_required",
+				fmt.Sprintf("pages[%d].renderblocks", i), 0,
+				"At least one render block must be defined per page")
 		}
 
 		for j, block := range page.RenderBlocks {
 			if strings.TrimSpace(block.FuncName) == "" {
-				errors = append(errors, ValidationIssue{
-					Type:    "missing_required",
-					Field:   fmt.Sprintf("pages[%d].renderblocks[%d].funcname", i, j),
-					Message: "Function name is required for render block",
-				})
+				errors = addValidationIssue(errors, "missing_required",
+					fmt.Sprintf("pages[%d].renderblocks[%d].funcname", i, j), 0,
+					"Function name is required for render block")
 			}
 
 			if len(block.Tpls) == 0 {
-				errors = append(errors, ValidationIssue{
-					Type:    "missing_required",
-					Field:   fmt.Sprintf("pages[%d].renderblocks[%d].tpls", i, j),
-					Message: "At least one template must be specified for render block",
-				})
+				errors = addValidationIssue(errors, "missing_required",
+					fmt.Sprintf("pages[%d].renderblocks[%d].tpls", i, j), 0,
+					"At least one template must be specified for render block")
 			}
 		}
 	}
@@ -669,20 +582,16 @@ func (cv *ConfigValidator) validateConfigWarnings(config Config) []ValidationIss
 
 	// Warn about very small multipliers
 	if config.Layout.LayoutEngine.TaskHeightMultiplier < 0.3 {
-		warnings = append(warnings, ValidationIssue{
-			Type:    "performance_warning",
-			Field:   "layout.layout_engine.task_height_multiplier",
-			Message: "Very small task height multiplier may cause layout issues",
-		})
+		warnings = addValidationIssue(warnings, "performance_warning",
+			"layout.layout_engine.task_height_multiplier", 0,
+			"Very small task height multiplier may cause layout issues")
 	}
 
 	// Warn about very large max task width
 	if config.Layout.LayoutEngine.MaxTaskWidthDays > 30 {
-		warnings = append(warnings, ValidationIssue{
-			Type:    "performance_warning",
-			Field:   "layout.layout_engine.max_task_width_days",
-			Message: "Very large max task width may cause calendar overflow",
-		})
+		warnings = addValidationIssue(warnings, "performance_warning",
+			"layout.layout_engine.max_task_width_days", 0,
+			"Very large max task width may cause calendar overflow")
 	}
 
 	return warnings
