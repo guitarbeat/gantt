@@ -128,50 +128,50 @@ func GenerateCategoryColor(category string) string {
 }
 
 // hslToRgb converts HSL color values to RGB
-func hslToRgb(h, s, l float64) (int, int, int) {
-	// Normalize values
-	h = h / 360.0
+func hslToRgb(hue, saturation, lightness float64) (int, int, int) {
+	// Normalize hue to 0-1 range
+	normalizedHue := hue / 360.0
 
-	var r, g, b float64
+	var red, green, blue float64
 
-	if s == 0 {
+	if saturation == 0 {
 		// Grayscale
-		r, g, b = l, l, l
+		red, green, blue = lightness, lightness, lightness
 	} else {
-		var q, p float64
-		if l < 0.5 {
-			q = l * (1 + s)
+		var chroma1, chroma2 float64
+		if lightness < 0.5 {
+			chroma1 = lightness * (1 + saturation)
 		} else {
-			q = l + s - l*s
+			chroma1 = lightness + saturation - lightness*saturation
 		}
-		p = 2*l - q
+		chroma2 = 2*lightness - chroma1
 
-		r = hueToRgb(p, q, h+1.0/3.0)
-		g = hueToRgb(p, q, h)
-		b = hueToRgb(p, q, h-1.0/3.0)
+		red = hueToRgb(chroma2, chroma1, normalizedHue+1.0/3.0)
+		green = hueToRgb(chroma2, chroma1, normalizedHue)
+		blue = hueToRgb(chroma2, chroma1, normalizedHue-1.0/3.0)
 	}
 
-	return int(r * 255), int(g * 255), int(b * 255)
+	return int(red * 255), int(green * 255), int(blue * 255)
 }
 
 // hueToRgb helper function for HSL to RGB conversion
-func hueToRgb(p, q, t float64) float64 {
-	if t < 0 {
-		t += 1
+func hueToRgb(chroma2, chroma1, tempHue float64) float64 {
+	if tempHue < 0 {
+		tempHue += 1
 	}
-	if t > 1 {
-		t -= 1
+	if tempHue > 1 {
+		tempHue -= 1
 	}
-	if t < 1.0/6.0 {
-		return p + (q-p)*6*t
+	if tempHue < 1.0/6.0 {
+		return chroma2 + (chroma1-chroma2)*6*tempHue
 	}
-	if t < 1.0/2.0 {
-		return q
+	if tempHue < 1.0/2.0 {
+		return chroma1
 	}
-	if t < 2.0/3.0 {
-		return p + (q-p)*(2.0/3.0-t)*6
+	if tempHue < 2.0/3.0 {
+		return chroma2 + (chroma1-chroma2)*(2.0/3.0-tempHue)*6
 	}
-	return p
+	return chroma2
 }
 
 // GetCategory returns the TaskCategory for a given category name
