@@ -663,6 +663,11 @@ type Month struct {
 	Weekday time.Weekday
 	Weeks   Weeks
 	Cfg     *core.Config // * Reference to core configuration
+	
+	// Performance optimization: cache for expensive operations
+	taskColorsCache      map[string]string  // Cached result of GetTaskColors
+	taskColorsByPhaseCache []PhaseGroup       // Cached result of GetTaskColorsByPhase
+	cacheValid           bool                // Whether the cache is valid
 }
 
 func NewMonth(wd time.Weekday, year *Year, qrtr *Quarter, month time.Month, cfg *core.Config) *Month {
@@ -851,6 +856,11 @@ func (m *Month) WeekHeader(large interface{}) string {
 }
 
 func (m *Month) GetTaskColors() map[string]string {
+	// Return cached result if available
+	if m.cacheValid && m.taskColorsCache != nil {
+		return m.taskColorsCache
+	}
+
 	colorMap := make(map[string]string)
 	seen := make(map[string]struct{})
 
@@ -875,6 +885,10 @@ func (m *Month) GetTaskColors() map[string]string {
 		}
 	}
 
+	// Cache the result
+	m.taskColorsCache = colorMap
+	m.cacheValid = true
+
 	return colorMap
 }
 
@@ -893,9 +907,14 @@ type SubPhaseLegendItem struct {
 
 // GetTaskColorsByPhase returns tasks grouped by phase for a structured legend
 func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
+	// Return cached result if available
+	if m.cacheValid && m.taskColorsByPhaseCache != nil {
+		return m.taskColorsByPhaseCache
+	}
+
 	// Map to track unique phases and their colors
 	phaseMap := make(map[string]string) // phase name -> color
-	phaseOrder := make([]string, 0)     // track order of phases
+	phaseOrder := make([]string, 0, 20) // Pre-allocate with reasonable capacity
 
 	// Collect all unique phases in this month
 	for _, week := range m.Weeks {
@@ -919,7 +938,7 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 	}
 
 	// Convert to sorted structure
-	var phases []PhaseGroup
+	phases := make([]PhaseGroup, 0, len(phaseOrder))
 
 	for _, phaseName := range phaseOrder {
 		if color, exists := phaseMap[phaseName]; exists {
@@ -930,17 +949,18 @@ func (m *Month) GetTaskColorsByPhase() []PhaseGroup {
 
 			// Add the phase as a "subphase" for consistency with template
 			phase.SubPhases = append(phase.SubPhases, SubPhaseLegendItem{
-				// Optimization: We could use task.EscapedPhase here, but we are iterating unique phases.
-				// Since we don't have the task object here (we are iterating phaseOrder), we must escape again.
-				// However, we can optimize by storing escaped name in the map or just doing it here.
-				// Given the low cardinality of phases, this is not a hot path.
-				Name:  EscapeLatexSpecialChars(phaseName),
+				// Optimization: Reuse escaped phaseName instead of escaping again
+				Name:  phase.PhaseName,
 				Color: color,
 			})
 
 			phases = append(phases, phase)
 		}
 	}
+
+	// Cache the result
+	m.taskColorsByPhaseCache = phases
+	m.cacheValid = true
 
 	return phases
 }
