@@ -17,3 +17,7 @@
 ## 2026-02-11 - Silencing Decorative LaTeX Elements
 **Learning:** Decorative symbols like bullets in legends are read by screen readers if not explicitly silenced, adding noise to the audio stream.
 **Action:** Use `ActualText={}` (empty braces) in the `accsupp` package to render the element visually but hide it from assistive technologies.
+
+## 2026-02-13 - Accessible Calendar Milestones
+**Learning:** Milestone stars in calendar views were rendered as raw characters (★), which screen readers might announce ambiguously.
+**Action:** Wrapped milestone stars in `accsupp` with `ActualText={Milestone: }` to ensure screen readers announce them meaningfully before the task name.

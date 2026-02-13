@@ -273,8 +273,10 @@ func (d Day) renderSpanningTaskOverlay() *TaskOverlay {
 		// Render starting task (original logic)
 		// Optimization: Use pre-calculated escaped name
 		taskName := task.EscapedName
-		if d.isMilestoneSpanningTask(task) {
-			taskName = "★ " + taskName
+		// UX/A11y: Use accessible star icon for milestones
+		// Check both the boolean flag and legacy description prefix for backward compatibility
+		if task.IsMilestone || d.isMilestoneSpanningTask(task) {
+			taskName = `\BeginAccSupp{method=pdfstringdef,unicode,ActualText={Milestone: } }★\EndAccSupp{} ` + taskName
 		}
 
 		objective := ""
